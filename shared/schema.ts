@@ -11,6 +11,24 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const services = pgTable("services", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 100 }).notNull(),
+  description: text("description").notNull(),
+  features: text("features").array().notNull(),
+  benefits: text("benefits").array().notNull(),
+  bannerImage: text("banner_image"),
+  slug: text("slug").notNull().unique(),
+});
+
+export const testimonials = pgTable("testimonials", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  title: varchar("title", { length: 100 }).notNull(),
+  company: varchar("company", { length: 100 }).notNull(),
+  content: text("content").notNull(),
+});
+
 export const blogPosts = pgTable("blog_posts", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -31,11 +49,12 @@ export const ebooks = pgTable("ebooks", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   downloadUrl: text("download_url"),
+  pdfUrl: text("pdf_url"),  // New field for PDF uploads
   publishedAt: timestamp("published_at"),
   slug: text("slug").notNull().unique(),
+  colorTheme: jsonb("color_theme"),  // Added color theme field
 });
 
-// Other tables remain unchanged
 export const caseStudies = pgTable("case_studies", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -46,27 +65,30 @@ export const caseStudies = pgTable("case_studies", {
   results: text("results").notNull(),
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
+  pdfUrl: text("pdf_url"),  // New field for PDF uploads
   publishedAt: timestamp("published_at"),
   slug: text("slug").notNull().unique(),
 });
 
-export const services = pgTable("services", {
+// New table for tracking leads from downloads
+export const leads = pgTable("leads", {
   id: serial("id").primaryKey(),
-  title: varchar("title", { length: 100 }).notNull(),
-  description: text("description").notNull(),
-  features: text("features").array().notNull(),
-  benefits: text("benefits").array().notNull(),
-  bannerImage: text("banner_image"),
-  slug: text("slug").notNull().unique(),
+  fullName: text("full_name").notNull(),
+  email: text("email").notNull(),
+  company: text("company").notNull(),
+  contentType: text("content_type").notNull(), // 'ebook' or 'case-study'
+  contentId: serial("content_id").notNull(),
+  downloadedAt: timestamp("downloaded_at").defaultNow(),
 });
 
-export const testimonials = pgTable("testimonials", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 100 }).notNull(),
-  title: varchar("title", { length: 100 }).notNull(),
-  company: varchar("company", { length: 100 }).notNull(),
-  content: text("content").notNull(),
-});
+// Color theme type for ebooks
+export type ColorTheme = {
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+  text: string;
+};
 
 // Schemas
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
@@ -84,6 +106,14 @@ export const insertEbookSchema = createInsertSchema(ebooks)
   .extend({
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
+    pdfUrl: z.string().optional(),
+    colorTheme: z.object({
+      primary: z.string(),
+      secondary: z.string(),
+      accent: z.string(),
+      background: z.string(),
+      text: z.string(),
+    }).optional(),
     slug: z.string(),
   });
 
@@ -92,8 +122,14 @@ export const insertCaseStudySchema = createInsertSchema(caseStudies)
   .extend({
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
+    pdfUrl: z.string().optional(),
     slug: z.string(),
   });
+
+export const insertLeadSchema = createInsertSchema(leads).omit({ 
+  id: true, 
+  downloadedAt: true 
+});
 
 export const insertServiceSchema = createInsertSchema(services)
   .omit({ id: true })
@@ -113,9 +149,11 @@ export type Ebook = typeof ebooks.$inferSelect;
 export type CaseStudy = typeof caseStudies.$inferSelect;
 export type Service = typeof services.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
+export type Lead = typeof leads.$inferSelect;
 
 export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
 export type InsertEbook = z.infer<typeof insertEbookSchema>;
 export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
 export type InsertService = z.infer<typeof insertServiceSchema>;
 export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
+export type InsertLead = z.infer<typeof insertLeadSchema>;

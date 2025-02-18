@@ -19,6 +19,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { generateSlug } from "@/lib/utils";
 import React from "react";
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { PdfUpload } from "@/components/ui/pdf-upload";
 
 interface CaseStudyEditorProps {
   initialData?: CaseStudy;
@@ -28,7 +29,7 @@ export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
   const { toast } = useToast();
   const form = useForm<InsertCaseStudy>({
     resolver: zodResolver(insertCaseStudySchema),
-    defaultValues: initialData || {
+    defaultValues: {
       title: "",
       clientName: "",
       industry: "",
@@ -37,6 +38,7 @@ export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
       results: "",
       bannerImage: "",
       contentImages: [],
+      pdfUrl: "",
       slug: "",
     },
   });
@@ -228,6 +230,37 @@ export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
                     ))}
                   </div>
                 </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="pdfUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>PDF Version</FormLabel>
+              <FormControl>
+                <PdfUpload
+                  onPdfUpload={(url) => field.onChange(url)}
+                  currentPdfUrl={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug</FormLabel>
+              <FormControl>
+                <Input {...field} disabled />
               </FormControl>
               <FormMessage />
             </FormItem>

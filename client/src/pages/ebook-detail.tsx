@@ -15,6 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation } from "@tanstack/react-query";
 
 const downloadFormSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -49,9 +50,36 @@ export default function EbookDetailPage() {
     },
   });
 
-  const onSubmit = (data: DownloadFormValues) => {
-    if (ebook?.downloadUrl) {
-      window.open(ebook.downloadUrl, '_blank');
+  const leadMutation = useMutation({
+    mutationFn: async (data: DownloadFormValues) => {
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          contentType: 'ebook',
+          contentId: ebook!.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to record lead');
+      }
+
+      return response.json();
+    },
+  });
+
+  const onSubmit = async (data: DownloadFormValues) => {
+    if (ebook?.pdfUrl) {
+      try {
+        await leadMutation.mutateAsync(data);
+        window.open(ebook.pdfUrl, '_blank');
+      } catch (error) {
+        console.error('Error recording lead:', error);
+      }
     }
   };
 
@@ -181,7 +209,7 @@ export default function EbookDetailPage() {
                   <Button 
                     type="submit" 
                     className="w-full"
-                    disabled={!ebook.downloadUrl}
+                    disabled={!ebook?.pdfUrl}
                   >
                     Download eBook
                   </Button>

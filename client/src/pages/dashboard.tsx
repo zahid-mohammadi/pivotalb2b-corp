@@ -7,7 +7,7 @@ import { Loader2, FileText, BookText, Users, User, Pencil, Trash2 } from "lucide
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
 import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
-import type { BlogPost, Ebook, CaseStudy } from "@shared/schema";
+import type { BlogPost, Ebook, CaseStudy, Lead } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
@@ -28,6 +28,10 @@ export default function Dashboard() {
 
   const { data: caseStudies, isLoading: caseStudiesLoading } = useQuery<CaseStudy[]>({
     queryKey: ["/api/case-studies"],
+  });
+
+  const { data: leads, isLoading: leadsLoading } = useQuery<Lead[]>({
+    queryKey: ["/api/leads"],
   });
 
   // Delete mutations
@@ -115,8 +119,6 @@ export default function Dashboard() {
     }
   };
 
-  // Keep existing JSX structure but update the content sections to include edit/delete buttons
-
   return (
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
@@ -138,6 +140,10 @@ export default function Dashboard() {
           <TabsTrigger value="case-studies" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
             Case Studies
+          </TabsTrigger>
+          <TabsTrigger value="leads" className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            Leads
           </TabsTrigger>
         </TabsList>
 
@@ -374,6 +380,60 @@ export default function Dashboard() {
                       ))}
                     </div>
                   )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Leads Tab */}
+        <TabsContent value="leads">
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-semibold">Download Leads</h2>
+              </div>
+              {leadsLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin" />
+                </div>
+              ) : (
+                <div className="border rounded-lg">
+                  <div className="p-4 border-b bg-muted">
+                    <div className="grid grid-cols-6 gap-4 font-medium">
+                      <div>Full Name</div>
+                      <div>Email</div>
+                      <div>Company</div>
+                      <div>Content Type</div>
+                      <div>Content Title</div>
+                      <div>Downloaded At</div>
+                    </div>
+                  </div>
+                  <div className="divide-y">
+                    {leads?.map((lead) => {
+                      const content = lead.contentType === 'ebook'
+                        ? ebooks?.find(e => e.id === lead.contentId)
+                        : caseStudies?.find(c => c.id === lead.contentId);
+
+                      return (
+                        <div key={lead.id} className="p-4">
+                          <div className="grid grid-cols-6 gap-4">
+                            <div>{lead.fullName}</div>
+                            <div>{lead.email}</div>
+                            <div>{lead.company}</div>
+                            <div className="capitalize">{lead.contentType}</div>
+                            <div>{content?.title || 'Unknown'}</div>
+                            <div>{new Date(lead.downloadedAt).toLocaleDateString()}</div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    {!leads?.length && (
+                      <div className="p-4 text-center text-muted-foreground">
+                        No leads found
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </CardContent>

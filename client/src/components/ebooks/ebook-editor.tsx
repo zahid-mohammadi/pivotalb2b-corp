@@ -19,6 +19,7 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { generateSlug } from "@/lib/utils";
 import React from 'react';
 import { RichTextEditor } from "@/components/ui/rich-text-editor";
+import { PdfUpload } from "@/components/ui/pdf-upload";
 
 interface EbookEditorProps {
   initialData?: Ebook;
@@ -43,6 +44,7 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
       bannerImage: "",
       contentImages: [],
       downloadUrl: "",
+      pdfUrl: "",
       slug: "",
       colorTheme: defaultColorTheme,
     },
@@ -320,12 +322,29 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
 
         <FormField
           control={form.control}
+          name="pdfUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>PDF Version</FormLabel>
+              <FormControl>
+                <PdfUpload
+                  onPdfUpload={(url) => field.onChange(url)}
+                  currentPdfUrl={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="slug"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Slug</FormLabel>
               <FormControl>
-                <Input {...field} value={field.value || ""} disabled/>
+                <Input {...field} value={field.value || ""} disabled />
               </FormControl>
               <FormMessage />
             </FormItem>

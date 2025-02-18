@@ -2,11 +2,12 @@ import type { Express } from "express";
 import { createServer } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import {
+import { 
   insertBlogPostSchema,
   insertTestimonialSchema,
   insertEbookSchema,
-  insertCaseStudySchema
+  insertCaseStudySchema,
+  insertLeadSchema
 } from "@shared/schema";
 import multer from "multer";
 import path from "path";
@@ -23,11 +24,11 @@ const upload = multer({
     }
   }),
   fileFilter: function (req, file, cb) {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf']; //Added PDF
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type. Only JPEG, PNG and GIF are allowed.'));
+      cb(new Error('Invalid file type. Only JPEG, PNG, GIF and PDF are allowed.'));
     }
   },
   limits: {
@@ -247,6 +248,46 @@ export async function registerRoutes(app: Express) {
     }
     const testimonial = await storage.createTestimonial(result.data);
     res.status(201).json(testimonial);
+  });
+
+  // Lead creation and tracking
+  app.post("/api/leads", async (req, res) => {
+    const result = insertLeadSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+    try {
+      const lead = await storage.createLead(result.data);
+      res.status(201).json(lead);
+    } catch (error) {
+      console.error("Error creating lead:", error);
+      res.status(500).json({ error: "Failed to create lead" });
+    }
+  });
+
+  app.get("/api/leads", async (req, res) => {
+    try {
+      const leads = await storage.getLeads();
+      res.json(leads);
+    } catch (error) {
+      console.error("Error fetching leads:", error);
+      res.status(500).json({ error: "Failed to fetch leads" });
+    }
+  });
+
+  // PDF Upload route
+  app.post("/api/upload-pdf", upload.single('pdf'), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    // Validate file type
+    if (req.file.mimetype !== 'application/pdf') {
+      return res.status(400).json({ error: "Only PDF files are allowed" });
+    }
+
+    const pdfUrl = `/uploads/${req.file.filename}`;
+    res.json({ url: pdfUrl });
   });
 
   // Serve uploaded files
