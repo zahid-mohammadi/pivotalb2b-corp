@@ -139,7 +139,7 @@ export default function EbookDetailPage() {
           <div className="flex-[2.33]">
             {/* Content Section */}
             <div className="mb-8">
-              <h2 className="text-3xl font-semibold mb-6 text-foreground">Content</h2>
+              <h2 className="text-3xl font-semibold mb-6 text-foreground">Overview</h2>
               <div className="prose prose-lg max-w-none dark:prose-invert">
                 <div className="text-foreground">
                   {ebook.content && (
