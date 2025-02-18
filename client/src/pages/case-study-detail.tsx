@@ -92,110 +92,110 @@ export default function CaseStudyDetailPage() {
 
       {/* Main Content Area */}
       <div className="container mx-auto py-12">
-        <div className="flex flex-col lg:flex-row gap-12">
-          {/* Left Column - Content (75%) */}
-          <div className="flex-[3]">
-            {/* Overview Section */}
-            <div className="mb-8">
-              <h2 className="text-3xl font-semibold mb-6">Overview</h2>
-              <div className="grid gap-8">
-                <div>
-                  <h3 className="text-2xl font-semibold mb-4">Challenge</h3>
-                  <div className="text-lg text-muted-foreground">
-                    {caseStudy.challenge}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-semibold mb-4">Solution</h3>
-                  <div className="text-lg text-muted-foreground">
-                    {caseStudy.solution}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-semibold mb-4">Results</h3>
-                  <div className="text-lg text-muted-foreground">
-                    {caseStudy.results}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Content Images */}
-            {caseStudy.contentImages && caseStudy.contentImages.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-3xl font-semibold mb-6">Supporting Images</h2>
-                <div className="grid grid-cols-2 gap-4">
-                  {caseStudy.contentImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Case study image ${index + 1}`}
-                      className="rounded-lg shadow-md"
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Right Column - Access Form (25%) */}
-          <div className="flex-1">
-            <div className="bg-muted p-8 rounded-lg shadow-lg sticky top-8">
-              <h3 className="text-2xl font-semibold mb-6">Access Full Case Study</h3>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="businessEmail"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Business Email</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="email" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button type="submit" className="w-full">
-                    Access Case Study
-                  </Button>
-                </form>
-              </Form>
-            </div>
+<div className="flex flex-col lg:flex-row gap-12">
+  {/* Left Column - Content (70%) */}
+  <div className="flex-[2.33]">
+    {/* Overview Section */}
+    <div className="mb-8">
+      <h2 className="text-3xl font-semibold mb-6">Overview</h2>
+      <div className="grid gap-8">
+        <div>
+          <h3 className="text-2xl font-semibold mb-4">Challenge</h3>
+          <div className="text-lg text-muted-foreground">
+            {caseStudy.challenge}
           </div>
         </div>
+
+        <div>
+          <h3 className="text-2xl font-semibold mb-4">Solution</h3>
+          <div className="text-lg text-muted-foreground">
+            {caseStudy.solution}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-2xl font-semibold mb-4">Results</h3>
+          <div className="text-lg text-muted-foreground">
+            {caseStudy.results}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Supporting Images */}
+    {caseStudy.contentImages && caseStudy.contentImages.length > 0 && (
+      <div className="mt-8">
+        <h2 className="text-3xl font-semibold mb-6">Supporting Images</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {caseStudy.contentImages.map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`Case study image ${index + 1}`}
+              className="rounded-lg shadow-md"
+            />
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+
+  {/* Right Column - Access Form (30%) */}
+  <div className="flex-[1.285]">
+    <div className="bg-muted p-8 rounded-lg shadow-lg sticky top-8">
+      <h3 className="text-2xl font-semibold mb-6">Access Full Case Study</h3>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="fullName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="businessEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Business Email</FormLabel>
+                <FormControl>
+                  <Input {...field} type="email" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="company"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Company</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="w-full">
+            Access Case Study
+          </Button>
+        </form>
+      </Form>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   );
