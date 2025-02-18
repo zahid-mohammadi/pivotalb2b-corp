@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Ebook, InsertLead } from "@shared/schema";
-import { Loader2 } from "lucide-react";
+import { Loader2, Download, ArrowRight } from "lucide-react";
 import { useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -111,39 +111,53 @@ export default function EbookDetailPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-slate-50">
       {/* Banner Section */}
-      <div className="relative h-[400px] bg-primary">
+      <div className="relative h-[500px] bg-primary overflow-hidden">
         {ebook.bannerImage && (
           <img 
             src={ebook.bannerImage}
             alt={ebook.title}
-            className="absolute inset-0 w-full h-full object-cover opacity-50"
+            className="absolute inset-0 w-full h-full object-cover opacity-30"
           />
         )}
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/60" />
         <div className="container mx-auto h-full flex flex-col justify-center relative z-10">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            {ebook.title}
-          </h1>
-          <p className="text-xl text-white/90 max-w-2xl">
-            {ebook.description}
-          </p>
+          <div className="max-w-3xl">
+            <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
+              {ebook.title}
+            </h1>
+            <p className="text-xl text-white/90 leading-relaxed">
+              {ebook.description}
+            </p>
+            {ebook.tags && ebook.tags.length > 0 && (
+              <div className="flex gap-2 mt-6">
+                {ebook.tags.map((tag, index) => (
+                  <span 
+                    key={index}
+                    className="px-3 py-1 bg-white/10 text-white rounded-full text-sm"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="container mx-auto py-12">
+      <div className="container mx-auto py-16">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Left Column - Content (70%) */}
-          <div className="flex-[2.33]">
+          <div className="flex-[2.33] space-y-12">
             {/* Content Section */}
-            <div className="mb-8">
-              <h2 className="text-3xl font-semibold mb-6 text-foreground">Overview</h2>
+            <div className="bg-white rounded-xl p-8 shadow-sm">
+              <h2 className="text-3xl font-semibold mb-6 text-foreground">What You'll Learn</h2>
               <div className="prose prose-lg max-w-none dark:prose-invert">
                 <div className="text-foreground">
                   {ebook.content && (
-                    <div className="whitespace-pre-wrap mt-6">
+                    <div className="whitespace-pre-wrap leading-relaxed">
                       {ebook.content}
                     </div>
                   )}
@@ -153,16 +167,18 @@ export default function EbookDetailPage() {
 
             {/* Preview Images */}
             {ebook.contentImages && ebook.contentImages.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-3xl font-semibold mb-6 text-foreground">Preview Images</h2>
-                <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-8 shadow-sm">
+                <h2 className="text-3xl font-semibold mb-6 text-foreground">Preview Pages</h2>
+                <div className="grid grid-cols-2 gap-6">
                   {ebook.contentImages.map((image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`Content preview ${index + 1}`}
-                      className="rounded-lg shadow-md"
-                    />
+                    <div key={index} className="group relative aspect-[3/4] overflow-hidden rounded-lg">
+                      <img
+                        src={image}
+                        alt={`Preview page ${index + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                    </div>
                   ))}
                 </div>
               </div>
@@ -171,8 +187,8 @@ export default function EbookDetailPage() {
 
           {/* Right Column - Download Form (30%) */}
           <div className="flex-[1.285]">
-            <div className="space-y-8">
-              <div className="p-8 rounded-lg border bg-card shadow-sm">
+            <div className="space-y-8 sticky top-8">
+              <div className="bg-white p-8 rounded-xl border shadow-sm">
                 <h3 className="text-2xl font-semibold mb-6 text-foreground">Download this eBook</h3>
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -183,7 +199,7 @@ export default function EbookDetailPage() {
                         <FormItem>
                           <FormLabel>Full Name</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} className="bg-slate-50" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -197,7 +213,7 @@ export default function EbookDetailPage() {
                         <FormItem>
                           <FormLabel>Business Email</FormLabel>
                           <FormControl>
-                            <Input {...field} type="email" />
+                            <Input {...field} type="email" className="bg-slate-50" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -211,7 +227,7 @@ export default function EbookDetailPage() {
                         <FormItem>
                           <FormLabel>Company</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} className="bg-slate-50" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -222,15 +238,27 @@ export default function EbookDetailPage() {
                       type="submit" 
                       className="w-full"
                       disabled={leadMutation.isPending}
+                      size="lg"
                     >
-                      {leadMutation.isPending ? 'Processing...' : 'Download eBook'}
+                      {leadMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Processing...
+                        </>
+                      ) : (
+                        <>
+                          <Download className="mr-2 h-4 w-4" />
+                          Download eBook
+                        </>
+                      )}
                     </Button>
                   </form>
                 </Form>
               </div>
 
               {ebook && (
-                <div className="p-8 rounded-lg border bg-card shadow-sm">
+                <div className="bg-white p-8 rounded-xl border shadow-sm">
+                  <h3 className="text-2xl font-semibold mb-4">Related Content</h3>
                   <ContentRecommendations
                     contentType="ebook"
                     contentId={ebook.id}

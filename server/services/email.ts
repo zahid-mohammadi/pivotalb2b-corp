@@ -1,11 +1,12 @@
-import * as Brevo from '@getbrevo/brevo';
+import * as SibApiV3Sdk from '@getbrevo/brevo';
 
 if (!process.env.BREVO_API_KEY) {
   throw new Error('BREVO_API_KEY environment variable is required for sending emails');
 }
 
-const apiInstance = new Brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(Brevo.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY);
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+const apiKey = SibApiV3Sdk.ApiClient.instance.authentications['api-key'];
+apiKey.apiKey = process.env.BREVO_API_KEY;
 
 interface ContactFormData {
   name: string;
@@ -15,11 +16,27 @@ interface ContactFormData {
 }
 
 export async function sendContactFormNotification(data: ContactFormData) {
-  const sendSmtpEmail = new Brevo.SendSmtpEmail();
+  console.log('Preparing to send email notification with data:', {
+    name: data.name,
+    email: data.email,
+    subject: data.subject,
+    messageLength: data.message.length
+  });
 
-  sendSmtpEmail.to = [{ email: 'zahid.m@pivotal-b2b.com', name: 'Zahid M' }];
-  sendSmtpEmail.sender = { email: 'notifications@pivotal-b2b.com', name: 'Pivotal B2B Notifications' };
+  const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+
+  sendSmtpEmail.to = [{
+    email: "zahid.m@pivotal-b2b.com",
+    name: "Zahid M"
+  }];
+
+  sendSmtpEmail.sender = {
+    name: "Pivotal B2B",
+    email: "updates@industryevolve360.com"
+  };
+
   sendSmtpEmail.subject = `New Contact Form Submission: ${data.subject}`;
+
   sendSmtpEmail.textContent = `
     New contact form submission received:
 
@@ -30,6 +47,7 @@ export async function sendContactFormNotification(data: ContactFormData) {
     Message:
     ${data.message}
   `;
+
   sendSmtpEmail.htmlContent = `
     <h2>New contact form submission received</h2>
     <p><strong>Name:</strong> ${data.name}</p>
@@ -40,13 +58,18 @@ export async function sendContactFormNotification(data: ContactFormData) {
   `;
 
   try {
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log('Attempting to send email via Brevo API...');
+    const result = await apiInstance.sendTransacEmail(sendSmtpEmail);
+    console.log('Email sent successfully:', result);
     return true;
   } catch (error) {
     console.error('Error sending email:', error);
-    if (error.response?.body) {
-      console.error('Brevo API error details:', error.response.body);
+    if (error instanceof Error && 'response' in error) {
+      const apiError = error as any;
+      if (apiError.response?.text) {
+        console.error('Brevo API error details:', apiError.response.text);
+      }
     }
-    throw error; // Propagate the error to handle it in the route
+    throw error;
   }
 }
