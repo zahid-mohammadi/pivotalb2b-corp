@@ -71,12 +71,18 @@ export async function registerRoutes(app: Express) {
     }
 
     try {
-      // Generate AI tags
-      const autoTags = await aiTaggingService.generateTagsForBlogPost(
-        result.data.title,
-        result.data.content,
-        result.data.metaDescription
-      );
+      let autoTags: string[] = [];
+      try {
+        // Try to generate AI tags, but don't block post creation if it fails
+        autoTags = await aiTaggingService.generateTagsForBlogPost(
+          result.data.title,
+          result.data.content,
+          result.data.metaDescription
+        );
+      } catch (tagError) {
+        console.error("Error generating AI tags:", tagError);
+        // Continue with post creation even if tagging fails
+      }
 
       const post = await storage.createBlogPost({
         ...result.data,
@@ -144,12 +150,17 @@ export async function registerRoutes(app: Express) {
         return res.status(400).json({ errors: result.error.errors });
       }
 
-      // Generate AI tags
-      const autoTags = await aiTaggingService.generateTagsForEbook(
-        result.data.title,
-        result.data.description,
-        result.data.content
-      );
+      let autoTags: string[] = [];
+      try {
+        autoTags = await aiTaggingService.generateTagsForEbook(
+          result.data.title,
+          result.data.description,
+          result.data.content
+        );
+      } catch (tagError) {
+        console.error("Error generating AI tags:", tagError);
+        // Continue with ebook creation even if tagging fails
+      }
 
       const ebook = await storage.createEbook({
         ...result.data,
@@ -219,15 +230,20 @@ export async function registerRoutes(app: Express) {
     }
 
     try {
-      // Generate AI tags
-      const autoTags = await aiTaggingService.generateTagsForCaseStudy(
-        result.data.title,
-        result.data.clientName,
-        result.data.industry,
-        result.data.challenge,
-        result.data.solution,
-        result.data.results
-      );
+      let autoTags: string[] = [];
+      try {
+        autoTags = await aiTaggingService.generateTagsForCaseStudy(
+          result.data.title,
+          result.data.clientName,
+          result.data.industry,
+          result.data.challenge,
+          result.data.solution,
+          result.data.results
+        );
+      } catch (tagError) {
+        console.error("Error generating AI tags:", tagError);
+        // Continue with case study creation even if tagging fails
+      }
 
       const caseStudy = await storage.createCaseStudy({
         ...result.data,
@@ -411,8 +427,8 @@ export async function registerRoutes(app: Express) {
       } catch (emailError) {
         console.error("Error sending email notification:", emailError);
         // Don't fail the request if email fails, but log it
-        return res.status(201).json({ 
-          ...lead, 
+        return res.status(201).json({
+          ...lead,
           warning: "Lead saved but email notification failed"
         });
       }
