@@ -252,12 +252,21 @@ export async function registerRoutes(app: Express) {
 
   // Lead creation and tracking
   app.post("/api/leads", async (req, res) => {
-    const result = insertLeadSchema.safeParse(req.body);
-    if (!result.success) {
-      return res.status(400).json({ errors: result.error.errors });
-    }
     try {
+      const result = insertLeadSchema.safeParse(req.body);
+      if (!result.success) {
+        console.error("Lead validation error:", result.error.errors);
+        return res.status(400).json({ error: "Invalid lead data", details: result.error.errors });
+      }
+
+      // Check if required fields are present
+      if (!result.data.contentId || !result.data.contentType) {
+        console.error("Missing required fields:", { body: req.body });
+        return res.status(400).json({ error: "Missing required fields" });
+      }
+
       const lead = await storage.createLead(result.data);
+      console.log("Lead created successfully:", lead);
       res.status(201).json(lead);
     } catch (error) {
       console.error("Error creating lead:", error);

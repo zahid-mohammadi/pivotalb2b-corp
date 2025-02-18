@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { Ebook } from "@shared/schema";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Ebook, InsertLead } from "@shared/schema";
 import { Loader2 } from "lucide-react";
 import { useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 const downloadFormSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
-  businessEmail: z.string().email("Invalid email address"),
+  email: z.string().email("Invalid email address"),
   company: z.string().min(1, "Company name is required"),
 });
 
@@ -28,16 +29,10 @@ type DownloadFormValues = z.infer<typeof downloadFormSchema>;
 export default function EbookDetailPage() {
   const [, params] = useRoute("/ebooks/:slug");
   const slug = params?.slug;
+  const { toast } = useToast();
 
   const { data: ebook, isLoading } = useQuery<Ebook>({
     queryKey: ["/api/ebooks", slug],
-    queryFn: async () => {
-      const response = await fetch(`/api/ebooks/${slug}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch ebook");
-      }
-      return response.json();
-    },
     enabled: !!slug,
   });
 
@@ -45,42 +40,50 @@ export default function EbookDetailPage() {
     resolver: zodResolver(downloadFormSchema),
     defaultValues: {
       fullName: "",
-      businessEmail: "",
+      email: "",
       company: "",
     },
   });
 
   const leadMutation = useMutation({
     mutationFn: async (data: DownloadFormValues) => {
-      const response = await fetch('/api/leads', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          contentType: 'ebook',
-          contentId: ebook!.id,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to record lead');
+      if (!ebook) {
+        throw new Error("Ebook not found");
       }
-
-      return response.json();
+      const res = await apiRequest("POST", "/api/leads", {
+        fullName: data.fullName,
+        email: data.email,
+        company: data.company,
+        contentType: 'ebook',
+        contentId: ebook.id
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.error || "Failed to record lead");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      if (ebook?.pdfUrl) {
+        window.open(ebook.pdfUrl, '_blank');
+      }
+      toast({
+        title: "Success",
+        description: "Thank you for your interest. Your download should begin shortly.",
+      });
+      form.reset();
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
 
   const onSubmit = async (data: DownloadFormValues) => {
-    if (ebook?.pdfUrl) {
-      try {
-        await leadMutation.mutateAsync(data);
-        window.open(ebook.pdfUrl, '_blank');
-      } catch (error) {
-        console.error('Error recording lead:', error);
-      }
-    }
+    leadMutation.mutate(data);
   };
 
   if (isLoading) {
@@ -180,7 +183,7 @@ export default function EbookDetailPage() {
 
                   <FormField
                     control={form.control}
-                    name="businessEmail"
+                    name="email"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Business Email</FormLabel>
@@ -209,9 +212,9 @@ export default function EbookDetailPage() {
                   <Button 
                     type="submit" 
                     className="w-full"
-                    disabled={!ebook?.pdfUrl}
+                    disabled={leadMutation.isPending || !ebook?.pdfUrl}
                   >
-                    Download eBook
+                    {leadMutation.isPending ? 'Processing...' : 'Download eBook'}
                   </Button>
                 </form>
               </Form>
