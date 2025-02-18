@@ -57,8 +57,8 @@ app.use((req, res, next) => {
   }
 
   // Use PORT from environment variable or fallback to 5000
-  const PORT = process.env.PORT || 5000;
-  server.listen(PORT, "0.0.0.0", () => {
+  const PORT = Number(process.env.PORT) || 5000;  // Ensure PORT is a number
+  server.listen(PORT, () => {
     log(`Server running in ${app.get('env')} mode on port ${PORT}`);
   });
 })();
