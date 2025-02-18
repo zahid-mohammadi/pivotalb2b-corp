@@ -37,7 +37,7 @@ export default function EbookDetailPage() {
         throw new Error('Failed to fetch ebook');
       }
       const data = await response.json();
-      console.log('Fetched ebook data:', data); // Debug log
+      console.log('Fetched ebook data:', data);
       return data;
     },
     enabled: !!slug,
@@ -74,10 +74,8 @@ export default function EbookDetailPage() {
     );
   }
 
-  console.log('Rendering ebook:', ebook); // Debug log
-
   return (
-    <div>
+    <div className="min-h-screen">
       {/* Banner Section */}
       <div className="relative h-[400px] bg-primary">
         {ebook.bannerImage && (
@@ -92,38 +90,32 @@ export default function EbookDetailPage() {
           <h1 className="text-5xl font-bold text-white mb-4">
             {ebook.title}
           </h1>
-          {ebook.description && (
-            <p className="text-xl text-white/80 max-w-2xl">
-              {ebook.description.length > 150 
-                ? `${ebook.description.slice(0, 150)}...` 
-                : ebook.description}
-            </p>
-          )}
         </div>
       </div>
 
-      {/* Main Content Section */}
+      {/* Main Content Area */}
       <div className="container mx-auto py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Left Column - Content */}
-          <div>
-            <h2 className="text-3xl font-semibold mb-6">About this eBook</h2>
-
-            {/* Main Content */}
-            <div className="prose prose-lg max-w-none">
-              {ebook.content && (
-                <div className="text-lg text-muted-foreground whitespace-pre-wrap mb-8">
-                  {ebook.content}
-                </div>
-              )}
-            </div>
-
-            {/* Overview */}
-            {ebook.description && (
-              <div className="mt-8">
-                <h3 className="text-2xl font-semibold mb-4">Overview</h3>
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Left Column - Content (75%) */}
+          <div className="flex-[3]">
+            {/* Overview Section */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-semibold mb-6">Overview</h2>
+              <div className="prose prose-lg max-w-none">
                 <div className="text-lg text-muted-foreground">
                   {ebook.description}
+                </div>
+              </div>
+            </div>
+
+            {/* Main Content */}
+            {ebook.content && (
+              <div className="mb-8">
+                <h2 className="text-3xl font-semibold mb-6">Content</h2>
+                <div className="prose prose-lg max-w-none">
+                  <div className="text-lg text-muted-foreground whitespace-pre-wrap">
+                    {ebook.content}
+                  </div>
                 </div>
               </div>
             )}
@@ -131,7 +123,7 @@ export default function EbookDetailPage() {
             {/* Preview Images */}
             {ebook.contentImages && ebook.contentImages.length > 0 && (
               <div className="mt-8">
-                <h3 className="text-2xl font-semibold mb-4">Preview Images</h3>
+                <h2 className="text-3xl font-semibold mb-6">Preview Images</h2>
                 <div className="grid grid-cols-2 gap-4">
                   {ebook.contentImages.map((image, index) => (
                     <img
@@ -146,62 +138,64 @@ export default function EbookDetailPage() {
             )}
           </div>
 
-          {/* Right Column - Download Form */}
-          <div className="bg-muted p-8 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-semibold mb-6">Download this eBook</h3>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="fullName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+          {/* Right Column - Download Form (25%) */}
+          <div className="flex-1">
+            <div className="bg-muted p-8 rounded-lg shadow-lg sticky top-8">
+              <h3 className="text-2xl font-semibold mb-6">Download this eBook</h3>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="fullName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="businessEmail"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Business Email</FormLabel>
-                      <FormControl>
-                        <Input {...field} type="email" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="businessEmail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Business Email</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="email" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="company"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Company</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <Button 
-                  type="submit" 
-                  className="w-full"
-                  disabled={!ebook.downloadUrl}
-                >
-                  Download eBook
-                </Button>
-              </form>
-            </Form>
+                  <Button 
+                    type="submit" 
+                    className="w-full"
+                    disabled={!ebook.downloadUrl}
+                  >
+                    Download eBook
+                  </Button>
+                </form>
+              </Form>
+            </div>
           </div>
         </div>
       </div>
