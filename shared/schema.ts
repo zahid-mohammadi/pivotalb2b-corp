@@ -33,13 +33,6 @@ export const ebooks = pgTable("ebooks", {
   downloadUrl: text("download_url"),
   publishedAt: timestamp("published_at"),
   slug: text("slug").notNull().unique(),
-  colorTheme: jsonb("color_theme").default({
-    primary: "#0f172a",
-    secondary: "#6366f1",
-    accent: "#f43f5e",
-    background: "#ffffff",
-    text: "#0f172a"
-  }),
 });
 
 // Other tables remain unchanged
@@ -75,15 +68,6 @@ export const testimonials = pgTable("testimonials", {
   content: text("content").notNull(),
 });
 
-// Color theme validation schema
-export const colorThemeSchema = z.object({
-  primary: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/),
-  secondary: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/),
-  accent: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/),
-  background: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/),
-  text: z.string().regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/),
-});
-
 // Schemas
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
 export const loginSchema = insertUserSchema.pick({ username: true, password: true });
@@ -101,7 +85,6 @@ export const insertEbookSchema = createInsertSchema(ebooks)
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
     slug: z.string(),
-    colorTheme: colorThemeSchema.optional(),
   });
 
 export const insertCaseStudySchema = createInsertSchema(caseStudies)
@@ -136,5 +119,3 @@ export type InsertEbook = z.infer<typeof insertEbookSchema>;
 export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
 export type InsertService = z.infer<typeof insertServiceSchema>;
 export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
-
-export type ColorTheme = z.infer<typeof colorThemeSchema>;
