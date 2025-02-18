@@ -2,6 +2,14 @@ import { pgTable, text, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 100 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  role: varchar("role", { length: 50 }).notNull().default("user"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const blogPosts = pgTable("blog_posts", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
@@ -29,9 +37,19 @@ export const testimonials = pgTable("testimonials", {
   content: text("content").notNull(),
 });
 
+// Schema for user operations
+export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
+export const loginSchema = insertUserSchema.pick({ username: true, password: true });
+
+// Other schemas
 export const insertBlogPostSchema = createInsertSchema(blogPosts).omit({ id: true });
 export const insertServiceSchema = createInsertSchema(services).omit({ id: true });
 export const insertTestimonialSchema = createInsertSchema(testimonials).omit({ id: true });
+
+// Types
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type LoginData = z.infer<typeof loginSchema>;
 
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type Service = typeof services.$inferSelect;

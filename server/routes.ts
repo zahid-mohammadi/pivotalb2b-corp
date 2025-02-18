@@ -1,9 +1,13 @@
 import type { Express } from "express";
 import { createServer } from "http";
+import { setupAuth } from "./auth";
 import { storage } from "./storage";
 import { insertBlogPostSchema, insertTestimonialSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express) {
+  // Set up authentication
+  setupAuth(app);
+
   // Blog Posts
   app.get("/api/blog-posts", async (_req, res) => {
     const posts = await storage.getBlogPosts();

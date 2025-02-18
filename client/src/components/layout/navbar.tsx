@@ -134,7 +134,7 @@ export function Navbar() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
-          <Link href="/dashboard">
+          <Link href="/login">
             <Button variant="outline">Login</Button>
           </Link>
           <Button>Get Started Today</Button>

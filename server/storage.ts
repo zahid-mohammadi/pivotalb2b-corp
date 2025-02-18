@@ -1,9 +1,30 @@
-import { type BlogPost, type Service, type Testimonial, type InsertBlogPost, type InsertService, type InsertTestimonial } from "@shared/schema";
-import { blogPosts, services, testimonials } from "@shared/schema";
+import { 
+  type BlogPost, 
+  type Service, 
+  type Testimonial, 
+  type User,
+  type InsertBlogPost, 
+  type InsertService, 
+  type InsertTestimonial,
+  type InsertUser,
+  blogPosts, 
+  services, 
+  testimonials,
+  users 
+} from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
+import session from "express-session";
+import createMemoryStore from "memorystore";
+
+const MemoryStore = createMemoryStore(session);
 
 export interface IStorage {
+  // User Management
+  getUserById(id: number): Promise<User | undefined>;
+  getUserByUsername(username: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
+
   // Blog Posts
   getBlogPosts(): Promise<BlogPost[]>;
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
@@ -17,9 +38,41 @@ export interface IStorage {
   // Testimonials
   getTestimonials(): Promise<Testimonial[]>;
   createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial>;
+
+  // Session store
+  sessionStore: session.Store;
 }
 
 export class DatabaseStorage implements IStorage {
+  private users: User[] = [];
+  sessionStore: session.Store;
+
+  constructor() {
+    this.sessionStore = new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    });
+  }
+
+  // User Management
+  async getUserById(id: number): Promise<User | undefined> {
+    return this.users.find(user => user.id === id);
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    return this.users.find(user => user.username === username);
+  }
+
+  async createUser(user: InsertUser): Promise<User> {
+    const newUser: User = {
+      id: this.users.length + 1,
+      ...user,
+      role: "user",
+      createdAt: new Date()
+    };
+    this.users.push(newUser);
+    return newUser;
+  }
+
   // Blog Posts
   async getBlogPosts(): Promise<BlogPost[]> {
     return await db.select().from(blogPosts);
