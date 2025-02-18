@@ -243,10 +243,27 @@ export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
             <FormItem>
               <FormLabel>PDF Version</FormLabel>
               <FormControl>
-                <PdfUpload
-                  onPdfUpload={(url) => field.onChange(url)}
-                  currentPdfUrl={field.value}
-                />
+                <div className="space-y-2">
+                  <PdfUpload
+                    onPdfUpload={(url) => field.onChange(url)}
+                    currentPdfUrl={field.value}
+                  />
+                  {field.value && (
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm text-muted-foreground">
+                        Current PDF: {field.value.split('/').pop()}
+                      </span>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => window.open(field.value, '_blank')}
+                      >
+                        Preview PDF
+                      </Button>
+                    </div>
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
