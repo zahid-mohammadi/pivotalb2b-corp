@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { generateSlug } from "@/lib/utils";
 import React from "react";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 
 interface CaseStudyEditorProps {
   initialData?: CaseStudy;
@@ -158,7 +159,11 @@ export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
             <FormItem>
               <FormLabel>Challenge</FormLabel>
               <FormControl>
-                <Textarea {...field} rows={4} />
+                <RichTextEditor
+                  value={field.value || ""}
+                  onChange={(content) => field.onChange(content)}
+                  error={form.formState.errors.challenge?.message}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -172,7 +177,11 @@ export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
             <FormItem>
               <FormLabel>Solution</FormLabel>
               <FormControl>
-                <Textarea {...field} rows={4} />
+                <RichTextEditor
+                  value={field.value || ""}
+                  onChange={(content) => field.onChange(content)}
+                  error={form.formState.errors.solution?.message}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -186,7 +195,11 @@ export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
             <FormItem>
               <FormLabel>Results</FormLabel>
               <FormControl>
-                <Textarea {...field} rows={4} />
+                <RichTextEditor
+                  value={field.value || ""}
+                  onChange={(content) => field.onChange(content)}
+                  error={form.formState.errors.results?.message}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

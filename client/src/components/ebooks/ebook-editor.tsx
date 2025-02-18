@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { generateSlug } from "@/lib/utils";
 import React from 'react';
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 
 interface EbookEditorProps {
   initialData?: Ebook;
@@ -149,7 +150,11 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <Textarea {...field} value={field.value || ""} rows={10} />
+                <RichTextEditor
+                  value={field.value || ""}
+                  onChange={(content) => field.onChange(content)}
+                  error={form.formState.errors.content?.message}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -196,9 +201,9 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
                   <FormControl>
                     <div className="flex gap-2 items-center">
                       <Input type="color" {...field} className="w-16 h-10" />
-                      <Input 
-                        type="text" 
-                        value={field.value} 
+                      <Input
+                        type="text"
+                        value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
                         className="flex-1"
                       />
@@ -218,9 +223,9 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
                   <FormControl>
                     <div className="flex gap-2 items-center">
                       <Input type="color" {...field} className="w-16 h-10" />
-                      <Input 
-                        type="text" 
-                        value={field.value} 
+                      <Input
+                        type="text"
+                        value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
                         className="flex-1"
                       />
@@ -240,9 +245,9 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
                   <FormControl>
                     <div className="flex gap-2 items-center">
                       <Input type="color" {...field} className="w-16 h-10" />
-                      <Input 
-                        type="text" 
-                        value={field.value} 
+                      <Input
+                        type="text"
+                        value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
                         className="flex-1"
                       />
@@ -262,9 +267,9 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
                   <FormControl>
                     <div className="flex gap-2 items-center">
                       <Input type="color" {...field} className="w-16 h-10" />
-                      <Input 
-                        type="text" 
-                        value={field.value} 
+                      <Input
+                        type="text"
+                        value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
                         className="flex-1"
                       />
@@ -284,9 +289,9 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
                   <FormControl>
                     <div className="flex gap-2 items-center">
                       <Input type="color" {...field} className="w-16 h-10" />
-                      <Input 
-                        type="text" 
-                        value={field.value} 
+                      <Input
+                        type="text"
+                        value={field.value}
                         onChange={(e) => field.onChange(e.target.value)}
                         className="flex-1"
                       />
