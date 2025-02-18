@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/use-auth";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -8,8 +9,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { Loader2 } from "lucide-react";
 
 export function Navbar() {
+  const { user, logoutMutation } = useAuth();
+
   return (
     <header className="border-b">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -134,10 +138,29 @@ export function Navbar() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
-          <Link href="/login">
-            <Button variant="outline">Login</Button>
-          </Link>
-          <Button>Get Started Today</Button>
+          {user ? (
+            <Button 
+              variant="outline"
+              onClick={() => logoutMutation.mutate()}
+              disabled={logoutMutation.isPending}
+            >
+              {logoutMutation.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Logging out...
+                </>
+              ) : (
+                'Logout'
+              )}
+            </Button>
+          ) : (
+            <>
+              <Link href="/login">
+                <Button variant="outline">Login</Button>
+              </Link>
+              <Button>Get Started Today</Button>
+            </>
+          )}
         </div>
       </div>
     </header>
