@@ -13,25 +13,25 @@ export function Footer() {
               Generate high-quality leads, empower your sales team, and build a thriving sales pipeline.
             </p>
           </div>
-          
+
           <div>
             <h3 className="font-bold text-lg mb-4">Contact</h3>
             <ul className="space-y-2 text-slate-300">
               <li className="flex items-center gap-2">
                 <MapPin size={16} />
-                123 Business Ave, Suite 100
+                16192 Coastal Highway Lewes, Delaware 19958 USA
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={16} />
-                (555) 123-4567
+                +1 417-900-3844
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} />
-                contact@pivotalb2b.com
+                contact@pivotal-b2b.com
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="font-bold text-lg mb-4">Follow Us</h3>
             <div className="flex gap-4">
@@ -46,7 +46,7 @@ export function Footer() {
               </a>
             </div>
           </div>
-          
+
           <div>
             <h3 className="font-bold text-lg mb-4">Newsletter</h3>
             <form className="space-y-2">
@@ -59,7 +59,7 @@ export function Footer() {
             </form>
           </div>
         </div>
-        
+
         <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-300">
           <p>&copy; {new Date().getFullYear()} Pivotal B2B. All rights reserved.</p>
         </div>

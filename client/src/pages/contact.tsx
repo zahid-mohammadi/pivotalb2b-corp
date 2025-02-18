@@ -53,7 +53,7 @@ export default function ContactPage() {
           <p className="text-muted-foreground mb-6">
             Have questions about our B2B marketing platform? We'd love to hear from you.
           </p>
-          
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
@@ -69,7 +69,7 @@ export default function ContactPage() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="email"
@@ -83,7 +83,7 @@ export default function ContactPage() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="subject"
@@ -97,7 +97,7 @@ export default function ContactPage() {
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="message"
@@ -111,12 +111,12 @@ export default function ContactPage() {
                   </FormItem>
                 )}
               />
-              
+
               <Button type="submit">Send Message</Button>
             </form>
           </Form>
         </div>
-        
+
         <div>
           <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
           <div className="space-y-4">
@@ -124,7 +124,10 @@ export default function ContactPage() {
               Email: contact@pivotal-b2b.com
             </p>
             <p className="text-muted-foreground">
-              Phone: +1 (555) 123-4567
+              Phone: +1 417-900-3844
+            </p>
+            <p className="text-muted-foreground">
+              Address: 16192 Coastal Highway Lewes, Delaware 19958 USA
             </p>
             <p className="text-muted-foreground">
               Hours: Monday - Friday, 9:00 AM - 5:00 PM EST
