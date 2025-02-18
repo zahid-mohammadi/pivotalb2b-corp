@@ -59,7 +59,8 @@ export default function CaseStudyDetailPage() {
         contentId: caseStudy.id
       });
       if (!res.ok) {
-        throw new Error("Failed to record lead");
+        const error = await res.json();
+        throw new Error(error.error || "Failed to record lead");
       }
       return res.json();
     },
@@ -229,7 +230,7 @@ export default function CaseStudyDetailPage() {
                     className="w-full"
                     disabled={leadMutation.isPending}
                   >
-                    Access Case Study
+                    {leadMutation.isPending ? 'Processing...' : 'Access Case Study'}
                   </Button>
                 </form>
               </Form>
