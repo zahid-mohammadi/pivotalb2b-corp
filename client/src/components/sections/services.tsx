@@ -56,17 +56,6 @@ export function Services() {
     queryKey: ["/api/services"],
   });
 
-  const industries = [
-    "Telecommunications",
-    "Healthcare",
-    "Financial Services",
-    "Manufacturing",
-    "Enterprise Technology",
-    "Retail & Ecommerce",
-    "HR Technology & Services",
-    "Energy"
-  ];
-
   if (isLoading) {
     return (
       <div className="flex justify-center py-20">
@@ -96,28 +85,6 @@ export function Services() {
             Transform your business with our suite of integrated marketing solutions designed to drive growth, 
             enhance engagement, and deliver measurable results across your digital ecosystem.
           </p>
-        </motion.div>
-
-        {/* Industries Section */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h3 className="text-2xl font-bold text-center mb-8">Industries We Serve</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {industries.map((industry, index) => (
-              <motion.div
-                key={index}
-                variants={cardVariants}
-                className="bg-white/50 backdrop-blur-sm border border-slate-200/80 rounded-lg p-4 text-center hover:border-primary/20 transition-all duration-300"
-              >
-                <p className="font-medium text-slate-800">{industry}</p>
-              </motion.div>
-            ))}
-          </div>
         </motion.div>
 
         <motion.div 
