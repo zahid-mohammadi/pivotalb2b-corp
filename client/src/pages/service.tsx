@@ -48,6 +48,17 @@ const itemVariants = {
 export default function ServicePage() {
   const [, params] = useRoute<{ slug: string }>("/services/:slug");
 
+  const industries = [
+    "Telecommunications",
+    "Healthcare",
+    "Financial Services",
+    "Manufacturing",
+    "Enterprise Technology",
+    "Retail & Ecommerce",
+    "HR Technology & Services",
+    "Energy"
+  ];
+
   const { data: service, isLoading } = useQuery<Service>({
     queryKey: [`/api/services/${params?.slug}`],
   });
@@ -73,7 +84,7 @@ export default function ServicePage() {
       <MetaTags
         title={`${service.title} - B2B Marketing Services`}
         description={`${service.description} Learn how our ${service.title} service can transform your B2B marketing strategy and drive measurable business growth.`}
-        keywords={`${service.title}, B2B marketing service, lead generation, ${service.industries?.join(', ')}, business growth, marketing solutions`}
+        keywords={`${service.title}, B2B marketing service, lead generation, ${industries.join(', ')}, business growth, marketing solutions`}
       />
       <div className="min-h-screen">
         {/* Hero Section - Enhanced with success metrics */}
@@ -278,7 +289,7 @@ export default function ServicePage() {
                     <h2 className="text-2xl font-bold">Industries We Serve</h2>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {service.industries?.map((industry, index) => (
+                    {industries.map((industry, index) => (
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}
@@ -287,6 +298,9 @@ export default function ServicePage() {
                         className="bg-slate-50 rounded-lg p-6"
                       >
                         <h3 className="font-semibold mb-2">{industry}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Specialized solutions tailored for {industry.toLowerCase()} sector requirements and challenges.
+                        </p>
                       </motion.div>
                     ))}
                   </div>
