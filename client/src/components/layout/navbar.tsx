@@ -15,7 +15,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/">
           <a className="flex items-center">
-            <img src="/attached_assets/logo.png" alt="Pivotal B2B" className="h-8" />
+            <img src="/logo.png" alt="Pivotal B2B" className="h-8" />
           </a>
         </Link>
 
