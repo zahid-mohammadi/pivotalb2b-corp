@@ -229,7 +229,17 @@ export class DatabaseStorage implements IStorage {
 
   // Services
   async getServices(): Promise<Service[]> {
-    return await db.select().from(services);
+    try {
+      const servicesData = await db.select().from(services);
+      return servicesData.map(service => ({
+        ...service,
+        useCases: [], 
+        faqQuestions: [] 
+      }));
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      throw error;
+    }
   }
 
   async getServiceBySlug(slug: string): Promise<Service | undefined> {
