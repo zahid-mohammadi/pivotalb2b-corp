@@ -43,22 +43,6 @@ async function comparePasswords(supplied: string, stored: string) {
   }
 }
 
-export async function createAdminUser(username: string, password: string): Promise<User> {
-  try {
-    const hashedPassword = await hashPassword(password);
-    console.log("Creating admin user with username:", username);
-    return await storage.createUser({
-      username,
-      email: `${username}@pivotal-b2b.com`,
-      password: hashedPassword,
-      role: "admin"
-    });
-  } catch (error) {
-    console.error("Error creating admin user:", error);
-    throw error;
-  }
-}
-
 export function setupAuth(app: Express) {
   if (!process.env.SESSION_SECRET) {
     throw new Error("SESSION_SECRET environment variable must be set");
@@ -102,6 +86,7 @@ export function setupAuth(app: Express) {
           return done(null, false, { message: "Invalid username or password" });
         }
 
+        console.log("Authentication successful for user:", username);
         return done(null, user);
       } catch (error) {
         console.error("Authentication error:", error);
@@ -132,7 +117,7 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    console.log("Login attempt for username:", req.body.username);
+    console.log("Login attempt received:", { username: req.body.username });
 
     passport.authenticate("local", (err: Error, user: User, info: any) => {
       if (err) {
@@ -172,4 +157,20 @@ export function setupAuth(app: Express) {
     console.log("Current user data requested:", { id: req.user.id, username: req.user.username, role: req.user.role });
     res.json(req.user);
   });
+}
+
+export async function createAdminUser(username: string, password: string): Promise<User> {
+  try {
+    const hashedPassword = await hashPassword(password);
+    console.log("Creating admin user with hashed password");
+    return await storage.createUser({
+      username,
+      email: `${username}@pivotal-b2b.com`,
+      password: hashedPassword,
+      role: "admin"
+    });
+  } catch (error) {
+    console.error("Error creating admin user:", error);
+    throw error;
+  }
 }
