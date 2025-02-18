@@ -9,6 +9,7 @@ import Service from "@/pages/service";
 import Dashboard from "@/pages/dashboard";
 import Login from "@/pages/login";
 import Blog from "@/pages/blog";
+import BlogDetail from "@/pages/blog-detail";
 import Ebooks from "@/pages/ebooks";
 import CaseStudies from "@/pages/case-studies";
 import About from "@/pages/about";
@@ -27,6 +28,7 @@ function Router() {
           <Route path="/services/:slug" component={Service} />
           <Route path="/login" component={Login} />
           <Route path="/blog" component={Blog} />
+          <Route path="/blog/:slug" component={BlogDetail} />
           <Route path="/ebooks" component={Ebooks} />
           <Route path="/case-studies" component={CaseStudies} />
           <Route path="/about" component={About} />

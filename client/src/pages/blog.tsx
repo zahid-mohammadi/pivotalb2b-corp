@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BlogPost } from "@shared/schema";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
+import { Link } from "wouter";
 
 export default function BlogPage() {
   const { data: posts, isLoading } = useQuery<BlogPost[]>({
@@ -22,20 +23,24 @@ export default function BlogPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts?.map((post) => (
-          <Card key={post.id} className="p-6">
-            {post.bannerImage && (
-              <img 
-                src={post.bannerImage} 
-                alt={post.title}
-                className="w-full h-48 object-cover rounded-md mb-4"
-              />
-            )}
-            <h2 className="text-2xl font-semibold mb-4">{post.title}</h2>
-            <p className="text-muted-foreground mb-4">{post.metaDescription}</p>
-            <div className="text-sm text-muted-foreground">
-              {new Date(post.publishedAt ?? '').toLocaleDateString()}
-            </div>
-          </Card>
+          <Link key={post.id} href={`/blog/${post.slug}`}>
+            <a className="block">
+              <Card className="p-6 hover:shadow-lg transition-shadow">
+                {post.bannerImage && (
+                  <img 
+                    src={post.bannerImage} 
+                    alt={post.title}
+                    className="w-full h-48 object-cover rounded-md mb-4"
+                  />
+                )}
+                <h2 className="text-2xl font-semibold mb-4">{post.title}</h2>
+                <p className="text-muted-foreground mb-4">{post.metaDescription}</p>
+                <div className="text-sm text-muted-foreground">
+                  {new Date(post.publishedAt ?? '').toLocaleDateString()}
+                </div>
+              </Card>
+            </a>
+          </Link>
         ))}
         {posts?.length === 0 && (
           <p className="text-muted-foreground col-span-3 text-center">
