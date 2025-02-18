@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, FileText, BookText, Users } from "lucide-react";
+import { Loader2, FileText, BookText, Users, User } from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
 import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
@@ -71,7 +71,7 @@ export default function Dashboard() {
                   <div className="p-4">
                     <div className="grid grid-cols-4 gap-4">
                       <div className="flex items-center gap-2">
-                        <UserCircle2 className="h-6 w-6 text-muted-foreground" />
+                        <User className="h-6 w-6 text-muted-foreground" />
                         <span>John Doe</span>
                       </div>
                       <div>john@example.com</div>

@@ -51,14 +51,19 @@ export async function createAdminUser(username: string, password: string): Promi
 }
 
 export function setupAuth(app: Express) {
+  if (!process.env.SESSION_SECRET) {
+    throw new Error("SESSION_SECRET environment variable must be set");
+  }
+
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || "your-secret-key",
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
+        sameSite: "lax",
         maxAge: 24 * 60 * 60 * 1000 // 24 hours
       },
       store: storage.sessionStore
@@ -77,6 +82,7 @@ export function setupAuth(app: Express) {
         }
         return done(null, user);
       } catch (error) {
+        console.error("Authentication error:", error);
         return done(error);
       }
     })
@@ -91,30 +97,27 @@ export function setupAuth(app: Express) {
       const user = await storage.getUserById(id);
       done(null, user || false);
     } catch (error) {
+      console.error("Deserialization error:", error);
       done(error);
     }
   });
 
   app.post("/api/register", async (req, res) => {
     try {
-      const result = insertUserSchema.safeParse(req.body);
-      if (!result.success) {
-        return res.status(400).json({ error: "Invalid user data" });
-      }
-
-      const existingUser = await storage.getUserByUsername(result.data.username);
+      const existingUser = await storage.getUserByUsername(req.body.username);
       if (existingUser) {
         return res.status(400).json({ error: "Username already exists" });
       }
 
-      const hashedPassword = await hashPassword(result.data.password);
+      const hashedPassword = await hashPassword(req.body.password);
       const user = await storage.createUser({
-        ...result.data,
+        ...req.body,
         password: hashedPassword,
       });
 
       req.login(user, (err) => {
         if (err) {
+          console.error("Login error after registration:", err);
           return res.status(500).json({ error: "Login failed after registration" });
         }
         return res.status(201).json(user);
@@ -126,15 +129,13 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    const result = loginSchema.safeParse(req.body);
-    if (!result.success) {
-      return res.status(400).json({ error: "Invalid credentials" });
-    }
-
     passport.authenticate("local", (err: Error, user: User) => {
-      if (err) return next(err);
+      if (err) {
+        console.error("Login error:", err);
+        return next(err);
+      }
       if (!user) {
-        return res.status(401).send("Invalid username or password");
+        return res.status(401).json({ error: "Invalid username or password" });
       }
       req.logIn(user, (err) => {
         if (err) return next(err);
