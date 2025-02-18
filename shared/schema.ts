@@ -2,6 +2,14 @@ import { pgTable, text, serial, timestamp, varchar, jsonb, boolean } from "drizz
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Authentication
+export const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+export type LoginData = z.infer<typeof loginSchema>;
+
 // Blog Posts
 export const blogPosts = pgTable("blog_posts", {
   id: serial("id").primaryKey(),
@@ -122,9 +130,6 @@ export const services = pgTable("services", {
   benefits: text("benefits").array().notNull(),
   bannerImage: text("banner_image"),
   slug: text("slug").notNull().unique(),
-  successMetrics: text("success_metrics").array(),
-  useCases: jsonb("use_cases").array(),
-  industries: text("industries").array(),
   methodology: text("methodology"),
   toolsAndTechnologies: text("tools_and_technologies").array(),
   faqQuestions: jsonb("faq_questions").array(),
@@ -153,15 +158,6 @@ export const insertServiceSchema = createInsertSchema(services)
   .omit({ id: true })
   .extend({
     bannerImage: z.string().optional(),
-    successMetrics: z.array(z.string()).optional(),
-    useCases: z.array(z.object({
-      title: z.string(),
-      description: z.string(),
-      challenge: z.string(),
-      solution: z.string(),
-      outcome: z.string(),
-    })).optional(),
-    industries: z.array(z.string()).optional(),
     methodology: z.string().optional(),
     toolsAndTechnologies: z.array(z.string()).optional(),
     faqQuestions: z.array(z.object({
@@ -169,6 +165,7 @@ export const insertServiceSchema = createInsertSchema(services)
       answer: z.string(),
     })).optional(),
   });
+
 
 // Testimonials
 export const testimonials = pgTable("testimonials", {
