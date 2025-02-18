@@ -401,12 +401,21 @@ export async function registerRoutes(app: Express) {
       });
 
       // Send email notification
-      await sendContactFormNotification({
-        name: req.body.name,
-        email: req.body.email,
-        subject: req.body.subject,
-        message: req.body.message
-      });
+      try {
+        await sendContactFormNotification({
+          name: req.body.name,
+          email: req.body.email,
+          subject: req.body.subject,
+          message: req.body.message
+        });
+      } catch (emailError) {
+        console.error("Error sending email notification:", emailError);
+        // Don't fail the request if email fails, but log it
+        return res.status(201).json({ 
+          ...lead, 
+          warning: "Lead saved but email notification failed"
+        });
+      }
 
       res.status(201).json(lead);
     } catch (error) {

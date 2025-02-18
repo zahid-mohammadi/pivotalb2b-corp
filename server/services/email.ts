@@ -44,6 +44,9 @@ export async function sendContactFormNotification(data: ContactFormData) {
     return true;
   } catch (error) {
     console.error('Error sending email:', error);
-    return false;
+    if (error.response?.body) {
+      console.error('Brevo API error details:', error.response.body);
+    }
+    throw error; // Propagate the error to handle it in the route
   }
 }
