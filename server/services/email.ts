@@ -4,9 +4,11 @@ if (!process.env.BREVO_API_KEY) {
   throw new Error('BREVO_API_KEY environment variable is required for sending emails');
 }
 
-const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-const apiKey = SibApiV3Sdk.ApiClient.instance.authentications['api-key'];
-apiKey.apiKey = process.env.BREVO_API_KEY;
+const apiConfiguration = new SibApiV3Sdk.Configuration({
+  apiKey: process.env.BREVO_API_KEY
+});
+
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi(apiConfiguration);
 
 interface ContactFormData {
   name: string;
@@ -64,7 +66,7 @@ export async function sendContactFormNotification(data: ContactFormData) {
     return true;
   } catch (error) {
     console.error('Error sending email:', error);
-    if (error instanceof Error && 'response' in error) {
+    if (error instanceof Error) {
       const apiError = error as any;
       if (apiError.response?.text) {
         console.error('Brevo API error details:', apiError.response.text);
