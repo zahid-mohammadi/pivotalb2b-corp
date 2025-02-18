@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Ebook } from "@shared/schema";
 import { Loader2 } from "lucide-react";
@@ -31,6 +30,13 @@ export default function EbookDetailPage() {
 
   const { data: ebook, isLoading } = useQuery<Ebook>({
     queryKey: ["/api/ebooks", slug],
+    queryFn: async () => {
+      const response = await fetch(`/api/ebooks/${slug}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch ebook");
+      }
+      return response.json();
+    },
     enabled: !!slug,
   });
 
