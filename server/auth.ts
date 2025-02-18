@@ -85,15 +85,21 @@ export function setupAuth(app: Express) {
       try {
         console.log("Attempting authentication for username:", username);
         const user = await storage.getUserByUsername(username);
+
         if (!user) {
           console.log("User not found:", username);
-          return done(null, false);
+          return done(null, false, { message: "Invalid username or password" });
         }
+
+        console.log("Found user:", { id: user.id, username: user.username, role: user.role });
+
         const isValid = await comparePasswords(password, user.password);
         console.log("Password validation result:", isValid);
+
         if (!isValid) {
-          return done(null, false);
+          return done(null, false, { message: "Invalid username or password" });
         }
+
         return done(null, user);
       } catch (error) {
         console.error("Authentication error:", error);
@@ -103,13 +109,20 @@ export function setupAuth(app: Express) {
   );
 
   passport.serializeUser((user, done) => {
+    console.log("Serializing user:", user.id);
     done(null, user.id);
   });
 
   passport.deserializeUser(async (id: number, done) => {
     try {
+      console.log("Deserializing user:", id);
       const user = await storage.getUserById(id);
-      done(null, user || false);
+      if (!user) {
+        console.log("User not found during deserialization:", id);
+        return done(null, false);
+      }
+      console.log("Deserialized user:", { id: user.id, username: user.username, role: user.role });
+      done(null, user);
     } catch (error) {
       console.error("Deserialization error:", error);
       done(error);
@@ -117,31 +130,44 @@ export function setupAuth(app: Express) {
   });
 
   app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", (err: Error, user: User) => {
+    console.log("Login attempt for username:", req.body.username);
+
+    passport.authenticate("local", (err: Error, user: User, info: any) => {
       if (err) {
         console.error("Login error:", err);
         return next(err);
       }
+
       if (!user) {
-        return res.status(401).json({ error: "Invalid username or password" });
+        console.log("Login failed:", info?.message || "Authentication failed");
+        return res.status(401).json({ error: info?.message || "Invalid username or password" });
       }
+
       req.logIn(user, (err) => {
-        if (err) return next(err);
+        if (err) {
+          console.error("Login session error:", err);
+          return next(err);
+        }
+        console.log("Login successful for user:", user.username);
         res.json(user);
       });
     })(req, res, next);
   });
 
   app.post("/api/logout", (req, res) => {
+    const username = req.user?.username;
     req.logout(() => {
+      console.log("Logout successful for user:", username);
       res.sendStatus(200);
     });
   });
 
   app.get("/api/user", (req, res) => {
     if (!req.user) {
+      console.log("Unauthorized access attempt to /api/user");
       return res.status(401).json({ error: "Not authenticated" });
     }
+    console.log("Current user data requested:", { id: req.user.id, username: req.user.username, role: req.user.role });
     res.json(req.user);
   });
 }
