@@ -18,6 +18,12 @@ export const services = pgTable("services", {
   benefits: text("benefits").array().notNull(),
   bannerImage: text("banner_image"),
   slug: text("slug").notNull().unique(),
+  successMetrics: text("success_metrics").array(),
+  useCases: jsonb("use_cases"),
+  industries: text("industries").array(),
+  methodology: text("methodology"),
+  toolsAndTechnologies: text("tools_and_technologies").array(),
+  faqQuestions: jsonb("faq_questions"),
 });
 
 export const testimonials = pgTable("testimonials", {
@@ -37,7 +43,7 @@ export const blogPosts = pgTable("blog_posts", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   tags: text("tags").array(),
-  autoTags: text("auto_tags").array(), 
+  autoTags: text("auto_tags").array(),
   slug: text("slug").notNull().unique(),
   publishedAt: timestamp("published_at"),
 });
@@ -50,7 +56,7 @@ export const ebooks = pgTable("ebooks", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   tags: text("tags").array(),
-  autoTags: text("auto_tags").array(), 
+  autoTags: text("auto_tags").array(),
   downloadUrl: text("download_url"),
   pdfUrl: text("pdf_url"),
   publishedAt: timestamp("published_at"),
@@ -69,7 +75,7 @@ export const caseStudies = pgTable("case_studies", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   tags: text("tags").array(),
-  autoTags: text("auto_tags").array(), 
+  autoTags: text("auto_tags").array(),
   pdfUrl: text("pdf_url"),
   publishedAt: timestamp("published_at"),
   slug: text("slug").notNull().unique(),
@@ -84,7 +90,7 @@ export const leads = pgTable("leads", {
   contentId: serial("content_id"),
   downloadedAt: timestamp("downloaded_at").defaultNow(),
   message: text("message"),
-  source: text("source").default('download'), 
+  source: text("source").default('download'),
 });
 
 export type ColorTheme = {
@@ -136,21 +142,37 @@ export const insertCaseStudySchema = createInsertSchema(caseStudies)
     slug: z.string(),
   });
 
-export const insertLeadSchema = createInsertSchema(leads)
-  .omit({ id: true, downloadedAt: true })
-  .extend({
-    contentId: z.number().optional(),
-    message: z.string().optional(),
-    source: z.string().optional()
-  });
-
 export const insertServiceSchema = createInsertSchema(services)
   .omit({ id: true })
   .extend({
     bannerImage: z.string().optional(),
+    successMetrics: z.array(z.string()).optional(),
+    useCases: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+      challenge: z.string(),
+      solution: z.string(),
+      outcome: z.string(),
+    })).optional(),
+    industries: z.array(z.string()).optional(),
+    methodology: z.string().optional(),
+    toolsAndTechnologies: z.array(z.string()).optional(),
+    faqQuestions: z.array(z.object({
+      question: z.string(),
+      answer: z.string(),
+    })).optional(),
   });
 
 export const insertTestimonialSchema = createInsertSchema(testimonials).omit({ id: true });
+
+export const insertLeadSchema = createInsertSchema(leads)
+  .omit({ id: true, downloadedAt: true })
+  .extend({
+    contentId: z.number(),
+    message: z.string().optional(),
+    source: z.string().optional(),
+    company: z.string().optional(),
+  });
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;

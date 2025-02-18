@@ -2,8 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { 
+  Loader2,
+  ArrowRight,
+  CheckCircle2,
+  Building2,
+  Users,
+  BarChart3
+} from "lucide-react";
 import type { Service } from "@shared/schema";
 
 const containerVariants = {
@@ -57,8 +64,14 @@ export function Services() {
   }
 
   return (
-    <section className="py-24 bg-gradient-to-b from-slate-50 to-white">
-      <div className="container mx-auto px-4">
+    <section className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/80 to-white" />
+      </div>
+
+      <div className="container mx-auto px-4 relative">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -66,10 +79,10 @@ export function Services() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6">Our Solutions</h2>
+          <h2 className="text-4xl font-bold mb-6">Comprehensive B2B Solutions</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive B2B marketing solutions designed to accelerate your growth,
-            enhance engagement, and drive measurable results.
+            Transform your business with our suite of integrated marketing solutions designed to drive growth, 
+            enhance engagement, and deliver measurable results across your digital ecosystem.
           </p>
         </motion.div>
 
@@ -88,29 +101,72 @@ export function Services() {
             >
               <Card className="h-full flex flex-col bg-white/50 backdrop-blur-sm border-slate-200/80 hover:shadow-xl hover:border-primary/20 transition-all duration-300">
                 <CardHeader>
-                  <h3 className="text-xl font-semibold">{service.title}</h3>
+                  <div className="mb-4">
+                    {service.industries && service.industries.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {service.industries.slice(0, 2).map((industry, index) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
+                          >
+                            {industry}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <h3 className="text-xl font-semibold">{service.title}</h3>
+                  </div>
                   <p className="text-muted-foreground text-sm">{service.description}</p>
                 </CardHeader>
+
                 <CardContent className="flex-grow">
-                  <ul className="space-y-3">
-                    {service.features.slice(0, 3).map((feature, featureIndex) => (
-                      <motion.li 
-                        key={featureIndex}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: featureIndex * 0.1 }}
-                        className="flex items-start gap-2 text-sm"
-                      >
-                        <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </motion.li>
-                    ))}
-                  </ul>
+                  <div className="space-y-6">
+                    {/* Key Features */}
+                    <div>
+                      <h4 className="text-sm font-semibold text-muted-foreground mb-3">
+                        Key Features
+                      </h4>
+                      <ul className="space-y-3">
+                        {service.features.slice(0, 3).map((feature, index) => (
+                          <motion.li 
+                            key={index}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: index * 0.1 }}
+                            className="flex items-start gap-2 text-sm"
+                          >
+                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                            <span>{feature}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Success Metrics */}
+                    {service.successMetrics && service.successMetrics.length > 0 && (
+                      <div className="pt-4">
+                        <h4 className="text-sm font-semibold text-muted-foreground mb-3">
+                          Success Metrics
+                        </h4>
+                        <div className="grid grid-cols-2 gap-4">
+                          {service.successMetrics.slice(0, 2).map((metric, index) => (
+                            <div
+                              key={index}
+                              className="bg-slate-50 rounded-lg p-3 text-center"
+                            >
+                              <p className="text-sm">{metric}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </CardContent>
-                <CardFooter>
+
+                <CardFooter className="pt-6">
                   <Link href={`/services/${service.slug}`}>
                     <Button className="w-full group">
-                      Learn More 
+                      Explore Solution
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
@@ -118,6 +174,74 @@ export function Services() {
               </Card>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Why Choose Us Section */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="mt-24"
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold mb-4">Why Partner With Us?</h3>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Experience the difference of working with a partner committed to your success
+              through proven methodologies and innovative solutions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Building2,
+                title: "Industry Expertise",
+                description: "Deep understanding of B2B dynamics and market-specific challenges"
+              },
+              {
+                icon: Users,
+                title: "Dedicated Support",
+                description: "Personalized attention from expert teams focused on your success"
+              },
+              {
+                icon: BarChart3,
+                title: "Measurable Impact",
+                description: "Data-driven strategies with clear ROI and performance metrics"
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                variants={cardVariants}
+                className="text-center"
+              >
+                <Card className="h-full p-6">
+                  <div className="inline-flex p-3 rounded-xl bg-primary/10 mb-4">
+                    <item.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.description}</p>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-24 text-center"
+        >
+          <h2 className="text-3xl font-bold mb-4">Ready to Accelerate Your Growth?</h2>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Let's discuss how our solutions can help you achieve your business objectives.
+          </p>
+          <Button size="lg" className="shadow-lg">
+            Schedule a Consultation
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
         </motion.div>
       </div>
     </section>
