@@ -2,11 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { BlogPost } from "@shared/schema";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
-import { BlogEditor } from "@/components/blog/blog-editor";
-import { useAuth } from "@/hooks/use-auth";
 
 export default function BlogPage() {
-  const { user } = useAuth();
   const { data: posts, isLoading } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog-posts"],
   });
@@ -22,14 +19,6 @@ export default function BlogPage() {
   return (
     <div className="container mx-auto py-12">
       <h1 className="text-4xl font-bold mb-8">Blog</h1>
-
-      {/* Show blog editor for admin users */}
-      {user?.role === "admin" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">Create New Post</h2>
-          <BlogEditor />
-        </div>
-      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts?.map((post) => (

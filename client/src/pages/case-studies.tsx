@@ -1,12 +1,9 @@
 import { Card } from "@/components/ui/card";
-import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
 import { CaseStudy } from "@shared/schema";
 import { Loader2 } from "lucide-react";
-import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
 
 export default function CaseStudiesPage() {
-  const { user } = useAuth();
   const { data: caseStudies, isLoading } = useQuery<CaseStudy[]>({
     queryKey: ["/api/case-studies"],
   });
@@ -22,14 +19,6 @@ export default function CaseStudiesPage() {
   return (
     <div className="container mx-auto py-12">
       <h1 className="text-4xl font-bold mb-8">Case Studies</h1>
-
-      {/* Show case study editor for admin users */}
-      {user?.role === "admin" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">Create New Case Study</h2>
-          <CaseStudyEditor />
-        </div>
-      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {caseStudies?.map((caseStudy) => (

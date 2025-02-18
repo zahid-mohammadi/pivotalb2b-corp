@@ -1,12 +1,9 @@
 import { Card } from "@/components/ui/card";
-import { useAuth } from "@/hooks/use-auth";
 import { useQuery } from "@tanstack/react-query";
 import { Ebook } from "@shared/schema";
 import { Loader2 } from "lucide-react";
-import { EbookEditor } from "@/components/ebooks/ebook-editor";
 
 export default function EbooksPage() {
-  const { user } = useAuth();
   const { data: ebooks, isLoading } = useQuery<Ebook[]>({
     queryKey: ["/api/ebooks"],
   });
@@ -22,14 +19,6 @@ export default function EbooksPage() {
   return (
     <div className="container mx-auto py-12">
       <h1 className="text-4xl font-bold mb-8">Ebooks</h1>
-
-      {/* Show ebook editor for admin users */}
-      {user?.role === "admin" && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-semibold mb-6">Create New Ebook</h2>
-          <EbookEditor />
-        </div>
-      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ebooks?.map((ebook) => (
