@@ -52,6 +52,8 @@ const cardVariants = {
 };
 
 export function Services() {
+  const calendlyUrl = "https://calendly.com/zahid-m/30min";
+
   const { data: services, isLoading } = useQuery<Service[]>({
     queryKey: ["/api/services"],
   });
@@ -213,7 +215,11 @@ export function Services() {
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Let's discuss how our solutions can help you achieve your business objectives.
           </p>
-          <Button size="lg" className="shadow-lg">
+          <Button 
+            size="lg" 
+            className="shadow-lg"
+            onClick={() => window.open(calendlyUrl, '_blank')}
+          >
             Schedule a Consultation
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>

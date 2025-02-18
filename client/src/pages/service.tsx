@@ -47,6 +47,7 @@ const itemVariants = {
 
 export default function ServicePage() {
   const [, params] = useRoute<{ slug: string }>("/services/:slug");
+  const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
   const industries = [
     "Telecommunications",
@@ -117,7 +118,12 @@ export default function ServicePage() {
                   </motion.div>
                 ))}
               </div>
-              <Button size="lg" variant="secondary" className="shadow-xl">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="shadow-xl"
+                onClick={() => window.open(calendlyUrl, '_blank')}
+              >
                 Schedule a Consultation
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -351,7 +357,11 @@ export default function ServicePage() {
                   Let's discuss how our {service.title} solution can help achieve your business goals.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <Button size="lg" variant="secondary">
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    onClick={() => window.open(calendlyUrl, '_blank')}
+                  >
                     Schedule a Demo
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
