@@ -16,6 +16,7 @@ import CaseStudies from "@/pages/case-studies";
 import CaseStudyDetail from "@/pages/case-study-detail";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
+import AgencyPartnerships from "@/pages/agency-partnerships";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
@@ -39,6 +40,7 @@ function Router() {
             <Route path="/case-studies/:id" component={CaseStudyDetail} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
+            <Route path="/agency-partnerships" component={AgencyPartnerships} />
             <ProtectedRoute path="/dashboard" component={Dashboard} />
             <Route component={NotFound} />
           </Switch>
