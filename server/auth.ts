@@ -27,16 +27,16 @@ async function hashPassword(password: string) {
 
 async function comparePasswords(supplied: string, stored: string) {
   try {
-    const [hashedStored, salt] = stored.split(".");
-    if (!hashedStored || !salt) {
+    const [hash, salt] = stored.split(".");
+    if (!hash || !salt) {
       console.error("Invalid stored password format");
       return false;
     }
 
-    const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-    const storedBuf = Buffer.from(hashedStored, "hex");
+    const hashBuffer = Buffer.from(hash, "hex");
+    const suppliedBuffer = (await scryptAsync(supplied, salt, 64)) as Buffer;
 
-    return timingSafeEqual(suppliedBuf, storedBuf);
+    return timingSafeEqual(hashBuffer, suppliedBuffer);
   } catch (error) {
     console.error("Password comparison error:", error);
     return false;
