@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InsertEbook, insertEbookSchema, Ebook } from "@shared/schema";
+import { InsertEbook, insertEbookSchema, Ebook, ColorTheme } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -23,6 +23,14 @@ interface EbookEditorProps {
   initialData?: Ebook;
 }
 
+const defaultColorTheme: ColorTheme = {
+  primary: "#0f172a",
+  secondary: "#6366f1",
+  accent: "#f43f5e",
+  background: "#ffffff",
+  text: "#0f172a"
+};
+
 export function EbookEditor({ initialData }: EbookEditorProps) {
   const { toast } = useToast();
   const form = useForm<InsertEbook>({
@@ -35,6 +43,7 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
       contentImages: [],
       downloadUrl: "",
       slug: "",
+      colorTheme: defaultColorTheme,
     },
   });
 
@@ -174,6 +183,121 @@ export function EbookEditor({ initialData }: EbookEditorProps) {
             </FormItem>
           )}
         />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Color Theme</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="colorTheme.primary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Primary Color</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 items-center">
+                      <Input type="color" {...field} className="w-16 h-10" />
+                      <Input 
+                        type="text" 
+                        value={field.value} 
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="colorTheme.secondary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Secondary Color</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 items-center">
+                      <Input type="color" {...field} className="w-16 h-10" />
+                      <Input 
+                        type="text" 
+                        value={field.value} 
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="colorTheme.accent"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Accent Color</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 items-center">
+                      <Input type="color" {...field} className="w-16 h-10" />
+                      <Input 
+                        type="text" 
+                        value={field.value} 
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="colorTheme.background"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Background Color</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 items-center">
+                      <Input type="color" {...field} className="w-16 h-10" />
+                      <Input 
+                        type="text" 
+                        value={field.value} 
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="colorTheme.text"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Text Color</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 items-center">
+                      <Input type="color" {...field} className="w-16 h-10" />
+                      <Input 
+                        type="text" 
+                        value={field.value} 
+                        onChange={(e) => field.onChange(e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
 
         <FormField
           control={form.control}

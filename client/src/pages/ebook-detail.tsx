@@ -31,15 +31,6 @@ export default function EbookDetailPage() {
 
   const { data: ebook, isLoading } = useQuery<Ebook>({
     queryKey: ["/api/ebooks", slug],
-    queryFn: async () => {
-      const response = await fetch(`/api/ebooks/${slug}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch ebook');
-      }
-      const data = await response.json();
-      console.log('Fetched ebook data:', data);
-      return data;
-    },
     enabled: !!slug,
   });
 
@@ -74,10 +65,19 @@ export default function EbookDetailPage() {
     );
   }
 
+  // Create CSS variables for the theme colors
+  const themeStyle = {
+    '--theme-primary': ebook.colorTheme?.primary || '#0f172a',
+    '--theme-secondary': ebook.colorTheme?.secondary || '#6366f1',
+    '--theme-accent': ebook.colorTheme?.accent || '#f43f5e',
+    '--theme-background': ebook.colorTheme?.background || '#ffffff',
+    '--theme-text': ebook.colorTheme?.text || '#0f172a',
+  } as React.CSSProperties;
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={themeStyle}>
       {/* Banner Section */}
-      <div className="relative h-[400px] bg-primary">
+      <div className="relative h-[400px]" style={{ backgroundColor: 'var(--theme-primary)' }}>
         {ebook.bannerImage && (
           <img 
             src={ebook.bannerImage}
@@ -94,103 +94,104 @@ export default function EbookDetailPage() {
       </div>
 
       {/* Main Content Area */}
-      <div className="container mx-auto py-12">
-<div className="flex flex-col lg:flex-row gap-12">
-  {/* Left Column - Content (70%) */}
-  <div className="flex-[2.33]">
-    {/* Overview Section */}
-    <div className="mb-8">
-      <h2 className="text-3xl font-semibold mb-6">Overview</h2>
-      <div className="prose prose-lg max-w-none">
-        <div className="text-lg text-muted-foreground">
-          {ebook.description}
-        </div>
-        {ebook.content && (
-          <div className="text-lg text-muted-foreground whitespace-pre-wrap mt-6">
-            {ebook.content}
+      <div className="container mx-auto py-12" style={{ backgroundColor: 'var(--theme-background)', color: 'var(--theme-text)' }}>
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Left Column - Content (70%) */}
+          <div className="flex-[2.33]">
+            {/* Overview Section */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-semibold mb-6" style={{ color: 'var(--theme-primary)' }}>Overview</h2>
+              <div className="prose prose-lg max-w-none">
+                <div className="text-lg" style={{ color: 'var(--theme-text)' }}>
+                  {ebook.description}
+                </div>
+                {ebook.content && (
+                  <div className="text-lg whitespace-pre-wrap mt-6" style={{ color: 'var(--theme-text)' }}>
+                    {ebook.content}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Preview Images */}
+            {ebook.contentImages && ebook.contentImages.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-3xl font-semibold mb-6" style={{ color: 'var(--theme-primary)' }}>Preview Images</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  {ebook.contentImages.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Content preview ${index + 1}`}
+                      className="rounded-lg shadow-md"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-    </div>
 
-    {/* Preview Images */}
-    {ebook.contentImages && ebook.contentImages.length > 0 && (
-      <div className="mt-8">
-        <h2 className="text-3xl font-semibold mb-6">Preview Images</h2>
-        <div className="grid grid-cols-2 gap-4">
-          {ebook.contentImages.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Content preview ${index + 1}`}
-              className="rounded-lg shadow-md"
-            />
-          ))}
+          {/* Right Column - Download Form (30%) */}
+          <div className="flex-[1.285]">
+            <div className="p-8 rounded-lg shadow-lg sticky top-8" style={{ backgroundColor: 'var(--theme-secondary)', color: 'var(--theme-background)' }}>
+              <h3 className="text-2xl font-semibold mb-6">Download this eBook</h3>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="fullName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel style={{ color: 'var(--theme-background)' }}>Full Name</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="bg-white" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="businessEmail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel style={{ color: 'var(--theme-background)' }}>Business Email</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="email" className="bg-white" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel style={{ color: 'var(--theme-background)' }}>Company</FormLabel>
+                        <FormControl>
+                          <Input {...field} className="bg-white" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button 
+                    type="submit" 
+                    className="w-full"
+                    style={{ backgroundColor: 'var(--theme-accent)', color: 'var(--theme-background)' }}
+                    disabled={!ebook.downloadUrl}
+                  >
+                    Download eBook
+                  </Button>
+                </form>
+              </Form>
+            </div>
+          </div>
         </div>
-      </div>
-    )}
-  </div>
-
-  {/* Right Column - Download Form (30%) */}
-  <div className="flex-[1.285]">
-    <div className="bg-muted p-8 rounded-lg shadow-lg sticky top-8">
-      <h3 className="text-2xl font-semibold mb-6">Download this eBook</h3>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="fullName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Full Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="businessEmail"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Business Email</FormLabel>
-                <FormControl>
-                  <Input {...field} type="email" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="company"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Company</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={!ebook.downloadUrl}
-          >
-            Download eBook
-          </Button>
-        </form>
-      </Form>
-    </div>
-  </div>
-</div>
       </div>
     </div>
   );
