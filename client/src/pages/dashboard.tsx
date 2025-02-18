@@ -18,7 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Loader2, AlertCircle, UserCircle2, BookText, FileText, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import type { BlogPost } from "@shared/schema";
 
 export default function Dashboard() {
@@ -42,9 +42,12 @@ export default function Dashboard() {
   });
 
   const createPost = useMutation({
-    mutationFn: (data: InsertBlogPost) =>
-      apiRequest("POST", "/api/blog-posts", data).then((res) => res.json()),
+    mutationFn: async (data: InsertBlogPost) => {
+      const res = await apiRequest("POST", "/api/blog-posts", data);
+      return await res.json();
+    },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/blog-posts"] });
       toast({
         title: "Success",
         description: "Blog post created successfully",
@@ -186,11 +189,13 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        {/* Blog Post Creation Form */}
         <TabsContent value="create-post">
           <Card>
             <CardContent className="pt-6">
               <Form {...blogForm}>
-                <form onSubmit={blogForm.handleSubmit(createPost.mutate)} className="space-y-6">
+                <form onSubmit={blogForm.handleSubmit((data) => createPost.mutate(data))} className="space-y-6">
                   <FormField
                     control={blogForm.control}
                     name="title"
