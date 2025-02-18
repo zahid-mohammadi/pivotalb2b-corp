@@ -84,11 +84,41 @@ export function Navbar() {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/resources">
-                  <a className="px-4 py-2 hover:text-primary">Resources</a>
-                </Link>
-              </NavigationMenuLink>
+              <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4">
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/blog">
+                        <a className="block p-3 hover:bg-muted rounded-md">
+                          <div className="text-sm font-medium">Blog</div>
+                          <p className="text-sm text-muted-foreground">Latest insights and industry trends</p>
+                        </a>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/ebooks">
+                        <a className="block p-3 hover:bg-muted rounded-md">
+                          <div className="text-sm font-medium">eBooks</div>
+                          <p className="text-sm text-muted-foreground">In-depth guides and whitepapers</p>
+                        </a>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/case-studies">
+                        <a className="block p-3 hover:bg-muted rounded-md">
+                          <div className="text-sm font-medium">Case Studies</div>
+                          <p className="text-sm text-muted-foreground">Success stories and client results</p>
+                        </a>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
