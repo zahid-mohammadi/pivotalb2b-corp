@@ -54,11 +54,11 @@ export default function AgencyPartnerships() {
           >
             <h1 className="text-5xl font-bold text-white mb-6">Agency Partnership Program</h1>
             <p className="text-xl text-primary-foreground/90 mb-8">
-              Join forces with Pivotal B2B to enhance your lead generation capabilities, reduce costs, 
-              and build a sustainable partnership that drives mutual growth.
+              Partner with Pivotal B2B to access premium lead generation services at competitive 
+              cost-per-lead rates, helping your agency deliver exceptional value to clients.
             </p>
             <Button size="lg" variant="secondary" className="shadow-xl">
-              Become a Partner
+              Get Partnership Details
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </motion.div>
@@ -78,8 +78,8 @@ export default function AgencyPartnerships() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Why Partner With Us?</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Access premium lead generation capabilities and expertise while maintaining 
-              your agency's brand identity and client relationships.
+              Access our proven lead generation services with transparent CPL pricing 
+              and maintain complete control of your client relationships.
             </p>
           </div>
 
@@ -87,18 +87,18 @@ export default function AgencyPartnerships() {
             {[
               {
                 icon: Target,
-                title: "Enhanced Lead Quality",
-                description: "Access our advanced lead qualification processes and industry expertise to deliver higher quality leads to your clients."
+                title: "Premium Lead Quality",
+                description: "Access highly qualified leads through our advanced verification and qualification process."
               },
               {
                 icon: Wallet,
-                title: "Cost Optimization",
-                description: "Reduce operational costs through our efficient processes and economies of scale in lead generation."
+                title: "Competitive CPL Rates",
+                description: "Benefit from volume-based pricing and competitive cost-per-lead rates that improve your margins."
               },
               {
                 icon: TrendingUp,
                 title: "Complete Transparency",
-                description: "Get full visibility into lead generation processes, costs, and performance metrics with detailed reporting."
+                description: "Get full visibility into lead costs, quality metrics, and performance through detailed reporting."
               }
             ].map((benefit, index) => (
               <motion.div
@@ -119,7 +119,7 @@ export default function AgencyPartnerships() {
           </div>
         </motion.div>
 
-        {/* Partnership Models */}
+        {/* Partnership Model */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -128,59 +128,40 @@ export default function AgencyPartnerships() {
           className="mb-20"
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Partnership Models</h2>
+            <h2 className="text-3xl font-bold mb-4">Our Partnership Model</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Choose the partnership model that best suits your agency's needs and growth objectives.
+              A straightforward, CPL-based partnership designed to help agencies scale their lead generation capabilities.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              {
-                title: "Service Reseller Partnership",
-                features: [
-                  "Access to our complete lead generation services",
-                  "Dedicated account management",
-                  "Custom reporting dashboard",
-                  "White-label option available",
-                  "Flexible pricing models",
-                ],
-                description: "Perfect for agencies looking to offer our lead generation services to their clients."
-              },
-              {
-                title: "Revenue Share Partnership",
-                features: [
-                  "Performance-based revenue sharing",
-                  "Joint marketing initiatives",
-                  "Lead generation strategy support",
-                  "Performance bonuses",
-                  "Co-branded opportunities",
-                ],
-                description: "Ideal for agencies wanting to maintain their brand while leveraging our expertise."
-              }
-            ].map((model, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-              >
-                <Card className="h-full">
-                  <CardContent className="p-8">
-                    <h3 className="text-2xl font-bold mb-4">{model.title}</h3>
-                    <p className="text-muted-foreground mb-6">{model.description}</p>
-                    <ul className="space-y-3">
-                      {model.features.map((feature, fIndex) => (
-                        <li key={fIndex} className="flex items-start gap-2">
-                          <div className="mt-1">
-                            <div className="h-2 w-2 rounded-full bg-primary" />
-                          </div>
-                          <span>{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+          <div className="max-w-3xl mx-auto">
+            <Card className="h-full">
+              <CardContent className="p-8">
+                <h3 className="text-2xl font-bold mb-4">Premium Lead Generation Partnership</h3>
+                <p className="text-muted-foreground mb-6">
+                  Access our comprehensive lead generation services with transparent, performance-based pricing.
+                </p>
+                <ul className="space-y-3">
+                  {[
+                    "Volume-based CPL pricing tiers",
+                    "Dedicated account management",
+                    "Custom lead qualification criteria",
+                    "Real-time lead delivery",
+                    "Detailed performance analytics",
+                    "White-label reporting options",
+                    "Quality assurance guarantee",
+                    "Flexible payment terms"
+                  ].map((feature, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <div className="mt-1">
+                        <div className="h-2 w-2 rounded-full bg-primary" />
+                      </div>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </motion.div>
 
@@ -195,13 +176,13 @@ export default function AgencyPartnerships() {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Partner Success Metrics</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Our partnership program has helped agencies achieve significant growth and success.
+              Our partnership program delivers measurable results for agencies.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { metric: "40%", label: "Average Cost Reduction" },
+              { metric: "40%", label: "Average CPL Reduction" },
               { metric: "65%", label: "Lead Quality Improvement" },
               { metric: "3x", label: "Client Base Growth" },
               { metric: "95%", label: "Partner Retention Rate" }
@@ -230,10 +211,10 @@ export default function AgencyPartnerships() {
         >
           <Card className="bg-primary text-primary-foreground">
             <CardContent className="p-12 text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Elevate Your Agency?</h2>
+              <h2 className="text-3xl font-bold mb-4">Ready to Optimize Your Lead Generation?</h2>
               <p className="text-lg text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-                Take the first step towards a transformative partnership that will help your agency 
-                scale efficiently and deliver exceptional value to your clients.
+                Let's discuss how our CPL-based partnership program can help your agency deliver 
+                better results for your clients while improving your margins.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <Button size="lg" variant="secondary">
@@ -241,7 +222,7 @@ export default function AgencyPartnerships() {
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button size="lg" variant="outline" className="bg-transparent">
-                  Download Partnership Guide
+                  View CPL Pricing Guide
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
