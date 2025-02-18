@@ -17,6 +17,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { PageBanner } from "@/components/ui/page-banner";
 import { MailIcon, PhoneIcon, Building2Icon, Clock4Icon } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { MetaTags } from "@/components/ui/meta-tags";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -63,6 +64,11 @@ export default function ContactPage() {
 
   return (
     <div>
+      <MetaTags
+        title="Contact Pivotal B2B - Get in Touch with Our Marketing Experts"
+        description="Contact Pivotal B2B for expert B2B marketing solutions and lead generation services. Our team is ready to help transform your marketing strategy and drive business growth."
+        keywords="contact B2B marketing agency, marketing consultation, lead generation services, business growth strategy, marketing expertise, B2B solutions"
+      />
       <PageBanner
         title="Contact Us"
         description="Get in touch with our team to learn how we can help transform your B2B marketing strategy."

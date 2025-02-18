@@ -1,10 +1,16 @@
 import { PageBanner } from "@/components/ui/page-banner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Building2, Target, Users2, BarChart3 } from "lucide-react";
+import { MetaTags } from "@/components/ui/meta-tags";
 
 export default function AboutPage() {
   return (
     <div>
+      <MetaTags
+        title="About Pivotal B2B - Leading B2B Marketing & Lead Generation Agency"
+        description="Learn about Pivotal B2B's mission to transform B2B marketing through data-driven strategies, innovative technology, and measurable results. Discover our values, expertise, and commitment to client success."
+        keywords="B2B marketing agency, lead generation experts, data-driven marketing, B2B strategy, marketing innovation, business growth solutions, customer success focus"
+      />
       <PageBanner
         title="About Us"
         description="We are a leading B2B marketing platform dedicated to helping businesses grow through advanced content management and AI-powered engagement tools."

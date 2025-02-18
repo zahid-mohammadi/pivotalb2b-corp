@@ -4,6 +4,7 @@ import { Ebook } from "@shared/schema";
 import { Loader2 } from "lucide-react";
 import { Link } from "wouter";
 import { PageBanner } from "@/components/ui/page-banner";
+import { MetaTags } from "@/components/ui/meta-tags";
 
 export default function EbooksPage() {
   const { data: ebooks, isLoading } = useQuery<Ebook[]>({
@@ -20,6 +21,11 @@ export default function EbooksPage() {
 
   return (
     <div>
+      <MetaTags
+        title="B2B Marketing eBooks & Resources - Pivotal B2B"
+        description="Access our comprehensive collection of B2B marketing eBooks and resources. Gain valuable insights into lead generation, content strategy, and marketing best practices."
+        keywords="B2B marketing ebooks, lead generation guides, content marketing resources, B2B strategy guides, marketing best practices, digital marketing resources, business growth ebooks"
+      />
       <PageBanner
         title="Resource Library"
         description="Access our comprehensive collection of eBooks designed to enhance your B2B marketing knowledge and strategy."
