@@ -7,7 +7,7 @@ export default function BlogDetailPage() {
   const [, params] = useRoute("/blog/:slug");
   const slug = params?.slug;
 
-  const { data: post, isLoading } = useQuery<BlogPost>({
+  const { data: post, isLoading, error } = useQuery<BlogPost>({
     queryKey: ["/api/blog-posts", slug],
     enabled: !!slug,
   });
@@ -20,10 +20,24 @@ export default function BlogDetailPage() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="container mx-auto py-12">
+        <h1 className="text-4xl font-bold mb-8">Error Loading Blog Post</h1>
+        <p className="text-muted-foreground">
+          {error instanceof Error ? error.message : "An error occurred while loading the blog post."}
+        </p>
+      </div>
+    );
+  }
+
   if (!post) {
     return (
       <div className="container mx-auto py-12">
         <h1 className="text-4xl font-bold mb-8">Blog Post Not Found</h1>
+        <p className="text-muted-foreground">
+          The blog post you're looking for could not be found.
+        </p>
       </div>
     );
   }
@@ -38,13 +52,15 @@ export default function BlogDetailPage() {
         />
       )}
       <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-      <div className="text-sm text-muted-foreground mb-8">
-        {new Date(post.publishedAt ?? "").toLocaleDateString()}
-      </div>
+      {post.publishedAt && (
+        <div className="text-sm text-muted-foreground mb-8">
+          {new Date(post.publishedAt).toLocaleDateString()}
+        </div>
+      )}
       <div className="prose prose-lg max-w-none">
         {post.content}
       </div>
-      {post.contentImages?.length > 0 && (
+      {post.contentImages && post.contentImages.length > 0 && (
         <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
           {post.contentImages.map((image, index) => (
             <img
