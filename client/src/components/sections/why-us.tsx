@@ -4,23 +4,23 @@ export function WhyUs() {
   const features = [
     {
       icon: Globe2,
-      title: "Massive Reach",
-      description: "Access to a vast network of B2B decision-makers across industries.",
+      title: "Global Reach",
+      description: "Access our network of over 50 million B2B decision-makers across industries and regions.",
     },
     {
       icon: Target,
       title: "Precision Targeting",
-      description: "Advanced filters and criteria to reach your ideal customer profile.",
+      description: "Advanced AI-powered filters to reach your exact ideal customer profile with 95% accuracy.",
     },
     {
       icon: Cpu,
-      title: "Advanced Martech",
-      description: "State-of-the-art technology for lead generation and qualification.",
+      title: "Smart Technology",
+      description: "Proprietary MarTech stack that automates lead scoring and qualification in real-time.",
     },
     {
       icon: Shield,
-      title: "Compliance",
-      description: "Full compliance with data protection and privacy regulations.",
+      title: "Data Compliance",
+      description: "100% GDPR and CCPA compliant processes with regular security audits and certifications.",
     },
   ];
 
@@ -28,9 +28,9 @@ export function WhyUs() {
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Why Choose Us</h2>
+          <h2 className="text-3xl font-bold mb-4">The Pivotal Advantage</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Partner with Pivotal B2B for unmatched expertise and results in B2B lead generation.
+            Experience the power of data-driven lead generation backed by advanced technology and proven expertise.
           </p>
         </div>
 

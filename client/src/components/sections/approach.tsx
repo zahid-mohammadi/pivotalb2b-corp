@@ -5,18 +5,18 @@ export function Approach() {
   const steps = [
     {
       icon: Target,
-      title: "Pinpoint",
-      description: "Identify and target your ideal B2B buyers with precision.",
+      title: "Research & Strategy",
+      description: "We analyze your market, identify ideal customer profiles, and develop targeted outreach strategies.",
     },
     {
       icon: FileText,
-      title: "Content",
-      description: "Create and distribute engaging content that resonates with your audience.",
+      title: "Content & Engagement",
+      description: "Create compelling content and multi-channel campaigns that resonate with your target audience.",
     },
     {
       icon: Zap,
-      title: "Fuel",
-      description: "Accelerate your sales pipeline with qualified, engaged leads.",
+      title: "Convert & Scale",
+      description: "Transform leads into opportunities and scale your success with data-driven optimization.",
     },
   ];
 
@@ -24,9 +24,9 @@ export function Approach() {
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Our Approach</h2>
+          <h2 className="text-3xl font-bold mb-4">Our Strategic Approach</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A proven three-step process to generate and nurture high-quality leads.
+            A comprehensive three-phase methodology that delivers consistent results and measurable ROI.
           </p>
         </div>
 

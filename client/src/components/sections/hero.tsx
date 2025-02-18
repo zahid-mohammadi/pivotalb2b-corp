@@ -6,20 +6,20 @@ export function Hero() {
       <div className="container mx-auto px-4 py-24">
         <div className="max-w-3xl">
           <h1 className="text-5xl font-bold mb-6">
-            Cultivate Lasting Connections with Your Ideal Buyers
+            Transform Your B2B Sales Pipeline with Data-Driven Lead Generation
           </h1>
           <p className="text-xl text-slate-300 mb-8">
-            Generate high-quality leads, empower your sales team, and build a thriving sales pipeline.
+            Connect with decision-makers, accelerate your sales cycle, and drive sustainable business growth through our proven lead generation strategies.
           </p>
           <div className="flex gap-4">
-            <Button size="lg">Get Started Today</Button>
+            <Button size="lg">Schedule a Demo</Button>
             <Button size="lg" variant="outline">
-              Learn More
+              Explore Solutions
             </Button>
           </div>
         </div>
       </div>
-      
+
       {/* Abstract shapes background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <svg
