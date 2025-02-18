@@ -14,7 +14,6 @@ import path from "path";
 import express from 'express';
 import { eq } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
-import { aiTaggingService } from "./services/ai-tagging";
 import { sendContactFormNotification } from "./services/email";
 
 // Configure multer for handling file uploads
@@ -27,7 +26,7 @@ const upload = multer({
     }
   }),
   fileFilter: function (req, file, cb) {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf']; //Added PDF
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
@@ -71,22 +70,9 @@ export async function registerRoutes(app: Express) {
     }
 
     try {
-      let autoTags: string[] = [];
-      try {
-        // Try to generate AI tags, but don't block post creation if it fails
-        autoTags = await aiTaggingService.generateTagsForBlogPost(
-          result.data.title,
-          result.data.content,
-          result.data.metaDescription
-        );
-      } catch (tagError) {
-        console.error("Error generating AI tags:", tagError);
-        // Continue with post creation even if tagging fails
-      }
-
       const post = await storage.createBlogPost({
         ...result.data,
-        autoTags,
+        autoTags: [], // Empty array since we removed AI tagging
         tags: result.data.tags || []
       });
       res.status(201).json(post);
@@ -150,21 +136,9 @@ export async function registerRoutes(app: Express) {
         return res.status(400).json({ errors: result.error.errors });
       }
 
-      let autoTags: string[] = [];
-      try {
-        autoTags = await aiTaggingService.generateTagsForEbook(
-          result.data.title,
-          result.data.description,
-          result.data.content
-        );
-      } catch (tagError) {
-        console.error("Error generating AI tags:", tagError);
-        // Continue with ebook creation even if tagging fails
-      }
-
       const ebook = await storage.createEbook({
         ...result.data,
-        autoTags,
+        autoTags: [], // Empty array since we removed AI tagging
         tags: result.data.tags || []
       });
       res.status(201).json(ebook);
@@ -230,24 +204,9 @@ export async function registerRoutes(app: Express) {
     }
 
     try {
-      let autoTags: string[] = [];
-      try {
-        autoTags = await aiTaggingService.generateTagsForCaseStudy(
-          result.data.title,
-          result.data.clientName,
-          result.data.industry,
-          result.data.challenge,
-          result.data.solution,
-          result.data.results
-        );
-      } catch (tagError) {
-        console.error("Error generating AI tags:", tagError);
-        // Continue with case study creation even if tagging fails
-      }
-
       const caseStudy = await storage.createCaseStudy({
         ...result.data,
-        autoTags,
+        autoTags: [], // Empty array since we removed AI tagging
         tags: result.data.tags || []
       });
       res.status(201).json(caseStudy);
