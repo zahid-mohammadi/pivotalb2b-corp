@@ -8,6 +8,11 @@ import Home from "@/pages/home";
 import Service from "@/pages/service";
 import Dashboard from "@/pages/dashboard";
 import Login from "@/pages/login";
+import Blog from "@/pages/blog";
+import Ebooks from "@/pages/ebooks";
+import CaseStudies from "@/pages/case-studies";
+import About from "@/pages/about";
+import Contact from "@/pages/contact";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
@@ -21,6 +26,11 @@ function Router() {
           <Route path="/" component={Home} />
           <Route path="/services/:slug" component={Service} />
           <Route path="/login" component={Login} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/ebooks" component={Ebooks} />
+          <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/about" component={About} />
+          <Route path="/contact" component={Contact} />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <Route component={NotFound} />
         </Switch>
@@ -30,7 +40,7 @@ function Router() {
   );
 }
 
-function App() {
+export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -40,5 +50,3 @@ function App() {
     </QueryClientProvider>
   );
 }
-
-export default App;

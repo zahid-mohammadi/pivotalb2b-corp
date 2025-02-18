@@ -41,16 +41,6 @@ async function comparePasswords(supplied: string, stored: string) {
   }
 }
 
-export async function createAdminUser(username: string, password: string) {
-  const hashedPassword = await hashPassword(password);
-  const user = await storage.createUser({
-    username,
-    password: hashedPassword,
-    role: "admin"
-  });
-  return user;
-}
-
 export function setupAuth(app: Express) {
   app.use(
     session({
@@ -60,6 +50,7 @@ export function setupAuth(app: Express) {
       cookie: {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
       },
       store: storage.sessionStore
     })
@@ -152,7 +143,7 @@ export function setupAuth(app: Express) {
 
   app.get("/api/user", (req, res) => {
     if (!req.user) {
-      return res.status(401).send("Not authenticated");
+      return res.status(401).json({ error: "Not authenticated" });
     }
     res.json(req.user);
   });
