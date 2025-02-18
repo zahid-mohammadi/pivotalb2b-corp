@@ -103,18 +103,6 @@ export function Services() {
               <Card className="h-full flex flex-col bg-white/50 backdrop-blur-sm border-slate-200/80 hover:shadow-xl hover:border-primary/20 transition-all duration-300">
                 <CardHeader>
                   <div className="mb-4">
-                    {service.industries && service.industries.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {service.industries.slice(0, 2).map((industry, index) => (
-                          <span
-                            key={index}
-                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
-                          >
-                            {industry}
-                          </span>
-                        ))}
-                      </div>
-                    )}
                     <h3 className="text-xl font-semibold">{service.title}</h3>
                   </div>
                   <p className="text-muted-foreground text-sm">{service.description}</p>
@@ -142,25 +130,6 @@ export function Services() {
                         ))}
                       </ul>
                     </div>
-
-                    {/* Success Metrics */}
-                    {service.successMetrics && service.successMetrics.length > 0 && (
-                      <div className="pt-4">
-                        <h4 className="text-sm font-semibold text-muted-foreground mb-3">
-                          Success Metrics
-                        </h4>
-                        <div className="grid grid-cols-2 gap-4">
-                          {service.successMetrics.slice(0, 2).map((metric, index) => (
-                            <div
-                              key={index}
-                              className="bg-slate-50 rounded-lg p-3 text-center"
-                            >
-                              <p className="text-sm">{metric}</p>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </CardContent>
 
