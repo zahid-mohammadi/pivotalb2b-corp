@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InsertEbook, insertEbookSchema } from "@shared/schema";
+import { InsertEbook, insertEbookSchema, Ebook } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,11 +19,15 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { generateSlug } from "@/lib/utils";
 import React from 'react';
 
-export function EbookEditor() {
+interface EbookEditorProps {
+  initialData?: Ebook;
+}
+
+export function EbookEditor({ initialData }: EbookEditorProps) {
   const { toast } = useToast();
   const form = useForm<InsertEbook>({
     resolver: zodResolver(insertEbookSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       title: "",
       description: "",
       content: "",
@@ -36,17 +40,21 @@ export function EbookEditor() {
 
   const title = form.watch("title");
   React.useEffect(() => {
-    if (title) {
+    if (title && !initialData) {
       const slug = generateSlug(title);
       form.setValue("slug", slug);
     }
-  }, [title, form]);
+  }, [title, form, initialData]);
 
-  const createEbookMutation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (data: InsertEbook) => {
-      const res = await apiRequest("POST", "/api/ebooks", data);
+      const res = await apiRequest(
+        initialData ? "PATCH" : "POST",
+        initialData ? `/api/ebooks/${initialData.id}` : "/api/ebooks",
+        data
+      );
       if (!res.ok) {
-        throw new Error("Failed to create ebook");
+        throw new Error(`Failed to ${initialData ? 'update' : 'create'} ebook`);
       }
       return res.json();
     },
@@ -54,9 +62,11 @@ export function EbookEditor() {
       queryClient.invalidateQueries({ queryKey: ["/api/ebooks"] });
       toast({
         title: "Success",
-        description: "Ebook created successfully",
+        description: `Ebook ${initialData ? 'updated' : 'created'} successfully`,
       });
-      form.reset();
+      if (!initialData) {
+        form.reset();
+      }
     },
     onError: (error: Error) => {
       toast({
@@ -69,7 +79,7 @@ export function EbookEditor() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => createEbookMutation.mutate(data))} className="space-y-6">
+      <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-6">
         <FormField
           control={form.control}
           name="title"
@@ -195,10 +205,10 @@ export function EbookEditor() {
 
         <Button
           type="submit"
-          disabled={createEbookMutation.isPending}
+          disabled={mutation.isPending}
           className="w-full"
         >
-          Create Ebook
+          {initialData ? 'Update' : 'Create'} Ebook
         </Button>
       </form>
     </Form>

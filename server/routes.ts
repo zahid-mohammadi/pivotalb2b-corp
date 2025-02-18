@@ -2,9 +2,9 @@ import type { Express } from "express";
 import { createServer } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import { 
-  insertBlogPostSchema, 
-  insertTestimonialSchema, 
+import {
+  insertBlogPostSchema,
+  insertTestimonialSchema,
   insertEbookSchema,
   insertCaseStudySchema
 } from "@shared/schema";
@@ -68,6 +68,41 @@ export async function registerRoutes(app: Express) {
     res.status(201).json(post);
   });
 
+  app.patch("/api/blog-posts/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertBlogPostSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const post = await storage.updateBlogPost(id, result.data);
+      res.json(post);
+    } catch (error) {
+      console.error("Error updating blog post:", error);
+      res.status(500).json({ error: "Failed to update blog post" });
+    }
+  });
+
+  app.delete("/api/blog-posts/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deleteBlogPost(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting blog post:", error);
+      res.status(500).json({ error: "Failed to delete blog post" });
+    }
+  });
+
+
   // Ebooks
   app.get("/api/ebooks", async (_req, res) => {
     const ebooks = await storage.getEbooks();
@@ -89,6 +124,40 @@ export async function registerRoutes(app: Express) {
     res.status(201).json(ebook);
   });
 
+  app.patch("/api/ebooks/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertEbookSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const ebook = await storage.updateEbook(id, result.data);
+      res.json(ebook);
+    } catch (error) {
+      console.error("Error updating ebook:", error);
+      res.status(500).json({ error: "Failed to update ebook" });
+    }
+  });
+
+  app.delete("/api/ebooks/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deleteEbook(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting ebook:", error);
+      res.status(500).json({ error: "Failed to delete ebook" });
+    }
+  });
+
   // Case Studies
   app.get("/api/case-studies", async (_req, res) => {
     const caseStudies = await storage.getCaseStudies();
@@ -108,6 +177,40 @@ export async function registerRoutes(app: Express) {
     }
     const caseStudy = await storage.createCaseStudy(result.data);
     res.status(201).json(caseStudy);
+  });
+
+  app.patch("/api/case-studies/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertCaseStudySchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const caseStudy = await storage.updateCaseStudy(id, result.data);
+      res.json(caseStudy);
+    } catch (error) {
+      console.error("Error updating case study:", error);
+      res.status(500).json({ error: "Failed to update case study" });
+    }
+  });
+
+  app.delete("/api/case-studies/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deleteCaseStudy(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting case study:", error);
+      res.status(500).json({ error: "Failed to delete case study" });
+    }
   });
 
   // Services

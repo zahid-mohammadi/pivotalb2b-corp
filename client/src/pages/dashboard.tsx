@@ -1,18 +1,23 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, FileText, BookText, Users, User } from "lucide-react";
+import { Loader2, FileText, BookText, Users, User, Pencil, Trash2 } from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
 import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
 import type { BlogPost, Ebook, CaseStudy } from "@shared/schema";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 
 export default function Dashboard() {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("users");
   const [showEditor, setShowEditor] = useState<"blog" | "ebook" | "case-study" | null>(null);
+  const [editingItem, setEditingItem] = useState<BlogPost | Ebook | CaseStudy | null>(null);
 
+  // Queries
   const { data: posts, isLoading: postsLoading } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog-posts"],
   });
@@ -24,6 +29,93 @@ export default function Dashboard() {
   const { data: caseStudies, isLoading: caseStudiesLoading } = useQuery<CaseStudy[]>({
     queryKey: ["/api/case-studies"],
   });
+
+  // Delete mutations
+  const deleteBlogMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await apiRequest("DELETE", `/api/blog-posts/${id}`);
+      if (!res.ok) throw new Error("Failed to delete blog post");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/blog-posts"] });
+      toast({
+        title: "Success",
+        description: "Blog post deleted successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteEbookMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await apiRequest("DELETE", `/api/ebooks/${id}`);
+      if (!res.ok) throw new Error("Failed to delete ebook");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/ebooks"] });
+      toast({
+        title: "Success",
+        description: "Ebook deleted successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteCaseStudyMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await apiRequest("DELETE", `/api/case-studies/${id}`);
+      if (!res.ok) throw new Error("Failed to delete case study");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/case-studies"] });
+      toast({
+        title: "Success",
+        description: "Case study deleted successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleEdit = (item: BlogPost | Ebook | CaseStudy, type: "blog" | "ebook" | "case-study") => {
+    setEditingItem(item);
+    setShowEditor(type);
+  };
+
+  const handleDelete = async (id: number, type: "blog" | "ebook" | "case-study") => {
+    if (window.confirm("Are you sure you want to delete this item?")) {
+      switch (type) {
+        case "blog":
+          await deleteBlogMutation.mutateAsync(id);
+          break;
+        case "ebook":
+          await deleteEbookMutation.mutateAsync(id);
+          break;
+        case "case-study":
+          await deleteCaseStudyMutation.mutateAsync(id);
+          break;
+      }
+    }
+  };
+
+  // Keep existing JSX structure but update the content sections to include edit/delete buttons
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -93,18 +185,20 @@ export default function Dashboard() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold">Blog Posts</h2>
-                <Button onClick={() => setShowEditor("blog")}>Create New Post</Button>
+                <Button onClick={() => { setEditingItem(null); setShowEditor("blog"); }}>
+                  Create New Post
+                </Button>
               </div>
               {showEditor === "blog" ? (
                 <div className="mb-8">
                   <Button 
                     variant="outline" 
-                    onClick={() => setShowEditor(null)}
+                    onClick={() => { setShowEditor(null); setEditingItem(null); }}
                     className="mb-4"
                   >
                     Back to List
                   </Button>
-                  <BlogEditor />
+                  <BlogEditor initialData={editingItem as BlogPost} />
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -116,12 +210,32 @@ export default function Dashboard() {
                     <div className="divide-y">
                       {posts?.map((post) => (
                         <div key={post.id} className="py-4">
-                          <h3 className="text-lg font-semibold">{post.title}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {post.publishedAt
-                              ? new Date(post.publishedAt).toLocaleDateString()
-                              : "Draft"}
-                          </p>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="text-lg font-semibold">{post.title}</h3>
+                              <p className="text-sm text-muted-foreground">
+                                {post.publishedAt
+                                  ? new Date(post.publishedAt).toLocaleDateString()
+                                  : "Draft"}
+                              </p>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handleEdit(post, "blog")}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDelete(post.id, "blog")}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -138,18 +252,20 @@ export default function Dashboard() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold">eBooks</h2>
-                <Button onClick={() => setShowEditor("ebook")}>Create New eBook</Button>
+                <Button onClick={() => { setEditingItem(null); setShowEditor("ebook"); }}>
+                  Create New eBook
+                </Button>
               </div>
               {showEditor === "ebook" ? (
                 <div className="mb-8">
                   <Button 
                     variant="outline" 
-                    onClick={() => setShowEditor(null)}
+                    onClick={() => { setShowEditor(null); setEditingItem(null); }}
                     className="mb-4"
                   >
                     Back to List
                   </Button>
-                  <EbookEditor />
+                  <EbookEditor initialData={editingItem as Ebook} />
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -161,12 +277,32 @@ export default function Dashboard() {
                     <div className="divide-y">
                       {ebooks?.map((ebook) => (
                         <div key={ebook.id} className="py-4">
-                          <h3 className="text-lg font-semibold">{ebook.title}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {ebook.publishedAt
-                              ? new Date(ebook.publishedAt).toLocaleDateString()
-                              : "Draft"}
-                          </p>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="text-lg font-semibold">{ebook.title}</h3>
+                              <p className="text-sm text-muted-foreground">
+                                {ebook.publishedAt
+                                  ? new Date(ebook.publishedAt).toLocaleDateString()
+                                  : "Draft"}
+                              </p>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handleEdit(ebook, "ebook")}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDelete(ebook.id, "ebook")}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -183,18 +319,20 @@ export default function Dashboard() {
             <CardContent className="pt-6">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-semibold">Case Studies</h2>
-                <Button onClick={() => setShowEditor("case-study")}>Create New Case Study</Button>
+                <Button onClick={() => { setEditingItem(null); setShowEditor("case-study"); }}>
+                  Create New Case Study
+                </Button>
               </div>
               {showEditor === "case-study" ? (
                 <div className="mb-8">
                   <Button 
                     variant="outline" 
-                    onClick={() => setShowEditor(null)}
+                    onClick={() => { setShowEditor(null); setEditingItem(null); }}
                     className="mb-4"
                   >
                     Back to List
                   </Button>
-                  <CaseStudyEditor />
+                  <CaseStudyEditor initialData={editingItem as CaseStudy} />
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -206,12 +344,32 @@ export default function Dashboard() {
                     <div className="divide-y">
                       {caseStudies?.map((study) => (
                         <div key={study.id} className="py-4">
-                          <h3 className="text-lg font-semibold">{study.title}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {study.publishedAt
-                              ? new Date(study.publishedAt).toLocaleDateString()
-                              : "Draft"}
-                          </p>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="text-lg font-semibold">{study.title}</h3>
+                              <p className="text-sm text-muted-foreground">
+                                {study.publishedAt
+                                  ? new Date(study.publishedAt).toLocaleDateString()
+                                  : "Draft"}
+                              </p>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handleEdit(study, "case-study")}
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => handleDelete(study.id, "case-study")}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>

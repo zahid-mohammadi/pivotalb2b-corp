@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InsertCaseStudy, insertCaseStudySchema } from "@shared/schema";
+import { InsertCaseStudy, insertCaseStudySchema, CaseStudy } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,11 +19,15 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { generateSlug } from "@/lib/utils";
 import React from "react";
 
-export function CaseStudyEditor() {
+interface CaseStudyEditorProps {
+  initialData?: CaseStudy;
+}
+
+export function CaseStudyEditor({ initialData }: CaseStudyEditorProps) {
   const { toast } = useToast();
   const form = useForm<InsertCaseStudy>({
     resolver: zodResolver(insertCaseStudySchema),
-    defaultValues: {
+    defaultValues: initialData || {
       title: "",
       clientName: "",
       industry: "",
@@ -38,17 +42,21 @@ export function CaseStudyEditor() {
 
   const title = form.watch("title");
   React.useEffect(() => {
-    if (title) {
+    if (title && !initialData) {
       const slug = generateSlug(title);
       form.setValue("slug", slug);
     }
-  }, [title, form]);
+  }, [title, form, initialData]);
 
-  const createCaseStudyMutation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (data: InsertCaseStudy) => {
-      const res = await apiRequest("POST", "/api/case-studies", data);
+      const res = await apiRequest(
+        initialData ? "PATCH" : "POST",
+        initialData ? `/api/case-studies/${initialData.id}` : "/api/case-studies",
+        data
+      );
       if (!res.ok) {
-        throw new Error("Failed to create case study");
+        throw new Error(`Failed to ${initialData ? 'update' : 'create'} case study`);
       }
       return res.json();
     },
@@ -56,9 +64,11 @@ export function CaseStudyEditor() {
       queryClient.invalidateQueries({ queryKey: ["/api/case-studies"] });
       toast({
         title: "Success",
-        description: "Case study created successfully",
+        description: `Case study ${initialData ? 'updated' : 'created'} successfully`,
       });
-      form.reset();
+      if (!initialData) {
+        form.reset();
+      }
     },
     onError: (error: Error) => {
       toast({
@@ -71,7 +81,7 @@ export function CaseStudyEditor() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => createCaseStudyMutation.mutate(data))} className="space-y-6">
+      <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-6">
         <FormField
           control={form.control}
           name="title"
@@ -213,10 +223,10 @@ export function CaseStudyEditor() {
 
         <Button
           type="submit"
-          disabled={createCaseStudyMutation.isPending}
+          disabled={mutation.isPending}
           className="w-full"
         >
-          Create Case Study
+          {initialData ? 'Update' : 'Create'} Case Study
         </Button>
       </form>
     </Form>

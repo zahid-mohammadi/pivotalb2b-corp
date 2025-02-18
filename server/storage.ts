@@ -37,18 +37,24 @@ export interface IStorage {
   getBlogPosts(): Promise<BlogPost[]>;
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
   createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+  updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost>;
+  deleteBlogPost(id: number): Promise<void>;
 
   // Ebooks
   getEbooks(): Promise<Ebook[]>;
   getEbookById(id: number): Promise<Ebook | undefined>;
   createEbook(ebook: InsertEbook): Promise<Ebook>;
   getEbookBySlug(slug: string): Promise<Ebook | undefined>;
+  updateEbook(id: number, ebook: Partial<InsertEbook>): Promise<Ebook>;
+  deleteEbook(id: number): Promise<void>;
 
   // Case Studies
   getCaseStudies(): Promise<CaseStudy[]>;
   getCaseStudyById(id: number): Promise<CaseStudy | undefined>;
   createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy>;
   getCaseStudyBySlug(slug: string): Promise<CaseStudy | undefined>;
+  updateCaseStudy(id: number, caseStudy: Partial<InsertCaseStudy>): Promise<CaseStudy>;
+  deleteCaseStudy(id: number): Promise<void>;
 
   // Services
   getServices(): Promise<Service[]>;
@@ -125,6 +131,19 @@ export class DatabaseStorage implements IStorage {
     return newPost;
   }
 
+  async updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost> {
+    const [updatedPost] = await db
+      .update(blogPosts)
+      .set(post)
+      .where(eq(blogPosts.id, id))
+      .returning();
+    return updatedPost;
+  }
+
+  async deleteBlogPost(id: number): Promise<void> {
+    await db.delete(blogPosts).where(eq(blogPosts.id, id));
+  }
+
   // Ebooks
   async getEbooks(): Promise<Ebook[]> {
     return await db.select().from(ebooks);
@@ -148,6 +167,19 @@ export class DatabaseStorage implements IStorage {
       console.error("Error getting ebook by slug:", error);
       throw error;
     }
+  }
+
+  async updateEbook(id: number, ebook: Partial<InsertEbook>): Promise<Ebook> {
+    const [updatedEbook] = await db
+      .update(ebooks)
+      .set(ebook)
+      .where(eq(ebooks.id, id))
+      .returning();
+    return updatedEbook;
+  }
+
+  async deleteEbook(id: number): Promise<void> {
+    await db.delete(ebooks).where(eq(ebooks.id, id));
   }
 
   // Case Studies
@@ -175,6 +207,19 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  async updateCaseStudy(id: number, caseStudy: Partial<InsertCaseStudy>): Promise<CaseStudy> {
+    const [updatedCaseStudy] = await db
+      .update(caseStudies)
+      .set(caseStudy)
+      .where(eq(caseStudies.id, id))
+      .returning();
+    return updatedCaseStudy;
+  }
+
+  async deleteCaseStudy(id: number): Promise<void> {
+    await db.delete(caseStudies).where(eq(caseStudies.id, id));
+  }
+
   // Services
   async getServices(): Promise<Service[]> {
     return await db.select().from(services);
@@ -199,8 +244,6 @@ export class DatabaseStorage implements IStorage {
     const [newTestimonial] = await db.insert(testimonials).values(testimonial).returning();
     return newTestimonial;
   }
-
-  sessionStore: session.Store;
 }
 
 export const storage = new DatabaseStorage();

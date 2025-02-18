@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { InsertBlogPost, insertBlogPostSchema } from "@shared/schema";
+import { InsertBlogPost, insertBlogPostSchema, BlogPost } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,18 +16,18 @@ import { ImageUpload } from "@/components/ui/image-upload";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { generateSlug } from "@/lib/utils";
 import React from 'react';
 
-// slug generation function
-const generateSlug = (title: string): string => {
-  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '');
-};
+interface BlogEditorProps {
+  initialData?: BlogPost;
+}
 
-export function BlogEditor() {
+export function BlogEditor({ initialData }: BlogEditorProps) {
   const { toast } = useToast();
   const form = useForm<InsertBlogPost>({
     resolver: zodResolver(insertBlogPostSchema),
-    defaultValues: {
+    defaultValues: initialData || {
       title: "",
       content: "",
       metaDescription: "",
@@ -38,20 +38,23 @@ export function BlogEditor() {
     },
   });
 
-  // Watch the title field to generate slug
   const title = form.watch("title");
   React.useEffect(() => {
-    if (title) {
+    if (title && !initialData) {
       const slug = generateSlug(title);
       form.setValue("slug", slug);
     }
-  }, [title, form]);
+  }, [title, form, initialData]);
 
-  const createBlogMutation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (data: InsertBlogPost) => {
-      const res = await apiRequest("POST", "/api/blog-posts", data);
+      const res = await apiRequest(
+        initialData ? "PATCH" : "POST",
+        initialData ? `/api/blog-posts/${initialData.id}` : "/api/blog-posts",
+        data
+      );
       if (!res.ok) {
-        throw new Error("Failed to create blog post");
+        throw new Error(`Failed to ${initialData ? 'update' : 'create'} blog post`);
       }
       return res.json();
     },
@@ -59,9 +62,11 @@ export function BlogEditor() {
       queryClient.invalidateQueries({ queryKey: ["/api/blog-posts"] });
       toast({
         title: "Success",
-        description: "Blog post created successfully",
+        description: `Blog post ${initialData ? 'updated' : 'created'} successfully`,
       });
-      form.reset();
+      if (!initialData) {
+        form.reset();
+      }
     },
     onError: (error: Error) => {
       toast({
@@ -74,7 +79,7 @@ export function BlogEditor() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => createBlogMutation.mutate(data))} className="space-y-6">
+      <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-6">
         <FormField
           control={form.control}
           name="title"
@@ -202,10 +207,10 @@ export function BlogEditor() {
 
         <Button
           type="submit"
-          disabled={createBlogMutation.isPending}
+          disabled={mutation.isPending}
           className="w-full"
         >
-          Create Blog Post
+          {initialData ? 'Update' : 'Create'} Blog Post
         </Button>
       </form>
     </Form>
