@@ -1,6 +1,7 @@
 import { Editor } from '@tinymce/tinymce-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface RichTextEditorProps {
   value: string;
@@ -11,27 +12,42 @@ interface RichTextEditorProps {
 
 export function RichTextEditor({ value, onChange, label, error }: RichTextEditorProps) {
   const editorRef = useRef(null);
-  const apiKey = import.meta.env.VITE_TINYMCE_API_KEY;
-  const [useBasicEditor, setUseBasicEditor] = useState(!apiKey);
+  const [editorError, setEditorError] = useState<string | null>(null);
+  const [isEditorLoaded, setIsEditorLoaded] = useState(false);
 
-  // If no API key is available, fallback to basic textarea
-  if (useBasicEditor) {
+  // Get API key from environment
+  const apiKey = import.meta.env.VITE_TINYMCE_API_KEY;
+
+  useEffect(() => {
+    if (!apiKey) {
+      setEditorError('TinyMCE API key is not configured');
+    } else {
+      setEditorError(null);
+    }
+  }, [apiKey]);
+
+  if (editorError) {
     return (
-      <div className="space-y-2">
-        {label && (
-          <div className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            {label}
-          </div>
-        )}
-        <Textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          rows={10}
-          className="min-h-[200px]"
-        />
-        {error && (
-          <div className="text-sm font-medium text-destructive">{error}</div>
-        )}
+      <div className="space-y-4">
+        <Alert variant="destructive">
+          <AlertDescription>{editorError}</AlertDescription>
+        </Alert>
+        <div className="space-y-2">
+          {label && (
+            <div className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {label}
+            </div>
+          )}
+          <Textarea
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            rows={10}
+            className="min-h-[200px]"
+          />
+          {error && (
+            <div className="text-sm font-medium text-destructive">{error}</div>
+          )}
+        </div>
       </div>
     );
   }
@@ -46,8 +62,8 @@ export function RichTextEditor({ value, onChange, label, error }: RichTextEditor
       <Editor
         apiKey={apiKey}
         onInit={(evt, editor) => {
-          // @ts-ignore
           editorRef.current = editor;
+          setIsEditorLoaded(true);
         }}
         value={value}
         onEditorChange={onChange}
