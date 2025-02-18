@@ -6,7 +6,7 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User } from "@shared/schema";
-import { loginSchema } from "@shared/schema";
+import { loginSchema, insertUserSchema } from "@shared/schema";
 
 declare global {
   namespace Express {
@@ -29,6 +29,16 @@ async function comparePasswords(supplied: string, stored: string) {
   return timingSafeEqual(hashedBuf, suppliedBuf);
 }
 
+export async function createAdminUser(username: string, password: string) {
+  const hashedPassword = await hashPassword(password);
+  const user = await storage.createUser({
+    username,
+    password: hashedPassword,
+    role: "admin"
+  });
+  return user;
+}
+
 export function setupAuth(app: Express) {
   app.use(
     session({
@@ -39,6 +49,7 @@ export function setupAuth(app: Express) {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
       },
+      store: storage.sessionStore
     })
   );
 
@@ -69,6 +80,37 @@ export function setupAuth(app: Express) {
       done(null, user || false);
     } catch (error) {
       done(error);
+    }
+  });
+
+  // Add registration endpoint
+  app.post("/api/register", async (req, res) => {
+    try {
+      const result = insertUserSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ error: "Invalid user data" });
+      }
+
+      const existingUser = await storage.getUserByUsername(result.data.username);
+      if (existingUser) {
+        return res.status(400).json({ error: "Username already exists" });
+      }
+
+      const hashedPassword = await hashPassword(result.data.password);
+      const user = await storage.createUser({
+        ...result.data,
+        password: hashedPassword,
+      });
+
+      req.login(user, (err) => {
+        if (err) {
+          return res.status(500).json({ error: "Login failed after registration" });
+        }
+        return res.status(201).json(user);
+      });
+    } catch (error) {
+      console.error("Registration error:", error);
+      res.status(500).json({ error: "Registration failed" });
     }
   });
 

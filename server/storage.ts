@@ -44,7 +44,6 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  private users: User[] = [];
   sessionStore: session.Store;
 
   constructor() {
@@ -55,21 +54,17 @@ export class DatabaseStorage implements IStorage {
 
   // User Management
   async getUserById(id: number): Promise<User | undefined> {
-    return this.users.find(user => user.id === id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
   }
 
   async createUser(user: InsertUser): Promise<User> {
-    const newUser: User = {
-      id: this.users.length + 1,
-      ...user,
-      role: "user",
-      createdAt: new Date()
-    };
-    this.users.push(newUser);
+    const [newUser] = await db.insert(users).values(user).returning();
     return newUser;
   }
 
