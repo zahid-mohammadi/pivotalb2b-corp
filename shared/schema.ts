@@ -81,8 +81,10 @@ export const leads = pgTable("leads", {
   email: text("email").notNull(),
   company: text("company").notNull(),
   contentType: text("content_type").notNull(),
-  contentId: serial("content_id").notNull(),
+  contentId: serial("content_id"),
   downloadedAt: timestamp("downloaded_at").defaultNow(),
+  message: text("message"),
+  source: text("source").default('download'), // 'download' or 'contact'
 });
 
 export type ColorTheme = {
@@ -134,7 +136,13 @@ export const insertCaseStudySchema = createInsertSchema(caseStudies)
     slug: z.string(),
   });
 
-export const insertLeadSchema = createInsertSchema(leads).omit({ id: true, downloadedAt: true });
+export const insertLeadSchema = createInsertSchema(leads)
+  .omit({ id: true, downloadedAt: true })
+  .extend({
+    contentId: z.number().optional(),
+    message: z.string().optional(),
+    source: z.string().optional()
+  });
 
 export const insertServiceSchema = createInsertSchema(services)
   .omit({ id: true })

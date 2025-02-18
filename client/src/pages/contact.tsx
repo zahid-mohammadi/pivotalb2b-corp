@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -35,13 +36,26 @@ export default function ContactPage() {
     },
   });
 
-  function onSubmit(data: ContactFormData) {
-    // TODO: Implement contact form submission
-    toast({
-      title: "Message Sent",
-      description: "Thank you for your message. We'll get back to you soon.",
-    });
-    form.reset();
+  async function onSubmit(data: ContactFormData) {
+    try {
+      const res = await apiRequest("POST", "/api/contact", data);
+
+      if (!res.ok) {
+        throw new Error("Failed to submit contact form");
+      }
+
+      toast({
+        title: "Message Sent",
+        description: "Thank you for your message. We'll get back to you soon.",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
   }
 
   return (

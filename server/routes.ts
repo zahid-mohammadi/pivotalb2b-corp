@@ -15,6 +15,7 @@ import express from 'express';
 import { eq } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
 import { aiTaggingService } from "./services/ai-tagging";
+import { sendContactFormNotification } from "./services/email";
 
 // Configure multer for handling file uploads
 const upload = multer({
@@ -382,6 +383,35 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error getting personalized recommendations:", error);
       res.status(500).json({ error: "Failed to get personalized recommendations" });
+    }
+  });
+
+  // Contact Form Submission
+  app.post("/api/contact", async (req, res) => {
+    try {
+      // Create a lead entry
+      const lead = await storage.createLead({
+        fullName: req.body.name,
+        email: req.body.email,
+        company: "N/A", // Not collected in contact form
+        contentType: "contact",
+        contentId: 0, // No content associated
+        message: req.body.message,
+        source: "contact"
+      });
+
+      // Send email notification
+      await sendContactFormNotification({
+        name: req.body.name,
+        email: req.body.email,
+        subject: req.body.subject,
+        message: req.body.message
+      });
+
+      res.status(201).json(lead);
+    } catch (error) {
+      console.error("Error processing contact form:", error);
+      res.status(500).json({ error: "Failed to process contact form" });
     }
   });
 
