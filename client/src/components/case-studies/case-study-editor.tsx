@@ -16,6 +16,8 @@ import { ImageUpload } from "@/components/ui/image-upload";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { generateSlug } from "@/lib/utils";
+import React from "react";
 
 export function CaseStudyEditor() {
   const { toast } = useToast();
@@ -30,8 +32,17 @@ export function CaseStudyEditor() {
       results: "",
       bannerImage: "",
       contentImages: [],
+      slug: "",
     },
   });
+
+  const title = form.watch("title");
+  React.useEffect(() => {
+    if (title) {
+      const slug = generateSlug(title);
+      form.setValue("slug", slug);
+    }
+  }, [title, form]);
 
   const createCaseStudyMutation = useMutation({
     mutationFn: async (data: InsertCaseStudy) => {

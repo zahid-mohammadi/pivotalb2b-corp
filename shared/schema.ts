@@ -32,6 +32,7 @@ export const ebooks = pgTable("ebooks", {
   contentImages: text("content_images").array(),
   downloadUrl: text("download_url"),
   publishedAt: timestamp("published_at"),
+  slug: text("slug").notNull().unique(), // Add slug field
 });
 
 export const caseStudies = pgTable("case_studies", {
@@ -45,6 +46,7 @@ export const caseStudies = pgTable("case_studies", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   publishedAt: timestamp("published_at"),
+  slug: text("slug").notNull().unique(), // Add slug field
 });
 
 export const services = pgTable("services", {
@@ -82,6 +84,7 @@ export const insertEbookSchema = createInsertSchema(ebooks)
   .extend({
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
+    slug: z.string(),
   });
 
 export const insertCaseStudySchema = createInsertSchema(caseStudies)
@@ -89,6 +92,7 @@ export const insertCaseStudySchema = createInsertSchema(caseStudies)
   .extend({
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
+    slug: z.string(),
   });
 
 export const insertServiceSchema = createInsertSchema(services)

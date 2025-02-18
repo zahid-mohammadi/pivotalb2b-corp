@@ -23,7 +23,7 @@ export default function EbooksPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {ebooks?.map((ebook) => (
-          <Link key={ebook.id} href={`/ebooks/${ebook.id}`}>
+          <Link key={ebook.id} href={`/ebooks/${ebook.slug}`}>
             <a className="block">
               <Card className="p-6 hover:shadow-lg transition-shadow">
                 {ebook.bannerImage && (

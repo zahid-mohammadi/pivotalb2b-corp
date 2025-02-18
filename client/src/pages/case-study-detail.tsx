@@ -4,18 +4,26 @@ import { Loader2 } from "lucide-react";
 import { useRoute } from "wouter";
 
 export default function CaseStudyDetailPage() {
-  const [, params] = useRoute("/case-studies/:id");
-  const id = params?.id ? parseInt(params.id) : undefined;
+  const [, params] = useRoute("/case-studies/:slug");
+  const slug = params?.slug;
 
-  const { data: caseStudy, isLoading } = useQuery<CaseStudy>({
-    queryKey: ["/api/case-studies", id],
-    enabled: !!id,
+  const { data: caseStudy, isLoading, error } = useQuery<CaseStudy>({
+    queryKey: ["/api/case-studies", slug],
+    enabled: !!slug,
   });
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto py-12">
+        <h1 className="text-4xl font-bold mb-8">Error loading Case Study</h1>
       </div>
     );
   }

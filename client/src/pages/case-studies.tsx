@@ -23,7 +23,7 @@ export default function CaseStudiesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {caseStudies?.map((caseStudy) => (
-          <Link key={caseStudy.id} href={`/case-studies/${caseStudy.id}`}>
+          <Link key={caseStudy.id} href={`/case-studies/${caseStudy.slug}`}>
             <a className="block">
               <Card className="p-6 hover:shadow-lg transition-shadow">
                 {caseStudy.bannerImage && (

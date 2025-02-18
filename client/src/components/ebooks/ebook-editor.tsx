@@ -16,6 +16,8 @@ import { ImageUpload } from "@/components/ui/image-upload";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { generateSlug } from "@/lib/utils";
+import React from 'react';
 
 export function EbookEditor() {
   const { toast } = useToast();
@@ -28,8 +30,17 @@ export function EbookEditor() {
       bannerImage: "",
       contentImages: [],
       downloadUrl: "",
+      slug: "",
     },
   });
+
+  const title = form.watch("title");
+  React.useEffect(() => {
+    if (title) {
+      const slug = generateSlug(title);
+      form.setValue("slug", slug);
+    }
+  }, [title, form]);
 
   const createEbookMutation = useMutation({
     mutationFn: async (data: InsertEbook) => {
@@ -162,6 +173,20 @@ export function EbookEditor() {
               <FormLabel>Download URL</FormLabel>
               <FormControl>
                 <Input {...field} value={field.value || ""} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="slug"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Slug</FormLabel>
+              <FormControl>
+                <Input {...field} value={field.value || ""} disabled/>
               </FormControl>
               <FormMessage />
             </FormItem>

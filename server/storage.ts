@@ -42,11 +42,13 @@ export interface IStorage {
   getEbooks(): Promise<Ebook[]>;
   getEbookById(id: number): Promise<Ebook | undefined>;
   createEbook(ebook: InsertEbook): Promise<Ebook>;
+  getEbookBySlug(slug: string): Promise<Ebook | undefined>;
 
   // Case Studies
   getCaseStudies(): Promise<CaseStudy[]>;
   getCaseStudyById(id: number): Promise<CaseStudy | undefined>;
   createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy>;
+  getCaseStudyBySlug(slug: string): Promise<CaseStudy | undefined>;
 
   // Services
   getServices(): Promise<Service[]>;
@@ -138,6 +140,16 @@ export class DatabaseStorage implements IStorage {
     return newEbook;
   }
 
+  async getEbookBySlug(slug: string): Promise<Ebook | undefined> {
+    try {
+      const [ebook] = await db.select().from(ebooks).where(eq(ebooks.slug, slug));
+      return ebook;
+    } catch (error) {
+      console.error("Error getting ebook by slug:", error);
+      throw error;
+    }
+  }
+
   // Case Studies
   async getCaseStudies(): Promise<CaseStudy[]> {
     return await db.select().from(caseStudies);
@@ -151,6 +163,16 @@ export class DatabaseStorage implements IStorage {
   async createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy> {
     const [newCaseStudy] = await db.insert(caseStudies).values(caseStudy).returning();
     return newCaseStudy;
+  }
+
+  async getCaseStudyBySlug(slug: string): Promise<CaseStudy | undefined> {
+    try {
+      const [caseStudy] = await db.select().from(caseStudies).where(eq(caseStudies.slug, slug));
+      return caseStudy;
+    } catch (error) {
+      console.error("Error getting case study by slug:", error);
+      throw error;
+    }
   }
 
   // Services
@@ -177,6 +199,8 @@ export class DatabaseStorage implements IStorage {
     const [newTestimonial] = await db.insert(testimonials).values(testimonial).returning();
     return newTestimonial;
   }
+
+  sessionStore: session.Store;
 }
 
 export const storage = new DatabaseStorage();

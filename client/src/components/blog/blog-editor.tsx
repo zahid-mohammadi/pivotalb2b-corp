@@ -16,6 +16,12 @@ import { ImageUpload } from "@/components/ui/image-upload";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import React from 'react';
+
+// slug generation function
+const generateSlug = (title: string): string => {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '');
+};
 
 export function BlogEditor() {
   const { toast } = useToast();
@@ -31,6 +37,15 @@ export function BlogEditor() {
       slug: "",
     },
   });
+
+  // Watch the title field to generate slug
+  const title = form.watch("title");
+  React.useEffect(() => {
+    if (title) {
+      const slug = generateSlug(title);
+      form.setValue("slug", slug);
+    }
+  }, [title, form]);
 
   const createBlogMutation = useMutation({
     mutationFn: async (data: InsertBlogPost) => {

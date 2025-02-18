@@ -74,8 +74,8 @@ export async function registerRoutes(app: Express) {
     res.json(ebooks);
   });
 
-  app.get("/api/ebooks/:id", async (req, res) => {
-    const ebook = await storage.getEbookById(parseInt(req.params.id));
+  app.get("/api/ebooks/:slug", async (req, res) => {
+    const ebook = await storage.getEbookBySlug(req.params.slug);
     if (!ebook) return res.status(404).json({ message: "Ebook not found" });
     res.json(ebook);
   });
@@ -95,8 +95,8 @@ export async function registerRoutes(app: Express) {
     res.json(caseStudies);
   });
 
-  app.get("/api/case-studies/:id", async (req, res) => {
-    const caseStudy = await storage.getCaseStudyById(parseInt(req.params.id));
+  app.get("/api/case-studies/:slug", async (req, res) => {
+    const caseStudy = await storage.getCaseStudyBySlug(req.params.slug);
     if (!caseStudy) return res.status(404).json({ message: "Case study not found" });
     res.json(caseStudy);
   });

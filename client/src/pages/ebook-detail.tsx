@@ -5,18 +5,27 @@ import { useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 
 export default function EbookDetailPage() {
-  const [, params] = useRoute("/ebooks/:id");
-  const id = params?.id ? parseInt(params.id) : undefined;
+  const [, params] = useRoute("/ebooks/:slug");
+  const slug = params?.slug;
 
-  const { data: ebook, isLoading } = useQuery<Ebook>({
-    queryKey: ["/api/ebooks", id],
-    enabled: !!id,
+  const { data: ebook, isLoading, error } = useQuery<Ebook>({
+    queryKey: ["/api/ebooks", slug],
+    enabled: !!slug,
   });
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto py-12">
+        <h1 className="text-4xl font-bold mb-8">Error loading eBook</h1>
+        <p>{error.message}</p>
       </div>
     );
   }
