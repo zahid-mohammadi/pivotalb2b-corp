@@ -18,9 +18,25 @@ export function Navbar() {
         </Link>
 
         <NavigationMenu>
-          <NavigationMenuList>
+          <NavigationMenuList className="gap-2">
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+              <NavigationMenuLink asChild>
+                <Link href="/">
+                  <a className="px-4 py-2 hover:text-primary">Home</a>
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link href="/about">
+                  <a className="px-4 py-2 hover:text-primary">About Us</a>
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
                   <li>
@@ -65,6 +81,22 @@ export function Navbar() {
                   </li>
                 </ul>
               </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link href="/resources">
+                  <a className="px-4 py-2 hover:text-primary">Resources</a>
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link href="/contact">
+                  <a className="px-4 py-2 hover:text-primary">Contact Us</a>
+                </Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
