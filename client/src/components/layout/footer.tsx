@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Link } from "wouter";
 
 export function Footer() {
   return (
@@ -60,8 +61,21 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-8 pt-8 text-center text-slate-300">
-          <p>&copy; {new Date().getFullYear()} Pivotal B2B. All rights reserved.</p>
+        <div className="border-t border-slate-800 mt-8 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-slate-300">&copy; {new Date().getFullYear()} Pivotal B2B. All rights reserved.</p>
+            <div className="flex flex-wrap gap-4 text-sm text-slate-300">
+              <Link href="/privacy-policy" className="hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-conditions" className="hover:text-white">
+                Terms & Conditions
+              </Link>
+              <Link href="/cookie-policy" className="hover:text-white">
+                Cookie Policy
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
