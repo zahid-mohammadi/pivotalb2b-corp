@@ -135,7 +135,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-4">
           <Link href="/dashboard">
-            <Button variant="outline">Dashboard</Button>
+            <Button variant="outline">Login</Button>
           </Link>
           <Button>Get Started Today</Button>
         </div>
