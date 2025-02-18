@@ -21,20 +21,15 @@ const scryptAsync = promisify(scrypt);
 
 async function hashPassword(password: string) {
   const salt = randomBytes(16).toString("hex");
-  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
-  return `${buf.toString("hex")}.${salt}`;
+  const hash = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${hash.toString("hex")}.${salt}`;
 }
 
-async function comparePasswords(supplied: string, stored: string) {
-  try {
-    const [hashed, salt] = stored.split(".");
-    const hashedBuf = Buffer.from(hashed, "hex");
-    const suppliedBuf = (await scryptAsync(supplied, salt, 64)) as Buffer;
-    return timingSafeEqual(hashedBuf, suppliedBuf);
-  } catch (error) {
-    console.error("Password comparison error:", error);
-    return false;
-  }
+async function comparePasswords(password: string, hashedPassword: string) {
+  const [hashValue, salt] = hashedPassword.split(".");
+  const hashBuffer = Buffer.from(hashValue, "hex");
+  const suppliedHashBuffer = (await scryptAsync(password, salt, 64)) as Buffer;
+  return timingSafeEqual(hashBuffer, suppliedHashBuffer);
 }
 
 export function setupAuth(app: Express) {
@@ -68,7 +63,8 @@ export function setupAuth(app: Express) {
           return done(null, false, { message: "Invalid username or password" });
         }
 
-        if (!await comparePasswords(password, user.password)) {
+        const isValid = await comparePasswords(password, user.password);
+        if (!isValid) {
           return done(null, false, { message: "Invalid username or password" });
         }
 
@@ -100,11 +96,9 @@ export function setupAuth(app: Express) {
       if (err) {
         return next(err);
       }
-
       if (!user) {
         return res.status(401).json({ error: info?.message || "Invalid username or password" });
       }
-
       req.logIn(user, (err) => {
         if (err) {
           return next(err);
@@ -138,7 +132,7 @@ export async function createAdminUser(username: string, password: string): Promi
       role: "admin"
     });
   } catch (error) {
-    console.error("Error creating admin user:", error);
+    console.error("Error creating user:", error);
     throw error;
   }
 }
