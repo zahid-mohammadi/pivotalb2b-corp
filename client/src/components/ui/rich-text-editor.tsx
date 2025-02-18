@@ -10,6 +10,16 @@ interface RichTextEditorProps {
 
 export function RichTextEditor({ value, onChange, label, error }: RichTextEditorProps) {
   const editorRef = useRef(null);
+  const apiKey = import.meta.env.VITE_TINYMCE_API_KEY;
+
+  if (!apiKey) {
+    console.error('TinyMCE API key is not configured');
+    return (
+      <div className="text-destructive">
+        Error: TinyMCE API key is not configured. Please check your environment variables.
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-2">
@@ -19,7 +29,7 @@ export function RichTextEditor({ value, onChange, label, error }: RichTextEditor
         </div>
       )}
       <Editor
-        apiKey={import.meta.env.VITE_TINYMCE_API_KEY}
+        apiKey={apiKey}
         onInit={(evt, editor) => {
           // @ts-ignore
           editorRef.current = editor;
