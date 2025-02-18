@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
-import { 
+import {
   insertBlogPostSchema,
   insertTestimonialSchema,
   insertEbookSchema,
@@ -13,6 +13,7 @@ import multer from "multer";
 import path from "path";
 import express from 'express';
 import { eq } from "drizzle-orm";
+import { recommendationService } from "./services/recommendation";
 
 // Configure multer for handling file uploads
 const upload = multer({
@@ -301,6 +302,38 @@ export async function registerRoutes(app: Express) {
 
   // Serve uploaded files
   app.use('/uploads', express.static('uploads'));
+
+  // Recommendations
+  app.get("/api/recommendations/:type/:id", async (req, res) => {
+    try {
+      const { type, id } = req.params;
+      const recommendations = await recommendationService.getRecommendations(
+        type,
+        parseInt(id),
+        3
+      );
+      res.json(recommendations);
+    } catch (error) {
+      console.error("Error getting recommendations:", error);
+      res.status(500).json({ error: "Failed to get recommendations" });
+    }
+  });
+
+  app.get("/api/recommendations/personalized", async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Not authenticated" });
+      }
+      const recommendations = await recommendationService.getPersonalizedRecommendations(
+        req.user.email,
+        3
+      );
+      res.json(recommendations);
+    } catch (error) {
+      console.error("Error getting personalized recommendations:", error);
+      res.status(500).json({ error: "Failed to get personalized recommendations" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

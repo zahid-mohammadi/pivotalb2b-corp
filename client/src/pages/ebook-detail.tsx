@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { ContentRecommendations } from "@/components/ui/content-recommendations";
 
 const downloadFormSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -170,61 +171,72 @@ export default function EbookDetailPage() {
 
           {/* Right Column - Download Form (30%) */}
           <div className="flex-[1.285]">
-            <div className="p-8 rounded-lg border bg-card shadow-sm sticky top-8">
-              <h3 className="text-2xl font-semibold mb-6 text-foreground">Download this eBook</h3>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+            <div className="space-y-8">
+              <div className="p-8 rounded-lg border bg-card shadow-sm">
+                <h3 className="text-2xl font-semibold mb-6 text-foreground">Download this eBook</h3>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Business Email</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="email" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Business Email</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="email" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={form.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Company</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                  <Button 
-                    type="submit" 
-                    className="w-full"
-                    disabled={leadMutation.isPending}
-                  >
-                    {leadMutation.isPending ? 'Processing...' : 'Download eBook'}
-                  </Button>
-                </form>
-              </Form>
+                    <Button 
+                      type="submit" 
+                      className="w-full"
+                      disabled={leadMutation.isPending}
+                    >
+                      {leadMutation.isPending ? 'Processing...' : 'Download eBook'}
+                    </Button>
+                  </form>
+                </Form>
+              </div>
+
+              {ebook && (
+                <div className="p-8 rounded-lg border bg-card shadow-sm">
+                  <ContentRecommendations
+                    contentType="ebook"
+                    contentId={ebook.id}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
