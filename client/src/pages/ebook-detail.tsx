@@ -81,7 +81,7 @@ export default function EbookDetailPage() {
         className="relative h-[400px] bg-cover bg-center"
         style={{ 
           backgroundImage: ebook.bannerImage ? `url(${ebook.bannerImage})` : 'none',
-          backgroundColor: !ebook.bannerImage ? 'var(--background)' : undefined 
+          backgroundColor: !ebook.bannerImage ? 'var(--muted)' : undefined 
         }}
       >
         <div className="absolute inset-0 bg-black/50" />
@@ -103,15 +103,15 @@ export default function EbookDetailPage() {
           {/* Left Column - Content */}
           <div>
             <h2 className="text-3xl font-semibold mb-6">About this eBook</h2>
-            {ebook.content && (
-              <div className="prose prose-lg max-w-none mb-8">
-                {ebook.content}
-              </div>
-            )}
+            <div className="prose prose-lg max-w-none">
+              {ebook.content && (
+                <div className="mb-8 text-lg text-muted-foreground whitespace-pre-wrap">
+                  {ebook.content}
+                </div>
+              )}
 
-            <div className="mt-8 space-y-6">
               {ebook.description && (
-                <div>
+                <div className="mt-8">
                   <h3 className="text-2xl font-semibold mb-4">Overview</h3>
                   <div className="text-lg text-muted-foreground">
                     {ebook.description}
@@ -120,8 +120,8 @@ export default function EbookDetailPage() {
               )}
 
               {ebook.contentImages && ebook.contentImages.length > 0 && (
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-semibold">Preview Images</h3>
+                <div className="mt-8">
+                  <h3 className="text-2xl font-semibold mb-4">Preview Images</h3>
                   <div className="grid grid-cols-2 gap-4">
                     {ebook.contentImages.map((image, index) => (
                       <img
@@ -138,7 +138,7 @@ export default function EbookDetailPage() {
           </div>
 
           {/* Right Column - Download Form */}
-          <div className="bg-muted p-8 rounded-lg shadow-lg sticky top-4">
+          <div className="bg-muted p-8 rounded-lg shadow-lg">
             <h3 className="text-2xl font-semibold mb-6">Download this eBook</h3>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
