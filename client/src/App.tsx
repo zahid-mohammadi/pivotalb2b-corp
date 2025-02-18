@@ -18,6 +18,9 @@ import CaseStudyDetail from "@/pages/case-study-detail";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import AgencyPartnerships from "@/pages/agency-partnerships";
+import PrivacyPolicy from "@/pages/privacy-policy";
+import TermsConditions from "@/pages/terms-conditions";
+import CookiePolicy from "@/pages/cookie-policy";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
@@ -42,6 +45,9 @@ function Router() {
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route path="/agency-partnerships" component={AgencyPartnerships} />
+            <Route path="/privacy-policy" component={PrivacyPolicy} />
+            <Route path="/terms-conditions" component={TermsConditions} />
+            <Route path="/cookie-policy" component={CookiePolicy} />
             <ProtectedRoute path="/dashboard" component={Dashboard} />
             <Route component={NotFound} />
           </Switch>
