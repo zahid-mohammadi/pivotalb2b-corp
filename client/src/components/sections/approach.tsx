@@ -1,21 +1,23 @@
-import { Target, FileText, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { ResearchStrategyIcon } from "@/components/animated-icons/research-strategy";
+import { ContentEngagementIcon } from "@/components/animated-icons/content-engagement";
+import { ScaleGrowthIcon } from "@/components/animated-icons/scale-growth";
 
 export function Approach() {
   const steps = [
     {
-      icon: Target,
+      icon: ResearchStrategyIcon,
       title: "Research & Strategy",
       description: "We analyze your market, identify ideal customer profiles, and develop targeted outreach strategies.",
     },
     {
-      icon: FileText,
+      icon: ContentEngagementIcon,
       title: "Content & Engagement",
       description: "Create compelling content and multi-channel campaigns that resonate with your target audience.",
     },
     {
-      icon: Zap,
+      icon: ScaleGrowthIcon,
       title: "Convert & Scale",
       description: "Transform leads into opportunities and scale your success with data-driven optimization.",
     },
@@ -49,11 +51,11 @@ export function Approach() {
               <Card className="text-center">
                 <CardContent className="pt-6">
                   <motion.div 
-                    className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/10"
+                    className="mb-4 flex justify-center"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <step.icon className="h-6 w-6 text-primary" />
+                    <step.icon />
                   </motion.div>
                   <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
                   <p className="text-muted-foreground">{step.description}</p>
