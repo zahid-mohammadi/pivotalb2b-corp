@@ -1,0 +1,81 @@
+import { Link } from "wouter";
+import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+
+export function Navbar() {
+  return (
+    <header className="border-b">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <Link href="/">
+          <a className="font-bold text-2xl text-primary">Pivotal B2B</a>
+        </Link>
+
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/services/pinpoint-opt-in-leads">
+                        <a className="block p-3 hover:bg-muted rounded-md">
+                          <div className="text-sm font-medium">Pinpoint Opt-in Leads</div>
+                          <p className="text-sm text-muted-foreground">Identify and engage prospects</p>
+                        </a>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/services/strategic-content-syndication">
+                        <a className="block p-3 hover:bg-muted rounded-md">
+                          <div className="text-sm font-medium">Strategic Content Syndication</div>
+                          <p className="text-sm text-muted-foreground">Amplify your content reach</p>
+                        </a>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/services/smart-audience-events">
+                        <a className="block p-3 hover:bg-muted rounded-md">
+                          <div className="text-sm font-medium">Smart Audience Events</div>
+                          <p className="text-sm text-muted-foreground">Transform your events</p>
+                        </a>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  <li>
+                    <NavigationMenuLink asChild>
+                      <Link href="/services/advanced-lead-qualification">
+                        <a className="block p-3 hover:bg-muted rounded-md">
+                          <div className="text-sm font-medium">Advanced Lead Qualification</div>
+                          <p className="text-sm text-muted-foreground">Close deals faster</p>
+                        </a>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+
+        <div className="flex items-center gap-4">
+          <Link href="/dashboard">
+            <Button variant="outline">Dashboard</Button>
+          </Link>
+          <Button>Get Started Today</Button>
+        </div>
+      </div>
+    </header>
+  );
+}
