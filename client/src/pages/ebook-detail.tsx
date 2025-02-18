@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { apiRequest, queryClient } from "@/lib/queryClient";
+import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 const downloadFormSchema = z.object({
@@ -33,6 +33,13 @@ export default function EbookDetailPage() {
 
   const { data: ebook, isLoading } = useQuery<Ebook>({
     queryKey: ["/api/ebooks", slug],
+    queryFn: async () => {
+      const res = await apiRequest("GET", `/api/ebooks/${slug}`);
+      if (!res.ok) {
+        throw new Error("Failed to fetch ebook");
+      }
+      return res.json();
+    },
     enabled: !!slug,
   });
 
@@ -212,7 +219,7 @@ export default function EbookDetailPage() {
                   <Button 
                     type="submit" 
                     className="w-full"
-                    disabled={leadMutation.isPending || !ebook?.pdfUrl}
+                    disabled={leadMutation.isPending}
                   >
                     {leadMutation.isPending ? 'Processing...' : 'Download eBook'}
                   </Button>
