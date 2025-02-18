@@ -11,3 +11,72 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+@layer components {
+  /* Ripple animation for buttons */
+  .ripple-container {
+    @apply pointer-events-none;
+  }
+
+  .ripple {
+    @apply absolute block bg-current rounded-full scale-0 opacity-50;
+    animation: ripple-animation 0.6s linear;
+  }
+
+  @keyframes ripple-animation {
+    0% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(2.5);
+      opacity: 0;
+    }
+  }
+
+  /* Enhanced hover animations */
+  .hover-lift {
+    @apply transition-transform duration-200;
+  }
+  .hover-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Smooth fade animations */
+  .fade-in {
+    @apply opacity-0;
+    animation: fade-in 0.3s ease-out forwards;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Focus ring animation */
+  .focus-ring {
+    @apply outline-none ring-offset-2 transition-shadow duration-200;
+  }
+  .focus-ring:focus-visible {
+    @apply ring-2 ring-primary;
+    animation: focus-ring-pulse 2s infinite;
+  }
+
+  @keyframes focus-ring-pulse {
+    0% {
+      box-shadow: 0 0 0 0 theme('colors.primary.DEFAULT / 0.4');
+    }
+    70% {
+      box-shadow: 0 0 0 4px theme('colors.primary.DEFAULT / 0');
+    }
+    100% {
+      box-shadow: 0 0 0 0 theme('colors.primary.DEFAULT / 0');
+    }
+  }
+}
