@@ -19,7 +19,7 @@ import {
   HelpCircle,
   Workflow
 } from "lucide-react";
-import type { Service } from "@shared/schema";
+import type { Service, UseCase, FAQ } from "@shared/schema";
 import { MetaTags } from "@/components/ui/meta-tags";
 
 const containerVariants = {
@@ -256,7 +256,7 @@ export default function ServicePage() {
             {/* Use Cases Tab */}
             <TabsContent value="use-cases">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {service.useCases?.map((useCase, index) => (
+                {service.useCases && service.useCases.map((useCase: UseCase, index: number) => (
                   <Card key={index}>
                     <CardContent className="p-8">
                       <h3 className="text-xl font-semibold mb-4">{useCase.title}</h3>
@@ -325,7 +325,7 @@ export default function ServicePage() {
                     <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
                   </div>
                   <div className="space-y-6">
-                    {service.faqQuestions?.map((faq, index) => (
+                    {service.faqQuestions && service.faqQuestions.map((faq: FAQ, index: number) => (
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}

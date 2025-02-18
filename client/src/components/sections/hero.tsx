@@ -2,6 +2,8 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
 export function Hero() {
+  const calendlyUrl = "https://calendly.com/zahid-m/30min";
+
   return (
     <div className="relative bg-slate-900 text-white">
       <div className="container mx-auto px-4 py-24">
@@ -28,7 +30,12 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="flex gap-4"
           >
-            <Button size="lg">Schedule a Demo</Button>
+            <Button 
+              size="lg"
+              onClick={() => window.open(calendlyUrl, '_blank')}
+            >
+              Schedule a Consultation
+            </Button>
             <Button size="lg" variant="outline">
               Explore Solutions
             </Button>

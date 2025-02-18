@@ -1,15 +1,119 @@
-import { pgTable, text, serial, timestamp, varchar, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, varchar, jsonb, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const users = pgTable("users", {
+// Blog Posts
+export const blogPosts = pgTable("blog_posts", {
   id: serial("id").primaryKey(),
-  username: varchar("username", { length: 100 }).notNull().unique(),
-  password: varchar("password", { length: 255 }).notNull(),
-  role: varchar("role", { length: 50 }).notNull().default("user"),
-  createdAt: timestamp("created_at").defaultNow(),
+  title: varchar("title", { length: 100 }).notNull(),
+  slug: text("slug").notNull().unique(),
+  content: text("content").notNull(),
+  metaDescription: text("meta_description"),
+  bannerImage: text("banner_image"),
+  contentImages: text("content_images").array(),
+  publishedAt: timestamp("published_at"),
+  tags: text("tags").array(),
+  autoTags: text("auto_tags").array(),
 });
 
+export type BlogPost = typeof blogPosts.$inferSelect;
+export const insertBlogPostSchema = createInsertSchema(blogPosts)
+  .omit({ id: true })
+  .extend({
+    bannerImage: z.string().optional(),
+    contentImages: z.array(z.string()).optional(),
+    publishedAt: z.string().datetime().optional(),
+    tags: z.array(z.string()).optional(),
+    autoTags: z.array(z.string()).optional(),
+  });
+
+// Ebooks
+export const ebooks = pgTable("ebooks", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 100 }).notNull(),
+  slug: text("slug").notNull().unique(),
+  description: text("description").notNull(),
+  pdfUrl: text("pdf_url").notNull(),
+  coverImage: text("cover_image"),
+  publishedAt: timestamp("published_at"),
+  tags: text("tags").array(),
+  autoTags: text("auto_tags").array(),
+});
+
+export type Ebook = typeof ebooks.$inferSelect;
+export const insertEbookSchema = createInsertSchema(ebooks)
+  .omit({ id: true })
+  .extend({
+    coverImage: z.string().optional(),
+    publishedAt: z.string().datetime().optional(),
+    tags: z.array(z.string()).optional(),
+    autoTags: z.array(z.string()).optional(),
+  });
+
+// Case Studies
+export const caseStudies = pgTable("case_studies", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 100 }).notNull(),
+  slug: text("slug").notNull().unique(),
+  clientName: varchar("client_name", { length: 100 }).notNull(),
+  industry: text("industry").notNull(),
+  challenge: text("challenge").notNull(),
+  solution: text("solution").notNull(),
+  results: text("results").notNull(),
+  testimonial: text("testimonial"),
+  bannerImage: text("banner_image"),
+  publishedAt: timestamp("published_at"),
+  tags: text("tags").array(),
+  autoTags: text("auto_tags").array(),
+});
+
+export type CaseStudy = typeof caseStudies.$inferSelect;
+export const insertCaseStudySchema = createInsertSchema(caseStudies)
+  .omit({ id: true })
+  .extend({
+    bannerImage: z.string().optional(),
+    testimonial: z.string().optional(),
+    publishedAt: z.string().datetime().optional(),
+    tags: z.array(z.string()).optional(),
+    autoTags: z.array(z.string()).optional(),
+  });
+
+// Leads
+export const leads = pgTable("leads", {
+  id: serial("id").primaryKey(),
+  fullName: varchar("full_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  company: varchar("company", { length: 100 }).notNull(),
+  contentType: text("content_type").notNull(),
+  contentId: serial("content_id").notNull(),
+  downloadedAt: timestamp("downloaded_at").defaultNow().notNull(),
+  message: text("message"),
+  source: text("source").default("download"),
+});
+
+export type Lead = typeof leads.$inferSelect;
+export const insertLeadSchema = createInsertSchema(leads)
+  .omit({ id: true, downloadedAt: true })
+  .extend({
+    message: z.string().optional(),
+    source: z.string().optional(),
+  });
+
+// Users
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 50 }).notNull().unique(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(),
+  role: varchar("role", { length: 20 }).notNull().default("user"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type User = typeof users.$inferSelect;
+export const insertUserSchema = createInsertSchema(users)
+  .omit({ id: true, createdAt: true });
+
+// Services
 export const services = pgTable("services", {
   id: serial("id").primaryKey(),
   title: varchar("title", { length: 100 }).notNull(),
@@ -19,128 +123,31 @@ export const services = pgTable("services", {
   bannerImage: text("banner_image"),
   slug: text("slug").notNull().unique(),
   successMetrics: text("success_metrics").array(),
-  useCases: jsonb("use_cases"),
+  useCases: jsonb("use_cases").array(),
   industries: text("industries").array(),
   methodology: text("methodology"),
   toolsAndTechnologies: text("tools_and_technologies").array(),
-  faqQuestions: jsonb("faq_questions"),
+  faqQuestions: jsonb("faq_questions").array(),
 });
 
-export const testimonials = pgTable("testimonials", {
-  id: serial("id").primaryKey(),
-  name: varchar("name", { length: 100 }).notNull(),
-  title: varchar("title", { length: 100 }).notNull(),
-  company: varchar("company", { length: 100 }).notNull(),
-  content: text("content").notNull(),
-});
-
-export const blogPosts = pgTable("blog_posts", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  content: text("content").notNull(),
-  metaDescription: text("meta_description").notNull(),
-  metaKeywords: text("meta_keywords").notNull(),
-  bannerImage: text("banner_image"),
-  contentImages: text("content_images").array(),
-  tags: text("tags").array(),
-  autoTags: text("auto_tags").array(),
-  slug: text("slug").notNull().unique(),
-  publishedAt: timestamp("published_at"),
-});
-
-export const ebooks = pgTable("ebooks", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  content: text("content").notNull(),
-  bannerImage: text("banner_image"),
-  contentImages: text("content_images").array(),
-  tags: text("tags").array(),
-  autoTags: text("auto_tags").array(),
-  downloadUrl: text("download_url"),
-  pdfUrl: text("pdf_url"),
-  publishedAt: timestamp("published_at"),
-  slug: text("slug").notNull().unique(),
-  colorTheme: jsonb("color_theme"),
-});
-
-export const caseStudies = pgTable("case_studies", {
-  id: serial("id").primaryKey(),
-  title: text("title").notNull(),
-  clientName: text("client_name").notNull(),
-  industry: text("industry").notNull(),
-  challenge: text("challenge").notNull(),
-  solution: text("solution").notNull(),
-  results: text("results").notNull(),
-  bannerImage: text("banner_image"),
-  contentImages: text("content_images").array(),
-  tags: text("tags").array(),
-  autoTags: text("auto_tags").array(),
-  pdfUrl: text("pdf_url"),
-  publishedAt: timestamp("published_at"),
-  slug: text("slug").notNull().unique(),
-});
-
-export const leads = pgTable("leads", {
-  id: serial("id").primaryKey(),
-  fullName: text("full_name").notNull(),
-  email: text("email").notNull(),
-  company: text("company").notNull(),
-  contentType: text("content_type").notNull(),
-  contentId: serial("content_id"),
-  downloadedAt: timestamp("downloaded_at").defaultNow(),
-  message: text("message"),
-  source: text("source").default('download'),
-});
-
-export type ColorTheme = {
-  primary: string;
-  secondary: string;
-  accent: string;
-  background: string;
-  text: string;
+// Use case and FAQ types
+export type UseCase = {
+  title: string;
+  description: string;
+  challenge: string;
+  solution: string;
+  outcome: string;
 };
 
-export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
-export const loginSchema = insertUserSchema.pick({ username: true, password: true });
+export type FAQ = {
+  question: string;
+  answer: string;
+};
 
-export const insertBlogPostSchema = createInsertSchema(blogPosts)
-  .omit({ id: true })
-  .extend({
-    bannerImage: z.string().optional(),
-    contentImages: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    autoTags: z.array(z.string()).optional(),
-  });
-
-export const insertEbookSchema = createInsertSchema(ebooks)
-  .omit({ id: true })
-  .extend({
-    bannerImage: z.string().optional(),
-    contentImages: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    autoTags: z.array(z.string()).optional(),
-    pdfUrl: z.string().optional(),
-    colorTheme: z.object({
-      primary: z.string(),
-      secondary: z.string(),
-      accent: z.string(),
-      background: z.string(),
-      text: z.string(),
-    }).optional(),
-    slug: z.string(),
-  });
-
-export const insertCaseStudySchema = createInsertSchema(caseStudies)
-  .omit({ id: true })
-  .extend({
-    bannerImage: z.string().optional(),
-    contentImages: z.array(z.string()).optional(),
-    tags: z.array(z.string()).optional(),
-    autoTags: z.array(z.string()).optional(),
-    pdfUrl: z.string().optional(),
-    slug: z.string(),
-  });
+export type Service = typeof services.$inferSelect & {
+  useCases: UseCase[];
+  faqQuestions: FAQ[];
+};
 
 export const insertServiceSchema = createInsertSchema(services)
   .omit({ id: true })
@@ -163,31 +170,20 @@ export const insertServiceSchema = createInsertSchema(services)
     })).optional(),
   });
 
-export const insertTestimonialSchema = createInsertSchema(testimonials).omit({ id: true });
+// Testimonials
+export const testimonials = pgTable("testimonials", {
+  id: serial("id").primaryKey(),
+  clientName: varchar("client_name", { length: 100 }).notNull(),
+  company: varchar("company", { length: 100 }).notNull(),
+  role: varchar("role", { length: 100 }).notNull(),
+  content: text("content").notNull(),
+  rating: serial("rating").notNull(),
+  avatar: text("avatar"),
+});
 
-export const insertLeadSchema = createInsertSchema(leads)
-  .omit({ id: true, downloadedAt: true })
-  .extend({
-    contentId: z.number(),
-    message: z.string().optional(),
-    source: z.string().optional(),
-    company: z.string().optional(),
-  });
-
-export type User = typeof users.$inferSelect;
-export type InsertUser = z.infer<typeof insertUserSchema>;
-export type LoginData = z.infer<typeof loginSchema>;
-
-export type BlogPost = typeof blogPosts.$inferSelect;
-export type Ebook = typeof ebooks.$inferSelect;
-export type CaseStudy = typeof caseStudies.$inferSelect;
-export type Service = typeof services.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
-export type Lead = typeof leads.$inferSelect;
-
-export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
-export type InsertEbook = z.infer<typeof insertEbookSchema>;
-export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
-export type InsertService = z.infer<typeof insertServiceSchema>;
-export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
-export type InsertLead = z.infer<typeof insertLeadSchema>;
+export const insertTestimonialSchema = createInsertSchema(testimonials)
+  .omit({ id: true })
+  .extend({
+    avatar: z.string().optional(),
+  });
