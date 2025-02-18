@@ -9,7 +9,8 @@ import {
   CheckCircle2,
   Building2,
   Users,
-  BarChart3
+  BarChart3,
+  Eye
 } from "lucide-react";
 import type { Service } from "@shared/schema";
 
@@ -192,7 +193,7 @@ export function Services() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
               {
                 icon: Building2,
@@ -208,6 +209,11 @@ export function Services() {
                 icon: BarChart3,
                 title: "Measurable Impact",
                 description: "Data-driven strategies with clear ROI and performance metrics"
+              },
+              {
+                icon: Eye,
+                title: "Transparency",
+                description: "Clear communication, honest reporting, and full visibility into campaign performance"
               }
             ].map((item, index) => (
               <motion.div
