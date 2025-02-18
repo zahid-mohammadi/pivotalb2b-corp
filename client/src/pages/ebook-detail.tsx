@@ -36,7 +36,9 @@ export default function EbookDetailPage() {
       if (!response.ok) {
         throw new Error('Failed to fetch ebook');
       }
-      return response.json();
+      const data = await response.json();
+      console.log('Fetched ebook data:', data); // Debug log
+      return data;
     },
     enabled: !!slug,
   });
@@ -71,6 +73,8 @@ export default function EbookDetailPage() {
       </div>
     );
   }
+
+  console.log('Rendering ebook:', ebook); // Debug log
 
   return (
     <div>
@@ -107,9 +111,11 @@ export default function EbookDetailPage() {
 
             {/* Main Content */}
             <div className="prose prose-lg max-w-none">
-              <div className="text-lg text-muted-foreground whitespace-pre-wrap mb-8">
-                {ebook.content}
-              </div>
+              {ebook.content && (
+                <div className="text-lg text-muted-foreground whitespace-pre-wrap mb-8">
+                  {ebook.content}
+                </div>
+              )}
             </div>
 
             {/* Overview */}
