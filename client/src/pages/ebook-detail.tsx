@@ -31,6 +31,13 @@ export default function EbookDetailPage() {
 
   const { data: ebook, isLoading } = useQuery<Ebook>({
     queryKey: ["/api/ebooks", slug],
+    queryFn: async () => {
+      const response = await fetch(`/api/ebooks/${slug}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch ebook');
+      }
+      return response.json();
+    },
     enabled: !!slug,
   });
 
@@ -68,12 +75,12 @@ export default function EbookDetailPage() {
   return (
     <div>
       {/* Banner Section */}
-      <div className="relative h-[400px] bg-gradient-to-r from-primary/90 to-primary">
+      <div className="relative h-[400px] bg-primary">
         {ebook.bannerImage && (
           <img 
             src={ebook.bannerImage}
             alt={ebook.title}
-            className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
+            className="absolute inset-0 w-full h-full object-cover"
           />
         )}
         <div className="absolute inset-0 bg-black/50" />
@@ -95,20 +102,17 @@ export default function EbookDetailPage() {
       <div className="container mx-auto py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Left Column - Content */}
-          <div className="prose prose-lg max-w-none">
+          <div>
             <h2 className="text-3xl font-semibold mb-6">About this eBook</h2>
 
-            {/* Content Section */}
-            {ebook.content && (
-              <div className="mb-8">
-                <h3 className="text-2xl font-semibold mb-4">Content</h3>
-                <div className="text-lg text-muted-foreground whitespace-pre-wrap">
-                  {ebook.content}
-                </div>
+            {/* Main Content */}
+            <div className="prose prose-lg max-w-none">
+              <div className="text-lg text-muted-foreground whitespace-pre-wrap mb-8">
+                {ebook.content}
               </div>
-            )}
+            </div>
 
-            {/* Description Section */}
+            {/* Overview */}
             {ebook.description && (
               <div className="mt-8">
                 <h3 className="text-2xl font-semibold mb-4">Overview</h3>
