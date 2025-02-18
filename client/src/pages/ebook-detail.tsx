@@ -29,7 +29,7 @@ export default function EbookDetailPage() {
   const [, params] = useRoute("/ebooks/:slug");
   const slug = params?.slug;
 
-  const { data: ebook, isLoading, error } = useQuery<Ebook>({
+  const { data: ebook, isLoading } = useQuery<Ebook>({
     queryKey: ["/api/ebooks", slug],
     enabled: !!slug,
   });
@@ -57,15 +57,6 @@ export default function EbookDetailPage() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="container mx-auto py-12">
-        <h1 className="text-4xl font-bold mb-8">Error loading eBook</h1>
-        <p>{error.message}</p>
-      </div>
-    );
-  }
-
   if (!ebook) {
     return (
       <div className="container mx-auto py-12">
@@ -74,21 +65,22 @@ export default function EbookDetailPage() {
     );
   }
 
-  console.log('Ebook data:', ebook); // Debug log
-
   return (
     <div>
       {/* Banner Section */}
-      <div className="relative h-[400px] bg-muted">
+      <div className="relative h-[400px] bg-gradient-to-r from-primary/90 to-primary">
         {ebook.bannerImage && (
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${ebook.bannerImage})` }}
+          <img 
+            src={ebook.bannerImage}
+            alt={ebook.title}
+            className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
           />
         )}
         <div className="absolute inset-0 bg-black/50" />
         <div className="container mx-auto h-full flex flex-col justify-center relative z-10">
-          <h1 className="text-5xl font-bold text-white mb-4">{ebook.title}</h1>
+          <h1 className="text-5xl font-bold text-white mb-4">
+            {ebook.title}
+          </h1>
           {ebook.description && (
             <p className="text-xl text-white/80 max-w-2xl">
               {ebook.description.length > 150 
@@ -109,6 +101,7 @@ export default function EbookDetailPage() {
             {/* Content Section */}
             {ebook.content && (
               <div className="mb-8">
+                <h3 className="text-2xl font-semibold mb-4">Content</h3>
                 <div className="text-lg text-muted-foreground whitespace-pre-wrap">
                   {ebook.content}
                 </div>
