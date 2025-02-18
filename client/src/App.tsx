@@ -19,28 +19,31 @@ import Contact from "@/pages/contact";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
+import { PageTransition } from "@/components/ui/page-transition";
 
 function Router() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-grow">
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/services/:slug" component={Service} />
-          <Route path="/login" component={Login} />
-          <Route path="/blog" component={Blog} />
-          <Route path="/blog/:slug" component={BlogDetail} />
-          <Route path="/ebooks" component={Ebooks} />
-          <Route path="/ebooks/:id" component={EbookDetail} />
-          <Route path="/case-studies" component={CaseStudies} />
-          <Route path="/case-studies/:id" component={CaseStudyDetail} />
-          <Route path="/about" component={About} />
-          <Route path="/contact" component={Contact} />
-          <ProtectedRoute path="/dashboard" component={Dashboard} />
-          <Route component={NotFound} />
-        </Switch>
-      </main>
+      <PageTransition>
+        <main className="flex-grow">
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/services/:slug" component={Service} />
+            <Route path="/login" component={Login} />
+            <Route path="/blog" component={Blog} />
+            <Route path="/blog/:slug" component={BlogDetail} />
+            <Route path="/ebooks" component={Ebooks} />
+            <Route path="/ebooks/:id" component={EbookDetail} />
+            <Route path="/case-studies" component={CaseStudies} />
+            <Route path="/case-studies/:id" component={CaseStudyDetail} />
+            <Route path="/about" component={About} />
+            <Route path="/contact" component={Contact} />
+            <ProtectedRoute path="/dashboard" component={Dashboard} />
+            <Route component={NotFound} />
+          </Switch>
+        </main>
+      </PageTransition>
       <Footer />
     </div>
   );
