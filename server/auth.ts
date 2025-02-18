@@ -29,6 +29,7 @@ async function comparePasswords(supplied: string, stored: string) {
   try {
     const [hashed, salt] = stored.split(".");
     if (!hashed || !salt) {
+      console.error("Invalid stored password format");
       return false;
     }
     const hashedBuf = Buffer.from(hashed, "hex");
@@ -41,13 +42,19 @@ async function comparePasswords(supplied: string, stored: string) {
 }
 
 export async function createAdminUser(username: string, password: string): Promise<User> {
-  const hashedPassword = await hashPassword(password);
-  return await storage.createUser({
-    username,
-    email: `${username}@pivotal-b2b.com`,
-    password: hashedPassword,
-    role: "admin"
-  });
+  try {
+    const hashedPassword = await hashPassword(password);
+    console.log("Creating admin user with username:", username);
+    return await storage.createUser({
+      username,
+      email: `${username}@pivotal-b2b.com`,
+      password: hashedPassword,
+      role: "admin"
+    });
+  } catch (error) {
+    console.error("Error creating admin user:", error);
+    throw error;
+  }
 }
 
 export function setupAuth(app: Express) {
@@ -76,8 +83,15 @@ export function setupAuth(app: Express) {
   passport.use(
     new LocalStrategy(async (username, password, done) => {
       try {
+        console.log("Attempting authentication for username:", username);
         const user = await storage.getUserByUsername(username);
-        if (!user || !(await comparePasswords(password, user.password))) {
+        if (!user) {
+          console.log("User not found:", username);
+          return done(null, false);
+        }
+        const isValid = await comparePasswords(password, user.password);
+        console.log("Password validation result:", isValid);
+        if (!isValid) {
           return done(null, false);
         }
         return done(null, user);
@@ -99,32 +113,6 @@ export function setupAuth(app: Express) {
     } catch (error) {
       console.error("Deserialization error:", error);
       done(error);
-    }
-  });
-
-  app.post("/api/register", async (req, res) => {
-    try {
-      const existingUser = await storage.getUserByUsername(req.body.username);
-      if (existingUser) {
-        return res.status(400).json({ error: "Username already exists" });
-      }
-
-      const hashedPassword = await hashPassword(req.body.password);
-      const user = await storage.createUser({
-        ...req.body,
-        password: hashedPassword,
-      });
-
-      req.login(user, (err) => {
-        if (err) {
-          console.error("Login error after registration:", err);
-          return res.status(500).json({ error: "Login failed after registration" });
-        }
-        return res.status(201).json(user);
-      });
-    } catch (error) {
-      console.error("Registration error:", error);
-      res.status(500).json({ error: "Registration failed" });
     }
   });
 
