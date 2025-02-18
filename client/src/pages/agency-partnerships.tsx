@@ -97,8 +97,8 @@ export default function AgencyPartnerships() {
               },
               {
                 icon: TrendingUp,
-                title: "Scalable Growth",
-                description: "Expand your service offerings and handle larger client demands without increasing overhead."
+                title: "Complete Transparency",
+                description: "Get full visibility into lead generation processes, costs, and performance metrics with detailed reporting."
               }
             ].map((benefit, index) => (
               <motion.div
@@ -137,22 +137,22 @@ export default function AgencyPartnerships() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
-                title: "White-Label Partnership",
+                title: "Service Reseller Partnership",
                 features: [
-                  "Full white-label capability",
+                  "Access to our complete lead generation services",
                   "Dedicated account management",
                   "Custom reporting dashboard",
-                  "Priority support",
-                  "Competitive pricing",
+                  "White-label option available",
+                  "Flexible pricing models",
                 ],
-                description: "Perfect for agencies looking to offer our services under their brand."
+                description: "Perfect for agencies looking to offer our lead generation services to their clients."
               },
               {
                 title: "Revenue Share Partnership",
                 features: [
-                  "Transparent revenue sharing",
+                  "Performance-based revenue sharing",
                   "Joint marketing initiatives",
-                  "Shared resources",
+                  "Lead generation strategy support",
                   "Performance bonuses",
                   "Co-branded opportunities",
                 ],
