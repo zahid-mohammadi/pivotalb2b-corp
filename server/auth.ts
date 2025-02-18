@@ -6,7 +6,6 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User } from "@shared/schema";
-import { loginSchema, insertUserSchema } from "@shared/schema";
 
 declare global {
   namespace Express {
@@ -45,6 +44,7 @@ export async function createAdminUser(username: string, password: string): Promi
   const hashedPassword = await hashPassword(password);
   return await storage.createUser({
     username,
+    email: `${username}@pivotal-b2b.com`,
     password: hashedPassword,
     role: "admin"
   });
