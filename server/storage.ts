@@ -5,18 +5,21 @@ import {
   type User,
   type Ebook,
   type CaseStudy,
+  type Lead,
   type InsertBlogPost, 
   type InsertService, 
   type InsertTestimonial,
   type InsertUser,
   type InsertEbook,
   type InsertCaseStudy,
+  type InsertLead,
   blogPosts, 
   services, 
   testimonials,
   users,
   ebooks,
-  caseStudies
+  caseStudies,
+  leads
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -64,6 +67,10 @@ export interface IStorage {
   // Testimonials
   getTestimonials(): Promise<Testimonial[]>;
   createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial>;
+
+  // Leads
+  getLeads(): Promise<Lead[]>;
+  createLead(lead: InsertLead): Promise<Lead>;
 
   // Session store
   sessionStore: session.Store;
@@ -243,6 +250,26 @@ export class DatabaseStorage implements IStorage {
   async createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial> {
     const [newTestimonial] = await db.insert(testimonials).values(testimonial).returning();
     return newTestimonial;
+  }
+
+  // Leads
+  async getLeads(): Promise<Lead[]> {
+    try {
+      return await db.select().from(leads).orderBy(leads.downloadedAt);
+    } catch (error) {
+      console.error("Error getting leads:", error);
+      throw error;
+    }
+  }
+
+  async createLead(lead: InsertLead): Promise<Lead> {
+    try {
+      const [newLead] = await db.insert(leads).values(lead).returning();
+      return newLead;
+    } catch (error) {
+      console.error("Error creating lead:", error);
+      throw error;
+    }
   }
 }
 
