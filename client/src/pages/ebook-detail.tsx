@@ -44,7 +44,6 @@ export default function EbookDetailPage() {
   });
 
   const onSubmit = (data: DownloadFormValues) => {
-    // Here you could add analytics or tracking before redirecting
     if (ebook?.downloadUrl) {
       window.open(ebook.downloadUrl, '_blank');
     }
@@ -80,24 +79,39 @@ export default function EbookDetailPage() {
       {/* Banner Section */}
       <div 
         className="relative h-[400px] bg-cover bg-center"
-        style={{ backgroundImage: ebook.bannerImage ? `url(${ebook.bannerImage})` : undefined }}
+        style={{ 
+          backgroundImage: ebook.bannerImage ? `url(${ebook.bannerImage})` : 'none',
+          backgroundColor: !ebook.bannerImage ? 'rgb(var(--muted))' : undefined
+        }}
       >
-        <div className="absolute inset-0 bg-black/50" /> {/* Overlay for better text visibility */}
+        <div className="absolute inset-0 bg-black/50" />
         <div className="container mx-auto h-full flex items-center relative z-10">
-          <h1 className="text-5xl font-bold text-white max-w-3xl">{ebook.title}</h1>
+          <div className="max-w-3xl">
+            <h1 className="text-5xl font-bold text-white mb-4">{ebook.title}</h1>
+            {ebook.description && (
+              <p className="text-lg text-white/80">{ebook.description.slice(0, 150)}...</p>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Content Section */}
       <div className="container mx-auto py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Left Column - Description */}
+          {/* Left Column - Content */}
           <div className="prose prose-lg max-w-none">
             <h2 className="text-3xl font-semibold mb-6">About this eBook</h2>
-            <div className="text-lg text-muted-foreground">
-              {ebook.description}
-            </div>
-            {ebook.contentImages?.length > 0 && (
+            {ebook.description && (
+              <div className="text-lg text-muted-foreground mb-8">
+                {ebook.description}
+              </div>
+            )}
+            {ebook.content && (
+              <div className="text-lg text-muted-foreground">
+                {ebook.content}
+              </div>
+            )}
+            {ebook.contentImages && ebook.contentImages.length > 0 && (
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {ebook.contentImages.map((image, index) => (
                   <img
@@ -158,7 +172,11 @@ export default function EbookDetailPage() {
                   )}
                 />
 
-                <Button type="submit" className="w-full">
+                <Button 
+                  type="submit" 
+                  className="w-full"
+                  disabled={!ebook.downloadUrl}
+                >
                   Download eBook
                 </Button>
               </form>
