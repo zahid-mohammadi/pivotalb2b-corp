@@ -37,7 +37,7 @@ export const blogPosts = pgTable("blog_posts", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   tags: text("tags").array(),
-  autoTags: text("auto_tags").array(),
+  autoTags: text("auto_tags").array(), 
   slug: text("slug").notNull().unique(),
   publishedAt: timestamp("published_at"),
 });
@@ -50,7 +50,7 @@ export const ebooks = pgTable("ebooks", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   tags: text("tags").array(),
-  autoTags: text("auto_tags").array(),
+  autoTags: text("auto_tags").array(), 
   downloadUrl: text("download_url"),
   pdfUrl: text("pdf_url"),
   publishedAt: timestamp("published_at"),
@@ -69,7 +69,7 @@ export const caseStudies = pgTable("case_studies", {
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
   tags: text("tags").array(),
-  autoTags: text("auto_tags").array(),
+  autoTags: text("auto_tags").array(), 
   pdfUrl: text("pdf_url"),
   publishedAt: timestamp("published_at"),
   slug: text("slug").notNull().unique(),
@@ -84,7 +84,7 @@ export const leads = pgTable("leads", {
   contentId: serial("content_id"),
   downloadedAt: timestamp("downloaded_at").defaultNow(),
   message: text("message"),
-  source: text("source").default('download'), // 'download' or 'contact'
+  source: text("source").default('download'), 
 });
 
 export type ColorTheme = {
