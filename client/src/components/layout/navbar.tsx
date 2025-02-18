@@ -14,7 +14,9 @@ export function Navbar() {
     <header className="border-b">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/">
-          <a className="font-bold text-2xl text-primary">Pivotal B2B</a>
+          <a className="flex items-center">
+            <img src="/attached_assets/logo.png" alt="Pivotal B2B" className="h-8" />
+          </a>
         </Link>
 
         <NavigationMenu>
