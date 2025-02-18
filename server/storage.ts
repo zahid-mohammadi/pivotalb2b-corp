@@ -3,14 +3,20 @@ import {
   type Service, 
   type Testimonial, 
   type User,
+  type Ebook,
+  type CaseStudy,
   type InsertBlogPost, 
   type InsertService, 
   type InsertTestimonial,
   type InsertUser,
+  type InsertEbook,
+  type InsertCaseStudy,
   blogPosts, 
   services, 
   testimonials,
-  users 
+  users,
+  ebooks,
+  caseStudies
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -29,6 +35,16 @@ export interface IStorage {
   getBlogPosts(): Promise<BlogPost[]>;
   getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
   createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+
+  // Ebooks
+  getEbooks(): Promise<Ebook[]>;
+  getEbookById(id: number): Promise<Ebook | undefined>;
+  createEbook(ebook: InsertEbook): Promise<Ebook>;
+
+  // Case Studies
+  getCaseStudies(): Promise<CaseStudy[]>;
+  getCaseStudyById(id: number): Promise<CaseStudy | undefined>;
+  createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy>;
 
   // Services
   getServices(): Promise<Service[]>;
@@ -81,6 +97,36 @@ export class DatabaseStorage implements IStorage {
   async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
     const [newPost] = await db.insert(blogPosts).values(post).returning();
     return newPost;
+  }
+
+  // Ebooks
+  async getEbooks(): Promise<Ebook[]> {
+    return await db.select().from(ebooks);
+  }
+
+  async getEbookById(id: number): Promise<Ebook | undefined> {
+    const [ebook] = await db.select().from(ebooks).where(eq(ebooks.id, id));
+    return ebook;
+  }
+
+  async createEbook(ebook: InsertEbook): Promise<Ebook> {
+    const [newEbook] = await db.insert(ebooks).values(ebook).returning();
+    return newEbook;
+  }
+
+  // Case Studies
+  async getCaseStudies(): Promise<CaseStudy[]> {
+    return await db.select().from(caseStudies);
+  }
+
+  async getCaseStudyById(id: number): Promise<CaseStudy | undefined> {
+    const [caseStudy] = await db.select().from(caseStudies).where(eq(caseStudies.id, id));
+    return caseStudy;
+  }
+
+  async createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy> {
+    const [newCaseStudy] = await db.insert(caseStudies).values(caseStudy).returning();
+    return newCaseStudy;
   }
 
   // Services

@@ -41,6 +41,15 @@ async function comparePasswords(supplied: string, stored: string) {
   }
 }
 
+export async function createAdminUser(username: string, password: string): Promise<User> {
+  const hashedPassword = await hashPassword(password);
+  return await storage.createUser({
+    username,
+    password: hashedPassword,
+    role: "admin"
+  });
+}
+
 export function setupAuth(app: Express) {
   app.use(
     session({
@@ -86,7 +95,6 @@ export function setupAuth(app: Express) {
     }
   });
 
-  // Add registration endpoint
   app.post("/api/register", async (req, res) => {
     try {
       const result = insertUserSchema.safeParse(req.body);
