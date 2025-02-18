@@ -14,6 +14,7 @@ import path from "path";
 import express from 'express';
 import { eq } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
+import { aiTaggingService } from "./services/ai-tagging";
 
 // Configure multer for handling file uploads
 const upload = multer({
@@ -67,8 +68,25 @@ export async function registerRoutes(app: Express) {
     if (!result.success) {
       return res.status(400).json({ errors: result.error.errors });
     }
-    const post = await storage.createBlogPost(result.data);
-    res.status(201).json(post);
+
+    try {
+      // Generate AI tags
+      const autoTags = await aiTaggingService.generateTagsForBlogPost(
+        result.data.title,
+        result.data.content,
+        result.data.metaDescription
+      );
+
+      const post = await storage.createBlogPost({
+        ...result.data,
+        autoTags,
+        tags: result.data.tags || []
+      });
+      res.status(201).json(post);
+    } catch (error) {
+      console.error("Error creating blog post:", error);
+      res.status(500).json({ error: "Failed to create blog post" });
+    }
   });
 
   app.patch("/api/blog-posts/:id", async (req, res) => {
@@ -124,7 +142,19 @@ export async function registerRoutes(app: Express) {
       if (!result.success) {
         return res.status(400).json({ errors: result.error.errors });
       }
-      const ebook = await storage.createEbook(result.data);
+
+      // Generate AI tags
+      const autoTags = await aiTaggingService.generateTagsForEbook(
+        result.data.title,
+        result.data.description,
+        result.data.content
+      );
+
+      const ebook = await storage.createEbook({
+        ...result.data,
+        autoTags,
+        tags: result.data.tags || []
+      });
       res.status(201).json(ebook);
     } catch (error: any) {
       console.error("Error creating ebook:", error);
@@ -186,8 +216,28 @@ export async function registerRoutes(app: Express) {
     if (!result.success) {
       return res.status(400).json({ errors: result.error.errors });
     }
-    const caseStudy = await storage.createCaseStudy(result.data);
-    res.status(201).json(caseStudy);
+
+    try {
+      // Generate AI tags
+      const autoTags = await aiTaggingService.generateTagsForCaseStudy(
+        result.data.title,
+        result.data.clientName,
+        result.data.industry,
+        result.data.challenge,
+        result.data.solution,
+        result.data.results
+      );
+
+      const caseStudy = await storage.createCaseStudy({
+        ...result.data,
+        autoTags,
+        tags: result.data.tags || []
+      });
+      res.status(201).json(caseStudy);
+    } catch (error) {
+      console.error("Error creating case study:", error);
+      res.status(500).json({ error: "Failed to create case study" });
+    }
   });
 
   app.patch("/api/case-studies/:id", async (req, res) => {

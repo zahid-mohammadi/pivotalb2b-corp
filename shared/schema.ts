@@ -2,7 +2,6 @@ import { pgTable, text, serial, timestamp, varchar, jsonb } from "drizzle-orm/pg
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// Users table remains unchanged
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: varchar("username", { length: 100 }).notNull().unique(),
@@ -37,6 +36,8 @@ export const blogPosts = pgTable("blog_posts", {
   metaKeywords: text("meta_keywords").notNull(),
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
+  tags: text("tags").array(),
+  autoTags: text("auto_tags").array(),
   slug: text("slug").notNull().unique(),
   publishedAt: timestamp("published_at"),
 });
@@ -48,11 +49,13 @@ export const ebooks = pgTable("ebooks", {
   content: text("content").notNull(),
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
+  tags: text("tags").array(),
+  autoTags: text("auto_tags").array(),
   downloadUrl: text("download_url"),
-  pdfUrl: text("pdf_url"),  // New field for PDF uploads
+  pdfUrl: text("pdf_url"),
   publishedAt: timestamp("published_at"),
   slug: text("slug").notNull().unique(),
-  colorTheme: jsonb("color_theme"),  // Added color theme field
+  colorTheme: jsonb("color_theme"),
 });
 
 export const caseStudies = pgTable("case_studies", {
@@ -65,23 +68,23 @@ export const caseStudies = pgTable("case_studies", {
   results: text("results").notNull(),
   bannerImage: text("banner_image"),
   contentImages: text("content_images").array(),
-  pdfUrl: text("pdf_url"),  // New field for PDF uploads
+  tags: text("tags").array(),
+  autoTags: text("auto_tags").array(),
+  pdfUrl: text("pdf_url"),
   publishedAt: timestamp("published_at"),
   slug: text("slug").notNull().unique(),
 });
 
-// New table for tracking leads from downloads
 export const leads = pgTable("leads", {
   id: serial("id").primaryKey(),
   fullName: text("full_name").notNull(),
   email: text("email").notNull(),
   company: text("company").notNull(),
-  contentType: text("content_type").notNull(), // 'ebook' or 'case-study'
+  contentType: text("content_type").notNull(),
   contentId: serial("content_id").notNull(),
   downloadedAt: timestamp("downloaded_at").defaultNow(),
 });
 
-// Color theme type for ebooks
 export type ColorTheme = {
   primary: string;
   secondary: string;
@@ -90,7 +93,6 @@ export type ColorTheme = {
   text: string;
 };
 
-// Schemas
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
 export const loginSchema = insertUserSchema.pick({ username: true, password: true });
 
@@ -99,6 +101,8 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts)
   .extend({
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional(),
+    autoTags: z.array(z.string()).optional(),
   });
 
 export const insertEbookSchema = createInsertSchema(ebooks)
@@ -106,6 +110,8 @@ export const insertEbookSchema = createInsertSchema(ebooks)
   .extend({
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional(),
+    autoTags: z.array(z.string()).optional(),
     pdfUrl: z.string().optional(),
     colorTheme: z.object({
       primary: z.string(),
@@ -122,14 +128,13 @@ export const insertCaseStudySchema = createInsertSchema(caseStudies)
   .extend({
     bannerImage: z.string().optional(),
     contentImages: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional(),
+    autoTags: z.array(z.string()).optional(),
     pdfUrl: z.string().optional(),
     slug: z.string(),
   });
 
-export const insertLeadSchema = createInsertSchema(leads).omit({ 
-  id: true, 
-  downloadedAt: true 
-});
+export const insertLeadSchema = createInsertSchema(leads).omit({ id: true, downloadedAt: true });
 
 export const insertServiceSchema = createInsertSchema(services)
   .omit({ id: true })
@@ -139,7 +144,6 @@ export const insertServiceSchema = createInsertSchema(services)
 
 export const insertTestimonialSchema = createInsertSchema(testimonials).omit({ id: true });
 
-// Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type LoginData = z.infer<typeof loginSchema>;
