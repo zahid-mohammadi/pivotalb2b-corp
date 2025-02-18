@@ -6,10 +6,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function generateSlug(title: string): string {
+  const timestamp = Date.now().toString(36);
   return title
     .toLowerCase() 
     .trim() 
     .replace(/[^\w\s-]/g, '') 
     .replace(/\s+/g, '-') 
-    .replace(/-+/g, '-') 
+    .replace(/-+/g, '-') + 
+    '-' + timestamp;
 }

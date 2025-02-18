@@ -11,6 +11,7 @@ import {
 import multer from "multer";
 import path from "path";
 import express from 'express';
+import { eq } from "drizzle-orm";
 
 // Configure multer for handling file uploads
 const upload = multer({
@@ -116,12 +117,20 @@ export async function registerRoutes(app: Express) {
   });
 
   app.post("/api/ebooks", async (req, res) => {
-    const result = insertEbookSchema.safeParse(req.body);
-    if (!result.success) {
-      return res.status(400).json({ errors: result.error.errors });
+    try {
+      const result = insertEbookSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const ebook = await storage.createEbook(result.data);
+      res.status(201).json(ebook);
+    } catch (error: any) {
+      console.error("Error creating ebook:", error);
+      if (error.code === '23505' && error.constraint === 'ebooks_slug_key') {
+        return res.status(400).json({ error: "An ebook with this slug already exists. Please try a different title." });
+      }
+      res.status(500).json({ error: "Failed to create ebook" });
     }
-    const ebook = await storage.createEbook(result.data);
-    res.status(201).json(ebook);
   });
 
   app.patch("/api/ebooks/:id", async (req, res) => {
