@@ -11,7 +11,9 @@ import Login from "@/pages/login";
 import Blog from "@/pages/blog";
 import BlogDetail from "@/pages/blog-detail";
 import Ebooks from "@/pages/ebooks";
+import EbookDetail from "@/pages/ebook-detail";
 import CaseStudies from "@/pages/case-studies";
+import CaseStudyDetail from "@/pages/case-study-detail";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
 import { Navbar } from "@/components/layout/navbar";
@@ -30,7 +32,9 @@ function Router() {
           <Route path="/blog" component={Blog} />
           <Route path="/blog/:slug" component={BlogDetail} />
           <Route path="/ebooks" component={Ebooks} />
+          <Route path="/ebooks/:id" component={EbookDetail} />
           <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/case-studies/:id" component={CaseStudyDetail} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <ProtectedRoute path="/dashboard" component={Dashboard} />

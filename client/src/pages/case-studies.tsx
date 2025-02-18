@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { CaseStudy } from "@shared/schema";
 import { Loader2 } from "lucide-react";
+import { Link } from "wouter";
 
 export default function CaseStudiesPage() {
   const { data: caseStudies, isLoading } = useQuery<CaseStudy[]>({
@@ -22,36 +23,40 @@ export default function CaseStudiesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {caseStudies?.map((caseStudy) => (
-          <Card key={caseStudy.id} className="p-6">
-            {caseStudy.bannerImage && (
-              <img
-                src={caseStudy.bannerImage}
-                alt={caseStudy.title}
-                className="w-full h-48 object-cover rounded-md mb-4"
-              />
-            )}
-            <h2 className="text-2xl font-semibold mb-4">{caseStudy.title}</h2>
-            <p className="font-medium text-muted-foreground mb-2">
-              Client: {caseStudy.clientName}
-            </p>
-            <p className="text-sm text-muted-foreground mb-4">
-              Industry: {caseStudy.industry}
-            </p>
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-semibold mb-2">Challenge</h3>
-                <p className="text-muted-foreground">{caseStudy.challenge}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">Solution</h3>
-                <p className="text-muted-foreground">{caseStudy.solution}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">Results</h3>
-                <p className="text-muted-foreground">{caseStudy.results}</p>
-              </div>
-            </div>
-          </Card>
+          <Link key={caseStudy.id} href={`/case-studies/${caseStudy.id}`}>
+            <a className="block">
+              <Card className="p-6 hover:shadow-lg transition-shadow">
+                {caseStudy.bannerImage && (
+                  <img
+                    src={caseStudy.bannerImage}
+                    alt={caseStudy.title}
+                    className="w-full h-48 object-cover rounded-md mb-4"
+                  />
+                )}
+                <h2 className="text-2xl font-semibold mb-4">{caseStudy.title}</h2>
+                <p className="font-medium text-muted-foreground mb-2">
+                  Client: {caseStudy.clientName}
+                </p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Industry: {caseStudy.industry}
+                </p>
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-semibold mb-2">Challenge</h3>
+                    <p className="text-muted-foreground">{caseStudy.challenge}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">Solution</h3>
+                    <p className="text-muted-foreground">{caseStudy.solution}</p>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-2">Results</h3>
+                    <p className="text-muted-foreground">{caseStudy.results}</p>
+                  </div>
+                </div>
+              </Card>
+            </a>
+          </Link>
         ))}
         {!caseStudies?.length && (
           <p className="text-muted-foreground col-span-2 text-center">
