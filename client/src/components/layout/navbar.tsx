@@ -10,6 +10,15 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Loader2 } from "lucide-react";
+import { 
+  ArrowRight,
+  CheckCircle2,
+  Building2,
+  Users,
+  BarChart3,
+  Eye,
+  HandshakeIcon
+} from "lucide-react";
 
 export function Navbar() {
   const { user, logoutMutation } = useAuth();
@@ -111,6 +120,14 @@ export function Navbar() {
                   </li>
                 </ul>
               </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <Link href="/agency-partnerships">
+                <NavigationMenuLink className="px-4 py-2 hover:text-primary cursor-pointer">
+                  Agency Partnerships
+                </NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
