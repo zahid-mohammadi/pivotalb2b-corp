@@ -134,17 +134,33 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
-    const [newPost] = await db.insert(blogPosts).values(post).returning();
-    return newPost;
+    try {
+      const [newPost] = await db.insert(blogPosts).values([{
+        ...post,
+        publishedAt: post.publishedAt ? new Date(post.publishedAt) : null,
+      }]).returning();
+      return newPost;
+    } catch (error) {
+      console.error("Error creating blog post:", error);
+      throw error;
+    }
   }
 
   async updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost> {
-    const [updatedPost] = await db
-      .update(blogPosts)
-      .set(post)
-      .where(eq(blogPosts.id, id))
-      .returning();
-    return updatedPost;
+    try {
+      const [updatedPost] = await db
+        .update(blogPosts)
+        .set({
+          ...post,
+          publishedAt: post.publishedAt ? new Date(post.publishedAt) : undefined,
+        })
+        .where(eq(blogPosts.id, id))
+        .returning();
+      return updatedPost;
+    } catch (error) {
+      console.error("Error updating blog post:", error);
+      throw error;
+    }
   }
 
   async deleteBlogPost(id: number): Promise<void> {
@@ -162,8 +178,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createEbook(ebook: InsertEbook): Promise<Ebook> {
-    const [newEbook] = await db.insert(ebooks).values(ebook).returning();
-    return newEbook;
+    try {
+      const [newEbook] = await db.insert(ebooks).values([{
+        ...ebook,
+        publishedAt: ebook.publishedAt ? new Date(ebook.publishedAt) : null,
+      }]).returning();
+      return newEbook;
+    } catch (error) {
+      console.error("Error creating ebook:", error);
+      throw error;
+    }
   }
 
   async getEbookBySlug(slug: string): Promise<Ebook | undefined> {
@@ -177,12 +201,20 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateEbook(id: number, ebook: Partial<InsertEbook>): Promise<Ebook> {
-    const [updatedEbook] = await db
-      .update(ebooks)
-      .set(ebook)
-      .where(eq(ebooks.id, id))
-      .returning();
-    return updatedEbook;
+    try {
+      const [updatedEbook] = await db
+        .update(ebooks)
+        .set({
+          ...ebook,
+          publishedAt: ebook.publishedAt ? new Date(ebook.publishedAt) : undefined,
+        })
+        .where(eq(ebooks.id, id))
+        .returning();
+      return updatedEbook;
+    } catch (error) {
+      console.error("Error updating ebook:", error);
+      throw error;
+    }
   }
 
   async deleteEbook(id: number): Promise<void> {
@@ -200,8 +232,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy> {
-    const [newCaseStudy] = await db.insert(caseStudies).values(caseStudy).returning();
-    return newCaseStudy;
+    try {
+      const [newCaseStudy] = await db.insert(caseStudies).values([{
+        ...caseStudy,
+        publishedAt: caseStudy.publishedAt ? new Date(caseStudy.publishedAt) : null,
+      }]).returning();
+      return newCaseStudy;
+    } catch (error) {
+      console.error("Error creating case study:", error);
+      throw error;
+    }
   }
 
   async getCaseStudyBySlug(slug: string): Promise<CaseStudy | undefined> {
@@ -215,12 +255,20 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateCaseStudy(id: number, caseStudy: Partial<InsertCaseStudy>): Promise<CaseStudy> {
-    const [updatedCaseStudy] = await db
-      .update(caseStudies)
-      .set(caseStudy)
-      .where(eq(caseStudies.id, id))
-      .returning();
-    return updatedCaseStudy;
+    try {
+      const [updatedCaseStudy] = await db
+        .update(caseStudies)
+        .set({
+          ...caseStudy,
+          publishedAt: caseStudy.publishedAt ? new Date(caseStudy.publishedAt) : undefined,
+        })
+        .where(eq(caseStudies.id, id))
+        .returning();
+      return updatedCaseStudy;
+    } catch (error) {
+      console.error("Error updating case study:", error);
+      throw error;
+    }
   }
 
   async deleteCaseStudy(id: number): Promise<void> {
@@ -234,7 +282,7 @@ export class DatabaseStorage implements IStorage {
       return servicesData.map(service => ({
         ...service,
         useCases: [], 
-        faqQuestions: [] 
+        faqQuestions: service.faqQuestions as FAQ[] || [] 
       }));
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -243,13 +291,32 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getServiceBySlug(slug: string): Promise<Service | undefined> {
-    const [service] = await db.select().from(services).where(eq(services.slug, slug));
-    return service;
+    try {
+      const [service] = await db.select().from(services).where(eq(services.slug, slug));
+      if (!service) return undefined;
+      return {
+        ...service,
+        useCases: [], 
+        faqQuestions: service.faqQuestions as FAQ[] || []
+      };
+    } catch (error) {
+      console.error("Error getting service by slug:", error);
+      throw error;
+    }
   }
 
   async createService(service: InsertService): Promise<Service> {
-    const [newService] = await db.insert(services).values(service).returning();
-    return newService;
+    try {
+      const [newService] = await db.insert(services).values(service).returning();
+      return {
+        ...newService,
+        useCases: [], 
+        faqQuestions: newService.faqQuestions as FAQ[] || []
+      };
+    } catch (error) {
+      console.error("Error creating service:", error);
+      throw error;
+    }
   }
 
   // Testimonials

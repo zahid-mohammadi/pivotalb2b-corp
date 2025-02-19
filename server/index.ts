@@ -51,15 +51,14 @@ app.use((req, res, next) => {
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
-    // Serve static files in production
     app.use(express.static(path.join(process.cwd(), 'dist/public')));
     serveStatic(app);
   }
 
-  // Kill any existing processes on the port
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
 
   try {
+    log(`Starting server on port ${port}...`);
     server.listen(port, '0.0.0.0', () => {
       log(`Server running in ${app.get('env')} mode on port ${port}`);
     });

@@ -47,6 +47,8 @@ export const caseStudies = pgTable("case_studies", {
   results: text("results").notNull(),
   testimonial: text("testimonial"),
   bannerImage: text("banner_image"),
+  pdfUrl: text("pdf_url"),
+  contentImages: text("content_images").array(),
   publishedAt: timestamp("published_at"),
   tags: text("tags").array(),
   autoTags: text("auto_tags").array(),
@@ -183,3 +185,12 @@ export const insertTestimonialSchema = createInsertSchema(testimonials)
   .extend({
     avatar: z.string().optional(),
   });
+
+// Add missing type exports
+export type InsertBlogPost = z.infer<typeof insertBlogPostSchema>;
+export type InsertService = z.infer<typeof insertServiceSchema>;
+export type InsertTestimonial = z.infer<typeof insertTestimonialSchema>;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+export type InsertEbook = z.infer<typeof insertEbookSchema>;
+export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
+export type InsertLead = z.infer<typeof insertLeadSchema>;
