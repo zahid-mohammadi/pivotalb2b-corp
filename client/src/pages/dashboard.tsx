@@ -3,10 +3,22 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, FileText, BookText, Users, User, Pencil, Trash2 } from "lucide-react";
+import { 
+  Loader2, 
+  FileText, 
+  BookText, 
+  Users, 
+  User, 
+  Pencil, 
+  Trash2,
+  BarChart3 
+} from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
 import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
+import { OverviewMetrics } from "@/components/analytics/overview-metrics";
+import { TrafficSources } from "@/components/analytics/traffic-sources";
+import { UserBehavior } from "@/components/analytics/user-behavior";
 import type { BlogPost, Ebook, CaseStudy, Lead } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -14,7 +26,7 @@ import { MetaTags } from "@/components/ui/meta-tags";
 
 export default function Dashboard() {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState("users");
+  const [activeTab, setActiveTab] = useState("analytics");
   const [showEditor, setShowEditor] = useState<"blog" | "ebook" | "case-study" | null>(null);
   const [editingItem, setEditingItem] = useState<BlogPost | Ebook | CaseStudy | null>(null);
 
@@ -132,6 +144,10 @@ export default function Dashboard() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-8">
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
+              <BarChart3 className="h-4 w-4" />
+              Analytics
+            </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               User Management
@@ -153,6 +169,17 @@ export default function Dashboard() {
               Leads
             </TabsTrigger>
           </TabsList>
+
+          {/* Analytics Tab */}
+          <TabsContent value="analytics">
+            <div className="space-y-8">
+              <OverviewMetrics />
+              <div className="grid gap-4 md:grid-cols-2">
+                <TrafficSources />
+                <UserBehavior />
+              </div>
+            </div>
+          </TabsContent>
 
           {/* User Management Tab */}
           <TabsContent value="users">
