@@ -1,5 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, Line, BarChart, Bar, ResponsiveContainer } from "recharts";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
+} from "recharts";
 import { Users, Clock, MousePointer, ArrowUpRight } from "lucide-react";
 
 const mockData = {
@@ -39,15 +48,16 @@ export function OverviewMetrics() {
           </div>
           <div className="h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={mockData.dailyUsers}>
-                <Line
+              <AreaChart data={mockData.dailyUsers}>
+                <Area
                   type="monotone"
                   dataKey="users"
                   stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={false}
+                  fill="hsl(var(--primary))"
+                  fillOpacity={0.2}
                 />
-              </LineChart>
+                <Tooltip />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
@@ -71,6 +81,7 @@ export function OverviewMetrics() {
                   fill="hsl(var(--primary))"
                   radius={[4, 4, 0, 0]}
                 />
+                <Tooltip />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -89,15 +100,16 @@ export function OverviewMetrics() {
           </div>
           <div className="mt-4 h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={mockData.dailyUsers}>
-                <Line
+              <AreaChart data={mockData.dailyUsers}>
+                <Area
                   type="monotone"
                   dataKey="users"
                   stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={false}
+                  fill="hsl(var(--primary))"
+                  fillOpacity={0.2}
                 />
-              </LineChart>
+                <Tooltip />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
@@ -121,6 +133,7 @@ export function OverviewMetrics() {
                   fill="hsl(var(--primary))"
                   radius={[4, 4, 0, 0]}
                 />
+                <Tooltip />
               </BarChart>
             </ResponsiveContainer>
           </div>
