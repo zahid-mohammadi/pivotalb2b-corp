@@ -256,31 +256,44 @@ export default function ServicePage() {
             {/* Use Cases Tab */}
             <TabsContent value="use-cases">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {service.useCases && service.useCases.map((useCase: UseCase, index: number) => (
-                  <Card key={index}>
-                    <CardContent className="p-8">
-                      <h3 className="text-xl font-semibold mb-4">{useCase.title}</h3>
-                      <p className="text-muted-foreground mb-6">{useCase.description}</p>
+                {service.useCases && service.useCases.length > 0 ? (
+                  service.useCases.map((useCase: UseCase, index: number) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <Card>
+                        <CardContent className="p-8">
+                          <h3 className="text-xl font-semibold mb-4">{useCase.title}</h3>
+                          <p className="text-muted-foreground mb-6">{useCase.description}</p>
 
-                      <div className="space-y-6">
-                        <div>
-                          <h4 className="font-semibold mb-2">Challenge</h4>
-                          <p className="text-sm text-muted-foreground">{useCase.challenge}</p>
-                        </div>
+                          <div className="space-y-6">
+                            <div>
+                              <h4 className="font-semibold text-primary mb-2">Challenge</h4>
+                              <p className="text-sm text-muted-foreground">{useCase.challenge}</p>
+                            </div>
 
-                        <div>
-                          <h4 className="font-semibold mb-2">Solution</h4>
-                          <p className="text-sm text-muted-foreground">{useCase.solution}</p>
-                        </div>
+                            <div>
+                              <h4 className="font-semibold text-primary mb-2">Solution</h4>
+                              <p className="text-sm text-muted-foreground">{useCase.solution}</p>
+                            </div>
 
-                        <div>
-                          <h4 className="font-semibold mb-2">Outcome</h4>
-                          <p className="text-sm text-muted-foreground">{useCase.outcome}</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                            <div>
+                              <h4 className="font-semibold text-primary mb-2">Outcome</h4>
+                              <p className="text-sm text-muted-foreground">{useCase.outcome}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="col-span-2 text-center py-12">
+                    <p className="text-muted-foreground">No use cases available at this time.</p>
+                  </div>
+                )}
               </div>
             </TabsContent>
 
