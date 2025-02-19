@@ -27,7 +27,6 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
 import { PageTransition } from "@/components/ui/page-transition";
-import ABTestCalculator from "@/pages/ab-test-calculator";
 
 function Router() {
   return (
@@ -51,7 +50,6 @@ function Router() {
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-conditions" component={TermsConditions} />
             <Route path="/cookie-policy" component={CookiePolicy} />
-            <Route path="/ab-test-calculator" component={ABTestCalculator} />
             <ProtectedRoute path="/dashboard" component={Dashboard} />
             <Route component={NotFound} />
           </Switch>
