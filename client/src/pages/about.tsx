@@ -71,10 +71,22 @@ export default function AboutPage() {
                     </div>
                   </div>
                   <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4">
-                    <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/80">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="rounded-full hover:bg-white/80"
+                      onClick={() => window.open('https://www.linkedin.com/in/zahid-m/', '_blank')}
+                      aria-label="Visit Zahid Mohammadi's LinkedIn profile"
+                    >
                       <LinkedinIcon className="h-5 w-5" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/80">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="rounded-full hover:bg-white/80"
+                      onClick={() => window.open('https://twitter.com/', '_blank')}
+                      aria-label="Visit Zahid Mohammadi's Twitter profile"
+                    >
                       <TwitterIcon className="h-5 w-5" />
                     </Button>
                   </div>
