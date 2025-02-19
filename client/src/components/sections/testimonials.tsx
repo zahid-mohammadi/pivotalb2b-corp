@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Loader2 } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import type { Testimonial } from "@shared/schema";
 
 export function Testimonials() {
@@ -17,6 +17,10 @@ export function Testimonials() {
     );
   }
 
+  if (!testimonials?.length) {
+    return null;
+  }
+
   return (
     <section className="py-20 bg-slate-50">
       <div className="container mx-auto px-4">
@@ -28,24 +32,33 @@ export function Testimonials() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {testimonials?.map((testimonial) => (
-            <Card key={testimonial.id}>
+          {testimonials.map((testimonial) => (
+            <Card key={testimonial.id} className="hover-lift">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-4 mb-4">
                   <Avatar>
-                    <AvatarFallback>
-                      {testimonial.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
+                    {testimonial.avatar ? (
+                      <img src={testimonial.avatar} alt={testimonial.clientName} />
+                    ) : (
+                      <AvatarFallback>
+                        {testimonial.clientName
+                          .split(" ")
+                          .map((n: string) => n[0])
+                          .join("")}
+                      </AvatarFallback>
+                    )}
                   </Avatar>
                   <div>
-                    <p className="font-semibold">{testimonial.name}</p>
+                    <p className="font-semibold">{testimonial.clientName}</p>
                     <p className="text-sm text-muted-foreground">
-                      {testimonial.title}, {testimonial.company}
+                      {testimonial.role}, {testimonial.company}
                     </p>
                   </div>
+                </div>
+                <div className="flex items-center gap-1 mb-3">
+                  {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                  ))}
                 </div>
                 <p className="text-muted-foreground">{testimonial.content}</p>
               </CardContent>
