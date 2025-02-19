@@ -126,9 +126,26 @@ export default function AboutPage() {
           <Card className="max-w-4xl mx-auto">
             <CardContent className="p-8">
               <div className="text-center mb-8">
-                <p className="text-lg text-muted-foreground">
+                <p className="text-lg text-muted-foreground mb-6">
                   A sub-division of Pivotal B2B LLC, empowering you to navigate the evolving B2B tech landscape - completely free.
                 </p>
+                <div className="flex justify-center gap-4">
+                  <Button 
+                    onClick={() => window.open('https://www.industryevolve360.com', '_blank')}
+                    className="gap-2"
+                  >
+                    <Globe2 className="h-4 w-4" />
+                    Visit Website
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => window.open('https://www.linkedin.com/showcase/industry-svolve-360', '_blank')}
+                    className="gap-2"
+                  >
+                    <LinkedinIcon className="h-4 w-4" />
+                    Follow on LinkedIn
+                  </Button>
+                </div>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 mt-12">
