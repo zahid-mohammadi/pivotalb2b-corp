@@ -35,8 +35,8 @@ export function ThemeSwitcher() {
       <DropdownMenuContent align="end">
         <DropdownMenuRadioGroup
           value={theme.appearance}
-          onValueChange={(value: "light" | "dark" | "system") =>
-            setTheme({ ...theme, appearance: value })
+          onValueChange={(value) =>
+            setTheme({ ...theme, appearance: value as "light" | "dark" | "system" })
           }
         >
           <DropdownMenuRadioItem value="light">
