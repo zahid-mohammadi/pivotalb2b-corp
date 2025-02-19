@@ -61,15 +61,20 @@ export default function AboutPage() {
                 <div className="relative min-h-[400px] bg-gradient-to-br from-primary/20 to-primary/5 p-8 flex items-center justify-center">
                   <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.05]" />
                   <div className="relative z-10">
-                    <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center border-2 border-primary/20 shadow-xl">
-                      <span className="text-6xl text-primary font-bold">ZM</span>
+                    <div className="w-48 h-48 rounded-full overflow-hidden bg-white shadow-xl border-2 border-primary/20">
+                      <img
+                        src="/Zahid Mohammadi.jpeg"
+                        alt="Zahid Mohammadi - Founder & CEO"
+                        className="w-full h-full object-cover object-center"
+                        loading="eager"
+                      />
                     </div>
                   </div>
                   <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4">
-                    <Button variant="ghost" size="icon" className="rounded-full">
+                    <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/80">
                       <LinkedinIcon className="h-5 w-5" />
                     </Button>
-                    <Button variant="ghost" size="icon" className="rounded-full">
+                    <Button variant="ghost" size="icon" className="rounded-full hover:bg-white/80">
                       <TwitterIcon className="h-5 w-5" />
                     </Button>
                   </div>
