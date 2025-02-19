@@ -10,38 +10,47 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { Loader2 } from "lucide-react";
+import { Menu, X, Loader2 } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const { user, logoutMutation } = useAuth();
 
-  return (
-    <header className="border-b">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center">
-          <Link href="/">
-            <img src="/logo.png" alt="Pivotal B2B" className="h-8 cursor-pointer" />
-          </Link>
+  const NavItems = ({ className, isMobile = false }: { className?: string, isMobile?: boolean }) => (
+    <div className={cn("flex", isMobile ? "flex-col space-y-4" : "items-center space-x-4", className)}>
+      <Link href="/">
+        <span className="text-sm hover:text-primary cursor-pointer">Home</span>
+      </Link>
+      <Link href="/about">
+        <span className="text-sm hover:text-primary cursor-pointer">About Us</span>
+      </Link>
+
+      {/* Solutions Dropdown/List */}
+      {isMobile ? (
+        <div className="space-y-2">
+          <p className="text-sm font-medium">Solutions</p>
+          <div className="pl-4 space-y-2">
+            <Link href="/services/intent-based-lead-generation">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Intent-Based Lead Generation</span>
+            </Link>
+            <Link href="/services/content-distribution">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Content Distribution</span>
+            </Link>
+            <Link href="/services/event-webinar-promotion">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Event & Webinar Promotion</span>
+            </Link>
+            <Link href="/services/lead-qualification">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Lead Qualification</span>
+            </Link>
+            <Link href="/services/account-based-marketing">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Account-Based Marketing</span>
+            </Link>
+          </div>
         </div>
-
+      ) : (
         <NavigationMenu>
-          <NavigationMenuList className="gap-2">
-            <NavigationMenuItem>
-              <Link href="/">
-                <NavigationMenuLink className="px-4 py-2 hover:text-primary cursor-pointer">
-                  Home
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <Link href="/about">
-                <NavigationMenuLink className="px-4 py-2 hover:text-primary cursor-pointer">
-                  About Us
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
+          <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -89,7 +98,29 @@ export function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      )}
 
+      {/* Resources Dropdown/List */}
+      {isMobile ? (
+        <div className="space-y-2">
+          <p className="text-sm font-medium">Resources</p>
+          <div className="pl-4 space-y-2">
+            <Link href="/blog">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Blog</span>
+            </Link>
+            <Link href="/ebooks">
+              <span className="text-sm text-muted-foreground hover:text-primary block">eBooks</span>
+            </Link>
+            <Link href="/case-studies">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Case Studies</span>
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <NavigationMenu>
+          <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -121,52 +152,107 @@ export function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <Link href="/agency-partnerships">
-                <NavigationMenuLink className="px-4 py-2 hover:text-primary cursor-pointer">
-                  Agency Partnerships
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <Link href="/contact">
-                <NavigationMenuLink className="px-4 py-2 hover:text-primary cursor-pointer">
-                  Contact Us
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
+      )}
+
+      <Link href="/agency-partnerships">
+        <span className="text-sm hover:text-primary cursor-pointer">Agency Partnerships</span>
+      </Link>
+      <Link href="/contact">
+        <span className="text-sm hover:text-primary cursor-pointer">Contact Us</span>
+      </Link>
+    </div>
+  );
+
+  return (
+    <header className="border-b">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="flex items-center">
+          <Link href="/">
+            <img src="/logo.png" alt="Pivotal B2B" className="h-8 cursor-pointer" />
+          </Link>
+        </div>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:block">
+          <NavItems />
+        </div>
 
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          {user ? (
-            <Button 
-              variant="outline"
-              onClick={() => logoutMutation.mutate()}
-              disabled={logoutMutation.isPending}
-            >
-              {logoutMutation.isPending ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Logging out...
-                </>
-              ) : (
-                'Logout'
-              )}
-            </Button>
-          ) : (
-            <>
-              <Link href="/login">
-                <Button variant="outline">Login</Button>
-              </Link>
-              <Link href="/contact">
-                <Button>Get Started Today</Button>
-              </Link>
-            </>
-          )}
+
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle Menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px]">
+              <div className="flex flex-col space-y-4 mt-4">
+                <NavItems isMobile />
+                <div className="pt-4 border-t">
+                  {user ? (
+                    <Button 
+                      variant="outline"
+                      onClick={() => logoutMutation.mutate()}
+                      disabled={logoutMutation.isPending}
+                      className="w-full"
+                    >
+                      {logoutMutation.isPending ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Logging out...
+                        </>
+                      ) : (
+                        'Logout'
+                      )}
+                    </Button>
+                  ) : (
+                    <div className="flex flex-col space-y-2">
+                      <Link href="/login">
+                        <Button variant="outline" className="w-full">Login</Button>
+                      </Link>
+                      <Link href="/contact">
+                        <Button className="w-full">Get Started Today</Button>
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+
+          {/* Desktop Auth Buttons */}
+          <div className="hidden md:flex items-center gap-4">
+            {user ? (
+              <Button 
+                variant="outline"
+                onClick={() => logoutMutation.mutate()}
+                disabled={logoutMutation.isPending}
+              >
+                {logoutMutation.isPending ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Logging out...
+                  </>
+                ) : (
+                  'Logout'
+                )}
+              </Button>
+            ) : (
+              <>
+                <Link href="/login">
+                  <Button variant="outline">Login</Button>
+                </Link>
+                <Link href="/contact">
+                  <Button>Get Started Today</Button>
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </header>
