@@ -12,12 +12,131 @@ export function Hero() {
         {/* Base gradient layer */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800/95 to-slate-900/90" />
 
-        {/* Enhanced radial gradient */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/80 via-primary/50 to-transparent animate-[pulse_8s_ease-in-out_infinite]" />
+        {/* Multiple layered gradient animations */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-primary/60 via-primary/40 to-transparent"
+          animate={{
+            opacity: [0.4, 0.6, 0.4],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
 
-        {/* Animated grid pattern */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-30 animate-[pulse_4s_ease-in-out_infinite]" />
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-bl from-blue-500/40 via-purple-500/30 to-transparent"
+          animate={{
+            opacity: [0.3, 0.5, 0.3],
+            scale: [1.1, 1, 1.1],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
 
+        {/* Animated grid pattern with higher opacity */}
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-40 animate-[pulse_4s_ease-in-out_infinite]" />
+
+        {/* Animated geometric shapes */}
+        <div className="absolute inset-0">
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-96 h-96 rounded-full border border-primary/30"
+              style={{
+                top: `${30 + i * 20}%`,
+                left: `${20 + i * 20}%`,
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                rotate: [0, 180, 360],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 10 + i * 2,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Enhanced particle system */}
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 bg-primary/60 rounded-full"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -30, 0],
+              x: [0, Math.random() * 20 - 10, 0],
+              scale: [1, 1.5, 1],
+              opacity: [0.3, 0.7, 0.3],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+
+        {/* Animated wave effects */}
+        <div className="absolute inset-0 overflow-hidden">
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute h-[150%] w-[150%] top-[-25%] left-[-25%]"
+              style={{
+                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#4F46E5' : '#7C3AED'}/20 60deg, transparent 120deg)`,
+                transform: 'rotate(90deg)',
+              }}
+              animate={{
+                rotate: [90, 450],
+              }}
+              transition={{
+                duration: 15 + i * 5,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Pulsing light effects */}
+        {[...Array(4)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              width: `${200 + i * 100}px`,
+              height: `${200 + i * 100}px`,
+              top: `${20 + i * 15}%`,
+              left: `${20 + i * 15}%`,
+              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#4F46E5'}/30 0%, transparent 70%)`,
+            }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 4 + i,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.5,
+            }}
+          />
+        ))}
         {/* Top right animated blob */}
         <div className="absolute -top-24 -right-24 w-[600px] h-[600px]">
           <motion.div
