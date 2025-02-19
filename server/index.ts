@@ -7,30 +7,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Security middleware
+// Basic security headers
 app.use((req, res, next) => {
-  // Enable HSTS
-  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
-
-  // Force HTTPS
-  if (process.env.NODE_ENV === 'production' && !req.secure && req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(301, `https://${req.headers.host}${req.url}`);
-  }
-
-  const allowedDomains = ['www.pivotal-b2b.com', 'pivotal-b2b.com'];
-  const host = req.headers.host;
-
-  // Redirect non-www to www
-  if (host === 'pivotal-b2b.com') {
-    return res.redirect(301, `https://www.${host}${req.url}`);
-  }
-
-  // Set security headers
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-
   next();
 });
 
