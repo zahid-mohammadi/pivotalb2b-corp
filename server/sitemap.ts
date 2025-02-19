@@ -10,6 +10,14 @@ let sitemap: Buffer;
 let lastUpdate = 0;
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
+function normalizeHostname(hostname: string): string {
+  // Ensure hostname starts with www if it's the production domain
+  if (hostname.includes('pivotal-b2b.com') && !hostname.startsWith('www.')) {
+    return `www.${hostname}`;
+  }
+  return hostname;
+}
+
 function generateSitemapUrls(hostname: string): SitemapUrl[] {
   const routes = getRouteConfigs();
   const urls: SitemapUrl[] = [];
@@ -59,9 +67,9 @@ router.get('/sitemap.xml', async (req, res) => {
       return;
     }
 
-    // Get the hostname, fallback to a default if not available
+    // Get the hostname and ensure it includes www for production
     const protocol = req.get('x-forwarded-proto') || req.protocol;
-    const host = req.get('host') || req.hostname;
+    const host = normalizeHostname(req.get('host') || req.hostname);
     const hostname = `${protocol}://${host}`;
 
     log(`Generating sitemap for hostname: ${hostname}`);

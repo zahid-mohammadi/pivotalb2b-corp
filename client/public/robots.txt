@@ -6,7 +6,7 @@ Disallow: /dashboard
 Disallow: /login
 
 # Sitemap location
-Sitemap: /sitemap.xml
+Sitemap: https://www.pivotal-b2b.com/sitemap.xml
 
 # Crawl delay to prevent overwhelming the server
 Crawl-delay: 1
