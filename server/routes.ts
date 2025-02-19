@@ -351,8 +351,9 @@ export async function registerRoutes(app: Express) {
       if (!req.user) {
         return res.status(401).json({ error: "Not authenticated" });
       }
+      const user = req.user as User;
       const recommendations = await recommendationService.getPersonalizedRecommendations(
-        req.user.email,
+        user.email,
         3
       );
       res.json(recommendations);
