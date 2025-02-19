@@ -1,6 +1,6 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bar, BarChart, Line, LineChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
-import { ArrowUpRight, Users, Clock, MousePointer, ArrowRight } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { LineChart, Line, BarChart, Bar, ResponsiveContainer } from "recharts";
+import { Users, Clock, MousePointer, ArrowUpRight } from "lucide-react";
 
 const mockData = {
   dailyUsers: [

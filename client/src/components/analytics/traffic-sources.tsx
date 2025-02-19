@@ -13,7 +13,7 @@ const COLORS = ['hsl(var(--primary))', '#4F46E5', '#7C3AED', '#EC4899'];
 
 export function TrafficSources() {
   return (
-    <Card className="col-span-2">
+    <Card>
       <CardHeader>
         <CardTitle>Traffic Sources</CardTitle>
         <CardDescription>
@@ -30,6 +30,7 @@ export function TrafficSources() {
                 cy="50%"
                 innerRadius={60}
                 outerRadius={80}
+                fill="#8884d8"
                 paddingAngle={5}
                 dataKey="value"
               >
