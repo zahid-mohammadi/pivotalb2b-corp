@@ -138,26 +138,66 @@ export default function ServicePage() {
         {/* Main Content Tabs */}
         <div className="container mx-auto px-4 py-20">
           <Tabs defaultValue="overview" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-1 md:grid-cols-5 h-auto gap-4 p-1 bg-muted/20">
-              <TabsTrigger value="overview" className="flex items-center gap-2">
-                <BookOpen className="h-4 w-4" />
-                Overview
+            <TabsList className="grid w-full grid-cols-1 md:grid-cols-5 h-auto gap-4 p-1 bg-gradient-to-r from-slate-100 to-white rounded-xl shadow-lg border border-slate-200/50">
+              <TabsTrigger
+                value="overview"
+                className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 data-[state=active]:from-blue-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white"
+              >
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
+                <div className="relative flex items-center justify-center gap-2">
+                  <div className="p-2 rounded-lg bg-white/80 group-hover:bg-white/90 group-data-[state=active]:bg-white/20 transition-colors">
+                    <BookOpen className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
+                  </div>
+                  <span className="font-medium">Overview</span>
+                </div>
               </TabsTrigger>
-              <TabsTrigger value="methodology" className="flex items-center gap-2">
-                <Workflow className="h-4 w-4" />
-                Methodology
+              <TabsTrigger
+                value="methodology"
+                className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 data-[state=active]:from-emerald-500 data-[state=active]:to-teal-500 data-[state=active]:text-white"
+              >
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
+                <div className="relative flex items-center justify-center gap-2">
+                  <div className="p-2 rounded-lg bg-white/80 group-hover:bg-white/90 group-data-[state=active]:bg-white/20 transition-colors">
+                    <Workflow className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
+                  </div>
+                  <span className="font-medium">Methodology</span>
+                </div>
               </TabsTrigger>
-              <TabsTrigger value="use-cases" className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4" />
-                Use Cases
+              <TabsTrigger
+                value="use-cases"
+                className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white"
+              >
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
+                <div className="relative flex items-center justify-center gap-2">
+                  <div className="p-2 rounded-lg bg-white/80 group-hover:bg-white/90 group-data-[state=active]:bg-white/20 transition-colors">
+                    <Sparkles className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
+                  </div>
+                  <span className="font-medium">Use Cases</span>
+                </div>
               </TabsTrigger>
-              <TabsTrigger value="industries" className="flex items-center gap-2">
-                <Building2 className="h-4 w-4" />
-                Industries
+              <TabsTrigger
+                value="industries"
+                className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 data-[state=active]:from-amber-500 data-[state=active]:to-orange-500 data-[state=active]:text-white"
+              >
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
+                <div className="relative flex items-center justify-center gap-2">
+                  <div className="p-2 rounded-lg bg-white/80 group-hover:bg-white/90 group-data-[state=active]:bg-white/20 transition-colors">
+                    <Building2 className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
+                  </div>
+                  <span className="font-medium">Industries</span>
+                </div>
               </TabsTrigger>
-              <TabsTrigger value="faq" className="flex items-center gap-2">
-                <HelpCircle className="h-4 w-4" />
-                FAQ
+              <TabsTrigger
+                value="faq"
+                className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-rose-50 to-red-50 hover:from-rose-100 hover:to-red-100 data-[state=active]:from-rose-500 data-[state=active]:to-red-500 data-[state=active]:text-white"
+              >
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
+                <div className="relative flex items-center justify-center gap-2">
+                  <div className="p-2 rounded-lg bg-white/80 group-hover:bg-white/90 group-data-[state=active]:bg-white/20 transition-colors">
+                    <HelpCircle className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
+                  </div>
+                  <span className="font-medium">FAQ</span>
+                </div>
               </TabsTrigger>
             </TabsList>
 
@@ -464,9 +504,9 @@ export default function ServicePage() {
                     Schedule a Demo
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                  <Button 
-                    size="lg" 
-                    variant="outline" 
+                  <Button
+                    size="lg"
+                    variant="outline"
                     className="bg-transparent hover:bg-white/10 transition-colors"
                   >
                     Download Brochure
