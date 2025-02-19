@@ -27,6 +27,7 @@ import session from "express-session";
 import createMemoryStore from "memorystore";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
+import { FAQ } from "@shared/types";
 
 const PostgresStore = connectPg(session);
 
@@ -294,10 +295,35 @@ export class DatabaseStorage implements IStorage {
     try {
       const [service] = await db.select().from(services).where(eq(services.slug, slug));
       if (!service) return undefined;
+
+      // Parse the JSON arrays properly
+      const parsedUseCases = service.useCases ? service.useCases.map(useCase => {
+        if (typeof useCase === 'string') {
+          try {
+            return JSON.parse(useCase);
+          } catch {
+            return useCase;
+          }
+        }
+        return useCase;
+      }) : [];
+
+      const parsedFaqQuestions = service.faqQuestions ? service.faqQuestions.map(faq => {
+        if (typeof faq === 'string') {
+          try {
+            return JSON.parse(faq);
+          } catch {
+            return faq;
+          }
+        }
+        return faq;
+      }) : [];
+
       return {
         ...service,
-        useCases: [], 
-        faqQuestions: service.faqQuestions as FAQ[] || []
+        useCases: parsedUseCases,
+        faqQuestions: parsedFaqQuestions,
+        successMetrics: service.successMetrics || []
       };
     } catch (error) {
       console.error("Error getting service by slug:", error);

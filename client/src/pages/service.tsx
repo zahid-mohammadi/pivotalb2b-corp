@@ -256,8 +256,8 @@ export default function ServicePage() {
             {/* Use Cases Tab */}
             <TabsContent value="use-cases">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {service.useCases && service.useCases.length > 0 ? (
-                  service.useCases.map((useCase: UseCase, index: number) => (
+                {Array.isArray(service.useCases) && service.useCases.length > 0 ? (
+                  service.useCases.map((useCase, index) => (
                     <motion.div
                       key={index}
                       initial={{ opacity: 0, y: 20 }}
@@ -338,7 +338,7 @@ export default function ServicePage() {
                     <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
                   </div>
                   <div className="space-y-6">
-                    {service.faqQuestions && service.faqQuestions.map((faq: FAQ, index: number) => (
+                    {service.faqQuestions && service.faqQuestions.map((faq, index) => (
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}
