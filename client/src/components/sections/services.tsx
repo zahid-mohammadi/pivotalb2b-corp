@@ -47,6 +47,7 @@ const cardVariants = {
   hover: {
     y: -8,
     scale: 1.02,
+    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
     transition: {
       type: "spring",
       stiffness: 400,
@@ -61,9 +62,9 @@ const services = [
     title: "Intent-Based Lead Generation",
     description: "Combine intent data and opt-in lead generation to target companies actively seeking solutions like yours.",
     features: [
-      "Real-time intent signals",
-      "Opt-in verification",
-      "Advanced targeting filters"
+      "Real-time intent signal tracking",
+      "Behavioral data analysis",
+      "Predictive lead scoring"
     ]
   },
   {
@@ -71,9 +72,9 @@ const services = [
     title: "Content Distribution",
     description: "Amplify your content's reach by delivering it to a highly targeted audience of decision-makers.",
     features: [
-      "Multi-channel distribution",
-      "Decision-maker targeting",
-      "Performance analytics"
+      "Multi-channel content syndication",
+      "Account-based content delivery",
+      "Performance analytics & insights"
     ]
   },
   {
@@ -81,9 +82,9 @@ const services = [
     title: "Event and Webinar Promotion",
     description: "Drive attendance and capture qualified leads for your events and webinars.",
     features: [
-      "Targeted promotions",
-      "Attendee qualification",
-      "Follow-up automation"
+      "Targeted audience acquisition",
+      "Automated registration flows",
+      "Post-event lead nurturing"
     ]
   },
   {
@@ -91,19 +92,19 @@ const services = [
     title: "Lead Qualification",
     description: "Ensure your leads are sales-ready with BANT-qualified prospects.",
     features: [
-      "BANT qualification",
-      "Lead scoring",
-      "Sales readiness verification"
+      "BANT criteria verification",
+      "Custom qualification frameworks",
+      "Sales readiness scoring"
     ]
   },
   {
     icon: TargetIcon,
-    title: "Account-Based Marketing (ABM)",
+    title: "Account-Based Marketing",
     description: "Focus on high-value accounts with personalized, strategic campaigns.",
     features: [
-      "Account targeting",
-      "Personalized campaigns",
-      "Strategic engagement"
+      "Target account profiling",
+      "Multi-touch engagement",
+      "Account journey tracking"
     ]
   }
 ];
@@ -129,7 +130,8 @@ export function Services() {
         >
           <h2 className="text-4xl font-bold mb-6">Tailored Solutions for B2B Marketers</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Transform your lead generation and marketing strategy with our comprehensive suite of B2B solutions designed to drive growth and maximize ROI.
+            Transform your lead generation strategy with our comprehensive suite of B2B solutions 
+            designed to accelerate growth and maximize ROI through data-driven approaches.
           </p>
         </motion.div>
 
@@ -145,31 +147,32 @@ export function Services() {
               key={index}
               variants={cardVariants}
               whileHover="hover"
+              className="flex"
             >
-              <Card className="h-full flex flex-col bg-white/50 backdrop-blur-sm border-slate-200/80 hover:shadow-xl hover:border-primary/20 transition-all duration-300">
-                <CardHeader>
-                  <div className="mb-4 flex items-center gap-3">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <service.icon className="h-6 w-6 text-primary" />
+              <Card className="flex flex-col w-full bg-white/50 backdrop-blur-sm border-slate-200/80 hover:border-primary/20 transition-all duration-300">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 bg-primary/10 rounded-xl">
+                      <service.icon className="h-7 w-7 text-primary" />
                     </div>
-                    <h3 className="text-xl font-semibold">{service.title}</h3>
+                    <h3 className="text-xl font-semibold leading-tight">{service.title}</h3>
                   </div>
-                  <p className="text-muted-foreground">{service.description}</p>
+                  <p className="text-muted-foreground leading-relaxed">{service.description}</p>
                 </CardHeader>
 
-                <CardContent className="flex-grow">
+                <CardContent className="flex-grow pt-2">
                   <div className="space-y-4">
-                    <ul className="space-y-2">
+                    <ul className="space-y-3">
                       {service.features.map((feature, idx) => (
                         <motion.li 
                           key={idx}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 }}
-                          className="flex items-center gap-2 text-sm text-muted-foreground"
+                          className="flex items-start gap-3 text-sm text-muted-foreground"
                         >
-                          <CheckSquare className="h-4 w-4 text-primary shrink-0" />
-                          <span>{feature}</span>
+                          <CheckSquare className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                          <span className="leading-tight">{feature}</span>
                         </motion.li>
                       ))}
                     </ul>
@@ -178,7 +181,7 @@ export function Services() {
 
                 <CardFooter className="pt-6">
                   <Button 
-                    className="w-full group"
+                    className="w-full group bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors duration-300"
                     onClick={() => window.open(calendlyUrl, '_blank')}
                   >
                     Learn More
@@ -234,12 +237,12 @@ export function Services() {
                 variants={cardVariants}
                 className="text-center"
               >
-                <Card className="h-full p-6">
+                <Card className="h-full p-6 hover:shadow-lg transition-shadow duration-300">
                   <div className="inline-flex p-3 rounded-xl bg-primary/10 mb-4">
                     <item.icon className="h-6 w-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground">{item.description}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
                 </Card>
               </motion.div>
             ))}
