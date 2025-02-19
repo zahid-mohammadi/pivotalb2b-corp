@@ -212,13 +212,13 @@ export default function ServicePage() {
                 >
                   {/* Features Card */}
                   <motion.div variants={itemVariants} whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                    <Card className="h-full bg-gradient-to-br from-white to-slate-50 border-slate-200/80">
+                    <Card className="h-full bg-gradient-to-br from-white to-slate-50 border-slate-200/80 hover:shadow-lg transition-all duration-300">
                       <CardContent className="p-8">
                         <div className="flex items-center gap-3 mb-6">
-                          <div className="p-2 rounded-lg bg-primary/10">
-                            <Zap className="h-6 w-6 text-primary" />
+                          <div className="p-2 rounded-lg bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors">
+                            <Zap className="h-6 w-6 text-blue-500" />
                           </div>
-                          <h2 className="text-2xl font-bold">Key Features</h2>
+                          <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">Key Features</h2>
                         </div>
                         <div className="space-y-4">
                           {service.features.map((feature, index) => (
@@ -229,10 +229,13 @@ export default function ServicePage() {
                               transition={{ delay: index * 0.1 }}
                               className="flex items-start gap-3 group"
                             >
-                              <div className="rounded-full p-1 bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                                <CheckCircle2 className="h-5 w-5 text-primary" />
+                              <div className="relative">
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-full blur-lg group-hover:opacity-100 opacity-0 transition-opacity" />
+                                <div className="relative p-1.5 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full transform group-hover:scale-110 transition-transform">
+                                  <CheckCircle2 className="h-4 w-4 text-white" />
+                                </div>
                               </div>
-                              <p className="leading-tight pt-1">{feature}</p>
+                              <p className="leading-tight pt-1 group-hover:text-blue-600 transition-colors">{feature}</p>
                             </motion.div>
                           ))}
                         </div>
@@ -242,13 +245,13 @@ export default function ServicePage() {
 
                   {/* Benefits Card */}
                   <motion.div variants={itemVariants} whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                    <Card className="h-full bg-gradient-to-br from-white to-slate-50 border-slate-200/80">
+                    <Card className="h-full bg-gradient-to-br from-white to-slate-50 border-slate-200/80 hover:shadow-lg transition-all duration-300">
                       <CardContent className="p-8">
                         <div className="flex items-center gap-3 mb-6">
-                          <div className="p-2 rounded-lg bg-primary/10">
-                            <Award className="h-6 w-6 text-primary" />
+                          <div className="p-2 rounded-lg bg-purple-500/10 group-hover:bg-purple-500/20 transition-colors">
+                            <Award className="h-6 w-6 text-purple-500" />
                           </div>
-                          <h2 className="text-2xl font-bold">Benefits</h2>
+                          <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent">Benefits</h2>
                         </div>
                         <div className="space-y-4">
                           {service.benefits.map((benefit, index) => (
@@ -259,10 +262,13 @@ export default function ServicePage() {
                               transition={{ delay: index * 0.1 }}
                               className="flex items-start gap-3 group"
                             >
-                              <div className="rounded-full p-1 bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                                <TrendingUp className="h-5 w-5 text-primary" />
+                              <div className="relative">
+                                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full blur-lg group-hover:opacity-100 opacity-0 transition-opacity" />
+                                <div className="relative p-1.5 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full transform group-hover:scale-110 transition-transform">
+                                  <TrendingUp className="h-4 w-4 text-white" />
+                                </div>
                               </div>
-                              <p className="leading-tight pt-1">{benefit}</p>
+                              <p className="leading-tight pt-1 group-hover:text-purple-600 transition-colors">{benefit}</p>
                             </motion.div>
                           ))}
                         </div>
@@ -273,13 +279,13 @@ export default function ServicePage() {
                   {/* Tools & Technologies */}
                   {service.toolsAndTechnologies && (
                     <motion.div variants={itemVariants} className="lg:col-span-2" whileHover={{ y: -5 }} transition={{ duration: 0.2 }}>
-                      <Card className="bg-gradient-to-br from-white to-slate-50 border-slate-200/80">
+                      <Card className="bg-gradient-to-br from-white to-slate-50 border-slate-200/80 hover:shadow-lg transition-all duration-300">
                         <CardContent className="p-8">
                           <div className="flex items-center gap-3 mb-6">
-                            <div className="p-2 rounded-lg bg-primary/10">
-                              <Workflow className="h-6 w-6 text-primary" />
+                            <div className="p-2 rounded-lg bg-emerald-500/10 group-hover:bg-emerald-500/20 transition-colors">
+                              <Workflow className="h-6 w-6 text-emerald-500" />
                             </div>
-                            <h2 className="text-2xl font-bold">Tools & Technologies</h2>
+                            <h2 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">Tools & Technologies</h2>
                           </div>
                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {service.toolsAndTechnologies.map((tool, index) => (
@@ -289,9 +295,12 @@ export default function ServicePage() {
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ delay: index * 0.05 }}
                                 whileHover={{ scale: 1.05 }}
-                                className="bg-white rounded-lg p-4 text-center shadow-sm border border-slate-200/80 hover:border-primary/20 transition-colors"
+                                className="relative group"
                               >
-                                {tool}
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 rounded-lg blur-lg group-hover:opacity-100 opacity-0 transition-opacity" />
+                                <div className="relative bg-white rounded-lg p-4 text-center shadow-sm border border-slate-200/80 hover:border-emerald-200 transition-colors">
+                                  {tool}
+                                </div>
                               </motion.div>
                             ))}
                           </div>
