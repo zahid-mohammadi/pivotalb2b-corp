@@ -47,7 +47,6 @@ const cardVariants = {
   hover: {
     y: -8,
     scale: 1.02,
-    boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
     transition: {
       type: "spring",
       stiffness: 400,
@@ -65,7 +64,8 @@ const services = [
       "Real-time intent signal tracking",
       "Behavioral data analysis",
       "Predictive lead scoring"
-    ]
+    ],
+    gradient: "from-blue-500/10 via-transparent to-transparent"
   },
   {
     icon: Share2,
@@ -75,7 +75,8 @@ const services = [
       "Multi-channel content syndication",
       "Account-based content delivery",
       "Performance analytics & insights"
-    ]
+    ],
+    gradient: "from-purple-500/10 via-transparent to-transparent"
   },
   {
     icon: Video,
@@ -85,7 +86,8 @@ const services = [
       "Targeted audience acquisition",
       "Automated registration flows",
       "Post-event lead nurturing"
-    ]
+    ],
+    gradient: "from-green-500/10 via-transparent to-transparent"
   },
   {
     icon: CheckSquare,
@@ -95,7 +97,8 @@ const services = [
       "BANT criteria verification",
       "Custom qualification frameworks",
       "Sales readiness scoring"
-    ]
+    ],
+    gradient: "from-orange-500/10 via-transparent to-transparent"
   },
   {
     icon: TargetIcon,
@@ -105,7 +108,8 @@ const services = [
       "Target account profiling",
       "Multi-touch engagement",
       "Account journey tracking"
-    ]
+    ],
+    gradient: "from-red-500/10 via-transparent to-transparent"
   }
 ];
 
@@ -149,10 +153,20 @@ export function Services() {
               whileHover="hover"
               className="flex"
             >
-              <Card className="flex flex-col w-full bg-white/50 backdrop-blur-sm border-slate-200/80 hover:border-primary/20 transition-all duration-300">
-                <CardHeader className="pb-4">
+              <Card className={`
+                flex flex-col w-full bg-white/50 backdrop-blur-sm 
+                border-slate-200/80 hover:border-primary/20 transition-all duration-300
+                relative overflow-hidden group
+              `}>
+                {/* Gradient Background */}
+                <div className={`
+                  absolute inset-0 bg-gradient-to-br ${service.gradient}
+                  opacity-50 group-hover:opacity-100 transition-opacity duration-500
+                `} />
+
+                <CardHeader className="pb-4 relative">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-primary/10 rounded-xl">
+                    <div className="p-3 bg-white rounded-xl shadow-sm">
                       <service.icon className="h-7 w-7 text-primary" />
                     </div>
                     <h3 className="text-xl font-semibold leading-tight">{service.title}</h3>
@@ -160,7 +174,7 @@ export function Services() {
                   <p className="text-muted-foreground leading-relaxed">{service.description}</p>
                 </CardHeader>
 
-                <CardContent className="flex-grow pt-2">
+                <CardContent className="flex-grow pt-2 relative">
                   <div className="space-y-4">
                     <ul className="space-y-3">
                       {service.features.map((feature, idx) => (
@@ -179,10 +193,11 @@ export function Services() {
                   </div>
                 </CardContent>
 
-                <CardFooter className="pt-6">
+                <CardFooter className="pt-6 relative">
                   <Link href={`/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`}>
                     <Button
-                      className="w-full group bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors duration-300"
+                      className="w-full group bg-white hover:bg-primary text-primary hover:text-white 
+                        transition-colors duration-300 shadow-sm hover:shadow-md"
                     >
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
