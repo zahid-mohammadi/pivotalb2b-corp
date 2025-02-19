@@ -170,7 +170,7 @@ export function Navbar() {
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
-            <img src="/logo.png" alt="Pivotal B2B" className="h-8 cursor-pointer" />
+            <img src="/logo.png" alt="Pivotal B2B" className="h-10 cursor-pointer" />
           </Link>
         </div>
 
@@ -195,7 +195,7 @@ export function Navbar() {
                 <NavItems isMobile />
                 <div className="pt-4 border-t">
                   {user ? (
-                    <Button 
+                    <Button
                       variant="outline"
                       onClick={() => logoutMutation.mutate()}
                       disabled={logoutMutation.isPending}
@@ -228,7 +228,7 @@ export function Navbar() {
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-4">
             {user ? (
-              <Button 
+              <Button
                 variant="outline"
                 onClick={() => logoutMutation.mutate()}
                 disabled={logoutMutation.isPending}
