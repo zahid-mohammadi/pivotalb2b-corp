@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
+import { ThemeSwitcher } from "@/components/theme-switcher";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,15 +11,6 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Loader2 } from "lucide-react";
-import { 
-  ArrowRight,
-  CheckCircle2,
-  Building2,
-  Users,
-  BarChart3,
-  Eye,
-  HandshakeIcon
-} from "lucide-react";
 
 export function Navbar() {
   const { user, logoutMutation } = useAuth();
@@ -149,6 +141,7 @@ export function Navbar() {
         </NavigationMenu>
 
         <div className="flex items-center gap-4">
+          <ThemeSwitcher />
           {user ? (
             <Button 
               variant="outline"

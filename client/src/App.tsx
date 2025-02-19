@@ -4,6 +4,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/hooks/use-auth";
+import { ThemeProvider } from "@/components/theme-provider";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Service from "@/pages/service";
@@ -63,8 +64,10 @@ export default function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Router />
-          <Toaster />
+          <ThemeProvider>
+            <Router />
+            <Toaster />
+          </ThemeProvider>
         </AuthProvider>
       </QueryClientProvider>
     </HelmetProvider>
