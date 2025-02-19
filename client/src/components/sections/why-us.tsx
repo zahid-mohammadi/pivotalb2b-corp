@@ -37,22 +37,29 @@ export function WhyUs() {
   ];
 
   return (
-    <section className="py-24 bg-slate-50">
-      <div className="container mx-auto px-4">
+    <section className="py-24 relative overflow-hidden">
+      {/* Sophisticated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50" />
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/5 to-transparent" />
+      </div>
+
+      <div className="container mx-auto px-4 relative">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-3xl font-bold mb-4">Why Choose Pivotal B2B?</h2>
+          <h2 className="text-4xl font-bold mb-4">Why Choose Pivotal B2B?</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             The Pivotal Difference: Precision, Transparency, and Results
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {features.map((feature, index) => (
             <motion.div 
               key={index}
@@ -60,18 +67,20 @@ export function WhyUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg transform group-hover:scale-105 transition-transform duration-300" />
-              <Card className="relative h-full bg-white/80 backdrop-blur-sm border-slate-200/80 group-hover:border-primary/20 transition-colors">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                      <feature.icon className="h-6 w-6 text-primary" />
+              <Card className="h-full hover:shadow-lg transition-all duration-300 bg-white/80 backdrop-blur-sm border-slate-200/80 hover:border-primary/20">
+                <CardContent className="p-8">
+                  <div className="flex gap-6">
+                    <div className="shrink-0">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                        <feature.icon className="h-6 w-6 text-primary" />
+                      </div>
                     </div>
-                    <h3 className="text-lg font-semibold">{feature.title}</h3>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                    </div>
                   </div>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             </motion.div>
