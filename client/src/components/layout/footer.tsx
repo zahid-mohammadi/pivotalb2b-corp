@@ -46,6 +46,15 @@ export function Footer() {
                 <Linkedin className="h-5 w-5" />
               </a>
               <a 
+                href="https://www.facebook.com/Pivotalb2b/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-blue-400 transition-colors duration-200"
+                aria-label="Visit Pivotal B2B on Facebook"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a 
                 href="#" 
                 className="hover:text-blue-400 transition-colors duration-200"
                 aria-label="Visit Pivotal B2B on Twitter"
