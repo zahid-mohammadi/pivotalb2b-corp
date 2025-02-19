@@ -36,14 +36,21 @@ export function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4">Follow Us</h3>
             <div className="flex gap-4">
-              <a href="#" className="hover:text-blue-400">
-                <Facebook />
+              <a 
+                href="https://www.linkedin.com/company/pivotal-b2b-marketing" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-blue-400 transition-colors duration-200"
+                aria-label="Visit Pivotal B2B on LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="hover:text-blue-400">
-                <Twitter />
-              </a>
-              <a href="#" className="hover:text-blue-400">
-                <Linkedin />
+              <a 
+                href="#" 
+                className="hover:text-blue-400 transition-colors duration-200"
+                aria-label="Visit Pivotal B2B on Twitter"
+              >
+                <Twitter className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -54,7 +61,8 @@ export function Footer() {
               <Input 
                 type="email" 
                 placeholder="Enter your email"
-                className="bg-slate-800 border-slate-700"
+                className="bg-slate-800 border-slate-700 focus:ring-primary"
+                aria-label="Newsletter email input"
               />
               <Button className="w-full">Subscribe</Button>
             </form>
@@ -65,13 +73,13 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-300">&copy; {new Date().getFullYear()} Pivotal B2B. All rights reserved.</p>
             <div className="flex flex-wrap gap-4 text-sm text-slate-300">
-              <Link href="/privacy-policy" className="hover:text-white">
+              <Link href="/privacy-policy" className="hover:text-white transition-colors duration-200">
                 Privacy Policy
               </Link>
-              <Link href="/terms-conditions" className="hover:text-white">
+              <Link href="/terms-conditions" className="hover:text-white transition-colors duration-200">
                 Terms & Conditions
               </Link>
-              <Link href="/cookie-policy" className="hover:text-white">
+              <Link href="/cookie-policy" className="hover:text-white transition-colors duration-200">
                 Cookie Policy
               </Link>
             </div>
