@@ -11,10 +11,6 @@ import {
   Video,
   CheckSquare,
   TargetIcon,
-  Building2,
-  Users,
-  BarChart3,
-  Eye
 } from "lucide-react";
 import type { Service } from "@shared/schema";
 
@@ -65,7 +61,10 @@ const services = [
       "Behavioral data analysis",
       "Predictive lead scoring"
     ],
-    gradient: "from-blue-500/10 via-transparent to-transparent"
+    gradients: [
+      "from-blue-500/20 via-purple-500/20 to-pink-500/20",
+      "from-pink-500/20 via-purple-500/20 to-blue-500/20"
+    ]
   },
   {
     icon: Share2,
@@ -76,7 +75,10 @@ const services = [
       "Account-based content delivery",
       "Performance analytics & insights"
     ],
-    gradient: "from-purple-500/10 via-transparent to-transparent"
+    gradients: [
+      "from-purple-500/20 via-indigo-500/20 to-blue-500/20",
+      "from-blue-500/20 via-indigo-500/20 to-purple-500/20"
+    ]
   },
   {
     icon: Video,
@@ -87,7 +89,10 @@ const services = [
       "Automated registration flows",
       "Post-event lead nurturing"
     ],
-    gradient: "from-green-500/10 via-transparent to-transparent"
+    gradients: [
+      "from-green-500/20 via-emerald-500/20 to-teal-500/20",
+      "from-teal-500/20 via-emerald-500/20 to-green-500/20"
+    ]
   },
   {
     icon: CheckSquare,
@@ -98,7 +103,10 @@ const services = [
       "Custom qualification frameworks",
       "Sales readiness scoring"
     ],
-    gradient: "from-orange-500/10 via-transparent to-transparent"
+    gradients: [
+      "from-orange-500/20 via-amber-500/20 to-yellow-500/20",
+      "from-yellow-500/20 via-amber-500/20 to-orange-500/20"
+    ]
   },
   {
     icon: TargetIcon,
@@ -109,13 +117,16 @@ const services = [
       "Multi-touch engagement",
       "Account journey tracking"
     ],
-    gradient: "from-red-500/10 via-transparent to-transparent"
+    gradients: [
+      "from-red-500/20 via-rose-500/20 to-pink-500/20",
+      "from-pink-500/20 via-rose-500/20 to-red-500/20"
+    ]
   }
 ];
 
-export function Services() {
-  const calendlyUrl = "https://calendly.com/zahid-m/30min";
+const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
+export function Services() {
   return (
     <section className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
       {/* Background Pattern */}
@@ -158,16 +169,28 @@ export function Services() {
                 border-slate-200/80 hover:border-primary/20 transition-all duration-300
                 relative overflow-hidden group
               `}>
-                {/* Gradient Background */}
+                {/* Animated Gradient Background */}
                 <div className={`
-                  absolute inset-0 bg-gradient-to-br ${service.gradient}
-                  opacity-50 group-hover:opacity-100 transition-opacity duration-500
+                  absolute inset-0 bg-gradient-to-br
+                  animate-gradient-x
+                  group-hover:animate-gradient-x-fast
+                  ${service.gradients[0]}
+                  opacity-50 group-hover:opacity-100 
+                  transition-opacity duration-500
+                `} />
+                <div className={`
+                  absolute inset-0 bg-gradient-to-br
+                  animate-gradient-x-reverse
+                  group-hover:animate-gradient-x-fast-reverse
+                  ${service.gradients[1]}
+                  opacity-0 group-hover:opacity-50
+                  transition-opacity duration-500
                 `} />
 
                 <CardHeader className="pb-4 relative">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-white rounded-xl shadow-sm">
-                      <service.icon className="h-7 w-7 text-primary" />
+                    <div className="p-3 bg-white/80 rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300">
+                      <service.icon className="h-7 w-7 text-primary transition-transform group-hover:scale-110 duration-300" />
                     </div>
                     <h3 className="text-xl font-semibold leading-tight">{service.title}</h3>
                   </div>
@@ -185,7 +208,7 @@ export function Services() {
                           transition={{ delay: idx * 0.1 }}
                           className="flex items-start gap-3 text-sm text-muted-foreground"
                         >
-                          <CheckSquare className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                          <CheckSquare className="h-5 w-5 text-primary shrink-0 mt-0.5 transition-transform group-hover:scale-110 duration-300" />
                           <span className="leading-tight">{feature}</span>
                         </motion.li>
                       ))}
@@ -196,8 +219,8 @@ export function Services() {
                 <CardFooter className="pt-6 relative">
                   <Link href={`/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`}>
                     <Button
-                      className="w-full group bg-white hover:bg-primary text-primary hover:text-white 
-                        transition-colors duration-300 shadow-sm hover:shadow-md"
+                      className="w-full group bg-white/80 hover:bg-primary text-primary hover:text-white 
+                        transition-all duration-300 shadow-sm hover:shadow-md"
                     >
                       Learn More
                       <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
