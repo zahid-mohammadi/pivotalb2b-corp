@@ -45,89 +45,129 @@ export function Testimonials() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
-          {testimonials.slice(0, 3).map((testimonial, index) => (
+          {/* First row with 3 testimonials */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="lg:col-span-6"
+          >
+            <TestimonialCard testimonial={testimonials[0]} featured />
+          </motion.div>
+          <div className="lg:col-span-6 grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div
-              key={testimonial.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`${
-                index === 0 ? 'lg:col-span-8' : 'lg:col-span-4'
-              }`}
+              transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <Card className={`h-full overflow-hidden ${
-                index === 0 ? 'bg-primary text-primary-foreground' : 'bg-white'
-              }`}>
-                <CardContent className="p-8 relative h-full">
-                  {/* Large quote mark */}
-                  <div className="absolute -top-2 -left-2 text-8xl font-serif opacity-10">
-                    "
-                  </div>
-
-                  <div className="relative z-10">
-                    <div className="flex items-center gap-1 mb-4">
-                      {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`h-4 w-4 ${
-                            index === 0 
-                              ? 'fill-primary-foreground text-primary-foreground' 
-                              : 'fill-primary text-primary'
-                          }`} 
-                        />
-                      ))}
-                    </div>
-
-                    <blockquote className={`text-xl font-medium mb-6 ${
-                      index === 0 ? 'text-primary-foreground/90' : 'text-foreground'
-                    }`}>
-                      "{testimonial.content}"
-                    </blockquote>
-
-                    <div className="flex items-center gap-4">
-                      <Avatar className={`h-12 w-12 border-2 ${
-                        index === 0 ? 'border-primary-foreground/10' : 'border-primary/10'
-                      }`}>
-                        <AvatarFallback className={
-                          index === 0 ? 'bg-primary-foreground/10 text-primary-foreground' : 'bg-primary/5 text-primary'
-                        }>
-                          {testimonial.clientName
-                            .split(" ")
-                            .map((n: string) => n[0])
-                            .join("")}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className={`font-semibold ${
-                          index === 0 ? 'text-primary-foreground' : 'text-foreground'
-                        }`}>
-                          {testimonial.clientName}
-                        </p>
-                        <div className="flex items-center gap-2 text-sm">
-                          <span className={
-                            index === 0 ? 'text-primary-foreground/80' : 'text-muted-foreground'
-                          }>
-                            {testimonial.role}
-                          </span>
-                          <span className={
-                            index === 0 ? 'text-primary-foreground/60' : 'text-muted-foreground/60'
-                          }>•</span>
-                          <span className={
-                            index === 0 ? 'text-primary-foreground/80' : 'text-muted-foreground'
-                          }>
-                            {testimonial.company}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              <TestimonialCard testimonial={testimonials[1]} />
             </motion.div>
-          ))}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <TestimonialCard testimonial={testimonials[2]} />
+            </motion.div>
+          </div>
+
+          {/* Second row with 2 testimonials */}
+          <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <TestimonialCard testimonial={testimonials[3]} />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              <TestimonialCard testimonial={testimonials[4]} />
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function TestimonialCard({ testimonial, featured = false }: { testimonial: Testimonial, featured?: boolean }) {
+  return (
+    <Card className={`h-full overflow-hidden ${
+      featured ? 'bg-primary text-primary-foreground' : 'bg-white'
+    }`}>
+      <CardContent className="p-8 relative h-full">
+        {/* Large quote mark */}
+        <div className="absolute -top-2 -left-2 text-8xl font-serif opacity-10">
+          "
+        </div>
+
+        <div className="relative z-10">
+          <div className="flex items-center gap-1 mb-4">
+            {Array.from({ length: testimonial.rating || 5 }).map((_, i) => (
+              <Star 
+                key={i} 
+                className={`h-4 w-4 ${
+                  featured 
+                    ? 'fill-primary-foreground text-primary-foreground' 
+                    : 'fill-primary text-primary'
+                }`} 
+              />
+            ))}
+          </div>
+
+          <blockquote className={`text-xl font-medium mb-6 ${
+            featured ? 'text-primary-foreground/90' : 'text-foreground'
+          }`}>
+            "{testimonial.content}"
+          </blockquote>
+
+          <div className="flex items-center gap-4">
+            <Avatar className={`h-12 w-12 border-2 ${
+              featured ? 'border-primary-foreground/10' : 'border-primary/10'
+            }`}>
+              <AvatarFallback className={
+                featured ? 'bg-primary-foreground/10 text-primary-foreground' : 'bg-primary/5 text-primary'
+              }>
+                {testimonial.clientName
+                  .split(" ")
+                  .map((n: string) => n[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className={`font-semibold ${
+                featured ? 'text-primary-foreground' : 'text-foreground'
+              }`}>
+                {testimonial.clientName}
+              </p>
+              <div className="flex items-center gap-2 text-sm">
+                <span className={
+                  featured ? 'text-primary-foreground/80' : 'text-muted-foreground'
+                }>
+                  {testimonial.role}
+                </span>
+                <span className={
+                  featured ? 'text-primary-foreground/60' : 'text-muted-foreground/60'
+                }>•</span>
+                <span className={
+                  featured ? 'text-primary-foreground/80' : 'text-muted-foreground'
+                }>
+                  {testimonial.company}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
