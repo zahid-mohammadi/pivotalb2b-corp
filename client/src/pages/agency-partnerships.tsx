@@ -40,9 +40,24 @@ export default function AgencyPartnerships() {
   return (
     <>
       <MetaTags
-        title="Agency Partnership Program"
-        description="Partner with Pivotal B2B to access premium lead generation services at competitive CPL rates. Join our partnership program to reduce costs and deliver better results for your clients."
-        keywords="agency partnership, lead generation partnership, CPL partnership, B2B lead generation, agency lead generation, cost per lead, lead generation services"
+        title="Agency Partnership Program - B2B Lead Generation Partnership"
+        description="Partner with Pivotal B2B for premium lead generation services at competitive CPL rates. Access high-quality leads, advanced targeting capabilities, and comprehensive marketing solutions through our partnership program."
+        keywords="agency partnership, B2B lead generation partnership, marketing agency partner program, CPL partnership, lead generation services, white label marketing solutions, agency growth program"
+        canonicalUrl="https://pivotal-b2b.com/agency-partnerships"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Agency Partnership Program",
+          "provider": {
+            "@type": "Organization",
+            "name": "Pivotal B2B"
+          },
+          "description": "Premium lead generation partnership program for marketing agencies",
+          "offers": {
+            "@type": "Offer",
+            "description": "Partner with Pivotal B2B to access premium lead generation services at competitive CPL rates"
+          }
+        }}
       />
       <div className="min-h-screen">
         {/* Hero Section */}

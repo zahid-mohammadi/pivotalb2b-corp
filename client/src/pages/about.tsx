@@ -8,15 +8,31 @@ export default function AboutPage() {
     <div>
       <MetaTags
         title="About Pivotal B2B - Leading B2B Marketing & Lead Generation Agency"
-        description="Learn about Pivotal B2B's mission to transform B2B marketing through data-driven strategies, innovative technology, and measurable results. Discover our values, expertise, and commitment to client success."
-        keywords="B2B marketing agency, lead generation experts, data-driven marketing, B2B strategy, marketing innovation, business growth solutions, customer success focus"
+        description="Discover how Pivotal B2B transforms B2B marketing through data-driven strategies, innovative technology, and measurable results. Learn about our mission, values, and commitment to delivering exceptional B2B marketing solutions."
+        keywords="B2B marketing agency, lead generation experts, data-driven marketing, B2B strategy, marketing innovation, business growth solutions, customer success focus, marketing technology"
+        canonicalUrl="https://pivotal-b2b.com/about"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          "mainEntity": {
+            "@type": "Organization",
+            "name": "Pivotal B2B",
+            "description": "Leading B2B marketing platform dedicated to helping businesses grow through advanced content management and AI-powered engagement tools",
+            "foundingDate": "2023",
+            "knowsAbout": [
+              "B2B Marketing",
+              "Lead Generation",
+              "Content Marketing",
+              "Marketing Automation"
+            ]
+          }
+        }}
       />
       <PageBanner
         title="About Us"
         description="We are a leading B2B marketing platform dedicated to helping businesses grow through advanced content management and AI-powered engagement tools."
         pattern="grid"
       />
-
       <div className="container mx-auto py-16">
         <div className="prose prose-lg max-w-none">
           <div className="grid gap-8 md:grid-cols-2 mb-16">
@@ -35,7 +51,6 @@ export default function AboutPage() {
                 </div>
               </CardContent>
             </Card>
-
             <Card className="hover-lift">
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
@@ -52,7 +67,6 @@ export default function AboutPage() {
               </CardContent>
             </Card>
           </div>
-
           <div className="mb-16">
             <h2 className="text-3xl font-semibold mb-8 text-center">Our Values</h2>
             <div className="grid gap-8 md:grid-cols-2">
@@ -71,7 +85,6 @@ export default function AboutPage() {
                   </div>
                 </CardContent>
               </Card>
-
               <Card className="hover-lift fade-in">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
