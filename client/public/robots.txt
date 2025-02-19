@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Prevent crawling of admin or private pages
+Disallow: /dashboard
+Disallow: /login
+
+# Sitemap location
+Sitemap: https://pivotal-b2b.com/sitemap.xml
+
+# Crawl delay to prevent overwhelming the server
+Crawl-delay: 1
