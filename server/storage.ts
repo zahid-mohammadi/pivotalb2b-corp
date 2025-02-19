@@ -19,10 +19,12 @@ import {
   users,
   ebooks,
   caseStudies,
-  leads
+  leads,
+  pageViews,
+  userSessions,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, count, and, gte } from "drizzle-orm";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 import connectPg from "connect-pg-simple";
@@ -75,6 +77,9 @@ export interface IStorage {
 
   // Session store
   sessionStore: session.Store;
+
+  // Analytics methods
+  getTrafficSources(fromDate: Date): Promise<Array<{ source: string | null; count: number }>>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -371,6 +376,29 @@ export class DatabaseStorage implements IStorage {
       return newLead;
     } catch (error) {
       console.error("Error creating lead:", error);
+      throw error;
+    }
+  }
+
+  // Analytics implementation
+  async getTrafficSources(fromDate: Date): Promise<Array<{ source: string | null; count: number }>> {
+    try {
+      const sources = await db
+        .select({
+          source: pageViews.source,
+          count: count(),
+        })
+        .from(pageViews)
+        .where(
+          and(
+            gte(pageViews.timestamp, fromDate)
+          )
+        )
+        .groupBy(pageViews.source);
+
+      return sources;
+    } catch (error) {
+      console.error("Error getting traffic sources:", error);
       throw error;
     }
   }

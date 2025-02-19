@@ -409,22 +409,25 @@ export async function registerRoutes(app: Express) {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const sources = await storage.db
-        .select({
-          source: pageViews.source,
-          count: count(),
-        })
-        .from(pageViews)
-        .where(
-          eq(pageViews.timestamp, thirtyDaysAgo)
-        )
-        .groupBy(pageViews.source);
+      const sources = await storage.getTrafficSources(thirtyDaysAgo);
 
+      // Calculate total views
       const total = sources.reduce((acc, curr) => acc + Number(curr.count), 0);
 
+      // If no data, return sample data structure with 0 values
+      if (total === 0) {
+        return res.json([
+          { name: "Direct", value: 0 },
+          { name: "Organic Search", value: 0 },
+          { name: "Social Media", value: 0 },
+          { name: "Email", value: 0 }
+        ]);
+      }
+
+      // Transform the data
       const trafficData = sources.map(({ source, count }) => ({
         name: source || "Direct",
-        value: Math.round((Number(count) / total) * 100),
+        value: Math.round((Number(count) / total) * 100)
       }));
 
       res.json(trafficData);
