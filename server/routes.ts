@@ -15,6 +15,7 @@ import express from 'express';
 import { eq } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
 import { sendContactFormNotification } from "./services/email";
+import type { User } from "@shared/schema";
 
 // Configure multer for handling file uploads
 const upload = multer({

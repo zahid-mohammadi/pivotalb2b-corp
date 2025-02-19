@@ -35,29 +35,6 @@ export const insertBlogPostSchema = createInsertSchema(blogPosts)
     autoTags: z.array(z.string()).optional(),
   });
 
-// Ebooks
-export const ebooks = pgTable("ebooks", {
-  id: serial("id").primaryKey(),
-  title: varchar("title", { length: 100 }).notNull(),
-  slug: text("slug").notNull().unique(),
-  description: text("description").notNull(),
-  pdfUrl: text("pdf_url").notNull(),
-  coverImage: text("cover_image"),
-  publishedAt: timestamp("published_at"),
-  tags: text("tags").array(),
-  autoTags: text("auto_tags").array(),
-});
-
-export type Ebook = typeof ebooks.$inferSelect;
-export const insertEbookSchema = createInsertSchema(ebooks)
-  .omit({ id: true })
-  .extend({
-    coverImage: z.string().optional(),
-    publishedAt: z.string().datetime().optional(),
-    tags: z.array(z.string()).optional(),
-    autoTags: z.array(z.string()).optional(),
-  });
-
 // Case Studies
 export const caseStudies = pgTable("case_studies", {
   id: serial("id").primaryKey(),
@@ -81,6 +58,29 @@ export const insertCaseStudySchema = createInsertSchema(caseStudies)
   .extend({
     bannerImage: z.string().optional(),
     testimonial: z.string().optional(),
+    publishedAt: z.string().datetime().optional(),
+    tags: z.array(z.string()).optional(),
+    autoTags: z.array(z.string()).optional(),
+  });
+
+// Ebooks
+export const ebooks = pgTable("ebooks", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 100 }).notNull(),
+  slug: text("slug").notNull().unique(),
+  description: text("description").notNull(),
+  pdfUrl: text("pdf_url").notNull(),
+  coverImage: text("cover_image"),
+  publishedAt: timestamp("published_at"),
+  tags: text("tags").array(),
+  autoTags: text("auto_tags").array(),
+});
+
+export type Ebook = typeof ebooks.$inferSelect;
+export const insertEbookSchema = createInsertSchema(ebooks)
+  .omit({ id: true })
+  .extend({
+    coverImage: z.string().optional(),
     publishedAt: z.string().datetime().optional(),
     tags: z.array(z.string()).optional(),
     autoTags: z.array(z.string()).optional(),
@@ -165,7 +165,6 @@ export const insertServiceSchema = createInsertSchema(services)
       answer: z.string(),
     })).optional(),
   });
-
 
 // Testimonials
 export const testimonials = pgTable("testimonials", {

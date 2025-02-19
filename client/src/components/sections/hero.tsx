@@ -14,7 +14,7 @@ export function Hero() {
             transition={{ duration: 0.6 }}
             className="text-5xl font-bold mb-6"
           >
-            Transform Your B2B Sales Pipeline with Data-Driven Lead Generation
+            Transform Your B2B Pipeline with Precision-Targeted Lead Generation
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -22,7 +22,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl text-slate-300 mb-8"
           >
-            Connect with decision-makers, accelerate your sales cycle, and drive sustainable business growth through our proven lead generation strategies.
+            Drive sustainable growth with our advanced targeting capabilities, multi-channel campaigns, and transparent, compliant lead generation services that are 4-5x more cost-efficient.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -34,11 +34,36 @@ export function Hero() {
               size="lg"
               onClick={() => window.open(calendlyUrl, '_blank')}
             >
-              Schedule a Consultation
+              Schedule a Strategy Call
             </Button>
-            <Button size="lg" variant="outline">
-              Explore Solutions
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => window.location.href = '/services'}
+            >
+              View Solutions
             </Button>
+          </motion.div>
+
+          {/* Key Benefits */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="grid grid-cols-3 gap-6 mt-12"
+          >
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary mb-2">4-5x</div>
+              <div className="text-sm text-slate-400">More Cost-Efficient</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary mb-2">100%</div>
+              <div className="text-sm text-slate-400">GDPR Compliant</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-primary mb-2">24/7</div>
+              <div className="text-sm text-slate-400">Lead Generation</div>
+            </div>
           </motion.div>
         </div>
       </div>
