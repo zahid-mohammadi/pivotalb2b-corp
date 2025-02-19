@@ -204,3 +204,36 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertEbook = z.infer<typeof insertEbookSchema>;
 export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
+
+// Analytics Tables
+export const pageViews = pgTable("page_views", {
+  id: serial("id").primaryKey(),
+  path: text("path").notNull(),
+  timestamp: timestamp("timestamp").defaultNow().notNull(),
+  source: text("source"),
+  deviceType: text("device_type"),
+  sessionId: text("session_id").notNull(),
+});
+
+export const userSessions = pgTable("user_sessions", {
+  id: serial("id").primaryKey(),
+  sessionId: text("session_id").notNull().unique(),
+  startTime: timestamp("start_time").defaultNow().notNull(),
+  endTime: timestamp("end_time"),
+  source: text("source"),
+  deviceType: text("device_type"),
+});
+
+// Types for analytics
+export type PageView = typeof pageViews.$inferSelect;
+export type UserSession = typeof userSessions.$inferSelect;
+
+export const insertPageViewSchema = createInsertSchema(pageViews).omit({ 
+  id: true,
+  timestamp: true 
+});
+
+export const insertUserSessionSchema = createInsertSchema(userSessions).omit({ 
+  id: true,
+  startTime: true 
+});

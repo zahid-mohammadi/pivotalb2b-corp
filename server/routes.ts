@@ -7,12 +7,14 @@ import {
   insertTestimonialSchema,
   insertEbookSchema,
   insertCaseStudySchema,
-  insertLeadSchema
+  insertLeadSchema,
+  pageViews,
+  userSessions
 } from "@shared/schema";
 import multer from "multer";
 import path from "path";
 import express from 'express';
-import { eq } from "drizzle-orm";
+import { eq, count } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
 import { sendContactFormNotification } from "./services/email";
 import type { User } from "@shared/schema";
@@ -398,6 +400,37 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error processing contact form:", error);
       res.status(500).json({ error: "Failed to process contact form" });
+    }
+  });
+
+  // Analytics Routes
+  app.get("/api/analytics/traffic-sources", async (_req, res) => {
+    try {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+      const sources = await storage.db
+        .select({
+          source: pageViews.source,
+          count: count(),
+        })
+        .from(pageViews)
+        .where(
+          eq(pageViews.timestamp, thirtyDaysAgo)
+        )
+        .groupBy(pageViews.source);
+
+      const total = sources.reduce((acc, curr) => acc + Number(curr.count), 0);
+
+      const trafficData = sources.map(({ source, count }) => ({
+        name: source || "Direct",
+        value: Math.round((Number(count) / total) * 100),
+      }));
+
+      res.json(trafficData);
+    } catch (error) {
+      console.error("Error fetching traffic sources:", error);
+      res.status(500).json({ error: "Failed to fetch traffic sources" });
     }
   });
 
