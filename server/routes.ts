@@ -404,6 +404,19 @@ export async function registerRoutes(app: Express) {
   });
 
   // Analytics Routes
+  app.get("/api/analytics/overview", async (_req, res) => {
+    try {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+      const metrics = await storage.getOverviewMetrics(thirtyDaysAgo);
+      res.json(metrics);
+    } catch (error) {
+      console.error("Error fetching overview metrics:", error);
+      res.status(500).json({ error: "Failed to fetch overview metrics" });
+    }
+  });
+
   app.get("/api/analytics/traffic-sources", async (_req, res) => {
     try {
       const thirtyDaysAgo = new Date();
@@ -434,6 +447,29 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error fetching traffic sources:", error);
       res.status(500).json({ error: "Failed to fetch traffic sources" });
+    }
+  });
+
+  app.get("/api/analytics/user-flow", async (_req, res) => {
+    try {
+      const userFlow = await storage.getUserFlow();
+      res.json(userFlow);
+    } catch (error) {
+      console.error("Error fetching user flow:", error);
+      res.status(500).json({ error: "Failed to fetch user flow" });
+    }
+  });
+
+  app.get("/api/analytics/page-views", async (_req, res) => {
+    try {
+      const thirtyDaysAgo = new Date();
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+      const pageViews = await storage.getPageViewMetrics(thirtyDaysAgo);
+      res.json(pageViews);
+    } catch (error) {
+      console.error("Error fetching page views:", error);
+      res.status(500).json({ error: "Failed to fetch page views" });
     }
   });
 

@@ -24,12 +24,13 @@ import {
   userSessions,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, count, and, gte } from "drizzle-orm";
+import { eq, count, and, gte, avg, countDistinct, desc, sql } from "drizzle-orm";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
 import { FAQ } from "@shared/types";
+import { format } from 'date-fns';
 
 const PostgresStore = connectPg(session);
 
@@ -80,6 +81,15 @@ export interface IStorage {
 
   // Analytics methods
   getTrafficSources(fromDate: Date): Promise<Array<{ source: string | null; count: number }>>;
+  getPageViewMetrics(fromDate: Date): Promise<Array<{ path: string; views: number; avgTime: number }>>;
+  getUserFlow(): Promise<Array<{ step: string; users: number }>>;
+  getOverviewMetrics(fromDate: Date): Promise<{
+    totalUsers: number;
+    avgSessionDuration: number;
+    conversionRate: number;
+    bounceRate: number;
+    dailyUsers: Array<{ date: string; users: number }>;
+  }>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -400,6 +410,139 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error("Error getting traffic sources:", error);
       throw error;
+    }
+  }
+
+  async getPageViewMetrics(fromDate: Date): Promise<Array<{ path: string; views: number; avgTime: number }>> {
+    try {
+      const result = await db
+        .select({
+          path: pageViews.path,
+          views: count(),
+          avgTime: avg('duration').as('avgDuration'),
+        })
+        .from(pageViews)
+        .where(gte(pageViews.timestamp, fromDate))
+        .groupBy(pageViews.path)
+        .orderBy(desc(count()))
+        .limit(5);
+
+      return result.map(r => ({
+        path: r.path,
+        views: Number(r.views),
+        avgTime: Math.round(Number(r.avgTime) || 0)
+      }));
+    } catch (error) {
+      console.error("Error getting page view metrics:", error);
+      return [];
+    }
+  }
+
+  async getUserFlow(): Promise<Array<{ step: string; users: number }>> {
+    try {
+      const result = await db
+        .select({
+          path: pageViews.path,
+          users: countDistinct(pageViews.sessionId).as('users')
+        })
+        .from(pageViews)
+        .groupBy(pageViews.path)
+        .orderBy(desc('users'))
+        .limit(5);
+
+      return result.map(r => ({
+        step: r.path,
+        users: Number(r.users)
+      }));
+    } catch (error) {
+      console.error("Error getting user flow:", error);
+      return [];
+    }
+  }
+
+  async getOverviewMetrics(fromDate: Date): Promise<{
+    totalUsers: number;
+    avgSessionDuration: number;
+    conversionRate: number;
+    bounceRate: number;
+    dailyUsers: Array<{ date: string; users: number }>;
+  }> {
+    try {
+      // Get total users (unique sessions)
+      const [{ total }] = await db
+        .select({
+          total: countDistinct(userSessions.sessionId)
+        })
+        .from(userSessions)
+        .where(gte(userSessions.startTime, fromDate));
+
+      // Get average session duration
+      const [{ avgDuration }] = await db
+        .select({
+          avgDuration: avg(
+            sql`EXTRACT(EPOCH FROM (${userSessions.endTime} - ${userSessions.startTime}))`
+          ).as('avgDuration')
+        })
+        .from(userSessions)
+        .where(and(
+          gte(userSessions.startTime, fromDate),
+          isNotNull(userSessions.endTime)
+        ));
+
+      // Calculate bounce rate (sessions with only one page view)
+      const [{ bounces }] = await db
+        .select({
+          bounces: count()
+        })
+        .from(userSessions)
+        .where(eq(userSessions.pageCount, 1));
+
+      // Get daily users for the chart
+      const dailyUsers = await db
+        .select({
+          date: sql`DATE(start_time)`.as('date'),
+          users: countDistinct(userSessions.sessionId).as('users')
+        })
+        .from(userSessions)
+        .where(gte(userSessions.startTime, fromDate))
+        .groupBy(sql`DATE(start_time)`)
+        .orderBy(sql`DATE(start_time)`);
+
+      const totalSessions = Number(total) || 0;
+      const bounceRate = totalSessions > 0 ? (Number(bounces) / totalSessions) * 100 : 0;
+
+      // Assuming conversion is reaching a specific page (e.g., signup completion)
+      const [{ conversions }] = await db
+        .select({
+          conversions: countDistinct(pageViews.sessionId)
+        })
+        .from(pageViews)
+        .where(and(
+          gte(pageViews.timestamp, fromDate),
+          eq(pageViews.path, '/signup/complete')
+        ));
+
+      const conversionRate = totalSessions > 0 ? (Number(conversions) / totalSessions) * 100 : 0;
+
+      return {
+        totalUsers: Number(total) || 0,
+        avgSessionDuration: Math.round(Number(avgDuration) || 0),
+        conversionRate,
+        bounceRate,
+        dailyUsers: dailyUsers.map(d => ({
+          date: format(d.date, 'EEE'),
+          users: Number(d.users)
+        }))
+      };
+    } catch (error) {
+      console.error("Error getting overview metrics:", error);
+      return {
+        totalUsers: 0,
+        avgSessionDuration: 0,
+        conversionRate: 0,
+        bounceRate: 0,
+        dailyUsers: []
+      };
     }
   }
 }

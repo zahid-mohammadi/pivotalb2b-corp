@@ -10,30 +10,37 @@ import {
   YAxis
 } from "recharts";
 import { Users, Clock, MousePointer, ArrowUpRight } from "lucide-react";
-
-const mockData = {
-  dailyUsers: [
-    { date: "Mon", users: 145 },
-    { date: "Tue", users: 232 },
-    { date: "Wed", users: 186 },
-    { date: "Thu", users: 256 },
-    { date: "Fri", users: 236 },
-    { date: "Sat", users: 164 },
-    { date: "Sun", users: 142 }
-  ],
-  engagementData: [
-    { hour: "00", sessions: 24 },
-    { hour: "03", sessions: 18 },
-    { hour: "06", sessions: 42 },
-    { hour: "09", sessions: 126 },
-    { hour: "12", sessions: 168 },
-    { hour: "15", sessions: 186 },
-    { hour: "18", sessions: 142 },
-    { hour: "21", sessions: 86 }
-  ]
-};
+import { useQuery } from "@tanstack/react-query";
 
 export function OverviewMetrics() {
+  const { data: metrics, isLoading } = useQuery({
+    queryKey: ["/api/analytics/overview"],
+  });
+
+  if (isLoading) {
+    return (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {Array(4).fill(0).map((_, i) => (
+          <Card key={i}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Loading...</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">...</div>
+              <div className="text-xs text-muted-foreground">Loading data</div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  const formatDuration = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}m ${remainingSeconds}s`;
+  };
+
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card>
@@ -42,13 +49,13 @@ export function OverviewMetrics() {
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">2,350</div>
+          <div className="text-2xl font-bold">{metrics?.totalUsers.toLocaleString()}</div>
           <div className="text-xs text-muted-foreground">
-            +180 from last month
+            Active users in last 30 days
           </div>
           <div className="h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={mockData.dailyUsers}>
+              <AreaChart data={metrics?.dailyUsers}>
                 <Area
                   type="monotone"
                   dataKey="users"
@@ -69,15 +76,15 @@ export function OverviewMetrics() {
           <Clock className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">4m 32s</div>
+          <div className="text-2xl font-bold">{formatDuration(metrics?.avgSessionDuration || 0)}</div>
           <div className="text-xs text-muted-foreground">
-            +12% from last week
+            Average time spent on site
           </div>
           <div className="h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={mockData.engagementData}>
+              <BarChart data={metrics?.dailyUsers}>
                 <Bar
-                  dataKey="sessions"
+                  dataKey="users"
                   fill="hsl(var(--primary))"
                   radius={[4, 4, 0, 0]}
                 />
@@ -94,13 +101,13 @@ export function OverviewMetrics() {
           <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">3.2%</div>
+          <div className="text-2xl font-bold">{metrics?.conversionRate.toFixed(1)}%</div>
           <div className="text-xs text-muted-foreground">
-            +0.5% from last month
+            Of total visitors
           </div>
           <div className="mt-4 h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={mockData.dailyUsers}>
+              <AreaChart data={metrics?.dailyUsers}>
                 <Area
                   type="monotone"
                   dataKey="users"
@@ -121,15 +128,15 @@ export function OverviewMetrics() {
           <MousePointer className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">42.3%</div>
+          <div className="text-2xl font-bold">{metrics?.bounceRate.toFixed(1)}%</div>
           <div className="text-xs text-muted-foreground">
-            -3% from last month
+            Single page visits
           </div>
           <div className="mt-4 h-[80px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={mockData.engagementData}>
+              <BarChart data={metrics?.dailyUsers}>
                 <Bar
-                  dataKey="sessions"
+                  dataKey="users"
                   fill="hsl(var(--primary))"
                   radius={[4, 4, 0, 0]}
                 />
