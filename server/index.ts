@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import path from "path";
 
 const app = express();
 app.use(express.json());
@@ -47,18 +48,23 @@ app.use((req, res, next) => {
     console.error('Server error:', err);
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
+    // Serve static files in production
+    app.use(express.static(path.join(process.cwd(), 'dist/public')));
     serveStatic(app);
   }
 
-  // Use PORT from environment variable or fallback to 5000
-  const PORT = Number(process.env.PORT) || 5000;  // Ensure PORT is a number
-  server.listen(PORT, () => {
-    log(`Server running in ${app.get('env')} mode on port ${PORT}`);
-  });
+  // Kill any existing processes on the port
+  const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+
+  try {
+    server.listen(port, '0.0.0.0', () => {
+      log(`Server running in ${app.get('env')} mode on port ${port}`);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
 })();
