@@ -1,6 +1,6 @@
 import { PageBanner } from "@/components/ui/page-banner";
 import { Card, CardContent } from "@/components/ui/card";
-import { Building2, Target, Users2, BarChart3, Brain, Globe2, Rocket, Award } from "lucide-react";
+import { Building2, Target, Users2, BarChart3, Brain, Globe2, Rocket, Award, ChartBar, Share2, ShieldCheck } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { motion } from "framer-motion";
 
@@ -29,7 +29,9 @@ export default function AboutPage() {
               "B2B Marketing",
               "Lead Generation",
               "Content Marketing",
-              "Marketing Automation"
+              "Marketing Automation",
+              "Account-Based Marketing",
+              "Intent Data Analytics"
             ]
           }
         }}
@@ -53,7 +55,10 @@ export default function AboutPage() {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Our Mission</h3>
                     <p className="text-muted-foreground">
-                      To empower businesses with cutting-edge marketing tools and strategies that drive meaningful engagement and measurable results. We're committed to transforming how B2B companies approach lead generation and content marketing.
+                      To empower B2B organizations with cutting-edge marketing solutions that drive 
+                      meaningful engagement and measurable growth. Through our innovative approach to 
+                      intent-based targeting and content distribution, we're revolutionizing how 
+                      businesses connect with their ideal prospects.
                     </p>
                   </div>
                 </div>
@@ -69,7 +74,10 @@ export default function AboutPage() {
                   <div>
                     <h3 className="text-xl font-semibold mb-2">Our Vision</h3>
                     <p className="text-muted-foreground">
-                      To revolutionize B2B marketing through innovative technology and data-driven insights, becoming the global standard for intelligent lead generation and content marketing solutions.
+                      To become the global standard in B2B marketing excellence by combining advanced 
+                      technology, data-driven insights, and strategic expertise. We envision a future 
+                      where every B2B interaction is personalized, meaningful, and drives exceptional 
+                      business outcomes.
                     </p>
                   </div>
                 </div>
@@ -92,10 +100,18 @@ export default function AboutPage() {
                     <h3 className="text-2xl font-bold mb-2">Zahid Mohammadi</h3>
                     <p className="text-primary font-semibold mb-4">Founder & CEO</p>
                     <p className="text-muted-foreground mb-4">
-                      A visionary leader in B2B marketing technology, Zahid Mohammadi founded Pivotal B2B with a mission to transform how businesses approach lead generation and content marketing. With over 15 years of experience in digital marketing and technology, Zahid has helped numerous organizations achieve exceptional growth through data-driven strategies and innovative marketing solutions.
+                      As a recognized innovator in B2B marketing technology, Zahid Mohammadi founded Pivotal B2B 
+                      with a vision to transform the B2B marketing landscape. With over 15 years of experience 
+                      in digital marketing and technology leadership, Zahid has pioneered advanced targeting 
+                      methodologies and AI-powered engagement tools that have revolutionized how businesses 
+                      approach lead generation and content marketing.
                     </p>
                     <p className="text-muted-foreground">
-                      Under his leadership, Pivotal B2B has pioneered advanced targeting methodologies and AI-powered engagement tools that have revolutionized B2B marketing effectiveness. His commitment to innovation and client success has established Pivotal B2B as a leading force in the B2B marketing landscape.
+                      Prior to founding Pivotal B2B, Zahid led digital transformation initiatives for Fortune 500 
+                      companies, where he developed expertise in intent data analytics, account-based marketing, 
+                      and marketing automation. His innovative approach to B2B marketing has helped numerous 
+                      organizations achieve exceptional growth through data-driven strategies and cutting-edge 
+                      marketing solutions.
                     </p>
                   </div>
                 </div>
@@ -106,7 +122,7 @@ export default function AboutPage() {
           {/* Core Values Section */}
           <div className="mb-16">
             <h2 className="text-3xl font-semibold mb-8 text-center">Our Values</h2>
-            <div className="grid gap-8 md:grid-cols-2">
+            <div className="grid gap-8 md:grid-cols-3">
               <Card className="hover-lift fade-in">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
@@ -114,9 +130,10 @@ export default function AboutPage() {
                       <Users2 className="h-6 w-6 text-primary" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold mb-2">Customer Success Focus</h3>
+                      <h3 className="text-xl font-semibold mb-2">Client Success Focus</h3>
                       <p className="text-muted-foreground">
-                        We prioritize our clients' success through dedicated support, strategic guidance, and continuous optimization of marketing campaigns to ensure exceptional ROI.
+                        We prioritize our clients' success through dedicated support, strategic guidance, 
+                        and continuous optimization of marketing campaigns to ensure exceptional ROI.
                       </p>
                     </div>
                   </div>
@@ -127,12 +144,30 @@ export default function AboutPage() {
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-primary/10 rounded-lg">
-                      <BarChart3 className="h-6 w-6 text-primary" />
+                      <ChartBar className="h-6 w-6 text-primary" />
                     </div>
                     <div>
                       <h3 className="text-xl font-semibold mb-2">Data-Driven Innovation</h3>
                       <p className="text-muted-foreground">
-                        We leverage advanced analytics and AI to deliver actionable insights and measurable results, constantly evolving our solutions to stay ahead of market trends.
+                        We leverage advanced analytics and AI to deliver actionable insights and measurable 
+                        results, constantly evolving our solutions to stay ahead of market trends.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="hover-lift fade-in">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-primary/10 rounded-lg">
+                      <ShieldCheck className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">Integrity & Compliance</h3>
+                      <p className="text-muted-foreground">
+                        We maintain the highest standards of data privacy and regulatory compliance, 
+                        ensuring ethical practices in all our marketing operations.
                       </p>
                     </div>
                   </div>
@@ -149,7 +184,12 @@ export default function AboutPage() {
                 {
                   icon: Brain,
                   title: "Intent-Based Marketing",
-                  description: "Leveraging advanced data analytics to identify and target high-intent prospects"
+                  description: "Leveraging advanced data analytics to identify and target high-intent prospects with precision"
+                },
+                {
+                  icon: Share2,
+                  title: "Multi-Channel Execution",
+                  description: "Orchestrating seamless campaigns across multiple channels for maximum engagement"
                 },
                 {
                   icon: Globe2,
@@ -157,14 +197,9 @@ export default function AboutPage() {
                   description: "Operating across 60+ countries with multilingual campaign capabilities"
                 },
                 {
-                  icon: Rocket,
-                  title: "Innovation Focus",
-                  description: "Continuous development of cutting-edge marketing technologies"
-                },
-                {
                   icon: Award,
                   title: "Industry Recognition",
-                  description: "Award-winning solutions and methodologies"
+                  description: "Award-winning solutions and methodologies in B2B marketing"
                 }
               ].map((item, index) => (
                 <Card key={index} className="hover-lift">
