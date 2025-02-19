@@ -104,14 +104,14 @@ export default function ServicePage() {
             <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl animate-[spin_25s_linear_infinite]" />
           </div>
 
-          <div className="relative container mx-auto px-4 py-24">
+          <div className="relative container mx-auto px-4 py-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="max-w-3xl"
             >
-              <div className="mb-8">
+              <div className="mb-6">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -133,7 +133,7 @@ export default function ServicePage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-xl text-primary-foreground/90 mb-8 leading-relaxed"
+                  className="text-xl text-primary-foreground/90 mb-6 leading-relaxed"
                 >
                   {service.description}
                 </motion.p>

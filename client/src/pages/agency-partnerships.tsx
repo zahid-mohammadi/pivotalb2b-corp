@@ -61,13 +61,7 @@ export default function AgencyPartnerships() {
       />
       <div className="min-h-screen">
         {/* Hero Section */}
-        <div className="relative bg-primary overflow-hidden">
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/10 to-transparent" />
-            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
-          </div>
-          <div className="relative container mx-auto px-4 py-24">
+        <div className="relative container mx-auto px-4 py-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -85,7 +79,6 @@ export default function AgencyPartnerships() {
               </Button>
             </motion.div>
           </div>
-        </div>
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-20">

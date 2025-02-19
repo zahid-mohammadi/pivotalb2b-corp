@@ -39,8 +39,8 @@ export function PageBanner({
         </div>
       )}
 
-      {/* Content */}
-      <div className="container mx-auto px-4 py-16 sm:py-24 relative z-10">
+      {/* Content - Reduced padding by 20% */}
+      <div className="container mx-auto px-4 py-12 sm:py-20 relative z-10">
         <div className="max-w-3xl">
           <h1 className="text-4xl sm:text-5xl font-bold text-primary-foreground mb-4">
             {title}
