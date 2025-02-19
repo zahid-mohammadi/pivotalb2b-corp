@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { 
+import {
   Loader2,
   ArrowRight,
   LineChart,
@@ -14,7 +14,12 @@ import {
   Building2,
   Users,
   BarChart3,
-  Eye
+  Eye,
+  Globe2,
+  Target,
+  DollarSign,
+  Shield,
+  TrendingUp
 } from "lucide-react";
 import type { Service } from "@shared/schema";
 
@@ -29,12 +34,12 @@ const containerVariants = {
 };
 
 const cardVariants = {
-  hidden: { 
+  hidden: {
     opacity: 0,
     y: 20,
     scale: 0.95
   },
-  visible: { 
+  visible: {
     opacity: 1,
     y: 0,
     scale: 1,
@@ -121,7 +126,7 @@ export function Services() {
       </div>
 
       <div className="container mx-auto px-4 relative">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -130,12 +135,12 @@ export function Services() {
         >
           <h2 className="text-4xl font-bold mb-6">Tailored Solutions for B2B Marketers</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Transform your lead generation strategy with our comprehensive suite of B2B solutions 
+            Transform your lead generation strategy with our comprehensive suite of B2B solutions
             designed to accelerate growth and maximize ROI through data-driven approaches.
           </p>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -164,7 +169,7 @@ export function Services() {
                   <div className="space-y-4">
                     <ul className="space-y-3">
                       {service.features.map((feature, idx) => (
-                        <motion.li 
+                        <motion.li
                           key={idx}
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -181,7 +186,7 @@ export function Services() {
 
                 <CardFooter className="pt-6">
                   <Link href={`/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`}>
-                    <Button 
+                    <Button
                       className="w-full group bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors duration-300"
                     >
                       Learn More
@@ -194,7 +199,7 @@ export function Services() {
           ))}
         </motion.div>
 
-        {/* Why Choose Us Section */}
+        {/* Why Choose Pivotal B2B Section */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -203,47 +208,61 @@ export function Services() {
           className="mt-24"
         >
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4">Why Partner With Us?</h3>
+            <h3 className="text-3xl font-bold mb-4">Why Choose Pivotal B2B?</h3>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Experience the difference of working with a partner committed to your success
-              through proven methodologies and innovative solutions.
+              The Pivotal Difference: Precision, Transparency, and Results
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: Building2,
-                title: "Industry Expertise",
-                description: "Deep understanding of B2B dynamics and market-specific challenges"
+                icon: Globe2,
+                title: "Massive and Global B2B Audience Reach",
+                description: "Access one of the largest and most comprehensive B2B databases globally, connecting you with decision-makers across industries, geographies, and company sizes."
               },
               {
-                icon: Users,
-                title: "Dedicated Support",
-                description: "Personalized attention from expert teams focused on your success"
+                icon: Target,
+                title: "Advanced Targeting",
+                description: "Utilize cutting-edge filters such as Account-Based Marketing (ABM), persona-based segmentation, technographic data, and geographic targeting to reach your ideal audience."
               },
               {
-                icon: BarChart3,
-                title: "Measurable Impact",
-                description: "Data-driven strategies with clear ROI and performance metrics"
+                icon: Share2,
+                title: "Multi-Channel Execution",
+                description: "Execute campaigns across email and phone channels to maximize engagement and conversion rates."
               },
               {
-                icon: Eye,
-                title: "Transparency",
-                description: "Clear communication and full visibility into campaign performance"
+                icon: DollarSign,
+                title: "Cost-Effective Solutions",
+                description: "Our simple cost-per-lead pricing model ensures affordability without compromising on quality. No volume commitments – you pay only for the leads you need."
+              },
+              {
+                icon: Shield,
+                title: "Compliance and Integrity",
+                description: "We adhere to global data privacy regulations, including GDPR, CCPA, and CASL, ensuring your campaigns are ethical and compliant."
+              },
+              {
+                icon: TrendingUp,
+                title: "Proven Results",
+                description: "We deliver on our promises with full transparency, providing high-quality leads that convert into tangible business outcomes."
               }
             ].map((item, index) => (
               <motion.div
                 key={index}
                 variants={cardVariants}
-                className="text-center"
+                className="relative group"
               >
-                <Card className="h-full p-6 hover:shadow-lg transition-shadow duration-300">
-                  <div className="inline-flex p-3 rounded-xl bg-primary/10 mb-4">
-                    <item.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg transform group-hover:scale-105 transition-transform duration-300" />
+                <Card className="relative h-full bg-white/80 backdrop-blur-sm border-slate-200/80 group-hover:border-primary/20 transition-colors">
+                  <CardContent className="p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 rounded-xl bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <item.icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-semibold">{item.title}</h3>
+                    </div>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{item.description}</p>
+                  </CardContent>
                 </Card>
               </motion.div>
             ))}
@@ -261,8 +280,8 @@ export function Services() {
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Let's discuss how our solutions can help you achieve your business objectives.
           </p>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="shadow-lg group"
             onClick={() => window.open(calendlyUrl, '_blank')}
           >
