@@ -130,14 +130,15 @@ export const services = pgTable("services", {
   description: text("description").notNull(),
   features: text("features").array().notNull(),
   benefits: text("benefits").array().notNull(),
-  bannerImage: text("banner_image"),
-  slug: text("slug").notNull().unique(),
+  successMetrics: text("success_metrics").array(),
   methodology: text("methodology"),
   toolsAndTechnologies: text("tools_and_technologies").array(),
+  bannerImage: text("banner_image"),
+  slug: text("slug").notNull().unique(),
+  useCases: jsonb("use_cases").array(),
   faqQuestions: jsonb("faq_questions").array(),
 });
 
-// Use case and FAQ types
 export type UseCase = {
   title: string;
   description: string;
@@ -154,6 +155,7 @@ export type FAQ = {
 export type Service = typeof services.$inferSelect & {
   useCases: UseCase[];
   faqQuestions: FAQ[];
+  successMetrics: string[];
 };
 
 export const insertServiceSchema = createInsertSchema(services)
@@ -162,9 +164,17 @@ export const insertServiceSchema = createInsertSchema(services)
     bannerImage: z.string().optional(),
     methodology: z.string().optional(),
     toolsAndTechnologies: z.array(z.string()).optional(),
+    successMetrics: z.array(z.string()).optional(),
+    useCases: z.array(z.object({
+      title: z.string(),
+      description: z.string(),
+      challenge: z.string(),
+      solution: z.string(),
+      outcome: z.string()
+    })).optional(),
     faqQuestions: z.array(z.object({
       question: z.string(),
-      answer: z.string(),
+      answer: z.string()
     })).optional(),
   });
 
