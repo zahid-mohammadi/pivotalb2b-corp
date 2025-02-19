@@ -55,34 +55,42 @@ export function Navbar() {
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
                   <li>
-                    <Link href="/services/pinpoint-opt-in-leads">
+                    <Link href="/services/intent-based-lead-generation">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Pinpoint Opt-in Leads</div>
-                        <p className="text-sm text-muted-foreground">Identify and engage prospects</p>
+                        <div className="text-sm font-medium">Intent-Based Lead Generation</div>
+                        <p className="text-sm text-muted-foreground">High-quality leads through intent data</p>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/strategic-content-syndication">
+                    <Link href="/services/content-distribution">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Strategic Content Syndication</div>
-                        <p className="text-sm text-muted-foreground">Amplify your content reach</p>
+                        <div className="text-sm font-medium">Content Distribution</div>
+                        <p className="text-sm text-muted-foreground">Amplify your content's reach</p>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/smart-audience-events">
+                    <Link href="/services/event-webinar-promotion">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Smart Audience Events</div>
-                        <p className="text-sm text-muted-foreground">Transform your events</p>
+                        <div className="text-sm font-medium">Event & Webinar Promotion</div>
+                        <p className="text-sm text-muted-foreground">Drive qualified event attendance</p>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/advanced-lead-qualification">
+                    <Link href="/services/lead-qualification">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Advanced Lead Qualification</div>
-                        <p className="text-sm text-muted-foreground">Close deals faster</p>
+                        <div className="text-sm font-medium">Lead Qualification</div>
+                        <p className="text-sm text-muted-foreground">BANT-qualified prospects</p>
+                      </NavigationMenuLink>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/services/account-based-marketing">
+                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
+                        <div className="text-sm font-medium">Account-Based Marketing</div>
+                        <p className="text-sm text-muted-foreground">Strategic targeting for key accounts</p>
                       </NavigationMenuLink>
                     </Link>
                   </li>
