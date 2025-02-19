@@ -9,35 +9,74 @@ export function Hero() {
     <div className="relative bg-slate-900 text-white overflow-hidden">
       {/* Enhanced animated background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900/90" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/30 to-transparent" />
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 animate-[pulse_4s_ease-in-out_infinite]" />
-        {/* Animated decorative elements */}
-        <div className="absolute top-0 right-0 w-1/2 h-1/2">
+        {/* Base gradient layer */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800/95 to-slate-900/90" />
+
+        {/* Enhanced radial gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/40 via-primary/30 to-transparent" />
+
+        {/* Animated grid pattern */}
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20 animate-[pulse_4s_ease-in-out_infinite]" />
+
+        {/* Top right animated blob */}
+        <div className="absolute -top-20 -right-20 w-[600px] h-[600px]">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-3xl"
+            className="absolute inset-0 bg-gradient-to-br from-primary/40 via-primary/30 to-transparent rounded-full blur-3xl"
             animate={{ 
               scale: [1, 1.2, 1],
               rotate: [0, 45, 0],
-              opacity: [0.5, 0.8, 0.5]
+              opacity: [0.4, 0.7, 0.4]
             }}
             transition={{
-              duration: 10,
+              duration: 8,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           />
         </div>
-        <div className="absolute bottom-0 left-0 w-1/2 h-1/2">
+
+        {/* Bottom left animated blob */}
+        <div className="absolute -bottom-20 -left-20 w-[600px] h-[600px]">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-full blur-3xl"
+            className="absolute inset-0 bg-gradient-to-tr from-primary/40 via-primary/30 to-transparent rounded-full blur-3xl"
             animate={{ 
               scale: [1.2, 1, 1.2],
               rotate: [45, 0, 45],
-              opacity: [0.8, 0.5, 0.8]
+              opacity: [0.7, 0.4, 0.7]
             }}
             transition={{
-              duration: 10,
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        {/* Additional animated elements */}
+        <div className="absolute top-1/4 left-1/4 w-32 h-32">
+          <motion.div
+            className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
+            animate={{
+              scale: [1, 1.5, 1],
+              opacity: [0.3, 0.6, 0.3]
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        <div className="absolute bottom-1/4 right-1/4 w-40 h-40">
+          <motion.div
+            className="absolute inset-0 bg-primary/20 rounded-full blur-2xl"
+            animate={{
+              scale: [1.5, 1, 1.5],
+              opacity: [0.6, 0.3, 0.6]
+            }}
+            transition={{
+              duration: 5,
               repeat: Infinity,
               ease: "easeInOut"
             }}
@@ -51,9 +90,9 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/10 hover:border-white/20 transition-colors"
           >
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-primary animate-[pulse_1.5s_ease-in-out_infinite]" />
             <span className="text-sm font-medium">Trusted by Enterprise Leaders</span>
           </motion.div>
 
@@ -61,7 +100,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-5xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-white to-primary/80 bg-clip-text text-transparent"
+            className="text-5xl font-bold mb-6 leading-tight bg-gradient-to-r from-white via-white to-primary/90 bg-clip-text text-transparent"
           >
             High-Quality B2B Leads That Build Winning Sales Pipelines
           </motion.h1>
@@ -83,7 +122,7 @@ export function Hero() {
           >
             <Button 
               size="lg"
-              className="group relative overflow-hidden"
+              className="group relative overflow-hidden bg-primary hover:bg-primary/90"
               onClick={() => window.open(calendlyUrl, '_blank')}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
@@ -122,14 +161,14 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/10 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-primary/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="relative flex items-center gap-3 bg-slate-800/50 rounded-xl p-6 backdrop-blur-sm border border-white/10 group-hover:border-white/20 transition-all">
-                  <div className="p-2 bg-primary/20 rounded-lg group-hover:bg-primary/30 transition-colors">
-                    <benefit.icon className="h-6 w-6 text-primary" />
+                  <div className="p-2 bg-primary/30 rounded-lg group-hover:bg-primary/40 transition-colors">
+                    <benefit.icon className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-primary group-hover:text-white transition-colors">{benefit.metric}</div>
-                    <div className="text-sm text-slate-400 group-hover:text-slate-300 transition-colors">{benefit.label}</div>
+                    <div className="text-2xl font-bold text-white group-hover:text-primary transition-colors">{benefit.metric}</div>
+                    <div className="text-sm text-slate-300 group-hover:text-white transition-colors">{benefit.label}</div>
                   </div>
                 </div>
               </motion.div>
