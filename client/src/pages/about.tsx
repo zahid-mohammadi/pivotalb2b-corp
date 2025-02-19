@@ -1,6 +1,6 @@
 import { PageBanner } from "@/components/ui/page-banner";
 import { Card, CardContent } from "@/components/ui/card";
-import { Building2, Target, Users2, Brain, Globe2, Award, ChartBar, Share2, ShieldCheck, LinkedinIcon, TwitterIcon } from "lucide-react";
+import { Building2, Target, Users2, Brain, Globe2, Award, ChartBar, Share2, ShieldCheck, LinkedinIcon, TwitterIcon, NewspaperIcon, UsersIcon, BookOpenIcon } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -58,10 +58,10 @@ export default function AboutPage() {
             <CardContent className="p-0">
               <div className="grid md:grid-cols-2 gap-0">
                 {/* Visual Section */}
-                <div className="relative min-h-[400px] bg-gradient-to-br from-primary/20 to-primary/5 p-8 flex items-center justify-center">
+                <div className="relative min-h-[500px] bg-gradient-to-br from-primary/20 to-primary/5 p-8 flex items-center justify-center">
                   <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.05]" />
                   <div className="relative z-10">
-                    <div className="w-48 h-48 rounded-full overflow-hidden bg-white shadow-xl border-2 border-primary/20">
+                    <div className="w-64 h-64 rounded-full overflow-hidden bg-white shadow-xl border-2 border-primary/20">
                       <img
                         src="/Zahid Mohammadi.jpeg"
                         alt="Zahid Mohammadi - Founder & CEO"
@@ -110,6 +110,72 @@ export default function AboutPage() {
                     </p>
                   </div>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Industry Evolve 360 Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-24"
+        >
+          <h2 className="text-4xl font-bold mb-12 text-center">Industry Evolve 360</h2>
+          <Card className="max-w-4xl mx-auto">
+            <CardContent className="p-8">
+              <div className="text-center mb-8">
+                <p className="text-lg text-muted-foreground">
+                  A sub-division of Pivotal B2B LLC, empowering you to navigate the evolving B2B tech landscape - completely free.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-3 gap-6 mt-12">
+                <Card className="relative overflow-hidden hover-lift group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                  <CardContent className="p-6">
+                    <div className="mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <NewspaperIcon className="h-6 w-6 text-primary" />
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Free, Cutting-Edge Content</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Access exclusive news, expert analysis, and in-depth reports on the most impactful B2B technologies.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="relative overflow-hidden hover-lift group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                  <CardContent className="p-6">
+                    <div className="mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <UsersIcon className="h-6 w-6 text-primary" />
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Connect with Leaders</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Network with industry visionaries at our complimentary webinars, forums, and conferences featuring cutting-edge solutions.
+                    </p>
+                  </CardContent>
+                </Card>
+
+                <Card className="relative overflow-hidden hover-lift group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                  <CardContent className="p-6">
+                    <div className="mb-4">
+                      <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <BookOpenIcon className="h-6 w-6 text-primary" />
+                      </div>
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">Empowering Resources</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Download informative white papers, ebooks, infographics, and solution briefs from leading B2B software providers - all at no cost.
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
             </CardContent>
           </Card>
