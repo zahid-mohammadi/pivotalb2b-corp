@@ -94,11 +94,16 @@ export default function ServicePage() {
       <div className="min-h-screen">
         {/* Hero Section - Enhanced with success metrics */}
         <div className="relative bg-primary overflow-hidden">
+          {/* Enhanced animated background patterns */}
           <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary/80" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/10 to-transparent" />
-            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 to-transparent" />
+            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 animate-[pulse_4s_ease-in-out_infinite]" />
+            {/* Decorative shapes */}
+            <div className="absolute -top-24 -right-24 w-96 h-96 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl transform rotate-12 animate-[spin_30s_linear_infinite]" />
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl animate-[spin_25s_linear_infinite]" />
           </div>
+
           <div className="relative container mx-auto px-4 py-24">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -106,31 +111,85 @@ export default function ServicePage() {
               transition={{ duration: 0.6 }}
               className="max-w-3xl"
             >
-              <h1 className="text-5xl font-bold text-white mb-6">{service.title}</h1>
-              <p className="text-xl text-primary-foreground/90 mb-8">{service.description}</p>
-              <div className="flex flex-wrap gap-4 mb-8">
+              <div className="mb-8">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-4"
+                >
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                  <span className="text-sm text-white/90">Enterprise Solutions</span>
+                </motion.div>
+                <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-5xl font-bold text-white mb-6 leading-tight"
+                >
+                  {service.title}
+                </motion.h1>
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-xl text-primary-foreground/90 mb-8 leading-relaxed"
+                >
+                  {service.description}
+                </motion.p>
+              </div>
+
+              {/* Enhanced metrics display */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+              >
                 {service.successMetrics?.map((metric, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white/10 backdrop-blur-sm rounded-lg p-4 flex-1 min-w-[200px] text-center"
+                    transition={{ delay: 0.6 + index * 0.1 }}
+                    whileHover={{ scale: 1.05 }}
+                    className="relative group"
                   >
-                    <p className="text-white/90 text-sm mb-2">Success Metric</p>
-                    <p className="text-white font-semibold">{metric}</p>
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-white/5 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
+                    <div className="relative bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/10 group-hover:border-white/20 transition-all">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="p-2 rounded-lg bg-white/10 group-hover:bg-white/20 transition-colors">
+                          {index === 0 && <Target className="h-5 w-5 text-white" />}
+                          {index === 1 && <Users className="h-5 w-5 text-white" />}
+                          {index === 2 && <BarChart3 className="h-5 w-5 text-white" />}
+                        </div>
+                        <p className="text-white/80 text-sm">Success Metric</p>
+                      </div>
+                      <p className="text-white font-semibold text-lg">{metric}</p>
+                    </div>
                   </motion.div>
                 ))}
-              </div>
-              <Button
-                size="lg"
-                variant="secondary"
-                className="shadow-xl"
-                onClick={() => window.open(calendlyUrl, '_blank')}
+              </motion.div>
+
+              {/* Enhanced CTA button */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
               >
-                Schedule a Consultation
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+                <Button
+                  size="lg"
+                  variant="secondary"
+                  className="shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
+                  onClick={() => window.open(calendlyUrl, '_blank')}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
+                  <span className="relative flex items-center gap-2">
+                    Schedule a Consultation
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Button>
+              </motion.div>
             </motion.div>
           </div>
         </div>
