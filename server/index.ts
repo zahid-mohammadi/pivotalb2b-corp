@@ -7,6 +7,20 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Add domain handling middleware
+app.use((req, res, next) => {
+  const allowedDomains = ['www.pivotal-b2b.com', 'pivotal-b2b.com'];
+  const host = req.headers.host;
+
+  // Redirect non-www to www
+  if (host === 'pivotal-b2b.com') {
+    return res.redirect(301, `https://www.${host}${req.url}`);
+  }
+
+  next();
+});
+
+// Logging middleware
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
