@@ -8,18 +8,18 @@ export function Approach() {
   const steps = [
     {
       icon: ResearchStrategyIcon,
-      title: "Advanced Targeting",
-      description: "Leverage cutting-edge ABM filters, persona-based segmentation, technographic data, and geographic targeting to reach your ideal audience with precision.",
+      title: "Strategic Targeting",
+      description: "Identify and profile your ideal customer segments using advanced data analytics, technographic insights, and intent signals to build a focused prospect universe.",
     },
     {
       icon: ContentEngagementIcon,
-      title: "Multi-Channel Execution",
-      description: "Execute integrated campaigns across email, phone, and digital channels with personalized messaging that maximizes engagement and conversion rates.",
+      title: "Engagement Optimization",
+      description: "Deploy personalized multi-channel campaigns that resonate with decision-makers, leveraging targeted content and precise messaging to drive meaningful interactions.",
     },
     {
       icon: ScaleGrowthIcon,
-      title: "Transparent Results",
-      description: "Get full visibility into campaign performance with detailed analytics, lead quality metrics, and clear ROI measurement for every initiative.",
+      title: "Pipeline Acceleration",
+      description: "Convert prospects into qualified opportunities through proven nurture workflows, BANT qualification, and seamless sales team integration.",
     },
   ];
 
@@ -33,9 +33,10 @@ export function Approach() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6">The Pivotal Difference</h2>
+          <h2 className="text-4xl font-bold mb-6">Our Approach to Building Winning Sales Pipelines</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            We combine precision targeting, transparent execution, and proven methodologies to deliver high-quality B2B leads that drive measurable business outcomes.
+            We transform your lead generation into a systematic pipeline-building engine through precise targeting, 
+            strategic engagement, and proven conversion methodologies that consistently deliver qualified opportunities to your sales team.
           </p>
         </motion.div>
 
