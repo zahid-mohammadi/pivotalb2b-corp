@@ -37,12 +37,11 @@ export function WhyUs() {
   ];
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden bg-slate-900 text-white">
       {/* Sophisticated Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-slate-50" />
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary/5 to-transparent" />
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(68,68,68,.2)_50%,transparent_75%,transparent_100%)] bg-[length:20px_20px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-primary/20 to-transparent" />
       </div>
 
       <div className="container mx-auto px-4 relative">
@@ -54,12 +53,12 @@ export function WhyUs() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl font-bold mb-4">Why Choose Pivotal B2B?</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
             The Pivotal Difference: Precision, Transparency, and Results
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {features.map((feature, index) => (
             <motion.div 
               key={index}
@@ -68,24 +67,40 @@ export function WhyUs() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <Card className="h-full hover:shadow-lg transition-all duration-300 bg-white/80 backdrop-blur-sm border-slate-200/80 hover:border-primary/20">
+              <Card className="h-full bg-slate-800/50 backdrop-blur-sm border-slate-700 hover:border-primary/50 transition-all duration-300">
                 <CardContent className="p-8">
-                  <div className="flex gap-6">
-                    <div className="shrink-0">
-                      <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                        <feature.icon className="h-6 w-6 text-primary" />
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  <div className="mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center transform hover:scale-110 transition-transform duration-300">
+                      <feature.icon className="h-7 w-7 text-primary" />
                     </div>
                   </div>
+                  <h3 className="text-xl font-semibold mb-3 text-white">{feature.title}</h3>
+                  <p className="text-slate-300 leading-relaxed">{feature.description}</p>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
+
+        {/* Stats Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
+        >
+          {[
+            { value: "98%", label: "Client Satisfaction" },
+            { value: "250+", label: "Active Partnerships" },
+            { value: "15M+", label: "Qualified Leads" },
+            { value: "60+", label: "Countries Reached" }
+          ].map((stat, index) => (
+            <div key={index} className="text-center">
+              <p className="text-4xl font-bold text-primary mb-2">{stat.value}</p>
+              <p className="text-sm text-slate-300">{stat.label}</p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
