@@ -11,11 +11,32 @@ import {
 } from "recharts";
 import { Users, Clock, MousePointer, ArrowUpRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 export function OverviewMetrics() {
   const { data: metrics, isLoading } = useQuery({
     queryKey: ["/api/analytics/overview"],
   });
+
+  const { data: activeUsersData, refetch: refetchActiveUsers } = useQuery({
+    queryKey: ["/api/analytics/active-users"],
+    refetchInterval: 30000, // Refetch every 30 seconds
+  });
+
+  useEffect(() => {
+    const pingInterval = setInterval(() => {
+      const sessionId = localStorage.getItem('sessionId');
+      if (sessionId) {
+        fetch('/api/analytics/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId })
+        }).catch(console.error);
+      }
+    }, 60000); // Ping every minute
+
+    return () => clearInterval(pingInterval);
+  }, []);
 
   if (isLoading) {
     return (
@@ -42,7 +63,20 @@ export function OverviewMetrics() {
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Online Users</CardTitle>
+          <Users className="h-4 w-4 text-primary animate-pulse" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">{activeUsersData?.activeUsers || 0}</div>
+          <div className="text-xs text-muted-foreground">
+            Currently active on the site
+          </div>
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Users</CardTitle>

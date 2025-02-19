@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, varchar, jsonb, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, varchar, jsonb, boolean, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -213,6 +213,7 @@ export const pageViews = pgTable("page_views", {
   source: text("source"),
   deviceType: text("device_type"),
   sessionId: text("session_id").notNull(),
+  duration: integer("duration"), // Add duration field for time spent on page
 });
 
 export const userSessions = pgTable("user_sessions", {
@@ -222,6 +223,8 @@ export const userSessions = pgTable("user_sessions", {
   endTime: timestamp("end_time"),
   source: text("source"),
   deviceType: text("device_type"),
+  isActive: boolean("is_active").default(true).notNull(),
+  lastPing: timestamp("last_ping").defaultNow().notNull(),
 });
 
 // Types for analytics

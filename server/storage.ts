@@ -90,6 +90,8 @@ export interface IStorage {
     bounceRate: number;
     dailyUsers: Array<{ date: string; users: number }>;
   }>;
+  getActiveUsers(): Promise<number>;
+  updateSessionActivity(sessionId: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -419,7 +421,7 @@ export class DatabaseStorage implements IStorage {
         .select({
           path: pageViews.path,
           views: count(),
-          avgTime: avg('duration').as('avgDuration'),
+          avgTime: avg(pageViews.duration),
         })
         .from(pageViews)
         .where(gte(pageViews.timestamp, fromDate))
@@ -543,6 +545,42 @@ export class DatabaseStorage implements IStorage {
         bounceRate: 0,
         dailyUsers: []
       };
+    }
+  }
+
+  async getActiveUsers(): Promise<number> {
+    try {
+      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+      const [{ count: activeUsers }] = await db
+        .select({
+          count: countDistinct(userSessions.sessionId),
+        })
+        .from(userSessions)
+        .where(
+          and(
+            eq(userSessions.isActive, true),
+            gte(userSessions.lastPing, fiveMinutesAgo)
+          )
+        );
+
+      return Number(activeUsers) || 0;
+    } catch (error) {
+      console.error("Error getting active users:", error);
+      return 0;
+    }
+  }
+
+  async updateSessionActivity(sessionId: string): Promise<void> {
+    try {
+      await db
+        .update(userSessions)
+        .set({
+          lastPing: new Date(),
+          isActive: true
+        })
+        .where(eq(userSessions.sessionId, sessionId));
+    } catch (error) {
+      console.error("Error updating session activity:", error);
     }
   }
 }

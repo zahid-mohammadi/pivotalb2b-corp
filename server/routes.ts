@@ -473,6 +473,30 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.get("/api/analytics/active-users", async (_req, res) => {
+    try {
+      const activeUsers = await storage.getActiveUsers();
+      res.json({ activeUsers });
+    } catch (error) {
+      console.error("Error fetching active users:", error);
+      res.status(500).json({ error: "Failed to fetch active users" });
+    }
+  });
+
+  app.post("/api/analytics/ping", async (req, res) => {
+    try {
+      const { sessionId } = req.body;
+      if (!sessionId) {
+        return res.status(400).json({ error: "Session ID is required" });
+      }
+      await storage.updateSessionActivity(sessionId);
+      res.sendStatus(200);
+    } catch (error) {
+      console.error("Error updating session activity:", error);
+      res.status(500).json({ error: "Failed to update session activity" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
