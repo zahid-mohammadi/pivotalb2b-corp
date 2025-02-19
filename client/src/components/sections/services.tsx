@@ -6,7 +6,11 @@ import { motion } from "framer-motion";
 import { 
   Loader2,
   ArrowRight,
-  CheckCircle2,
+  LineChart,
+  Share2,
+  Video,
+  CheckSquare,
+  TargetIcon,
   Building2,
   Users,
   BarChart3,
@@ -51,20 +55,61 @@ const cardVariants = {
   }
 };
 
+const services = [
+  {
+    icon: LineChart,
+    title: "Intent-Based Lead Generation",
+    description: "Combine intent data and opt-in lead generation to target companies actively seeking solutions like yours.",
+    features: [
+      "Real-time intent signals",
+      "Opt-in verification",
+      "Advanced targeting filters"
+    ]
+  },
+  {
+    icon: Share2,
+    title: "Content Distribution",
+    description: "Amplify your content's reach by delivering it to a highly targeted audience of decision-makers.",
+    features: [
+      "Multi-channel distribution",
+      "Decision-maker targeting",
+      "Performance analytics"
+    ]
+  },
+  {
+    icon: Video,
+    title: "Event and Webinar Promotion",
+    description: "Drive attendance and capture qualified leads for your events and webinars.",
+    features: [
+      "Targeted promotions",
+      "Attendee qualification",
+      "Follow-up automation"
+    ]
+  },
+  {
+    icon: CheckSquare,
+    title: "Lead Qualification",
+    description: "Ensure your leads are sales-ready with BANT-qualified prospects.",
+    features: [
+      "BANT qualification",
+      "Lead scoring",
+      "Sales readiness verification"
+    ]
+  },
+  {
+    icon: TargetIcon,
+    title: "Account-Based Marketing (ABM)",
+    description: "Focus on high-value accounts with personalized, strategic campaigns.",
+    features: [
+      "Account targeting",
+      "Personalized campaigns",
+      "Strategic engagement"
+    ]
+  }
+];
+
 export function Services() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
-
-  const { data: services, isLoading } = useQuery<Service[]>({
-    queryKey: ["/api/services"],
-  });
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center py-20">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
 
   return (
     <section className="py-24 bg-gradient-to-b from-slate-50 to-white relative overflow-hidden">
@@ -82,10 +127,9 @@ export function Services() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6">Comprehensive B2B Solutions</h2>
+          <h2 className="text-4xl font-bold mb-6">Tailored Solutions for B2B Marketers</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Transform your business with our suite of integrated marketing solutions designed to drive growth, 
-            enhance engagement, and deliver measurable results across your digital ecosystem.
+            Transform your lead generation and marketing strategy with our comprehensive suite of B2B solutions designed to drive growth and maximize ROI.
           </p>
         </motion.div>
 
@@ -94,54 +138,52 @@ export function Services() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16"
         >
-          {services?.map((service) => (
+          {services.map((service, index) => (
             <motion.div
-              key={service.id}
+              key={index}
               variants={cardVariants}
               whileHover="hover"
             >
               <Card className="h-full flex flex-col bg-white/50 backdrop-blur-sm border-slate-200/80 hover:shadow-xl hover:border-primary/20 transition-all duration-300">
                 <CardHeader>
-                  <div className="mb-4">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="p-2 bg-primary/10 rounded-lg">
+                      <service.icon className="h-6 w-6 text-primary" />
+                    </div>
                     <h3 className="text-xl font-semibold">{service.title}</h3>
                   </div>
-                  <p className="text-muted-foreground text-sm">{service.description}</p>
+                  <p className="text-muted-foreground">{service.description}</p>
                 </CardHeader>
 
                 <CardContent className="flex-grow">
-                  <div className="space-y-6">
-                    {/* Key Features */}
-                    <div>
-                      <h4 className="text-sm font-semibold text-muted-foreground mb-3">
-                        Key Features
-                      </h4>
-                      <ul className="space-y-3">
-                        {service.features.slice(0, 3).map((feature, index) => (
-                          <motion.li 
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="flex items-start gap-2 text-sm"
-                          >
-                            <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                            <span>{feature}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className="space-y-4">
+                    <ul className="space-y-2">
+                      {service.features.map((feature, idx) => (
+                        <motion.li 
+                          key={idx}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          className="flex items-center gap-2 text-sm text-muted-foreground"
+                        >
+                          <CheckSquare className="h-4 w-4 text-primary shrink-0" />
+                          <span>{feature}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
                   </div>
                 </CardContent>
 
                 <CardFooter className="pt-6">
-                  <Link href={`/services/${service.slug}`}>
-                    <Button className="w-full group">
-                      Explore Solution
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                  </Link>
+                  <Button 
+                    className="w-full group"
+                    onClick={() => window.open(calendlyUrl, '_blank')}
+                  >
+                    Learn More
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
                 </CardFooter>
               </Card>
             </motion.div>
@@ -184,7 +226,7 @@ export function Services() {
               {
                 icon: Eye,
                 title: "Transparency",
-                description: "Clear communication, honest reporting, and full visibility into campaign performance"
+                description: "Clear communication and full visibility into campaign performance"
               }
             ].map((item, index) => (
               <motion.div
@@ -211,17 +253,17 @@ export function Services() {
           viewport={{ once: true }}
           className="mt-24 text-center"
         >
-          <h2 className="text-3xl font-bold mb-4">Ready to Accelerate Your Growth?</h2>
+          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Lead Generation?</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Let's discuss how our solutions can help you achieve your business objectives.
           </p>
           <Button 
             size="lg" 
-            className="shadow-lg"
+            className="shadow-lg group"
             onClick={() => window.open(calendlyUrl, '_blank')}
           >
             Schedule a Consultation
-            <ArrowRight className="ml-2 h-5 w-5" />
+            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Button>
         </motion.div>
       </div>
