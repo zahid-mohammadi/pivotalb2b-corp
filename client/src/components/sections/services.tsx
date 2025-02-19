@@ -180,13 +180,14 @@ export function Services() {
                 </CardContent>
 
                 <CardFooter className="pt-6">
-                  <Button 
-                    className="w-full group bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors duration-300"
-                    onClick={() => window.open(calendlyUrl, '_blank')}
-                  >
-                    Learn More
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
+                  <Link href={`/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`}>
+                    <Button 
+                      className="w-full group bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors duration-300"
+                    >
+                      Learn More
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
                 </CardFooter>
               </Card>
             </motion.div>
