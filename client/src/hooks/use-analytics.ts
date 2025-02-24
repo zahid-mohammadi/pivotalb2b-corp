@@ -11,42 +11,55 @@ export function useAnalytics() {
     const wsUrl = `${protocol}//${window.location.host}/ws/analytics`;
 
     function connect() {
-      const ws = new WebSocket(wsUrl);
-      wsRef.current = ws;
+      try {
+        const ws = new WebSocket(wsUrl);
+        wsRef.current = ws;
 
-      ws.onopen = () => {
-        console.log('Analytics WebSocket connected');
-        // Send initial pageview
-        sendPageView();
-      };
+        ws.onopen = () => {
+          console.log('Analytics WebSocket connected');
+          sendPageView();
+        };
 
-      ws.onclose = () => {
-        console.log('Analytics WebSocket disconnected, attempting to reconnect...');
-        setTimeout(connect, 3000);
-      };
+        ws.onmessage = (event) => {
+          try {
+            const data = JSON.parse(event.data);
+            if (data.type === 'analytics_update') {
+              console.log('Active users:', data.activeUsers);
+            }
+          } catch (error) {
+            console.error('Error processing WebSocket message:', error);
+          }
+        };
 
-      ws.onerror = (error) => {
-        console.error('Analytics WebSocket error:', error);
-      };
+        ws.onclose = () => {
+          console.log('Analytics WebSocket disconnected, attempting to reconnect...');
+          setTimeout(connect, 3000);
+        };
+
+        ws.onerror = (error) => {
+          console.error('Analytics WebSocket error:', error);
+        };
+      } catch (error) {
+        console.error('Error connecting to WebSocket:', error);
+      }
     }
 
     function sendPageView() {
       if (wsRef.current?.readyState === WebSocket.OPEN) {
-        wsRef.current.send(JSON.stringify({
-          type: 'pageview',
-          path: location,
-          referrer: document.referrer,
-          userAgent: navigator.userAgent,
-          timestamp: new Date().toISOString()
-        }));
+        try {
+          wsRef.current.send(JSON.stringify({
+            type: 'pageview',
+            path: location,
+            timestamp: new Date().toISOString()
+          }));
+        } catch (error) {
+          console.error('Error sending pageview:', error);
+        }
       }
     }
 
     // Initial connection
     connect();
-
-    // Send pageview on route change
-    sendPageView();
 
     // Cleanup on unmount
     return () => {

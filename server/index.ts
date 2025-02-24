@@ -17,7 +17,8 @@ const PostgresStore = connectPg(session);
 app.use(session({
   store: new PostgresStore({
     pool,
-    tableName: 'sessions'
+    tableName: 'sessions',
+    createTableIfMissing: true
   }),
   secret: process.env.SESSION_SECRET || 'your-secret-key',
   resave: false,
@@ -27,7 +28,6 @@ app.use(session({
     maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
   }
 }));
-
 
 // Logging middleware
 app.use((req, res, next) => {
