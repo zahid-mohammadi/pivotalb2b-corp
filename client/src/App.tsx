@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ThemeProvider } from "@/components/theme-provider";
 import { CookieConsent } from "@/components/cookie-consent";
+import { useAnalytics } from "@/hooks/use-analytics";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Service from "@/pages/service";
@@ -29,6 +30,9 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
 import { PageTransition } from "@/components/ui/page-transition";
 
 function Router() {
+  // Add analytics tracking
+  useAnalytics();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

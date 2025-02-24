@@ -3,10 +3,33 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
 import sitemapRouter from "./sitemap";
+import session from "express-session";
+import { pool } from "./db";
+import { analyticsMiddleware } from "./middleware/analytics";
+import connectPg from "connect-pg-simple";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Session configuration
+const PostgresStore = connectPg(session);
+app.use(session({
+  store: new PostgresStore({
+    pool,
+    tableName: 'user_sessions'
+  }),
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+  }
+}));
+
+// Analytics middleware
+app.use(analyticsMiddleware);
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -25,7 +48,6 @@ const redirects = new Map([
   ['/blog/old-post-1', '/blog/new-post-1'],
   ['/services/old-service', '/services/intent-based-lead-generation'],
   ['/resources', '/ebooks'],
-  // Add more redirects as needed
 ]);
 
 // Redirect middleware
@@ -61,16 +83,13 @@ app.use((req, res, next) => {
 
   // Catch-all handler for client-side routing and 404s
   app.use('*', (req, res, next) => {
-    // Log 404s for monitoring
     if (!req.path.startsWith('/api')) {
       log(`404 Not Found: ${req.originalUrl}`);
     }
 
     if (req.accepts('html')) {
-      // For HTML requests, serve the SPA's index.html
       res.sendFile(path.join(process.cwd(), app.get("env") === "development" ? 'index.html' : 'dist/public/index.html'));
     } else {
-      // For API requests, return 404 JSON
       res.status(404).json({
         message: 'Not Found',
         status: 404

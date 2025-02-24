@@ -24,7 +24,7 @@ import {
   userSessions,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, count, and, gte, avg, countDistinct, desc, sql } from "drizzle-orm";
+import { eq, count, and, gte, avg, countDistinct, desc, sql, isNull, not as notOp } from "drizzle-orm";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 import connectPg from "connect-pg-simple";
@@ -34,73 +34,18 @@ import { format } from 'date-fns';
 
 const PostgresStore = connectPg(session);
 
-export interface IStorage {
-  // User Management
-  getUserById(id: number): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
-
-  // Blog Posts
-  getBlogPosts(): Promise<BlogPost[]>;
-  getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
-  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
-  updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost>;
-  deleteBlogPost(id: number): Promise<void>;
-
-  // Ebooks
-  getEbooks(): Promise<Ebook[]>;
-  getEbookById(id: number): Promise<Ebook | undefined>;
-  createEbook(ebook: InsertEbook): Promise<Ebook>;
-  getEbookBySlug(slug: string): Promise<Ebook | undefined>;
-  updateEbook(id: number, ebook: Partial<InsertEbook>): Promise<Ebook>;
-  deleteEbook(id: number): Promise<void>;
-
-  // Case Studies
-  getCaseStudies(): Promise<CaseStudy[]>;
-  getCaseStudyById(id: number): Promise<CaseStudy | undefined>;
-  createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy>;
-  getCaseStudyBySlug(slug: string): Promise<CaseStudy | undefined>;
-  updateCaseStudy(id: number, caseStudy: Partial<InsertCaseStudy>): Promise<CaseStudy>;
-  deleteCaseStudy(id: number): Promise<void>;
-
-  // Services
-  getServices(): Promise<Service[]>;
-  getServiceBySlug(slug: string): Promise<Service | undefined>;
-  createService(service: InsertService): Promise<Service>;
-
-  // Testimonials
-  getTestimonials(): Promise<Testimonial[]>;
-  createTestimonial(testimonial: InsertTestimonial): Promise<Testimonial>;
-
-  // Leads
-  getLeads(): Promise<Lead[]>;
-  createLead(lead: InsertLead): Promise<Lead>;
-
-  // Session store
-  sessionStore: session.Store;
-
-  // Analytics methods
-  getTrafficSources(fromDate: Date): Promise<Array<{ source: string | null; count: number }>>;
-  getPageViewMetrics(fromDate: Date): Promise<Array<{ path: string; views: number; avgTime: number }>>;
-  getUserFlow(): Promise<Array<{ step: string; users: number }>>;
-  getOverviewMetrics(fromDate: Date): Promise<{
-    totalUsers: number;
-    avgSessionDuration: number;
-    conversionRate: number;
-    bounceRate: number;
-    dailyUsers: Array<{ date: string; users: number }>;
-  }>;
-  getActiveUsers(): Promise<number>;
-  updateSessionActivity(sessionId: string): Promise<void>;
-}
-
 export class DatabaseStorage implements IStorage {
+  // Expose database and table definitions
+  public readonly db = db;
+  public readonly pageViews = pageViews;
+  public readonly userSessions = userSessions;
+
   sessionStore: session.Store;
 
   constructor() {
     this.sessionStore = new PostgresStore({
       pool,
-      tableName: 'session',
+      tableName: 'user_sessions',
       createTableIfMissing: true,
     });
   }
@@ -445,11 +390,11 @@ export class DatabaseStorage implements IStorage {
       const result = await db
         .select({
           path: pageViews.path,
-          users: countDistinct(pageViews.sessionId).as('users')
+          users: countDistinct(pageViews.sessionId)
         })
         .from(pageViews)
         .groupBy(pageViews.path)
-        .orderBy(desc('users'))
+        .orderBy(desc(countDistinct(pageViews.sessionId)))
         .limit(5);
 
       return result.map(r => ({
@@ -488,32 +433,39 @@ export class DatabaseStorage implements IStorage {
         .from(userSessions)
         .where(and(
           gte(userSessions.startTime, fromDate),
-          isNotNull(userSessions.endTime)
+          notOp(isNull(userSessions.endTime))
         ));
-
-      // Calculate bounce rate (sessions with only one page view)
-      const [{ bounces }] = await db
-        .select({
-          bounces: count()
-        })
-        .from(userSessions)
-        .where(eq(userSessions.pageCount, 1));
 
       // Get daily users for the chart
       const dailyUsers = await db
         .select({
-          date: sql`DATE(start_time)`.as('date'),
+          date: sql`DATE(${userSessions.startTime})`.as('date'),
           users: countDistinct(userSessions.sessionId).as('users')
         })
         .from(userSessions)
         .where(gte(userSessions.startTime, fromDate))
-        .groupBy(sql`DATE(start_time)`)
-        .orderBy(sql`DATE(start_time)`);
+        .groupBy(sql`DATE(${userSessions.startTime})`)
+        .orderBy(sql`DATE(${userSessions.startTime})`);
 
-      const totalSessions = Number(total) || 0;
+      // Calculate bounce rate (sessions with only one page view)
+      const [{ totalSessions }] = await db
+        .select({
+          totalSessions: count()
+        })
+        .from(userSessions)
+        .where(gte(userSessions.startTime, fromDate));
+
+      const [{ bounces }] = await db
+        .select({
+          bounces: count()
+        })
+        .from(pageViews)
+        .groupBy(pageViews.sessionId)
+        .having(count().eq(1));
+
       const bounceRate = totalSessions > 0 ? (Number(bounces) / totalSessions) * 100 : 0;
 
-      // Assuming conversion is reaching a specific page (e.g., signup completion)
+      // Calculate conversion rate (reaching specific pages)
       const [{ conversions }] = await db
         .select({
           conversions: countDistinct(pageViews.sessionId)
@@ -532,7 +484,7 @@ export class DatabaseStorage implements IStorage {
         conversionRate,
         bounceRate,
         dailyUsers: dailyUsers.map(d => ({
-          date: format(d.date, 'EEE'),
+          date: format(new Date(d.date), 'EEE'),
           users: Number(d.users)
         }))
       };

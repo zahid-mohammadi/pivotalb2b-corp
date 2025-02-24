@@ -205,6 +205,13 @@ export type InsertEbook = z.infer<typeof insertEbookSchema>;
 export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 
+// Session store table for connect-pg-simple
+export const sessions = pgTable("sessions", {
+  sid: varchar("sid").primaryKey(),
+  sess: jsonb("sess").notNull(),
+  expire: timestamp("expire", { precision: 6 }).notNull(),
+});
+
 // Analytics Tables
 export const pageViews = pgTable("page_views", {
   id: serial("id").primaryKey(),
