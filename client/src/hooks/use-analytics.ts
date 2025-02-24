@@ -1,42 +1,60 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'wouter';
 
 export function useAnalytics() {
   const [location] = useLocation();
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    // Track page view
-    const trackPageView = async () => {
-      try {
-        await fetch('/api/analytics/page-view', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            path: location,
-            referrer: document.referrer,
-          }),
-        });
-      } catch (error) {
-        console.error('Failed to track page view:', error);
+    // Setup WebSocket connection
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${protocol}//${window.location.host}/ws/analytics`;
+
+    function connect() {
+      const ws = new WebSocket(wsUrl);
+      wsRef.current = ws;
+
+      ws.onopen = () => {
+        console.log('Analytics WebSocket connected');
+        // Send initial pageview
+        sendPageView();
+      };
+
+      ws.onclose = () => {
+        console.log('Analytics WebSocket disconnected, attempting to reconnect...');
+        setTimeout(connect, 3000);
+      };
+
+      ws.onerror = (error) => {
+        console.error('Analytics WebSocket error:', error);
+      };
+    }
+
+    function sendPageView() {
+      if (wsRef.current?.readyState === WebSocket.OPEN) {
+        wsRef.current.send(JSON.stringify({
+          type: 'pageview',
+          path: location,
+          referrer: document.referrer,
+          userAgent: navigator.userAgent,
+          timestamp: new Date().toISOString()
+        }));
+      }
+    }
+
+    // Initial connection
+    connect();
+
+    // Send pageview on route change
+    sendPageView();
+
+    // Cleanup on unmount
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
       }
     };
-
-    trackPageView();
-
-    // Set up interval to ping for active session
-    const pingInterval = setInterval(() => {
-      fetch('/api/analytics/ping', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }).catch(console.error);
-    }, 30000); // Every 30 seconds
-
-    return () => {
-      clearInterval(pingInterval);
-    };
   }, [location]);
+
+  return null;
 }

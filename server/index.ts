@@ -5,8 +5,8 @@ import path from "path";
 import sitemapRouter from "./sitemap";
 import session from "express-session";
 import { pool } from "./db";
-import { analyticsMiddleware } from "./middleware/analytics";
 import connectPg from "connect-pg-simple";
+import { setupAnalyticsWebSocket } from "./services/analytics-ws";
 
 const app = express();
 app.use(express.json());
@@ -17,7 +17,7 @@ const PostgresStore = connectPg(session);
 app.use(session({
   store: new PostgresStore({
     pool,
-    tableName: 'user_sessions'
+    tableName: 'sessions'
   }),
   secret: process.env.SESSION_SECRET || 'your-secret-key',
   resave: false,
@@ -28,8 +28,6 @@ app.use(session({
   }
 }));
 
-// Analytics middleware
-app.use(analyticsMiddleware);
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -43,25 +41,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// Redirect map for old URLs
-const redirects = new Map([
-  ['/blog/old-post-1', '/blog/new-post-1'],
-  ['/services/old-service', '/services/intent-based-lead-generation'],
-  ['/resources', '/ebooks'],
-]);
-
-// Redirect middleware
-app.use((req, res, next) => {
-  const path = req.path.toLowerCase();
-  if (redirects.has(path)) {
-    log(`Redirecting ${path} to ${redirects.get(path)}`);
-    return res.redirect(301, redirects.get(path)!);
-  }
-  next();
-});
-
 (async () => {
   const server = await registerRoutes(app);
+
+  // Setup WebSocket for real-time analytics
+  setupAnalyticsWebSocket(server);
 
   // Register sitemap routes
   app.use(sitemapRouter);
@@ -81,8 +65,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // Catch-all handler for client-side routing and 404s
-  app.use('*', (req, res, next) => {
+  // Catch-all handler
+  app.use('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
       log(`404 Not Found: ${req.originalUrl}`);
     }
