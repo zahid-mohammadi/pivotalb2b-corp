@@ -45,7 +45,7 @@ export class DatabaseStorage implements IStorage {
   constructor() {
     this.sessionStore = new PostgresStore({
       pool,
-      tableName: 'user_sessions',
+      tableName: 'sessions',
       createTableIfMissing: true,
     });
   }
@@ -461,7 +461,7 @@ export class DatabaseStorage implements IStorage {
         })
         .from(pageViews)
         .groupBy(pageViews.sessionId)
-        .having(count().eq(1));
+        .having(sql`COUNT(*) = 1`);
 
       const bounceRate = totalSessions > 0 ? (Number(bounces) / totalSessions) * 100 : 0;
 
