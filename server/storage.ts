@@ -22,6 +22,8 @@ import {
   leads,
   pageViews,
   userSessions,
+  type PageView,
+  type UserSession
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, count, and, gte, avg, countDistinct, desc, sql, isNull, not as notOp } from "drizzle-orm";
@@ -31,6 +33,7 @@ import connectPg from "connect-pg-simple";
 import { pool } from "./db";
 import { FAQ } from "@shared/types";
 import { format } from 'date-fns';
+import { subHours } from "date-fns";
 
 const PostgresStore = connectPg(session);
 
@@ -337,202 +340,108 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
-  // Analytics implementation
-  async getTrafficSources(fromDate: Date): Promise<Array<{ source: string | null; count: number }>> {
+  // Basic Analytics Methods
+  async getBasicMetrics(): Promise<{
+    totalPageViews: number;
+    uniqueVisitors: number;
+    topPages: Array<{ path: string; views: number }>;
+  }> {
     try {
-      const sources = await db
+      // Get total page views
+      const [{ total: totalPageViews }] = await db
         .select({
-          source: pageViews.source,
-          count: count(),
+          total: count()
         })
         .from(pageViews)
-        .where(
-          and(
-            gte(pageViews.timestamp, fromDate)
-          )
-        )
-        .groupBy(pageViews.source);
+        .where(gte(pageViews.timestamp, subHours(new Date(), 24)));
 
-      return sources;
-    } catch (error) {
-      console.error("Error getting traffic sources:", error);
-      throw error;
-    }
-  }
+      // Get unique visitors
+      const [{ total: uniqueVisitors }] = await db
+        .select({
+          total: countDistinct(pageViews.sessionId)
+        })
+        .from(pageViews)
+        .where(gte(pageViews.timestamp, subHours(new Date(), 24)));
 
-  async getPageViewMetrics(fromDate: Date): Promise<Array<{ path: string; views: number; avgTime: number }>> {
-    try {
-      const result = await db
+      // Get top pages
+      const topPages = await db
         .select({
           path: pageViews.path,
-          views: count(),
-          avgTime: avg(pageViews.duration),
+          views: count()
         })
         .from(pageViews)
-        .where(gte(pageViews.timestamp, fromDate))
+        .where(gte(pageViews.timestamp, subHours(new Date(), 24)))
         .groupBy(pageViews.path)
         .orderBy(desc(count()))
         .limit(5);
 
-      return result.map(r => ({
-        path: r.path,
-        views: Number(r.views),
-        avgTime: Math.round(Number(r.avgTime) || 0)
-      }));
-    } catch (error) {
-      console.error("Error getting page view metrics:", error);
-      return [];
-    }
-  }
-
-  async getUserFlow(): Promise<Array<{ step: string; users: number }>> {
-    try {
-      const result = await db
-        .select({
-          path: pageViews.path,
-          users: countDistinct(pageViews.sessionId)
-        })
-        .from(pageViews)
-        .groupBy(pageViews.path)
-        .orderBy(desc(countDistinct(pageViews.sessionId)))
-        .limit(5);
-
-      return result.map(r => ({
-        step: r.path,
-        users: Number(r.users)
-      }));
-    } catch (error) {
-      console.error("Error getting user flow:", error);
-      return [];
-    }
-  }
-
-  async getOverviewMetrics(fromDate: Date): Promise<{
-    totalUsers: number;
-    avgSessionDuration: number;
-    conversionRate: number;
-    bounceRate: number;
-    dailyUsers: Array<{ date: string; users: number }>;
-  }> {
-    try {
-      // Get total users (unique sessions)
-      const [{ total }] = await db
-        .select({
-          total: countDistinct(userSessions.sessionId)
-        })
-        .from(userSessions)
-        .where(gte(userSessions.startTime, fromDate));
-
-      // Get average session duration
-      const [{ avgDuration }] = await db
-        .select({
-          avgDuration: avg(
-            sql`EXTRACT(EPOCH FROM (${userSessions.endTime} - ${userSessions.startTime}))`
-          ).as('avgDuration')
-        })
-        .from(userSessions)
-        .where(and(
-          gte(userSessions.startTime, fromDate),
-          notOp(isNull(userSessions.endTime))
-        ));
-
-      // Get daily users for the chart
-      const dailyUsers = await db
-        .select({
-          date: sql`DATE(${userSessions.startTime})`.as('date'),
-          users: countDistinct(userSessions.sessionId).as('users')
-        })
-        .from(userSessions)
-        .where(gte(userSessions.startTime, fromDate))
-        .groupBy(sql`DATE(${userSessions.startTime})`)
-        .orderBy(sql`DATE(${userSessions.startTime})`);
-
-      // Calculate bounce rate (sessions with only one page view)
-      const [{ totalSessions }] = await db
-        .select({
-          totalSessions: count()
-        })
-        .from(userSessions)
-        .where(gte(userSessions.startTime, fromDate));
-
-      const [{ bounces }] = await db
-        .select({
-          bounces: count()
-        })
-        .from(pageViews)
-        .groupBy(pageViews.sessionId)
-        .having(sql`COUNT(*) = 1`);
-
-      const bounceRate = totalSessions > 0 ? (Number(bounces) / totalSessions) * 100 : 0;
-
-      // Calculate conversion rate (reaching specific pages)
-      const [{ conversions }] = await db
-        .select({
-          conversions: countDistinct(pageViews.sessionId)
-        })
-        .from(pageViews)
-        .where(and(
-          gte(pageViews.timestamp, fromDate),
-          eq(pageViews.path, '/signup/complete')
-        ));
-
-      const conversionRate = totalSessions > 0 ? (Number(conversions) / totalSessions) * 100 : 0;
-
       return {
-        totalUsers: Number(total) || 0,
-        avgSessionDuration: Math.round(Number(avgDuration) || 0),
-        conversionRate,
-        bounceRate,
-        dailyUsers: dailyUsers.map(d => ({
-          date: format(new Date(d.date), 'EEE'),
-          users: Number(d.users)
+        totalPageViews: Number(totalPageViews) || 0,
+        uniqueVisitors: Number(uniqueVisitors) || 0,
+        topPages: topPages.map(p => ({
+          path: p.path,
+          views: Number(p.views)
         }))
       };
     } catch (error) {
-      console.error("Error getting overview metrics:", error);
+      console.error("Error getting basic metrics:", error);
       return {
-        totalUsers: 0,
-        avgSessionDuration: 0,
-        conversionRate: 0,
-        bounceRate: 0,
-        dailyUsers: []
+        totalPageViews: 0,
+        uniqueVisitors: 0,
+        topPages: []
       };
     }
   }
 
   async getActiveUsers(): Promise<number> {
     try {
-      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-      const [{ count: activeUsers }] = await db
+      const [{ active }] = await db
         .select({
-          count: countDistinct(userSessions.sessionId),
+          active: countDistinct(userSessions.sessionId)
         })
         .from(userSessions)
-        .where(
-          and(
-            eq(userSessions.isActive, true),
-            gte(userSessions.lastPing, fiveMinutesAgo)
-          )
-        );
+        .where(gte(userSessions.lastActive, subHours(new Date(), 1)));
 
-      return Number(activeUsers) || 0;
+      return Number(active) || 0;
     } catch (error) {
       console.error("Error getting active users:", error);
       return 0;
     }
   }
 
-  async updateSessionActivity(sessionId: string): Promise<void> {
+  async updateUserActivity(sessionId: string): Promise<void> {
     try {
       await db
-        .update(userSessions)
-        .set({
-          lastPing: new Date(),
-          isActive: true
+        .insert(userSessions)
+        .values({
+          sessionId,
+          source: 'direct',
+          deviceType: 'unknown'
         })
-        .where(eq(userSessions.sessionId, sessionId));
+        .onConflictDoUpdate({
+          target: userSessions.sessionId,
+          set: {
+            lastActive: new Date()
+          }
+        });
     } catch (error) {
-      console.error("Error updating session activity:", error);
+      console.error("Error updating user activity:", error);
+    }
+  }
+
+  async recordPageView(data: {
+    path: string;
+    sessionId: string;
+    source?: string;
+    deviceType?: string;
+  }): Promise<void> {
+    try {
+      await db.insert(pageViews).values({
+        ...data,
+        timestamp: new Date()
+      });
+    } catch (error) {
+      console.error("Error recording page view:", error);
     }
   }
 }

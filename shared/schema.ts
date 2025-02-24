@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, varchar, jsonb, boolean, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, varchar, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -205,14 +205,14 @@ export type InsertEbook = z.infer<typeof insertEbookSchema>;
 export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 
-// Session store table for connect-pg-simple
+// Session store table for connect-pg-simple (separate from analytics)
 export const sessions = pgTable("sessions", {
   sid: varchar("sid").primaryKey(),
   sess: jsonb("sess").notNull(),
   expire: timestamp("expire", { precision: 6 }).notNull(),
 });
 
-// Analytics Tables
+// Analytics Tables - Simplified version
 export const pageViews = pgTable("page_views", {
   id: serial("id").primaryKey(),
   path: text("path").notNull(),
@@ -220,18 +220,15 @@ export const pageViews = pgTable("page_views", {
   source: text("source"),
   deviceType: text("device_type"),
   sessionId: text("session_id").notNull(),
-  duration: integer("duration"), // Add duration field for time spent on page
 });
 
 export const userSessions = pgTable("user_sessions", {
   id: serial("id").primaryKey(),
   sessionId: text("session_id").notNull().unique(),
   startTime: timestamp("start_time").defaultNow().notNull(),
-  endTime: timestamp("end_time"),
+  lastActive: timestamp("last_active").defaultNow().notNull(),
   source: text("source"),
   deviceType: text("device_type"),
-  isActive: boolean("is_active").default(true).notNull(),
-  lastPing: timestamp("last_ping").defaultNow().notNull(),
 });
 
 // Types for analytics
@@ -245,5 +242,6 @@ export const insertPageViewSchema = createInsertSchema(pageViews).omit({
 
 export const insertUserSessionSchema = createInsertSchema(userSessions).omit({ 
   id: true,
-  startTime: true 
+  startTime: true,
+  lastActive: true 
 });
