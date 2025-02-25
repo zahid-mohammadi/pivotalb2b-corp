@@ -1,17 +1,46 @@
-
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+import {
+  Loader2,
+  FileText,
+  BookText,
+  Users,
+  User,
+  Pencil,
+  Trash2,
+  BarChart3
+} from "lucide-react";
+import { BlogEditor } from "@/components/blog/blog-editor";
+import { EbookEditor } from "@/components/ebooks/ebook-editor";
+import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
+import { OverviewMetrics } from "@/components/analytics/overview-metrics";
+import { TrafficSources } from "@/components/analytics/traffic-sources";
+import { UserBehavior } from "@/components/analytics/user-behavior";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { MetaTags } from "@/components/ui/meta-tags";
+import type { BlogPost, Ebook, CaseStudy, Lead } from "@shared/schema";
 
-export default function DashboardPage() {
+export default function Dashboard() {
+  const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("analytics");
+  const [showEditor, setShowEditor] = useState<"blog" | "ebook" | "case-study" | null>(null);
+  const [editingItem, setEditingItem] = useState<BlogPost | Ebook | CaseStudy | null>(null);
   const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const queryClient = useQueryClient();
+
+  // Queries
+  const { data: posts, isLoading: postsLoading } = useQuery<BlogPost[]>({
+    queryKey: ["/api/blog-posts"],
+  });
 
   const { data: users } = useQuery({
     queryKey: ["users"],
@@ -19,7 +48,7 @@ export default function DashboardPage() {
   });
 
   const addUserMutation = useMutation({
-    mutationFn: (userData) => 
+    mutationFn: (userData) =>
       fetch("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -76,43 +105,6 @@ export default function DashboardPage() {
     }
   };
 
-import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { 
-  Loader2, 
-  FileText, 
-  BookText, 
-  Users, 
-  User, 
-  Pencil, 
-  Trash2,
-  BarChart3 
-} from "lucide-react";
-import { BlogEditor } from "@/components/blog/blog-editor";
-import { EbookEditor } from "@/components/ebooks/ebook-editor";
-import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
-import { OverviewMetrics } from "@/components/analytics/overview-metrics";
-import { TrafficSources } from "@/components/analytics/traffic-sources";
-import { UserBehavior } from "@/components/analytics/user-behavior";
-import type { BlogPost, Ebook, CaseStudy, Lead } from "@shared/schema";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest, queryClient } from "@/lib/queryClient";
-import { MetaTags } from "@/components/ui/meta-tags";
-
-export default function Dashboard() {
-  const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState("analytics");
-  const [showEditor, setShowEditor] = useState<"blog" | "ebook" | "case-study" | null>(null);
-  const [editingItem, setEditingItem] = useState<BlogPost | Ebook | CaseStudy | null>(null);
-
-  // Queries
-  const { data: posts, isLoading: postsLoading } = useQuery<BlogPost[]>({
-    queryKey: ["/api/blog-posts"],
-  });
-
   const { data: ebooks, isLoading: ebooksLoading } = useQuery<Ebook[]>({
     queryKey: ["/api/ebooks"],
   });
@@ -125,7 +117,7 @@ export default function Dashboard() {
     queryKey: ["/api/leads"],
   });
 
-  // Delete mutations
+
   const deleteBlogMutation = useMutation({
     mutationFn: async (id: number) => {
       const res = await apiRequest("DELETE", `/api/blog-posts/${id}`);
@@ -212,12 +204,8 @@ export default function Dashboard() {
 
   return (
     <>
-      <MetaTags
-        title="Admin Dashboard - Pivotal B2B"
-        description="Administrative dashboard for managing content, leads, and marketing materials"
-        noindex={true}
-      />
-      <div className="container mx-auto px-4 py-12">
+      <MetaTags title="Dashboard" />
+      <div className="container p-4 mx-auto">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -397,8 +385,6 @@ export default function Dashboard() {
                 </form>
               </DialogContent>
             </Dialog>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* Blog Posts Tab */}
