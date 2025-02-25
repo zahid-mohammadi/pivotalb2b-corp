@@ -134,17 +134,18 @@ export default function AgencyPartnerships() {
                     Partner with us to provide your clients with advanced B2B marketing capabilities, powered by our in-house expertise, premium data infrastructure, and innovative targeting solutions.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button 
-                      size="lg" 
+                    <Button
+                      size="lg"
                       variant="secondary"
                       className="text-lg group"
+                      onClick={() => window.open('https://calendly.com/pivotal-b2b/partnership', '_blank')}
                     >
-                      Become a Partner
+                      Schedule a Call
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
-                    <Button 
-                      size="lg" 
-                      variant="outline" 
+                    <Button
+                      size="lg"
+                      variant="outline"
                       className="bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20 text-white text-lg"
                     >
                       View Success Stories
@@ -274,25 +275,27 @@ export default function AgencyPartnerships() {
                       Ready to Transform Your B2B Marketing?
                     </h2>
                     <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-                      Join our elite partner network to access premium B2B data, advanced marketing capabilities, 
-                      and comprehensive support. Let's discuss how we can help you deliver exceptional results 
+                      Join our elite partner network to access premium B2B data, advanced marketing capabilities,
+                      and comprehensive support. Let's discuss how we can help you deliver exceptional results
                       for your global clients.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-4">
-                      <Button 
-                        size="lg" 
+                      <Button
+                        size="lg"
                         variant="secondary"
                         className="text-lg group"
+                        onClick={() => window.open('https://calendly.com/pivotal-b2b/partnership', '_blank')}
                       >
                         Schedule Partnership Call
                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       </Button>
-                      <Button 
-                        size="lg" 
-                        variant="outline" 
+                      <Button
+                        size="lg"
+                        variant="outline"
                         className="bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20 text-white text-lg"
+                        onClick={() => window.open('https://calendly.com/pivotal-b2b/discovery', '_blank')}
                       >
-                        Download Partnership Guide
+                        Book Discovery Session
                         <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
                     </div>
