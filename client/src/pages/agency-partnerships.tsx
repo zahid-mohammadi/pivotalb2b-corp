@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { motion as m } from "framer-motion";
+import { m } from "framer-motion";
 import { LazyMotion, domAnimation } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,6 +14,7 @@ import {
   MessageSquare,
   BarChart3,
   Shield,
+  LucideIcon
 } from "lucide-react";
 
 // Animation variants remain unchanged
@@ -37,8 +38,14 @@ const itemVariants = {
   }
 };
 
+interface BenefitCardProps {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
 // Component with reduced re-renders
-const BenefitCard = ({ icon: Icon, title, description }) => (
+const BenefitCard = ({ icon: Icon, title, description }: BenefitCardProps) => (
   <Card className="h-full">
     <CardContent className="p-4 sm:p-6">
       <div className="inline-flex p-2 rounded-lg bg-primary/10 mb-3">
@@ -50,8 +57,13 @@ const BenefitCard = ({ icon: Icon, title, description }) => (
   </Card>
 );
 
+interface MetricCardProps {
+  metric: string;
+  label: string;
+}
+
 // Component with reduced re-renders
-const MetricCard = ({ metric, label }) => (
+const MetricCard = ({ metric, label }: MetricCardProps) => (
   <Card>
     <CardContent className="p-3 sm:p-4 text-center">
       <p className="text-2xl sm:text-3xl font-bold text-primary mb-1">{metric}</p>
