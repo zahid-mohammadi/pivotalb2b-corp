@@ -128,11 +128,10 @@ export default function AgencyPartnerships() {
                   className="max-w-4xl mx-auto text-center"
                 >
                   <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-primary-foreground to-white text-transparent bg-clip-text">
-                    Elite Global B2B Partnership Network
+                    Premium B2B Marketing Services for Agencies
                   </h1>
                   <p className="text-xl sm:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
-                    Join our exclusive network of global partners and access advanced B2B marketing capabilities, 
-                    premium data, and innovative solutions that drive exceptional results.
+                    Partner with us to provide your clients with advanced B2B marketing capabilities, powered by our in-house expertise, premium data infrastructure, and innovative targeting solutions.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Button 
@@ -140,7 +139,7 @@ export default function AgencyPartnerships() {
                       variant="secondary"
                       className="text-lg group"
                     >
-                      Join Our Network
+                      Become a Partner
                       <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                     </Button>
                     <Button 
