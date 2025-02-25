@@ -29,6 +29,15 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
 import { PageTransition } from "@/components/ui/page-transition";
 import React from 'react';
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 function Router() {
   useAnalytics();
   return (
@@ -63,38 +72,16 @@ function Router() {
   );
 }
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <HelmetProvider>
-        <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="light" storageKey="ui-theme">
           <AuthProvider>
             <Router />
             <Toaster />
           </AuthProvider>
         </ThemeProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
       </HelmetProvider>
     </QueryClientProvider>
   );
