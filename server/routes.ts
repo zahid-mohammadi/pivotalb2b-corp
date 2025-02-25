@@ -549,8 +549,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  // Users
-  export const users = pgTable("users", {
+  // Users API endpoints complete
 
 
   const httpServer = createServer(app);
