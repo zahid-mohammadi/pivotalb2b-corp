@@ -1,4 +1,6 @@
 
+"use client"
+
 import * as React from "react"
 import { createContext, useContext, useEffect, useState } from "react"
 
@@ -28,7 +30,7 @@ export function ThemeProvider({
   storageKey = "vite-ui-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
+  const [theme, setTheme] = React.useState<Theme>(
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   )
 

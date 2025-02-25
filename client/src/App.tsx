@@ -72,9 +72,20 @@ const queryClient = new QueryClient({
   },
 });
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 export default function App() {
   return (
-    <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <HelmetProvider>
+        <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider defaultTheme="light" storageKey="ui-theme">
           <AuthProvider>
@@ -83,6 +94,8 @@ export default function App() {
           </AuthProvider>
         </ThemeProvider>
       </QueryClientProvider>
-    </HelmetProvider>
+    </ThemeProvider>
+      </HelmetProvider>
+    </QueryClientProvider>
   );
 }
