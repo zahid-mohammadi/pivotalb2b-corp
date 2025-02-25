@@ -1,3 +1,81 @@
+
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "@/components/ui/use-toast";
+
+export default function DashboardPage() {
+  const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
+  const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const queryClient = useQueryClient();
+
+  const { data: users } = useQuery({
+    queryKey: ["users"],
+    queryFn: () => fetch("/api/users").then(res => res.json())
+  });
+
+  const addUserMutation = useMutation({
+    mutationFn: (userData) => 
+      fetch("/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData)
+      }).then(res => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users"]);
+      setAddUserDialogOpen(false);
+      toast({ title: "User added successfully" });
+    }
+  });
+
+  const editUserMutation = useMutation({
+    mutationFn: ({ id, data }) =>
+      fetch(`/api/users/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).then(res => res.json()),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users"]);
+      setEditUserDialogOpen(false);
+      toast({ title: "User updated successfully" });
+    }
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: (id) =>
+      fetch(`/api/users/${id}`, { method: "DELETE" }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["users"]);
+      toast({ title: "User deleted successfully" });
+    }
+  });
+
+  const handleAddUser = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    addUserMutation.mutate(Object.fromEntries(formData));
+  };
+
+  const handleEditUser = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    editUserMutation.mutate({
+      id: selectedUser.id,
+      data: Object.fromEntries(formData)
+    });
+  };
+
+  const handleDeleteUser = (id) => {
+    if (confirm("Are you sure you want to delete this user?")) {
+      deleteUserMutation.mutate(id);
+    }
+  };
+
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -187,34 +265,138 @@ export default function Dashboard() {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-semibold">User Management</h2>
-                  <Button>Add New User</Button>
+                  <Button onClick={() => setAddUserDialogOpen(true)}>Add New User</Button>
                 </div>
                 <div className="border rounded-lg">
                   <div className="p-4 border-b bg-muted">
                     <div className="grid grid-cols-4 gap-4 font-medium">
-                      <div>Name</div>
+                      <div>Username</div>
                       <div>Email</div>
                       <div>Role</div>
                       <div>Actions</div>
                     </div>
                   </div>
                   <div className="divide-y">
-                    {/* Sample user row - replace with actual user data */}
-                    <div className="p-4">
-                      <div className="grid grid-cols-4 gap-4">
-                        <div className="flex items-center gap-2">
-                          <User className="h-6 w-6 text-muted-foreground" />
-                          <span>John Doe</span>
-                        </div>
-                        <div>john@example.com</div>
-                        <div>Admin</div>
-                        <div>
-                          <Button variant="outline" size="sm">Edit</Button>
+                    {users?.map((user) => (
+                      <div key={user.id} className="p-4">
+                        <div className="grid grid-cols-4 gap-4">
+                          <div className="flex items-center gap-2">
+                            <User className="h-6 w-6 text-muted-foreground" />
+                            <span>{user.username}</span>
+                          </div>
+                          <div>{user.email}</div>
+                          <div>{user.role}</div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => {
+                                setSelectedUser(user);
+                                setEditUserDialogOpen(true);
+                              }}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => handleDeleteUser(user.id)}
+                            >
+                              Delete
+                            </Button>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+
+            <Dialog open={addUserDialogOpen} onOpenChange={setAddUserDialogOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add New User</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleAddUser}>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="username">Username</Label>
+                      <Input id="username" name="username" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" name="email" type="email" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="password">Password</Label>
+                      <Input id="password" name="password" type="password" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="role">Role</Label>
+                      <Select name="role" defaultValue="user">
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="user">User</SelectItem>
+                          <SelectItem value="admin">Admin</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <DialogFooter className="mt-4">
+                    <Button type="submit">Add User</Button>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+
+            <Dialog open={editUserDialogOpen} onOpenChange={setEditUserDialogOpen}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Edit User</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={handleEditUser}>
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="edit-username">Username</Label>
+                      <Input
+                        id="edit-username"
+                        name="username"
+                        defaultValue={selectedUser?.username}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-email">Email</Label>
+                      <Input
+                        id="edit-email"
+                        name="email"
+                        type="email"
+                        defaultValue={selectedUser?.email}
+                        required
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="edit-role">Role</Label>
+                      <Select name="role" defaultValue={selectedUser?.role}>
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="user">User</SelectItem>
+                          <SelectItem value="admin">Admin</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <DialogFooter className="mt-4">
+                    <Button type="submit">Save Changes</Button>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
               </CardContent>
             </Card>
           </TabsContent>

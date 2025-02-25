@@ -9,7 +9,8 @@ import {
   insertCaseStudySchema,
   insertLeadSchema,
   pageViews,
-  userSessions
+  userSessions,
+  insertUserSchema
 } from "@shared/schema";
 import multer from "multer";
 import path from "path";
@@ -496,6 +497,61 @@ export async function registerRoutes(app: Express) {
       res.status(500).json({ error: "Failed to update session activity" });
     }
   });
+
+  // User Management API Routes
+  app.get("/api/users", async (_req, res) => {
+    try {
+      const users = await storage.getUsers();
+      res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  app.post("/api/users", async (req, res) => {
+    try {
+      const result = insertUserSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const user = await storage.createUser(result.data);
+      res.status(201).json(user);
+    } catch (error) {
+      console.error("Error creating user:", error);
+      res.status(500).json({ error: "Failed to create user" });
+    }
+  });
+
+  app.patch("/api/users/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const result = insertUserSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const user = await storage.updateUser(id, result.data);
+      res.json(user);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ error: "Failed to update user" });
+    }
+  });
+
+  app.delete("/api/users/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteUser(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ error: "Failed to delete user" });
+    }
+  });
+
+  // Users
+  export const users = pgTable("users", {
+
 
   const httpServer = createServer(app);
   return httpServer;
