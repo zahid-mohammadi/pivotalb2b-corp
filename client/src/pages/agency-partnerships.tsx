@@ -61,15 +61,16 @@ export default function AgencyPartnerships() {
       />
       <div className="min-h-screen">
         {/* Hero Section */}
-        <div className="relative container mx-auto px-4 py-20">
+        <div className="relative bg-primary text-primary-foreground">
+          <div className="container mx-auto px-4 py-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="max-w-3xl"
             >
-              <h1 className="text-5xl font-bold text-white mb-6">Agency Partnership Program</h1>
-              <p className="text-xl text-primary-foreground/90 mb-8">
+              <h1 className="text-5xl font-bold mb-6">Agency Partnership Program</h1>
+              <p className="text-xl opacity-90 mb-8">
                 Partner with Pivotal B2B to access premium lead generation services at competitive
                 cost-per-lead rates, helping your agency deliver exceptional value to clients.
               </p>
@@ -79,6 +80,7 @@ export default function AgencyPartnerships() {
               </Button>
             </motion.div>
           </div>
+        </div>
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-20">
