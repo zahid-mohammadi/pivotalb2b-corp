@@ -18,8 +18,8 @@ function normalizeHostname(hostname: string): string {
   return hostname;
 }
 
-function generateSitemapUrls(hostname: string): SitemapUrl[] {
-  const routes = getRouteConfigs();
+async function generateSitemapUrls(hostname: string): Promise<SitemapUrl[]> {
+  const routes = await getRouteConfigs();
   const urls: SitemapUrl[] = [];
 
   routes.forEach((route: RouteConfig) => {
@@ -79,7 +79,7 @@ router.get('/sitemap.xml', async (req, res) => {
     const pipeline = smStream.pipe(createGzip());
 
     // Generate and add URLs to the sitemap
-    const urls = generateSitemapUrls(hostname);
+    const urls = await generateSitemapUrls(hostname);
 
     for (const { url, changefreq, priority } of urls) {
       smStream.write({
