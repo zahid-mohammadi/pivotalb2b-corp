@@ -7,8 +7,10 @@ import session from "express-session";
 import { pool } from "./db";
 import connectPg from "connect-pg-simple";
 import { setupAnalyticsWebSocket } from "./services/analytics-ws";
+import cookieParser from 'cookie-parser';
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -28,6 +30,14 @@ app.use(session({
     maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
   }
 }));
+
+// Analytics middleware (placeholder - requires actual implementation)
+const trackAnalytics = (req: Request, res: Response, next: NextFunction) => {
+  // Implement analytics tracking logic here
+  // ... (e.g., record page views, user sessions, etc.) ...
+  next();
+};
+app.use(trackAnalytics);
 
 // Logging middleware
 app.use((req, res, next) => {
@@ -90,6 +100,11 @@ app.use((req, res, next) => {
     });
   } catch (error) {
     console.error('Failed to start server:', error);
+    // Attempt to handle port conflict (requires additional logic)
+    if (error.code === 'EADDRINUSE') {
+      console.error('Port already in use. Please stop the existing process and try again.');
+      process.exit(1);
+    }
     process.exit(1);
   }
 })();
