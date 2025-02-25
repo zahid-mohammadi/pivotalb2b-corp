@@ -55,11 +55,12 @@ const services = [
   {
     icon: LineChart,
     title: "Intent-Based Lead Generation",
-    description: "Combine intent data and opt-in lead generation to target companies actively seeking solutions like yours.",
+    description: "Target high-value accounts using advanced intent signals and account-based strategies to identify and engage decision-makers actively seeking solutions.",
     features: [
-      "Real-time intent signal tracking",
-      "Behavioral data analysis",
-      "Predictive lead scoring"
+      "Account-based intent tracking",
+      "Target account prioritization",
+      "Multi-stakeholder engagement mapping",
+      "Account-level engagement scoring"
     ],
     gradients: [
       "from-blue-500/20 via-purple-500/20 to-pink-500/20",
@@ -69,11 +70,12 @@ const services = [
   {
     icon: Share2,
     title: "Content Distribution",
-    description: "Amplify your content's reach by delivering it to a highly targeted audience of decision-makers.",
+    description: "Strategically distribute content to key accounts through personalized, account-specific channels and engagement strategies.",
     features: [
-      "Multi-channel content syndication",
-      "Account-based content delivery",
-      "Performance analytics & insights"
+      "Account-based content personalization",
+      "Targeted account syndication",
+      "Role-based content delivery",
+      "Account engagement analytics"
     ],
     gradients: [
       "from-purple-500/20 via-indigo-500/20 to-blue-500/20",
@@ -83,11 +85,12 @@ const services = [
   {
     icon: Video,
     title: "Event and Webinar Promotion",
-    description: "Drive attendance and capture qualified leads for your events and webinars.",
+    description: "Drive attendance from target accounts through personalized event marketing and account-specific engagement strategies.",
     features: [
-      "Targeted audience acquisition",
-      "Automated registration flows",
-      "Post-event lead nurturing"
+      "Account-based event targeting",
+      "Stakeholder-specific invitations",
+      "Account engagement tracking",
+      "Post-event account nurturing"
     ],
     gradients: [
       "from-green-500/20 via-emerald-500/20 to-teal-500/20",
@@ -97,11 +100,12 @@ const services = [
   {
     icon: CheckSquare,
     title: "Lead Qualification",
-    description: "Ensure your leads are sales-ready with BANT-qualified prospects.",
+    description: "Qualify leads within target accounts using comprehensive BANT criteria and account-based engagement metrics.",
     features: [
-      "BANT criteria verification",
-      "Custom qualification frameworks",
-      "Sales readiness scoring"
+      "Account-level qualification",
+      "Multi-stakeholder assessment",
+      "Account engagement scoring",
+      "Deal size potential analysis"
     ],
     gradients: [
       "from-orange-500/20 via-amber-500/20 to-yellow-500/20",
@@ -111,11 +115,12 @@ const services = [
   {
     icon: TargetIcon,
     title: "Account-Based Marketing",
-    description: "Focus on high-value accounts with personalized, strategic campaigns.",
+    description: "Comprehensive ABM strategies targeting high-value accounts with personalized, multi-channel engagement campaigns.",
     features: [
-      "Target account profiling",
-      "Multi-touch engagement",
-      "Account journey tracking"
+      "Strategic account selection",
+      "Buying center mapping",
+      "Account journey orchestration",
+      "Multi-channel ABM campaigns"
     ],
     gradients: [
       "from-red-500/20 via-rose-500/20 to-pink-500/20",
@@ -143,10 +148,11 @@ export function Services() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6">Tailored Solutions for B2B Marketers</h2>
+          <h2 className="text-4xl font-bold mb-6">Account-Based Marketing Solutions</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Transform your lead generation strategy with our comprehensive suite of B2B solutions
-            designed to accelerate growth and maximize ROI through data-driven approaches.
+            Transform your B2B marketing with our integrated account-based approach. 
+            Target and engage key accounts that matter most to your business through 
+            personalized, data-driven strategies.
           </p>
         </motion.div>
 
@@ -239,9 +245,9 @@ export function Services() {
           viewport={{ once: true }}
           className="mt-24 text-center"
         >
-          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Lead Generation?</h2>
+          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Account-Based Marketing?</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Let's discuss how our solutions can help you achieve your business objectives.
+            Let's discuss how our integrated ABM solutions can help you engage and convert your most valuable target accounts.
           </p>
           <Button
             size="lg"
