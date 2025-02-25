@@ -1,83 +1,10 @@
-
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "@/components/ui/use-toast";
-
-export default function DashboardPage() {
-  const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
-  const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const queryClient = useQueryClient();
-
-  const { data: users } = useQuery({
-    queryKey: ["users"],
-    queryFn: () => fetch("/api/users").then(res => res.json())
-  });
-
-  const addUserMutation = useMutation({
-    mutationFn: (userData) => 
-      fetch("/api/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData)
-      }).then(res => res.json()),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["users"]);
-      setAddUserDialogOpen(false);
-      toast({ title: "User added successfully" });
-    }
-  });
-
-  const editUserMutation = useMutation({
-    mutationFn: ({ id, data }) =>
-      fetch(`/api/users/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      }).then(res => res.json()),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["users"]);
-      setEditUserDialogOpen(false);
-      toast({ title: "User updated successfully" });
-    }
-  });
-
-  const deleteUserMutation = useMutation({
-    mutationFn: (id) =>
-      fetch(`/api/users/${id}`, { method: "DELETE" }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["users"]);
-      toast({ title: "User deleted successfully" });
-    }
-  });
-
-  const handleAddUser = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    addUserMutation.mutate(Object.fromEntries(formData));
-  };
-
-  const handleEditUser = (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    editUserMutation.mutate({
-      id: selectedUser.id,
-      data: Object.fromEntries(formData)
-    });
-  };
-
-  const handleDeleteUser = (id) => {
-    if (confirm("Are you sure you want to delete this user?")) {
-      deleteUserMutation.mutate(id);
-    }
-  };
-
-import { useState } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -98,17 +25,68 @@ import { OverviewMetrics } from "@/components/analytics/overview-metrics";
 import { TrafficSources } from "@/components/analytics/traffic-sources";
 import { UserBehavior } from "@/components/analytics/user-behavior";
 import type { BlogPost, Ebook, CaseStudy, Lead } from "@shared/schema";
-import { useToast } from "@/hooks/use-toast";
-import { apiRequest, queryClient } from "@/lib/queryClient";
 import { MetaTags } from "@/components/ui/meta-tags";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+
+interface UserData {
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+}
 
 export default function Dashboard() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("analytics");
   const [showEditor, setShowEditor] = useState<"blog" | "ebook" | "case-study" | null>(null);
   const [editingItem, setEditingItem] = useState<BlogPost | Ebook | CaseStudy | null>(null);
+  const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
+  const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
 
-  // Queries
+  // User management queries
+  const { data: users } = useQuery<UserData[]>({
+    queryKey: ["/api/users"],
+  });
+
+  const addUserMutation = useMutation({
+    mutationFn: async (userData: Partial<UserData>) => {
+      const res = await apiRequest("POST", "/api/users", userData);
+      if (!res.ok) throw new Error("Failed to add user");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/users"] });
+      setAddUserDialogOpen(false);
+      toast({ title: "User added successfully" });
+    }
+  });
+
+  const editUserMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: Partial<UserData> }) => {
+      const res = await apiRequest("PATCH", `/api/users/${id}`, data);
+      if (!res.ok) throw new Error("Failed to update user");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/users"] });
+      setEditUserDialogOpen(false);
+      toast({ title: "User updated successfully" });
+    }
+  });
+
+  const deleteUserMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await apiRequest("DELETE", `/api/users/${id}`);
+      if (!res.ok) throw new Error("Failed to delete user");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/users"] });
+      toast({ title: "User deleted successfully" });
+    }
+  });
+
+  // Content queries
   const { data: posts, isLoading: postsLoading } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog-posts"],
   });
@@ -125,7 +103,7 @@ export default function Dashboard() {
     queryKey: ["/api/leads"],
   });
 
-  // Delete mutations
+  // Content mutations
   const deleteBlogMutation = useMutation({
     mutationFn: async (id: number) => {
       const res = await apiRequest("DELETE", `/api/blog-posts/${id}`);
@@ -136,13 +114,6 @@ export default function Dashboard() {
       toast({
         title: "Success",
         description: "Blog post deleted successfully",
-      });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -159,13 +130,6 @@ export default function Dashboard() {
         description: "Ebook deleted successfully",
       });
     },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    },
   });
 
   const deleteCaseStudyMutation = useMutation({
@@ -178,13 +142,6 @@ export default function Dashboard() {
       toast({
         title: "Success",
         description: "Case study deleted successfully",
-      });
-    },
-    onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
       });
     },
   });
@@ -207,6 +164,27 @@ export default function Dashboard() {
           await deleteCaseStudyMutation.mutateAsync(id);
           break;
       }
+    }
+  };
+
+  const handleAddUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const userData = Object.fromEntries(formData);
+    addUserMutation.mutate(userData);
+  };
+
+  const handleEditUser = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedUser) return;
+    const formData = new FormData(e.currentTarget);
+    const userData = Object.fromEntries(formData);
+    editUserMutation.mutate({ id: selectedUser.id, data: userData });
+  };
+
+  const handleDeleteUser = (id: number) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      deleteUserMutation.mutate(id);
     }
   };
 
@@ -397,8 +375,6 @@ export default function Dashboard() {
                 </form>
               </DialogContent>
             </Dialog>
-              </CardContent>
-            </Card>
           </TabsContent>
 
           {/* Blog Posts Tab */}
