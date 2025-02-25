@@ -13,7 +13,12 @@ import {
   MessageSquare,
   BarChart3,
   Shield,
-  LucideIcon
+  LucideIcon,
+  LinkedinIcon,
+  TwitterIcon,
+  NewspaperIcon,
+  UsersIcon,
+  BookOpenIcon
 } from "lucide-react";
 
 // Animation variants
@@ -44,13 +49,19 @@ interface BenefitCardProps {
 }
 
 const BenefitCard = ({ icon: Icon, title, description }: BenefitCardProps) => (
-  <Card className="h-full">
-    <CardContent className="p-4 sm:p-6">
-      <div className="inline-flex p-2 rounded-lg bg-primary/10 mb-3">
-        <Icon className="h-5 w-5 text-primary" />
+  <Card className="relative overflow-hidden hover-lift group h-full">
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-purple-500/10 to-pink-500/10 opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+    <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.05] group-hover:scale-110 transition-transform duration-700" />
+    <CardContent className="p-8 relative">
+      <div className="flex items-start gap-6">
+        <div className="p-4 bg-white rounded-xl shadow-lg transform group-hover:rotate-6 transition-transform duration-300">
+          <Icon className="h-8 w-8 text-primary" />
+        </div>
+        <div>
+          <h3 className="text-xl font-bold mb-4">{title}</h3>
+          <p className="text-muted-foreground leading-relaxed">{description}</p>
+        </div>
       </div>
-      <h3 className="text-base sm:text-lg font-semibold mb-2">{title}</h3>
-      <p className="text-sm text-muted-foreground">{description}</p>
     </CardContent>
   </Card>
 );
@@ -61,10 +72,20 @@ interface MetricCardProps {
 }
 
 const MetricCard = ({ metric, label }: MetricCardProps) => (
-  <Card>
-    <CardContent className="p-3 sm:p-4 text-center">
-      <p className="text-2xl sm:text-3xl font-bold text-primary mb-1">{metric}</p>
-      <p className="text-xs sm:text-sm text-muted-foreground">{label}</p>
+  <Card className="relative overflow-hidden group transform hover:scale-105 transition-all duration-300">
+    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.05] group-hover:scale-110 transition-transform duration-700" />
+    <CardContent className="p-8 relative text-center">
+      <m.div
+        initial={{ scale: 0.9 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.2 }}
+        className="text-4xl font-bold text-primary mb-3"
+      >
+        {metric}
+      </m.div>
+      <div className="text-sm text-muted-foreground">{label}</div>
     </CardContent>
   </Card>
 );
@@ -73,9 +94,9 @@ export default function AgencyPartnerships() {
   return (
     <>
       <MetaTags
-        title="Agency Partnership Program - Global B2B Lead Generation Partnership"
-        description="Partner with Pivotal B2B for premium global lead generation services. Access 60+ million B2B decision-makers, advanced ABM capabilities, and multi-channel marketing solutions through our transparent CPL partnership program."
-        keywords="global B2B lead generation, account-based marketing partnership, multi-channel B2B marketing, CPL partnership, international lead generation"
+        title="Global Agency Partnership Program - Premium B2B Lead Generation Network"
+        description="Join our elite network of global partners. Access 60M+ B2B decision-makers, advanced ABM capabilities, and multi-channel marketing solutions with transparent CPL pricing."
+        keywords="global B2B partnership, premium lead generation, account-based marketing, international B2B network, transparent CPL partnership"
         canonicalUrl="https://pivotal-b2b.com/agency-partnerships"
         structuredData={{
           "@context": "https://schema.org",
@@ -85,87 +106,112 @@ export default function AgencyPartnerships() {
             "@type": "Organization",
             "name": "Pivotal B2B"
           },
-          "description": "Premium global lead generation partnership program with advanced ABM capabilities",
+          "description": "Premium global B2B partnership network with advanced marketing capabilities",
           "offers": {
             "@type": "Offer",
-            "description": "Partner with Pivotal B2B to access premium global lead generation services with transparent CPL rates"
+            "description": "Elite partnership program with access to 60M+ global B2B contacts"
           }
         }}
       />
 
       <LazyMotion features={domAnimation}>
         <div className="min-h-screen">
-          {/* Hero Section */}
-          <section className="bg-primary text-primary-foreground">
-            <div className="container px-4 py-12 sm:py-16">
-              <m.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="max-w-3xl"
-              >
-                <h1 className="text-3xl sm:text-5xl font-bold mb-4">Global B2B Lead Generation Partnership</h1>
-                <p className="text-base sm:text-lg opacity-90 mb-6">
-                  Access our network of 60+ million B2B decision-makers worldwide through advanced 
-                  account-based marketing and multi-channel campaigns. Partner with us for transparent, 
-                  performance-based lead generation with competitive CPL rates.
-                </p>
-                <Button size="lg" variant="secondary">
-                  Explore Partnership Benefits
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </m.div>
-            </div>
-          </section>
+          {/* Hero Section with Enhanced Design */}
+          <div className="relative bg-gradient-to-br from-slate-900 via-primary/90 to-slate-900 text-white">
+            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.1]" />
+            <section className="relative">
+              <div className="container px-4 py-20 sm:py-32">
+                <m.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="max-w-4xl mx-auto text-center"
+                >
+                  <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-primary-foreground to-white text-transparent bg-clip-text">
+                    Elite Global B2B Partnership Network
+                  </h1>
+                  <p className="text-xl sm:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
+                    Join our exclusive network of global partners and access advanced B2B marketing capabilities, 
+                    premium data, and innovative solutions that drive exceptional results.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <Button 
+                      size="lg" 
+                      variant="secondary"
+                      className="text-lg group"
+                    >
+                      Join Our Network
+                      <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      variant="outline" 
+                      className="bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20 text-white text-lg"
+                    >
+                      View Success Stories
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  </div>
+                </m.div>
+              </div>
+            </section>
+          </div>
 
-          <div className="container px-4 py-12 sm:py-16">
-            {/* Benefits Section */}
+          <div className="container px-4 py-16 sm:py-24">
+            {/* Premium Features Section */}
             <m.section
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={containerVariants}
-              className="mb-12 sm:mb-16"
+              className="mb-24"
             >
-              <div className="text-center mb-8 sm:mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-3">Why Partner With Us?</h2>
-                <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
-                  Leverage our global reach and advanced targeting capabilities while maintaining 
-                  complete control of your client relationships with transparent CPL pricing.
-                </p>
+              <div className="text-center mb-16">
+                <m.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                >
+                  <h2 className="text-4xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
+                    Premium Partnership Benefits
+                  </h2>
+                  <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                    Access world-class B2B marketing capabilities and drive exceptional results for your clients
+                  </p>
+                </m.div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {[
                   {
                     icon: Globe2,
-                    title: "Global Reach & Coverage",
-                    description: "Access 60+ million B2B decision-makers across 100+ countries with multi-language campaign capabilities."
+                    title: "Unparalleled Global Reach",
+                    description: "Access our network of 60M+ B2B decision-makers across 100+ countries. Multi-language campaign capabilities and localized content distribution."
                   },
                   {
                     icon: Target,
-                    title: "Advanced ABM Targeting",
-                    description: "Utilize intent data, technographics, and firmographics for precise account-based marketing campaigns."
+                    title: "Advanced ABM Platform",
+                    description: "Leverage our sophisticated account-based marketing platform with intent data, technographics, and precision targeting capabilities."
                   },
                   {
                     icon: MessageSquare,
-                    title: "Multi-Channel Execution",
-                    description: "Engage prospects through email, content syndication, display advertising, and social media channels."
-                  },
-                  {
-                    icon: Wallet,
-                    title: "Transparent CPL Pricing",
-                    description: "Clear, performance-based pricing with volume discounts and no hidden fees or long-term commitments."
+                    title: "Omni-Channel Execution",
+                    description: "Deploy campaigns across email, content syndication, programmatic display, social media, and virtual events platforms."
                   },
                   {
                     icon: Shield,
-                    title: "Quality Assurance",
-                    description: "Rigorous lead verification process with BANT qualification and compliance with global privacy regulations."
+                    title: "Enterprise-Grade Security",
+                    description: "Built-in GDPR, CCPA, and global privacy compliance. Advanced data protection and regular security audits ensure safety."
                   },
                   {
                     icon: BarChart3,
-                    title: "Real-Time Analytics",
-                    description: "Comprehensive dashboard with live campaign metrics, lead quality scores, and ROI tracking."
+                    title: "Real-Time Intelligence",
+                    description: "Access comprehensive analytics dashboard with live campaign metrics, audience insights, and predictive analytics."
+                  },
+                  {
+                    icon: Wallet,
+                    title: "Transparent Partnership",
+                    description: "Clear, performance-based pricing with volume incentives. No hidden fees or long-term commitments required."
                   }
                 ].map((benefit, index) => (
                   <m.div key={index} variants={itemVariants}>
@@ -175,66 +221,85 @@ export default function AgencyPartnerships() {
               </div>
             </m.section>
 
-            {/* Metrics Section */}
+            {/* Global Impact Metrics */}
             <m.section
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
               variants={containerVariants}
-              className="mb-12 sm:mb-16"
+              className="mb-24"
             >
-              <div className="text-center mb-8 sm:mb-10">
-                <h2 className="text-2xl sm:text-3xl font-bold mb-3">Global Partnership Impact</h2>
-                <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
-                  Our partnership program delivers measurable results across markets worldwide.
-                </p>
-              </div>
+              <div className="relative py-16 rounded-3xl overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.05]" />
+                <div className="relative">
+                  <div className="text-center mb-16">
+                    <h2 className="text-4xl sm:text-5xl font-bold mb-6">Global Impact</h2>
+                    <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                      Our partnership network delivers measurable results across markets worldwide
+                    </p>
+                  </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-                {[
-                  { metric: "60M+", label: "Global B2B Contacts" },
-                  { metric: "100+", label: "Countries Covered" },
-                  { metric: "45%", label: "Average CPL Reduction" },
-                  { metric: "98%", label: "GDPR & CCPA Compliance" },
-                  { metric: "85%", label: "Lead Acceptance Rate" },
-                  { metric: "12hrs", label: "Average Lead Delivery" },
-                  { metric: "24/7", label: "Partner Support" },
-                  { metric: "95%", label: "Partner Retention" }
-                ].map((stat, index) => (
-                  <m.div key={index} variants={itemVariants}>
-                    <MetricCard {...stat} />
-                  </m.div>
-                ))}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    {[
+                      { metric: "60M+", label: "B2B Decision Makers" },
+                      { metric: "100+", label: "Countries Covered" },
+                      { metric: "45%", label: "CPL Cost Reduction" },
+                      { metric: "98%", label: "Compliance Rate" },
+                      { metric: "85%", label: "Lead Acceptance" },
+                      { metric: "<12hrs", label: "Lead Delivery" },
+                      { metric: "24/7", label: "Partner Support" },
+                      { metric: "95%", label: "Partner Retention" }
+                    ].map((stat, index) => (
+                      <m.div key={index} variants={itemVariants}>
+                        <MetricCard {...stat} />
+                      </m.div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </m.section>
 
-            {/* CTA Section */}
+            {/* Enhanced CTA Section */}
             <m.section
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <Card className="bg-primary text-primary-foreground overflow-hidden">
-                <CardContent className="p-6 sm:p-8 text-center">
-                  <h2 className="text-xl sm:text-2xl font-bold mb-3">Ready to Scale Your Lead Generation Globally?</h2>
-                  <p className="text-sm sm:text-base text-primary-foreground/90 mb-6 max-w-2xl mx-auto">
-                    Join our partner network to access premium B2B data, advanced ABM capabilities, and 
-                    multi-channel campaign execution with transparent CPL pricing. Let's discuss how we 
-                    can help you deliver better results for your global clients.
-                  </p>
-                  <div className="flex flex-col sm:flex-row justify-center gap-3">
-                    <Button size="lg" variant="secondary">
-                      Schedule a Partnership Discussion
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                    <Button size="lg" variant="outline" className="bg-transparent">
-                      Download Partner Success Stories
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
+              <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-primary/90 to-slate-900 text-white">
+                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.1]" />
+                <div className="relative p-12 sm:p-16">
+                  <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+                      Ready to Transform Your B2B Marketing?
+                    </h2>
+                    <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+                      Join our elite partner network to access premium B2B data, advanced marketing capabilities, 
+                      and comprehensive support. Let's discuss how we can help you deliver exceptional results 
+                      for your global clients.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-4">
+                      <Button 
+                        size="lg" 
+                        variant="secondary"
+                        className="text-lg group"
+                      >
+                        Schedule Partnership Call
+                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                      </Button>
+                      <Button 
+                        size="lg" 
+                        variant="outline" 
+                        className="bg-white/10 border-white/20 backdrop-blur-sm hover:bg-white/20 text-white text-lg"
+                      >
+                        Download Partnership Guide
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Button>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </m.section>
           </div>
         </div>
