@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation } from "wouter";
@@ -15,6 +16,9 @@ import {
 } from "@/components/ui/form";
 import { Loader2, Lock } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
+
+// Lazy load the marketing section for better initial load performance
+const MarketingSection = lazy(() => import("@/components/marketing/login-marketing"));
 
 export default function LoginPage() {
   const [, setLocation] = useLocation();
@@ -44,18 +48,21 @@ export default function LoginPage() {
         <div className="w-full max-w-lg">
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             <div className="grid md:grid-cols-2">
-              {/* Form Section */}
-              <div className="p-8">
-                <div className="space-y-2 text-center mb-8">
-                  <Lock className="h-8 w-8 mx-auto mb-2 text-primary" />
-                  <h1 className="text-2xl font-bold tracking-tight">Welcome Back</h1>
+              {/* Form Section - Optimized for mobile */}
+              <div className="p-6 md:p-8">
+                <div className="space-y-2 text-center mb-6 md:mb-8">
+                  <Lock className="h-6 w-6 md:h-8 md:w-8 mx-auto mb-2 text-primary" />
+                  <h1 className="text-xl md:text-2xl font-bold tracking-tight">Welcome Back</h1>
                   <p className="text-sm text-muted-foreground">
                     Sign in to access your dashboard
                   </p>
                 </div>
 
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit((data) => loginMutation.mutate(data))} className="space-y-4">
+                  <form 
+                    onSubmit={form.handleSubmit((data) => loginMutation.mutate(data))} 
+                    className="space-y-4"
+                  >
                     <FormField
                       control={form.control}
                       name="username"
@@ -99,26 +106,11 @@ export default function LoginPage() {
                 </Form>
               </div>
 
-              {/* Marketing Section */}
-              <div className="p-8 bg-primary text-white hidden md:block">
-                <div className="h-full flex flex-col justify-center space-y-4">
-                  <h2 className="text-2xl font-bold">Pivotal B2B Marketing Platform</h2>
-                  <p className="text-primary-foreground/90 text-sm">
-                    Access your comprehensive B2B marketing dashboard to manage content, 
-                    track leads, and drive engagement across all your digital resources.
-                  </p>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex items-center space-x-2">
-                      <span>• Content Management</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <span>• Lead Generation</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <span>• Analytics & Insights</span>
-                    </li>
-                  </ul>
-                </div>
+              {/* Marketing Section - Lazy loaded */}
+              <div className="hidden md:block">
+                <Suspense fallback={<div className="h-full bg-primary animate-pulse" />}>
+                  <MarketingSection />
+                </Suspense>
               </div>
             </div>
           </div>
