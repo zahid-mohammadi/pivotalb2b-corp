@@ -29,9 +29,6 @@ import { ProtectedRoute } from "@/components/auth/protected-route";
 import { PageTransition } from "@/components/ui/page-transition";
 import React from 'react';
 
-
-const queryClient = new QueryClient();
-
 function Router() {
   useAnalytics();
   return (
