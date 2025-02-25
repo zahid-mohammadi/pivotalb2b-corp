@@ -14,6 +14,7 @@ const ICONS = {
 export function TrafficSources() {
   const { data: trafficData, isLoading } = useQuery({
     queryKey: ["/api/analytics/traffic-sources"],
+    refetchInterval: 30000, // Refetch every 30 seconds
   });
 
   if (isLoading) {

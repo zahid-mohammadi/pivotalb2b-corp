@@ -16,6 +16,7 @@ import { useEffect } from "react";
 export function OverviewMetrics() {
   const { data: metrics, isLoading } = useQuery({
     queryKey: ["/api/analytics/overview"],
+    refetchInterval: 30000, // Refetch every 30 seconds
   });
 
   const { data: activeUsersData, refetch: refetchActiveUsers } = useQuery({

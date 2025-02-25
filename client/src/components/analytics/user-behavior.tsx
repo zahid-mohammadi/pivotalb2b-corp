@@ -9,14 +9,7 @@ import {
   XAxis,
   YAxis
 } from "recharts";
-
-const pageViewData = [
-  { page: "/", views: 4200, avgTime: 125 },
-  { page: "/services", views: 2100, avgTime: 98 },
-  { page: "/case-studies", views: 1800, avgTime: 182 },
-  { page: "/blog", views: 1600, avgTime: 143 },
-  { page: "/about", views: 950, avgTime: 65 },
-];
+import { useQuery } from "@tanstack/react-query";
 
 const userFlowData = [
   { step: "Landing", users: 1000 },
@@ -27,6 +20,26 @@ const userFlowData = [
 ];
 
 export function UserBehavior() {
+  const { data: pageViews, isLoading: pageViewsLoading } = useQuery({
+    queryKey: ["/api/analytics/page-views"],
+    refetchInterval: 30000, // Refetch every 30 seconds
+  });
+
+  const pageViewChart = pageViewsLoading ? (
+    <div className="h-[300px]">Loading...</div>
+  ) : (
+    <div className="h-[300px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={pageViews}>
+          <XAxis dataKey="page" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="views" fill="#8884d8" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Card>
@@ -37,32 +50,7 @@ export function UserBehavior() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={pageViewData}>
-                <XAxis
-                  dataKey="page"
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis
-                  stroke="#888888"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                  tickFormatter={(value) => `${value}`}
-                />
-                <Tooltip />
-                <Bar
-                  dataKey="views"
-                  fill="hsl(var(--primary))"
-                  radius={[4, 4, 0, 0]}
-                />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          {pageViewChart}
         </CardContent>
       </Card>
 
