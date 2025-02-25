@@ -22,9 +22,6 @@ export function Navbar() {
       <Link href="/">
         <span className="text-sm hover:text-primary cursor-pointer">Home</span>
       </Link>
-      <Link href="/about">
-        <span className="text-sm hover:text-primary cursor-pointer">About Us</span>
-      </Link>
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
@@ -158,6 +155,9 @@ export function Navbar() {
 
       <Link href="/agency-partnerships">
         <span className="text-sm hover:text-primary cursor-pointer">Agency Partnerships</span>
+      </Link>
+      <Link href="/about">
+        <span className="text-sm hover:text-primary cursor-pointer">About Us</span>
       </Link>
       <Link href="/contact">
         <span className="text-sm hover:text-primary cursor-pointer">Contact Us</span>
