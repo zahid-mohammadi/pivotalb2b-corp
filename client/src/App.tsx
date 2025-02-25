@@ -1,7 +1,6 @@
 import { Switch, Route } from "wouter";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
-import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -28,11 +27,13 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
 import { PageTransition } from "@/components/ui/page-transition";
+import React from 'react';
+
+
+const queryClient = new QueryClient();
 
 function Router() {
-  // Add analytics tracking
   useAnalytics();
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -67,15 +68,15 @@ function Router() {
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <HelmetProvider>
-        <ThemeProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="light" storageKey="ui-theme">
           <AuthProvider>
             <Router />
             <Toaster />
           </AuthProvider>
         </ThemeProvider>
-      </HelmetProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   );
 }
