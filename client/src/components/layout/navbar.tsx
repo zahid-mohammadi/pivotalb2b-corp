@@ -31,17 +31,17 @@ export function Navbar() {
         <div className="space-y-2">
           <p className="text-sm font-medium">Solutions</p>
           <div className="pl-4 space-y-2">
-            <Link href="/services/intent-based-lead-generation">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Intent-Based Lead Generation</span>
+            <Link href="/services/strategic-lead-generation">
+              <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
             </Link>
             <Link href="/services/content-distribution">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Content Distribution</span>
+              <span className="text-sm text-muted-foreground hover:text-primary block">Content Marketing & Distribution</span>
             </Link>
             <Link href="/services/event-webinar-promotion">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Event & Webinar Promotion</span>
+              <span className="text-sm text-muted-foreground hover:text-primary block">Event Marketing Solutions</span>
             </Link>
             <Link href="/services/lead-qualification">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Lead Qualification</span>
+              <span className="text-sm text-muted-foreground hover:text-primary block">Lead Qualification Services</span>
             </Link>
             <Link href="/services/account-based-marketing">
               <span className="text-sm text-muted-foreground hover:text-primary block">Account-Based Marketing</span>
@@ -56,9 +56,9 @@ export function Navbar() {
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
                   <li>
-                    <Link href="/services/intent-based-lead-generation">
+                    <Link href="/services/strategic-lead-generation">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Intent-Based Lead Generation</div>
+                        <div className="text-sm font-medium">Strategic Lead Generation</div>
                         <p className="text-sm text-muted-foreground">High-quality leads through intent data</p>
                       </NavigationMenuLink>
                     </Link>
@@ -66,7 +66,7 @@ export function Navbar() {
                   <li>
                     <Link href="/services/content-distribution">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Content Distribution</div>
+                        <div className="text-sm font-medium">Content Marketing & Distribution</div>
                         <p className="text-sm text-muted-foreground">Amplify your content's reach</p>
                       </NavigationMenuLink>
                     </Link>
@@ -74,7 +74,7 @@ export function Navbar() {
                   <li>
                     <Link href="/services/event-webinar-promotion">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Event & Webinar Promotion</div>
+                        <div className="text-sm font-medium">Event Marketing Solutions</div>
                         <p className="text-sm text-muted-foreground">Drive qualified event attendance</p>
                       </NavigationMenuLink>
                     </Link>
@@ -82,7 +82,7 @@ export function Navbar() {
                   <li>
                     <Link href="/services/lead-qualification">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Lead Qualification</div>
+                        <div className="text-sm font-medium">Lead Qualification Services</div>
                         <p className="text-sm text-muted-foreground">BANT-qualified prospects</p>
                       </NavigationMenuLink>
                     </Link>
