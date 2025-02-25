@@ -84,12 +84,30 @@ export default function ServicePage() {
     );
   }
 
+  // Generate industry-specific keywords
+  const industryKeywords = industries.map(industry => 
+    `${service.title} for ${industry}, ${industry} ${service.title.toLowerCase()}`
+  ).join(', ');
+
   return (
     <>
       <MetaTags
-        title={`${service.title} - B2B Marketing Services`}
-        description={`${service.description} Learn how our ${service.title} service can transform your B2B marketing strategy and drive measurable business growth.`}
-        keywords={`${service.title}, B2B marketing service, lead generation, ${industries.join(', ')}, business growth, marketing solutions`}
+        title={`${service.title} - B2B Marketing Solutions | Pivotal B2B`}
+        description={`Transform your B2B marketing with our ${service.title}. ${service.description} Expert solutions for enterprise technology, healthcare, manufacturing, and financial services sectors.`}
+        keywords={`${service.title.toLowerCase()}, B2B ${service.title.toLowerCase()}, ${industryKeywords}, enterprise marketing solutions, B2B lead generation`}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": service.title,
+          "description": service.description,
+          "provider": {
+            "@type": "Organization",
+            "name": "Pivotal B2B",
+            "url": "https://pivotal-b2b.com"
+          },
+          "serviceType": "B2B Marketing Service",
+          "areaServed": industries
+        }}
       />
       <div className="min-h-screen">
         {/* Hero Section - Enhanced with success metrics */}

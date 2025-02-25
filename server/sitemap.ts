@@ -4,11 +4,12 @@ import { createGzip } from "zlib";
 import { getRouteConfigs, excludedRoutes } from "./routes-config";
 import type { RouteConfig, SitemapUrl } from "./types";
 import { log } from "./vite";
+import { storage } from "./storage";
 
 const router = Router();
 let sitemap: Buffer;
 let lastUpdate = 0;
-const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+const CACHE_DURATION = 3 * 60 * 60 * 1000; // 3 hours in milliseconds
 
 function normalizeHostname(hostname: string): string {
   // Ensure hostname starts with www if it's the production domain
@@ -19,48 +20,74 @@ function normalizeHostname(hostname: string): string {
 }
 
 async function generateSitemapUrls(hostname: string): Promise<SitemapUrl[]> {
-  const routes = await getRouteConfigs();
-  const urls: SitemapUrl[] = [];
+  try {
+    // Get all dynamic and static routes
+    const routes = await getRouteConfigs();
+    const urls: SitemapUrl[] = [];
 
-  routes.forEach((route: RouteConfig) => {
-    if (excludedRoutes.includes(route.path)) {
-      return;
-    }
+    // Get dynamic content from database
+    const [services, ebooks, blogPosts, caseStudies] = await Promise.all([
+      storage.getServices(),
+      storage.getEbooks(),
+      storage.getBlogPosts(),
+      storage.getCaseStudies()
+    ]);
 
-    if (route.dynamicPaths) {
-      // Handle dynamic routes
-      route.dynamicPaths.forEach(dynamicPath => {
-        const url = route.path.replace(':slug', dynamicPath);
+    // Process each route configuration
+    for (const route of routes) {
+      if (excludedRoutes.includes(route.path)) {
+        continue;
+      }
+
+      if (route.dynamicPaths) {
+        // Handle dynamic routes with database content
+        const slugs = route.path.includes('services')
+          ? services.map(s => s.slug)
+          : route.path.includes('ebooks')
+          ? ebooks.map(e => e.slug)
+          : route.path.includes('blog')
+          ? blogPosts.map(p => p.slug)
+          : route.path.includes('case-studies')
+          ? caseStudies.map(c => c.slug)
+          : route.dynamicPaths;
+
+        for (const slug of slugs) {
+          const url = route.path.replace(':slug', slug);
+          urls.push({
+            url,
+            changefreq: route.changefreq,
+            priority: route.priority,
+            lastmod: new Date().toISOString()
+          });
+        }
+      } else {
+        // Handle static routes
         urls.push({
-          url,
+          url: route.path,
           changefreq: route.changefreq,
-          priority: route.priority
+          priority: route.priority,
+          lastmod: new Date().toISOString()
         });
-      });
-    } else {
-      // Handle static routes
-      urls.push({
-        url: route.path,
-        changefreq: route.changefreq,
-        priority: route.priority
-      });
+      }
     }
-  });
 
-  log(`Generated ${urls.length} URLs for sitemap`);
-  return urls;
+    log(`Generated ${urls.length} URLs for sitemap`);
+    return urls;
+  } catch (error) {
+    log('Error generating sitemap URLs:', error);
+    throw error;
+  }
 }
 
 router.get('/sitemap.xml', async (req, res) => {
   try {
-    // Set proper headers for XML content
     res.header('Content-Type', 'application/xml');
     res.header('Content-Encoding', 'gzip');
-    res.header('Cache-Control', 'public, max-age=86400'); // Cache for 24 hours
+    res.header('Cache-Control', 'public, max-age=10800'); // Cache for 3 hours
 
     const now = Date.now();
 
-    // If we have a cached sitemap and it's less than 24 hours old, serve it
+    // Serve cached sitemap if available and fresh
     if (sitemap && (now - lastUpdate < CACHE_DURATION)) {
       log('Serving cached sitemap');
       res.send(sitemap);
@@ -81,12 +108,12 @@ router.get('/sitemap.xml', async (req, res) => {
     // Generate and add URLs to the sitemap
     const urls = await generateSitemapUrls(hostname);
 
-    for (const { url, changefreq, priority } of urls) {
+    for (const { url, changefreq, priority, lastmod } of urls) {
       smStream.write({
         url,
         changefreq,
         priority,
-        lastmod: new Date().toISOString()
+        lastmod
       });
     }
 

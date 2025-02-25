@@ -22,9 +22,21 @@ export default function EbooksPage() {
   return (
     <div>
       <MetaTags
-        title="B2B Marketing eBooks & Resources - Pivotal B2B"
-        description="Access our comprehensive collection of B2B marketing eBooks and resources. Gain valuable insights into lead generation, content strategy, and marketing best practices."
-        keywords="B2B marketing ebooks, lead generation guides, content marketing resources, B2B strategy guides, marketing best practices, digital marketing resources, business growth ebooks"
+        title="B2B Marketing eBooks & Resources | Free Industry Insights | Pivotal B2B"
+        description="Download our comprehensive collection of B2B marketing eBooks and resources. Expert insights on lead generation, content strategy, and marketing best practices for enterprise success."
+        keywords="B2B marketing ebooks, lead generation guides, content marketing resources, B2B strategy guides, marketing best practices, digital marketing resources, business growth ebooks, enterprise marketing guides"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          "name": "B2B Marketing eBooks & Resources",
+          "description": "Access our comprehensive collection of B2B marketing eBooks and resources.",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Pivotal B2B",
+            "url": "https://pivotal-b2b.com"
+          },
+          "numberOfItems": ebooks?.length || 0
+        }}
       />
       <PageBanner
         title="Resource Library"
@@ -32,15 +44,15 @@ export default function EbooksPage() {
         pattern="grid"
       />
 
-      <div className="container mx-auto py-16">
+      <main className="container mx-auto py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {ebooks?.map((ebook) => (
             <Link key={ebook.id} href={`/ebooks/${ebook.slug}`}>
               <Card className="group overflow-hidden hover-lift">
-                {ebook.bannerImage && (
+                {ebook.coverImage && (
                   <div className="relative h-48 overflow-hidden">
                     <img
-                      src={ebook.bannerImage}
+                      src={ebook.coverImage}
                       alt={ebook.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
@@ -60,7 +72,7 @@ export default function EbooksPage() {
             </p>
           )}
         </div>
-      </div>
+      </main>
     </div>
   );
 }
