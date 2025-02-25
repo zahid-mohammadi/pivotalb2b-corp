@@ -86,7 +86,7 @@ app.use((req, res, next) => {
   try {
     log(`Starting server on port ${port}...`);
     server.listen(port, '0.0.0.0', () => {
-      log(`Server running in ${app.get('env')} mode on port ${port}`);
+      log(`Server running in ${app.get('env')} mode on http://0.0.0.0:${port}`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
