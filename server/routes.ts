@@ -474,16 +474,6 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.get("/api/analytics/active-users", async (_req, res) => {
-    try {
-      const activeUsers = await storage.getActiveUsers();
-      res.json({ activeUsers });
-    } catch (error) {
-      console.error("Error fetching active users:", error);
-      res.status(500).json({ error: "Failed to fetch active users" });
-    }
-  });
-
   app.post("/api/analytics/ping", async (req, res) => {
     try {
       const { sessionId } = req.body;
@@ -495,6 +485,16 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error updating session activity:", error);
       res.status(500).json({ error: "Failed to update session activity" });
+    }
+  });
+
+  app.get("/api/analytics/active-users", async (_req, res) => {
+    try {
+      const activeUsers = await storage.getActiveUsers();
+      res.json({ activeUsers });
+    } catch (error) {
+      console.error("Error fetching active users:", error);
+      res.status(500).json({ error: "Failed to fetch active users" });
     }
   });
 

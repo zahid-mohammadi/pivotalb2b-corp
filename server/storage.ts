@@ -395,17 +395,33 @@ export class DatabaseStorage implements IStorage {
 
   async getActiveUsers(): Promise<number> {
     try {
+      // Consider users active if they've had activity in the last 15 minutes
+      const activeTimeWindow = new Date(Date.now() - 15 * 60 * 1000);
+
       const [{ active }] = await db
         .select({
           active: countDistinct(userSessions.sessionId)
         })
         .from(userSessions)
-        .where(gte(userSessions.lastActive, subHours(new Date(), 1)));
+        .where(gte(userSessions.lastActive, activeTimeWindow));
 
       return Number(active) || 0;
     } catch (error) {
       console.error("Error getting active users:", error);
       return 0;
+    }
+  }
+
+  async updateSessionActivity(sessionId: string): Promise<void> {
+    try {
+      await db
+        .update(userSessions)
+        .set({
+          lastActive: new Date()
+        })
+        .where(eq(userSessions.sessionId, sessionId));
+    } catch (error) {
+      console.error("Error updating session activity:", error);
     }
   }
 
