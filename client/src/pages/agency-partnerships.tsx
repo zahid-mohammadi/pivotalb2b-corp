@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import { m } from "framer-motion";
 import { LazyMotion, domAnimation } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -17,13 +16,12 @@ import {
   LucideIcon
 } from "lucide-react";
 
-// Animation variants remain unchanged
+// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.3,
       staggerChildren: 0.1,
       when: "beforeChildren"
     }
@@ -31,10 +29,11 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.2 }
+    y: 0,
+    transition: { duration: 0.3 }
   }
 };
 
@@ -44,7 +43,6 @@ interface BenefitCardProps {
   description: string;
 }
 
-// Component with reduced re-renders
 const BenefitCard = ({ icon: Icon, title, description }: BenefitCardProps) => (
   <Card className="h-full">
     <CardContent className="p-4 sm:p-6">
@@ -62,7 +60,6 @@ interface MetricCardProps {
   label: string;
 }
 
-// Component with reduced re-renders
 const MetricCard = ({ metric, label }: MetricCardProps) => (
   <Card>
     <CardContent className="p-3 sm:p-4 text-center">
@@ -96,15 +93,15 @@ export default function AgencyPartnerships() {
         }}
       />
 
-      <LazyMotion features={domAnimation} strict>
+      <LazyMotion features={domAnimation}>
         <div className="min-h-screen">
-          {/* Hero Section - Enhanced Global Focus */}
+          {/* Hero Section */}
           <section className="bg-primary text-primary-foreground">
             <div className="container px-4 py-12 sm:py-16">
               <m.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
                 className="max-w-3xl"
               >
                 <h1 className="text-3xl sm:text-5xl font-bold mb-4">Global B2B Lead Generation Partnership</h1>
@@ -122,11 +119,11 @@ export default function AgencyPartnerships() {
           </section>
 
           <div className="container px-4 py-12 sm:py-16">
-            {/* Benefits Section - Updated with Enhanced Features */}
+            {/* Benefits Section */}
             <m.section
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true }}
               variants={containerVariants}
               className="mb-12 sm:mb-16"
             >
@@ -178,11 +175,11 @@ export default function AgencyPartnerships() {
               </div>
             </m.section>
 
-            {/* Metrics Section - Updated with Global Stats */}
+            {/* Metrics Section */}
             <m.section
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
+              viewport={{ once: true }}
               variants={containerVariants}
               className="mb-12 sm:mb-16"
             >
@@ -211,12 +208,12 @@ export default function AgencyPartnerships() {
               </div>
             </m.section>
 
-            {/* CTA Section - Enhanced Value Proposition */}
+            {/* CTA Section */}
             <m.section
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.5 }}
             >
               <Card className="bg-primary text-primary-foreground overflow-hidden">
                 <CardContent className="p-6 sm:p-8 text-center">
