@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const { user, logoutMutation } = useAuth();
 
-  const NavItems = ({ className, isMobile = false }: { className?: string, isMobile?: boolean }) => (
+  const NavItems = ({ className, isMobile = false }: { className?: string; isMobile?: boolean }) => (
     <div className={cn("flex", isMobile ? "flex-col space-y-4" : "items-center space-x-4", className)}>
       <Link href="/">
         <span className="text-sm hover:text-primary cursor-pointer">Home</span>
@@ -34,13 +34,13 @@ export function Navbar() {
             <Link href="/services/strategic-lead-generation">
               <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
             </Link>
-            <Link href="/services/content-distribution">
+            <Link href="/services/content-marketing-distribution">
               <span className="text-sm text-muted-foreground hover:text-primary block">Content Marketing & Distribution</span>
             </Link>
-            <Link href="/services/event-webinar-promotion">
+            <Link href="/services/event-marketing-solutions">
               <span className="text-sm text-muted-foreground hover:text-primary block">Event Marketing Solutions</span>
             </Link>
-            <Link href="/services/lead-qualification">
+            <Link href="/services/lead-qualification-services">
               <span className="text-sm text-muted-foreground hover:text-primary block">Lead Qualification Services</span>
             </Link>
             <Link href="/services/account-based-marketing">
@@ -64,7 +64,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/content-distribution">
+                    <Link href="/services/content-marketing-distribution">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
                         <div className="text-sm font-medium">Content Marketing & Distribution</div>
                         <p className="text-sm text-muted-foreground">Amplify your content's reach</p>
@@ -72,7 +72,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/event-webinar-promotion">
+                    <Link href="/services/event-marketing-solutions">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
                         <div className="text-sm font-medium">Event Marketing Solutions</div>
                         <p className="text-sm text-muted-foreground">Drive qualified event attendance</p>
@@ -80,7 +80,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/lead-qualification">
+                    <Link href="/services/lead-qualification-services">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
                         <div className="text-sm font-medium">Lead Qualification Services</div>
                         <p className="text-sm text-muted-foreground">BANT-qualified prospects</p>
@@ -207,7 +207,7 @@ export function Navbar() {
                           Logging out...
                         </>
                       ) : (
-                        'Logout'
+                        "Logout"
                       )}
                     </Button>
                   ) : (
@@ -239,7 +239,7 @@ export function Navbar() {
                     Logging out...
                   </>
                 ) : (
-                  'Logout'
+                  "Logout"
                 )}
               </Button>
             ) : (
