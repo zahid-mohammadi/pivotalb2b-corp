@@ -444,6 +444,155 @@ export class DatabaseStorage implements IStorage {
       console.error("Error recording page view:", error);
     }
   }
+
+  // User Management Methods
+  async getUsers(): Promise<User[]> {
+    try {
+      return await db.select().from(users);
+    } catch (error) {
+      console.error("Error getting users:", error);
+      throw error;
+    }
+  }
+
+  async updateUser(id: number, userData: Partial<InsertUser>): Promise<User> {
+    try {
+      const [updatedUser] = await db
+        .update(users)
+        .set(userData)
+        .where(eq(users.id, id))
+        .returning();
+      return updatedUser;
+    } catch (error) {
+      console.error("Error updating user:", error);
+      throw error;
+    }
+  }
+
+  async deleteUser(id: number): Promise<void> {
+    try {
+      await db.delete(users).where(eq(users.id, id));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw error;
+    }
+  }
+
+  // Analytics Methods
+  async getOverviewMetrics(startDate: Date): Promise<{
+    totalPageViews: number;
+    uniqueVisitors: number;
+    averageTimeOnSite: number;
+    bounceRate: number;
+  }> {
+    try {
+      // Get total page views
+      const [{ total: totalPageViews }] = await db
+        .select({
+          total: count()
+        })
+        .from(pageViews)
+        .where(gte(pageViews.timestamp, startDate));
+
+      // Get unique visitors
+      const [{ total: uniqueVisitors }] = await db
+        .select({
+          total: countDistinct(pageViews.sessionId)
+        })
+        .from(pageViews)
+        .where(gte(pageViews.timestamp, startDate));
+
+      // Get average time on site (in minutes)
+      const [{ avg: avgTimeOnSite }] = await db
+        .select({
+          avg: avg(
+            sql`EXTRACT(EPOCH FROM (MAX(${pageViews.timestamp}) - MIN(${pageViews.timestamp}))) / 60`
+          )
+        })
+        .from(pageViews)
+        .groupBy(pageViews.sessionId)
+        .where(gte(pageViews.timestamp, startDate));
+
+      // Calculate bounce rate (sessions with only one page view)
+      const [{ total: bounceCount }] = await db
+        .select({
+          total: count()
+        })
+        .from(
+          db.select({
+            sessionId: pageViews.sessionId,
+            viewCount: count()
+          })
+          .from(pageViews)
+          .where(gte(pageViews.timestamp, startDate))
+          .groupBy(pageViews.sessionId)
+          .as('session_counts')
+        )
+        .where(eq(sql`view_count`, 1));
+
+      const bounceRate = (Number(bounceCount) / Number(uniqueVisitors)) * 100;
+
+      return {
+        totalPageViews: Number(totalPageViews) || 0,
+        uniqueVisitors: Number(uniqueVisitors) || 0,
+        averageTimeOnSite: Number(avgTimeOnSite) || 0,
+        bounceRate: Number(bounceRate) || 0
+      };
+    } catch (error) {
+      console.error("Error getting overview metrics:", error);
+      throw error;
+    }
+  }
+
+  async getTrafficSources(startDate: Date): Promise<Array<{ source: string; count: number }>> {
+    try {
+      const sources = await db
+        .select({
+          source: pageViews.source,
+          count: count()
+        })
+        .from(pageViews)
+        .where(gte(pageViews.timestamp, startDate))
+        .groupBy(pageViews.source)
+        .orderBy(desc(count()));
+
+      return sources.map(({ source, count }) => ({
+        source: source || 'direct',
+        count: Number(count)
+      }));
+    } catch (error) {
+      console.error("Error getting traffic sources:", error);
+      throw error;
+    }
+  }
+
+  async getPageViewMetrics(startDate: Date): Promise<Array<{
+    date: string;
+    views: number;
+    uniqueVisitors: number;
+  }>> {
+    try {
+      const metrics = await db
+        .select({
+          date: sql`DATE(${pageViews.timestamp})`,
+          views: count(),
+          uniqueVisitors: countDistinct(pageViews.sessionId)
+        })
+        .from(pageViews)
+        .where(gte(pageViews.timestamp, startDate))
+        .groupBy(sql`DATE(${pageViews.timestamp})`)
+        .orderBy(sql`DATE(${pageViews.timestamp})`);
+
+      return metrics.map(({ date, views, uniqueVisitors }) => ({
+        date: format(date, 'yyyy-MM-dd'),
+        views: Number(views),
+        uniqueVisitors: Number(uniqueVisitors)
+      }));
+    } catch (error) {
+      console.error("Error getting page view metrics:", error);
+      throw error;
+    }
+  }
 }
 
 export const storage = new DatabaseStorage();
