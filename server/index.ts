@@ -91,7 +91,9 @@ app.use((req, res, next) => {
     }
   });
 
-  const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+  // Try to start with default port, but dynamically find an available port if needed
+  let port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+  const maxPort = port + 10; // Try up to 10 ports if needed
 
   const startServer = () => {
     try {
@@ -100,14 +102,27 @@ app.use((req, res, next) => {
       // Handle server errors
       server.on('error', (error: any) => {
         if (error.code === 'EADDRINUSE') {
-          log(`Port ${port} is already in use. Attempting to find another port...`);
-          setTimeout(() => {
-            server.close();
-            // Try to use a different port if the preferred one is in use
-            const newPort = port + 1;
-            log(`Attempting to use port ${newPort}...`);
-            server.listen(newPort, '0.0.0.0');
-          }, 1000);
+          // Port in use, try another one
+          port++;
+          
+          if (port <= maxPort) {
+            log(`Port ${port-1} is already in use. Attempting port ${port}...`);
+            // Try the next port immediately
+            server.listen(port, '0.0.0.0');
+          } else {
+            console.error(`Unable to find an available port after trying ports ${port-10} through ${port-1}`);
+            // Write the port in use to a file for diagnostics
+            fs.writeFileSync('port-conflict.log', `Port conflict detected. Unable to bind to ports ${port-10} through ${port-1} at ${new Date().toISOString()}`);
+            
+            // Try to identify what's using the ports
+            try {
+              const { execSync } = require('child_process');
+              const result = execSync(`ss -tuln | grep ${port-10}`).toString();
+              fs.appendFileSync('port-conflict.log', `\nPort usage: ${result}`);
+            } catch (e) {
+              // Ignore errors from the diagnostic command
+            }
+          }
         } else {
           console.error('Server error:', error);
           // For other errors, try to restart
@@ -116,7 +131,19 @@ app.use((req, res, next) => {
       });
       
       server.listen(port, '0.0.0.0', () => {
+        // Write the successfully bound port to the environment for other processes to know
+        process.env.ACTUAL_PORT = port.toString();
         log(`Server running in ${app.get('env')} mode on http://0.0.0.0:${port}`);
+        
+        // If we're using a different port than expected, log extra information
+        if (port !== (process.env.PORT ? parseInt(process.env.PORT) : 3000)) {
+          log(`Note: Server is running on port ${port} instead of the default port`);
+          
+          // Update the deployment URL if needed
+          if (app.get('env') === "production") {
+            log(`Please update any settings that expect the default port to use port ${port} instead`);
+          }
+        }
       });
     } catch (error) {
       console.error('Failed to start server:', error);
