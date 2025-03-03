@@ -93,18 +93,50 @@ app.use((req, res, next) => {
 
   const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
-  try {
-    log(`Starting server on port ${port}...`);
-    server.listen(port, '0.0.0.0', () => {
-      log(`Server running in ${app.get('env')} mode on http://0.0.0.0:${port}`);
-    });
-  } catch (error) {
-    console.error('Failed to start server:', error);
-    // Attempt to handle port conflict (requires additional logic)
-    if (error.code === 'EADDRINUSE') {
-      console.error('Port already in use. Please stop the existing process and try again.');
-      process.exit(1);
+  const startServer = () => {
+    try {
+      log(`Starting server on port ${port}...`);
+      
+      // Handle server errors
+      server.on('error', (error: any) => {
+        if (error.code === 'EADDRINUSE') {
+          log(`Port ${port} is already in use. Attempting to find another port...`);
+          setTimeout(() => {
+            server.close();
+            // Try to use a different port if the preferred one is in use
+            const newPort = port + 1;
+            log(`Attempting to use port ${newPort}...`);
+            server.listen(newPort, '0.0.0.0');
+          }, 1000);
+        } else {
+          console.error('Server error:', error);
+          // For other errors, try to restart
+          setTimeout(startServer, 3000);
+        }
+      });
+      
+      server.listen(port, '0.0.0.0', () => {
+        log(`Server running in ${app.get('env')} mode on http://0.0.0.0:${port}`);
+      });
+    } catch (error) {
+      console.error('Failed to start server:', error);
+      // Attempt recovery with a delay
+      setTimeout(startServer, 3000);
     }
-    process.exit(1);
-  }
+  };
+  
+  // Start the server with error handling
+  startServer();
+  
+  // Handle uncaught exceptions to prevent crashing
+  process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+    // Log the error but don't exit
+  });
+  
+  // Handle unhandled promise rejections
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    // Log the error but don't exit
+  });
 })();
