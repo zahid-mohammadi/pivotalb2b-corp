@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
+import fs from "fs";
 import sitemapRouter from "./sitemap";
 import session from "express-session";
 import { pool } from "./db";
@@ -154,6 +155,27 @@ app.use((req, res, next) => {
   
   // Start the server with error handling
   startServer();
+  
+  // Create a pidfile to track this process
+  const pidFile = path.join(process.cwd(), '.server.pid');
+  fs.writeFileSync(pidFile, process.pid.toString());
+  
+  // Clean up the pidfile on exit
+  const cleanup = () => {
+    if (fs.existsSync(pidFile)) {
+      fs.unlinkSync(pidFile);
+    }
+  };
+
+  process.on('exit', cleanup);
+  process.on('SIGINT', () => {
+    cleanup();
+    process.exit(0);
+  });
+  process.on('SIGTERM', () => {
+    cleanup();
+    process.exit(0);
+  });
   
   // Handle uncaught exceptions to prevent crashing
   process.on('uncaughtException', (error) => {
