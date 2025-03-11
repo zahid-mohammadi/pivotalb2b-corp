@@ -21,7 +21,6 @@ export const getRouteConfigs = async (): Promise<RouteConfig[]> => {
     { path: '/case-studies/:slug', changefreq: 'weekly', priority: 0.8,
       dynamicPaths: await storage.getCaseStudies().then(cases => cases.map(c => c.slug))
     },
-    { path: '/agency-partnerships', changefreq: 'weekly', priority: 0.8 },
     { path: '/about', changefreq: 'monthly', priority: 0.7 },
     { path: '/contact', changefreq: 'monthly', priority: 0.7 },
     { path: '/privacy-policy', changefreq: 'monthly', priority: 0.6 },
@@ -39,5 +38,6 @@ export const excludedRoutes = [
   '/reset-password', // Auth route
   '/signup',    // Auth route
   '/admin',     // Admin routes
-  '/api'        // API routes
+  '/api',       // API routes
+  '/agency-partnerships' // Removed from menu and sitemap
 ];
