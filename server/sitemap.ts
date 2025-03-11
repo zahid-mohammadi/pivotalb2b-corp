@@ -35,7 +35,8 @@ async function generateSitemapUrls(hostname: string): Promise<SitemapUrl[]> {
 
     // Process each route configuration
     for (const route of routes) {
-      if (excludedRoutes.includes(route.path)) {
+      // Skip excluded routes and explicitly skip agency-partnerships
+      if (excludedRoutes.includes(route.path) || route.path === '/agency-partnerships') {
         continue;
       }
 
