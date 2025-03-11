@@ -20,7 +20,6 @@ import CaseStudies from "@/pages/case-studies";
 import CaseStudyDetail from "@/pages/case-study-detail";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
-import AgencyPartnerships from "@/pages/agency-partnerships";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsConditions from "@/pages/terms-conditions";
 import CookiePolicy from "@/pages/cookie-policy";
@@ -50,7 +49,6 @@ function Router() {
             <Route path="/case-studies/:id" component={CaseStudyDetail} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
-            <Route path="/agency-partnerships" component={AgencyPartnerships} />
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-conditions" component={TermsConditions} />
             <Route path="/cookie-policy" component={CookiePolicy} />

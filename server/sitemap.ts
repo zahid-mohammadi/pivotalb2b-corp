@@ -2,9 +2,17 @@ import { Router } from "express";
 import { SitemapStream, streamToPromise } from "sitemap";
 import { createGzip } from "zlib";
 import { getRouteConfigs, excludedRoutes } from "./routes-config";
-import type { RouteConfig, SitemapUrl } from "./types";
+import type { RouteConfig } from "./types";
 import { log } from "./vite";
 import { storage } from "./storage";
+
+// Update the SitemapUrl type to include lastmod
+interface SitemapUrl {
+  url: string;
+  changefreq: string;
+  priority: number;
+  lastmod: string;
+}
 
 const router = Router();
 let sitemap: Buffer;
@@ -75,8 +83,9 @@ async function generateSitemapUrls(hostname: string): Promise<SitemapUrl[]> {
     log(`Generated ${urls.length} URLs for sitemap`);
     return urls;
   } catch (error) {
-    log('Error generating sitemap URLs:', error);
-    throw error;
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error generating sitemap URLs';
+    log('Error generating sitemap URLs:', errorMessage);
+    throw new Error(errorMessage);
   }
 }
 
@@ -127,7 +136,8 @@ router.get('/sitemap.xml', async (req, res) => {
     log('New sitemap generated and cached');
     res.send(sitemap);
   } catch (error) {
-    console.error('Error generating sitemap:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Error generating sitemap';
+    console.error('Error generating sitemap:', errorMessage);
     res.status(500).send('Error generating sitemap');
   }
 });
