@@ -6,17 +6,17 @@ export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
   return (
-    <div className="relative bg-slate-950 text-white overflow-hidden">
+    <div className="relative bg-[#0a0a1a] text-white overflow-hidden">
       {/* Enhanced animated background */}
       <div className="absolute inset-0">
         {/* Base gradient layer with increased contrast */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/95 to-slate-950/90" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a] via-primary/20 to-[#0a0a1a]" />
 
         {/* Multiple layered gradient animations with enhanced visibility */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/60 to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent"
           animate={{
-            opacity: [0.5, 0.7, 0.5],
+            opacity: [0.6, 0.8, 0.6],
             scale: [1, 1.1, 1],
           }}
           transition={{
@@ -27,9 +27,9 @@ export function Hero() {
         />
 
         <motion.div
-          className="absolute inset-0 bg-gradient-to-bl from-blue-600/50 via-purple-600/40 to-transparent"
+          className="absolute inset-0 bg-gradient-to-bl from-blue-600/70 via-purple-600/60 to-transparent"
           animate={{
-            opacity: [0.4, 0.6, 0.4],
+            opacity: [0.5, 0.7, 0.5],
             scale: [1.1, 1, 1.1],
           }}
           transition={{
@@ -41,14 +41,14 @@ export function Hero() {
         />
 
         {/* Animated grid pattern with enhanced opacity */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-50 animate-[pulse_4s_ease-in-out_infinite]" />
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-70 animate-[pulse_4s_ease-in-out_infinite]" />
 
         {/* Enhanced geometric shapes with higher opacity */}
         <div className="absolute inset-0">
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-96 h-96 rounded-full border-2 border-primary/40"
+              className="absolute w-96 h-96 rounded-full border-4 border-primary/60"
               style={{
                 top: `${30 + i * 20}%`,
                 left: `${20 + i * 20}%`,
@@ -56,7 +56,7 @@ export function Hero() {
               animate={{
                 scale: [1, 1.2, 1],
                 rotate: [0, 180, 360],
-                opacity: [0.4, 0.6, 0.4],
+                opacity: [0.5, 0.7, 0.5],
               }}
               transition={{
                 duration: 8 + i * 2,
@@ -67,11 +67,11 @@ export function Hero() {
           ))}
         </div>
 
-        {/* Enhanced particle system */}
+        {/* Enhanced particle system with larger particles */}
         {[...Array(30)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-primary/70 rounded-full"
+            className="absolute w-3 h-3 bg-primary/80 rounded-full blur-sm"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
@@ -80,7 +80,7 @@ export function Hero() {
               y: [0, -30, 0],
               x: [0, Math.random() * 20 - 10, 0],
               scale: [1, 1.5, 1],
-              opacity: [0.4, 0.8, 0.4],
+              opacity: [0.5, 0.9, 0.5],
             }}
             transition={{
               duration: 3 + Math.random() * 2,
@@ -98,7 +98,7 @@ export function Hero() {
               key={i}
               className="absolute h-[150%] w-[150%] top-[-25%] left-[-25%]"
               style={{
-                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#6366F1' : '#8B5CF6'}/30 60deg, transparent 120deg)`,
+                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#818CF8' : '#A78BFA'}/50 60deg, transparent 120deg)`,
                 transform: 'rotate(90deg)',
               }}
               animate={{
@@ -117,17 +117,17 @@ export function Hero() {
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full"
+            className="absolute rounded-full blur-3xl"
             style={{
               width: `${200 + i * 100}px`,
               height: `${200 + i * 100}px`,
               top: `${20 + i * 15}%`,
               left: `${20 + i * 15}%`,
-              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#6366F1'}/40 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}/60 0%, transparent 70%)`,
             }}
             animate={{
               scale: [1, 1.2, 1],
-              opacity: [0.4, 0.6, 0.4],
+              opacity: [0.5, 0.7, 0.5],
             }}
             transition={{
               duration: 4 + i,
@@ -137,94 +137,45 @@ export function Hero() {
             }}
           />
         ))}
-        {/* Top right animated blob */}
-        <div className="absolute -top-24 -right-24 w-[600px] h-[600px]">
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl transform rotate-12 animate-[spin_30s_linear_infinite]"
-          />
+
+        {/* New animated line patterns */}
+        <div className="absolute inset-0">
+          {[...Array(5)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute h-[1px] w-full bg-gradient-to-r from-transparent via-primary/60 to-transparent"
+              style={{
+                top: `${20 + i * 15}%`,
+              }}
+              animate={{
+                opacity: [0.3, 0.6, 0.3],
+                scaleY: [1, 2, 1],
+              }}
+              transition={{
+                duration: 3 + i,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: i * 0.5,
+              }}
+            />
+          ))}
         </div>
 
-        {/* Bottom left animated blob */}
-        <div className="absolute -bottom-24 -left-24 w-[600px] h-[600px]">
+        {/* Enhanced glow effects */}
+        <div className="absolute inset-0">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl animate-[spin_25s_linear_infinite]"
-          />
-        </div>
-
-        {/* Additional animated elements */}
-        <div className="absolute top-1/4 left-1/4 w-32 h-32">
-          <motion.div
-            className="absolute inset-0 bg-primary/50 rounded-full blur-2xl"
+            className="absolute w-full h-full bg-gradient-to-r from-primary/30 via-transparent to-primary/30"
             animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.5, 0.8, 0.5]
+              opacity: [0.3, 0.5, 0.3],
+              x: ['-100%', '100%'],
             }}
             transition={{
-              duration: 4,
+              duration: 8,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "linear",
             }}
           />
         </div>
-
-        <div className="absolute bottom-1/4 right-1/4 w-40 h-40">
-          <motion.div
-            className="absolute inset-0 bg-primary/50 rounded-full blur-2xl"
-            animate={{
-              scale: [1.5, 1, 1.5],
-              opacity: [0.8, 0.5, 0.8]
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </div>
-
-        {/* Diagonal animated stripes */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full transform -rotate-45">
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute h-[2px] w-[200%] bg-gradient-to-r from-transparent via-primary/30 to-transparent"
-                style={{ top: `${i * 30}%`, left: '-50%' }}
-                animate={{
-                  x: ['-100%', '100%']
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "linear",
-                  delay: i * 0.5
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Floating particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/50 rounded-full"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.2, 0.5, 0.2]
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 2
-            }}
-          />
-        ))}
       </div>
 
       <div className="container mx-auto px-4 py-24 relative">
@@ -233,7 +184,7 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-white/20 hover:border-white/30 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/30 backdrop-blur-sm mb-6 border border-white/30 hover:border-white/40 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-sm text-white/90">Trusted by B2B Leaders to Build High-Performing Sales Pipelines</span>
@@ -252,12 +203,11 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-xl text-primary-foreground/90 mb-8 leading-relaxed"
+            className="text-xl text-white/90 mb-8 leading-relaxed"
           >
             At Pivotal B2B, we specialize in demand generation and compliant lead generation that transforms your sales pipeline into a high-performing engine. Through pinpoint audience targeting, multi-channel engagement, and measurable results, we help you connect with ideal buyers and accelerate revenue growth.
           </motion.p>
 
-          {/* Enhanced CTA buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -278,14 +228,13 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-white/50"
+              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-colors border-white/40 hover:border-white/60"
               onClick={() => window.location.href = '/services'}
             >
               Explore Solutions
             </Button>
           </motion.div>
 
-          {/* Enhanced Key Benefits */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -305,14 +254,14 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/50 to-primary/30 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
-                <div className="relative flex items-center gap-3 bg-slate-900/60 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-white/30 transition-all">
-                  <div className="p-2 bg-primary/40 rounded-lg group-hover:bg-primary/50 transition-colors">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/60 to-primary/40 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
+                <div className="relative flex items-center gap-3 bg-[#0f0f2a]/80 rounded-xl p-6 backdrop-blur-sm border border-white/30 group-hover:border-white/40 transition-all">
+                  <div className="p-2 bg-primary/50 rounded-lg group-hover:bg-primary/60 transition-colors">
                     <benefit.icon className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white group-hover:text-primary transition-colors">{benefit.metric}</div>
-                    <div className="text-sm text-slate-300 group-hover:text-white transition-colors">{benefit.label}</div>
+                    <div className="text-sm text-white/80 group-hover:text-white transition-colors">{benefit.label}</div>
                   </div>
                 </div>
               </motion.div>
