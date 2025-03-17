@@ -12,7 +12,7 @@ export function Hero() {
         {/* Base gradient layer */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a] via-primary/20 to-[#0a0a1a]" />
 
-        {/* Multiple layered gradient animations with increased opacity */}
+        {/* Multiple layered gradient animations */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"
           animate={{
@@ -42,7 +42,7 @@ export function Hero() {
 
         {/* Business-themed animated patterns */}
         <div className="absolute inset-0">
-          {/* Bar chart animation */}
+          {/* Bar chart animation - Moved to right side */}
           {[...Array(5)].map((_, i) => (
             <motion.div
               key={`bar-${i}`}
@@ -50,7 +50,7 @@ export function Hero() {
               style={{
                 height: `${(i + 1) * 40}px`,
                 bottom: '20%',
-                left: `${20 + i * 10}%`,
+                left: `${60 + i * 10}%`, // Moved to right side
               }}
               animate={{
                 height: [`${(i + 1) * 40}px`, `${(i + 2) * 40}px`, `${(i + 1) * 40}px`],
@@ -64,7 +64,7 @@ export function Hero() {
             />
           ))}
 
-          {/* Network connection lines */}
+          {/* Network connection lines - Concentrated on right */}
           {[...Array(8)].map((_, i) => (
             <motion.div
               key={`line-${i}`}
@@ -72,7 +72,7 @@ export function Hero() {
               style={{
                 background: `linear-gradient(90deg, transparent, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}, transparent)`,
                 top: `${20 + i * 10}%`,
-                left: `${Math.random() * 50}%`,
+                left: `${50 + Math.random() * 40}%`, // Moved to right half
                 transform: `rotate(${-30 + i * 15}deg)`,
               }}
               animate={{
@@ -89,14 +89,14 @@ export function Hero() {
             />
           ))}
 
-          {/* Floating data points */}
+          {/* Floating data points - More concentrated on right */}
           {[...Array(15)].map((_, i) => (
             <motion.div
               key={`point-${i}`}
               className="absolute w-4 h-4 rounded-full bg-primary/90 blur-sm"
               style={{
                 top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
+                left: `${50 + Math.random() * 50}%`, // Positioned on right half
               }}
               animate={{
                 scale: [1, 1.5, 1],
@@ -112,7 +112,7 @@ export function Hero() {
             />
           ))}
 
-          {/* Geometric business shapes */}
+          {/* Geometric business shapes - Larger on right side */}
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={`shape-${i}`}
@@ -122,7 +122,7 @@ export function Hero() {
                 borderColor: 'rgb(var(--primary))',
                 borderRadius: i === 0 ? '50%' : i === 1 ? '20%' : '0%',
                 top: `${20 + i * 20}%`,
-                left: `${10 + i * 25}%`,
+                left: `${40 + i * 25}%`, // Moved more to the right
               }}
               animate={{
                 rotate: [0, 180],
@@ -138,7 +138,7 @@ export function Hero() {
           ))}
         </div>
 
-        {/* Enhanced wave effects */}
+        {/* Enhanced wave effects - Flowing right */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(3)].map((_, i) => (
             <motion.div
@@ -160,7 +160,7 @@ export function Hero() {
           ))}
         </div>
 
-        {/* Pulsing glow effects */}
+        {/* Pulsing glow effects - Concentrated on right */}
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={`glow-${i}`}
@@ -169,7 +169,7 @@ export function Hero() {
               width: `${300 + i * 100}px`,
               height: `${300 + i * 100}px`,
               top: `${20 + i * 15}%`,
-              left: `${20 + i * 15}%`,
+              left: `${50 + i * 15}%`, // Moved to right side
               background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}/80 0%, transparent 70%)`,
             }}
             animate={{
@@ -184,6 +184,20 @@ export function Hero() {
             }}
           />
         ))}
+
+        {/* New right-side flowing effect */}
+        <motion.div
+          className="absolute right-0 h-full w-1/2 bg-gradient-to-l from-primary/30 via-primary/10 to-transparent"
+          animate={{
+            opacity: [0.3, 0.5, 0.3],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 py-24 relative">
