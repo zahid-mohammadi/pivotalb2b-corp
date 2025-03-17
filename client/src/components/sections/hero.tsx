@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Shield, Clock } from "lucide-react";
+import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart } from "lucide-react";
 
 export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
@@ -9,14 +9,14 @@ export function Hero() {
     <div className="relative bg-[#0a0a1a] text-white overflow-hidden">
       {/* Enhanced animated background */}
       <div className="absolute inset-0">
-        {/* Base gradient layer with increased contrast */}
+        {/* Base gradient layer */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a] via-primary/20 to-[#0a0a1a]" />
 
-        {/* Multiple layered gradient animations with enhanced visibility */}
+        {/* Multiple layered gradient animations with increased opacity */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"
           animate={{
-            opacity: [0.6, 0.8, 0.6],
+            opacity: [0.7, 0.9, 0.7],
             scale: [1, 1.1, 1],
           }}
           transition={{
@@ -27,9 +27,9 @@ export function Hero() {
         />
 
         <motion.div
-          className="absolute inset-0 bg-gradient-to-bl from-blue-600/70 via-purple-600/60 to-transparent"
+          className="absolute inset-0 bg-gradient-to-bl from-blue-600/80 via-purple-600/70 to-transparent"
           animate={{
-            opacity: [0.5, 0.7, 0.5],
+            opacity: [0.6, 0.8, 0.6],
             scale: [1.1, 1, 1.1],
           }}
           transition={{
@@ -40,26 +40,97 @@ export function Hero() {
           }}
         />
 
-        {/* Animated grid pattern with enhanced opacity */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-70 animate-[pulse_4s_ease-in-out_infinite]" />
-
-        {/* Enhanced geometric shapes with higher opacity */}
+        {/* Business-themed animated patterns */}
         <div className="absolute inset-0">
-          {[...Array(3)].map((_, i) => (
+          {/* Bar chart animation */}
+          {[...Array(5)].map((_, i) => (
             <motion.div
-              key={i}
-              className="absolute w-96 h-96 rounded-full border-4 border-primary/60"
+              key={`bar-${i}`}
+              className="absolute w-8 bg-primary/80 rounded-t-lg"
               style={{
-                top: `${30 + i * 20}%`,
-                left: `${20 + i * 20}%`,
+                height: `${(i + 1) * 40}px`,
+                bottom: '20%',
+                left: `${20 + i * 10}%`,
               }}
               animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 180, 360],
-                opacity: [0.5, 0.7, 0.5],
+                height: [`${(i + 1) * 40}px`, `${(i + 2) * 40}px`, `${(i + 1) * 40}px`],
+                opacity: [0.6, 0.8, 0.6],
               }}
               transition={{
-                duration: 8 + i * 2,
+                duration: 2 + i,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+
+          {/* Network connection lines */}
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={`line-${i}`}
+              className="absolute h-[2px] w-[300px]"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}, transparent)`,
+                top: `${20 + i * 10}%`,
+                left: `${Math.random() * 50}%`,
+                transform: `rotate(${-30 + i * 15}deg)`,
+              }}
+              animate={{
+                opacity: [0.4, 0.8, 0.4],
+                scale: [1, 1.2, 1],
+                x: [-100, 100, -100],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear",
+                delay: i * 0.5,
+              }}
+            />
+          ))}
+
+          {/* Floating data points */}
+          {[...Array(15)].map((_, i) => (
+            <motion.div
+              key={`point-${i}`}
+              className="absolute w-4 h-4 rounded-full bg-primary/90 blur-sm"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                scale: [1, 1.5, 1],
+                opacity: [0.6, 1, 0.6],
+                y: [0, -30, 0],
+              }}
+              transition={{
+                duration: 3 + Math.random() * 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+
+          {/* Geometric business shapes */}
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={`shape-${i}`}
+              className="absolute w-[400px] h-[400px]"
+              style={{
+                border: '4px solid',
+                borderColor: 'rgb(var(--primary))',
+                borderRadius: i === 0 ? '50%' : i === 1 ? '20%' : '0%',
+                top: `${20 + i * 20}%`,
+                left: `${10 + i * 25}%`,
+              }}
+              animate={{
+                rotate: [0, 180],
+                scale: [1, 1.2, 1],
+                opacity: [0.4, 0.8, 0.4],
+              }}
+              transition={{
+                duration: 10 + i * 2,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -67,38 +138,14 @@ export function Hero() {
           ))}
         </div>
 
-        {/* Enhanced particle system with larger particles */}
-        {[...Array(30)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-3 h-3 bg-primary/80 rounded-full blur-sm"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              x: [0, Math.random() * 20 - 10, 0],
-              scale: [1, 1.5, 1],
-              opacity: [0.5, 0.9, 0.5],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-
-        {/* Enhanced wave effects with higher opacity */}
+        {/* Enhanced wave effects */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(3)].map((_, i) => (
             <motion.div
-              key={i}
-              className="absolute h-[150%] w-[150%] top-[-25%] left-[-25%]"
+              key={`wave-${i}`}
+              className="absolute h-[200%] w-[200%] top-[-50%] left-[-50%]"
               style={{
-                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#818CF8' : '#A78BFA'}/50 60deg, transparent 120deg)`,
+                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#818CF8' : '#A78BFA'}/70 60deg, transparent 120deg)`,
                 transform: 'rotate(90deg)',
               }}
               animate={{
@@ -113,21 +160,21 @@ export function Hero() {
           ))}
         </div>
 
-        {/* Enhanced pulsing light effects */}
+        {/* Pulsing glow effects */}
         {[...Array(4)].map((_, i) => (
           <motion.div
-            key={i}
+            key={`glow-${i}`}
             className="absolute rounded-full blur-3xl"
             style={{
-              width: `${200 + i * 100}px`,
-              height: `${200 + i * 100}px`,
+              width: `${300 + i * 100}px`,
+              height: `${300 + i * 100}px`,
               top: `${20 + i * 15}%`,
               left: `${20 + i * 15}%`,
-              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}/60 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}/80 0%, transparent 70%)`,
             }}
             animate={{
               scale: [1, 1.2, 1],
-              opacity: [0.5, 0.7, 0.5],
+              opacity: [0.6, 0.8, 0.6],
             }}
             transition={{
               duration: 4 + i,
@@ -137,45 +184,6 @@ export function Hero() {
             }}
           />
         ))}
-
-        {/* New animated line patterns */}
-        <div className="absolute inset-0">
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute h-[1px] w-full bg-gradient-to-r from-transparent via-primary/60 to-transparent"
-              style={{
-                top: `${20 + i * 15}%`,
-              }}
-              animate={{
-                opacity: [0.3, 0.6, 0.3],
-                scaleY: [1, 2, 1],
-              }}
-              transition={{
-                duration: 3 + i,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: i * 0.5,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Enhanced glow effects */}
-        <div className="absolute inset-0">
-          <motion.div
-            className="absolute w-full h-full bg-gradient-to-r from-primary/30 via-transparent to-primary/30"
-            animate={{
-              opacity: [0.3, 0.5, 0.3],
-              x: ['-100%', '100%'],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        </div>
       </div>
 
       <div className="container mx-auto px-4 py-24 relative">
