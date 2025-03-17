@@ -236,7 +236,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/10 hover:border-white/20 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-sm text-white/90">Trusted by Enterprise Leaders</span>
+            <span className="text-sm text-white/90">Trusted by B2B Leaders</span>
           </motion.div>
 
           <motion.h1 
@@ -245,7 +245,7 @@ export function Hero() {
             transition={{ delay: 0.3 }}
             className="text-5xl font-bold mb-6 leading-tight"
           >
-            High-Quality B2B Leads That Build Winning Sales Pipelines
+            Precision-Targeted Lead Generation That Drives Growth
           </motion.h1>
 
           <motion.p 
@@ -254,7 +254,7 @@ export function Hero() {
             transition={{ delay: 0.4 }}
             className="text-xl text-primary-foreground/90 mb-8 leading-relaxed"
           >
-            At Pivotal B2B, we understand the challenges of scaling B2B sales pipelines. Our mission is to connect you with ideal buyers through precision-targeted lead generation and multi-channel marketing campaigns that deliver measurable results.
+            At Pivotal B2B, we specialize in demand generation and compliant lead generation that transforms your sales pipeline into a high-performing engine. Through pinpoint audience targeting, multi-channel engagement, and measurable results, we help you connect with ideal buyers and accelerate revenue growth.
           </motion.p>
 
           {/* Enhanced CTA buttons */}
