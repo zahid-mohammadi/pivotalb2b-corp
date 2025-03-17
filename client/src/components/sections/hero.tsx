@@ -236,10 +236,10 @@ export function Hero() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/10 hover:border-white/20 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-sm text-white/90">Trusted by B2B Leaders</span>
+            <span className="text-sm text-white/90">Trusted by B2B Leaders to Build High-Performing Sales Pipelines</span>
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -248,7 +248,7 @@ export function Hero() {
             Precision-Targeted Lead Generation That Drives Growth
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
@@ -258,13 +258,13 @@ export function Hero() {
           </motion.p>
 
           {/* Enhanced CTA buttons */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
             className="flex flex-wrap gap-4"
           >
-            <Button 
+            <Button
               size="lg"
               className="shadow-lg group relative overflow-hidden bg-primary hover:bg-primary/90"
               onClick={() => window.open(calendlyUrl, '_blank')}
@@ -275,8 +275,8 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </span>
             </Button>
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               variant="outline"
               className="bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-colors border-white/20 hover:border-white/40"
               onClick={() => window.location.href = '/services'}
