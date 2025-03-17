@@ -294,8 +294,8 @@ export function Hero() {
           >
             {[
               { icon: Target, metric: "4-5x", label: "More Cost-Efficient" },
-              { icon: Shield, metric: "100%", label: "GDPR Compliant" },
-              { icon: Clock, metric: "24/7", label: "Lead Generation" }
+              { icon: Shield, metric: "100%", label: "GDPR & Global Compliance" },
+              { icon: Clock, metric: "24/7", label: "Lead Generation Engine" }
             ].map((benefit, index) => (
               <motion.div
                 key={index}
