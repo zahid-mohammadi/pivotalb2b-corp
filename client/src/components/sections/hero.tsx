@@ -46,37 +46,41 @@ export function Hero() {
           {[...Array(5)].map((_, i) => (
             <motion.div
               key={`bar-${i}`}
-              className="absolute w-8 bg-primary/80 rounded-t-lg"
+              className="absolute w-8 bg-gradient-to-t from-primary to-blue-400 rounded-t-lg shadow-lg shadow-primary/20"
               style={{
                 height: `${(i + 1) * 40}px`,
                 bottom: '20%',
-                left: `${60 + i * 10}%`, // Moved to right side
+                left: `${60 + i * 10}%`,
               }}
               animate={{
                 height: [`${(i + 1) * 40}px`, `${(i + 2) * 40}px`, `${(i + 1) * 40}px`],
-                opacity: [0.6, 0.8, 0.6],
+                opacity: [0.8, 1, 0.8],
+                scale: [1, 1.05, 1],
               }}
               transition={{
                 duration: 2 + i,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-            />
+            >
+              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-400 rounded-full animate-ping" />
+            </motion.div>
           ))}
 
-          {/* Network connection lines - Concentrated on right */}
+          {/* Network connection lines - Enhanced visuals */}
           {[...Array(8)].map((_, i) => (
             <motion.div
               key={`line-${i}`}
-              className="absolute h-[2px] w-[300px]"
+              className="absolute h-[3px] w-[300px]"
               style={{
-                background: `linear-gradient(90deg, transparent, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}, transparent)`,
+                background: `linear-gradient(90deg, transparent, ${i % 2 === 0 ? '#60A5FA' : '#818CF8'}, transparent)`,
                 top: `${20 + i * 10}%`,
-                left: `${50 + Math.random() * 40}%`, // Moved to right half
+                left: `${50 + Math.random() * 40}%`,
                 transform: `rotate(${-30 + i * 15}deg)`,
+                boxShadow: '0 0 20px rgba(96, 165, 250, 0.5)',
               }}
               animate={{
-                opacity: [0.4, 0.8, 0.4],
+                opacity: [0.6, 1, 0.6],
                 scale: [1, 1.2, 1],
                 x: [-100, 100, -100],
               }}
@@ -89,18 +93,19 @@ export function Hero() {
             />
           ))}
 
-          {/* Floating data points - More concentrated on right */}
+          {/* Enhanced floating data points */}
           {[...Array(15)].map((_, i) => (
             <motion.div
               key={`point-${i}`}
-              className="absolute w-4 h-4 rounded-full bg-primary/90 blur-sm"
+              className="absolute w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-primary blur-sm"
               style={{
                 top: `${Math.random() * 100}%`,
-                left: `${50 + Math.random() * 50}%`, // Positioned on right half
+                left: `${50 + Math.random() * 50}%`,
+                boxShadow: '0 0 15px rgba(96, 165, 250, 0.6)',
               }}
               animate={{
                 scale: [1, 1.5, 1],
-                opacity: [0.6, 1, 0.6],
+                opacity: [0.7, 1, 0.7],
                 y: [0, -30, 0],
               }}
               transition={{
@@ -112,6 +117,55 @@ export function Hero() {
             />
           ))}
 
+          {/* Line chart animation */}
+          <motion.svg
+            className="absolute right-20 top-1/4 w-64 h-32"
+            viewBox="0 0 100 50"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <motion.path
+              d="M0,25 Q25,40 50,20 T100,25"
+              fill="none"
+              stroke="url(#lineGradient)"
+              strokeWidth="2"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <defs>
+              <linearGradient id="lineGradient" x1="0" y1="0" x2="100%" y2="0">
+                <stop offset="0%" stopColor="#60A5FA" />
+                <stop offset="100%" stopColor="rgb(var(--primary))" />
+              </linearGradient>
+            </defs>
+          </motion.svg>
+
+          {/* Glowing circles for data points */}
+          {[...Array(5)].map((_, i) => (
+            <motion.div
+              key={`glow-point-${i}`}
+              className="absolute w-6 h-6"
+              style={{
+                right: `${20 + i * 15}%`,
+                top: `${30 + i * 10}%`,
+              }}
+            >
+              <div className="absolute inset-0 rounded-full bg-blue-400/30 animate-ping" />
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-primary" />
+            </motion.div>
+          ))}
+
+
           {/* Geometric business shapes - Larger on right side */}
           {[...Array(3)].map((_, i) => (
             <motion.div
@@ -122,7 +176,7 @@ export function Hero() {
                 borderColor: 'rgb(var(--primary))',
                 borderRadius: i === 0 ? '50%' : i === 1 ? '20%' : '0%',
                 top: `${20 + i * 20}%`,
-                left: `${40 + i * 25}%`, // Moved more to the right
+                left: `${40 + i * 25}%`,
               }}
               animate={{
                 rotate: [0, 180],
@@ -169,7 +223,7 @@ export function Hero() {
               width: `${300 + i * 100}px`,
               height: `${300 + i * 100}px`,
               top: `${20 + i * 15}%`,
-              left: `${50 + i * 15}%`, // Moved to right side
+              left: `${50 + i * 15}%`,
               background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}/80 0%, transparent 70%)`,
             }}
             animate={{
@@ -198,6 +252,23 @@ export function Hero() {
             ease: "easeInOut",
           }}
         />
+        <motion.div
+          className="absolute right-0 h-full w-1/2 overflow-hidden"
+          style={{ maskImage: 'linear-gradient(to left, transparent, black)' }}
+        >
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-primary/40"
+            animate={{
+              x: ['-100%', '100%'],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+          />
+        </motion.div>
+
       </div>
 
       <div className="container mx-auto px-4 py-24 relative">
