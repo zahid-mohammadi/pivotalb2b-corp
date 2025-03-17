@@ -9,21 +9,21 @@ export function Approach() {
     {
       icon: ResearchStrategyIcon,
       title: "Strategic Targeting",
-      description: "Identify and profile your ideal customer segments using advanced data analytics, technographic insights, and intent signals to build a focused prospect universe.",
+      description: "Leverage advanced data analytics, technographic insights, and intent signals to identify and profile your ideal customer segments.",
       gradient: "from-blue-500/20 via-indigo-500/20 to-violet-500/20",
       highlightColor: "text-blue-600 dark:text-blue-400",
     },
     {
       icon: ContentEngagementIcon,
       title: "Engagement Optimization",
-      description: "Deploy personalized multi-channel campaigns that resonate with decision-makers, leveraging targeted content and precise messaging to drive meaningful interactions.",
+      description: "Deploy personalized, multi-channel campaigns that resonate with decision-makers, driving meaningful interactions and nurturing prospects through the funnel.",
       gradient: "from-violet-500/20 via-purple-500/20 to-fuchsia-500/20",
       highlightColor: "text-violet-600 dark:text-violet-400",
     },
     {
       icon: ScaleGrowthIcon,
       title: "Pipeline Acceleration",
-      description: "Convert prospects into qualified opportunities through proven nurture workflows, BANT qualification, and seamless sales team integration.",
+      description: "Convert prospects into sales-ready leads with BANT qualification, nurture workflows, and seamless integration with your sales team.",
       gradient: "from-fuchsia-500/20 via-pink-500/20 to-rose-500/20",
       highlightColor: "text-fuchsia-600 dark:text-fuchsia-400",
     },
@@ -52,8 +52,8 @@ export function Approach() {
             Our Approach to Building Winning Sales Pipelines
           </h2>
           <p className="text-xl text-muted-foreground">
-            We transform your lead generation into a systematic pipeline-building engine through precise targeting, 
-            strategic engagement, and proven conversion methodologies that consistently deliver qualified opportunities to your sales team.
+            We don't just generate leads—we build sales pipelines that convert. Through strategic targeting, multi-channel engagement, 
+            and proven conversion methodologies, we deliver qualified opportunities that align with your business goals.
           </p>
         </motion.div>
 
@@ -106,29 +106,32 @@ export function Approach() {
           ))}
         </div>
 
-        {/* Bottom Stats */}
+        {/* Results Section */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
+          transition={{ duration: 0.6 }}
+          className="mt-20 text-center"
         >
-          {[
-            { value: "93%", label: "Pipeline Efficiency" },
-            { value: "2.5x", label: "Lead Quality Improvement" },
-            { value: "45%", label: "Cost per Lead Reduction" },
-            { value: "85%", label: "Sales Acceptance Rate" }
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.05 }}
-              className="text-center p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-primary/10"
-            >
-              <p className="text-3xl font-bold text-primary mb-2">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-            </motion.div>
-          ))}
+          <h3 className="text-3xl font-bold mb-12">Proven Results That Speak for Themselves</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { value: "93%", label: "Pipeline Efficiency" },
+              { value: "2.5x", label: "Lead Quality Improvement" },
+              { value: "45%", label: "Cost per Lead Reduction" },
+              { value: "85%", label: "Sales Acceptance Rate" }
+            ].map((stat, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ scale: 1.05 }}
+                className="text-center p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-primary/10"
+              >
+                <p className="text-3xl font-bold text-primary mb-2">{stat.value}</p>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
