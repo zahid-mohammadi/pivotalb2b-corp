@@ -6,49 +6,49 @@ export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
   return (
-    <div className="relative bg-slate-900 text-white overflow-hidden">
+    <div className="relative bg-slate-950 text-white overflow-hidden">
       {/* Enhanced animated background */}
       <div className="absolute inset-0">
-        {/* Base gradient layer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800/95 to-slate-900/90" />
+        {/* Base gradient layer with increased contrast */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900/95 to-slate-950/90" />
 
-        {/* Multiple layered gradient animations */}
+        {/* Multiple layered gradient animations with enhanced visibility */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary/60 via-primary/40 to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/60 to-transparent"
           animate={{
-            opacity: [0.4, 0.6, 0.4],
+            opacity: [0.5, 0.7, 0.5],
             scale: [1, 1.1, 1],
           }}
           transition={{
-            duration: 5,
+            duration: 4,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
 
         <motion.div
-          className="absolute inset-0 bg-gradient-to-bl from-blue-500/40 via-purple-500/30 to-transparent"
+          className="absolute inset-0 bg-gradient-to-bl from-blue-600/50 via-purple-600/40 to-transparent"
           animate={{
-            opacity: [0.3, 0.5, 0.3],
+            opacity: [0.4, 0.6, 0.4],
             scale: [1.1, 1, 1.1],
           }}
           transition={{
-            duration: 7,
+            duration: 6,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 1,
+            delay: 0.5,
           }}
         />
 
-        {/* Animated grid pattern with higher opacity */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-40 animate-[pulse_4s_ease-in-out_infinite]" />
+        {/* Animated grid pattern with enhanced opacity */}
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-50 animate-[pulse_4s_ease-in-out_infinite]" />
 
-        {/* Animated geometric shapes */}
+        {/* Enhanced geometric shapes with higher opacity */}
         <div className="absolute inset-0">
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-96 h-96 rounded-full border border-primary/30"
+              className="absolute w-96 h-96 rounded-full border-2 border-primary/40"
               style={{
                 top: `${30 + i * 20}%`,
                 left: `${20 + i * 20}%`,
@@ -56,10 +56,10 @@ export function Hero() {
               animate={{
                 scale: [1, 1.2, 1],
                 rotate: [0, 180, 360],
-                opacity: [0.3, 0.5, 0.3],
+                opacity: [0.4, 0.6, 0.4],
               }}
               transition={{
-                duration: 10 + i * 2,
+                duration: 8 + i * 2,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -71,7 +71,7 @@ export function Hero() {
         {[...Array(30)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-primary/60 rounded-full"
+            className="absolute w-2 h-2 bg-primary/70 rounded-full"
             style={{
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
@@ -80,7 +80,7 @@ export function Hero() {
               y: [0, -30, 0],
               x: [0, Math.random() * 20 - 10, 0],
               scale: [1, 1.5, 1],
-              opacity: [0.3, 0.7, 0.3],
+              opacity: [0.4, 0.8, 0.4],
             }}
             transition={{
               duration: 3 + Math.random() * 2,
@@ -91,21 +91,21 @@ export function Hero() {
           />
         ))}
 
-        {/* Animated wave effects */}
+        {/* Enhanced wave effects with higher opacity */}
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(3)].map((_, i) => (
             <motion.div
               key={i}
               className="absolute h-[150%] w-[150%] top-[-25%] left-[-25%]"
               style={{
-                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#4F46E5' : '#7C3AED'}/20 60deg, transparent 120deg)`,
+                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#6366F1' : '#8B5CF6'}/30 60deg, transparent 120deg)`,
                 transform: 'rotate(90deg)',
               }}
               animate={{
                 rotate: [90, 450],
               }}
               transition={{
-                duration: 15 + i * 5,
+                duration: 12 + i * 4,
                 repeat: Infinity,
                 ease: "linear",
               }}
@@ -113,7 +113,7 @@ export function Hero() {
           ))}
         </div>
 
-        {/* Pulsing light effects */}
+        {/* Enhanced pulsing light effects */}
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={i}
@@ -123,11 +123,11 @@ export function Hero() {
               height: `${200 + i * 100}px`,
               top: `${20 + i * 15}%`,
               left: `${20 + i * 15}%`,
-              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#4F46E5'}/30 0%, transparent 70%)`,
+              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#6366F1'}/40 0%, transparent 70%)`,
             }}
             animate={{
               scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
+              opacity: [0.4, 0.6, 0.4],
             }}
             transition={{
               duration: 4 + i,
@@ -233,7 +233,7 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/10 hover:border-white/20 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-white/20 hover:border-white/30 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span className="text-sm text-white/90">Trusted by B2B Leaders to Build High-Performing Sales Pipelines</span>
@@ -278,7 +278,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-colors border-white/20 hover:border-white/40"
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-white/50"
               onClick={() => window.location.href = '/services'}
             >
               Explore Solutions
@@ -305,9 +305,9 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-primary/20 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
-                <div className="relative flex items-center gap-3 bg-slate-800/50 rounded-xl p-6 backdrop-blur-sm border border-white/10 group-hover:border-white/20 transition-all">
-                  <div className="p-2 bg-primary/30 rounded-lg group-hover:bg-primary/40 transition-colors">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/50 to-primary/30 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
+                <div className="relative flex items-center gap-3 bg-slate-900/60 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-white/30 transition-all">
+                  <div className="p-2 bg-primary/40 rounded-lg group-hover:bg-primary/50 transition-colors">
                     <benefit.icon className="h-6 w-6 text-white" />
                   </div>
                   <div>
