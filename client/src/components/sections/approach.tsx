@@ -70,12 +70,12 @@ export function Approach() {
               transition={{ duration: 0.5, delay: index * 0.2 }}
               className="relative"
             >
-              {/* Step Number */}
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center text-primary font-semibold border border-primary/20">
+              {/* Step Number with enhanced design */}
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white shadow-lg flex items-center justify-center text-primary font-semibold border border-primary/20 z-10">
                 {index + 1}
               </div>
 
-              <Card className="group h-full overflow-hidden backdrop-blur-sm border-primary/10 hover:border-primary/30 transition-all duration-500">
+              <Card className="group h-full overflow-hidden backdrop-blur-sm border-primary/10 hover:border-primary/30 transition-all duration-500 hover:shadow-xl">
                 <CardContent className="p-8 relative">
                   {/* Animated Gradient Background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -100,13 +100,17 @@ export function Approach() {
                       {step.description}
                     </p>
                   </div>
+
+                  {/* Decorative elements */}
+                  <div className="absolute -bottom-12 -right-12 w-24 h-24 bg-gradient-to-br from-primary/5 to-transparent rounded-full transform rotate-45 opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                  <div className="absolute -top-12 -left-12 w-24 h-24 bg-gradient-to-br from-primary/5 to-transparent rounded-full transform -rotate-45 opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
 
-        {/* Results Section */}
+        {/* Results Section with enhanced visuals */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -114,7 +118,9 @@ export function Approach() {
           transition={{ duration: 0.6 }}
           className="mt-20 text-center"
         >
-          <h3 className="text-3xl font-bold mb-12">Proven Results That Speak for Themselves</h3>
+          <h3 className="text-3xl font-bold mb-12 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
+            Proven Results That Speak for Themselves
+          </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { value: "93%", label: "Pipeline Efficiency" },
@@ -125,10 +131,19 @@ export function Approach() {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05 }}
-                className="text-center p-4 rounded-lg bg-white/50 backdrop-blur-sm border border-primary/10"
+                className="group"
               >
-                <p className="text-3xl font-bold text-primary mb-2">{stat.value}</p>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
+                <div className="relative p-6 rounded-xl bg-white/50 backdrop-blur-sm border border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-lg">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
+                  <motion.p 
+                    className="text-3xl font-bold text-primary mb-2"
+                    initial={{ scale: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    {stat.value}
+                  </motion.p>
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                </div>
               </motion.div>
             ))}
           </div>

@@ -4,15 +4,13 @@ import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import {
-  Loader2,
-  ArrowRight,
   LineChart,
   Share2,
   Video,
   CheckSquare,
   TargetIcon,
+  ArrowRight,
 } from "lucide-react";
-import type { Service } from "@shared/schema";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -148,7 +146,9 @@ export function Services() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-6">Comprehensive B2B Marketing Services</h2>
+          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
+            Comprehensive B2B Marketing Services
+          </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Our data-driven solutions are designed to scale your demand generation efforts, whether you're looking to enhance 
             your existing strategy or build a new one from the ground up.
@@ -172,7 +172,7 @@ export function Services() {
               <Card className={`
                 flex flex-col w-full bg-white/50 backdrop-blur-sm 
                 border-slate-200/80 hover:border-primary/20 transition-all duration-300
-                relative overflow-hidden group
+                relative overflow-hidden group hover:shadow-xl
               `}>
                 {/* Animated Gradient Background */}
                 <div className={`
@@ -194,9 +194,13 @@ export function Services() {
 
                 <CardHeader className="pb-4 relative">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-white/80 rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300">
+                    <motion.div 
+                      className="p-3 bg-white/80 rounded-xl shadow-sm group-hover:shadow-md transition-all duration-300"
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.5 }}
+                    >
                       <service.icon className="h-7 w-7 text-primary transition-transform group-hover:scale-110 duration-300" />
-                    </div>
+                    </motion.div>
                     <h3 className="text-xl font-semibold leading-tight">{service.title}</h3>
                   </div>
                   <p className="text-muted-foreground leading-relaxed">{service.description}</p>
@@ -237,26 +241,31 @@ export function Services() {
           ))}
         </motion.div>
 
-        {/* CTA Section */}
+        {/* CTA Section with enhanced design */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-24 text-center"
+          className="mt-24 text-center relative"
         >
-          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your B2B Marketing?</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Whether you're looking to scale your demand generation, optimize your sales pipeline, or enhance your compliant 
-            lead generation efforts, Pivotal B2B is your trusted partner for measurable growth.
-          </p>
-          <Button
-            size="lg"
-            className="shadow-lg group"
-            onClick={() => window.open(calendlyUrl, '_blank')}
-          >
-            Schedule a Consultation
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-          </Button>
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 rounded-3xl" />
+          <div className="relative p-12">
+            <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
+              Ready to Transform Your B2B Marketing?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Whether you're looking to scale your demand generation, optimize your sales pipeline, or enhance your compliant 
+              lead generation efforts, Pivotal B2B is your trusted partner for measurable growth.
+            </p>
+            <Button
+              size="lg"
+              className="shadow-lg group bg-primary hover:bg-primary/90"
+              onClick={() => window.open(calendlyUrl, '_blank')}
+            >
+              Schedule a Consultation
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </div>
         </motion.div>
       </div>
     </section>
