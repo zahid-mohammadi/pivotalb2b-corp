@@ -55,7 +55,7 @@ const services = [
   {
     icon: LineChart,
     title: "Strategic Lead Generation",
-    description: "Drive quality leads through multi-channel campaigns enhanced with intent data and account-based targeting capabilities.",
+    description: "Drive high-quality leads with multi-channel campaigns, intent signal identification, and account-based targeting.",
     features: [
       "Multi-channel campaign orchestration",
       "Intent signal identification",
@@ -70,7 +70,7 @@ const services = [
   {
     icon: Share2,
     title: "Content Marketing & Distribution",
-    description: "Create and distribute compelling B2B content that resonates with your target audience, with options for account-specific customization.",
+    description: "Create and distribute compelling B2B content that resonates with your target audience.",
     features: [
       "Strategic content planning",
       "Multi-channel distribution",
@@ -85,7 +85,7 @@ const services = [
   {
     icon: Video,
     title: "Event Marketing Solutions",
-    description: "Comprehensive event marketing services to maximize attendance and engagement, with targeted outreach to key accounts.",
+    description: "Maximize event attendance and engagement with targeted outreach and post-event lead nurturing.",
     features: [
       "End-to-end event promotion",
       "Audience acquisition strategy",
@@ -100,7 +100,7 @@ const services = [
   {
     icon: CheckSquare,
     title: "Lead Qualification Services",
-    description: "Expert lead qualification services using comprehensive BANT criteria, enriched with account-level insights.",
+    description: "Ensure sales readiness with expert lead qualification and enrichment services.",
     features: [
       "BANT qualification process",
       "Lead enrichment services",
@@ -115,7 +115,7 @@ const services = [
   {
     icon: TargetIcon,
     title: "Account-Based Marketing",
-    description: "Strategic ABM services to complement your marketing initiatives and engage high-value accounts effectively.",
+    description: "Engage high-value accounts with personalized, multi-channel ABM strategies.",
     features: [
       "Account selection strategy",
       "Personalized campaigns",
@@ -150,9 +150,8 @@ export function Services() {
         >
           <h2 className="text-4xl font-bold mb-6">Comprehensive B2B Marketing Services</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Partner with us to transform your B2B marketing strategy. Our expert team delivers 
-            data-driven solutions that drive measurable results, with the flexibility to incorporate 
-            account-based approaches where they matter most.
+            Our data-driven solutions are designed to scale your demand generation efforts, whether you're looking to enhance 
+            your existing strategy or build a new one from the ground up.
           </p>
         </motion.div>
 
@@ -247,8 +246,8 @@ export function Services() {
         >
           <h2 className="text-3xl font-bold mb-4">Ready to Transform Your B2B Marketing?</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Let's discuss how our comprehensive marketing services can help you achieve your business objectives 
-            and engage your most valuable prospects.
+            Whether you're looking to scale your demand generation, optimize your sales pipeline, or enhance your compliant 
+            lead generation efforts, Pivotal B2B is your trusted partner for measurable growth.
           </p>
           <Button
             size="lg"
