@@ -3,175 +3,106 @@ import { User } from "lucide-react";
 import React from "react";
 
 const jobTitles = [
-  { title: "IT Director", color: "#60A5FA", stage: 1 },
-  { title: "Marketing VP", color: "#34D399", stage: 2 },
-  { title: "CIO", color: "#818CF8", stage: 3 },
-  { title: "Chief Financial Officer", color: "#F472B6", stage: 1 },
-  { title: "HR Director", color: "#A78BFA", stage: 2 },
-  { title: "CTO", color: "#FBBF24", stage: 3 },
-  { title: "CX/UX Director", color: "#F87171", stage: 1 }
+  { title: "IT Director", color: "#60A5FA" },
+  { title: "Marketing VP", color: "#34D399" },
+  { title: "CIO", color: "#818CF8" },
+  { title: "Chief Financial Officer", color: "#F472B6" },
+  { title: "HR Director", color: "#A78BFA" },
+  { title: "CTO", color: "#FBBF24" },
+  { title: "CX/UX Director", color: "#F87171" }
 ];
 
 const funnelStages = [
-  { name: "Awareness", color: "rgba(96, 165, 250, 0.3)", y: 100 },
-  { name: "Consideration", color: "rgba(167, 139, 250, 0.3)", y: 200 },
-  { name: "Decision", color: "rgba(52, 211, 153, 0.3)", y: 300 }
+  { name: "Awareness", y: 100 },
+  { name: "Consideration", y: 250 },
+  { name: "Decision", y: 400 }
 ];
 
 export const SalesFunnel = () => {
   return (
-    <div className="relative w-full h-[600px] overflow-hidden">
-      {/* Main Funnel */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
-        {/* Funnel Background */}
-        <svg viewBox="0 0 400 500" className="w-full">
-          <defs>
-            {funnelStages.map((stage, index) => (
-              <linearGradient
-                key={`gradient-${index}`}
-                id={`stage${index}Gradient`}
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-              >
-                <stop offset="0%" stopColor={stage.color} stopOpacity="0.8" />
-                <stop offset="50%" stopColor={stage.color} stopOpacity="0.6" />
-                <stop offset="100%" stopColor={stage.color} stopOpacity="0.8" />
-              </linearGradient>
-            ))}
-          </defs>
-
-          {/* Funnel Stages */}
-          {funnelStages.map((stage, index) => {
-            const startY = index === 0 ? 0 : funnelStages[index - 1].y;
-            const endY = stage.y;
-            const startWidth = 300 - (index * 50);
-            const endWidth = 300 - ((index + 1) * 50);
-
-            return (
-              <motion.path
-                key={`stage-${index}`}
-                d={`M${200 - startWidth/2},${startY} 
-                   L${200 + startWidth/2},${startY} 
-                   L${200 + endWidth/2},${endY} 
-                   L${200 - endWidth/2},${endY} Z`}
-                fill={`url(#stage${index}Gradient)`}
-                stroke="rgba(255, 255, 255, 0.2)"
-                strokeWidth="1"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: index * 0.3 }}
-              />
-            );
-          })}
-
-          {/* Stage Labels */}
-          {funnelStages.map((stage, index) => (
-            <text
-              key={`label-${index}`}
-              x="20"
-              y={stage.y - 10}
-              fill="white"
-              fontSize="14"
-              className="font-medium"
-            >
-              {stage.name}
-            </text>
-          ))}
-        </svg>
-
-        {/* Animated Lead Icons */}
-        {jobTitles.map((job, index) => (
-          <React.Fragment key={`lead-${index}`}>
-            {/* Lead Icon Entry Animation */}
-            <motion.div
-              className="absolute"
-              style={{
-                top: -50,
-                left: `${100 + (index * 40)}px`,
-              }}
-              animate={{
-                y: [0, 150, 300, 450],
-                x: [0, -30, -60, -90],
-                scale: [1, 0.9, 0.8, 0.7],
-                opacity: [1, 1, 1, 0],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                delay: index * 1,
-                ease: "linear",
-              }}
-            >
-              <div className="relative">
-                {/* Job Title Label */}
-                <motion.div
-                  className="absolute -top-8 left-1/2 transform -translate-x-1/2 whitespace-nowrap bg-black/50 px-3 py-1 rounded-full text-xs text-white backdrop-blur-sm"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  {job.title}
-                </motion.div>
-
-                {/* Lead Icon with Glow Effect */}
-                <div className="relative">
-                  <motion.div
-                    className="absolute inset-0 rounded-full blur-lg"
-                    style={{ backgroundColor: job.color }}
-                    animate={{
-                      opacity: [0.3, 0.6, 0.3],
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  />
-                  <div
-                    className="relative w-12 h-12 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: job.color }}
-                  >
-                    <User className="w-6 h-6 text-white" />
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </React.Fragment>
+    <div className="relative w-full h-[600px]">
+      {/* Simple Funnel Shape */}
+      <svg className="absolute inset-0" viewBox="0 0 400 600">
+        <path
+          d="M50,50 L350,50 L300,500 L100,500 Z"
+          fill="none"
+          stroke="rgba(255,255,255,0.2)"
+          strokeWidth="2"
+        />
+        {/* Stage Lines */}
+        {funnelStages.map((stage, index) => (
+          <line
+            key={`stage-${index}`}
+            x1={75 + (index * 25)}
+            y1={stage.y}
+            x2={325 - (index * 25)}
+            y2={stage.y}
+            stroke="rgba(255,255,255,0.2)"
+            strokeWidth="1"
+            strokeDasharray="5,5"
+          />
         ))}
+      </svg>
 
-        {/* Conversion Effect */}
+      {/* Lead Icons */}
+      {jobTitles.map((job, index) => (
         <motion.div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2"
+          key={`lead-${index}`}
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{
+            top: "-50px",
+          }}
           animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 1, 0.5],
+            top: ["0%", "20%", "40%", "60%", "80%"],
+            x: ["-50%", 
+              `${-30 + (index * 10)}%`,
+              `${-20 + (index * 5)}%`,
+              `${-10 + (index * 2)}%`,
+              "0%"
+            ],
+            scale: [1, 0.9, 0.8, 0.7, 0.6],
+            opacity: [1, 1, 1, 1, 0]
           }}
           transition={{
-            duration: 2,
+            duration: 5,
             repeat: Infinity,
+            delay: index * 0.7,
+            ease: "linear"
           }}
         >
+          {/* Lead Card with Job Title */}
           <div className="relative">
-            <motion.div
-              className="absolute inset-0 bg-green-500/20 rounded-full blur-xl"
-              animate={{
-                scale: [1, 2, 1],
-                opacity: [0.5, 0, 0.5],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-              }}
-            />
-            <div className="relative w-14 h-14 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center">
+            {/* Job Title */}
+            <div
+              className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full"
+              style={{ backgroundColor: job.color }}
+            >
+              <span className="text-sm font-medium text-white whitespace-nowrap">
+                {job.title}
+              </span>
+            </div>
+
+            {/* Icon Container */}
+            <div
+              className="w-16 h-16 rounded-full flex items-center justify-center"
+              style={{ backgroundColor: job.color }}
+            >
               <User className="w-8 h-8 text-white" />
             </div>
           </div>
         </motion.div>
-      </div>
+      ))}
+
+      {/* Stage Labels */}
+      {funnelStages.map((stage, index) => (
+        <div
+          key={`label-${index}`}
+          className="absolute left-4 text-white text-sm font-medium"
+          style={{ top: `${stage.y}px` }}
+        >
+          {stage.name}
+        </div>
+      ))}
     </div>
   );
 };
