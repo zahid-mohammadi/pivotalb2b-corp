@@ -21,8 +21,9 @@ const funnelStages = [
 export const SalesFunnel = () => {
   return (
     <div className="relative w-full h-[600px]">
+      {/* Funnel Container */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
-        {/* Original Funnel Structure */}
+        {/* Funnel Background */}
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
             {funnelStages.map((stage, index) => (
@@ -39,16 +40,9 @@ export const SalesFunnel = () => {
                 <stop offset="100%" stopColor={stage.color} stopOpacity="0.8" />
               </linearGradient>
             ))}
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
           </defs>
 
-          {/* Funnel Stages */}
+          {/* Funnel Shape */}
           {funnelStages.map((stage, index) => {
             const startY = index === 0 ? 0 : funnelStages[index - 1].y;
             const endY = stage.y;
@@ -65,7 +59,6 @@ export const SalesFunnel = () => {
                 fill={`url(#stage${index}Gradient)`}
                 stroke="rgba(255, 255, 255, 0.2)"
                 strokeWidth="1"
-                filter="url(#glow)"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: index * 0.3 }}
@@ -88,47 +81,50 @@ export const SalesFunnel = () => {
           ))}
         </svg>
 
-        {/* Leads flowing through funnel */}
+        {/* Lead Flow Animation */}
         <div className="absolute inset-0">
           {jobTitles.map((job, index) => (
             <motion.div
               key={`lead-${index}`}
-              className="absolute top-0"
+              className="absolute"
               style={{
-                left: `${150 + (index * 25)}px`,
+                top: -80,
+                left: 100 + (index * 30),
               }}
               animate={{
-                y: [-50, 450],
-                x: [0, -(index * 30)],
-                scale: [1, 0.7],
-                opacity: [1, 0]
+                y: [0, 200, 400, 600],
+                x: [0, -(20 + index * 5), -(40 + index * 10), -(60 + index * 15)],
+                scale: [1, 0.9, 0.8, 0.7],
+                opacity: [1, 1, 1, 0]
               }}
               transition={{
-                duration: 4,
+                duration: 5,
                 repeat: Infinity,
-                delay: index * 0.5,
+                delay: index * 0.8,
                 ease: "linear"
               }}
             >
-              {/* Lead Card */}
+              {/* Lead with Job Title */}
               <div className="relative">
-                {/* Job Title */}
+                {/* Job Title Banner */}
                 <div 
-                  className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white text-sm font-medium backdrop-blur-sm shadow-lg"
+                  className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-lg"
                   style={{ 
                     backgroundColor: job.color,
                     minWidth: 'max-content'
                   }}
                 >
-                  {job.title}
+                  <span className="text-sm font-medium text-white whitespace-nowrap">
+                    {job.title}
+                  </span>
                 </div>
 
                 {/* Lead Icon */}
                 <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg"
+                  className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
                   style={{ backgroundColor: job.color }}
                 >
-                  <User className="w-8 h-8 text-white" />
+                  <User className="w-7 h-7 text-white" />
                 </div>
               </div>
             </motion.div>
