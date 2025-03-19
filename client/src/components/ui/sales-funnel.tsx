@@ -21,8 +21,22 @@ const funnelStages = [
 export const SalesFunnel = () => {
   return (
     <div className="relative w-full h-[600px]">
-      {/* Funnel Container */}
+      {/* Main Funnel */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
+        {/* Entry Points for Leads */}
+        <div className="absolute -top-32 w-full">
+          {[0, 1, 2].map((position) => (
+            <div 
+              key={`entry-${position}`} 
+              className="absolute h-2 w-2 rounded-full bg-primary/50"
+              style={{
+                left: `${100 + position * 100}px`,
+                top: 0
+              }}
+            />
+          ))}
+        </div>
+
         {/* Funnel Background */}
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
@@ -81,55 +95,50 @@ export const SalesFunnel = () => {
           ))}
         </svg>
 
-        {/* Lead Flow Animation */}
-        <div className="absolute inset-0">
-          {jobTitles.map((job, index) => (
-            <motion.div
-              key={`lead-${index}`}
-              className="absolute"
-              style={{
-                top: -80,
-                left: 100 + (index * 30),
-              }}
-              animate={{
-                y: [0, 200, 400, 600],
-                x: [0, -(20 + index * 5), -(40 + index * 10), -(60 + index * 15)],
-                scale: [1, 0.9, 0.8, 0.7],
-                opacity: [1, 1, 1, 0]
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                delay: index * 0.8,
-                ease: "linear"
-              }}
-            >
-              {/* Lead with Job Title */}
-              <div className="relative">
-                {/* Job Title Banner */}
-                <div 
-                  className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg shadow-lg"
-                  style={{ 
-                    backgroundColor: job.color,
-                    minWidth: 'max-content'
-                  }}
-                >
-                  <span className="text-sm font-medium text-white whitespace-nowrap">
-                    {job.title}
-                  </span>
-                </div>
-
-                {/* Lead Icon */}
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center shadow-lg"
-                  style={{ backgroundColor: job.color }}
-                >
-                  <User className="w-7 h-7 text-white" />
-                </div>
+        {/* Animated Leads */}
+        {jobTitles.map((job, index) => (
+          <motion.div
+            key={`lead-${index}`}
+            className="absolute"
+            style={{
+              left: `${100 + ((index % 3) * 100)}px`, // Start from 3 entry points
+              top: "-120px"
+            }}
+            animate={{
+              y: [0, 550], // Move down through the funnel
+              x: [0, -50 + (index * 10)], // Slight horizontal movement based on index
+              scale: [1, 0.8], // Gradually reduce size
+              opacity: [1, 1, 1, 0] // Fade out at the end
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+              delay: index * 1.2, // Stagger the animations
+              ease: "linear"
+            }}
+          >
+            {/* Lead Icon with Job Title */}
+            <div className="relative">
+              {/* Job Title Banner */}
+              <div
+                className="absolute -top-6 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap"
+                style={{ backgroundColor: job.color }}
+              >
+                <span className="text-sm font-medium text-white">
+                  {job.title}
+                </span>
               </div>
-            </motion.div>
-          ))}
-        </div>
+
+              {/* Lead Icon */}
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
+                style={{ backgroundColor: job.color }}
+              >
+                <User className="w-6 h-6 text-white" />
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
