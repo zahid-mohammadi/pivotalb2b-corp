@@ -22,21 +22,7 @@ export const SalesFunnel = () => {
   return (
     <div className="relative w-full h-[600px]">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
-        {/* Target Accounts at Top */}
-        {targetAccounts.map((account, index) => (
-          <motion.div
-            key={`target-${index}`}
-            className="absolute"
-            style={{
-              left: account.x,
-              top: account.y - 100,
-            }}
-          >
-            <div className="w-4 h-4 rounded-full bg-primary/30" />
-          </motion.div>
-        ))}
-
-        {/* Funnel Shape */}
+        {/* Funnel Shape with Interactive Hover */}
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
             {funnelStages.map((stage, index) => (
@@ -52,7 +38,6 @@ export const SalesFunnel = () => {
                   <stop offset="50%" stopColor={stage.color} stopOpacity="0.6" />
                   <stop offset="100%" stopColor={stage.color} stopOpacity="0.8" />
                 </linearGradient>
-                {/* Hover effect gradient */}
                 <linearGradient
                   id={`stage${index}HoverGradient`}
                   x1="0%"
@@ -64,7 +49,6 @@ export const SalesFunnel = () => {
                   <stop offset="50%" stopColor={stage.color.replace('0.3', '0.6')} stopOpacity="0.7" />
                   <stop offset="100%" stopColor={stage.color.replace('0.3', '0.6')} stopOpacity="0.9" />
                 </linearGradient>
-                {/* Glow filter */}
                 <filter id={`glow${index}`}>
                   <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                   <feMerge>
@@ -102,7 +86,6 @@ export const SalesFunnel = () => {
                   }}
                   className="cursor-pointer"
                 />
-                {/* Interactive hover overlay with same shape */}
                 <motion.path
                   d={`M${200 - startWidth/2},${startY} 
                      L${200 + startWidth/2},${startY} 
@@ -131,40 +114,47 @@ export const SalesFunnel = () => {
           })}
         </svg>
 
-        {/* Simplified Lead Flow Animation */}
+        {/* Lead Flow Animation */}
         {jobTitles.map((job, index) => (
           <motion.div
             key={`lead-${index}`}
             className="absolute"
             style={{
-              top: -50,
-              left: 50 + (index * 50),
+              top: -80,
+              left: 100 + (index * 50),
             }}
             animate={{
-              y: [0, 500],
-              x: [0, -(index * 20)],
-              scale: [1, 0.8],
-              opacity: [1, 1, 0],
+              y: [0, 100, 250, 400],
+              x: [0, -(index * 10), -(index * 20), -(index * 30)],
+              scale: [1, 0.95, 0.9, 0.85],
+              opacity: [1, 1, 1, 0]
             }}
             transition={{
-              duration: 4,
+              duration: 6,
               repeat: Infinity,
-              delay: index * 0.5,
-              ease: "linear",
+              delay: index * 1,
+              ease: "linear"
             }}
           >
             <div className="relative">
-              <div
-                className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-lg text-white text-sm font-medium whitespace-nowrap shadow-lg"
-                style={{ backgroundColor: job.color }}
+              {/* Job Title */}
+              <div 
+                className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white text-base font-medium backdrop-blur-sm shadow-lg"
+                style={{ 
+                  backgroundColor: job.color,
+                  minWidth: 'max-content',
+                  whiteSpace: 'nowrap'
+                }}
               >
                 {job.title}
               </div>
+
+              {/* Lead Icon */}
               <div
-                className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
+                className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg"
                 style={{ backgroundColor: job.color }}
               >
-                <User className="w-6 h-6 text-white" />
+                <User className="w-10 h-10 text-white" />
               </div>
             </div>
           </motion.div>
