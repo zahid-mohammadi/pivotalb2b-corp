@@ -22,7 +22,7 @@ export const SalesFunnel = () => {
   return (
     <div className="relative w-full h-[600px]">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
-        {/* Funnel Shape with Interactive Hover */}
+        {/* Funnel Background */}
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
             {funnelStages.map((stage, index) => (
@@ -49,13 +49,6 @@ export const SalesFunnel = () => {
                   <stop offset="50%" stopColor={stage.color.replace('0.3', '0.6')} stopOpacity="0.7" />
                   <stop offset="100%" stopColor={stage.color.replace('0.3', '0.6')} stopOpacity="0.9" />
                 </linearGradient>
-                <filter id={`glow${index}`}>
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
               </React.Fragment>
             ))}
           </defs>
@@ -77,35 +70,19 @@ export const SalesFunnel = () => {
                   fill={`url(#stage${index}Gradient)`}
                   stroke="rgba(255, 255, 255, 0.2)"
                   strokeWidth="1"
-                  initial={{ filter: 'none' }}
                   whileHover={{
                     fill: `url(#stage${index}HoverGradient)`,
-                    filter: `url(#glow${index})`,
                     scale: 1.02,
                     transition: { duration: 0.3 }
                   }}
                   className="cursor-pointer"
-                />
-                <motion.path
-                  d={`M${200 - startWidth/2},${startY} 
-                     L${200 + startWidth/2},${startY} 
-                     L${200 + endWidth/2},${endY} 
-                     L${200 - endWidth/2},${endY} Z`}
-                  fill="transparent"
-                  stroke="transparent"
-                  className="cursor-pointer"
-                  whileHover={{
-                    stroke: "rgba(255, 255, 255, 0.4)",
-                    strokeWidth: 2,
-                    transition: { duration: 0.2 }
-                  }}
                 />
                 <text
                   x="20"
                   y={stage.y - 10}
                   fill="white"
                   fontSize="14"
-                  className="font-medium pointer-events-none"
+                  className="font-medium"
                 >
                   {stage.name}
                 </text>
@@ -114,47 +91,46 @@ export const SalesFunnel = () => {
           })}
         </svg>
 
-        {/* Lead Flow Animation */}
+        {/* Simple Lead Flow */}
         {jobTitles.map((job, index) => (
           <motion.div
             key={`lead-${index}`}
             className="absolute"
-            style={{
-              top: -80,
-              left: 100 + (index * 50),
+            initial={{ 
+              top: -100,
+              left: 50 + (index * 60),
+              opacity: 0 
             }}
             animate={{
-              y: [0, 100, 250, 400],
-              x: [0, -(index * 10), -(index * 20), -(index * 30)],
-              scale: [1, 0.95, 0.9, 0.85],
-              opacity: [1, 1, 1, 0]
+              top: ["-100px", "100px", "300px", "500px"],
+              left: [
+                `${50 + (index * 60)}px`,
+                `${100 + (index * 40)}px`,
+                `${150 + (index * 20)}px`,
+                `${200 + (index * 10)}px`
+              ],
+              opacity: [0, 1, 1, 0],
+              scale: [1, 0.9, 0.8, 0.7]
             }}
             transition={{
-              duration: 6,
+              duration: 5,
               repeat: Infinity,
-              delay: index * 1,
+              delay: index * 0.7,
               ease: "linear"
             }}
           >
             <div className="relative">
-              {/* Job Title */}
               <div 
-                className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white text-base font-medium backdrop-blur-sm shadow-lg"
-                style={{ 
-                  backgroundColor: job.color,
-                  minWidth: 'max-content',
-                  whiteSpace: 'nowrap'
-                }}
+                className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-full text-white text-sm font-medium whitespace-nowrap bg-opacity-90 shadow-lg"
+                style={{ backgroundColor: job.color }}
               >
                 {job.title}
               </div>
-
-              {/* Lead Icon */}
               <div
-                className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg"
+                className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg"
                 style={{ backgroundColor: job.color }}
               >
-                <User className="w-10 h-10 text-white" />
+                <User className="w-8 h-8 text-white" />
               </div>
             </div>
           </motion.div>
@@ -163,10 +139,3 @@ export const SalesFunnel = () => {
     </div>
   );
 };
-
-const targetAccounts = [
-  { x: 50, y: 50 },
-  { x: 150, y: 30 },
-  { x: 250, y: 50 },
-  { x: 350, y: 30 },
-];
