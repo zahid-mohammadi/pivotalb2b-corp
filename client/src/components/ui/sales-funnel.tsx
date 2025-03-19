@@ -21,173 +21,53 @@ const funnelStages = [
 export const SalesFunnel = () => {
   return (
     <div className="relative w-full h-[600px] overflow-hidden">
-      {/* Stylized Background with Target Accounts */}
-      <div className="absolute inset-0">
-        {/* Abstract geometric shapes */}
-        {[...Array(5)].map((_, i) => (
+      {/* Lead Entry Points */}
+      <div className="absolute -top-20 w-full">
+        {jobTitles.map((job, index) => (
           <motion.div
-            key={`shape-${i}`}
+            key={`entry-${index}`}
             className="absolute"
             style={{
-              width: 100 + i * 20,
-              height: 100 + i * 20,
-              border: '2px solid',
-              borderColor: `rgba(96, 165, 250, ${0.1 + i * 0.1})`,
-              borderRadius: i % 2 === 0 ? '50%' : '30%',
-              top: `${20 + i * 15}%`,
-              left: `${10 + i * 15}%`,
+              left: `${10 + (index * 80)}px`,
+              opacity: 0
             }}
             animate={{
-              rotate: [0, 360],
-              scale: [1, 1.1, 1],
-              opacity: [0.3, 0.6, 0.3],
+              opacity: [0, 1, 1, 0],
+              y: [-20, 0, 20, 40],
             }}
             transition={{
-              duration: 10 + i * 2,
+              duration: 4,
               repeat: Infinity,
-              ease: "linear",
+              delay: index * 0.5,
+              times: [0, 0.1, 0.9, 1]
             }}
-          />
-        ))}
-
-        {/* Interconnected nodes */}
-        {[...Array(4)].map((_, i) => (
-          <motion.div
-            key={`node-${i}`}
-            className="absolute w-8 h-8 rounded-full bg-primary/20"
-            style={{
-              top: `${30 + i * 20}%`,
-              left: `${20 + i * 20}%`,
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-              boxShadow: [
-                '0 0 20px rgba(96, 165, 250, 0.2)',
-                '0 0 40px rgba(96, 165, 250, 0.4)',
-                '0 0 20px rgba(96, 165, 250, 0.2)',
-              ],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              delay: i * 0.5,
-            }}
-          />
-        ))}
-
-        {/* Connecting lines between nodes */}
-        <svg className="absolute inset-0 w-full h-full">
-          <motion.path
-            d="M100,150 Q200,100 300,200 T500,300"
-            fill="none"
-            stroke="rgba(96, 165, 250, 0.2)"
-            strokeWidth="2"
-            strokeDasharray="4"
-            animate={{
-              strokeDashoffset: [0, -1000],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        </svg>
-      </div>
-
-      {/* Precision Targeting Effects */}
-      <div className="absolute inset-0">
-        {/* Radar sweep effect */}
-        <motion.div
-          className="absolute left-1/4 top-1/4 w-64 h-64"
-          style={{
-            background: 'conic-gradient(from 0deg, transparent, rgba(96, 165, 250, 0.2), transparent)',
-            borderRadius: '50%',
-          }}
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-
-        {/* Targeting crosshair */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={`target-${i}`}
-            className="absolute"
-            style={{
-              width: 60 + i * 20,
-              height: 60 + i * 20,
-              border: '1px solid rgba(96, 165, 250, 0.3)',
-              borderRadius: '50%',
-              top: '25%',
-              left: '25%',
-              transform: 'translate(-50%, -50%)',
-            }}
-            animate={{
-              scale: [1, 1.5, 1],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              delay: i * 0.3,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Main Funnel with enhanced stages */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
-        {/* Lead Entry Points */}
-        <div className="absolute -top-20 w-full">
-          {jobTitles.map((job, index) => (
-            <motion.div
-              key={`entry-${index}`}
-              className="absolute"
+          >
+            <div 
+              className="flex items-center gap-2 px-3 py-2 rounded-lg backdrop-blur-sm shadow-lg border-2 transition-all duration-300"
               style={{
-                left: `${10 + (index * 80)}px`,
-                opacity: 0
-              }}
-              animate={{
-                opacity: [0, 1, 1, 0],
-                y: [-20, 0, 20, 40],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                delay: index * 0.5,
-                times: [0, 0.1, 0.9, 1]
+                backgroundColor: `${job.color}20`,
+                borderColor: job.color
               }}
             >
               <div 
-                className="flex items-center gap-2 px-3 py-2 rounded-lg backdrop-blur-sm shadow-lg border-2 transition-all duration-300"
-                style={{
-                  backgroundColor: `${job.color}20`,
-                  borderColor: job.color
-                }}
+                className="w-8 h-8 rounded-full flex items-center justify-center"
+                style={{ backgroundColor: job.color }}
               >
-                <div 
-                  className="w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: job.color }}
-                >
-                  <User className="w-5 h-5 text-white" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-medium text-white whitespace-nowrap">
-                    {job.title}
-                  </span>
-                  <span className="text-xs text-white/70">New Lead</span>
-                </div>
+                <User className="w-5 h-5 text-white" />
               </div>
-            </motion.div>
-          ))}
-        </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-white whitespace-nowrap">
+                  {job.title}
+                </span>
+                <span className="text-xs text-white/70">New Lead</span>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
+      {/* Main Funnel */}
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
             {funnelStages.map((stage, index) => (
@@ -268,6 +148,7 @@ export const SalesFunnel = () => {
           ))}
         </svg>
 
+        {/* Animated leads flowing through funnel */}
         {jobTitles.map((job, index) => (
           <motion.div
             key={`lead-${index}`}
@@ -332,6 +213,7 @@ export const SalesFunnel = () => {
           </motion.div>
         ))}
 
+        {/* Conversion effect at bottom */}
         <motion.div
           className="absolute bottom-0 left-1/2 -translate-x-1/2"
           animate={{
