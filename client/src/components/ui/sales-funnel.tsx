@@ -18,18 +18,9 @@ const funnelStages = [
   { name: "Decision", color: "rgba(52, 211, 153, 0.3)", y: 400 }
 ];
 
-// Target account positions
-const targetAccounts = [
-  { x: 50, y: 50 },
-  { x: 150, y: 30 },
-  { x: 250, y: 50 },
-  { x: 350, y: 30 },
-];
-
 export const SalesFunnel = () => {
   return (
     <div className="relative w-full h-[600px]">
-      {/* Main Funnel */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
         {/* Target Accounts at Top */}
         {targetAccounts.map((account, index) => (
@@ -140,61 +131,52 @@ export const SalesFunnel = () => {
           })}
         </svg>
 
-        {/* Lead Flow */}
-        {jobTitles.map((job, index) => {
-          const targetAccount = targetAccounts[index % targetAccounts.length];
-
-          return (
-            <motion.div
-              key={`lead-${index}`}
-              className="absolute"
-              style={{
-                left: targetAccount.x,
-                top: targetAccount.y - 100,
-              }}
-              animate={[
-                {
-                  left: [
-                    targetAccount.x,
-                    targetAccount.x - (index * 10),
-                    200 - (index * 20),
-                    200 - (index * 30),
-                  ],
-                  top: [
-                    targetAccount.y - 100,
-                    0,
-                    200,
-                    400,
-                  ],
-                  scale: [1, 1, 0.9, 0.8],
-                  opacity: [1, 1, 1, 0],
-                }
-              ]}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                delay: index * 1.2,
-                ease: "linear",
-              }}
-            >
-              <div className="relative">
-                <div
-                  className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-lg text-white text-sm font-medium whitespace-nowrap shadow-lg"
-                  style={{ backgroundColor: job.color }}
-                >
-                  {job.title}
-                </div>
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
-                  style={{ backgroundColor: job.color }}
-                >
-                  <User className="w-6 h-6 text-white" />
-                </div>
+        {/* Simplified Lead Flow Animation */}
+        {jobTitles.map((job, index) => (
+          <motion.div
+            key={`lead-${index}`}
+            className="absolute"
+            style={{
+              top: -50,
+              left: 50 + (index * 50),
+            }}
+            animate={{
+              y: [0, 500],
+              x: [0, -(index * 20)],
+              scale: [1, 0.8],
+              opacity: [1, 1, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              delay: index * 0.5,
+              ease: "linear",
+            }}
+          >
+            <div className="relative">
+              <div
+                className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-lg text-white text-sm font-medium whitespace-nowrap shadow-lg"
+                style={{ backgroundColor: job.color }}
+              >
+                {job.title}
               </div>
-            </motion.div>
-          );
-        })}
+              <div
+                className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
+                style={{ backgroundColor: job.color }}
+              >
+                <User className="w-6 h-6 text-white" />
+              </div>
+            </div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
 };
+
+const targetAccounts = [
+  { x: 50, y: 50 },
+  { x: 150, y: 30 },
+  { x: 250, y: 50 },
+  { x: 350, y: 30 },
+];
