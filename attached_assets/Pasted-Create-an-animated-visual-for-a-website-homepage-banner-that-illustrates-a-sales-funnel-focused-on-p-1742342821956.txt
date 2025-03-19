@@ -1,0 +1,34 @@
+Create an animated visual for a website homepage banner that illustrates a sales funnel focused on precision-targeted leads. The animation should be dynamic and engaging, conveying the concept of efficient lead generation and conversion.
+
+Visual Elements & Animation:
+
+Target Accounts:
+
+Begin with a subtle background representing 'target accounts' – this could be abstract geometric shapes, interconnected nodes, or a stylized cityscape.
+Visualize these target accounts with a 'glowing' or 'pulsating' effect to indicate their importance.
+Precision Targeting:
+
+Introduce a 'targeting' effect, such as a crosshair, radar sweep, or a network of lines converging on the target accounts.
+Use particle effects or light trails to show the 'precision' aspect of the targeting.
+Lead Generation & Entry:
+
+Show animated figures or icons representing individual leads emerging from the targeted accounts.
+Each lead should be accompanied by a small, brief text label displaying their job title (e.g., 'IT Director', 'Marketing VP', 'CIO', 'Chief Financial Officer', 'HR Director', 'CTO', 'CX/UX Director').
+The leads should flow smoothly towards the top of the sales funnel.
+Vary the colors and style of the lead icons to represent the different departments.
+Sales Funnel:
+
+Visually represent the sales funnel as a clear, prominent element in the center of the banner.
+Use a gradient or glowing effect to make the funnel stand out.
+Animate the leads as they flow down through the funnel, with each stage of the funnel visually distinct (e.g., different colors, sections, or levels of activity).
+As the leads move down the funnel, the icons could change appearance to show the progress of the lead.
+Conversion:
+
+At the bottom of the funnel, depict a successful conversion. This could be represented by a 'sparkle' effect, a 'check mark' icon, or a burst of light.
+Consider adding a visual element that shows the leads being transformed into customers.
+Overall Style:
+
+Maintain a clean, modern, and professional aesthetic.
+Use a vibrant color palette that aligns with the website's branding.
+Ensure the animation is smooth and fluid, with a looping effect for continuous playback.
+The animation should be short, and to the point.
