@@ -18,26 +18,34 @@ const funnelStages = [
   { name: "Decision", color: "rgba(52, 211, 153, 0.3)", y: 400 }
 ];
 
+// Target account positions
+const targetAccounts = [
+  { x: 50, y: 50 },
+  { x: 150, y: 30 },
+  { x: 250, y: 50 },
+  { x: 350, y: 30 },
+];
+
 export const SalesFunnel = () => {
   return (
     <div className="relative w-full h-[600px]">
       {/* Main Funnel */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
-        {/* Entry Points for Leads */}
-        <div className="absolute -top-32 w-full">
-          {[0, 1, 2].map((position) => (
-            <div 
-              key={`entry-${position}`} 
-              className="absolute h-2 w-2 rounded-full bg-primary/50"
-              style={{
-                left: `${100 + position * 100}px`,
-                top: 0
-              }}
-            />
-          ))}
-        </div>
+        {/* Target Accounts at Top */}
+        {targetAccounts.map((account, index) => (
+          <motion.div
+            key={`target-${index}`}
+            className="absolute"
+            style={{
+              left: account.x,
+              top: account.y - 100,
+            }}
+          >
+            <div className="w-4 h-4 rounded-full bg-primary/30" />
+          </motion.div>
+        ))}
 
-        {/* Funnel Background */}
+        {/* Funnel Shape */}
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
             {funnelStages.map((stage, index) => (
@@ -56,7 +64,7 @@ export const SalesFunnel = () => {
             ))}
           </defs>
 
-          {/* Funnel Shape */}
+          {/* Funnel Stages */}
           {funnelStages.map((stage, index) => {
             const startY = index === 0 ? 0 : funnelStages[index - 1].y;
             const endY = stage.y;
@@ -96,49 +104,63 @@ export const SalesFunnel = () => {
         </svg>
 
         {/* Animated Leads */}
-        {jobTitles.map((job, index) => (
-          <motion.div
-            key={`lead-${index}`}
-            className="absolute"
-            style={{
-              left: `${100 + ((index % 3) * 100)}px`, // Start from 3 entry points
-              top: "-120px"
-            }}
-            animate={{
-              y: [0, 550], // Move down through the funnel
-              x: [0, -50 + (index * 10)], // Slight horizontal movement based on index
-              scale: [1, 0.8], // Gradually reduce size
-              opacity: [1, 1, 1, 0] // Fade out at the end
-            }}
-            transition={{
-              duration: 7,
-              repeat: Infinity,
-              delay: index * 1.2, // Stagger the animations
-              ease: "linear"
-            }}
-          >
-            {/* Lead Icon with Job Title */}
-            <div className="relative">
-              {/* Job Title Banner */}
-              <div
-                className="absolute -top-6 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-lg shadow-lg whitespace-nowrap"
-                style={{ backgroundColor: job.color }}
-              >
-                <span className="text-sm font-medium text-white">
-                  {job.title}
-                </span>
-              </div>
+        {jobTitles.map((job, index) => {
+          const targetAccount = targetAccounts[index % targetAccounts.length];
 
-              {/* Lead Icon */}
-              <div
-                className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
-                style={{ backgroundColor: job.color }}
-              >
-                <User className="w-6 h-6 text-white" />
+          return (
+            <motion.div
+              key={`lead-${index}`}
+              className="absolute"
+              style={{
+                left: targetAccount.x,
+                top: targetAccount.y - 100,
+              }}
+              animate={[
+                // Path animation
+                {
+                  left: [
+                    targetAccount.x, // Start at target account
+                    targetAccount.x - (index * 10), // Move towards center
+                    200 - (index * 20), // Funnel entry
+                    200 - (index * 30), // Middle of funnel
+                  ],
+                  top: [
+                    targetAccount.y - 100, // Start position
+                    0, // Move to funnel entrance
+                    200, // Middle of funnel
+                    400, // Bottom of funnel
+                  ],
+                  scale: [1, 1, 0.9, 0.8],
+                  opacity: [1, 1, 1, 0],
+                }
+              ]}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                delay: index * 1.2,
+                ease: "linear",
+              }}
+            >
+              <div className="relative">
+                {/* Job Title */}
+                <div
+                  className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-lg text-white text-sm font-medium whitespace-nowrap shadow-lg"
+                  style={{ backgroundColor: job.color }}
+                >
+                  {job.title}
+                </div>
+
+                {/* Lead Icon */}
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
+                  style={{ backgroundColor: job.color }}
+                >
+                  <User className="w-6 h-6 text-white" />
+                </div>
               </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
     </div>
   );
