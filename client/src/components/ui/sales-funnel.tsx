@@ -143,9 +143,53 @@ export const SalesFunnel = () => {
 
       {/* Main Funnel with enhanced stages */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
+        {/* Lead Entry Points */}
+        <div className="absolute -top-20 w-full">
+          {jobTitles.map((job, index) => (
+            <motion.div
+              key={`entry-${index}`}
+              className="absolute"
+              style={{
+                left: `${10 + (index * 80)}px`,
+                opacity: 0
+              }}
+              animate={{
+                opacity: [0, 1, 1, 0],
+                y: [-20, 0, 20, 40],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                delay: index * 0.5,
+                times: [0, 0.1, 0.9, 1]
+              }}
+            >
+              <div 
+                className="flex items-center gap-2 px-3 py-2 rounded-lg backdrop-blur-sm shadow-lg border-2 transition-all duration-300"
+                style={{
+                  backgroundColor: `${job.color}20`,
+                  borderColor: job.color
+                }}
+              >
+                <div 
+                  className="w-8 h-8 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: job.color }}
+                >
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-sm font-medium text-white whitespace-nowrap">
+                    {job.title}
+                  </span>
+                  <span className="text-xs text-white/70">New Lead</span>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
-            {/* Stage-specific gradients */}
             {funnelStages.map((stage, index) => (
               <linearGradient
                 key={`gradient-${index}`}
@@ -160,7 +204,6 @@ export const SalesFunnel = () => {
                 <stop offset="100%" stopColor={stage.color} stopOpacity="0.8" />
               </linearGradient>
             ))}
-
             <filter id="glow">
               <feGaussianBlur stdDeviation="3" result="coloredBlur" />
               <feMerge>
@@ -170,7 +213,6 @@ export const SalesFunnel = () => {
             </filter>
           </defs>
 
-          {/* Funnel sections with different colors for each stage */}
           {funnelStages.map((stage, index) => {
             const startY = index === 0 ? 0 : funnelStages[index - 1].y;
             const endY = stage.y;
@@ -195,7 +237,6 @@ export const SalesFunnel = () => {
             );
           })}
 
-          {/* Stage labels */}
           {funnelStages.map((stage, index) => (
             <motion.g key={`label-${index}`}>
               <text
@@ -216,9 +257,7 @@ export const SalesFunnel = () => {
                 stroke="rgba(255, 255, 255, 0.1)"
                 strokeWidth="1"
                 strokeDasharray="4"
-                animate={{
-                  strokeDashoffset: [0, -100]
-                }}
+                animate={{ strokeDashoffset: [0, -100] }}
                 transition={{
                   duration: 10,
                   repeat: Infinity,
@@ -229,39 +268,44 @@ export const SalesFunnel = () => {
           ))}
         </svg>
 
-        {/* Enhanced lead flow with stage transitions */}
         {jobTitles.map((job, index) => (
           <motion.div
             key={`lead-${index}`}
             className="absolute"
+            initial={{ 
+              x: 10 + (index * 80),
+              y: -20,
+              scale: 1,
+              opacity: 0 
+            }}
             animate={{
-              y: [0, 150, 300, 400],
+              opacity: [0, 1, 1, 1, 0],
+              scale: [1, 0.9, 0.8, 0.7, 0.6],
               x: [
-                -180 + index * 50,
-                -120 + index * 40,
-                -80 + index * 30,
-                -50 + index * 20,
+                10 + (index * 80), 
+                -150 + (index * 40), 
+                -100 + (index * 30), 
+                -50 + (index * 20),  
+                0                    
               ],
-              scale: [1, 0.9, 0.8, 0.7],
-              opacity: [1, 1, 1, 0],
+              y: [-20, 100, 200, 300, 400]
             }}
             transition={{
               duration: 8,
               repeat: Infinity,
               delay: index * 1,
-              times: [0, 0.3, 0.6, 1],
-              ease: "linear",
+              ease: "linear"
             }}
           >
             <div 
-              className="flex items-center gap-2 backdrop-blur-sm rounded-full p-1.5 pr-4 shadow-lg transition-all duration-300"
+              className="flex items-center gap-2 px-2 py-1.5 rounded-lg backdrop-blur-sm shadow-lg transition-all duration-300"
               style={{
                 backgroundColor: `${job.color}20`,
                 border: `1px solid ${job.color}40`
               }}
             >
               <div 
-                className="w-7 h-7 rounded-full flex items-center justify-center"
+                className="w-6 h-6 rounded-full flex items-center justify-center"
                 style={{ backgroundColor: job.color }}
               >
                 <User className="w-4 h-4 text-white" />
@@ -270,7 +314,7 @@ export const SalesFunnel = () => {
                 {job.title}
               </span>
               <motion.div
-                className="absolute inset-0 rounded-full"
+                className="absolute inset-0 rounded-lg"
                 animate={{
                   boxShadow: [
                     `0 0 0 0 ${job.color}00`,
@@ -288,7 +332,6 @@ export const SalesFunnel = () => {
           </motion.div>
         ))}
 
-        {/* Enhanced conversion effect */}
         <motion.div
           className="absolute bottom-0 left-1/2 -translate-x-1/2"
           animate={{
