@@ -1,0 +1,125 @@
+import React, { useRef, useEffect } from 'react';
+import './SalesFunnelBanner.css'; // Create this CSS file
+
+const SalesFunnelBanner = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+
+    const targetAccounts = [];
+    const leads = [];
+    const funnel = {
+      x: width / 2,
+      y: height / 4,
+      width: width / 3,
+      height: height / 2,
+    };
+
+    // Target Account generation
+    for (let i = 0; i < 5; i++) {
+      targetAccounts.push({
+        x: Math.random() * width,
+        y: Math.random() * height / 3,
+        radius: 10 + Math.random() * 10,
+        color: `hsl(${Math.random() * 360}, 80%, 50%)`,
+      });
+    }
+
+    // Lead generation function
+    const generateLead = () => {
+      const target = targetAccounts[Math.floor(Math.random() * targetAccounts.length)];
+      const jobTitles = ['IT Director', 'Marketing VP', 'CIO', 'CFO', 'HR Director', 'CTO', 'CX/UX Director'];
+      const jobTitle = jobTitles[Math.floor(Math.random() * jobTitles.length)];
+
+      leads.push({
+        x: target.x,
+        y: target.y,
+        radius: 5,
+        color: `hsl(${Math.random() * 360}, 100%, 65%)`,
+        jobTitle: jobTitle,
+        targetFunnelY: funnel.y,
+        speed: 1 + Math.random() * 2,
+        progress: 0, //0-3 corresponding to the funnel steps.
+      });
+    };
+
+    // Animation Loop
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw Target Accounts
+      targetAccounts.forEach((account) => {
+        ctx.beginPath();
+        ctx.arc(account.x, account.y, account.radius, 0, Math.PI * 2);
+        ctx.fillStyle = account.color;
+        ctx.fill();
+      });
+
+      // Draw Funnel
+      ctx.beginPath();
+      ctx.moveTo(funnel.x - funnel.width / 2, funnel.y);
+      ctx.lineTo(funnel.x + funnel.width / 2, funnel.y);
+      ctx.lineTo(funnel.x, funnel.y + funnel.height);
+      ctx.fillStyle = 'rgba(200, 200, 200, 0.3)';
+      ctx.fill();
+      ctx.stroke();
+
+      // Draw Leads and move them
+      leads.forEach((lead, index) => {
+        if(lead.progress === 0){
+          if (lead.y < lead.targetFunnelY) {
+            lead.y += lead.speed;
+          } else {
+            lead.progress = 1;
+          }
+        }
+        if(lead.progress === 1){
+          if(lead.x > funnel.x){
+            lead.x -= lead.speed;
+          } else if (lead.x < funnel.x){
+            lead.x += lead.speed;
+          } else {
+            lead.progress = 2;
+          }
+        }
+        if(lead.progress === 2){
+          if(lead.y < funnel.y + funnel.height){
+            lead.y += lead.speed;
+          } else {
+            lead.progress = 3;
+          }
+        }
+
+        ctx.beginPath();
+        ctx.arc(lead.x, lead.y, lead.radius, 0, Math.PI * 2);
+        ctx.fillStyle = lead.color;
+        ctx.fill();
+
+        ctx.font = '10px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText(lead.jobTitle, lead.x - 20, lead.y - 10);
+
+        if(lead.progress === 3){
+          leads.splice(index, 1);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    // Generate leads every 2 seconds
+    const leadInterval = setInterval(generateLead, 2000);
+
+    return () => clearInterval(leadInterval); // Cleanup on unmount
+  }, []);
+
+  return <canvas ref={canvasRef} width={800} height={400} />;
+};
+
+export default SalesFunnelBanner;

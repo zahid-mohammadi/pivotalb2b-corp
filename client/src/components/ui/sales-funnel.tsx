@@ -23,7 +23,31 @@ export const SalesFunnel = () => {
     <div className="relative w-full h-[600px]">
       {/* Main Funnel */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px]">
+        {/* Lead Generation Points */}
+        <div className="absolute -top-20 w-full">
+          {jobTitles.map((job, index) => (
+            <div key={`source-${index}`} className="absolute" style={{ left: `${index * 80}px`, top: 0 }}>
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{
+                  scale: [0.8, 1, 0.8],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: index * 1
+                }}
+                className="w-8 h-8 rounded-full"
+                style={{ backgroundColor: job.color }}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Funnel Shape */}
         <svg viewBox="0 0 400 500" className="w-full">
+          {/* Stage-specific gradients */}
           <defs>
             {funnelStages.map((stage, index) => (
               <linearGradient
@@ -41,7 +65,7 @@ export const SalesFunnel = () => {
             ))}
           </defs>
 
-          {/* Funnel Sections */}
+          {/* Funnel sections with different colors */}
           {funnelStages.map((stage, index) => {
             const startY = index === 0 ? 0 : funnelStages[index - 1].y;
             const endY = stage.y;
@@ -65,7 +89,7 @@ export const SalesFunnel = () => {
             );
           })}
 
-          {/* Stage Labels */}
+          {/* Stage labels */}
           {funnelStages.map((stage, index) => (
             <text
               key={`label-${index}`}
@@ -80,61 +104,49 @@ export const SalesFunnel = () => {
           ))}
         </svg>
 
-        {/* Lead Flow */}
+        {/* Animated Lead Flow */}
         {jobTitles.map((job, index) => (
           <motion.div
             key={`lead-${index}`}
-            className="absolute"
-            style={{
-              top: -50,
-              left: `${100 + (index * 40)}px`,
+            initial={{ 
+              x: index * 80,
+              y: 0,
+              opacity: 0 
             }}
             animate={{
+              x: [
+                index * 80, // Start position
+                (index * 60) - 30, // First stage
+                (index * 40) - 60, // Second stage
+                (index * 20) - 90  // Final stage
+              ],
               y: [0, 150, 300, 450],
-              x: [0, -30, -60, -90],
-              scale: [1, 0.9, 0.8, 0.7],
-              opacity: [1, 1, 1, 0],
+              opacity: [0, 1, 1, 0],
+              scale: [1, 0.9, 0.8, 0.7]
             }}
             transition={{
-              duration: 6,
+              duration: 4,
               repeat: Infinity,
-              delay: index * 1,
-              ease: "linear",
+              delay: index * 0.5,
+              ease: "linear"
             }}
+            className="absolute -top-20"
           >
             <div className="relative">
               {/* Job Title Label */}
               <div 
-                className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white text-sm font-medium backdrop-blur-sm shadow-lg"
-                style={{ 
-                  backgroundColor: `${job.color}80`,
-                  minWidth: 'max-content'
-                }}
+                className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-white text-sm font-medium whitespace-nowrap"
+                style={{ backgroundColor: `${job.color}90` }}
               >
                 {job.title}
               </div>
 
-              {/* Lead Icon with Glow */}
-              <div className="relative">
-                <motion.div
-                  className="absolute inset-0 rounded-full blur-xl"
-                  style={{ backgroundColor: job.color }}
-                  animate={{
-                    opacity: [0.4, 0.8, 0.4],
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-                <div
-                  className="relative w-16 h-16 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: job.color }}
-                >
-                  <User className="w-8 h-8 text-white" />
-                </div>
+              {/* Lead Icon */}
+              <div 
+                className="flex items-center justify-center w-12 h-12 rounded-full"
+                style={{ backgroundColor: job.color }}
+              >
+                <User className="w-6 h-6 text-white" />
               </div>
             </div>
           </motion.div>
