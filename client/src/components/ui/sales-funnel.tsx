@@ -49,18 +49,39 @@ export const SalesFunnel = () => {
         <svg viewBox="0 0 400 500" className="w-full">
           <defs>
             {funnelStages.map((stage, index) => (
-              <linearGradient
-                key={`gradient-${index}`}
-                id={`stage${index}Gradient`}
-                x1="0%"
-                y1="0%"
-                x2="100%"
-                y2="0%"
-              >
-                <stop offset="0%" stopColor={stage.color} stopOpacity="0.8" />
-                <stop offset="50%" stopColor={stage.color} stopOpacity="0.6" />
-                <stop offset="100%" stopColor={stage.color} stopOpacity="0.8" />
-              </linearGradient>
+              <React.Fragment key={`defs-${index}`}>
+                <linearGradient
+                  id={`stage${index}Gradient`}
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stopColor={stage.color} stopOpacity="0.8" />
+                  <stop offset="50%" stopColor={stage.color} stopOpacity="0.6" />
+                  <stop offset="100%" stopColor={stage.color} stopOpacity="0.8" />
+                </linearGradient>
+                {/* Hover effect gradient */}
+                <linearGradient
+                  id={`stage${index}HoverGradient`}
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" stopColor={stage.color.replace('0.3', '0.6')} stopOpacity="0.9" />
+                  <stop offset="50%" stopColor={stage.color.replace('0.3', '0.6')} stopOpacity="0.7" />
+                  <stop offset="100%" stopColor={stage.color.replace('0.3', '0.6')} stopOpacity="0.9" />
+                </linearGradient>
+                {/* Glow filter */}
+                <filter id={`glow${index}`}>
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </React.Fragment>
             ))}
           </defs>
 
@@ -72,38 +93,54 @@ export const SalesFunnel = () => {
             const endWidth = 300 - ((index + 1) * 50);
 
             return (
-              <motion.path
-                key={`stage-${index}`}
-                d={`M${200 - startWidth/2},${startY} 
-                   L${200 + startWidth/2},${startY} 
-                   L${200 + endWidth/2},${endY} 
-                   L${200 - endWidth/2},${endY} Z`}
-                fill={`url(#stage${index}Gradient)`}
-                stroke="rgba(255, 255, 255, 0.2)"
-                strokeWidth="1"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: index * 0.3 }}
-              />
+              <motion.g key={`stage-${index}`}>
+                <motion.path
+                  d={`M${200 - startWidth/2},${startY} 
+                     L${200 + startWidth/2},${startY} 
+                     L${200 + endWidth/2},${endY} 
+                     L${200 - endWidth/2},${endY} Z`}
+                  fill={`url(#stage${index}Gradient)`}
+                  stroke="rgba(255, 255, 255, 0.2)"
+                  strokeWidth="1"
+                  initial={{ filter: 'none' }}
+                  whileHover={{
+                    fill: `url(#stage${index}HoverGradient)`,
+                    filter: `url(#glow${index})`,
+                    scale: 1.02,
+                    transition: { duration: 0.3 }
+                  }}
+                  className="cursor-pointer"
+                />
+                {/* Interactive hover overlay with same shape */}
+                <motion.path
+                  d={`M${200 - startWidth/2},${startY} 
+                     L${200 + startWidth/2},${startY} 
+                     L${200 + endWidth/2},${endY} 
+                     L${200 - endWidth/2},${endY} Z`}
+                  fill="transparent"
+                  stroke="transparent"
+                  className="cursor-pointer"
+                  whileHover={{
+                    stroke: "rgba(255, 255, 255, 0.4)",
+                    strokeWidth: 2,
+                    transition: { duration: 0.2 }
+                  }}
+                />
+                <text
+                  x="20"
+                  y={stage.y - 10}
+                  fill="white"
+                  fontSize="14"
+                  className="font-medium pointer-events-none"
+                >
+                  {stage.name}
+                </text>
+              </motion.g>
             );
           })}
-
-          {/* Stage Labels */}
-          {funnelStages.map((stage, index) => (
-            <text
-              key={`label-${index}`}
-              x="20"
-              y={stage.y - 10}
-              fill="white"
-              fontSize="14"
-              className="font-medium"
-            >
-              {stage.name}
-            </text>
-          ))}
         </svg>
 
-        {/* Animated Leads */}
+        {/* Lead Flow */}
         {jobTitles.map((job, index) => {
           const targetAccount = targetAccounts[index % targetAccounts.length];
 
@@ -116,19 +153,18 @@ export const SalesFunnel = () => {
                 top: targetAccount.y - 100,
               }}
               animate={[
-                // Path animation
                 {
                   left: [
-                    targetAccount.x, // Start at target account
-                    targetAccount.x - (index * 10), // Move towards center
-                    200 - (index * 20), // Funnel entry
-                    200 - (index * 30), // Middle of funnel
+                    targetAccount.x,
+                    targetAccount.x - (index * 10),
+                    200 - (index * 20),
+                    200 - (index * 30),
                   ],
                   top: [
-                    targetAccount.y - 100, // Start position
-                    0, // Move to funnel entrance
-                    200, // Middle of funnel
-                    400, // Bottom of funnel
+                    targetAccount.y - 100,
+                    0,
+                    200,
+                    400,
                   ],
                   scale: [1, 1, 0.9, 0.8],
                   opacity: [1, 1, 1, 0],
@@ -142,15 +178,12 @@ export const SalesFunnel = () => {
               }}
             >
               <div className="relative">
-                {/* Job Title */}
                 <div
                   className="absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1.5 rounded-lg text-white text-sm font-medium whitespace-nowrap shadow-lg"
                   style={{ backgroundColor: job.color }}
                 >
                   {job.title}
                 </div>
-
-                {/* Lead Icon */}
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg"
                   style={{ backgroundColor: job.color }}
