@@ -22,13 +22,23 @@ export function Navbar() {
     <div className={cn("flex", isMobile ? "flex-col space-y-4" : "items-center space-x-4", className)}>
       <Link href="/">
         <span className="text-sm hover:text-primary cursor-pointer">Home</span>
+
+            </div>
+          </div>
+          <Link href="/b2b-audience">
+            <span className="text-sm font-medium hover:text-primary block">B2B Audience</span>
+          </Link>
+          <Link href="/resources">
+            <span className="text-sm font-medium hover:text-primary block">Resources</span>
+          </Link>
+
       </Link>
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
         <div className="space-y-2">
-          <Link href="/b2b-audience">
-            <span className="text-sm font-medium hover:text-primary block">B2B Audience</span>
+          <Link href="/">
+            <span className="text-sm font-medium hover:text-primary block">Home</span>
           </Link>
           <div className="space-y-2">
             <p className="text-sm font-medium">Solutions</p>
