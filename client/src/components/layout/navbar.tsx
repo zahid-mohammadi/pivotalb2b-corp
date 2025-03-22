@@ -9,6 +9,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Menu, X, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -25,30 +26,29 @@ export function Navbar() {
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
-        <div>
-          <div className="space-y-2">
-            <Link href="/b2b-audience">
-              <span className="text-sm font-medium hover:text-primary block">B2B Audience</span>
-            </Link>
-          </div>
+        <div className="space-y-2">
+          <Link href="/b2b-audience">
+            <span className="text-sm font-medium hover:text-primary block">B2B Audience</span>
+          </Link>
           <div className="space-y-2">
             <p className="text-sm font-medium">Solutions</p>
             <div className="pl-4 space-y-2">
               <Link href="/services/strategic-lead-generation">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
               </Link>
-            <Link href="/services/content-marketing-distribution">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Content Marketing & Distribution</span>
-            </Link>
-            <Link href="/services/event-marketing-solutions">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Event Marketing Solutions</span>
-            </Link>
-            <Link href="/services/lead-qualification-services">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Lead Qualification Services</span>
-            </Link>
-            <Link href="/services/account-based-marketing">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Account-Based Marketing</span>
-            </Link>
+              <Link href="/services/content-marketing-distribution">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Content Marketing & Distribution</span>
+              </Link>
+              <Link href="/services/event-marketing-solutions">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Event Marketing Solutions</span>
+              </Link>
+              <Link href="/services/lead-qualification-services">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Qualification Services</span>
+              </Link>
+              <Link href="/services/account-based-marketing">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Account-Based Marketing</span>
+              </Link>
+            </div>
           </div>
         </div>
       ) : (
