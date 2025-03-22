@@ -61,7 +61,7 @@ const services = [
   },
   {
     icon: Share2,
-    title: "Content Marketing & Distribution",
+    title: "Content Syndication",
     description: "Create and distribute compelling B2B content that resonates with your target audience.",
     gradients: [
       "from-purple-500/20 via-indigo-500/20 to-blue-500/20",
