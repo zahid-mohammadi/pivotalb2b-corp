@@ -270,7 +270,7 @@ export default function B2BAudiencePage() {
             <div className="relative">
               <div className="flex items-center gap-3 mb-8">
                 <div className="p-3 rounded-xl bg-primary/20 shadow-lg">
-                  <Users className="h-8 w-8 text-primary" />
+                  <Users className="h-8 w-8 text-white" />
                 </div>
                 <div>
                   <h2 className="text-3xl font-bold">Professional Targeting Capabilities</h2>
@@ -283,17 +283,23 @@ export default function B2BAudiencePage() {
                   {
                     icon: Target,
                     title: "Role & Seniority",
-                    items: ["Job Title", "Seniority Level", "Department", "Authority"]
+                    items: ["Job Title", "Seniority Level", "Department", "Authority"],
+                    iconBg: "bg-blue-500/30",
+                    iconColor: "text-blue-200"
                   },
                   {
                     icon: Filter,
                     title: "Experience & Skills",
-                    items: ["Years of Experience", "Skills", "Education", "Groups"]
+                    items: ["Years of Experience", "Skills", "Education", "Groups"],
+                    iconBg: "bg-purple-500/30",
+                    iconColor: "text-purple-200"
                   },
                   {
                     icon: Network,
                     title: "Engagement & Behavior",
-                    items: ["Content Interaction", "Platform Usage", "Event Participation", "Research"]
+                    items: ["Content Interaction", "Platform Usage", "Event Participation", "Research"],
+                    iconBg: "bg-indigo-500/30",
+                    iconColor: "text-indigo-200"
                   }
                 ].map((category, index) => (
                   <motion.div
@@ -304,9 +310,25 @@ export default function B2BAudiencePage() {
                   >
                     <Card className="h-full p-6 hover:shadow-xl transition-all duration-300 bg-white/10 backdrop-blur-sm border border-white/20">
                       <div className="flex items-center gap-3 mb-4">
-                        <div className="p-2 rounded-lg bg-primary/20 group-hover:bg-primary/30 transition-colors">
-                          <category.icon className="h-6 w-6 text-primary" />
-                        </div>
+                        <motion.div 
+                          className={`p-3 rounded-xl ${category.iconBg} group-hover:bg-opacity-40 transition-colors shadow-lg relative`}
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <div className="absolute inset-0 rounded-xl bg-white/5 backdrop-blur-sm" />
+                          <category.icon className={`h-6 w-6 ${category.iconColor} relative z-10`} />
+                          <motion.div
+                            className="absolute inset-0 rounded-xl bg-white/10"
+                            animate={{
+                              scale: [1, 1.2, 1],
+                              opacity: [0.1, 0.2, 0.1]
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut"
+                            }}
+                          />
+                        </motion.div>
                         <h3 className="font-semibold text-white">{category.title}</h3>
                       </div>
                       <ul className="space-y-3">
@@ -318,11 +340,21 @@ export default function B2BAudiencePage() {
                             transition={{ delay: itemIndex * 0.1 }}
                             className="flex items-center gap-2 text-sm text-white/70"
                           >
-                            <CheckCircle className="h-4 w-4 text-primary/60" />
+                            <CheckCircle className="h-4 w-4 text-blue-300" />
                             {item}
                           </motion.li>
                         ))}
                       </ul>
+                      <motion.div
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                        animate={{
+                          scaleX: [0, 1, 0],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                        }}
+                      />
                     </Card>
                   </motion.div>
                 ))}
