@@ -1,274 +1,204 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart } from "lucide-react";
+import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users, Database, PieChart, TrendingUp } from "lucide-react";
 
 export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
   return (
-    <div className="relative bg-[#0a0a1a] text-white overflow-hidden">
-      {/* Enhanced animated background */}
+    <div className="relative bg-[#14213d] text-white overflow-hidden">
+      {/* Simplified animated background */}
       <div className="absolute inset-0">
-        {/* Base gradient layer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a1a] via-primary/20 to-[#0a0a1a]" />
-
-        {/* Multiple layered gradient animations */}
+        {/* Base gradient layer - using a different color palette */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#14213d] via-[#14213d]/90 to-[#14213d]" />
+        
+        {/* Main background gradient animation */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-[#FCA311]/30 via-transparent to-[#FCA311]/10"
           animate={{
-            opacity: [0.7, 0.9, 0.7],
-            scale: [1, 1.1, 1],
+            opacity: [0.4, 0.6, 0.4],
+            scale: [1, 1.05, 1],
           }}
           transition={{
-            duration: 4,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut",
           }}
         />
 
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-bl from-blue-600/80 via-purple-600/70 to-transparent"
-          animate={{
-            opacity: [0.6, 0.8, 0.6],
-            scale: [1.1, 1, 1.1],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 0.5,
-          }}
-        />
-
-        {/* Business-themed animated patterns */}
+        {/* B2B marketing themed elements */}
         <div className="absolute inset-0">
-          {/* Bar chart animation - Moved to right side */}
-          {[...Array(5)].map((_, i) => (
+          {/* Data-driven graph elements */}
+          <div className="absolute inset-y-0 right-0 w-1/2">
+            {/* Animated bar chart that represents lead generation metrics */}
+            {[...Array(5)].map((_, i) => (
+              <motion.div
+                key={`bar-${i}`}
+                className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#FCA311] rounded-t-lg shadow-md"
+                style={{
+                  height: `${(i + 1) * 25 + 10}px`,
+                  bottom: '30%',
+                  right: `${30 + i * 8}%`,
+                }}
+                animate={{
+                  height: [`${(i + 1) * 25 + 10}px`, `${(i + 1) * 25 + 40}px`, `${(i + 1) * 25 + 10}px`],
+                  opacity: [0.7, 0.9, 0.7],
+                }}
+                transition={{
+                  duration: 3 + i * 0.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.2,
+                }}
+              >
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FCA311] rounded-full animate-ping" />
+              </motion.div>
+            ))}
+
+            {/* Growth trend line animation */}
+            <motion.svg
+              className="absolute right-[25%] top-[35%] w-48 h-24"
+              viewBox="0 0 100 50"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              <motion.path
+                d="M0,50 L20,45 L40,35 L60,20 L80,10 L100,5"
+                fill="none"
+                stroke="#FCA311"
+                strokeWidth="2"
+                strokeDasharray="1, 2"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{
+                  duration: 2.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  repeatDelay: 0.5,
+                }}
+              />
+              {/* Data points on the trend line */}
+              {[0, 20, 40, 60, 80, 100].map((x, i) => {
+                const y = i === 0 ? 50 : i === 1 ? 45 : i === 2 ? 35 : i === 3 ? 20 : i === 4 ? 10 : 5;
+                return (
+                  <motion.circle
+                    key={`point-${i}`}
+                    cx={x}
+                    cy={y}
+                    r="2"
+                    fill="#FCA311"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{
+                      delay: i * 0.4,
+                      duration: 0.3,
+                      repeat: Infinity,
+                      repeatDelay: 2.5,
+                    }}
+                  />
+                );
+              })}
+            </motion.svg>
+          </div>
+
+          {/* Connection network dots (representing B2B network) */}
+          <div className="absolute inset-0">
+            {[...Array(12)].map((_, i) => {
+              const x = 15 + (i % 4) * 20;
+              const y = 15 + Math.floor(i / 4) * 25;
+              return (
+                <motion.div
+                  key={`node-${i}`}
+                  className="absolute w-2 h-2 rounded-full bg-[#E5E5E5]"
+                  style={{
+                    left: `${x}%`,
+                    top: `${y}%`,
+                  }}
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0.4, 0.7, 0.4],
+                  }}
+                  transition={{
+                    duration: 2 + (i % 3),
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.2,
+                  }}
+                />
+              );
+            })}
+            
+            {/* Connection lines between nodes */}
+            {[...Array(8)].map((_, i) => {
+              const fromNode = i % 12;
+              const toNode = (fromNode + 1 + i) % 12;
+              const fromX = 15 + (fromNode % 4) * 20;
+              const fromY = 15 + Math.floor(fromNode / 4) * 25;
+              const toX = 15 + (toNode % 4) * 20;
+              const toY = 15 + Math.floor(toNode / 4) * 25;
+              
+              return (
+                <motion.svg
+                  key={`connection-${i}`}
+                  className="absolute left-0 top-0 w-full h-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.3 }}
+                  transition={{
+                    duration: 1,
+                    delay: i * 0.3,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  }}
+                >
+                  <line
+                    x1={`${fromX}%`}
+                    y1={`${fromY}%`}
+                    x2={`${toX}%`}
+                    y2={`${toY}%`}
+                    stroke="#E5E5E5"
+                    strokeWidth="1"
+                    strokeDasharray="3,3"
+                  />
+                </motion.svg>
+              );
+            })}
+          </div>
+
+          {/* Floating B2B marketing icons */}
+          {[
+            { Icon: PieChart, top: '15%', left: '75%' },
+            { Icon: Users, top: '50%', left: '80%' },
+            { Icon: Database, top: '70%', left: '70%' },
+            { Icon: TrendingUp, top: '25%', left: '65%' }
+          ].map((item, i) => (
             <motion.div
-              key={`bar-${i}`}
-              className="absolute w-8 bg-gradient-to-t from-primary to-blue-400 rounded-t-lg shadow-lg shadow-primary/20"
+              key={`icon-${i}`}
+              className="absolute text-[#FCA311]/60"
               style={{
-                height: `${(i + 1) * 40}px`,
-                bottom: '20%',
-                left: `${60 + i * 10}%`,
+                top: item.top,
+                left: item.left,
               }}
               animate={{
-                height: [`${(i + 1) * 40}px`, `${(i + 2) * 40}px`, `${(i + 1) * 40}px`],
-                opacity: [0.8, 1, 0.8],
-                scale: [1, 1.05, 1],
+                y: [0, -10, 0],
+                opacity: [0.4, 0.7, 0.4],
               }}
               transition={{
-                duration: 2 + i,
+                duration: 3 + i,
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
             >
-              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-400 rounded-full animate-ping" />
+              <item.Icon size={24} />
             </motion.div>
           ))}
 
-          {/* Network connection lines - Enhanced visuals */}
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={`line-${i}`}
-              className="absolute h-[3px] w-[300px]"
-              style={{
-                background: `linear-gradient(90deg, transparent, ${i % 2 === 0 ? '#60A5FA' : '#818CF8'}, transparent)`,
-                top: `${20 + i * 10}%`,
-                left: `${50 + Math.random() * 40}%`,
-                transform: `rotate(${-30 + i * 15}deg)`,
-                boxShadow: '0 0 20px rgba(96, 165, 250, 0.5)',
-              }}
-              animate={{
-                opacity: [0.6, 1, 0.6],
-                scale: [1, 1.2, 1],
-                x: [-100, 100, -100],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "linear",
-                delay: i * 0.5,
-              }}
-            />
-          ))}
-
-          {/* Enhanced floating data points */}
-          {[...Array(15)].map((_, i) => (
-            <motion.div
-              key={`point-${i}`}
-              className="absolute w-4 h-4 rounded-full bg-gradient-to-br from-blue-400 to-primary blur-sm"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${50 + Math.random() * 50}%`,
-                boxShadow: '0 0 15px rgba(96, 165, 250, 0.6)',
-              }}
-              animate={{
-                scale: [1, 1.5, 1],
-                opacity: [0.7, 1, 0.7],
-                y: [0, -30, 0],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-
-          {/* Line chart animation */}
-          <motion.svg
-            className="absolute right-20 top-1/4 w-64 h-32"
-            viewBox="0 0 100 50"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            <motion.path
-              d="M0,25 Q25,40 50,20 T100,25"
-              fill="none"
-              stroke="url(#lineGradient)"
-              strokeWidth="2"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            />
-            <defs>
-              <linearGradient id="lineGradient" x1="0" y1="0" x2="100%" y2="0">
-                <stop offset="0%" stopColor="#60A5FA" />
-                <stop offset="100%" stopColor="rgb(var(--primary))" />
-              </linearGradient>
-            </defs>
-          </motion.svg>
-
-          {/* Glowing circles for data points */}
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={`glow-point-${i}`}
-              className="absolute w-6 h-6"
-              style={{
-                right: `${20 + i * 15}%`,
-                top: `${30 + i * 10}%`,
-              }}
-            >
-              <div className="absolute inset-0 rounded-full bg-blue-400/30 animate-ping" />
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-primary" />
-            </motion.div>
-          ))}
-
-
-          {/* Geometric business shapes - Larger on right side */}
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={`shape-${i}`}
-              className="absolute w-[400px] h-[400px]"
-              style={{
-                border: '4px solid',
-                borderColor: 'rgb(var(--primary))',
-                borderRadius: i === 0 ? '50%' : i === 1 ? '20%' : '0%',
-                top: `${20 + i * 20}%`,
-                left: `${40 + i * 25}%`,
-              }}
-              animate={{
-                rotate: [0, 180],
-                scale: [1, 1.2, 1],
-                opacity: [0.4, 0.8, 0.4],
-              }}
-              transition={{
-                duration: 10 + i * 2,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
+          {/* Simplified grid overlay to represent data organization */}
+          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
         </div>
 
-        {/* Enhanced wave effects - Flowing right */}
-        <div className="absolute inset-0 overflow-hidden">
-          {[...Array(3)].map((_, i) => (
-            <motion.div
-              key={`wave-${i}`}
-              className="absolute h-[200%] w-[200%] top-[-50%] left-[-50%]"
-              style={{
-                background: `conic-gradient(from ${i * 120}deg at 50% 50%, transparent 0deg, ${i === 0 ? 'rgb(var(--primary))' : i === 1 ? '#818CF8' : '#A78BFA'}/70 60deg, transparent 120deg)`,
-                transform: 'rotate(90deg)',
-              }}
-              animate={{
-                rotate: [90, 450],
-              }}
-              transition={{
-                duration: 12 + i * 4,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Pulsing glow effects - Concentrated on right */}
-        {[...Array(4)].map((_, i) => (
-          <motion.div
-            key={`glow-${i}`}
-            className="absolute rounded-full blur-3xl"
-            style={{
-              width: `${300 + i * 100}px`,
-              height: `${300 + i * 100}px`,
-              top: `${20 + i * 15}%`,
-              left: `${50 + i * 15}%`,
-              background: `radial-gradient(circle, ${i % 2 === 0 ? 'rgb(var(--primary))' : '#818CF8'}/80 0%, transparent 70%)`,
-            }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.6, 0.8, 0.6],
-            }}
-            transition={{
-              duration: 4 + i,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.5,
-            }}
-          />
-        ))}
-
-        {/* New right-side flowing effect */}
-        <motion.div
-          className="absolute right-0 h-full w-1/2 bg-gradient-to-l from-primary/30 via-primary/10 to-transparent"
-          animate={{
-            opacity: [0.3, 0.5, 0.3],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-        <motion.div
-          className="absolute right-0 h-full w-1/2 overflow-hidden"
-          style={{ maskImage: 'linear-gradient(to left, transparent, black)' }}
-        >
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-primary/40"
-            animate={{
-              x: ['-100%', '100%'],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
-        </motion.div>
-
+        {/* Bottom light effect for depth */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#14213d] to-transparent" />
       </div>
 
       <div className="container mx-auto px-4 py-24 relative">
@@ -277,9 +207,9 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/30 backdrop-blur-sm mb-6 border border-white/30 hover:border-white/40 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-[#FCA311]/30 hover:border-[#FCA311]/50 transition-colors"
           >
-            <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-[#FCA311] animate-pulse" />
             <span className="text-sm text-white/90">Trusted by B2B Leaders to Build High-Performing Sales Pipelines</span>
           </motion.div>
 
@@ -309,11 +239,11 @@ export function Hero() {
           >
             <Button
               size="lg"
-              className="shadow-lg group relative overflow-hidden bg-primary hover:bg-primary/90"
+              className="shadow-lg group relative overflow-hidden bg-[#FCA311] hover:bg-[#FCA311]/90 text-[#14213d]"
               onClick={() => window.open(calendlyUrl, '_blank')}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
-              <span className="relative flex items-center">
+              <span className="relative flex items-center font-semibold">
                 Schedule a Strategy Call
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </span>
@@ -321,7 +251,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/20 hover:bg-white/30 backdrop-blur-sm transition-colors border-white/40 hover:border-white/60"
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-[#FCA311]/60 text-white"
               onClick={() => window.location.href = '/services'}
             >
               Explore Solutions
@@ -347,13 +277,13 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/60 to-primary/40 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
-                <div className="relative flex items-center gap-3 bg-[#0f0f2a]/80 rounded-xl p-6 backdrop-blur-sm border border-white/30 group-hover:border-white/40 transition-all">
-                  <div className="p-2 bg-primary/50 rounded-lg group-hover:bg-primary/60 transition-colors">
-                    <benefit.icon className="h-6 w-6 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#FCA311]/40 to-[#FCA311]/20 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
+                <div className="relative flex items-center gap-3 bg-[#14213d]/90 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-[#FCA311]/40 transition-all">
+                  <div className="p-2 bg-[#FCA311]/80 rounded-lg group-hover:bg-[#FCA311] transition-colors">
+                    <benefit.icon className="h-6 w-6 text-[#14213d]" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white group-hover:text-primary transition-colors">{benefit.metric}</div>
+                    <div className="text-2xl font-bold text-white group-hover:text-[#FCA311] transition-colors">{benefit.metric}</div>
                     <div className="text-sm text-white/80 group-hover:text-white transition-colors">{benefit.label}</div>
                   </div>
                 </div>
