@@ -23,19 +23,10 @@ export function Navbar() {
       <Link href="/">
         <span className="text-sm hover:text-primary cursor-pointer">Home</span>
       </Link>
-      <Link href="/b2b-audience">
-        <span className="text-sm font-medium hover:text-primary block">B2B Audience</span>
-      </Link>
-      <Link href="/resources">
-        <span className="text-sm font-medium hover:text-primary block">Resources</span>
-      </Link>
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
         <div className="space-y-2">
-          <Link href="/">
-            <span className="text-sm font-medium hover:text-primary block">Home</span>
-          </Link>
           <div className="space-y-2">
             <p className="text-sm font-medium">Solutions</p>
             <div className="pl-4 space-y-2">
