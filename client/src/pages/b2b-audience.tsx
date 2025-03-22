@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { PageBanner } from "@/components/ui/page-banner";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -74,39 +73,40 @@ export default function B2BAudiencePage() {
         description="Connect with over 135 million professionals across key job functions. Precision targeting capabilities for B2B marketing campaigns across industries and job roles."
       />
 
-      {/* Simplified Header Section */}
-      <div className="relative bg-gradient-to-br from-[#0a0a1a] via-primary/20 to-[#0a0a1a] text-white py-24">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="container mx-auto px-4"
-        >
+      {/* Enhanced Banner Section */}
+      <div className="relative bg-[#1a1c2e] text-white py-24">
+        <div className="container mx-auto px-6">
           <motion.div
-            variants={pulseVariants}
-            initial="initial"
-            animate="pulse"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
           >
-            <Globe className="h-4 w-4 text-primary" />
-            <span className="text-sm">135+ Million Professional Profiles</span>
-          </motion.div>
+            <motion.div
+              variants={pulseVariants}
+              initial="initial"
+              animate="pulse"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6"
+            >
+              <Globe className="h-4 w-4 text-primary" />
+              <span className="text-sm">135+ Million Professional Profiles</span>
+            </motion.div>
 
-          <h1 className="text-5xl font-bold mb-6 leading-tight">
-            Connect with Your Ideal B2B Audience
-          </h1>
-          <p className="text-xl text-white/80 mb-8 leading-relaxed max-w-3xl">
-            Leverage our precision targeting capabilities to reach decision-makers across industries, company sizes, and job functions.
-          </p>
-        </motion.div>
+            <h1 className="text-5xl font-bold mb-6 leading-tight">
+              Connect with Your Ideal B2B Audience
+            </h1>
+            <p className="text-xl text-white/80 mb-8 leading-relaxed max-w-3xl">
+              Leverage our precision targeting capabilities to reach decision-makers across industries, company sizes, and job functions.
+            </p>
+          </motion.div>
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-6">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="space-y-16"
+          className="space-y-24 py-24"
         >
           {/* Account Targeting Section */}
           <motion.section variants={itemVariants} className="relative">
@@ -149,7 +149,7 @@ export default function B2BAudiencePage() {
                   whileHover={{ scale: 1.02 }}
                   className="relative group"
                 >
-                  <Card className="h-full p-6 hover:shadow-lg transition-all duration-300 bg-white/50 border border-primary/10">
+                  <Card className="h-full p-6 hover:shadow-lg transition-all duration-300 bg-white border border-primary/10">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="p-2 rounded-lg bg-primary/10">
                         <category.icon className="h-6 w-6 text-primary" />
@@ -171,7 +171,7 @@ export default function B2BAudiencePage() {
           </motion.section>
 
           {/* Professional Targeting Section */}
-          <motion.section variants={itemVariants} className="relative bg-gradient-to-br from-background to-background/80 p-8 rounded-3xl">
+          <motion.section variants={itemVariants} className="relative">
             <div className="flex items-center gap-3 mb-8">
               <div className="p-3 rounded-xl bg-primary/10">
                 <Users className="h-8 w-8 text-primary" />
@@ -206,7 +206,7 @@ export default function B2BAudiencePage() {
                   whileHover={{ scale: 1.02 }}
                   className="relative group"
                 >
-                  <Card className="h-full p-6 hover:shadow-lg transition-all duration-300 border border-primary/10">
+                  <Card className="h-full p-6 hover:shadow-lg transition-all duration-300 bg-white border border-primary/10">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="p-2 rounded-lg bg-primary/10">
                         <category.icon className="h-6 w-6 text-primary" />
@@ -229,11 +229,14 @@ export default function B2BAudiencePage() {
 
           {/* Audience Stats Section */}
           <motion.section variants={itemVariants} className="relative">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <BarChart3 className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-3 rounded-xl bg-primary/10">
+                <BarChart3 className="h-8 w-8 text-primary" />
               </div>
-              <h2 className="text-2xl font-bold">Our Total Audience Reach by Job Function</h2>
+              <div>
+                <h2 className="text-3xl font-bold">Our Total Audience Reach by Job Function</h2>
+                <p className="text-muted-foreground mt-1">Connect with professionals across key industries</p>
+              </div>
             </div>
 
             <Suspense fallback={<div className="h-[400px] flex items-center justify-center">Loading chart...</div>}>
@@ -288,7 +291,7 @@ export default function B2BAudiencePage() {
                   whileHover={{ scale: 1.05 }}
                   className="relative group"
                 >
-                  <Card className="p-4 hover:shadow-lg transition-all duration-300 border-primary/20">
+                  <Card className="p-4 hover:shadow-lg transition-all duration-300 bg-white border border-primary/10">
                     <h3 className="text-sm text-muted-foreground mb-1 line-clamp-1">{stat.name}</h3>
                     <p className="text-2xl font-bold" style={{ color: stat.color }}>{stat.value}M+</p>
                   </Card>
