@@ -25,7 +25,7 @@ export function Navbar() {
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
-        <>
+        <div>
           <div className="space-y-2">
             <Link href="/b2b-audience">
               <span className="text-sm font-medium hover:text-primary block">B2B Audience</span>
@@ -34,9 +34,9 @@ export function Navbar() {
           <div className="space-y-2">
             <p className="text-sm font-medium">Solutions</p>
             <div className="pl-4 space-y-2">
-            <Link href="/services/strategic-lead-generation">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
-            </Link>
+              <Link href="/services/strategic-lead-generation">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
+              </Link>
             <Link href="/services/content-marketing-distribution">
               <span className="text-sm text-muted-foreground hover:text-primary block">Content Marketing & Distribution</span>
             </Link>
