@@ -25,9 +25,15 @@ export function Navbar() {
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
-        <div className="space-y-2">
-          <p className="text-sm font-medium">Solutions</p>
-          <div className="pl-4 space-y-2">
+        <>
+          <div className="space-y-2">
+            <Link href="/b2b-audience">
+              <span className="text-sm font-medium hover:text-primary block">B2B Audience</span>
+            </Link>
+          </div>
+          <div className="space-y-2">
+            <p className="text-sm font-medium">Solutions</p>
+            <div className="pl-4 space-y-2">
             <Link href="/services/strategic-lead-generation">
               <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
             </Link>
@@ -48,6 +54,13 @@ export function Navbar() {
       ) : (
         <NavigationMenu>
           <NavigationMenuList>
+            <NavigationMenuItem>
+              <Link href="/b2b-audience">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  B2B Audience
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
               <NavigationMenuContent>
@@ -89,14 +102,6 @@ export function Navbar() {
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
                         <div className="text-sm font-medium">Account-Based Marketing</div>
                         <p className="text-sm text-muted-foreground">Strategic targeting for key accounts</p>
-                      </NavigationMenuLink>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/b2b-audience">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">B2B Audience</div>
-                        <p className="text-sm text-muted-foreground">Connect with 135M+ professionals</p>
                       </NavigationMenuLink>
                     </Link>
                   </li>
