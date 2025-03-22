@@ -253,20 +253,18 @@ return (
                         className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors"
                       >
                         <div className="relative">
-                          <CheckCircle className={`h-4 w-4 ${category.iconBg.replace('/30', '')} text-white`} />
-                          <motion.div
-                            className={`absolute inset-0 ${category.glowColor}/30 rounded-full`}
-                            animate={{
-                              scale: [1, 1.4, 1],
-                              opacity: [0.2, 0.4, 0.2]
-                            }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              ease: "easeInOut",
-                              delay: itemIndex * 0.2
-                            }}
-                          />
+                          {category.title === "Company Information" && (
+                            <CheckCircle className="h-5 w-5 text-sky-500" />
+                          )}
+                          {category.title === "Geography & Location" && (
+                            <CheckCircle className="h-5 w-5 text-emerald-500" />
+                          )}
+                          {category.title === "Industry Targeting" && (
+                            <CheckCircle className="h-5 w-5 text-amber-500" />
+                          )}
+                          {category.title === "Technology Stack" && (
+                            <CheckCircle className="h-5 w-5 text-rose-500" />
+                          )}
                         </div>
                         {item}
                       </motion.li>
