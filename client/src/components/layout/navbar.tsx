@@ -92,6 +92,14 @@ export function Navbar() {
                       </NavigationMenuLink>
                     </Link>
                   </li>
+                  <li>
+                    <Link href="/b2b-audience">
+                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
+                        <div className="text-sm font-medium">B2B Audience</div>
+                        <p className="text-sm text-muted-foreground">Connect with 135M+ professionals</p>
+                      </NavigationMenuLink>
+                    </Link>
+                  </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
