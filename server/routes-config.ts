@@ -7,6 +7,7 @@ export const getRouteConfigs = async (): Promise<RouteConfig[]> => {
   const servicesSlugs = services.map(service => service.slug);
 
   return [
+    { path: '/b2b-audience', changefreq: 'monthly', priority: 0.8 },
     { path: '/', changefreq: 'daily', priority: 1.0 },
     { path: '/services/:slug', changefreq: 'weekly', priority: 0.9, 
       dynamicPaths: servicesSlugs
