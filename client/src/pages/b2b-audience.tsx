@@ -253,7 +253,7 @@ return (
                         className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors"
                       >
                         <div className="relative">
-                          <CheckCircle className={`h-4 w-4 ${category.iconColor}`} />
+                          <CheckCircle className={`h-4 w-4 ${category.iconBg.replace('/30', '')} text-white`} />
                           <motion.div
                             className={`absolute inset-0 ${category.glowColor}/30 rounded-full`}
                             animate={{
