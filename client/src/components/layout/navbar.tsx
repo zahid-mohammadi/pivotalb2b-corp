@@ -52,13 +52,6 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/b2b-audience">
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  B2B Audience
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
               <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
@@ -104,6 +97,13 @@ export function Navbar() {
                   </li>
                 </ul>
               </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link href="/b2b-audience">
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  B2B Audience
+                </NavigationMenuLink>
+              </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
