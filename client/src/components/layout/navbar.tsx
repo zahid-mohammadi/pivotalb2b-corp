@@ -36,7 +36,7 @@ export function Navbar() {
               <Link href="/services/strategic-lead-generation">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
               </Link>
-              <Link href="/services/content-marketing-distribution">
+              <Link href="/services/content-syndication">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Content Syndication</span>
               </Link>
               <Link href="/services/event-marketing-solutions">
@@ -74,7 +74,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/content-marketing-distribution">
+                    <Link href="/services/content-syndication">
                       <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
                         <div className="text-sm font-medium">Content Syndication</div>
                         <p className="text-sm text-muted-foreground">Amplify your content's reach</p>
