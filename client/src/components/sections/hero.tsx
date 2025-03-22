@@ -5,23 +5,23 @@ import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users,
 export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
-  // Green color palette for growth and prosperity
-  const accentColor = "#4ADE80"; // Vibrant green
-  const accentDarkColor = "#16A34A"; // Darker green for depth
-  const accentLightColor = "#86EFAC"; // Lighter green for highlights
+  // Purple-to-pink gradient color palette to match "Our Approach" section
+  const primaryColor = "rgb(var(--primary))"; // Primary color from CSS variables
+  const purpleColor = "#9333EA"; // purple-600
+  const pinkColor = "#DB2777"; // pink-600
 
   return (
     <div className="relative bg-[#14213d] text-white overflow-hidden">
       {/* Simplified animated background */}
       <div className="absolute inset-0">
-        {/* Base gradient layer - using a different color palette */}
+        {/* Base gradient layer */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#14213d] via-[#14213d]/90 to-[#14213d]" />
         
-        {/* Main background gradient animation */}
+        {/* Main background gradient animation matching "Our Approach" colors */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-[#4ADE80]/30 via-transparent to-[#4ADE80]/10"
+          className="absolute inset-0 bg-gradient-to-r from-[#9333EA]/30 via-transparent to-[#DB2777]/20"
           animate={{
-            opacity: [0.4, 0.6, 0.4],
+            opacity: [0.3, 0.5, 0.3],
             scale: [1, 1.05, 1],
           }}
           transition={{
@@ -39,7 +39,7 @@ export function Hero() {
             {[...Array(5)].map((_, i) => (
               <motion.div
                 key={`bar-${i}`}
-                className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#4ADE80] rounded-t-lg shadow-md"
+                className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#9333EA] rounded-t-lg shadow-md"
                 style={{
                   height: `${(i + 1) * 25 + 10}px`,
                   bottom: '30%',
@@ -56,7 +56,7 @@ export function Hero() {
                   delay: i * 0.2,
                 }}
               >
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#86EFAC] rounded-full animate-ping" />
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#DB2777] rounded-full animate-ping" />
               </motion.div>
             ))}
 
@@ -71,7 +71,7 @@ export function Hero() {
               <motion.path
                 d="M0,50 L20,45 L40,35 L60,20 L80,10 L100,5"
                 fill="none"
-                stroke="#4ADE80"
+                stroke="url(#gradientPath)"
                 strokeWidth="2"
                 strokeDasharray="1, 2"
                 initial={{ pathLength: 0 }}
@@ -83,16 +83,27 @@ export function Hero() {
                   repeatDelay: 0.5,
                 }}
               />
+              <defs>
+                <linearGradient id="gradientPath" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor={primaryColor} />
+                  <stop offset="50%" stopColor={purpleColor} />
+                  <stop offset="100%" stopColor={pinkColor} />
+                </linearGradient>
+              </defs>
+              
               {/* Data points on the trend line */}
               {[0, 20, 40, 60, 80, 100].map((x, i) => {
                 const y = i === 0 ? 50 : i === 1 ? 45 : i === 2 ? 35 : i === 3 ? 20 : i === 4 ? 10 : 5;
+                // Use different colors for different points to match the gradient
+                const pointColor = i < 2 ? primaryColor : i < 4 ? purpleColor : pinkColor;
+                
                 return (
                   <motion.circle
                     key={`point-${i}`}
                     cx={x}
                     cy={y}
                     r="2"
-                    fill="#4ADE80"
+                    fill={i < 2 ? primaryColor : i < 4 ? purpleColor : pinkColor}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{
@@ -112,13 +123,17 @@ export function Hero() {
             {[...Array(12)].map((_, i) => {
               const x = 15 + (i % 4) * 20;
               const y = 15 + Math.floor(i / 4) * 25;
+              // Alternate colors between network nodes
+              const nodeColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
+              
               return (
                 <motion.div
                   key={`node-${i}`}
-                  className="absolute w-2 h-2 rounded-full bg-[#E5E5E5]"
+                  className={`absolute w-2 h-2 rounded-full ${i % 3 === 0 ? 'bg-primary' : i % 3 === 1 ? 'bg-[#9333EA]' : 'bg-[#DB2777]'}`}
                   style={{
                     left: `${x}%`,
                     top: `${y}%`,
+                    opacity: 0.7,
                   }}
                   animate={{
                     scale: [1, 1.3, 1],
@@ -142,6 +157,8 @@ export function Hero() {
               const fromY = 15 + Math.floor(fromNode / 4) * 25;
               const toX = 15 + (toNode % 4) * 20;
               const toY = 15 + Math.floor(toNode / 4) * 25;
+              // Alternate line colors
+              const lineColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
               
               return (
                 <motion.svg
@@ -161,7 +178,7 @@ export function Hero() {
                     y1={`${fromY}%`}
                     x2={`${toX}%`}
                     y2={`${toY}%`}
-                    stroke="#E5E5E5"
+                    stroke={lineColor}
                     strokeWidth="1"
                     strokeDasharray="3,3"
                   />
@@ -172,17 +189,19 @@ export function Hero() {
 
           {/* Floating B2B marketing icons */}
           {[
-            { Icon: PieChart, top: '15%', left: '75%' },
-            { Icon: Users, top: '50%', left: '80%' },
-            { Icon: Database, top: '70%', left: '70%' },
-            { Icon: TrendingUp, top: '25%', left: '65%' }
+            { Icon: PieChart, top: '15%', left: '75%', color: primaryColor },
+            { Icon: Users, top: '50%', left: '80%', color: purpleColor },
+            { Icon: Database, top: '70%', left: '70%', color: primaryColor },
+            { Icon: TrendingUp, top: '25%', left: '65%', color: pinkColor }
           ].map((item, i) => (
             <motion.div
               key={`icon-${i}`}
-              className="absolute text-[#4ADE80]/60"
+              className="absolute"
               style={{
                 top: item.top,
                 left: item.left,
+                color: item.color,
+                opacity: 0.6,
               }}
               animate={{
                 y: [0, -10, 0],
@@ -212,9 +231,9 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-[#4ADE80]/30 hover:border-[#4ADE80]/50 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-purple-600/30 hover:border-pink-600/50 transition-colors"
           >
-            <div className="w-2 h-2 rounded-full bg-[#4ADE80] animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary via-purple-600 to-pink-600 animate-pulse" />
             <span className="text-sm text-white/90">Trusted by B2B Leaders to Build High-Performing Sales Pipelines</span>
           </motion.div>
 
@@ -244,7 +263,7 @@ export function Hero() {
           >
             <Button
               size="lg"
-              className="shadow-lg group relative overflow-hidden bg-[#4ADE80] hover:bg-[#4ADE80]/90 text-[#14213d]"
+              className="shadow-lg group relative overflow-hidden bg-gradient-to-r from-primary via-purple-600 to-pink-600 hover:from-primary/90 hover:via-purple-600/90 hover:to-pink-600/90 text-white"
               onClick={() => window.open(calendlyUrl, '_blank')}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
@@ -256,7 +275,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-[#4ADE80]/60 text-white"
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-purple-600/60 text-white"
               onClick={() => window.location.href = '/services'}
             >
               Explore Solutions
@@ -282,13 +301,13 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#4ADE80]/40 to-[#4ADE80]/20 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
-                <div className="relative flex items-center gap-3 bg-[#14213d]/90 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-[#4ADE80]/40 transition-all">
-                  <div className="p-2 bg-[#4ADE80]/80 rounded-lg group-hover:bg-[#4ADE80] transition-colors">
-                    <benefit.icon className="h-6 w-6 text-[#14213d]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/40 to-pink-600/20 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
+                <div className="relative flex items-center gap-3 bg-[#14213d]/90 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-purple-600/40 transition-all">
+                  <div className="p-2 bg-gradient-to-r from-primary via-purple-600/80 to-pink-600/80 rounded-lg group-hover:from-primary group-hover:via-purple-600 group-hover:to-pink-600 transition-colors">
+                    <benefit.icon className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white group-hover:text-[#4ADE80] transition-colors">{benefit.metric}</div>
+                    <div className="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:via-purple-600 group-hover:to-pink-600 transition-colors">{benefit.metric}</div>
                     <div className="text-sm text-white/80 group-hover:text-white transition-colors">{benefit.label}</div>
                   </div>
                 </div>
