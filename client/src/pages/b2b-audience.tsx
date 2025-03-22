@@ -142,7 +142,7 @@ export default function B2BAudiencePage() {
             <p className="text-muted-foreground mb-8 max-w-3xl">
               Identify and engage the exact companies that align with your goals. Our account-based targeting leverages detailed filters to pinpoint high-value organizations with precision.
             </p>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 {
                   icon: Building2,
@@ -166,12 +166,22 @@ export default function B2BAudiencePage() {
                 },
                 {
                   icon: Database,
-                  title: "Industry & Technology",
+                  title: "Industry Targeting",
                   items: [
                     "Industry Classification: NAICS/SIC codes",
-                    "Technology Stack: 21,000+ technologies",
-                    "Digital Presence: Online footprint",
-                    "Business Model: B2B, B2C, or hybrid"
+                    "Business Model: B2B, B2C, or hybrid",
+                    "Market Segment: Vertical specialization",
+                    "Company Maturity: Stage-based targeting"
+                  ]
+                },
+                {
+                  icon: Laptop,
+                  title: "Technology Stack",
+                  items: [
+                    "Tech Stack: 21,000+ technologies",
+                    "Digital Infrastructure: Cloud/On-prem",
+                    "Software Categories: By function",
+                    "Implementation Stage: New/Established"
                   ]
                 }
               ].map((category, index) => (
@@ -191,12 +201,13 @@ export default function B2BAudiencePage() {
                     </div>
                     <ul className="space-y-2">
                       {category.items.map((item, itemIndex) => (
-                        <li key={itemIndex} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <CheckCircle className="h-4 w-4 text-primary/60" />
+                        <li key={itemIndex} className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                          <CheckCircle className="h-4 w-4 text-primary/60 group-hover:text-primary transition-colors" />
                           {item}
                         </li>
                       ))}
                     </ul>
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </Card>
                 </motion.div>
               ))}
@@ -276,7 +287,7 @@ export default function B2BAudiencePage() {
           </motion.section>
 
           {/* Enhanced Audience Stats Section with Chart */}
-          <motion.section 
+          <motion.section
             variants={itemVariants}
             className="relative bg-gradient-to-br from-background to-background/80 rounded-3xl p-8 border border-primary/10"
           >
@@ -300,30 +311,30 @@ export default function B2BAudiencePage() {
                     margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(var(--primary), 0.1)" />
-                    <XAxis 
-                      dataKey="name" 
+                    <XAxis
+                      dataKey="name"
                       angle={-45}
                       textAnchor="end"
                       height={80}
                       tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                     />
-                    <YAxis 
+                    <YAxis
                       tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
-                      label={{ 
-                        value: 'Millions of Professionals', 
-                        angle: -90, 
+                      label={{
+                        value: 'Millions of Professionals',
+                        angle: -90,
                         position: 'insideLeft',
                         style: { fill: 'hsl(var(--muted-foreground))' }
                       }}
                     />
                     <Tooltip content={<CustomTooltip />} />
-                    <Bar 
-                      dataKey="value" 
+                    <Bar
+                      dataKey="value"
                       radius={[4, 4, 0, 0]}
                     >
                       {audienceData.map((entry, index) => (
-                        <Cell 
-                          key={`cell-${index}`} 
+                        <Cell
+                          key={`cell-${index}`}
                           fill={entry.color}
                           style={{ filter: 'brightness(1.1)' }}
                         />
@@ -340,19 +351,19 @@ export default function B2BAudiencePage() {
                     margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(var(--primary), 0.1)" />
-                    <XAxis 
-                      dataKey="name" 
+                    <XAxis
+                      dataKey="name"
                       tick={false}
                       stroke="hsl(var(--muted-foreground))"
                     />
-                    <YAxis 
+                    <YAxis
                       tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                       stroke="hsl(var(--muted-foreground))"
                     />
                     <Tooltip content={<CustomTooltip />} />
-                    <Line 
-                      type="monotone" 
-                      dataKey="value" 
+                    <Line
+                      type="monotone"
+                      dataKey="value"
                       stroke="rgb(var(--primary))"
                       strokeWidth={2}
                       dot={{ fill: 'rgb(var(--primary))', r: 4 }}
@@ -363,7 +374,7 @@ export default function B2BAudiencePage() {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               variants={containerVariants}
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-8"
             >
@@ -384,7 +395,7 @@ export default function B2BAudiencePage() {
           </motion.section>
 
           {/* Enhanced CTA Section */}
-          <motion.section 
+          <motion.section
             variants={itemVariants}
             className="text-center py-12 relative overflow-hidden"
           >
@@ -397,7 +408,7 @@ export default function B2BAudiencePage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button 
+              <Button
                 size="lg"
                 className="bg-primary hover:bg-primary/90 shadow-lg group relative overflow-hidden"
                 onClick={() => window.location.href = '/contact'}
