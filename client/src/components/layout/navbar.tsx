@@ -197,6 +197,9 @@ export function Navbar() {
             <SheetContent side="right" className="w-[300px]">
               <div className="flex flex-col space-y-4 mt-4">
                 <NavItems isMobile />
+                <Link href="/b2b-audience" className="block px-4 py-2 text-sm">
+                  B2B Audience
+                </Link>
                 <div className="pt-4 border-t">
                   {user ? (
                     <Button
