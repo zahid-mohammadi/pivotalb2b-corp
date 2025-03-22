@@ -123,10 +123,10 @@ export function Approach() {
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: "93%", label: "Pipeline Efficiency" },
+              { value: "25%", label: "Pipeline Efficiency" },
               { value: "2.5x", label: "Lead Quality Improvement" },
               { value: "45%", label: "Cost per Lead Reduction" },
-              { value: "85%", label: "Sales Acceptance Rate" }
+              { value: "99%", label: "Sales Acceptance Rate" }
             ].map((stat, index) => (
               <motion.div
                 key={index}
