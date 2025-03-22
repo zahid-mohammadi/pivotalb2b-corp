@@ -4,6 +4,7 @@ import { MetaTags } from "@/components/ui/meta-tags";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { BarChart3, Building2, Users, Target, Filter, MapPin, Database, Laptop, Globe, CheckCircle } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from 'recharts';
 
 // Animation variants
 const containerVariants = {
@@ -40,6 +41,31 @@ const pulseVariants = {
 };
 
 export default function B2BAudiencePage() {
+  const audienceData = [
+    { name: 'Information Technology', value: 42, color: 'rgb(var(--primary))' },
+    { name: 'Sales', value: 26, color: '#60A5FA' },
+    { name: 'Marketing', value: 24, color: '#818CF8' },
+    { name: 'Human Resources', value: 14, color: '#A78BFA' },
+    { name: 'Operations', value: 12.8, color: '#C084FC' },
+    { name: 'Finance', value: 10, color: '#E879F9' },
+    { name: 'Executive Management', value: 2, color: '#F472B6' },
+    { name: 'Supply Chain', value: 1.8, color: '#FB7185' },
+    { name: 'Learning & Development', value: 1.5, color: '#FCA5A5' },
+    { name: 'Customer Experience', value: 0.7, color: '#FBBF24' }
+  ];
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg border border-primary/20">
+          <p className="font-semibold text-sm">{label}</p>
+          <p className="text-primary text-lg font-bold">{payload[0].value}M+ Professionals</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <>
       <MetaTags
@@ -249,40 +275,112 @@ export default function B2BAudiencePage() {
             </div>
           </motion.section>
 
-          {/* Enhanced Audience Stats Section */}
-          <motion.section variants={itemVariants}>
+          {/* Enhanced Audience Stats Section with Chart */}
+          <motion.section 
+            variants={itemVariants}
+            className="relative bg-gradient-to-br from-background to-background/80 rounded-3xl p-8 border border-primary/10"
+          >
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 rounded-lg bg-primary/10">
                 <BarChart3 className="h-6 w-6 text-primary" />
               </div>
               <h2 className="text-2xl font-bold">Our Total Audience Reach by Job Function</h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {[
-                { title: 'Information Technology', count: '42M+' },
-                { title: 'Sales', count: '26M+' },
-                { title: 'Marketing', count: '24M+' },
-                { title: 'Human Resources', count: '14M+' },
-                { title: 'Operations', count: '12.8M+' },
-                { title: 'Finance', count: '10M+' },
-                { title: 'Supply Chain', count: '1.8M+' },
-                { title: 'Executive Management', count: '2M+' },
-                { title: 'Learning & Development', count: '1.5M+' },
-                { title: 'Customer Experience', count: '0.7M+' }
-              ].map((stat, index) => (
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mt-8"
+            >
+              <div className="h-[400px] w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={audienceData}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(var(--primary), 0.1)" />
+                    <XAxis 
+                      dataKey="name" 
+                      angle={-45}
+                      textAnchor="end"
+                      height={80}
+                      tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                    />
+                    <YAxis 
+                      tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                      label={{ 
+                        value: 'Millions of Professionals', 
+                        angle: -90, 
+                        position: 'insideLeft',
+                        style: { fill: 'hsl(var(--muted-foreground))' }
+                      }}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Bar 
+                      dataKey="value" 
+                      radius={[4, 4, 0, 0]}
+                    >
+                      {audienceData.map((entry, index) => (
+                        <Cell 
+                          key={`cell-${index}`} 
+                          fill={entry.color}
+                          style={{ filter: 'brightness(1.1)' }}
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+
+              <div className="h-[200px] w-full mt-8">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    data={audienceData}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(var(--primary), 0.1)" />
+                    <XAxis 
+                      dataKey="name" 
+                      tick={false}
+                      stroke="hsl(var(--muted-foreground))"
+                    />
+                    <YAxis 
+                      tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                      stroke="hsl(var(--muted-foreground))"
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Line 
+                      type="monotone" 
+                      dataKey="value" 
+                      stroke="rgb(var(--primary))"
+                      strokeWidth={2}
+                      dot={{ fill: 'rgb(var(--primary))', r: 4 }}
+                      activeDot={{ r: 8, fill: 'rgb(var(--primary))', stroke: 'white', strokeWidth: 2 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              variants={containerVariants}
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-8"
+            >
+              {audienceData.map((stat, index) => (
                 <motion.div
                   key={index}
                   variants={itemVariants}
                   whileHover={{ scale: 1.05 }}
                   className="relative group"
                 >
-                  <Card className="p-4 hover:shadow-lg transition-all duration-300 border-primary/20 hover:border-primary/40">
-                    <h3 className="text-sm text-muted-foreground mb-1">{stat.title}</h3>
-                    <p className="text-2xl font-bold text-primary">{stat.count}</p>
+                  <Card className="p-4 hover:shadow-lg transition-all duration-300 border-primary/20 hover:border-primary/40 bg-white/50 backdrop-blur-sm">
+                    <h3 className="text-sm text-muted-foreground mb-1 line-clamp-1">{stat.name}</h3>
+                    <p className="text-2xl font-bold" style={{ color: stat.color }}>{stat.value}M+</p>
                   </Card>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.section>
 
           {/* Enhanced CTA Section */}
