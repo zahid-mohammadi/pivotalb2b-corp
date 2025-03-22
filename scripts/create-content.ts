@@ -10,12 +10,8 @@ async function createContent() {
     body: JSON.stringify({
       title: "Content Syndication",
       slug: "content-syndication",
-      description: "Create and distribute compelling B2B content that resonates with your target audience.",
-      features: [
-        "Automated content distribution",
-        "Performance tracking and analytics",
-        "Integration with various content platforms"
-      ]
+      description: "Amplify your content's reach and engage decision-makers through strategic B2B content syndication.",
+      features: []
     })
   });
 
