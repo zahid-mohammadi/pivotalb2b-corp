@@ -5,6 +5,11 @@ import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users,
 export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
+  // Green color palette for growth and prosperity
+  const accentColor = "#4ADE80"; // Vibrant green
+  const accentDarkColor = "#16A34A"; // Darker green for depth
+  const accentLightColor = "#86EFAC"; // Lighter green for highlights
+
   return (
     <div className="relative bg-[#14213d] text-white overflow-hidden">
       {/* Simplified animated background */}
@@ -14,7 +19,7 @@ export function Hero() {
         
         {/* Main background gradient animation */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-[#FCA311]/30 via-transparent to-[#FCA311]/10"
+          className="absolute inset-0 bg-gradient-to-r from-[#4ADE80]/30 via-transparent to-[#4ADE80]/10"
           animate={{
             opacity: [0.4, 0.6, 0.4],
             scale: [1, 1.05, 1],
@@ -34,7 +39,7 @@ export function Hero() {
             {[...Array(5)].map((_, i) => (
               <motion.div
                 key={`bar-${i}`}
-                className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#FCA311] rounded-t-lg shadow-md"
+                className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#4ADE80] rounded-t-lg shadow-md"
                 style={{
                   height: `${(i + 1) * 25 + 10}px`,
                   bottom: '30%',
@@ -51,7 +56,7 @@ export function Hero() {
                   delay: i * 0.2,
                 }}
               >
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#FCA311] rounded-full animate-ping" />
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#86EFAC] rounded-full animate-ping" />
               </motion.div>
             ))}
 
@@ -66,7 +71,7 @@ export function Hero() {
               <motion.path
                 d="M0,50 L20,45 L40,35 L60,20 L80,10 L100,5"
                 fill="none"
-                stroke="#FCA311"
+                stroke="#4ADE80"
                 strokeWidth="2"
                 strokeDasharray="1, 2"
                 initial={{ pathLength: 0 }}
@@ -87,7 +92,7 @@ export function Hero() {
                     cx={x}
                     cy={y}
                     r="2"
-                    fill="#FCA311"
+                    fill="#4ADE80"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{
@@ -174,7 +179,7 @@ export function Hero() {
           ].map((item, i) => (
             <motion.div
               key={`icon-${i}`}
-              className="absolute text-[#FCA311]/60"
+              className="absolute text-[#4ADE80]/60"
               style={{
                 top: item.top,
                 left: item.left,
@@ -207,9 +212,9 @@ export function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-[#FCA311]/30 hover:border-[#FCA311]/50 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-[#4ADE80]/30 hover:border-[#4ADE80]/50 transition-colors"
           >
-            <div className="w-2 h-2 rounded-full bg-[#FCA311] animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-[#4ADE80] animate-pulse" />
             <span className="text-sm text-white/90">Trusted by B2B Leaders to Build High-Performing Sales Pipelines</span>
           </motion.div>
 
@@ -239,7 +244,7 @@ export function Hero() {
           >
             <Button
               size="lg"
-              className="shadow-lg group relative overflow-hidden bg-[#FCA311] hover:bg-[#FCA311]/90 text-[#14213d]"
+              className="shadow-lg group relative overflow-hidden bg-[#4ADE80] hover:bg-[#4ADE80]/90 text-[#14213d]"
               onClick={() => window.open(calendlyUrl, '_blank')}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
@@ -251,7 +256,7 @@ export function Hero() {
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-[#FCA311]/60 text-white"
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-[#4ADE80]/60 text-white"
               onClick={() => window.location.href = '/services'}
             >
               Explore Solutions
@@ -277,13 +282,13 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-[#FCA311]/40 to-[#FCA311]/20 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
-                <div className="relative flex items-center gap-3 bg-[#14213d]/90 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-[#FCA311]/40 transition-all">
-                  <div className="p-2 bg-[#FCA311]/80 rounded-lg group-hover:bg-[#FCA311] transition-colors">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#4ADE80]/40 to-[#4ADE80]/20 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
+                <div className="relative flex items-center gap-3 bg-[#14213d]/90 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-[#4ADE80]/40 transition-all">
+                  <div className="p-2 bg-[#4ADE80]/80 rounded-lg group-hover:bg-[#4ADE80] transition-colors">
                     <benefit.icon className="h-6 w-6 text-[#14213d]" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white group-hover:text-[#FCA311] transition-colors">{benefit.metric}</div>
+                    <div className="text-2xl font-bold text-white group-hover:text-[#4ADE80] transition-colors">{benefit.metric}</div>
                     <div className="text-sm text-white/80 group-hover:text-white transition-colors">{benefit.label}</div>
                   </div>
                 </div>
