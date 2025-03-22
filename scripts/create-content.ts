@@ -3,6 +3,23 @@ import fetch from 'node-fetch';
 async function createContent() {
   const API_URL = 'http://0.0.0.0:5000/api';
 
+  // Create Content Syndication Service
+  await fetch(`${API_URL}/services`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: "Content Syndication",
+      slug: "content-syndication",
+      description: "Create and distribute compelling B2B content that resonates with your target audience.",
+      features: [
+        "Automated content distribution",
+        "Performance tracking and analytics",
+        "Integration with various content platforms"
+      ]
+    })
+  });
+
+
   // Create Blog Post
   await fetch(`${API_URL}/blog-posts`, {
     method: 'POST',
