@@ -153,9 +153,6 @@ export function Navbar() {
         </NavigationMenu>
       )}
 
-      <Link href="/about">
-        <span className="text-sm hover:text-primary cursor-pointer">About Us</span>
-      </Link>
       <Link href="/contact">
         <span className="text-sm hover:text-primary cursor-pointer">Contact Us</span>
       </Link>
