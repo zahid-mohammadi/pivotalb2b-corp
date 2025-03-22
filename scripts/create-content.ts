@@ -1,7 +1,52 @@
 import fetch from 'node-fetch';
 
 async function createContent() {
-  const API_URL = 'http://0.0.0.0:5000/api';
+  const API_URL = 'http://0.0.0.0:3000/api';
+
+  // Create Content Syndication Service
+  await fetch(`${API_URL}/services`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: "Content Syndication",
+      slug: "content-syndication",
+      description: "Amplify your content's reach and engage decision-makers through strategic B2B content syndication.",
+      features: [],
+      benefits: [
+        "Increased brand visibility and awareness",
+        "Higher quality leads and better conversion rates",
+        "Broader reach across targeted industries",
+        "Enhanced content ROI",
+        "Improved market positioning"
+      ],
+      methodology: "<h3>Our Content Syndication Process</h3><p>We follow a systematic approach to ensure your content reaches the right audience:</p><ol><li>Content Analysis & Strategy Development</li><li>Target Audience Identification</li><li>Distribution Channel Selection</li><li>Content Optimization & Formatting</li><li>Performance Tracking & Optimization</li></ol>",
+      toolsAndTechnologies: [
+        "Advanced Content Distribution Platforms",
+        "Analytics and Tracking Tools",
+        "Marketing Automation Systems",
+        "Lead Scoring Technology"
+      ],
+      useCases: [
+        {
+          title: "Enterprise Technology Company",
+          description: "Global tech firm seeking to expand market reach",
+          challenge: "Limited content visibility in target markets",
+          solution: "Implemented strategic content syndication across key channels",
+          outcome: "200% increase in qualified leads"
+        }
+      ],
+      faqQuestions: [
+        {
+          question: "How does content syndication work?",
+          answer: "Content syndication strategically distributes your content across relevant platforms and networks to reach your target audience effectively."
+        },
+        {
+          question: "What types of content can be syndicated?",
+          answer: "We can syndicate various content types including whitepapers, case studies, blog posts, and industry reports."
+        }
+      ]
+    })
+  });
 
   // Create Content Syndication Service
   await fetch(`${API_URL}/services`, {
