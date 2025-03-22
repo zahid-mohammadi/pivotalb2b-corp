@@ -23,6 +23,7 @@ import Contact from "@/pages/contact";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsConditions from "@/pages/terms-conditions";
 import CookiePolicy from "@/pages/cookie-policy";
+import B2BAudience from "@/pages/b2b-audience";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
@@ -40,6 +41,7 @@ function Router() {
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/services/:slug" component={Service} />
+            <Route path="/b2b-audience" component={B2BAudience} />
             <Route path="/login" component={Login} />
             <Route path="/blog" component={Blog} />
             <Route path="/blog/:slug" component={BlogDetail} />
