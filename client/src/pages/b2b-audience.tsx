@@ -186,29 +186,33 @@ return (
                 icon: Building2,
                 title: "Company Information",
                 items: ["Company Name", "Company Size", "Revenue Range", "Growth Stage"],
-                iconBg: "bg-sky-500",
-                shadowColor: "shadow-sky-500/30"
+                iconBg: "bg-sky-500/30",
+                glowColor: "shadow-sky-500",
+                iconColor: "text-sky-100"
               },
               {
                 icon: MapPin,
                 title: "Geography & Location",
                 items: ["Global Region", "Country", "State/Province", "City"],
-                iconBg: "bg-emerald-500",
-                shadowColor: "shadow-emerald-500/30"
+                iconBg: "bg-emerald-500/30",
+                glowColor: "shadow-emerald-500",
+                iconColor: "text-emerald-100"
               },
               {
                 icon: Database,
                 title: "Industry Targeting",
                 items: ["Industry Classification", "Business Model", "Market Segment", "Company Maturity"],
-                iconBg: "bg-amber-500",
-                shadowColor: "shadow-amber-500/30"
+                iconBg: "bg-amber-500/30",
+                glowColor: "shadow-amber-500",
+                iconColor: "text-amber-100"
               },
               {
                 icon: Laptop,
                 title: "Technology Stack",
                 items: ["Tech Stack", "Digital Infrastructure", "Software Categories", "Implementation Stage"],
-                iconBg: "bg-rose-500",
-                shadowColor: "shadow-rose-500/30"
+                iconBg: "bg-rose-500/30",
+                glowColor: "shadow-rose-500",
+                iconColor: "text-rose-100"
               }
             ].map((category, index) => (
               <motion.div
@@ -221,12 +225,12 @@ return (
                   <motion.div
                     initial={{ scale: 1 }}
                     whileHover={{ scale: 1.1 }}
-                    className={`p-4 rounded-xl ${category.iconBg}/30 group-hover:${category.iconBg}/40 transition-colors ${category.shadowColor} relative mb-6`}
+                    className={`p-4 rounded-xl ${category.iconBg} group-hover:bg-opacity-40 transition-colors relative mb-6 ${category.glowColor}/20`}
                   >
-                    <div className="absolute inset-0 rounded-xl bg-white/10 backdrop-blur-sm" />
-                    <category.icon className="h-12 w-12 text-white relative z-10" /> {/* Increased icon size */}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent backdrop-blur-sm" />
+                    <category.icon className={`h-12 w-12 text-white relative z-10 drop-shadow-lg ${category.iconColor}`} />
                     <motion.div
-                      className={`absolute inset-0 rounded-xl ${category.iconBg}/20`}
+                      className={`absolute inset-0 rounded-xl bg-white/10`}
                       animate={{
                         scale: [1, 1.2, 1],
                         opacity: [0.1, 0.2, 0.1]
@@ -248,21 +252,26 @@ return (
                         transition={{ delay: itemIndex * 0.1 }}
                         className="flex items-center gap-2 text-sm text-muted-foreground group-hover:text-foreground transition-colors"
                       >
-                        <CheckCircle className={`h-4 w-4 ${category.iconBg} text-white`} />
+                        <div className="relative">
+                          <CheckCircle className={`h-4 w-4 ${category.iconColor}`} />
+                          <motion.div
+                            className={`absolute inset-0 ${category.glowColor}/30 rounded-full`}
+                            animate={{
+                              scale: [1, 1.4, 1],
+                              opacity: [0.2, 0.4, 0.2]
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                              delay: itemIndex * 0.2
+                            }}
+                          />
+                        </div>
                         {item}
                       </motion.li>
                     ))}
                   </ul>
-                  <motion.div
-                    className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-${category.iconBg}/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity`}
-                    animate={{
-                      scaleX: [0, 1, 0],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                    }}
-                  />
                 </Card>
               </motion.div>
             ))}
