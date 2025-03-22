@@ -130,13 +130,13 @@ export default function B2BAudiencePage() {
               variants={pulseVariants}
               initial="initial"
               animate="pulse"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/20"
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/20"
             >
-              <Globe className="h-4 w-4 text-primary" />
-              <span className="text-sm">135+ Million Professional Profiles</span>
+              <Globe className="h-6 w-6 text-blue-300" />
+              <span className="text-lg">135+ Million Professional Profiles</span>
             </motion.div>
 
-            <motion.h1 
+            <motion.h1
               className="text-5xl font-bold mb-6 leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -144,7 +144,7 @@ export default function B2BAudiencePage() {
             >
               Connect with Your Ideal B2B Audience
             </motion.h1>
-            <motion.p 
+            <motion.p
               className="text-xl text-white/80 mb-8 leading-relaxed max-w-3xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -164,8 +164,8 @@ export default function B2BAudiencePage() {
           className="space-y-24 py-24"
         >
           {/* Account Targeting Section with Glassmorphism Effect */}
-          <motion.section 
-            variants={itemVariants} 
+          <motion.section
+            variants={itemVariants}
             className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-white to-gray-50 p-12 shadow-xl border border-primary/10"
           >
             <div className="absolute inset-0 bg-grid opacity-[0.02]" />
@@ -185,22 +185,30 @@ export default function B2BAudiencePage() {
                 {
                   icon: Building2,
                   title: "Company Information",
-                  items: ["Company Name", "Company Size", "Revenue Range", "Growth Stage"]
+                  items: ["Company Name", "Company Size", "Revenue Range", "Growth Stage"],
+                  iconBg: "bg-sky-500/30",
+                  iconColor: "text-sky-200"
                 },
                 {
                   icon: MapPin,
                   title: "Geography & Location",
-                  items: ["Global Region", "Country", "State/Province", "City"]
+                  items: ["Global Region", "Country", "State/Province", "City"],
+                  iconBg: "bg-emerald-500/30",
+                  iconColor: "text-emerald-200"
                 },
                 {
                   icon: Database,
                   title: "Industry Targeting",
-                  items: ["Industry Classification", "Business Model", "Market Segment", "Company Maturity"]
+                  items: ["Industry Classification", "Business Model", "Market Segment", "Company Maturity"],
+                  iconBg: "bg-amber-500/30",
+                  iconColor: "text-amber-200"
                 },
                 {
                   icon: Laptop,
                   title: "Technology Stack",
-                  items: ["Tech Stack", "Digital Infrastructure", "Software Categories", "Implementation Stage"]
+                  items: ["Tech Stack", "Digital Infrastructure", "Software Categories", "Implementation Stage"],
+                  iconBg: "bg-rose-500/30",
+                  iconColor: "text-rose-200"
                 }
               ].map((category, index) => (
                 <motion.div
@@ -210,12 +218,27 @@ export default function B2BAudiencePage() {
                   className="relative group"
                 >
                   <Card className="h-full p-6 hover:shadow-xl transition-all duration-300 bg-white/80 backdrop-blur-sm border border-primary/10">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                        <category.icon className="h-6 w-6 text-primary" />
-                      </div>
-                      <h3 className="font-semibold">{category.title}</h3>
-                    </div>
+                    <motion.div
+                      initial={{ scale: 1 }}
+                      whileHover={{ scale: 1.1 }}
+                      className={`p-3 rounded-xl ${category.iconBg} group-hover:bg-opacity-40 transition-colors shadow-lg relative`}
+                    >
+                      <div className="absolute inset-0 rounded-xl bg-white/5 backdrop-blur-sm" />
+                      <category.icon className={`h-6 w-6 ${category.iconColor} relative z-10`} />
+                      <motion.div
+                        className="absolute inset-0 rounded-xl bg-white/10"
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: [0.1, 0.2, 0.1]
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      />
+                    </motion.div>
+                    <h3 className="font-semibold mt-4 mb-3">{category.title}</h3>
                     <ul className="space-y-3">
                       {category.items.map((item, itemIndex) => (
                         <motion.li
@@ -225,7 +248,7 @@ export default function B2BAudiencePage() {
                           transition={{ delay: itemIndex * 0.1 }}
                           className="flex items-center gap-2 text-sm text-muted-foreground"
                         >
-                          <CheckCircle className="h-4 w-4 text-primary/60" />
+                          <CheckCircle className={`h-4 w-4 ${category.iconColor.replace('text', 'text-opacity-70')}`} />
                           {item}
                         </motion.li>
                       ))}
@@ -237,8 +260,8 @@ export default function B2BAudiencePage() {
           </motion.section>
 
           {/* Professional Targeting Section with Dark Theme */}
-          <motion.section 
-            variants={itemVariants} 
+          <motion.section
+            variants={itemVariants}
             className="relative rounded-3xl overflow-hidden bg-[#1a1c2e] p-12 text-white"
           >
             {/* Background pattern */}
@@ -310,7 +333,7 @@ export default function B2BAudiencePage() {
                   >
                     <Card className="h-full p-6 hover:shadow-xl transition-all duration-300 bg-white/10 backdrop-blur-sm border border-white/20">
                       <div className="flex items-center gap-3 mb-4">
-                        <motion.div 
+                        <motion.div
                           className={`p-3 rounded-xl ${category.iconBg} group-hover:bg-opacity-40 transition-colors shadow-lg relative`}
                           whileHover={{ scale: 1.1 }}
                         >
@@ -363,7 +386,7 @@ export default function B2BAudiencePage() {
           </motion.section>
 
           {/* Audience Stats Section with Light Theme and Interactive Chart */}
-          <motion.section 
+          <motion.section
             variants={itemVariants}
             className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-gray-50 to-white p-12 border border-primary/10 shadow-lg"
           >
@@ -446,7 +469,7 @@ export default function B2BAudiencePage() {
           </motion.section>
 
           {/* Enhanced CTA Section */}
-          <motion.section 
+          <motion.section
             variants={itemVariants}
             className="text-center py-12 relative overflow-hidden rounded-3xl bg-[#1a1c2e] text-white"
           >
