@@ -54,12 +54,6 @@ const services = [
     icon: LineChart,
     title: "Strategic Lead Generation",
     description: "Drive high-quality leads with multi-channel campaigns, intent signal identification, and account-based targeting.",
-    features: [
-      "Multi-channel campaign orchestration",
-      "Intent signal identification",
-      "Account-based targeting options",
-      "Lead scoring and qualification"
-    ],
     gradients: [
       "from-blue-500/20 via-purple-500/20 to-pink-500/20",
       "from-pink-500/20 via-purple-500/20 to-blue-500/20"
@@ -69,12 +63,6 @@ const services = [
     icon: Share2,
     title: "Content Marketing & Distribution",
     description: "Create and distribute compelling B2B content that resonates with your target audience.",
-    features: [
-      "Strategic content planning",
-      "Multi-channel distribution",
-      "Content performance analytics",
-      "Account-specific customization"
-    ],
     gradients: [
       "from-purple-500/20 via-indigo-500/20 to-blue-500/20",
       "from-blue-500/20 via-indigo-500/20 to-purple-500/20"
@@ -84,12 +72,6 @@ const services = [
     icon: Video,
     title: "Event Marketing Solutions",
     description: "Maximize event attendance and engagement with targeted outreach and post-event lead nurturing.",
-    features: [
-      "End-to-end event promotion",
-      "Audience acquisition strategy",
-      "Key account targeting",
-      "Post-event lead nurturing"
-    ],
     gradients: [
       "from-green-500/20 via-emerald-500/20 to-teal-500/20",
       "from-teal-500/20 via-emerald-500/20 to-green-500/20"
@@ -99,12 +81,6 @@ const services = [
     icon: CheckSquare,
     title: "Lead Qualification Services",
     description: "Ensure sales readiness with expert lead qualification and enrichment services.",
-    features: [
-      "BANT qualification process",
-      "Lead enrichment services",
-      "Account potential analysis",
-      "Sales readiness assessment"
-    ],
     gradients: [
       "from-orange-500/20 via-amber-500/20 to-yellow-500/20",
       "from-yellow-500/20 via-amber-500/20 to-orange-500/20"
@@ -114,12 +90,6 @@ const services = [
     icon: TargetIcon,
     title: "Account-Based Marketing",
     description: "Engage high-value accounts with personalized, multi-channel ABM strategies.",
-    features: [
-      "Account selection strategy",
-      "Personalized campaigns",
-      "Multi-channel coordination",
-      "Performance measurement"
-    ],
     gradients: [
       "from-red-500/20 via-rose-500/20 to-pink-500/20",
       "from-pink-500/20 via-rose-500/20 to-red-500/20"
@@ -208,20 +178,6 @@ export function Services() {
 
                 <CardContent className="flex-grow pt-2 relative">
                   <div className="space-y-4">
-                    <ul className="space-y-3">
-                      {service.features.map((feature, idx) => (
-                        <motion.li
-                          key={idx}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: idx * 0.1 }}
-                          className="flex items-start gap-3 text-sm text-muted-foreground"
-                        >
-                          <CheckSquare className="h-5 w-5 text-primary shrink-0 mt-0.5 transition-transform group-hover:scale-110 duration-300" />
-                          <span className="leading-tight">{feature}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
                   </div>
                 </CardContent>
 
