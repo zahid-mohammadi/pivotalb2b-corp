@@ -290,7 +290,7 @@ export function Hero() {
           >
             {[
               { icon: Target, metric: "2-3x", label: "More Cost-Efficient" },
-              { icon: Shield, metric: "100%", label: "GDPR & Global Compliance" },
+              { icon: Shield, metric: "100%", label: "GDPR, CCPA, CASL Compliance" },
               { icon: Clock, metric: "24/7", label: "Lead Generation Engine" }
             ].map((benefit, index) => (
               <motion.div
