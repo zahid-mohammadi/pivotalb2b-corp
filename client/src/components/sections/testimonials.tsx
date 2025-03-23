@@ -1,4 +1,7 @@
+
 // This component has been removed
-export default function Testimonials() {
+export function Testimonials() {
   return null;
 }
+
+export default Testimonials;
