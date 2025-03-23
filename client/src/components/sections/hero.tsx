@@ -289,7 +289,7 @@ export function Hero() {
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
           >
             {[
-              { icon: Target, metric: "4-5x", label: "More Cost-Efficient" },
+              { icon: Target, metric: "2-3x", label: "More Cost-Efficient" },
               { icon: Shield, metric: "100%", label: "GDPR & Global Compliance" },
               { icon: Clock, metric: "24/7", label: "Lead Generation Engine" }
             ].map((benefit, index) => (
