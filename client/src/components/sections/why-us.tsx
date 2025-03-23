@@ -2,7 +2,7 @@ import { Globe2, Target, Share2, DollarSign, Shield, TrendingUp } from "lucide-r
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 
-// This component has been removed
-export default function WhyUs() {
+// Export the named component that's imported in home.tsx
+export function WhyUs() {
   return null;
 }
