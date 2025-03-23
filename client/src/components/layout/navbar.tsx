@@ -52,14 +52,14 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger className="nav-menu-trigger">Services</NavigationMenuTrigger>
-              <NavigationMenuContent className="nav-menu-content">
+              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+              <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
                   <li>
                     <Link href="/services/strategic-lead-generation">
-                      <NavigationMenuLink className="nav-menu-link">
-                        <div className="nav-menu-item-title">Strategic Lead Generation</div>
-                        <p className="nav-menu-item-description">High-quality leads through intent data</p>
+                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
+                        <div className="text-sm font-medium">Strategic Lead Generation</div>
+                        <p className="text-sm text-muted-foreground">High-quality leads through intent data</p>
                       </NavigationMenuLink>
                     </Link>
                   </li>
