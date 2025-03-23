@@ -1,599 +1,432 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { 
-  CheckCircle, 
-  ArrowRight, 
-  Target, 
-  Zap, 
-  TrendingUp, 
-  Users, 
-  MessageSquare, 
-  BarChart3, 
+import {
+  CheckCircle,
   ChevronRight,
-  Search,
-  BriefcaseBusiness, 
-  LineChart,
-  Hexagon,
-  ArrowDownRight,
-  ArrowUpRight
+  ArrowRight,
+  Lightbulb,
+  Target,
+  UserCheck,
 } from "lucide-react";
 import { ResearchStrategyIcon } from "@/components/animated-icons/research-strategy";
 import { ContentEngagementIcon } from "@/components/animated-icons/content-engagement";
 import { ScaleGrowthIcon } from "@/components/animated-icons/scale-growth";
+import { cn } from "@/lib/utils";
 
 export function Approach() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.1 });
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Parallax effect for background elements
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   const steps = [
     {
       icon: ResearchStrategyIcon,
       title: "Discover",
       subtitle: "Strategic Targeting",
-      description: "Identify your perfect buyers with smart data analytics and advanced filters at the account and persona levels. We define your Ideal Customer Profile (ICP) and pinpoint high-value decision-makers who are actively looking for solutions like yours, guaranteeing top-quality outreach.",
+      description:
+        "Identify your perfect buyers with smart data analytics and advanced filters at the account and persona levels. We define your Ideal Customer Profile (ICP) and pinpoint high-value decision-makers who are actively looking for solutions like yours, guaranteeing top-quality outreach.",
       color: "#4F46E5", // indigo-600
       highlightColor: "text-indigo-600 dark:text-indigo-400",
-      benefit: "Eliminate wasted spend on unqualified leads and focus resources on prospects primed to convert.",
-      keyPoints: []
+      benefit:
+        "Eliminate wasted spend on unqualified leads and focus resources on prospects primed to convert.",
+      iconBg: "bg-indigo-100 dark:bg-indigo-950/40",
+      borderColor: "border-indigo-200 dark:border-indigo-800",
+      gradientFrom: "from-indigo-600",
+      gradientTo: "to-violet-600",
     },
     {
       icon: ContentEngagementIcon,
       title: "Engage",
       subtitle: "Hyper-Targeted Campaigns",
-      description: "Provide tailored content, multi-channel engagement, and account-focused campaigns that address buyer challenges directly. From whitepapers and eBooks to webinars, we deliver messages that resonate and generate more informed leads",
+      description:
+        "Provide tailored content, multi-channel engagement, and account-focused campaigns that address buyer challenges directly. From whitepapers and eBooks to webinars, we deliver messages that resonate and generate more informed leads",
       color: "#8B5CF6", // violet-500
       highlightColor: "text-violet-600 dark:text-violet-400",
-      benefit: "Turn cold prospects into engaged buyers by meeting them where they are, with content they need.",
-      keyPoints: []
+      benefit:
+        "Turn cold prospects into engaged buyers by meeting them where they are, with content they need.",
+      iconBg: "bg-violet-100 dark:bg-violet-950/40",
+      borderColor: "border-violet-200 dark:border-violet-800",
+      gradientFrom: "from-violet-600",
+      gradientTo: "to-purple-600",
     },
     {
       icon: ScaleGrowthIcon,
       title: "Convert",
       subtitle: "Revenue-Driven Execution",
-      description: "Target top-priority leads using BANT qualification, empowering sales teams with real-time insights to achieve results. Through in-depth analytics and practical data, we provide your team with the resources to connect with prospects efficiently, enhancing conversion rates and optimizing the sales journey.",
+      description:
+        "Target top-priority leads using BANT qualification, empowering sales teams with real-time insights to achieve results. Through in-depth analytics and practical data, we provide your team with the resources to connect with prospects efficiently, enhancing conversion rates and optimizing the sales journey.",
       color: "#EC4899", // pink-500
       highlightColor: "text-pink-600 dark:text-pink-400",
-      benefit: "Shorten sales cycles, reduce leakage, and turn pipelines into predictable growth engines.",
-      keyPoints: []
+      benefit:
+        "Shorten sales cycles, reduce leakage, and turn pipelines into predictable growth engines.",
+      iconBg: "bg-pink-100 dark:bg-pink-950/40",
+      borderColor: "border-pink-200 dark:border-pink-800",
+      gradientFrom: "from-purple-600",
+      gradientTo: "to-pink-600",
     },
   ];
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-
-  const fadeInLeft = {
-    hidden: { opacity: 0, x: 60 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-
-  const fadeInRight = {
-    hidden: { opacity: 0, x: -60 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { duration: 0.8, ease: "easeOut" }
-    }
-  };
-
   return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <svg className="absolute h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <radialGradient id="heroglow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-              <stop offset="0%" stopColor="rgba(79, 70, 229, 0.1)" />
-              <stop offset="100%" stopColor="rgba(236, 72, 153, 0)" />
-            </radialGradient>
-          </defs>
-          <circle cx="20" cy="20" r="30" fill="url(#heroglow)" opacity="0.4">
-            <animate
-              attributeName="cy"
-              values="20;25;20"
-              dur="10s"
-              repeatCount="indefinite"
-            />
-          </circle>
-          <circle cx="80" cy="70" r="30" fill="url(#heroglow)" opacity="0.2">
-            <animate
-              attributeName="cx"
-              values="80;75;80"
-              dur="14s"
-              repeatCount="indefinite"
-            />
-          </circle>
-        </svg>
+    <section className="relative py-24 overflow-hidden bg-white dark:bg-slate-950">
+      {/* Decorative Background  */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Large Gradient Orbs */}
+        <motion.div
+          className="absolute top-0 -left-[30%] w-[80%] aspect-square rounded-full opacity-[0.07] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 blur-3xl"
+          style={{ y: y1 }}
+          aria-hidden="true"
+        />
+        <motion.div
+          className="absolute -top-[10%] -right-[30%] w-[70%] aspect-square rounded-full opacity-[0.07] bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 blur-3xl"
+          style={{ y: y2 }}
+          aria-hidden="true"
+        />
         
-        {/* Hexagon Pattern */}
+        {/* Flowing dots and lines background */}
         <div className="absolute inset-0 opacity-[0.03]">
-          {Array.from({ length: 20 }).map((_, i) => (
+          {Array.from({ length: 300 }).map((_, i) => (
             <motion.div
               key={i}
-              className="absolute"
-              style={{
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                opacity: Math.random() * 0.5 + 0.2,
+              className="absolute h-0.5 w-0.5 rounded-full bg-slate-600"
+              initial={{
+                opacity: Math.random() * 0.5 + 0.3,
+                x: Math.random() * 100 + "%",
+                y: -20,
               }}
-              initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
-              animate={{ 
-                opacity: [0.1, 0.3, 0.1],
-                scale: [0.8, 1, 0.8],
-                rotate: 360,
+              animate={{
+                y: ["0%", "100%"],
+                x: [
+                  `${Math.random() * 100}%`,
+                  `${Math.random() * 100 - 10}%`,
+                  `${Math.random() * 100}%`,
+                ],
               }}
-              transition={{ 
-                duration: Math.random() * 10 + 20,
+              transition={{
+                duration: Math.random() * 10 + 30,
                 repeat: Infinity,
-                ease: "linear"
+                ease: "linear",
               }}
-            >
-              <Hexagon className="w-12 h-12 stroke-primary/10 fill-transparent" />
-            </motion.div>
+            />
           ))}
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 relative z-10" ref={containerRef}>
-        {/* Title Section */}
-        <motion.div 
-          initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          variants={fadeInUp}
-          className="text-center mb-20 max-w-4xl mx-auto"
+      <div 
+        className="container relative mx-auto px-4 max-w-6xl z-10" 
+        ref={containerRef}
+      >
+        {/* Section Header */}
+        <motion.div
+          className="text-center mb-16 md:mb-24 relative"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
         >
-          {/* Elegant Header */}
-          <motion.div 
-            className="relative inline-flex flex-col items-center mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <div className="h-1 w-16 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full mb-4" />
-            <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight">
+          <div className="inline-flex flex-col items-center">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 mb-4 rounded-full bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50">
+              <Lightbulb className="w-4 h-4 mr-2" />
+              <span className="text-sm font-medium">Our Process</span>
+            </div>
+
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight max-w-4xl mb-6">
               Our Approach to Building Winning Sales Pipelines
             </h2>
-            <div className="h-1 w-16 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full mt-4" />
-          </motion.div>
-          
-          <motion.p 
-            className="text-xl text-muted-foreground max-w-2xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            We don't just generate leads—we build sales pipelines that convert. Our proven process ensures 
-            laser-focused targeting, engagement-optimized touchpoints, and revenue-ready conversions.
-          </motion.p>
+
+            <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full mb-6" />
+
+            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
+              We don't just generate leads—we build sales pipelines that convert. Our proven process ensures 
+              laser-focused targeting, engagement-optimized touchpoints, and revenue-ready conversions.
+            </p>
+          </div>
         </motion.div>
 
-        {/* ZigZag Flow with Connecting Lines */}
-        <div className="relative mx-auto max-w-6xl mb-24">
-          {/* Simplified Connection Approach - Use direct points between nodes */}
-          <div className="hidden lg:block absolute top-0 left-0 w-full h-full" style={{ pointerEvents: "none" }}>
-            <div className="absolute top-[130px] right-[calc(50%+80px)] left-[220px] h-[120px]">
-              {/* Step 1 to Step 2 connector - drops down from right side of step 1 to left side of step 2 */}
-              <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#4F46E5" />
-                    <stop offset="100%" stopColor="#8B5CF6" />
-                  </linearGradient>
-                </defs>
-                
-                <motion.path 
-                  d="M 0,0 C 30,0 70,100 100,100" 
-                  stroke="url(#grad1)" 
-                  strokeWidth="4" 
-                  strokeDasharray="8,8"
-                  fill="none"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                />
-              </svg>
-              
-              {/* Glowing particles */}
-              <motion.div 
-                className="absolute top-0 left-0 w-4 h-4 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50"
-                style={{ 
-                  boxShadow: "0 0 15px 5px rgba(79, 70, 229, 0.5)"
-                }}
-                animate={{ 
-                  top: ["0%", "100%"],
-                  left: ["0%", "100%"],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity,
-                  repeatDelay: 0.5
-                }}
-              />
-              
-              {/* Second particle with delay */}
-              <motion.div 
-                className="absolute top-0 left-0 w-3 h-3 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50"
-                style={{ 
-                  boxShadow: "0 0 15px 5px rgba(79, 70, 229, 0.5)"
-                }}
-                animate={{ 
-                  top: ["0%", "100%"],
-                  left: ["0%", "100%"],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity,
-                  repeatDelay: 0.5,
-                  delay: 1.5
-                }}
-              />
-            </div>
+        {/* Modern Vertical Timeline with Connected Nodes */}
+        <div className="relative py-10">
+          {/* Central Visual Connector - Visible on all screens */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2">
+            <div className="h-full w-full bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 rounded-full" />
             
-            <div className="absolute top-[250px] left-[calc(50%+80px)] right-[220px] h-[120px]">
-              {/* Step 2 to Step 3 connector - drops down from right side of step 2 to left side of step 3 */}
-              <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <defs>
-                  <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#8B5CF6" />
-                    <stop offset="100%" stopColor="#EC4899" />
-                  </linearGradient>
-                </defs>
-                
-                <motion.path 
-                  d="M 0,0 C 30,0 70,100 100,100" 
-                  stroke="url(#grad2)" 
-                  strokeWidth="4" 
-                  strokeDasharray="8,8"
-                  fill="none"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                  transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-                />
-              </svg>
-              
-              {/* Glowing particles */}
-              <motion.div 
-                className="absolute top-0 left-0 w-4 h-4 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50"
-                style={{ 
-                  boxShadow: "0 0 15px 5px rgba(139, 92, 246, 0.5)"
-                }}
-                animate={{ 
-                  top: ["0%", "100%"],
-                  left: ["0%", "100%"],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity,
-                  repeatDelay: 0.5,
-                  delay: 0.75
-                }}
-              />
-              
-              {/* Second particle with delay */}
-              <motion.div 
-                className="absolute top-0 left-0 w-3 h-3 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50"
-                style={{ 
-                  boxShadow: "0 0 15px 5px rgba(139, 92, 246, 0.5)"
-                }}
-                animate={{ 
-                  top: ["0%", "100%"],
-                  left: ["0%", "100%"],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity,
-                  repeatDelay: 0.5,
-                  delay: 2.25
-                }}
-              />
-            </div>
-            
-            {/* Emphasize the connecting dots for each step with extra pulses */}
-            {steps.map((step, index) => (
-              <div 
-                key={`connector-${index}`}
-                className="absolute" 
-                style={{ 
-                  top: `${index * 120 + 120}px`, 
-                  [index % 2 === 0 ? 'right' : 'left']: '50%',
-                  [index % 2 === 0 ? 'marginRight' : 'marginLeft']: '80px'
-                }}
-              >
-                <motion.div
-                  className="w-8 h-8 rounded-full"
-                  style={{ backgroundColor: step.color }}
-                  initial={{ scale: 0.8, opacity: 0.5 }}
-                  animate={{ 
-                    scale: [0.8, 1.2, 0.8], 
-                    opacity: [0.5, 1, 0.5],
-                    boxShadow: [
-                      `0 0 0px ${step.color}`,
-                      `0 0 20px ${step.color}`,
-                      `0 0 0px ${step.color}`
-                    ]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                />
-              </div>
-            ))}
-          </div>
-          
-          {/* Mobile Vertical Connection */}
-          <div className="lg:hidden absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 z-10">
-            <div className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 opacity-30" />
-            
-            {/* Animated glow pulse */}
+            {/* Animated Light Pulse Down the Line */}
             <motion.div 
-              className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"
-              initial={{ scaleY: 0, opacity: 0, originY: 0 }}
-              animate={{ 
-                scaleY: [0, 1, 0], 
-                opacity: [0, 0.7, 0],
+              className="absolute inset-0 w-full bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"
+              initial={{ 
+                opacity: 0,
+                scaleY: 0, 
+                y: 0 
               }}
-              transition={{ 
-                duration: 3, 
+              animate={{ 
+                opacity: [0, 1, 0],
+                scaleY: [0, 1, 1],
+                y: ["0%", "100%", "100%"]
+              }}
+              transition={{
+                duration: 3,
                 repeat: Infinity,
                 repeatDelay: 1
               }}
             />
-            
-            {/* Animated dots */}
-            {[...Array(3)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-3 h-3 rounded-full bg-white shadow-lg left-1/2 -translate-x-1/2 z-20"
-                style={{ 
-                  boxShadow: `0 0 10px 2px ${i === 0 ? '#4F46E5' : i === 1 ? '#8B5CF6' : '#EC4899'}`
-                }}
-                initial={{ top: "-5%", opacity: 0 }}
-                animate={{ 
-                  top: ["0%", "100%"],
-                  opacity: [0, 1, 0]
-                }}
-                transition={{ 
-                  duration: 8,
-                  delay: i * 2.5,
-                  repeat: Infinity,
-                  repeatDelay: 0.5
-                }}
-              />
-            ))}
           </div>
 
-          {/* Process Steps in ZigZag Pattern */}
-          <div className="relative space-y-28 lg:space-y-0">
-            {steps.map((step, index) => (
-              <motion.div
-                key={index}
-                className={`relative flex flex-col lg:flex-row items-center ${
-                  index % 2 === 0 
-                    ? "lg:flex-row-reverse lg:text-right lg:justify-start" 
-                    : "lg:flex-row lg:text-left lg:justify-end"
-                } gap-8`}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: { 
-                    opacity: 1,
-                    transition: { 
-                      when: "beforeChildren",
-                      staggerChildren: 0.2,
-                      delayChildren: index * 0.1
-                    }
-                  }
-                }}
-              >
-                {/* Step Number Circle */}
-                <motion.div 
-                  className={`absolute lg:static top-0 ${index % 2 === 0 ? "left-0" : "right-0"} lg:mx-0 z-20`}
-                  variants={index % 2 === 0 ? fadeInLeft : fadeInRight}
+          {/* Timeline Steps */}
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              className={cn(
+                "relative flex flex-col md:flex-row md:items-center gap-8 mb-16 md:mb-32 last:mb-0 z-10",
+                index % 2 === 1 ? "md:flex-row-reverse" : ""
+              )}
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{ 
+                duration: 0.7, 
+                delay: index * 0.2,
+                ease: "easeOut" 
+              }}
+            >
+              {/* Central Node */}
+              <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
+                <motion.div
+                  className="w-16 h-16 rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center text-xl font-bold text-white relative"
+                  style={{ backgroundColor: step.color }}
+                  initial={{ scale: 0.8 }}
+                  animate={{ 
+                    scale: [0.8, 1, 0.8],
+                    boxShadow: [
+                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0)`,
+                      `0 0 30px rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.5)`,
+                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0)`
+                    ]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
                 >
+                  {index + 1}
+                  
+                  {/* Ripple Effect */}
                   <motion.div
-                    className="w-20 h-20 rounded-full border-4 border-white dark:border-slate-900 shadow-xl flex items-center justify-center relative"
-                    style={{ backgroundColor: step.color }}
-                    initial={{ boxShadow: `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)` }}
-                    animate={{ 
-                      boxShadow: [
-                        `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`,
-                        `0 0 20px rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.6)`,
-                        `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`
-                      ]
-                    }}
+                    className="absolute inset-0 rounded-full border-2 border-white/30"
+                    initial={{ scale: 0.8, opacity: 0.8 }}
+                    animate={{ scale: 2, opacity: 0 }}
                     transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <span className="text-white text-2xl font-bold">{index + 1}</span>
-                    
-                    {/* Ripple effect */}
-                    <motion.div
-                      className="absolute inset-0 rounded-full border-2 border-white/30"
-                      initial={{ scale: 1, opacity: 0.5 }}
-                      animate={{ scale: 1.5, opacity: 0 }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    
-                    {/* Direction arrows (desktop only) */}
-                    {index < steps.length - 1 && (
-                      <motion.div 
-                        className="hidden lg:flex absolute -bottom-16 left-1/2 -translate-x-1/2"
-                        animate={{ y: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      >
-                        {index % 2 === 0 ? (
-                          <ArrowDownRight className="w-8 h-8 text-slate-400" />
-                        ) : (
-                          <ArrowUpRight className="w-8 h-8 text-slate-400" />
-                        )}
-                      </motion.div>
-                    )}
-                  </motion.div>
+                  />
                 </motion.div>
-
-                {/* Step Content Card */}
-                <motion.div 
-                  className={`w-full lg:w-5/12 mt-10 lg:mt-0 ${index % 2 === 0 ? "lg:mr-auto" : "lg:ml-auto"}`}
-                  variants={index % 2 === 0 ? fadeInRight : fadeInLeft}
+              </div>
+              
+              {/* Content Card */}
+              <div className={cn(
+                "w-full md:w-5/12 ml-auto md:ml-0 pl-10 md:pl-0",
+                index % 2 === 1 ? "md:ml-auto md:text-right" : "md:mr-auto"
+              )}>
+                <motion.div
+                  className={cn(
+                    "bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border",
+                    step.borderColor
+                  )}
+                  whileHover={{ 
+                    y: -10,
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
-                  <motion.div
-                    className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800 transform-gpu relative"
-                    whileHover={{ scale: 1.02, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    {/* Color Band at Top */}
-                    <div className="h-2" style={{ backgroundColor: step.color }} />
-
-                    <div className="p-8">
-                      {/* Title and Subtitle */}
-                      <div className={`flex items-start gap-4 mb-6 ${index % 2 === 0 ? "lg:flex-row-reverse" : ""}`}>
-                        <div 
-                          className="p-3 rounded-xl flex-shrink-0"
-                          style={{ backgroundColor: `${step.color}15` }}
+                  {/* Card Header with Gradient */}
+                  <div className={cn(
+                    "p-6 bg-gradient-to-r", 
+                    step.gradientFrom, 
+                    step.gradientTo
+                  )}>
+                    <div className="flex items-center gap-3">
+                      <div className={cn(
+                        "p-2 rounded-lg", 
+                        step.iconBg
+                      )}>
+                        <motion.div
+                          animate={{ rotate: [0, 5, -5, 0] }}
+                          transition={{ 
+                            duration: 5, 
+                            repeat: Infinity,
+                            repeatType: "reverse" 
+                          }}
                         >
-                          <motion.div
-                            animate={{ rotate: [0, 10, -10, 0] }}
-                            transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
-                          >
-                            <step.icon />
-                          </motion.div>
-                        </div>
-                        <div className={`${index % 2 === 0 ? "lg:text-right" : "lg:text-left"}`}>
-                          <h3 className="text-2xl font-bold mb-1" style={{ color: step.color }}>
-                            {step.title}
-                          </h3>
-                          <p className="text-lg font-medium text-slate-600 dark:text-slate-400">
-                            {step.subtitle}
-                          </p>
-                        </div>
+                          <step.icon />
+                        </motion.div>
                       </div>
-
-                      {/* Description */}
-                      <p className={`text-muted-foreground leading-relaxed mb-6 pb-6 border-b border-slate-100 dark:border-slate-800 ${index % 2 === 0 ? "lg:text-right" : "lg:text-left"}`}>
-                        {step.description}
-                      </p>
-
-                      {/* Benefit Tag */}
-                      <motion.div 
-                        className="mt-6 flex items-center"
-                        whileHover={{ y: -3 }}
-                      >
-                        <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
-                        <div 
-                          className="mx-4 flex items-center px-4 py-1 rounded-full"
-                          style={{ backgroundColor: `${step.color}15` }}
-                        >
-                          <CheckCircle className="h-4 w-4 mr-2" style={{ color: step.color }} />
-                          <p className="text-xs font-medium" style={{ color: step.color }}>
-                            {step.benefit}
-                          </p>
-                        </div>
-                        <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
-                      </motion.div>
+                      <div>
+                        <h3 className="text-white text-2xl font-bold">
+                          {step.title}
+                        </h3>
+                        <p className="text-white/90 text-sm">
+                          {step.subtitle}
+                        </p>
+                      </div>
                     </div>
-
-                    {/* Decorative corner gradients */}
-                    <div 
-                      className={`absolute -z-10 w-40 h-40 rounded-full ${index % 2 === 0 ? "-top-20 -right-20" : "-top-20 -left-20"}`}
-                      style={{ 
-                        background: `radial-gradient(circle, ${step.color}15 0%, transparent 70%)` 
-                      }}
-                    />
-                    <div 
-                      className={`absolute -z-10 w-40 h-40 rounded-full ${index % 2 === 0 ? "-bottom-20 -left-20" : "-bottom-20 -right-20"}`}
-                      style={{ 
-                        background: `radial-gradient(circle, ${step.color}10 0%, transparent 70%)` 
-                      }}
-                    />
-                  </motion.div>
+                  </div>
+                  
+                  {/* Card Content */}
+                  <div className="p-6">
+                    <p className="text-slate-600 dark:text-slate-300 mb-6">
+                      {step.description}
+                    </p>
+                    
+                    {/* Benefit Tag */}
+                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                      <CheckCircle 
+                        className="w-5 h-5 flex-shrink-0" 
+                        style={{ color: step.color }} 
+                      />
+                      <p className="text-sm" style={{ color: step.color }}>
+                        <strong>Key Benefit:</strong> {step.benefit}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Arrow connector to next step */}
+                  {index < steps.length - 1 && (
+                    <motion.div 
+                      className={cn(
+                        "absolute hidden md:block",
+                        index % 2 === 0 ? "right-0 bottom-8 translate-x-full" : "left-0 bottom-8 -translate-x-full"
+                      )}
+                      animate={{ x: index % 2 === 0 ? [10, 20, 10] : [-10, -20, -10] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <ArrowRight 
+                        className={cn(
+                          "w-8 h-8",
+                          index === 0 ? "text-indigo-500" : "text-violet-500"
+                        )}
+                      />
+                    </motion.div>
+                  )}
                 </motion.div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+              
+              {/* Process Step Illustration (for medium and larger screens) */}
+              <div className={cn(
+                "hidden md:block w-5/12 relative",
+                index % 2 === 1 ? "mr-auto" : "ml-auto"
+              )}>
+                <motion.div
+                  className={cn(
+                    "aspect-square rounded-full flex items-center justify-center",
+                    step.iconBg,
+                    index % 2 === 1 ? "ml-auto mr-8" : "mr-auto ml-8"
+                  )}
+                  style={{ width: "75%" }}
+                  initial={{ scale: 0.9, opacity: 0.7 }}
+                  whileHover={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {/* Each step gets a different illustration */}
+                  {index === 0 && (
+                    <DiscoverAnimation />
+                  )}
+                  {index === 1 && (
+                    <EngageAnimation />
+                  )}
+                  {index === 2 && (
+                    <ConvertAnimation />
+                  )}
+                </motion.div>
+              </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Results Section with elegant cards */}
-        <motion.div 
-          className="mt-20 text-center"
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
+        {/* Results Overview Cards */}
+        <motion.div
+          className="mt-20 md:mt-24"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
         >
-          <motion.h3 
-            className="text-3xl font-bold mb-16"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text">
-              Proven Results That Speak for Themselves
-            </span>
-          </motion.h3>
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text">
+              Proven Results That Drive Success
+            </h3>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+              Our approach consistently delivers measurable improvements in key pipeline metrics
+            </p>
+          </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { value: "25%", label: "Pipeline Efficiency", icon: Zap, color: "#4F46E5" },
-              { value: "2.5x", label: "Lead Quality Improvement", icon: Target, color: "#8B5CF6" },
-              { value: "45%", label: "Cost per Lead Reduction", icon: TrendingUp, color: "#A855F7" },
-              { value: "99%", label: "Sales Acceptance Rate", icon: CheckCircle, color: "#EC4899" }
+              {
+                value: "25%",
+                label: "Improved Pipeline Efficiency",
+                icon: Target,
+                color: "#4F46E5",
+                delay: 0
+              },
+              {
+                value: "2.5x",
+                label: "Lead Quality Improvement",
+                icon: UserCheck,
+                color: "#8B5CF6",
+                delay: 0.1
+              },
+              {
+                value: "45%",
+                label: "Cost per Lead Reduction",
+                icon: ChevronRight,
+                color: "#A855F7",
+                delay: 0.2
+              },
+              {
+                value: "99%",
+                label: "Sales Acceptance Rate",
+                icon: CheckCircle,
+                color: "#EC4899",
+                delay: 0.3
+              }
             ].map((stat, index) => (
               <motion.div
                 key={index}
+                className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-lg"
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.5, delay: 0.2 * index }}
-                whileHover={{ y: -10, scale: 1.05 }}
+                transition={{ duration: 0.5, delay: stat.delay }}
+                whileHover={{ 
+                  y: -10,
+                  transition: { duration: 0.2 }
+                }}
               >
-                <div className="h-full bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800">
-                  {/* Stat Header */}
+                <div 
+                  className="h-2 w-full"
+                  style={{ backgroundColor: stat.color }}
+                />
+                
+                <div className="p-6">
                   <div 
-                    className="h-2 w-full"
-                    style={{ backgroundColor: stat.color }}
-                  />
-                  
-                  <div className="p-6 md:p-8 flex flex-col items-center">
-                    {/* Icon in Circle */}
-                    <div 
-                      className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 border-2"
-                      style={{ 
-                        backgroundColor: `${stat.color}10`, 
-                        borderColor: stat.color 
-                      }}
-                    >
-                      <stat.icon style={{ color: stat.color }} className="h-7 w-7" />
-                    </div>
-                    
-                    {/* Value with gradient */}
-                    <motion.div
-                      className="mb-2 relative"
-                      whileHover={{ scale: 1.1 }}
-                    >
-                      <h4 
-                        className="text-3xl md:text-4xl font-bold"
-                        style={{ color: stat.color }}
-                      >
-                        {stat.value}
-                      </h4>
-                    </motion.div>
-                    
-                    {/* Label */}
-                    <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
-                      {stat.label}
-                    </p>
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 mx-auto"
+                    style={{ backgroundColor: `${stat.color}15` }}
+                  >
+                    <stat.icon style={{ color: stat.color }} className="w-8 h-8" />
                   </div>
+                  
+                  <motion.h4
+                    className="text-4xl font-bold mb-2 text-center"
+                    style={{ color: stat.color }}
+                    initial={{ scale: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    {stat.value}
+                  </motion.h4>
+                  
+                  <p className="text-slate-600 dark:text-slate-400 text-center">
+                    {stat.label}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -601,5 +434,187 @@ export function Approach() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+// Special Animations for each Step
+function DiscoverAnimation() {
+  return (
+    <motion.div 
+      className="w-full h-full flex items-center justify-center relative"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.7 }}
+    >
+      <motion.div
+        className="absolute w-full h-full rounded-full border-4 border-dashed border-indigo-200 dark:border-indigo-900"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+      />
+      
+      <div className="absolute inset-4 rounded-full flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-100 to-white dark:from-indigo-950 dark:to-slate-900 opacity-80" />
+      
+        <div className="w-2/3 h-2/3 relative grid grid-cols-2 grid-rows-2 gap-2">
+          {[1, 2, 3, 4].map((i) => (
+            <motion.div
+              key={i}
+              className="bg-indigo-500/20 rounded-lg flex items-center justify-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.5, 
+                delay: i * 0.1,
+                repeat: Infinity,
+                repeatType: "reverse",
+                repeatDelay: i
+              }}
+            >
+              <div className="w-4 h-4 rounded-full bg-indigo-500" />
+            </motion.div>
+          ))}
+        </div>
+        
+        <motion.div
+          className="absolute w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center z-10"
+          animate={{ 
+            boxShadow: [
+              "0 0 0 0 rgba(79, 70, 229, 0)",
+              "0 0 0 15px rgba(79, 70, 229, 0.3)",
+              "0 0 0 0 rgba(79, 70, 229, 0)"
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <Target className="w-6 h-6 text-white" />
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+}
+
+function EngageAnimation() {
+  return (
+    <motion.div 
+      className="w-full h-full flex items-center justify-center relative"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.7 }}
+    >
+      <motion.div
+        className="absolute w-full h-full rounded-full border-4 border-dashed border-violet-200 dark:border-violet-900"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+      />
+      
+      <div className="absolute inset-4 rounded-full flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-violet-100 to-white dark:from-violet-950 dark:to-slate-900 opacity-80" />
+      
+        <div className="w-2/3 aspect-video relative">
+          {/* Messages floating around */}
+          {[1, 2, 3].map((i) => (
+            <motion.div
+              key={i}
+              className="absolute w-12 h-8 bg-violet-500/20 rounded-lg border border-violet-500/30"
+              style={{
+                top: `${25 * i}%`,
+                left: i % 2 === 0 ? "0%" : "auto",
+                right: i % 2 === 0 ? "auto" : "0%",
+              }}
+              animate={{ 
+                x: i % 2 === 0 ? [0, 20, 0] : [0, -20, 0],
+                y: [0, -10, 0]
+              }}
+              transition={{ 
+                duration: 3, 
+                delay: i * 0.5,
+                repeat: Infinity
+              }}
+            />
+          ))}
+          
+          <motion.div
+            className="absolute inset-0 flex items-center justify-center"
+            animate={{ scale: [0.95, 1, 0.95] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <div className="w-16 h-16 rounded-full bg-violet-600 flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              >
+                <ContentEngagementIcon />
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function ConvertAnimation() {
+  return (
+    <motion.div 
+      className="w-full h-full flex items-center justify-center relative"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.7 }}
+    >
+      <motion.div
+        className="absolute w-full h-full rounded-full border-4 border-dashed border-pink-200 dark:border-pink-900"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+      />
+      
+      <div className="absolute inset-4 rounded-full flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-white dark:from-pink-950 dark:to-slate-900 opacity-80" />
+      
+        <div className="relative w-2/3 aspect-square flex items-center justify-center">
+          {/* Growth Bars */}
+          <div className="absolute bottom-0 w-full flex items-end justify-center gap-3 px-4">
+            {[40, 60, 80, 100].map((height, i) => (
+              <motion.div
+                key={i}
+                className="w-1/4 bg-pink-500/20 rounded-t-lg"
+                style={{ height: 0 }}
+                animate={{ height: `${height}%` }}
+                initial={{ height: 0 }}
+                transition={{ 
+                  duration: 1, 
+                  delay: i * 0.2,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  repeatDelay: 3
+                }}
+              >
+                <motion.div 
+                  className="h-2 w-full bg-pink-500 rounded-t-lg"
+                  animate={{ 
+                    backgroundColor: ["#EC4899", "#8B5CF6", "#EC4899"] 
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+              </motion.div>
+            ))}
+          </div>
+          
+          <motion.div
+            className="absolute top-0 right-0 w-12 h-12 rounded-full bg-pink-600 flex items-center justify-center"
+            animate={{ 
+              y: [0, 10, 0],
+              boxShadow: [
+                "0 0 0 0 rgba(236, 72, 153, 0)",
+                "0 0 0 15px rgba(236, 72, 153, 0.3)",
+                "0 0 0 0 rgba(236, 72, 153, 0)"
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <CheckCircle className="w-6 h-6 text-white" />
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
