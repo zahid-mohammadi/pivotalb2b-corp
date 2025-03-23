@@ -363,7 +363,7 @@ export function Approach() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                value: "25%",
+                value: "20%",
                 label: "Improved Pipeline Efficiency",
                 icon: Target,
                 color: "#4F46E5",
