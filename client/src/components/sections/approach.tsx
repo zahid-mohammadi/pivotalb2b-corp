@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react"; // Added import
 import { ResearchStrategyIcon } from "@/components/animated-icons/research-strategy";
 import { ContentEngagementIcon } from "@/components/animated-icons/content-engagement";
 import { ScaleGrowthIcon } from "@/components/animated-icons/scale-growth";
@@ -158,7 +158,7 @@ export function Approach() {
 }
 
         {/* How It All Connects Section */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-16" id="how-it-connects"> {/* Added id for smooth scrolling */}
           <h3 className="text-2xl font-bold mb-6">How It All Connects</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-4">
