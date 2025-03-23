@@ -1,7 +1,6 @@
 import { Hero } from "@/components/sections/hero";
 import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
-import { WhyUs } from "@/components/sections/why-us";
 import { Testimonials } from "@/components/sections/testimonials";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { motion } from "framer-motion";
@@ -34,7 +33,7 @@ export default function Home() {
       <div className="relative min-h-screen">
         {/* Background gradient accent */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
-        
+
         {/* Enhanced page sections with animations */}
         <motion.div
           initial="hidden"
@@ -74,15 +73,6 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
             <Services />
-          </motion.section>
-
-          {/* Why Us Section with enhanced engagement */}
-          <motion.section
-            variants={fadeInUp}
-            className="relative z-40"
-          >
-            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-primary/5 to-transparent pointer-events-none" />
-            <WhyUs />
           </motion.section>
 
           {/* Testimonials Section with improved presentation */}
