@@ -126,6 +126,21 @@ const iconAnimationVariants = {
 // Service data with enhanced content
 const services = [
   {
+    icon: TargetIcon,
+    title: "Account-Based Marketing",
+    description: "Engage high-value accounts with personalized, multi-channel ABM strategies that drive measurable results.",
+    features: [
+      { icon: Users, text: "Account intelligence" },
+      { icon: BarChart3, text: "Engagement analytics" },
+      { icon: Award, text: "ROI measurement" }
+    ],
+    gradients: [
+      "from-rose-600/30 via-red-500/30 to-pink-500/20",
+      "from-pink-500/20 via-red-500/30 to-rose-600/30"
+    ],
+    highlight: "45% higher conversion rates"
+  },
+  {
     icon: LineChart,
     title: "Strategic Lead Generation",
     description: "Drive high-quality leads with multi-channel campaigns, intent signal identification, and account-based targeting.",
@@ -184,21 +199,6 @@ const services = [
       "from-yellow-500/20 via-orange-500/30 to-amber-600/30"
     ],
     highlight: "67% improvement in lead quality"
-  },
-  {
-    icon: TargetIcon,
-    title: "Account-Based Marketing",
-    description: "Engage high-value accounts with personalized, multi-channel ABM strategies that drive measurable results.",
-    features: [
-      { icon: Users, text: "Account intelligence" },
-      { icon: BarChart3, text: "Engagement analytics" },
-      { icon: Award, text: "ROI measurement" }
-    ],
-    gradients: [
-      "from-rose-600/30 via-red-500/30 to-pink-500/20",
-      "from-pink-500/20 via-red-500/30 to-rose-600/30"
-    ],
-    highlight: "45% higher conversion rates"
   }
 ];
 
@@ -481,33 +481,35 @@ export function Services() {
                       </motion.div>
                       
                       {/* CTA Button with animated arrow */}
-                      <Link href={`/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`} className="block">
-                        <motion.button
-                          className={`
-                            w-full py-3 px-6 rounded-xl text-white font-medium
-                            bg-gradient-to-r from-primary to-primary/90
-                            hover:shadow-lg hover:shadow-primary/20
-                            transition-all duration-300 flex items-center justify-center
-                          `}
-                          whileHover={{ scale: 1.03 }}
-                          whileTap={{ scale: 0.98 }}
+                      <motion.button
+                        onClick={() => {
+                          const url = `/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`;
+                          window.location.href = url;
+                        }}
+                        className={`
+                          w-full py-3 px-6 rounded-xl text-white font-medium
+                          bg-gradient-to-r from-primary to-primary/90
+                          hover:shadow-lg hover:shadow-primary/20
+                          transition-all duration-300 flex items-center justify-center
+                        `}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <span>Explore Service</span>
+                        <motion.span
+                          className="ml-2 flex items-center"
+                          animate={{ 
+                            x: activeIndex === index ? [0, 5, 0] : 0,
+                          }}
+                          transition={{ 
+                            duration: 1.2, 
+                            repeat: activeIndex === index ? Infinity : 0, 
+                            repeatType: "reverse"
+                          }}
                         >
-                          <span>Explore Service</span>
-                          <motion.span
-                            className="ml-2 flex items-center"
-                            animate={{ 
-                              x: activeIndex === index ? [0, 5, 0] : 0,
-                            }}
-                            transition={{ 
-                              duration: 1.2, 
-                              repeat: activeIndex === index ? Infinity : 0, 
-                              repeatType: "reverse"
-                            }}
-                          >
-                            <ArrowRight className="h-4 w-4" />
-                          </motion.span>
-                        </motion.button>
-                      </Link>
+                          <ArrowRight className="h-4 w-4" />
+                        </motion.span>
+                      </motion.button>
                     </div>
                   </div>
                 </motion.div>
@@ -637,11 +639,14 @@ export function Services() {
                       transition={{ type: "spring", stiffness: 400, damping: 10 }}
                       className="w-full sm:w-auto"
                     >
-                      <Link href="/services" className="block w-full sm:w-auto py-4 px-8 rounded-xl 
-                        border border-primary/20 text-primary font-medium hover:bg-primary/5
-                        transition-all duration-300 flex items-center justify-center">
+                      <motion.button
+                        onClick={() => window.location.href = "/services"}
+                        className="w-full sm:w-auto py-4 px-8 rounded-xl 
+                          border border-primary/20 text-primary font-medium hover:bg-primary/5
+                          transition-all duration-300 flex items-center justify-center"
+                      >
                         View All Services
-                      </Link>
+                      </motion.button>
                     </motion.div>
                   </div>
                 </motion.div>
