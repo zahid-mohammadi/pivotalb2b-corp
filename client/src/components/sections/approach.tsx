@@ -31,7 +31,7 @@ export function Approach() {
       icon: ResearchStrategyIcon,
       title: "Discover",
       subtitle: "Strategic Targeting",
-      description: "Pinpoint your ideal buyers using intelligent data analytics, intent signals, and technographic insights. We map your ICP and identify high-value decision-makers actively seeking solutions like yours—ensuring quality-first outreach.",
+      description: "Identify your perfect buyers with smart data analytics and advanced filters at the account and persona levels. We define your Ideal Customer Profile (ICP) and pinpoint high-value decision-makers who are actively looking for solutions like yours, guaranteeing top-quality outreach.",
       color: "#4F46E5", // indigo-600
       highlightColor: "text-indigo-600 dark:text-indigo-400",
       benefit: "Eliminate wasted spend on unqualified leads and focus resources on prospects primed to convert.",
@@ -126,7 +126,7 @@ export function Approach() {
             />
           </circle>
         </svg>
-        
+
         {/* Hexagon Pattern */}
         <div className="absolute inset-0 opacity-[0.03]">
           {Array.from({ length: 20 }).map((_, i) => (
@@ -178,7 +178,7 @@ export function Approach() {
             </h2>
             <div className="h-1 w-16 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full mt-4" />
           </motion.div>
-          
+
           <motion.p 
             className="text-xl text-muted-foreground max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -211,7 +211,7 @@ export function Approach() {
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.5 }}
                 transition={{ duration: 2, ease: "easeInOut" }}
               />
-              
+
               {/* Animated Particles Following the Path */}
               {[...Array(6)].map((_, i) => {
                 // Offset positions for particle flow
@@ -226,7 +226,7 @@ export function Approach() {
                   { x: 1100, y: 320 },  // Curve down to node 3
                   { x: 1200, y: 390 }   // At node 3
                 ];
-                
+
                 return (
                   <motion.circle
                     key={i}
@@ -254,7 +254,7 @@ export function Approach() {
                   />
                 );
               })}
-              
+
               {/* Pulsing Glow Effect Along the Path */}
               <motion.path 
                 d="M 200,110 
@@ -278,14 +278,14 @@ export function Approach() {
                   repeatDelay: 0.5
                 }}
               />
-              
+
               <defs>
                 <linearGradient id="zigzagGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#4F46E5" />
                   <stop offset="50%" stopColor="#8B5CF6" />
                   <stop offset="100%" stopColor="#EC4899" />
                 </linearGradient>
-                
+
                 <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#4F46E5">
                     <animate attributeName="stop-color" 
@@ -298,24 +298,24 @@ export function Approach() {
                       dur="4s" repeatCount="indefinite" />
                   </stop>
                 </linearGradient>
-                
+
                 <radialGradient id="glowCircle" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
                   <stop offset="0%" stopColor="white" stopOpacity="1" />
                   <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
                 </radialGradient>
-                
+
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="3" result="blur" />
                   <feComposite in="SourceGraphic" in2="blur" operator="over" />
                 </filter>
               </defs>
             </svg>
-            
+
             {/* Vertical animated connectors for mobile view only */}
             <div className="block lg:hidden absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2">
               {/* Base gradient line */}
               <div className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 opacity-40" />
-              
+
               {/* Animated pulse */}
               <motion.div 
                 className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"
@@ -330,7 +330,7 @@ export function Approach() {
                   repeatDelay: 1
                 }}
               />
-              
+
               {/* Animated dots moving down the line */}
               {[...Array(3)].map((_, i) => (
                 <motion.div
@@ -398,7 +398,7 @@ export function Approach() {
                     transition={{ duration: 2, repeat: Infinity }}
                   >
                     <span className="text-white text-2xl font-bold">{index + 1}</span>
-                    
+
                     {/* Animated ripple effect */}
                     <motion.div
                       className="absolute inset-0 rounded-full border-2 border-white/30"
@@ -406,7 +406,7 @@ export function Approach() {
                       animate={{ scale: 1.5, opacity: 0 }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
-                    
+
                     {/* Direction Arrow - Only on desktop */}
                     {index < steps.length - 1 && (
                       <motion.div 
@@ -564,7 +564,7 @@ export function Approach() {
                     className="h-2 w-full"
                     style={{ backgroundColor: stat.color }}
                   />
-                  
+
                   <div className="p-6 md:p-8 flex flex-col items-center">
                     {/* Icon in Circle */}
                     <div 
@@ -576,7 +576,7 @@ export function Approach() {
                     >
                       <stat.icon style={{ color: stat.color }} className="h-7 w-7" />
                     </div>
-                    
+
                     {/* Value with gradient */}
                     <motion.div
                       className="mb-2 relative"
@@ -589,7 +589,7 @@ export function Approach() {
                         {stat.value}
                       </h4>
                     </motion.div>
-                    
+
                     {/* Label */}
                     <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
                       {stat.label}
