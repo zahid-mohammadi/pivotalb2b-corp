@@ -35,11 +35,7 @@ export function Approach() {
       color: "#4F46E5", // indigo-600
       highlightColor: "text-indigo-600 dark:text-indigo-400",
       benefit: "Eliminate wasted spend on unqualified leads and focus resources on prospects primed to convert.",
-      keyPoints: [
-        { icon: Search, text: "Precision targeting with intent data" },
-        { icon: BriefcaseBusiness, text: "Decision-maker identification" },
-        { icon: LineChart, text: "ICP mapping and verification" }
-      ]
+      keyPoints: []
     },
     {
       icon: ContentEngagementIcon,
