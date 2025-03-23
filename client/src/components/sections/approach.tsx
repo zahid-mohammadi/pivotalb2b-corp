@@ -8,24 +8,27 @@ export function Approach() {
   const steps = [
     {
       icon: ResearchStrategyIcon,
-      title: "Strategic Targeting",
-      description: "Leverage advanced data analytics, technographic insights, and intent signals to identify and profile your ideal customer segments.",
+      title: "Discover: Strategic Targeting",
+      description: "Pinpoint your ideal buyers using intelligent data analytics, intent signals, and technographic insights. We map your ICP and identify high-value decision-makers actively seeking solutions like yours—ensuring quality-first outreach.",
       gradient: "from-blue-500/20 via-indigo-500/20 to-violet-500/20",
       highlightColor: "text-blue-600 dark:text-blue-400",
+      benefit: "Eliminate wasted spend on unqualified leads and focus resources on prospects primed to convert.",
     },
     {
       icon: ContentEngagementIcon,
-      title: "Engagement Optimization",
-      description: "Deploy personalized, multi-channel campaigns that resonate with decision-makers, driving meaningful interactions and nurturing prospects through the funnel.",
+      title: "Engage: Hyper-Targeted Campaigns",
+      description: "Deliver personalized content, multi-channel outreach, and account-specific campaigns that resonate with buyer pain points. From whitepapers to tailored demos, we synchronize messaging across all platforms.",
       gradient: "from-violet-500/20 via-purple-500/20 to-fuchsia-500/20",
       highlightColor: "text-violet-600 dark:text-violet-400",
+      benefit: "Turn cold prospects into engaged buyers by meeting them where they are, with content they need.",
     },
     {
       icon: ScaleGrowthIcon,
-      title: "Pipeline Acceleration",
-      description: "Convert prospects into sales-ready leads with BANT qualification, nurture workflows, and seamless integration with your sales team.",
+      title: "Convert: Revenue-Driven Execution",
+      description: "Prioritize hot leads using BANT qualification and arm sales teams with real-time insights. Our automated workflows ensure seamless marketing-to-sales handoffs, maintaining momentum until close.",
       gradient: "from-fuchsia-500/20 via-pink-500/20 to-rose-500/20",
       highlightColor: "text-fuchsia-600 dark:text-fuchsia-400",
+      benefit: "Shorten sales cycles, reduce leakage, and turn pipelines into predictable growth engines.",
     },
   ];
 
@@ -52,12 +55,12 @@ export function Approach() {
             Our Approach to Building Winning Sales Pipelines
           </h2>
           <p className="text-xl text-muted-foreground">
-            We don't just generate leads—we build sales pipelines that convert. Through strategic targeting, multi-channel engagement, 
-            and proven conversion methodologies, we deliver qualified opportunities that align with your business goals.
+            We don't just generate leads—we build sales pipelines that convert. Our proven process ensures laser-focused targeting, 
+            engagement-optimized touchpoints, and revenue-ready conversions that transform prospects into predictable growth.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative mb-12">
           {/* Connecting Lines (Only visible on desktop) */}
           <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-y-1/2" />
 
@@ -152,3 +155,31 @@ export function Approach() {
     </section>
   );
 }
+
+        {/* How It All Connects Section */}
+        <div className="text-center mt-16">
+          <h3 className="text-2xl font-bold mb-6">How It All Connects</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-4">
+              <div className="flex items-center gap-2 justify-center mb-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span className="font-semibold">Laser-Focused</span>
+              </div>
+              <p className="text-muted-foreground">Target only those ready to buy</p>
+            </div>
+            <div className="p-4">
+              <div className="flex items-center gap-2 justify-center mb-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span className="font-semibold">Engagement-Optimized</span>
+              </div>
+              <p className="text-muted-foreground">Deliver value at every touchpoint</p>
+            </div>
+            <div className="p-4">
+              <div className="flex items-center gap-2 justify-center mb-2">
+                <CheckCircle className="h-5 w-5 text-green-500" />
+                <span className="font-semibold">Revenue-Ready</span>
+              </div>
+              <p className="text-muted-foreground">Convert leads faster with zero wasted effort</p>
+            </div>
+          </div>
+        </div>
