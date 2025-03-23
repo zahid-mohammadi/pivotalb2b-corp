@@ -41,15 +41,11 @@ export function Approach() {
       icon: ContentEngagementIcon,
       title: "Engage",
       subtitle: "Hyper-Targeted Campaigns",
-      description: "Deliver personalized content, multi-channel outreach, and account-specific campaigns that resonate with buyer pain points. From whitepapers to tailored demos, we synchronize messaging across all platforms.",
+      description: "Provide tailored content, multi-channel engagement, and account-focused campaigns that address buyer challenges directly. From whitepapers and eBooks to webinars, we deliver messages that resonate and generate more informed leads",
       color: "#8B5CF6", // violet-500
       highlightColor: "text-violet-600 dark:text-violet-400",
       benefit: "Turn cold prospects into engaged buyers by meeting them where they are, with content they need.",
-      keyPoints: [
-        { icon: MessageSquare, text: "Personalized messaging strategy" },
-        { icon: Zap, text: "Multi-channel synchronized outreach" },
-        { icon: Target, text: "Pain point-focused content" }
-      ]
+      keyPoints: []
     },
     {
       icon: ScaleGrowthIcon,
