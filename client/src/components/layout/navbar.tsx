@@ -57,41 +57,96 @@ export function Navbar() {
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
                   <li>
                     <Link href="/services/strategic-lead-generation">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Strategic Lead Generation</div>
-                        <p className="text-sm text-muted-foreground">High-quality leads through intent data</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                              <circle cx="9" cy="7" r="4"></circle>
+                              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Strategic Lead Generation</div>
+                            <p className="text-xs text-muted-foreground">High-quality leads through intent data</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
                     <Link href="/services/content-syndication">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Content Syndication</div>
-                        <p className="text-sm text-muted-foreground">Amplify your content's reach</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                              <polyline points="17 8 12 3 7 8"></polyline>
+                              <line x1="12" x2="12" y1="3" y2="15"></line>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Content Syndication</div>
+                            <p className="text-xs text-muted-foreground">Amplify your content's reach</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
                     <Link href="/services/event-marketing-solutions">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Event Marketing Solutions</div>
-                        <p className="text-sm text-muted-foreground">Drive qualified event attendance</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                              <path d="M8 12h8"></path>
+                              <path d="M12 8v8"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Event Marketing Solutions</div>
+                            <p className="text-xs text-muted-foreground">Drive qualified event attendance</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
                     <Link href="/services/lead-qualification-services">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Lead Qualification Services</div>
-                        <p className="text-sm text-muted-foreground">BANT-qualified prospects</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M12 10.586 5.636 4.221a9.002 9.002 0 0 0 0 12.728L12 10.586z"></path>
+                              <path d="M12 10.586 18.364 4.221a9.002 9.002 0 0 1 0 12.728L12 10.586z"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Lead Qualification Services</div>
+                            <p className="text-xs text-muted-foreground">BANT-qualified prospects</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
                     <Link href="/services/account-based-marketing">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Account-Based Marketing</div>
-                        <p className="text-sm text-muted-foreground">Strategic targeting for key accounts</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M3 6 8 3 13 6 18 3 21 5v13L18 16l-5 3-5-3-5 3V6"></path>
+                              <line x1="13" x2="13" y1="6" y2="16"></line>
+                              <line x1="8" x2="8" y1="3" y2="16"></line>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Account-Based Marketing</div>
+                            <p className="text-xs text-muted-foreground">Strategic targeting for key accounts</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
@@ -134,25 +189,57 @@ export function Navbar() {
                 <ul className="grid w-[400px] gap-3 p-4">
                   <li>
                     <Link href="/blog">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Blog</div>
-                        <p className="text-sm text-muted-foreground">Latest insights and industry trends</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M18 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"></path>
+                              <path d="m8 10 4 4 4-4"></path>
+                              <path d="M12 6v8"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Blog</div>
+                            <p className="text-xs text-muted-foreground">Latest insights and industry trends</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
                     <Link href="/ebooks">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">eBooks</div>
-                        <p className="text-sm text-muted-foreground">In-depth guides and whitepapers</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                              <path d="M9 10h6"></path>
+                              <path d="M12 7v6"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">eBooks</div>
+                            <p className="text-xs text-muted-foreground">In-depth guides and whitepapers</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
                     <Link href="/case-studies">
-                      <NavigationMenuLink className="block p-3 hover:bg-muted rounded-md cursor-pointer">
-                        <div className="text-sm font-medium">Case Studies</div>
-                        <p className="text-sm text-muted-foreground">Success stories and client results</p>
+                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Case Studies</div>
+                            <p className="text-xs text-muted-foreground">Success stories and client results</p>
+                          </div>
+                        </div>
                       </NavigationMenuLink>
                     </Link>
                   </li>
