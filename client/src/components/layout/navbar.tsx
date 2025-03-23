@@ -54,10 +54,9 @@ export function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Services</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
+                <ul className="grid w-[800px] gap-3 p-4 grid-cols-3">
                   <li>
-                    <Link href="/services/strategic-lead-generation">
-                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/strategic-lead-generation" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -72,12 +71,10 @@ export function Navbar() {
                             <p className="text-xs text-muted-foreground">High-quality leads through intent data</p>
                           </div>
                         </div>
-                      </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/content-syndication">
-                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/content-syndication" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -91,12 +88,10 @@ export function Navbar() {
                             <p className="text-xs text-muted-foreground">Amplify your content's reach</p>
                           </div>
                         </div>
-                      </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/event-marketing-solutions">
-                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/event-marketing-solutions" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -110,12 +105,10 @@ export function Navbar() {
                             <p className="text-xs text-muted-foreground">Drive qualified event attendance</p>
                           </div>
                         </div>
-                      </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/lead-qualification-services">
-                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/lead-qualification-services" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -128,12 +121,10 @@ export function Navbar() {
                             <p className="text-xs text-muted-foreground">BANT-qualified prospects</p>
                           </div>
                         </div>
-                      </NavigationMenuLink>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/account-based-marketing">
-                      <NavigationMenuLink className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/account-based-marketing" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -147,7 +138,6 @@ export function Navbar() {
                             <p className="text-xs text-muted-foreground">Strategic targeting for key accounts</p>
                           </div>
                         </div>
-                      </NavigationMenuLink>
                     </Link>
                   </li>
                 </ul>
@@ -186,7 +176,7 @@ export function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4">
+                <ul className="grid w-[600px] gap-3 p-4 grid-cols-3">
                   <li>
                     <Link href="/blog" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                       <div className="flex items-center">
