@@ -16,7 +16,7 @@ export function Hero() {
       <div className="absolute inset-0">
         {/* Base gradient layer */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#14213d] via-[#14213d]/90 to-[#14213d]" />
-        
+
         {/* Main background gradient animation matching "Our Approach" colors */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-[#9333EA]/30 via-transparent to-[#DB2777]/20"
@@ -90,13 +90,13 @@ export function Hero() {
                   <stop offset="100%" stopColor={pinkColor} />
                 </linearGradient>
               </defs>
-              
+
               {/* Data points on the trend line */}
               {[0, 20, 40, 60, 80, 100].map((x, i) => {
                 const y = i === 0 ? 50 : i === 1 ? 45 : i === 2 ? 35 : i === 3 ? 20 : i === 4 ? 10 : 5;
                 // Use different colors for different points to match the gradient
                 const pointColor = i < 2 ? primaryColor : i < 4 ? purpleColor : pinkColor;
-                
+
                 return (
                   <motion.circle
                     key={`point-${i}`}
@@ -125,7 +125,7 @@ export function Hero() {
               const y = 15 + Math.floor(i / 4) * 25;
               // Alternate colors between network nodes
               const nodeColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
-              
+
               return (
                 <motion.div
                   key={`node-${i}`}
@@ -148,7 +148,7 @@ export function Hero() {
                 />
               );
             })}
-            
+
             {/* Connection lines between nodes */}
             {[...Array(8)].map((_, i) => {
               const fromNode = i % 12;
@@ -159,7 +159,7 @@ export function Hero() {
               const toY = 15 + Math.floor(toNode / 4) * 25;
               // Alternate line colors
               const lineColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
-              
+
               return (
                 <motion.svg
                   key={`connection-${i}`}
@@ -243,7 +243,7 @@ export function Hero() {
             transition={{ delay: 0.3 }}
             className="text-5xl font-bold mb-6 leading-tight"
           >
-            Precision-Targeted Lead Generation That Drives Growth
+            Precision Demand Generation: Discover, Engage & Convert Ideal Buyers—Smarter
           </motion.h1>
 
           <motion.p
