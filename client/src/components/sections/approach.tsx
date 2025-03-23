@@ -51,15 +51,11 @@ export function Approach() {
       icon: ScaleGrowthIcon,
       title: "Convert",
       subtitle: "Revenue-Driven Execution",
-      description: "Prioritize hot leads using BANT qualification and arm sales teams with real-time insights. Our automated workflows ensure seamless marketing-to-sales handoffs, maintaining momentum until close.",
+      description: "Target top-priority leads using BANT qualification, empowering sales teams with real-time insights to achieve results. Through in-depth analytics and practical data, we provide your team with the resources to connect with prospects efficiently, enhancing conversion rates and optimizing the sales journey.",
       color: "#EC4899", // pink-500
       highlightColor: "text-pink-600 dark:text-pink-400",
       benefit: "Shorten sales cycles, reduce leakage, and turn pipelines into predictable growth engines.",
-      keyPoints: [
-        { icon: TrendingUp, text: "Sales velocity acceleration" },
-        { icon: Zap, text: "Automated qualification workflows" },
-        { icon: BarChart3, text: "Real-time performance analytics" }
-      ]
+      keyPoints: []
     },
   ];
 
