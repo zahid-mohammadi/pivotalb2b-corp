@@ -28,7 +28,7 @@ export function Navbar() {
       {isMobile ? (
         <div className="space-y-2">
           <div className="space-y-2">
-            <p className="text-sm font-medium">Solutions</p>
+            <p className="text-sm font-medium">Services</p>
             <div className="pl-4 space-y-2">
               <Link href="/services/strategic-lead-generation">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Strategic Lead Generation</span>
@@ -52,7 +52,7 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
+              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
                   <li>
