@@ -14,7 +14,9 @@ import {
   Search,
   BriefcaseBusiness, 
   LineChart,
-  Hexagon
+  Hexagon,
+  ArrowDownRight,
+  ArrowUpRight
 } from "lucide-react";
 import { ResearchStrategyIcon } from "@/components/animated-icons/research-strategy";
 import { ContentEngagementIcon } from "@/components/animated-icons/content-engagement";
@@ -22,7 +24,7 @@ import { ScaleGrowthIcon } from "@/components/animated-icons/scale-growth";
 
 export function Approach() {
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: false, amount: 0.2 });
+  const isInView = useInView(containerRef, { once: false, amount: 0.1 });
 
   const steps = [
     {
@@ -78,6 +80,24 @@ export function Approach() {
     }
   };
 
+  const fadeInLeft = {
+    hidden: { opacity: 0, x: 60 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
+  const fadeInRight = {
+    hidden: { opacity: 0, x: -60 },
+    visible: { 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
   return (
     <section className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50">
       {/* Animated Background Elements */}
@@ -109,7 +129,7 @@ export function Approach() {
         
         {/* Hexagon Pattern */}
         <div className="absolute inset-0 opacity-[0.03]">
-          {Array.from({ length: 30 }).map((_, i) => (
+          {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
               className="absolute"
@@ -130,7 +150,7 @@ export function Approach() {
                 ease: "linear"
               }}
             >
-              <Hexagon className="w-16 h-16 stroke-primary/10 fill-transparent" />
+              <Hexagon className="w-12 h-12 stroke-primary/10 fill-transparent" />
             </motion.div>
           ))}
         </div>
@@ -170,160 +190,205 @@ export function Approach() {
           </motion.p>
         </motion.div>
 
-        {/* Vertical Timeline Approach */}
-        <div className="relative mx-auto max-w-5xl">
-          {/* Center Line */}
-          <motion.div 
-            className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 -translate-x-1/2"
-            initial={{ scaleY: 0, originY: 0 }}
-            animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-          />
+        {/* ZigZag Flow */}
+        <div className="relative mx-auto max-w-7xl">
+          {/* Connecting ZigZag Line - Desktop Only */}
+          <div className="hidden lg:block absolute top-0 left-0 w-full h-full">
+            <svg width="100%" height="100%" className="absolute top-0 left-0">
+              <motion.path 
+                d="M 200,110 C 280,110 320,110 400,110 L 600,110 C 680,110 720,250 800,250 L 1000,250 C 1080,250 1120,390 1200,390"
+                stroke="url(#zigzagGradient)" 
+                strokeWidth="3" 
+                fill="none"
+                strokeDasharray="6,6"
+                initial={{ pathLength: 0, opacity: 0.5 }}
+                animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.5 }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+              />
+              <defs>
+                <linearGradient id="zigzagGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#4F46E5" />
+                  <stop offset="50%" stopColor="#8B5CF6" />
+                  <stop offset="100%" stopColor="#EC4899" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
 
-          {steps.map((step, index) => (
-            <motion.div
-              key={index}
-              className={`relative z-10 flex items-center gap-8 mb-24 ${
-                index % 2 === 0 ? "flex-row" : "flex-row-reverse"
-              } flex-col lg:flex-row`}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              variants={{
-                hidden: { opacity: 0 },
-                visible: { 
-                  opacity: 1,
-                  transition: { 
-                    staggerChildren: 0.2,
-                    delayChildren: index * 0.3
+          {/* Process Steps */}
+          <div className="relative space-y-28 lg:space-y-0">
+            {steps.map((step, index) => (
+              <motion.div
+                key={index}
+                className={`relative flex flex-col lg:flex-row items-center ${
+                  index % 2 === 0 
+                    ? "lg:flex-row-reverse lg:text-right lg:justify-start" 
+                    : "lg:flex-row lg:text-left lg:justify-end"
+                } gap-8`}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { 
+                    opacity: 1,
+                    transition: { 
+                      when: "beforeChildren",
+                      staggerChildren: 0.2,
+                      delayChildren: index * 0.1
+                    }
                   }
-                }
-              }}
-            >
-              {/* Center Node */}
-              <motion.div 
-                className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 z-10 flex-shrink-0"
-                variants={fadeInUp}
+                }}
               >
-                <motion.div
-                  className="w-20 h-20 rounded-full border-4 border-white dark:border-slate-900 shadow-xl flex items-center justify-center"
-                  style={{ backgroundColor: step.color }}
-                  initial={{ boxShadow: `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)` }}
-                  animate={{ 
-                    boxShadow: [
-                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`,
-                      `0 0 20px rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.6)`,
-                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`
-                    ]
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                {/* Step Node Circle with Number */}
+                <motion.div 
+                  className={`absolute lg:static top-0 ${index % 2 === 0 ? "left-0" : "right-0"} lg:mx-0 z-20`}
+                  variants={index % 2 === 0 ? fadeInLeft : fadeInRight}
                 >
-                  <span className="text-white text-2xl font-bold">{index + 1}</span>
-                </motion.div>
-              </motion.div>
-
-              {/* Step Content */}
-              <motion.div 
-                className="lg:w-[calc(50%-3rem)] w-full"
-                variants={fadeInUp}
-              >
-                <motion.div
-                  className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800 transform-gpu"
-                  whileHover={{ scale: 1.02, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  {/* Color Band at Top */}
-                  <div className="h-2" style={{ backgroundColor: step.color }} />
-
-                  <div className="p-8">
-                    {/* Title and Subtitle */}
-                    <div className="flex items-start gap-4 mb-6">
-                      <div 
-                        className="p-3 rounded-xl flex-shrink-0"
-                        style={{ backgroundColor: `${step.color}15` }}
-                      >
-                        <motion.div
-                          animate={{ rotate: [0, 10, -10, 0] }}
-                          transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
-                        >
-                          <step.icon />
-                        </motion.div>
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold mb-1" style={{ color: step.color }}>
-                          {step.title}
-                        </h3>
-                        <p className="text-lg font-medium text-slate-600 dark:text-slate-400">
-                          {step.subtitle}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-muted-foreground leading-relaxed mb-6 pb-6 border-b border-slate-100 dark:border-slate-800">
-                      {step.description}
-                    </p>
-
-                    {/* Key Features in Cards */}
-                    <div className="space-y-3">
-                      {step.keyPoints.map((point, i) => (
-                        <motion.div 
-                          key={i}
-                          className="flex items-center gap-3 p-3 rounded-lg border border-slate-100 dark:border-slate-800"
-                          initial={{ x: -10, opacity: 0 }}
-                          animate={{ x: 0, opacity: 1 }}
-                          transition={{ delay: 0.5 + (i * 0.1) }}
-                          whileHover={{ x: 5 }}
-                        >
-                          <div className="p-2 rounded-lg" style={{ backgroundColor: `${step.color}15` }}>
-                            <point.icon className="h-4 w-4" style={{ color: step.color }} />
-                          </div>
-                          <p className="text-sm font-medium">{point.text}</p>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    {/* Benefit Tag */}
-                    <div className="mt-6 flex items-center">
-                      <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
-                      <motion.div 
-                        className="mx-4 flex items-center px-4 py-1 rounded-full"
-                        style={{ backgroundColor: `${step.color}15` }}
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <CheckCircle className="h-4 w-4 mr-2" style={{ color: step.color }} />
-                        <p className="text-xs font-medium" style={{ color: step.color }}>
-                          {step.benefit}
-                        </p>
-                      </motion.div>
-                      <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
-                    </div>
-                  </div>
-                </motion.div>
-
-                {/* Connection Arrow for Desktop */}
-                {index < steps.length - 1 && (
-                  <motion.div 
-                    className="hidden lg:flex absolute top-full left-1/2 -translate-x-1/2 -translate-y-12 w-10 h-16 items-center justify-center"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1 }}
+                  <motion.div
+                    className="w-20 h-20 rounded-full border-4 border-white dark:border-slate-900 shadow-xl flex items-center justify-center relative"
+                    style={{ backgroundColor: step.color }}
+                    initial={{ boxShadow: `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)` }}
+                    animate={{ 
+                      boxShadow: [
+                        `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`,
+                        `0 0 20px rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.6)`,
+                        `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`
+                      ]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity }}
                   >
+                    <span className="text-white text-2xl font-bold">{index + 1}</span>
+                    
+                    {/* Animated ripple effect */}
                     <motion.div
-                      animate={{ y: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      <ChevronRight className="w-6 h-6 text-slate-400 rotate-90" />
-                    </motion.div>
+                      className="absolute inset-0 rounded-full border-2 border-white/30"
+                      initial={{ scale: 1, opacity: 0.5 }}
+                      animate={{ scale: 1.5, opacity: 0 }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    />
+                    
+                    {/* Direction Arrow - Only on desktop */}
+                    {index < steps.length - 1 && (
+                      <motion.div 
+                        className="hidden lg:flex absolute -bottom-16 left-1/2 -translate-x-1/2"
+                        animate={{ y: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        {index % 2 === 0 ? (
+                          <ArrowDownRight className="w-8 h-8 text-slate-400" />
+                        ) : (
+                          <ArrowUpRight className="w-8 h-8 text-slate-400" />
+                        )}
+                      </motion.div>
+                    )}
                   </motion.div>
-                )}
+                </motion.div>
+
+                {/* Step Content Card */}
+                <motion.div 
+                  className={`w-full lg:w-5/12 mt-10 lg:mt-0 ${index % 2 === 0 ? "lg:mr-auto" : "lg:ml-auto"}`}
+                  variants={index % 2 === 0 ? fadeInRight : fadeInLeft}
+                >
+                  <motion.div
+                    className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800 transform-gpu relative"
+                    whileHover={{ scale: 1.02, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    {/* Color Band at Top */}
+                    <div className="h-2" style={{ backgroundColor: step.color }} />
+
+                    <div className="p-8">
+                      {/* Title and Subtitle */}
+                      <div className={`flex items-start gap-4 mb-6 ${index % 2 === 0 ? "lg:flex-row-reverse" : ""}`}>
+                        <div 
+                          className="p-3 rounded-xl flex-shrink-0"
+                          style={{ backgroundColor: `${step.color}15` }}
+                        >
+                          <motion.div
+                            animate={{ rotate: [0, 10, -10, 0] }}
+                            transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
+                          >
+                            <step.icon />
+                          </motion.div>
+                        </div>
+                        <div className={`${index % 2 === 0 ? "lg:text-right" : "lg:text-left"}`}>
+                          <h3 className="text-2xl font-bold mb-1" style={{ color: step.color }}>
+                            {step.title}
+                          </h3>
+                          <p className="text-lg font-medium text-slate-600 dark:text-slate-400">
+                            {step.subtitle}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className={`text-muted-foreground leading-relaxed mb-6 pb-6 border-b border-slate-100 dark:border-slate-800 ${index % 2 === 0 ? "lg:text-right" : "lg:text-left"}`}>
+                        {step.description}
+                      </p>
+
+                      {/* Key Features in Cards */}
+                      <div className="space-y-3">
+                        {step.keyPoints.map((point, i) => (
+                          <motion.div 
+                            key={i}
+                            className={`flex items-center gap-3 p-3 rounded-lg border border-slate-100 dark:border-slate-800 ${
+                              index % 2 === 0 ? "lg:flex-row-reverse" : ""
+                            }`}
+                            initial={{ x: index % 2 === 0 ? 10 : -10, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.5 + (i * 0.1) }}
+                            whileHover={{ x: index % 2 === 0 ? -5 : 5 }}
+                          >
+                            <div className="p-2 rounded-lg" style={{ backgroundColor: `${step.color}15` }}>
+                              <point.icon className="h-4 w-4" style={{ color: step.color }} />
+                            </div>
+                            <p className={`text-sm font-medium ${index % 2 === 0 ? "lg:text-right" : "lg:text-left"}`}>
+                              {point.text}
+                            </p>
+                          </motion.div>
+                        ))}
+                      </div>
+
+                      {/* Benefit Tag */}
+                      <div className="mt-6 flex items-center">
+                        <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
+                        <motion.div 
+                          className="mx-4 flex items-center px-4 py-1 rounded-full"
+                          style={{ backgroundColor: `${step.color}15` }}
+                          whileHover={{ scale: 1.05 }}
+                        >
+                          <CheckCircle className="h-4 w-4 mr-2" style={{ color: step.color }} />
+                          <p className="text-xs font-medium" style={{ color: step.color }}>
+                            {step.benefit}
+                          </p>
+                        </motion.div>
+                        <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
+                      </div>
+                    </div>
+
+                    {/* Decorative corner elements */}
+                    <div 
+                      className={`absolute -z-10 w-40 h-40 rounded-full ${index % 2 === 0 ? "-top-20 -right-20" : "-top-20 -left-20"}`}
+                      style={{ 
+                        background: `radial-gradient(circle, ${step.color}15 0%, transparent 70%)` 
+                      }}
+                    />
+                    <div 
+                      className={`absolute -z-10 w-40 h-40 rounded-full ${index % 2 === 0 ? "-bottom-20 -left-20" : "-bottom-20 -right-20"}`}
+                      style={{ 
+                        background: `radial-gradient(circle, ${step.color}10 0%, transparent 70%)` 
+                      }}
+                    />
+                  </motion.div>
+                </motion.div>
               </motion.div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Results Section with elegant cards */}
         <motion.div 
-          className="mt-20 text-center"
+          className="mt-32 text-center"
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -339,7 +404,7 @@ export function Approach() {
             </span>
           </motion.h3>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
               { value: "25%", label: "Pipeline Efficiency", icon: Zap, color: "#4F46E5" },
               { value: "2.5x", label: "Lead Quality Improvement", icon: Target, color: "#8B5CF6" },
@@ -360,16 +425,16 @@ export function Approach() {
                     style={{ backgroundColor: stat.color }}
                   />
                   
-                  <div className="p-8 flex flex-col items-center">
+                  <div className="p-6 md:p-8 flex flex-col items-center">
                     {/* Icon in Circle */}
                     <div 
-                      className="w-16 h-16 rounded-full flex items-center justify-center mb-4 border-2"
+                      className="w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 border-2"
                       style={{ 
                         backgroundColor: `${stat.color}10`, 
                         borderColor: stat.color 
                       }}
                     >
-                      <stat.icon style={{ color: stat.color }} className="h-8 w-8" />
+                      <stat.icon style={{ color: stat.color }} className="h-7 w-7" />
                     </div>
                     
                     {/* Value with gradient */}
@@ -378,7 +443,7 @@ export function Approach() {
                       whileHover={{ scale: 1.1 }}
                     >
                       <h4 
-                        className="text-4xl font-bold"
+                        className="text-3xl md:text-4xl font-bold"
                         style={{ color: stat.color }}
                       >
                         {stat.value}
