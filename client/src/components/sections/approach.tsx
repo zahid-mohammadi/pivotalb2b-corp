@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+import { CheckCircle } from "lucide-react";
 import { ResearchStrategyIcon } from "@/components/animated-icons/research-strategy";
 import { ContentEngagementIcon } from "@/components/animated-icons/content-engagement";
 import { ScaleGrowthIcon } from "@/components/animated-icons/scale-growth";
