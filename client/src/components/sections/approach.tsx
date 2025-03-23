@@ -194,10 +194,15 @@ export function Approach() {
         <div className="relative mx-auto max-w-7xl">
           {/* Connecting ZigZag Line - Desktop Only */}
           <div className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none">
-            <svg width="100%" height="100%" className="absolute top-0 left-0">
-              {/* Main Connecting Path */}
+            <svg width="100%" height="700" className="absolute top-0 left-0">
+              {/* Main Connecting Path - Complete zigzag through all steps */}
               <motion.path 
-                d="M 200,110 C 280,110 320,110 400,110 L 600,110 C 680,110 720,250 800,250 L 1000,250 C 1080,250 1120,390 1200,390"
+                d="M 200,110 
+                   C 280,110 320,110 400,110 
+                   L 600,110 
+                   C 680,110 720,250 800,250 
+                   L 1000,250 
+                   C 1080,250 1120,390 1200,390"
                 stroke="url(#zigzagGradient)" 
                 strokeWidth="3" 
                 fill="none"
@@ -207,16 +212,19 @@ export function Approach() {
                 transition={{ duration: 2, ease: "easeInOut" }}
               />
               
-              {/* Animated Particles Moving Along the Path */}
-              {[...Array(5)].map((_, i) => {
-                // Define keyframes along the path
+              {/* Animated Particles Following the Path */}
+              {[...Array(6)].map((_, i) => {
+                // Offset positions for particle flow
                 const positions = [
-                  { x: 200, y: 110 },
-                  { x: 400, y: 110 },
-                  { x: 600, y: 110 },
-                  { x: 800, y: 250 },
-                  { x: 1000, y: 250 },
-                  { x: 1200, y: 390 }
+                  { x: 200, y: 110 },   // Starting point at node 1
+                  { x: 400, y: 110 },   // Mid-point to node 1
+                  { x: 600, y: 110 },   // End of first horizontal section
+                  { x: 700, y: 180 },   // Curve down to node 2
+                  { x: 800, y: 250 },   // At node 2
+                  { x: 900, y: 250 },   // After node 2
+                  { x: 1000, y: 250 },  // Mid-point to node 3
+                  { x: 1100, y: 320 },  // Curve down to node 3
+                  { x: 1200, y: 390 }   // At node 3
                 ];
                 
                 return (
@@ -233,23 +241,28 @@ export function Approach() {
                     animate={{ 
                       x: positions.map(p => p.x),
                       y: positions.map(p => p.y),
-                      opacity: [0, 1, 1, 0]
+                      opacity: [0, 1, 1, 1, 1, 1, 1, 1, 0]
                     }}
                     transition={{
-                      duration: 8,
-                      times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-                      delay: i * 1.6,
+                      duration: 10,
+                      times: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
+                      delay: i * 1.7,
                       repeat: Infinity,
-                      repeatDelay: 1,
+                      repeatDelay: 0.5,
                       ease: "easeInOut"
                     }}
                   />
                 );
               })}
               
-              {/* Animated Line Trace Effect */}
+              {/* Pulsing Glow Effect Along the Path */}
               <motion.path 
-                d="M 200,110 C 280,110 320,110 400,110 L 600,110 C 680,110 720,250 800,250 L 1000,250 C 1080,250 1120,390 1200,390"
+                d="M 200,110 
+                   C 280,110 320,110 400,110 
+                   L 600,110 
+                   C 680,110 720,250 800,250 
+                   L 1000,250 
+                   C 1080,250 1120,390 1200,390"
                 stroke="url(#pulseGradient)" 
                 strokeWidth="6" 
                 fill="none"
@@ -260,9 +273,9 @@ export function Approach() {
                   opacity: [0, 0.8, 0]
                 }}
                 transition={{ 
-                  duration: 4,
+                  duration: 5,
                   repeat: Infinity,
-                  repeatDelay: 1
+                  repeatDelay: 0.5
                 }}
               />
               
