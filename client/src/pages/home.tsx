@@ -34,6 +34,7 @@ export default function Home() {
       <div className="relative min-h-screen">
         {/* Background gradient accent */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
+        {/* Remove unnecessary sections */}
 
         {/* Enhanced page sections with animations */}
         <motion.div
