@@ -193,8 +193,9 @@ export function Approach() {
         {/* ZigZag Flow */}
         <div className="relative mx-auto max-w-7xl">
           {/* Connecting ZigZag Line - Desktop Only */}
-          <div className="hidden lg:block absolute top-0 left-0 w-full h-full">
+          <div className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none">
             <svg width="100%" height="100%" className="absolute top-0 left-0">
+              {/* Main Connecting Path */}
               <motion.path 
                 d="M 200,110 C 280,110 320,110 400,110 L 600,110 C 680,110 720,250 800,250 L 1000,250 C 1080,250 1120,390 1200,390"
                 stroke="url(#zigzagGradient)" 
@@ -205,14 +206,140 @@ export function Approach() {
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.5 }}
                 transition={{ duration: 2, ease: "easeInOut" }}
               />
+              
+              {/* Animated Particles Moving Along the Path */}
+              {[...Array(5)].map((_, i) => {
+                // Define keyframes along the path
+                const positions = [
+                  { x: 200, y: 110 },
+                  { x: 400, y: 110 },
+                  { x: 600, y: 110 },
+                  { x: 800, y: 250 },
+                  { x: 1000, y: 250 },
+                  { x: 1200, y: 390 }
+                ];
+                
+                return (
+                  <motion.circle
+                    key={i}
+                    r="6"
+                    fill="url(#glowCircle)"
+                    filter="url(#glow)"
+                    initial={{ 
+                      x: positions[0].x,
+                      y: positions[0].y,
+                      opacity: 0
+                    }}
+                    animate={{ 
+                      x: positions.map(p => p.x),
+                      y: positions.map(p => p.y),
+                      opacity: [0, 1, 1, 0]
+                    }}
+                    transition={{
+                      duration: 8,
+                      times: [0, 0.2, 0.4, 0.6, 0.8, 1],
+                      delay: i * 1.6,
+                      repeat: Infinity,
+                      repeatDelay: 1,
+                      ease: "easeInOut"
+                    }}
+                  />
+                );
+              })}
+              
+              {/* Animated Line Trace Effect */}
+              <motion.path 
+                d="M 200,110 C 280,110 320,110 400,110 L 600,110 C 680,110 720,250 800,250 L 1000,250 C 1080,250 1120,390 1200,390"
+                stroke="url(#pulseGradient)" 
+                strokeWidth="6" 
+                fill="none"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ 
+                  pathLength: [0, 1, 0], 
+                  opacity: [0, 0.8, 0]
+                }}
+                transition={{ 
+                  duration: 4,
+                  repeat: Infinity,
+                  repeatDelay: 1
+                }}
+              />
+              
               <defs>
                 <linearGradient id="zigzagGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#4F46E5" />
                   <stop offset="50%" stopColor="#8B5CF6" />
                   <stop offset="100%" stopColor="#EC4899" />
                 </linearGradient>
+                
+                <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#4F46E5">
+                    <animate attributeName="stop-color" 
+                      values="#4F46E5; #8B5CF6; #EC4899; #4F46E5" 
+                      dur="4s" repeatCount="indefinite" />
+                  </stop>
+                  <stop offset="100%" stopColor="#EC4899">
+                    <animate attributeName="stop-color" 
+                      values="#EC4899; #4F46E5; #8B5CF6; #EC4899" 
+                      dur="4s" repeatCount="indefinite" />
+                  </stop>
+                </linearGradient>
+                
+                <radialGradient id="glowCircle" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                  <stop offset="0%" stopColor="white" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
+                </radialGradient>
+                
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
               </defs>
             </svg>
+            
+            {/* Vertical animated connectors for mobile view only */}
+            <div className="block lg:hidden absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2">
+              {/* Base gradient line */}
+              <div className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 opacity-40" />
+              
+              {/* Animated pulse */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"
+                initial={{ scaleY: 0, opacity: 0, originY: 0 }}
+                animate={{ 
+                  scaleY: [0, 1, 0], 
+                  opacity: [0, 1, 0],
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity,
+                  repeatDelay: 1
+                }}
+              />
+              
+              {/* Animated dots moving down the line */}
+              {[...Array(3)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-3 h-3 rounded-full bg-white shadow-lg left-1/2 -translate-x-1/2 z-10"
+                  style={{ 
+                    boxShadow: `0 0 10px 2px ${i === 0 ? '#4F46E5' : i === 1 ? '#8B5CF6' : '#EC4899'}`
+                  }}
+                  initial={{ top: "-5%", opacity: 0 }}
+                  animate={{ 
+                    top: ["0%", "100%"],
+                    opacity: [0, 1, 0]
+                  }}
+                  transition={{ 
+                    duration: 8,
+                    delay: i * 2.5,
+                    repeat: Infinity,
+                    repeatDelay: 0.5
+                  }}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Process Steps */}
