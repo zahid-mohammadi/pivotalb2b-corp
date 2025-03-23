@@ -180,144 +180,157 @@ export function Approach() {
 
         {/* ZigZag Flow with Connecting Lines */}
         <div className="relative mx-auto max-w-6xl mb-24">
-          {/* Fixed Full-Page SVG for Connecting Paths - Desktop Only */}
-          <div className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none">
-            <svg width="100%" height="800" className="absolute top-0 left-0">
-              {/* Gradient definitions */}
-              <defs>
-                <linearGradient id="lineGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#4F46E5" />
-                  <stop offset="100%" stopColor="#8B5CF6" />
-                </linearGradient>
+          {/* Simplified Connection Approach - Use direct points between nodes */}
+          <div className="hidden lg:block absolute top-0 left-0 w-full h-full" style={{ pointerEvents: "none" }}>
+            <div className="absolute top-[130px] right-[calc(50%+80px)] left-[220px] h-[120px]">
+              {/* Step 1 to Step 2 connector - drops down from right side of step 1 to left side of step 2 */}
+              <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#4F46E5" />
+                    <stop offset="100%" stopColor="#8B5CF6" />
+                  </linearGradient>
+                </defs>
                 
-                <linearGradient id="lineGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#8B5CF6" />
-                  <stop offset="100%" stopColor="#EC4899" />
-                </linearGradient>
-                
-                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
+                <motion.path 
+                  d="M 0,0 C 30,0 70,100 100,100" 
+                  stroke="url(#grad1)" 
+                  strokeWidth="4" 
+                  strokeDasharray="8,8"
+                  fill="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                />
+              </svg>
               
-              {/* Path from step 1 to step 2 */}
-              <motion.path
-                d="M 250,120 C 350,120 400,120 450,120 L 550,120 C 600,120 650,240 700,240 L 750,240"
-                stroke="url(#lineGradient1)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeDasharray="6,6"
-                fill="none"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                transition={{ duration: 1.5, ease: "easeInOut" }}
-              />
-              
-              {/* Path from step 2 to step 3 */}
-              <motion.path
-                d="M 750,240 C 850,240 900,240 950,240 L 1050,240 C 1100,240 1150,360 1200,360 L 1250,360"
-                stroke="url(#lineGradient2)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeDasharray="6,6"
-                fill="none"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                transition={{ duration: 1.5, ease: "easeInOut", delay: 0.3 }}
-              />
-              
-              {/* Animated dots flowing along first path */}
-              {[...Array(3)].map((_, i) => (
-                <motion.circle
-                  key={`path1-${i}`}
-                  r="6"
-                  fill="#4F46E5"
-                  filter="url(#glow)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 0.8, 0] }}
-                  transition={{ 
-                    duration: 4,
-                    delay: i * 1.2,
-                    repeat: Infinity,
-                    repeatDelay: 1
-                  }}
-                >
-                  <animateMotion
-                    path="M 250,120 C 350,120 400,120 450,120 L 550,120 C 600,120 650,240 700,240 L 750,240"
-                    dur="4s"
-                    begin={`${i * 1.2}s`}
-                    repeatCount="indefinite"
-                  />
-                </motion.circle>
-              ))}
-              
-              {/* Animated dots flowing along second path */}
-              {[...Array(3)].map((_, i) => (
-                <motion.circle
-                  key={`path2-${i}`}
-                  r="6"
-                  fill="#8B5CF6"
-                  filter="url(#glow)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 0.8, 0] }}
-                  transition={{ 
-                    duration: 4,
-                    delay: i * 1.2 + 1.5,
-                    repeat: Infinity,
-                    repeatDelay: 1
-                  }}
-                >
-                  <animateMotion
-                    path="M 750,240 C 850,240 900,240 950,240 L 1050,240 C 1100,240 1150,360 1200,360 L 1250,360"
-                    dur="4s"
-                    begin={`${i * 1.2 + 1.5}s`}
-                    repeatCount="indefinite"
-                  />
-                </motion.circle>
-              ))}
-              
-              {/* Pulsing glow effect on first path */}
-              <motion.path
-                d="M 250,120 C 350,120 400,120 450,120 L 550,120 C 600,120 650,240 700,240 L 750,240"
-                stroke="#4F46E5"
-                strokeWidth="6"
-                strokeLinecap="round"
-                fill="none"
-                filter="url(#glow)"
-                initial={{ pathLength: 0, opacity: 0 }}
+              {/* Glowing particles */}
+              <motion.div 
+                className="absolute top-0 left-0 w-4 h-4 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50"
+                style={{ 
+                  boxShadow: "0 0 15px 5px rgba(79, 70, 229, 0.5)"
+                }}
                 animate={{ 
-                  pathLength: [0, 1, 0], 
-                  opacity: [0, 0.3, 0]
+                  top: ["0%", "100%"],
+                  left: ["0%", "100%"],
+                  opacity: [0, 1, 0]
                 }}
                 transition={{ 
-                  duration: 4,
+                  duration: 3, 
                   repeat: Infinity,
-                  repeatDelay: 2
+                  repeatDelay: 0.5
                 }}
               />
               
-              {/* Pulsing glow effect on second path */}
-              <motion.path
-                d="M 750,240 C 850,240 900,240 950,240 L 1050,240 C 1100,240 1150,360 1200,360 L 1250,360"
-                stroke="#8B5CF6"
-                strokeWidth="6"
-                strokeLinecap="round"
-                fill="none"
-                filter="url(#glow)"
-                initial={{ pathLength: 0, opacity: 0 }}
+              {/* Second particle with delay */}
+              <motion.div 
+                className="absolute top-0 left-0 w-3 h-3 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50"
+                style={{ 
+                  boxShadow: "0 0 15px 5px rgba(79, 70, 229, 0.5)"
+                }}
                 animate={{ 
-                  pathLength: [0, 1, 0], 
-                  opacity: [0, 0.3, 0]
+                  top: ["0%", "100%"],
+                  left: ["0%", "100%"],
+                  opacity: [0, 1, 0]
                 }}
                 transition={{ 
-                  duration: 4,
-                  delay: 2,
+                  duration: 3, 
                   repeat: Infinity,
-                  repeatDelay: 2
+                  repeatDelay: 0.5,
+                  delay: 1.5
                 }}
               />
-            </svg>
+            </div>
+            
+            <div className="absolute top-[250px] left-[calc(50%+80px)] right-[220px] h-[120px]">
+              {/* Step 2 to Step 3 connector - drops down from right side of step 2 to left side of step 3 */}
+              <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#8B5CF6" />
+                    <stop offset="100%" stopColor="#EC4899" />
+                  </linearGradient>
+                </defs>
+                
+                <motion.path 
+                  d="M 0,0 C 30,0 70,100 100,100" 
+                  stroke="url(#grad2)" 
+                  strokeWidth="4" 
+                  strokeDasharray="8,8"
+                  fill="none"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+                  transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+                />
+              </svg>
+              
+              {/* Glowing particles */}
+              <motion.div 
+                className="absolute top-0 left-0 w-4 h-4 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50"
+                style={{ 
+                  boxShadow: "0 0 15px 5px rgba(139, 92, 246, 0.5)"
+                }}
+                animate={{ 
+                  top: ["0%", "100%"],
+                  left: ["0%", "100%"],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity,
+                  repeatDelay: 0.5,
+                  delay: 0.75
+                }}
+              />
+              
+              {/* Second particle with delay */}
+              <motion.div 
+                className="absolute top-0 left-0 w-3 h-3 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50"
+                style={{ 
+                  boxShadow: "0 0 15px 5px rgba(139, 92, 246, 0.5)"
+                }}
+                animate={{ 
+                  top: ["0%", "100%"],
+                  left: ["0%", "100%"],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity,
+                  repeatDelay: 0.5,
+                  delay: 2.25
+                }}
+              />
+            </div>
+            
+            {/* Emphasize the connecting dots for each step with extra pulses */}
+            {steps.map((step, index) => (
+              <div 
+                key={`connector-${index}`}
+                className="absolute" 
+                style={{ 
+                  top: `${index * 120 + 120}px`, 
+                  [index % 2 === 0 ? 'right' : 'left']: '50%',
+                  [index % 2 === 0 ? 'marginRight' : 'marginLeft']: '80px'
+                }}
+              >
+                <motion.div
+                  className="w-8 h-8 rounded-full"
+                  style={{ backgroundColor: step.color }}
+                  initial={{ scale: 0.8, opacity: 0.5 }}
+                  animate={{ 
+                    scale: [0.8, 1.2, 0.8], 
+                    opacity: [0.5, 1, 0.5],
+                    boxShadow: [
+                      `0 0 0px ${step.color}`,
+                      `0 0 20px ${step.color}`,
+                      `0 0 0px ${step.color}`
+                    ]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+              </div>
+            ))}
           </div>
           
           {/* Mobile Vertical Connection */}
