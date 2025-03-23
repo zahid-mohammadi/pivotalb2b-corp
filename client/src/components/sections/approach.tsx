@@ -98,7 +98,7 @@ export function Approach() {
             </radialGradient>
           </defs>
           <circle cx="20" cy="20" r="30" fill="url(#heroglow)" opacity="0.4">
-            <motion.animate
+            <animate
               attributeName="cy"
               values="20;25;20"
               dur="10s"
@@ -106,7 +106,7 @@ export function Approach() {
             />
           </circle>
           <circle cx="80" cy="70" r="30" fill="url(#heroglow)" opacity="0.2">
-            <motion.animate
+            <animate
               attributeName="cx"
               values="80;75;80"
               dur="14s"
@@ -114,7 +114,7 @@ export function Approach() {
             />
           </circle>
         </svg>
-
+        
         {/* Hexagon Pattern */}
         <div className="absolute inset-0 opacity-[0.03]">
           {Array.from({ length: 20 }).map((_, i) => (
@@ -166,7 +166,7 @@ export function Approach() {
             </h2>
             <div className="h-1 w-16 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full mt-4" />
           </motion.div>
-
+          
           <motion.p 
             className="text-xl text-muted-foreground max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -178,139 +178,38 @@ export function Approach() {
           </motion.p>
         </motion.div>
 
-        {/* ZigZag Flow */}
-        <div className="relative mx-auto max-w-7xl">
-          {/* Connecting ZigZag Line - Desktop Only */}
-          <div className="hidden lg:block absolute top-0 left-0 w-full h-full pointer-events-none">
-            <svg width="100%" height="700" className="absolute top-0 left-0">
-              {/* Main Connecting Path - Complete zigzag through all steps */}
-              <motion.path 
-                d="M 200,110 
-                   C 280,110 320,110 400,110 
-                   L 600,110 
-                   C 680,110 720,250 800,250 
-                   L 1000,250 
-                   C 1080,250 1120,390 1200,390"
-                stroke="url(#zigzagGradient)" 
-                strokeWidth="3" 
-                fill="none"
-                strokeDasharray="6,6"
-                initial={{ pathLength: 0, opacity: 0.5 }}
-                animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0.5 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
-              />
-
-              {/* Animated Particles Following the Path */}
-              {[...Array(6)].map((_, i) => {
-                // Offset positions for particle flow
-                const positions = [
-                  { x: 200, y: 110 },   // Starting point at node 1
-                  { x: 400, y: 110 },   // Mid-point to node 1
-                  { x: 600, y: 110 },   // End of first horizontal section
-                  { x: 700, y: 180 },   // Curve down to node 2
-                  { x: 800, y: 250 },   // At node 2
-                  { x: 900, y: 250 },   // After node 2
-                  { x: 1000, y: 250 },  // Mid-point to node 3
-                  { x: 1100, y: 320 },  // Curve down to node 3
-                  { x: 1200, y: 390 }   // At node 3
-                ];
-
-                return (
-                  <motion.circle
-                    key={i}
-                    r="6"
-                    fill="url(#glowCircle)"
-                    filter="url(#glow)"
-                    initial={{ 
-                      x: positions[0].x,
-                      y: positions[0].y,
-                      opacity: 0
-                    }}
-                    animate={{ 
-                      x: positions.map(p => p.x),
-                      y: positions.map(p => p.y),
-                      opacity: [0, 1, 1, 1, 1, 1, 1, 1, 0]
-                    }}
-                    transition={{
-                      duration: 10,
-                      times: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1],
-                      delay: i * 1.7,
-                      repeat: Infinity,
-                      repeatDelay: 0.5,
-                      ease: "easeInOut"
-                    }}
-                  />
-                );
-              })}
-
-              {/* Pulsing Glow Effect Along the Path */}
-              <motion.path 
-                d="M 200,110 
-                   C 280,110 320,110 400,110 
-                   L 600,110 
-                   C 680,110 720,250 800,250 
-                   L 1000,250 
-                   C 1080,250 1120,390 1200,390"
-                stroke="url(#pulseGradient)" 
-                strokeWidth="6" 
-                fill="none"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ 
-                  pathLength: [0, 1, 0], 
-                  opacity: [0, 0.8, 0]
-                }}
-                transition={{ 
-                  duration: 5,
-                  repeat: Infinity,
-                  repeatDelay: 0.5
-                }}
-              />
-
-              <defs>
-                <linearGradient id="zigzagGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#4F46E5" />
-                  <stop offset="50%" stopColor="#8B5CF6" />
-                  <stop offset="100%" stopColor="#EC4899" />
-                </linearGradient>
-
-                <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#4F46E5">
-                    <animate attributeName="stop-color" 
-                      values="#4F46E5; #8B5CF6; #EC4899; #4F46E5" 
-                      dur="4s" repeatCount="indefinite" />
-                  </stop>
-                  <stop offset="100%" stopColor="#EC4899">
-                    <animate attributeName="stop-color" 
-                      values="#EC4899; #4F46E5; #8B5CF6; #EC4899" 
-                      dur="4s" repeatCount="indefinite" />
-                  </stop>
-                </linearGradient>
-
-                <radialGradient id="glowCircle" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                  <stop offset="0%" stopColor="white" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#8B5CF6" stopOpacity="0" />
-                </radialGradient>
-
-                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
-            </svg>
-
-            {/* Vertical animated connectors for mobile view only */}
-            <div className="block lg:hidden absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2">
-              {/* Base gradient line */}
-              <div className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 opacity-40" />
-
-              {/* Animated pulse */}
+        {/* ZigZag Flow with Connecting Lines */}
+        <div className="relative mx-auto max-w-6xl mb-24">
+          {/* Desktop Connection Lines */}
+          <div className="hidden lg:block absolute inset-0 pointer-events-none">
+            {/* Line from Step 1 to Step 2 */}
+            <div className="absolute" style={{ top: '110px', left: '42%', right: '58%', height: '150px' }}>
+              <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="line1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#4F46E5" />
+                    <stop offset="100%" stopColor="#8B5CF6" />
+                  </linearGradient>
+                </defs>
+                
+                <motion.path
+                  d="M 0,0 Q 50,0 50,50 Q 50,100 100,100"
+                  stroke="url(#line1)"
+                  strokeWidth="2"
+                  strokeDasharray="5,5"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.5, delay: 0.5 }}
+                />
+              </svg>
+              
+              {/* Animated dot */}
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"
-                initial={{ scaleY: 0, opacity: 0, originY: 0 }}
+                className="absolute top-0 left-0 w-4 h-4 rounded-full bg-indigo-500 shadow-lg shadow-indigo-500/50 z-10"
                 animate={{ 
-                  scaleY: [0, 1, 0], 
-                  opacity: [0, 1, 0],
+                  offsetPath: "path('M 0,0 Q 50%,0 50%,50% Q 50%,100% 100%,100%')",
+                  offsetDistance: [0, 1]
                 }}
                 transition={{ 
                   duration: 3, 
@@ -318,32 +217,90 @@ export function Approach() {
                   repeatDelay: 1
                 }}
               />
-
-              {/* Animated dots moving down the line */}
-              {[...Array(3)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-3 h-3 rounded-full bg-white shadow-lg left-1/2 -translate-x-1/2 z-10"
-                  style={{ 
-                    boxShadow: `0 0 10px 2px ${i === 0 ? '#4F46E5' : i === 1 ? '#8B5CF6' : '#EC4899'}`
-                  }}
-                  initial={{ top: "-5%", opacity: 0 }}
-                  animate={{ 
-                    top: ["0%", "100%"],
-                    opacity: [0, 1, 0]
-                  }}
-                  transition={{ 
-                    duration: 8,
-                    delay: i * 2.5,
-                    repeat: Infinity,
-                    repeatDelay: 0.5
-                  }}
+            </div>
+            
+            {/* Line from Step 2 to Step 3 */}
+            <div className="absolute" style={{ top: '260px', left: '58%', right: '42%', height: '150px' }}>
+              <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="line2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#8B5CF6" />
+                    <stop offset="100%" stopColor="#EC4899" />
+                  </linearGradient>
+                </defs>
+                
+                <motion.path
+                  d="M 0,0 Q 50,0 50,50 Q 50,100 100,100"
+                  stroke="url(#line2)"
+                  strokeWidth="2"
+                  strokeDasharray="5,5"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.5, delay: 1 }}
                 />
-              ))}
+              </svg>
+              
+              {/* Animated dot */}
+              <motion.div 
+                className="absolute top-0 left-0 w-4 h-4 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50 z-10"
+                animate={{ 
+                  offsetPath: "path('M 0,0 Q 50%,0 50%,50% Q 50%,100% 100%,100%')",
+                  offsetDistance: [0, 1]
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity,
+                  repeatDelay: 1,
+                  delay: 1
+                }}
+              />
             </div>
           </div>
+          
+          {/* Mobile Vertical Connection */}
+          <div className="lg:hidden absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 z-10">
+            <div className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 opacity-30" />
+            
+            {/* Animated glow pulse */}
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"
+              initial={{ scaleY: 0, opacity: 0, originY: 0 }}
+              animate={{ 
+                scaleY: [0, 1, 0], 
+                opacity: [0, 0.7, 0],
+              }}
+              transition={{ 
+                duration: 3, 
+                repeat: Infinity,
+                repeatDelay: 1
+              }}
+            />
+            
+            {/* Animated dots */}
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-3 h-3 rounded-full bg-white shadow-lg left-1/2 -translate-x-1/2 z-20"
+                style={{ 
+                  boxShadow: `0 0 10px 2px ${i === 0 ? '#4F46E5' : i === 1 ? '#8B5CF6' : '#EC4899'}`
+                }}
+                initial={{ top: "-5%", opacity: 0 }}
+                animate={{ 
+                  top: ["0%", "100%"],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{ 
+                  duration: 8,
+                  delay: i * 2.5,
+                  repeat: Infinity,
+                  repeatDelay: 0.5
+                }}
+              />
+            ))}
+          </div>
 
-          {/* Process Steps */}
+          {/* Process Steps in ZigZag Pattern */}
           <div className="relative space-y-28 lg:space-y-0">
             {steps.map((step, index) => (
               <motion.div
@@ -367,7 +324,7 @@ export function Approach() {
                   }
                 }}
               >
-                {/* Step Node Circle with Number */}
+                {/* Step Number Circle */}
                 <motion.div 
                   className={`absolute lg:static top-0 ${index % 2 === 0 ? "left-0" : "right-0"} lg:mx-0 z-20`}
                   variants={index % 2 === 0 ? fadeInLeft : fadeInRight}
@@ -386,16 +343,16 @@ export function Approach() {
                     transition={{ duration: 2, repeat: Infinity }}
                   >
                     <span className="text-white text-2xl font-bold">{index + 1}</span>
-
-                    {/* Animated ripple effect */}
+                    
+                    {/* Ripple effect */}
                     <motion.div
                       className="absolute inset-0 rounded-full border-2 border-white/30"
                       initial={{ scale: 1, opacity: 0.5 }}
                       animate={{ scale: 1.5, opacity: 0 }}
                       transition={{ duration: 2, repeat: Infinity }}
                     />
-
-                    {/* Direction Arrow - Only on desktop */}
+                    
+                    {/* Direction arrows (desktop only) */}
                     {index < steps.length - 1 && (
                       <motion.div 
                         className="hidden lg:flex absolute -bottom-16 left-1/2 -translate-x-1/2"
@@ -454,47 +411,26 @@ export function Approach() {
                         {step.description}
                       </p>
 
-                      {/* Key Features in Cards */}
-                      <div className="space-y-3">
-                        {step.keyPoints.map((point, i) => (
-                          <motion.div 
-                            key={i}
-                            className={`flex items-center gap-3 p-3 rounded-lg border border-slate-100 dark:border-slate-800 ${
-                              index % 2 === 0 ? "lg:flex-row-reverse" : ""
-                            }`}
-                            initial={{ x: index % 2 === 0 ? 10 : -10, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.5 + (i * 0.1) }}
-                            whileHover={{ x: index % 2 === 0 ? -5 : 5 }}
-                          >
-                            <div className="p-2 rounded-lg" style={{ backgroundColor: `${step.color}15` }}>
-                              <point.icon className="h-4 w-4" style={{ color: step.color }} />
-                            </div>
-                            <p className={`text-sm font-medium ${index % 2 === 0 ? "lg:text-right" : "lg:text-left"}`}>
-                              {point.text}
-                            </p>
-                          </motion.div>
-                        ))}
-                      </div>
-
                       {/* Benefit Tag */}
-                      <div className="mt-6 flex items-center">
+                      <motion.div 
+                        className="mt-6 flex items-center"
+                        whileHover={{ y: -3 }}
+                      >
                         <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
-                        <motion.div 
+                        <div 
                           className="mx-4 flex items-center px-4 py-1 rounded-full"
                           style={{ backgroundColor: `${step.color}15` }}
-                          whileHover={{ scale: 1.05 }}
                         >
                           <CheckCircle className="h-4 w-4 mr-2" style={{ color: step.color }} />
                           <p className="text-xs font-medium" style={{ color: step.color }}>
                             {step.benefit}
                           </p>
-                        </motion.div>
+                        </div>
                         <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
-                      </div>
+                      </motion.div>
                     </div>
 
-                    {/* Decorative corner elements */}
+                    {/* Decorative corner gradients */}
                     <div 
                       className={`absolute -z-10 w-40 h-40 rounded-full ${index % 2 === 0 ? "-top-20 -right-20" : "-top-20 -left-20"}`}
                       style={{ 
@@ -516,7 +452,7 @@ export function Approach() {
 
         {/* Results Section with elegant cards */}
         <motion.div 
-          className="mt-32 text-center"
+          className="mt-20 text-center"
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           transition={{ duration: 0.8, delay: 0.5 }}
@@ -552,7 +488,7 @@ export function Approach() {
                     className="h-2 w-full"
                     style={{ backgroundColor: stat.color }}
                   />
-
+                  
                   <div className="p-6 md:p-8 flex flex-col items-center">
                     {/* Icon in Circle */}
                     <div 
@@ -564,7 +500,7 @@ export function Approach() {
                     >
                       <stat.icon style={{ color: stat.color }} className="h-7 w-7" />
                     </div>
-
+                    
                     {/* Value with gradient */}
                     <motion.div
                       className="mb-2 relative"
@@ -577,7 +513,7 @@ export function Approach() {
                         {stat.value}
                       </h4>
                     </motion.div>
-
+                    
                     {/* Label */}
                     <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
                       {stat.label}
@@ -592,31 +528,3 @@ export function Approach() {
     </section>
   );
 }
-
-        {/* How It All Connects Section */}
-        <div className="text-center mt-16" id="how-it-connects"> {/* Added id for smooth scrolling */}
-          <h3 className="text-2xl font-bold mb-6">How It All Connects</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-4">
-              <div className="flex items-center gap-2 justify-center mb-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="font-semibold">Laser-Focused</span>
-              </div>
-              <p className="text-muted-foreground">Target only those ready to buy</p>
-            </div>
-            <div className="p-4">
-              <div className="flex items-center gap-2 justify-center mb-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="font-semibold">Engagement-Optimized</span>
-              </div>
-              <p className="text-muted-foreground">Deliver value at every touchpoint</p>
-            </div>
-            <div className="p-4">
-              <div className="flex items-center gap-2 justify-center mb-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                <span className="font-semibold">Revenue-Ready</span>
-              </div>
-              <p className="text-muted-foreground">Convert leads faster with zero wasted effort</p>
-            </div>
-          </div>
-        </div>
