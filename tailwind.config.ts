@@ -87,6 +87,48 @@ export default {
             "background-position": "0 0",
           },
         },
+        "float": {
+          "0%, 100%": {
+            transform: "translateY(0)",
+          },
+          "50%": {
+            transform: "translateY(-10px)",
+          },
+        },
+        "pulse-soft": {
+          "0%, 100%": {
+            opacity: "1",
+          },
+          "50%": {
+            opacity: "0.7",
+          },
+        },
+        "morph-gradient": {
+          "0%, 100%": {
+            "background-size": "100% 100%",
+            "background-position": "0% 0%",
+          },
+          "50%": {
+            "background-size": "150% 150%",
+            "background-position": "100% 100%",
+          },
+        },
+        "spin-slow": {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
+        "perspective-shift": {
+          "0%, 100%": {
+            transform: "perspective(1000px) rotateY(0deg)",
+          },
+          "50%": {
+            transform: "perspective(1000px) rotateY(5deg)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -95,9 +137,20 @@ export default {
         "gradient-x-reverse": "gradient-x-reverse 15s linear infinite",
         "gradient-x-fast": "gradient-x 8s linear infinite",
         "gradient-x-fast-reverse": "gradient-x-reverse 8s linear infinite",
+        "float": "float 3s ease-in-out infinite",
+        "pulse-soft": "pulse-soft 3s ease-in-out infinite",
+        "morph-gradient": "morph-gradient 10s ease-in-out infinite",
+        "spin-slow": "spin-slow 15s linear infinite",
+        "perspective-shift": "perspective-shift 5s ease-in-out infinite",
       },
       backgroundSize: {
         "200%": "200% 100%",
+      },
+      transformStyle: {
+        "3d": "preserve-3d",
+      },
+      perspective: {
+        "1000": "1000px",
       },
     },
   },
