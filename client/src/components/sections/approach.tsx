@@ -1,25 +1,42 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import { CheckCircle, ArrowRight, Target, Zap, TrendingUp, Users, MessageSquare, BarChart3 } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { 
+  CheckCircle, 
+  ArrowRight, 
+  Target, 
+  Zap, 
+  TrendingUp, 
+  Users, 
+  MessageSquare, 
+  BarChart3, 
+  ChevronRight,
+  Search,
+  BriefcaseBusiness, 
+  LineChart,
+  Hexagon
+} from "lucide-react";
 import { ResearchStrategyIcon } from "@/components/animated-icons/research-strategy";
 import { ContentEngagementIcon } from "@/components/animated-icons/content-engagement";
 import { ScaleGrowthIcon } from "@/components/animated-icons/scale-growth";
 
 export function Approach() {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: false, amount: 0.2 });
+
   const steps = [
     {
       icon: ResearchStrategyIcon,
       title: "Discover",
       subtitle: "Strategic Targeting",
       description: "Pinpoint your ideal buyers using intelligent data analytics, intent signals, and technographic insights. We map your ICP and identify high-value decision-makers actively seeking solutions like yours—ensuring quality-first outreach.",
-      gradient: "from-blue-500/20 via-indigo-500/20 to-violet-500/20",
-      solidGradient: "from-blue-500 via-indigo-500 to-violet-500",
-      highlightColor: "text-blue-600 dark:text-blue-400",
+      color: "#4F46E5", // indigo-600
+      highlightColor: "text-indigo-600 dark:text-indigo-400",
       benefit: "Eliminate wasted spend on unqualified leads and focus resources on prospects primed to convert.",
       keyPoints: [
-        { icon: Target, text: "Precision targeting with intent data" },
-        { icon: Users, text: "Decision-maker identification" },
-        { icon: BarChart3, text: "ICP mapping and verification" }
+        { icon: Search, text: "Precision targeting with intent data" },
+        { icon: BriefcaseBusiness, text: "Decision-maker identification" },
+        { icon: LineChart, text: "ICP mapping and verification" }
       ]
     },
     {
@@ -27,8 +44,7 @@ export function Approach() {
       title: "Engage",
       subtitle: "Hyper-Targeted Campaigns",
       description: "Deliver personalized content, multi-channel outreach, and account-specific campaigns that resonate with buyer pain points. From whitepapers to tailored demos, we synchronize messaging across all platforms.",
-      gradient: "from-violet-500/20 via-purple-500/20 to-fuchsia-500/20",
-      solidGradient: "from-violet-500 via-purple-500 to-fuchsia-500",
+      color: "#8B5CF6", // violet-500
       highlightColor: "text-violet-600 dark:text-violet-400",
       benefit: "Turn cold prospects into engaged buyers by meeting them where they are, with content they need.",
       keyPoints: [
@@ -42,9 +58,8 @@ export function Approach() {
       title: "Convert",
       subtitle: "Revenue-Driven Execution",
       description: "Prioritize hot leads using BANT qualification and arm sales teams with real-time insights. Our automated workflows ensure seamless marketing-to-sales handoffs, maintaining momentum until close.",
-      gradient: "from-fuchsia-500/20 via-pink-500/20 to-rose-500/20",
-      solidGradient: "from-fuchsia-500 via-pink-500 to-rose-500",
-      highlightColor: "text-fuchsia-600 dark:text-fuchsia-400",
+      color: "#EC4899", // pink-500
+      highlightColor: "text-pink-600 dark:text-pink-400",
       benefit: "Shorten sales cycles, reduce leakage, and turn pipelines into predictable growth engines.",
       keyPoints: [
         { icon: TrendingUp, text: "Sales velocity acceleration" },
@@ -54,294 +69,327 @@ export function Approach() {
     },
   ];
 
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 60 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
   return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-slate-50 to-white">
-      {/* Advanced Background Elements */}
+    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-50">
+      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
-        {/* Dynamic animated shapes */}
-        {[1, 2, 3, 4, 5].map((i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-primary/5"
-            style={{
-              width: `${Math.random() * 300 + 100}px`,
-              height: `${Math.random() * 300 + 100}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ 
-              scale: [0.7, 1, 0.7], 
-              opacity: [0.1, 0.2, 0.1],
-              x: [0, Math.random() * 50 - 25, 0],
-              y: [0, Math.random() * 50 - 25, 0],
-            }}
-            transition={{ 
-              duration: Math.random() * 10 + 20,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
+        <svg className="absolute h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <radialGradient id="heroglow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+              <stop offset="0%" stopColor="rgba(79, 70, 229, 0.1)" />
+              <stop offset="100%" stopColor="rgba(236, 72, 153, 0)" />
+            </radialGradient>
+          </defs>
+          <circle cx="20" cy="20" r="30" fill="url(#heroglow)" opacity="0.4">
+            <motion.animate
+              attributeName="cy"
+              values="20;25;20"
+              dur="10s"
+              repeatCount="indefinite"
+            />
+          </circle>
+          <circle cx="80" cy="70" r="30" fill="url(#heroglow)" opacity="0.2">
+            <motion.animate
+              attributeName="cx"
+              values="80;75;80"
+              dur="14s"
+              repeatCount="indefinite"
+            />
+          </circle>
+        </svg>
+        
+        {/* Hexagon Pattern */}
+        <div className="absolute inset-0 opacity-[0.03]">
+          {Array.from({ length: 30 }).map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute"
+              style={{
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                opacity: Math.random() * 0.5 + 0.2,
+              }}
+              initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
+              animate={{ 
+                opacity: [0.1, 0.3, 0.1],
+                scale: [0.8, 1, 0.8],
+                rotate: 360,
+              }}
+              transition={{ 
+                duration: Math.random() * 10 + 20,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              <Hexagon className="w-16 h-16 stroke-primary/10 fill-transparent" />
+            </motion.div>
+          ))}
+        </div>
       </div>
 
-      <div className="container mx-auto px-4 relative">
+      {/* Main Content */}
+      <div className="container mx-auto px-4 relative z-10" ref={containerRef}>
+        {/* Title Section */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16 max-w-4xl mx-auto"
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          variants={fadeInUp}
+          className="text-center mb-20 max-w-4xl mx-auto"
         >
-          {/* Enhanced heading with animated underline */}
-          <div className="relative inline-block mb-6">
-            <h2 className="text-5xl font-bold bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
+          {/* Elegant Header */}
+          <motion.div 
+            className="relative inline-flex flex-col items-center mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <div className="h-1 w-16 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full mb-4" />
+            <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight">
               Our Approach to Building Winning Sales Pipelines
             </h2>
-            <motion.div 
-              className="absolute -bottom-3 left-1/2 h-1 bg-gradient-to-r from-primary via-purple-600 to-pink-600 rounded-full"
-              initial={{ width: "0%", x: "-50%" }}
-              whileInView={{ width: "40%", x: "-50%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            />
-          </div>
-          <p className="text-xl text-muted-foreground">
-            We don't just generate leads—we build sales pipelines that convert. Our proven process ensures laser-focused targeting, 
-            engagement-optimized touchpoints, and revenue-ready conversions that transform prospects into predictable growth.
-          </p>
+            <div className="h-1 w-16 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-full mt-4" />
+          </motion.div>
+          
+          <motion.p 
+            className="text-xl text-muted-foreground max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            We don't just generate leads—we build sales pipelines that convert. Our proven process ensures 
+            laser-focused targeting, engagement-optimized touchpoints, and revenue-ready conversions.
+          </motion.p>
         </motion.div>
 
-        {/* 3-Step Process - Reimagined with connecting paths */}
-        <div className="relative max-w-6xl mx-auto mb-24 z-10">
-          {/* Connecting Path - A curved line connecting all steps */}
-          <div className="hidden md:block absolute top-1/2 left-0 w-full h-1 -translate-y-1/2">
-            <svg width="100%" height="30" className="absolute top-1/2 left-0 -translate-y-1/2">
-              <motion.path 
-                d="M0,15 Q150,-20 300,15 Q450,50 600,15 Q750,-20 900,15 Q1050,50 1200,15"
-                stroke="url(#pathGradient)" 
-                strokeWidth="2" 
-                fill="none"
-                strokeDasharray="5,5"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 2, ease: "easeOut" }}
-              />
-              <defs>
-                <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y1="0%">
-                  <stop offset="0%" stopColor="#3b82f6" />
-                  <stop offset="50%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#ec4899" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
+        {/* Vertical Timeline Approach */}
+        <div className="relative mx-auto max-w-5xl">
+          {/* Center Line */}
+          <motion.div 
+            className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 -translate-x-1/2"
+            initial={{ scaleY: 0, originY: 0 }}
+            animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-20">
-            {steps.map((step, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: index * 0.3 }}
-                className="relative flex flex-col items-center"
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              className={`relative z-10 flex items-center gap-8 mb-24 ${
+                index % 2 === 0 ? "flex-row" : "flex-row-reverse"
+              } flex-col lg:flex-row`}
+              initial="hidden"
+              animate={isInView ? "visible" : "hidden"}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { 
+                  opacity: 1,
+                  transition: { 
+                    staggerChildren: 0.2,
+                    delayChildren: index * 0.3
+                  }
+                }
+              }}
+            >
+              {/* Center Node */}
+              <motion.div 
+                className="absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 z-10 flex-shrink-0"
+                variants={fadeInUp}
               >
-                {/* Pulsing Step Number Circle with 3D effect */}
-                <motion.div 
-                  className={`absolute -top-10 w-20 h-20 rounded-full bg-gradient-to-br ${step.solidGradient} z-10 flex items-center justify-center shadow-lg`}
-                  whileHover={{ scale: 1.1 }}
-                  initial={{ boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)" }}
-                  whileInView={{
+                <motion.div
+                  className="w-20 h-20 rounded-full border-4 border-white dark:border-slate-900 shadow-xl flex items-center justify-center"
+                  style={{ backgroundColor: step.color }}
+                  initial={{ boxShadow: `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)` }}
+                  animate={{ 
                     boxShadow: [
-                      "0 10px 15px -3px rgba(0,0,0,0.1)",
-                      "0 20px 25px -5px rgba(0,0,0,0.1)",
-                      "0 10px 15px -3px rgba(0,0,0,0.1)"
+                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`,
+                      `0 0 20px rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.6)`,
+                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.4)`
                     ]
                   }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 2,
-                    repeatType: "reverse" 
-                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
                 >
                   <span className="text-white text-2xl font-bold">{index + 1}</span>
-                  {/* Animated ripple effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-white/30"
-                    initial={{ scale: 1, opacity: 0.5 }}
-                    animate={{ scale: 1.5, opacity: 0 }}
-                    transition={{ 
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatType: "loop"
-                    }}
-                  />
                 </motion.div>
+              </motion.div>
 
-                {/* Step Card with enhanced 3D hover effect */}
-                <div className="w-full relative pt-12">
-                  <motion.div
-                    className="relative w-full h-full overflow-hidden rounded-2xl bg-white dark:bg-slate-900 shadow-xl group border border-transparent hover:border-primary/30 transition-all duration-300"
-                    whileHover={{ y: -5 }}
-                    style={{ transformStyle: "preserve-3d" }}
-                  >
-                    {/* Card Background with interactive effect */}
-                    <motion.div 
-                      className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-                      whileHover={{ 
-                        background: [
-                          `linear-gradient(to bottom right, ${step.gradient.replace(/\/\d+/g, "/5")})`,
-                          `linear-gradient(to bottom right, ${step.gradient.replace(/\/\d+/g, "/20")})`
-                        ] 
-                      }}
-                      transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                    />
+              {/* Step Content */}
+              <motion.div 
+                className="lg:w-[calc(50%-3rem)] w-full"
+                variants={fadeInUp}
+              >
+                <motion.div
+                  className="bg-white dark:bg-slate-900 rounded-2xl shadow-lg overflow-hidden border border-slate-100 dark:border-slate-800 transform-gpu"
+                  whileHover={{ scale: 1.02, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  {/* Color Band at Top */}
+                  <div className="h-2" style={{ backgroundColor: step.color }} />
 
-                    <div className="p-8 relative z-10">
-                      {/* Icon with floating animation */}
-                      <motion.div 
-                        className="mb-6 flex justify-center"
-                        animate={{ y: [0, -10, 0] }}
-                        transition={{ 
-                          duration: 4, 
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                          ease: "easeInOut" 
-                        }}
+                  <div className="p-8">
+                    {/* Title and Subtitle */}
+                    <div className="flex items-start gap-4 mb-6">
+                      <div 
+                        className="p-3 rounded-xl flex-shrink-0"
+                        style={{ backgroundColor: `${step.color}15` }}
                       >
-                        <div className={`w-24 h-24 rounded-full bg-gradient-to-br ${step.gradient} p-5 flex items-center justify-center transform transition-transform duration-500 group-hover:scale-110 shadow-md`}>
-                          <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 1 }}>
-                            <step.icon />
-                          </motion.div>
-                        </div>
-                      </motion.div>
-
-                      {/* Title with gradient highlight effect */}
-                      <div className="text-center mb-4">
-                        <h3 className={`text-3xl font-bold mb-1 bg-gradient-to-r ${step.solidGradient} text-transparent bg-clip-text`}>
+                        <motion.div
+                          animate={{ rotate: [0, 10, -10, 0] }}
+                          transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
+                        >
+                          <step.icon />
+                        </motion.div>
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold mb-1" style={{ color: step.color }}>
                           {step.title}
                         </h3>
-                        <p className={`text-lg font-medium ${step.highlightColor}`}>
+                        <p className="text-lg font-medium text-slate-600 dark:text-slate-400">
                           {step.subtitle}
                         </p>
                       </div>
+                    </div>
 
-                      {/* Description with a subtle card effect */}
-                      <div className="bg-white/40 dark:bg-slate-800/40 p-4 rounded-lg backdrop-blur-sm shadow-sm mb-6">
-                        <p className="text-muted-foreground leading-relaxed">
-                          {step.description}
-                        </p>
-                      </div>
+                    {/* Description */}
+                    <p className="text-muted-foreground leading-relaxed mb-6 pb-6 border-b border-slate-100 dark:border-slate-800">
+                      {step.description}
+                    </p>
 
-                      {/* Key Points with animated icons */}
-                      <div className="space-y-3">
-                        {step.keyPoints.map((point, i) => (
-                          <motion.div 
-                            key={i}
-                            className="flex items-center gap-3 bg-white/60 dark:bg-slate-800/60 p-3 rounded-lg shadow-sm"
-                            initial={{ x: -20, opacity: 0 }}
-                            whileInView={{ x: 0, opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.5 + (i * 0.1) }}
-                          >
-                            <motion.div
-                              whileHover={{ rotate: 360, scale: 1.2 }}
-                              transition={{ duration: 0.5 }}
-                              className={`p-2 rounded-full bg-gradient-to-br ${step.solidGradient}`}
-                            >
-                              <point.icon className="h-4 w-4 text-white" />
-                            </motion.div>
-                            <p className="text-sm font-medium">{point.text}</p>
-                          </motion.div>
-                        ))}
-                      </div>
+                    {/* Key Features in Cards */}
+                    <div className="space-y-3">
+                      {step.keyPoints.map((point, i) => (
+                        <motion.div 
+                          key={i}
+                          className="flex items-center gap-3 p-3 rounded-lg border border-slate-100 dark:border-slate-800"
+                          initial={{ x: -10, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ delay: 0.5 + (i * 0.1) }}
+                          whileHover={{ x: 5 }}
+                        >
+                          <div className="p-2 rounded-lg" style={{ backgroundColor: `${step.color}15` }}>
+                            <point.icon className="h-4 w-4" style={{ color: step.color }} />
+                          </div>
+                          <p className="text-sm font-medium">{point.text}</p>
+                        </motion.div>
+                      ))}
+                    </div>
 
-                      {/* Benefit highlight */}
+                    {/* Benefit Tag */}
+                    <div className="mt-6 flex items-center">
+                      <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
                       <motion.div 
-                        className="mt-6 p-4 border-t border-primary/10 text-center"
-                        whileHover={{ y: -3 }}
+                        className="mx-4 flex items-center px-4 py-1 rounded-full"
+                        style={{ backgroundColor: `${step.color}15` }}
+                        whileHover={{ scale: 1.05 }}
                       >
-                        <p className="text-sm font-medium text-primary">
+                        <CheckCircle className="h-4 w-4 mr-2" style={{ color: step.color }} />
+                        <p className="text-xs font-medium" style={{ color: step.color }}>
                           {step.benefit}
                         </p>
                       </motion.div>
+                      <div className="flex-1 border-t border-slate-100 dark:border-slate-800" />
                     </div>
-                  </motion.div>
-                </div>
+                  </div>
+                </motion.div>
 
-                {/* Next step arrow (except for the last step) */}
+                {/* Connection Arrow for Desktop */}
                 {index < steps.length - 1 && (
                   <motion.div 
-                    className="absolute -right-6 top-1/2 -translate-y-1/2 md:block hidden z-20"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="hidden lg:flex absolute top-full left-1/2 -translate-x-1/2 -translate-y-12 w-10 h-16 items-center justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1 }}
                   >
-                    <div className="bg-white dark:bg-slate-800 w-10 h-10 rounded-full shadow-md flex items-center justify-center">
-                      <ArrowRight className="w-5 h-5 text-primary" />
-                    </div>
+                    <motion.div
+                      animate={{ y: [0, 5, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <ChevronRight className="w-6 h-6 text-slate-400 rotate-90" />
+                    </motion.div>
                   </motion.div>
                 )}
               </motion.div>
-            ))}
-          </div>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Results Section with enhanced interactive metrics */}
+        {/* Results Section with elegant cards */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-24 text-center"
+          className="mt-20 text-center"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <h3 className="text-3xl font-bold mb-12 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
-            Proven Results That Speak for Themselves
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <motion.h3 
+            className="text-3xl font-bold mb-16"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text">
+              Proven Results That Speak for Themselves
+            </span>
+          </motion.h3>
+
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { value: "25%", label: "Pipeline Efficiency", icon: Zap },
-              { value: "2.5x", label: "Lead Quality Improvement", icon: Target },
-              { value: "45%", label: "Cost per Lead Reduction", icon: TrendingUp },
-              { value: "99%", label: "Sales Acceptance Rate", icon: CheckCircle }
+              { value: "25%", label: "Pipeline Efficiency", icon: Zap, color: "#4F46E5" },
+              { value: "2.5x", label: "Lead Quality Improvement", icon: Target, color: "#8B5CF6" },
+              { value: "45%", label: "Cost per Lead Reduction", icon: TrendingUp, color: "#A855F7" },
+              { value: "99%", label: "Sales Acceptance Rate", icon: CheckCircle, color: "#EC4899" }
             ].map((stat, index) => (
               <motion.div
                 key={index}
-                whileHover={{ scale: 1.05, y: -5 }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="group"
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.5, delay: 0.2 * index }}
+                whileHover={{ y: -10, scale: 1.05 }}
               >
-                <div className="relative p-6 rounded-2xl bg-white dark:bg-slate-900 border border-primary/10 hover:border-primary/30 transition-all duration-300 shadow-lg h-full">
-                  {/* Gradient background that appears on hover */}
-                  <motion.div 
-                    className="absolute inset-0 bg-gradient-to-br from-primary/5 via-purple-500/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
-                    whileHover={{ opacity: 1 }}
+                <div className="h-full bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-800">
+                  {/* Stat Header */}
+                  <div 
+                    className="h-2 w-full"
+                    style={{ backgroundColor: stat.color }}
                   />
                   
-                  {/* Icon */}
-                  <motion.div 
-                    className="mb-3 mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 1 }}
-                  >
-                    <stat.icon className="h-6 w-6 text-primary" />
-                  </motion.div>
-                  
-                  {/* Value with counter animation */}
-                  <motion.p 
-                    className="text-3xl font-bold bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text mb-2"
-                    initial={{ scale: 1 }}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {stat.value}
-                  </motion.p>
-                  
-                  <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+                  <div className="p-8 flex flex-col items-center">
+                    {/* Icon in Circle */}
+                    <div 
+                      className="w-16 h-16 rounded-full flex items-center justify-center mb-4 border-2"
+                      style={{ 
+                        backgroundColor: `${stat.color}10`, 
+                        borderColor: stat.color 
+                      }}
+                    >
+                      <stat.icon style={{ color: stat.color }} className="h-8 w-8" />
+                    </div>
+                    
+                    {/* Value with gradient */}
+                    <motion.div
+                      className="mb-2 relative"
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      <h4 
+                        className="text-4xl font-bold"
+                        style={{ color: stat.color }}
+                      >
+                        {stat.value}
+                      </h4>
+                    </motion.div>
+                    
+                    {/* Label */}
+                    <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
+                      {stat.label}
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             ))}
