@@ -213,47 +213,97 @@ export function Services() {
   return (
     <section 
       ref={sectionRef}
-      className="py-28 relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50/70"
+      className="py-32 relative overflow-hidden"
     >
-      {/* Enhanced Background Elements */}
+      {/* Enhanced Dynamic Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5" />
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3" />
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/60" />
         
-        {/* Animated floating shapes */}
+        {/* Fine-grain texture overlay */}
+        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
+        
+        {/* Accent color rays */}
+        <div className="absolute top-0 left-0 right-0 h-[30%] bg-gradient-to-b from-primary/5 to-transparent opacity-60" />
+        <div className="absolute bottom-0 left-0 right-0 h-[20%] bg-gradient-to-t from-primary/3 to-transparent opacity-60" />
+        
+        {/* Modern animated shapes */}
         <AnimatePresence>
           {isInView && (
             <>
+              {/* Top left blob */}
               <motion.div 
-                initial={{ opacity: 0, scale: 0.8, x: -100, y: -50 }}
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
-                  opacity: 0.4, 
-                  scale: 1,
-                  x: [-100, -80, -100],
-                  y: [-50, -30, -50]
+                  opacity: [0.2, 0.3, 0.2], 
+                  scale: [1, 1.05, 1],
+                  x: [-5, 5, -5],
+                  y: [0, -10, 0],
                 }}
                 transition={{ 
-                  duration: 8,
+                  duration: 15,
                   repeat: Infinity,
                   repeatType: "reverse"
                 }}
-                className="absolute top-20 left-20 w-64 h-64 rounded-full bg-blue-400/10 blur-3xl"
+                className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-purple-400/10 blur-[80px]"
               />
+              
+              {/* Bottom right blob */}
               <motion.div 
-                initial={{ opacity: 0, scale: 0.8, x: 100, y: 50 }}
+                initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ 
-                  opacity: 0.3, 
-                  scale: 1,
-                  x: [100, 120, 100],
-                  y: [100, 120, 100]
+                  opacity: [0.15, 0.25, 0.15], 
+                  scale: [1, 1.1, 1],
+                  x: [10, -10, 10],
+                  y: [0, 15, 0],
                 }}
                 transition={{ 
-                  duration: 12,
+                  duration: 18,
                   repeat: Infinity,
                   repeatType: "reverse"
                 }}
-                className="absolute bottom-40 right-20 w-80 h-80 rounded-full bg-purple-400/10 blur-3xl"
+                className="absolute -bottom-60 -right-20 w-[600px] h-[600px] rounded-full bg-blue-400/10 blur-[100px]"
               />
+              
+              {/* Middle accent blob */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ 
+                  opacity: [0.1, 0.2, 0.1], 
+                  scale: [0.8, 1, 0.8],
+                }}
+                transition={{ 
+                  duration: 10,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+                className="absolute top-1/3 right-1/4 w-[300px] h-[300px] rounded-full bg-primary/5 blur-[60px]"
+              />
+              
+              {/* Subtle floating particles */}
+              <div className="absolute inset-0 overflow-hidden">
+                {[...Array(6)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className={`absolute w-2 h-2 rounded-full bg-primary/20`}
+                    style={{
+                      top: `${20 + i * 15}%`,
+                      left: `${10 + i * 15}%`,
+                    }}
+                    animate={{
+                      y: [0, -30, 0],
+                      opacity: [0.2, 0.5, 0.2],
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{
+                      duration: 5 + i,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 0.5,
+                    }}
+                  />
+                ))}
+              </div>
             </>
           )}
         </AnimatePresence>
@@ -316,191 +366,287 @@ export function Services() {
               onHoverEnd={() => setActiveIndex(null)}
               className="flex transform-gpu"
             >
-              <Card className={`
-                flex flex-col w-full bg-white/70 backdrop-blur-sm 
-                border-slate-200/80 hover:border-primary/30 
-                transition-all duration-300 rounded-xl
-                relative overflow-hidden group hover:shadow-xl
-              `}>
-                {/* Enhanced gradient backgrounds with parallax effect */}
-                <motion.div 
-                  className={`
-                    absolute inset-0 bg-gradient-to-br bg-[size:200%_200%]
-                    ${service.gradients[0]}
-                    opacity-40 group-hover:opacity-80
-                    transition-all duration-700 ease-out
-                  `} 
-                  animate={{
-                    backgroundPosition: activeIndex === index 
-                      ? ['0% 0%', '100% 100%'] 
-                      : ['0% 0%', '50% 50%', '0% 0%'],
+              <div className="relative w-full h-full perspective-1000">
+                {/* Card with 3D hover effect */}
+                <motion.div
+                  className="relative w-full h-full"
+                  style={{ transformStyle: "preserve-3d" }}
+                  whileHover={{ 
+                    rotateY: [-1, 3, 0], 
+                    rotateX: [1, -2, 0],
+                    z: 10,
                   }}
-                  transition={{
-                    duration: activeIndex === index ? 8 : 15,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300, 
+                    damping: 20 
                   }}
-                />
-                
-                <motion.div 
-                  className={`
-                    absolute inset-0 bg-gradient-to-tr bg-[size:200%_200%]
-                    ${service.gradients[1]}
-                    opacity-0 group-hover:opacity-40
-                    transition-all duration-700 ease-out
-                  `}
-                  animate={{
-                    backgroundPosition: activeIndex === index 
-                      ? ['100% 100%', '0% 0%'] 
-                      : ['100% 100%', '50% 50%', '100% 100%'],
-                  }}
-                  transition={{
-                    duration: activeIndex === index ? 8 : 15,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                  }}
-                />
-
-                {/* Card content with enhanced animations */}
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex items-start gap-4 mb-5">
-                    <motion.div 
-                      className="p-3.5 bg-white/90 rounded-xl shadow-md group-hover:shadow-lg transition-all duration-300"
-                      variants={iconAnimationVariants}
-                      initial="initial"
-                      animate={activeIndex === index ? "animate" : "initial"}
-                    >
-                      <service.icon className="h-8 w-8 text-primary transition-all duration-300" />
-                    </motion.div>
-                    <div>
-                      <h3 className="text-xl font-bold leading-tight mb-2">{service.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{service.description}</p>
-                    </div>
-                  </div>
-                  
-                  {/* Achievement highlight */}
-                  <motion.div 
-                    className="mt-2 mb-3 py-2 px-3 bg-primary/10 rounded-lg border border-primary/20 text-sm text-primary font-medium"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={activeIndex === index ? { opacity: 1, y: 0 } : { opacity: 0.8, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <span className="flex items-center">
-                      <TrendingUp className="mr-1.5 h-4 w-4" />
-                      {service.highlight}
-                    </span>
-                  </motion.div>
-                </CardHeader>
-
-                <CardContent className="pt-0 pb-4 relative z-10">
-                  <motion.div 
-                    className="space-y-3"
-                    variants={featureVariants}
-                  >
-                    {service.features.map((feature, featureIndex) => (
-                      <motion.div 
-                        key={featureIndex}
-                        variants={featureItemVariants}
-                        className="flex items-center gap-2.5 text-sm"
-                      >
-                        <span className="rounded-full p-1 bg-primary/10 text-primary">
-                          <feature.icon className="h-3.5 w-3.5" />
-                        </span>
-                        <span className="text-muted-foreground font-medium">{feature.text}</span>
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                </CardContent>
-
-                <CardFooter className="pt-2 pb-5 relative z-10">
-                  <Link href={`/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`}>
-                    <Button
-                      className="w-full group bg-white/90 hover:bg-primary text-primary hover:text-white 
-                        transition-all duration-300 shadow hover:shadow-lg"
-                    >
-                      <span>Learn More</span>
-                      <motion.span
-                        animate={{ x: activeIndex === index ? [0, 4, 0] : 0 }}
+                >
+                  {/* Main card body with stacked design */}
+                  <div className={`
+                    w-full rounded-2xl overflow-hidden
+                    bg-gradient-to-br from-white/90 via-white/80 to-white/70
+                    backdrop-blur-sm border-0 shadow-lg group
+                    transition-all duration-500 ease-out
+                    hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)]
+                  `}>
+                    {/* Color accent top bar */}
+                    <div className={`
+                      h-2 w-full bg-gradient-to-r 
+                      ${service.gradients[0].replace('/20', '/80').replace('/30', '/90')}
+                      animate-morph-gradient
+                    `}></div>
+                    
+                    {/* Floating icon element with glow effect */}
+                    <div className="relative flex justify-center mt-[-30px]">
+                      <motion.div
+                        className={`
+                          p-4 rounded-[20px] z-10
+                          shadow-xl border border-white/80
+                          bg-gradient-to-br from-white to-white/90
+                        `}
+                        animate={{ 
+                          y: [0, -2, 0],
+                          boxShadow: [
+                            '0 10px 25px rgba(0, 0, 0, 0.1)', 
+                            '0 20px 25px rgba(0, 0, 0, 0.12)', 
+                            '0 10px 25px rgba(0, 0, 0, 0.1)'
+                          ]
+                        }}
                         transition={{ 
-                          duration: 1, 
-                          repeat: activeIndex === index ? Infinity : 0, 
-                          repeatType: "reverse" 
+                          duration: 4, 
+                          repeat: Infinity, 
+                          repeatType: "reverse"
                         }}
                       >
-                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </motion.span>
-                    </Button>
-                  </Link>
-                </CardFooter>
-              </Card>
+                        <div className="relative">
+                          <motion.div 
+                            className={`
+                              absolute inset-0 rounded-[16px] opacity-30
+                              bg-gradient-to-r ${service.gradients[0].replace('/20', '/60').replace('/30', '/70')}
+                              blur-[10px] -z-10
+                            `}
+                            animate={{ 
+                              opacity: [0.3, 0.5, 0.3]
+                            }}
+                            transition={{ 
+                              duration: 4, 
+                              repeat: Infinity, 
+                              repeatType: "reverse"
+                            }}
+                          />
+                          <service.icon className="h-12 w-12 text-primary" />
+                        </div>
+                      </motion.div>
+                    </div>
+                    
+                    {/* Content area */}
+                    <div className="px-8 pt-4 pb-8">
+                      {/* Title with animated underline */}
+                      <div className="relative inline-block mb-3">
+                        <h3 className="text-2xl font-bold">{service.title}</h3>
+                        <motion.div 
+                          className={`
+                            h-1 rounded-full
+                            bg-gradient-to-r ${service.gradients[0].replace('/20', '/60').replace('/30', '/70')}
+                          `}
+                          initial={{ width: 0 }}
+                          animate={activeIndex === index ? { width: '100%' } : { width: '30%' }}
+                          transition={{ 
+                            duration: 0.8, 
+                            ease: "easeOut" 
+                          }}
+                        />
+                      </div>
+                      
+                      {/* Description with improved typography */}
+                      <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
+                      
+                      {/* Highlight metrics banner */}
+                      <motion.div
+                        className={`
+                          mb-6 py-3 px-4 rounded-lg
+                          bg-gradient-to-r ${service.gradients[0].replace('/20', '/10').replace('/30', '/10')}
+                          border border-primary/10 flex items-center font-medium
+                        `}
+                        initial={{ opacity: 0.7, y: 10 }}
+                        animate={activeIndex === index ? 
+                          { opacity: 1, y: 0, scale: 1.02 } : 
+                          { opacity: 0.9, y: 0, scale: 1 }
+                        }
+                        transition={{ duration: 0.5 }}
+                      >
+                        <TrendingUp className="mr-2 h-5 w-5 text-primary" />
+                        <span className="text-primary">{service.highlight}</span>
+                      </motion.div>
+                      
+                      {/* CTA Button with animated arrow */}
+                      <Link href={`/services/${service.title.toLowerCase().replace(/ & | /g, '-')}`} className="block">
+                        <motion.button
+                          className={`
+                            w-full py-3 px-6 rounded-xl text-white font-medium
+                            bg-gradient-to-r from-primary to-primary/90
+                            hover:shadow-lg hover:shadow-primary/20
+                            transition-all duration-300 flex items-center justify-center
+                          `}
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <span>Explore Service</span>
+                          <motion.span
+                            className="ml-2 flex items-center"
+                            animate={{ 
+                              x: activeIndex === index ? [0, 5, 0] : 0,
+                            }}
+                            transition={{ 
+                              duration: 1.2, 
+                              repeat: activeIndex === index ? Infinity : 0, 
+                              repeatType: "reverse"
+                            }}
+                          >
+                            <ArrowRight className="h-4 w-4" />
+                          </motion.span>
+                        </motion.button>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Enhanced CTA Section */}
+        {/* Redesigned CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-24 text-center relative rounded-2xl overflow-hidden"
+          initial={{ opacity: 0, y: 60 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
+          transition={{ duration: 0.8, delay: 0.6, type: "spring", stiffness: 50 }}
+          className="mt-28 relative"
         >
-          {/* Background glow effects */}
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-purple-500/10 rounded-3xl" />
-            <motion.div 
-              className="absolute top-0 left-0 right-0 h-1/2 bg-gradient-to-br from-primary/20 via-transparent to-transparent rounded-t-3xl"
-              animate={{ 
-                opacity: [0.4, 0.6, 0.4],
-              }}
-              transition={{ 
-                duration: 4,
-                repeat: Infinity,
-                repeatType: "reverse"
-              }}
-            />
-          </div>
-          
-          <div className="relative p-16">
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-            >
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
-                Ready to Transform Your B2B Marketing?
-              </h2>
-              <p className="text-xl text-muted-foreground mb-10 max-w-3xl mx-auto">
-                Whether you're looking to scale your demand generation, optimize your sales pipeline, or enhance your compliant 
-                lead generation efforts, our data-driven approach delivers measurable growth and exceptional ROI.
-              </p>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <Button
-                  size="lg"
-                  className="shadow-lg group bg-primary hover:bg-primary/90 text-lg px-8 py-6"
-                  onClick={() => window.open(calendlyUrl, '_blank')}
+          <div className="rounded-[2rem] overflow-hidden">
+            {/* Elegant background with animated elements */}
+            <div className="absolute inset-0 -z-10">
+              {/* Base gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-purple-500/10" />
+              
+              {/* Animated gradient overlay */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-purple-500/5"
+                animate={{ 
+                  backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
+                }}
+                transition={{ 
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  backgroundSize: '200% 200%'
+                }}
+              />
+              
+              {/* Glowing orbs */}
+              <div className="absolute inset-0 overflow-hidden">
+                <motion.div 
+                  className="absolute top-0 left-1/4 w-[300px] h-[300px] rounded-full bg-primary/10 blur-[80px]"
+                  animate={{ 
+                    y: [0, 20, 0],
+                    opacity: [0.3, 0.5, 0.3],
+                  }}
+                  transition={{ 
+                    duration: 8,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  }}
+                />
+                
+                <motion.div 
+                  className="absolute bottom-0 right-1/4 w-[250px] h-[250px] rounded-full bg-purple-500/10 blur-[60px]"
+                  animate={{ 
+                    y: [0, -20, 0],
+                    opacity: [0.2, 0.4, 0.2],
+                  }}
+                  transition={{ 
+                    duration: 10,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: 1
+                  }}
+                />
+              </div>
+            </div>
+            
+            {/* Content wrapper */}
+            <div className="relative py-20 px-8 sm:px-16 z-10 backdrop-blur-[2px]">
+              <div className="max-w-4xl mx-auto">
+                {/* Section accent line */}
+                <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-purple-500 rounded-full mx-auto mb-12 opacity-80" />
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.7, delay: 0.9 }}
+                  className="text-center"
                 >
-                  Schedule a Consultation
-                  <motion.span
-                    animate={{ 
-                      x: [0, 5, 0],
-                    }}
-                    transition={{ 
-                      duration: 1.5,
-                      repeat: Infinity,
-                      repeatType: "reverse"
-                    }}
-                  >
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                  </motion.span>
-                </Button>
-              </motion.div>
-            </motion.div>
+                  <h2 className="text-4xl sm:text-5xl font-bold mb-8 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight">
+                    Ready to Transform Your B2B Marketing Strategy?
+                  </h2>
+                  
+                  <p className="text-xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed">
+                    Whether you're looking to scale your demand generation, optimize your sales pipeline, or enhance your compliant 
+                    lead generation efforts, our data-driven approach delivers measurable growth and exceptional ROI.
+                  </p>
+                  
+                  {/* Action buttons */}
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      className="w-full sm:w-auto"
+                    >
+                      <motion.button
+                        onClick={() => window.open(calendlyUrl, '_blank')}
+                        className="relative group w-full sm:w-auto py-4 px-8 rounded-xl text-white font-medium
+                          bg-gradient-to-r from-primary to-primary/90 hover:shadow-xl hover:shadow-primary/20
+                          transition-all duration-300 flex items-center justify-center overflow-hidden"
+                      >
+                        {/* Button glow effect */}
+                        <div className="absolute inset-0 w-full h-full bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        
+                        <span className="mr-2">Schedule a Consultation</span>
+                        <motion.span
+                          animate={{ 
+                            x: [0, 5, 0],
+                          }}
+                          transition={{ 
+                            duration: 1.5,
+                            repeat: Infinity,
+                            repeatType: "reverse"
+                          }}
+                          className="flex items-center"
+                        >
+                          <ArrowRight className="h-5 w-5" />
+                        </motion.span>
+                      </motion.button>
+                    </motion.div>
+                    
+                    <motion.div
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      className="w-full sm:w-auto"
+                    >
+                      <Link href="/services" className="block w-full sm:w-auto py-4 px-8 rounded-xl 
+                        border border-primary/20 text-primary font-medium hover:bg-primary/5
+                        transition-all duration-300 flex items-center justify-center">
+                        View All Services
+                      </Link>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
