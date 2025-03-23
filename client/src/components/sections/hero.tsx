@@ -252,7 +252,7 @@ export function Hero() {
             transition={{ delay: 0.4 }}
             className="text-xl text-white/90 mb-8 leading-relaxed"
           >
-            At Pivotal B2B, we specialize in demand generation and compliant lead generation that transforms your sales pipeline into a high-performing engine. Through pinpoint audience targeting, multi-channel engagement, and measurable results, we help you connect with ideal buyers and accelerate revenue growth.
+            Pivotal B2B harnesses precision demand generation to identify high-intent buyers, engage them with hyper-targeted campaigns and resonant content, and convert leads into revenue—powered by smarter data insights. We build winning sales pipelines that shorten cycles, amplify ROI, and transform prospects into predictable, sustained growth
           </motion.p>
 
           <motion.div
