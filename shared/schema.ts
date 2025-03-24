@@ -270,6 +270,7 @@ export const proposalRequests = pgTable("proposal_requests", {
   technographics: text("technographics"),
   hasTargetAccounts: text("has_target_accounts"),
   targetAccountsList: text("target_accounts_list"),
+  targetAccountsFileUrl: text("target_accounts_file_url"),
   additionalNeeds: text("additional_needs"),
   currentChallenges: text("current_challenges"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
@@ -289,6 +290,7 @@ export const insertProposalRequestSchema = createInsertSchema(proposalRequests)
     technographics: z.string().optional(),
     hasTargetAccounts: z.string().optional(),
     targetAccountsList: z.string().optional(),
+    targetAccountsFileUrl: z.string().optional(),
     additionalNeeds: z.string().optional(),
     currentChallenges: z.string().optional(),
   });

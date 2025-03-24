@@ -32,11 +32,15 @@ const upload = multer({
     }
   }),
   fileFilter: function (req, file, cb) {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+    const allowedTypes = [
+      'image/jpeg', 'image/png', 'image/gif', 'application/pdf',
+      'text/csv', 'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ];
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type. Only JPEG, PNG, GIF and PDF are allowed.'));
+      cb(new Error('Invalid file type. Only JPEG, PNG, GIF, PDF, CSV, and Excel files are allowed.'));
     }
   },
   limits: {
