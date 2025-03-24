@@ -144,11 +144,13 @@ export function Navbar() {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/b2b-audience">
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  B2B Audience
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                href="/b2b-audience"
+                asChild={false}
+              >
+                B2B Audience
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
