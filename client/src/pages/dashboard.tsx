@@ -85,6 +85,35 @@ export default function Dashboard() {
       toast({ title: "User deleted successfully" });
     }
   });
+  
+  const updateProposalStatusMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: number; status: string }) => {
+      const res = await apiRequest("PATCH", `/api/proposal-requests/${id}/status`, { status });
+      if (!res.ok) throw new Error("Failed to update proposal status");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/proposal-requests"] });
+      toast({
+        title: "Success",
+        description: "Proposal status updated successfully",
+      });
+    }
+  });
+
+  const deleteProposalMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await apiRequest("DELETE", `/api/proposal-requests/${id}`);
+      if (!res.ok) throw new Error("Failed to delete proposal request");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/proposal-requests"] });
+      toast({
+        title: "Success",
+        description: "Proposal request deleted successfully",
+      });
+    },
+  });
 
   // Content queries
   const { data: posts, isLoading: postsLoading } = useQuery<BlogPost[]>({
@@ -191,13 +220,22 @@ export default function Dashboard() {
       deleteUserMutation.mutate(id);
     }
   };
+  
+  const handleProposalStatusChange = (id: number, status: string) => {
+    updateProposalStatusMutation.mutate({ id, status });
+  };
+  
+  const handleDeleteProposal = (id: number) => {
+    if (window.confirm("Are you sure you want to delete this proposal request?")) {
+      deleteProposalMutation.mutate(id);
+    }
+  };
 
   return (
     <>
       <MetaTags
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
-        noindex={true}
       />
       <div className="container mx-auto px-4 py-12">
         <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
@@ -636,6 +674,114 @@ export default function Dashboard() {
                     </div>
                   </div>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Proposal Requests Tab */}
+          <TabsContent value="proposals">
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-semibold">Proposal Requests</h2>
+                </div>
+                <div className="space-y-4">
+                  {proposalRequestsLoading ? (
+                    <div className="flex justify-center py-8">
+                      <Loader2 className="h-8 w-8 animate-spin" />
+                    </div>
+                  ) : (
+                    <div className="border rounded-lg">
+                      <div className="p-4 border-b bg-muted">
+                        <div className="grid grid-cols-6 gap-4 font-medium">
+                          <div>Company</div>
+                          <div>Contact</div>
+                          <div>Services</div>
+                          <div>Submitted</div>
+                          <div>Status</div>
+                          <div>Actions</div>
+                        </div>
+                      </div>
+                      <div className="divide-y">
+                        {proposalRequests?.map((proposal) => (
+                          <div key={proposal.id} className="p-4">
+                            <div className="grid grid-cols-6 gap-4">
+                              <div>
+                                <span className="font-medium">{proposal.companyName}</span>
+                                <p className="text-sm text-muted-foreground">{proposal.companyIndustries}</p>
+                              </div>
+                              <div>
+                                <span>{proposal.fullName}</span>
+                                <p className="text-sm text-muted-foreground">{proposal.email}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm">{proposal.interestedServices?.join(", ")}</p>
+                              </div>
+                              <div>
+                                <p className="text-sm">
+                                  {proposal.createdAt ? new Date(proposal.createdAt).toLocaleDateString() : "-"}
+                                </p>
+                              </div>
+                              <div>
+                                <Select
+                                  defaultValue={proposal.status || "new"}
+                                  onValueChange={(value) => handleProposalStatusChange(proposal.id, value)}
+                                >
+                                  <SelectTrigger className="w-32">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="new">New</SelectItem>
+                                    <SelectItem value="contacted">Contacted</SelectItem>
+                                    <SelectItem value="meeting">Meeting</SelectItem>
+                                    <SelectItem value="proposal">Proposal</SelectItem>
+                                    <SelectItem value="closed">Closed</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  variant="destructive"
+                                  size="sm"
+                                  onClick={() => handleDeleteProposal(proposal.id)}
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            </div>
+
+                            {/* Additional proposal details */}
+                            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+                              <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                  <h4 className="text-sm font-medium">Project Details</h4>
+                                  <p className="text-sm mt-1">{proposal.projectDetails}</p>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium">Goals</h4>
+                                  <p className="text-sm mt-1">{proposal.goals}</p>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium">Timeline</h4>
+                                  <p className="text-sm mt-1">{proposal.timeline}</p>
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium">Budget Range</h4>
+                                  <p className="text-sm mt-1">{proposal.budget}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        {proposalRequests?.length === 0 && (
+                          <div className="p-8 text-center text-muted-foreground">
+                            No proposal requests yet.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
