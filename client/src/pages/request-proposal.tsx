@@ -503,19 +503,26 @@ export default function RequestProposalPage() {
                                             ${isChecked 
                                               ? 'border-primary bg-primary/5' 
                                               : 'border-muted hover:border-muted-foreground/20'}`}
-                                            onClick={() => {
-                                              const newValue = isChecked
-                                                ? field.value.filter(value => value !== option.id)
-                                                : [...field.value, option.id];
-                                              field.onChange(newValue);
-                                            }}
                                           >
                                             <Checkbox
                                               className="mt-0.5"
                                               checked={isChecked}
-                                              onCheckedChange={() => {}}
+                                              onCheckedChange={(checked) => {
+                                                const newValue = checked
+                                                  ? [...field.value, option.id]
+                                                  : field.value.filter(value => value !== option.id);
+                                                field.onChange(newValue);
+                                              }}
                                             />
-                                            <div className="ml-3">
+                                            <div 
+                                              className="ml-3 flex-1"
+                                              onClick={() => {
+                                                const newValue = isChecked
+                                                  ? field.value.filter(value => value !== option.id)
+                                                  : [...field.value, option.id];
+                                                field.onChange(newValue);
+                                              }}
+                                            >
                                               <FormLabel className="font-medium cursor-pointer">
                                                 {option.label.split('(')[0]}
                                               </FormLabel>
@@ -559,18 +566,25 @@ export default function RequestProposalPage() {
                                             ${isChecked 
                                               ? 'border-primary bg-primary/5' 
                                               : 'border-muted hover:border-muted-foreground/20'}`}
-                                            onClick={() => {
-                                              const newValue = isChecked
-                                                ? field.value.filter(value => value !== option.id)
-                                                : [...field.value, option.id];
-                                              field.onChange(newValue);
-                                            }}
                                           >
                                             <Checkbox
                                               checked={isChecked}
-                                              onCheckedChange={() => {}}
+                                              onCheckedChange={(checked) => {
+                                                const newValue = checked
+                                                  ? [...field.value, option.id]
+                                                  : field.value.filter(value => value !== option.id);
+                                                field.onChange(newValue);
+                                              }}
                                             />
-                                            <FormLabel className="ml-3 font-medium cursor-pointer mb-0">
+                                            <FormLabel 
+                                              className="ml-3 font-medium cursor-pointer mb-0 flex-1"
+                                              onClick={() => {
+                                                const newValue = isChecked
+                                                  ? field.value.filter(value => value !== option.id)
+                                                  : [...field.value, option.id];
+                                                field.onChange(newValue);
+                                              }}
+                                            >
                                               {option.label}
                                             </FormLabel>
                                           </div>
