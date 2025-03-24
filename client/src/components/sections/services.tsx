@@ -213,7 +213,8 @@ export function Services() {
   return (
     <section 
       ref={sectionRef}
-      className="py-32 relative overflow-hidden"
+      className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
+      id="services-section"
     >
       {/* Enhanced Dynamic Background */}
       <div className="absolute inset-0 pointer-events-none">
@@ -330,7 +331,7 @@ export function Services() {
           </motion.div>
           
           <motion.h2 
-            className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -339,7 +340,7 @@ export function Services() {
           </motion.h2>
           
           <motion.p 
-            className="text-xl text-muted-foreground max-w-3xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -354,7 +355,7 @@ export function Services() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20 perspective-1000"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mb-10 md:mb-20 perspective-1000"
         >
           {services.map((service, index) => (
             <motion.div
@@ -398,7 +399,7 @@ export function Services() {
                     `}></div>
                     
                     {/* Floating icon element with glow effect */}
-                    <div className="relative flex justify-center mt-[-30px]">
+                    <div className="relative flex justify-center mt-[-25px] sm:mt-[-30px]">
                       <motion.div
                         className={`
                           p-4 rounded-[20px] z-10
@@ -441,7 +442,7 @@ export function Services() {
                     </div>
                     
                     {/* Content area */}
-                    <div className="px-8 pt-4 pb-8">
+                    <div className="px-4 sm:px-6 md:px-8 pt-4 pb-6 md:pb-8">
                       {/* Title with animated underline */}
                       <div className="relative inline-block mb-3">
                         <h3 className="text-2xl font-bold">{service.title}</h3>
@@ -523,7 +524,7 @@ export function Services() {
           initial={{ opacity: 0, y: 60 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
           transition={{ duration: 0.8, delay: 0.6, type: "spring", stiffness: 50 }}
-          className="mt-28 relative"
+          className="mt-16 md:mt-20 lg:mt-28 relative"
         >
           <div className="rounded-[2rem] overflow-hidden">
             {/* Elegant background with animated elements */}
@@ -579,7 +580,7 @@ export function Services() {
             </div>
             
             {/* Content wrapper */}
-            <div className="relative py-20 px-8 sm:px-16 z-10 backdrop-blur-[2px]">
+            <div className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-16 z-10 backdrop-blur-[2px]">
               <div className="max-w-4xl mx-auto">
                 {/* Section accent line */}
                 <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-purple-500 rounded-full mx-auto mb-12 opacity-80" />
@@ -594,7 +595,7 @@ export function Services() {
                     Ready to Transform Your B2B Marketing Strategy?
                   </h2>
                   
-                  <p className="text-xl text-gray-700 mb-12 max-w-3xl mx-auto leading-relaxed">
+                  <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed">
                     Whether you're looking to scale your demand generation, optimize your sales pipeline, or enhance your compliant 
                     lead generation efforts, our data-driven approach delivers measurable growth and exceptional ROI.
                   </p>
