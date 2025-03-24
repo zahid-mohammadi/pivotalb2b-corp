@@ -204,7 +204,7 @@ const services = [
   {
     icon: Workflow,
     title: "Waterfall Campaign Suite",
-    description: "Boost revenue with a full-funnel B2B marketing solution. Our Waterfall Campaign Suite blends proven tactics into a seamless strategy—hitting every buyer stage to deliver sales-ready, high-value accounts with precision and efficiency.",
+    description: "Boost revenue with a full-funnel B2B marketing solution. Our Waterfall Campaign Suite blends proven tactics into a seamless strategy—hitting every buyer stage to deliver MQLs to sales-ready, high-value accounts with precision and efficiency.",
     features: [
       { icon: Zap, text: "Integrated lead generation" },
       { icon: Share2, text: "Content amplification" },
