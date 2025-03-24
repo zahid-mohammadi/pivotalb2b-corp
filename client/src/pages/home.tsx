@@ -4,6 +4,7 @@ import { Services } from "@/components/sections/services";
 import { Testimonials } from "@/components/sections/testimonials";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -12,12 +13,25 @@ const fadeInUp = {
 };
 
 export default function Home() {
+  // State to control animation
+  const [animate, setAnimate] = useState(false);
+  
+  // Force animation to run on component mount
+  useEffect(() => {
+    // Force update after component is mounted
+    const timer = setTimeout(() => {
+      setAnimate(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+  
   return (
     <>
       <MetaTags
         title="Premium B2B Lead Generation & Marketing Solutions | Pivotal B2B"
         description="Transform your B2B marketing with Pivotal B2B's premium lead generation services, intent-based targeting, and comprehensive marketing solutions. Drive growth with our data-driven approach to lead qualification and account-based marketing."
-        canonicalUrl="https://pivotal-b2b.com"
+        canonical="https://pivotal-b2b.com"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Organization",
@@ -37,7 +51,7 @@ export default function Home() {
         {/* Enhanced page sections with animations */}
         <motion.div
           initial="hidden"
-          animate="visible"
+          animate={animate ? "visible" : "hidden"}
           variants={{
             hidden: { opacity: 0 },
             visible: {

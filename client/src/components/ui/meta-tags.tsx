@@ -5,13 +5,15 @@ interface MetaTagsProps {
   description?: string;
   canonical?: string;
   image?: string;
+  structuredData?: Record<string, any>;
 }
 
 export function MetaTags({
   title = "Pivotal B2B - Lead Generation & Marketing Solutions",
   description = "Premium B2B Lead Generation & Marketing Solutions for Business Growth",
   canonical,
-  image
+  image,
+  structuredData
 }: MetaTagsProps) {
   return (
     <Helmet>
@@ -31,6 +33,13 @@ export function MetaTags({
       {title && <meta name="twitter:title" content={title} />}
       {description && <meta name="twitter:description" content={description} />}
       {image && <meta name="twitter:image" content={image} />}
+      
+      {/* Structured Data */}
+      {structuredData && (
+        <script type="application/ld+json">
+          {JSON.stringify(structuredData)}
+        </script>
+      )}
     </Helmet>
   );
 }
