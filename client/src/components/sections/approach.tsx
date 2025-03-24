@@ -92,33 +92,8 @@ export function Approach() {
           aria-hidden="true"
         />
         
-        {/* Flowing dots and lines background */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          {Array.from({ length: 300 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute h-0.5 w-0.5 rounded-full bg-slate-600"
-              initial={{
-                opacity: Math.random() * 0.5 + 0.3,
-                x: Math.random() * 100 + "%",
-                y: -20,
-              }}
-              animate={{
-                y: ["0%", "100%"],
-                x: [
-                  `${Math.random() * 100}%`,
-                  `${Math.random() * 100 - 10}%`,
-                  `${Math.random() * 100}%`,
-                ],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 30,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </div>
+        {/* Static dotted background pattern for better performance */}
+        <div className="absolute inset-0 opacity-[0.03] bg-[url('/dotted-pattern.svg')]" />
       </div>
 
       <div 
