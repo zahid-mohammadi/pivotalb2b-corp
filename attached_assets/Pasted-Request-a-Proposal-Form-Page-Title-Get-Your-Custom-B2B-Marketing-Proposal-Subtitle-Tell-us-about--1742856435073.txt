@@ -1,0 +1,103 @@
+Request a Proposal Form
+Page Title: Get Your Custom B2B Marketing Proposal
+
+Subtitle: Tell us about your goals and audience, and we’ll craft a solution to drive your pipeline and revenue.
+
+Form Fields
+1. Contact Information
+
+Full Name (Required)
+Placeholder: e.g., John Smith
+Email Address (Required)
+Placeholder: e.g., john.smith@company.com
+Phone Number (Optional)
+Placeholder: e.g., (555) 123-4567
+Company Name (Required)
+Placeholder: e.g., Acme Corp
+Job Title (Optional)
+Placeholder: e.g., Marketing Director
+2. Service Requirements
+
+Which services are you interested in? (Required, Multi-Select Checkboxes)
+Strategic Lead Generation (High-intent leads via email/phone)
+Content Syndication (Boost brand reach)
+Event Marketing Solutions (Drive event registrations)
+Lead Qualification Services (BANT-qualified leads)
+Account-Based Marketing (Target high-value accounts)
+Waterfall Campaign Suite (Full-funnel solution)
+What are your primary goals? (Required, Multi-Select Checkboxes)
+Generate more leads
+Increase brand awareness
+Boost event attendance
+Improve lead quality
+Close high-value accounts
+Other (Text box appears if selected)
+Timeline for Starting (Required, Dropdown)
+ASAP (Within 1 month)
+1-3 months
+3-6 months
+6+ months
+3. Target Audience Details
+
+Help us understand your ideal audience for a tailored proposal.
+
+Geography (Geo) (Required, Multi-Select Dropdown)
+North America
+Europe
+Asia-Pacific
+Latin America
+Middle East & Africa
+Other (Text box appears if selected)
+Job Function (Required, Multi-Select Checkboxes)
+Marketing
+Sales
+IT/Technology
+Operations
+Finance
+Procurement
+Other (Text box appears if selected)
+Job Level (Required, Multi-Select Checkboxes)
+C-Level (CEO, CMO, CIO, etc.)
+VP/Director
+Manager
+Individual Contributor
+Other (Text box appears if selected)
+Company Industries (Required, Open Text)
+Placeholder: e.g., “Software, Healthcare, Manufacturing”
+Note: “List the industries your target audience belongs to.”
+Company Size (Required, Dropdown)
+<50 employees
+50-250 employees
+251-1,000 employees
+1,001-10,000 employees
+10,000+ employees
+Technographics (Technologies Used) (Optional, Open Text)
+Placeholder: e.g., “Salesforce, AWS, Slack”
+Note: “List any technologies your audience uses (optional).”
+Account-Based Marketing (ABM) (Required if ABM selected in Services)
+Do you have a list of target accounts? (Radio Buttons)
+Yes
+No
+If Yes: Upload your accounts list (File Upload Field)
+Accepted formats: CSV, Excel (.xlsx), PDF
+Note: “Please include company names and any relevant details (e.g., size, contact info).”
+4. Additional Information
+
+Tell us more about your needs (Optional, Text Area)
+Placeholder: e.g., “We need 200 qualified leads for a SaaS launch in North America.”
+Current Challenges (Optional, Text Area)
+Placeholder: e.g., “Low conversion rates from current IT leads.”
+5. Submission
+
+CTA Button: Submit Request
+Privacy Note: “By submitting, you agree to our [Privacy Policy]. We’ll use this information to create your proposal and contact you.”
+Post-Submission
+Thank You Page:
+Message: “Thanks, [First Name]! Your proposal request is in. We’ll reach out within 1-2 business days to discuss your needs.”
+Next Steps: “Explore our [Case Studies] or [Solution Briefs] to see how we drive results.”
+Follow-Up: Auto-email confirmation with their inputs (including uploaded file link if applicable) and a calendar link to book a call.
+Design Notes
+Layout: Single-column, with “Technographics” as an open-text box (e.g., 200-character limit) below “Company Size.”
+Validation: “Technographics” optional, no validation required; other required fields marked with (*).
+Branding: Use Pivotal B2B’s logo, colors, and fonts.
+Guidance: Added a note under “Technographics” to clarify it’s optional and free-form.
