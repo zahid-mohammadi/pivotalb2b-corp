@@ -204,6 +204,7 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertEbook = z.infer<typeof insertEbookSchema>;
 export type InsertCaseStudy = z.infer<typeof insertCaseStudySchema>;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
+export type InsertProposalRequest = z.infer<typeof insertProposalRequestSchema>;
 
 // Session store table for connect-pg-simple (separate from analytics)
 export const sessions = pgTable("sessions", {
@@ -245,3 +246,49 @@ export const insertUserSessionSchema = createInsertSchema(userSessions).omit({
   startTime: true,
   lastActive: true 
 });
+
+// Proposal Requests
+export const proposalRequests = pgTable("proposal_requests", {
+  id: serial("id").primaryKey(),
+  fullName: varchar("full_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phoneNumber: varchar("phone_number", { length: 20 }),
+  companyName: varchar("company_name", { length: 100 }).notNull(),
+  jobTitle: varchar("job_title", { length: 100 }),
+  interestedServices: text("interested_services").array().notNull(),
+  primaryGoals: text("primary_goals").array().notNull(),
+  otherGoal: text("other_goal"),
+  timeline: varchar("timeline", { length: 50 }).notNull(),
+  targetGeography: text("target_geography").array().notNull(),
+  otherGeography: text("other_geography"),
+  jobFunction: text("job_function").array().notNull(),
+  otherJobFunction: text("other_job_function"),
+  jobLevel: text("job_level").array().notNull(),
+  otherJobLevel: text("other_job_level"),
+  companyIndustries: text("company_industries").notNull(),
+  companySize: varchar("company_size", { length: 50 }).notNull(),
+  technographics: text("technographics"),
+  hasTargetAccounts: text("has_target_accounts"),
+  targetAccountsList: text("target_accounts_list"),
+  additionalNeeds: text("additional_needs"),
+  currentChallenges: text("current_challenges"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  status: varchar("status", { length: 50 }).default("new").notNull(),
+});
+
+export type ProposalRequest = typeof proposalRequests.$inferSelect;
+export const insertProposalRequestSchema = createInsertSchema(proposalRequests)
+  .omit({ id: true, createdAt: true, status: true })
+  .extend({
+    phoneNumber: z.string().optional(),
+    jobTitle: z.string().optional(),
+    otherGoal: z.string().optional(),
+    otherGeography: z.string().optional(),
+    otherJobFunction: z.string().optional(),
+    otherJobLevel: z.string().optional(),
+    technographics: z.string().optional(),
+    hasTargetAccounts: z.string().optional(),
+    targetAccountsList: z.string().optional(),
+    additionalNeeds: z.string().optional(),
+    currentChallenges: z.string().optional(),
+  });
