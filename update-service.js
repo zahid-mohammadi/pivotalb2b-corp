@@ -193,17 +193,33 @@ const faqQuestions = [
   }
 ];
 
-console.log('Features:');
-console.log(JSON.stringify(features));
+// Create a combined update data object
+const updateData = {
+  features,
+  benefits,
+  methodology,
+  useCases,
+  faqQuestions
+};
 
-console.log('\nBenefits:');
-console.log(JSON.stringify(benefits));
+// Make the API request to update the service
+async function updateService() {
+  const serviceId = 1; // Strategic Lead Generation
+  try {
+    const response = await fetch(`http://localhost:3000/api/services/${serviceId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updateData),
+    });
+    
+    const result = await response.json();
+    console.log('Service updated successfully:');
+    console.log(JSON.stringify(result, null, 2));
+  } catch (error) {
+    console.error('Error updating service:', error);
+  }
+}
 
-console.log('\nMethodology:');
-console.log(JSON.stringify(methodology));
-
-console.log('\nUse Cases:');
-console.log(JSON.stringify(useCases));
-
-console.log('\nFAQ Questions:');
-console.log(JSON.stringify(faqQuestions));
+updateService();
