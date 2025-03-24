@@ -13,18 +13,16 @@ const fadeInUp = {
 };
 
 export default function Home() {
-  // State to control animation
-  const [animate, setAnimate] = useState(false);
+  // State to control animation - initialize to true for immediate animation
+  const [animate, setAnimate] = useState(true);
   
-  // Force animation to run on component mount
+  // Ensure animation state is set on mount
   useEffect(() => {
-    // Force update after component is mounted
-    const timer = setTimeout(() => {
+    // If somehow the animation is not true, set it to true
+    if (!animate) {
       setAnimate(true);
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  }, [animate]);
   
   return (
     <>

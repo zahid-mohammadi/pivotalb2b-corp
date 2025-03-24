@@ -31,14 +31,14 @@ export function PageTransition({ children }: PageTransitionProps) {
   const [location] = useLocation();
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="sync" initial={false}>
       <motion.div
         key={location}
         initial="initial"
         animate="enter"
         exit="exit"
         variants={pageVariants}
-        className="min-h-screen will-change-opacity"
+        className="min-h-screen will-change-opacity relative"
       >
         {children}
       </motion.div>

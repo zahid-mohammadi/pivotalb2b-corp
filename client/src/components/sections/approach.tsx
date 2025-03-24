@@ -15,7 +15,9 @@ import { cn } from "@/lib/utils";
 
 export function Approach() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: false, amount: 0.05 });
+  // Changed to once: true so animations trigger immediately when visible
+  // and increased threshold amount for earlier triggering
+  const isInView = useInView(containerRef, { once: true, amount: 0.1 });
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
