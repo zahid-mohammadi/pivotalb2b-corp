@@ -5,6 +5,7 @@ interface MetaTagsProps {
   description?: string;
   canonical?: string;
   image?: string;
+  keywords?: string;
   structuredData?: Record<string, any>;
 }
 
@@ -13,12 +14,14 @@ export function MetaTags({
   description = "Premium B2B Lead Generation & Marketing Solutions for Business Growth",
   canonical,
   image,
+  keywords,
   structuredData
 }: MetaTagsProps) {
   return (
     <Helmet>
       {title && <title>{title}</title>}
       {description && <meta name="description" content={description} />}
+      {keywords && <meta name="keywords" content={keywords} />}
       {canonical && <link rel="canonical" href={canonical} />}
 
       {/* Open Graph / Facebook */}

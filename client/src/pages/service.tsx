@@ -54,14 +54,13 @@ export default function ServicePage() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
 
   const industries = [
-    "Telecommunications",
-    "Healthcare",
+    "Enterprise Software",
+    "Telecommunication",
     "Financial Services",
-    "Manufacturing",
-    "Enterprise Technology",
-    "Retail & Ecommerce",
-    "HR Technology & Services",
-    "Energy"
+    "IT Services and Consulting",
+    "Professional Services",
+    "B2B Vendors",
+    "B2B Marketing Agencies"
   ];
 
   const { data: service, isLoading } = useQuery<Service>({
@@ -93,7 +92,7 @@ export default function ServicePage() {
     <>
       <MetaTags
         title={`${service.title} - B2B Marketing Solutions | Pivotal B2B`}
-        description={`Transform your B2B marketing with our ${service.title}. ${service.description} Expert solutions for enterprise technology, healthcare, manufacturing, and financial services sectors.`}
+        description={`Transform your B2B marketing with our ${service.title}. ${service.description} Expert solutions for enterprise software, telecommunication, financial services, and IT services sectors.`}
         keywords={`${service.title.toLowerCase()}, B2B ${service.title.toLowerCase()}, ${industryKeywords}, enterprise marketing solutions, B2B lead generation`}
         structuredData={{
           "@context": "https://schema.org",
