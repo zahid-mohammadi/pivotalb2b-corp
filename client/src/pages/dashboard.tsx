@@ -24,7 +24,7 @@ import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
 import { OverviewMetrics } from "@/components/analytics/overview-metrics";
 import { TrafficSources } from "@/components/analytics/traffic-sources";
 import { UserBehavior } from "@/components/analytics/user-behavior";
-import type { BlogPost, Ebook, CaseStudy, Lead } from "@shared/schema";
+import type { BlogPost, Ebook, CaseStudy, Lead, ProposalRequest } from "@shared/schema";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
@@ -101,6 +101,10 @@ export default function Dashboard() {
 
   const { data: leads, isLoading: leadsLoading } = useQuery<Lead[]>({
     queryKey: ["/api/leads"],
+  });
+  
+  const { data: proposalRequests, isLoading: proposalRequestsLoading } = useQuery<ProposalRequest[]>({
+    queryKey: ["/api/proposal-requests"],
   });
 
   // Content mutations
@@ -223,6 +227,10 @@ export default function Dashboard() {
             <TabsTrigger value="leads" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               Leads
+            </TabsTrigger>
+            <TabsTrigger value="proposals" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              Proposals
             </TabsTrigger>
           </TabsList>
 
