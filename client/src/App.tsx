@@ -24,6 +24,7 @@ import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsConditions from "@/pages/terms-conditions";
 import CookiePolicy from "@/pages/cookie-policy";
 import B2BAudience from "@/pages/b2b-audience";
+import RequestProposal from "@/pages/request-proposal";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
@@ -50,6 +51,7 @@ function Router() {
           <Route path="/case-studies/:id" component={CaseStudyDetail} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
+          <Route path="/request-proposal" component={RequestProposal} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-conditions" component={TermsConditions} />
           <Route path="/cookie-policy" component={CookiePolicy} />
