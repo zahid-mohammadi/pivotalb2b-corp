@@ -238,7 +238,7 @@ export function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.3, duration: 0.7 }}
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight"
           >
             Precision Demand Generation: Discover, Engage & Convert Ideal Buyers
@@ -247,7 +247,7 @@ export function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.4, duration: 0.7 }}
             className="text-base md:text-xl text-white/90 mb-6 md:mb-8 leading-relaxed"
           >
             Pivotal B2B harnesses precision demand generation to identify high-intent buyers, engage them with targeted campaigns and convert leads into revenue—powered by smarter data insights.
@@ -256,7 +256,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
+            transition={{ delay: 0.4, duration: 0.7 }}
             className="flex flex-wrap gap-4"
           >
             <Button
@@ -295,7 +295,7 @@ export function Hero() {
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8 + index * 0.1 }}
+                transition={{ delay: 0.8 + index * 0.1, duration: 0.8 }}
                 whileHover={{ scale: 1.05 }}
                 className="relative group"
               >

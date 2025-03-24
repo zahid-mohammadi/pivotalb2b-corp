@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 export function Approach() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: false, amount: 0.1 });
+  const isInView = useInView(containerRef, { once: false, amount: 0.05 });
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
@@ -127,8 +127,8 @@ export function Approach() {
         <motion.div
           className="text-center mb-16 md:mb-24 relative"
           initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <div className="inline-flex flex-col items-center">
             <div className="inline-flex items-center justify-center px-4 py-1.5 mb-4 rounded-full bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50">
@@ -185,7 +185,7 @@ export function Approach() {
                 index % 2 === 1 ? "md:flex-row-reverse" : ""
               )}
               initial={{ opacity: 0, y: 50 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ 
                 duration: 0.7, 
                 delay: index * 0.2,
@@ -348,7 +348,7 @@ export function Approach() {
         <motion.div
           className="mt-20 md:mt-24"
           initial={{ opacity: 0, y: 50 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
         >
           <div className="text-center mb-12">
