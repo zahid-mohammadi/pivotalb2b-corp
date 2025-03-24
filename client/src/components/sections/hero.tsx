@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users, Database, PieChart, TrendingUp } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
@@ -10,6 +11,8 @@ export function Hero() {
   const purpleColor = "#9333EA"; // purple-600
   const pinkColor = "#DB2777"; // pink-600
 
+  const isMobile = useIsMobile();
+  
   return (
     <div className="relative bg-[#14213d] text-white overflow-hidden">
       {/* Simplified animated background */}
@@ -31,202 +34,197 @@ export function Hero() {
           }}
         />
 
-        {/* B2B marketing themed elements */}
-        <div className="absolute inset-0">
-          {/* Data-driven graph elements */}
-          <div className="absolute inset-y-0 right-0 w-1/2">
-            {/* Animated bar chart that represents lead generation metrics */}
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={`bar-${i}`}
-                className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#9333EA] rounded-t-lg shadow-md"
-                style={{
-                  height: `${(i + 1) * 25 + 10}px`,
-                  bottom: '30%',
-                  right: `${30 + i * 8}%`,
-                }}
-                animate={{
-                  height: [`${(i + 1) * 25 + 10}px`, `${(i + 1) * 25 + 40}px`, `${(i + 1) * 25 + 10}px`],
-                  opacity: [0.7, 0.9, 0.7],
-                }}
-                transition={{
-                  duration: 3 + i * 0.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: i * 0.2,
-                }}
-              >
-                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#DB2777] rounded-full animate-ping" />
-              </motion.div>
-            ))}
-
-            {/* Growth trend line animation */}
-            <motion.svg
-              className="absolute right-[25%] top-[35%] w-48 h-24"
-              viewBox="0 0 100 50"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <motion.path
-                d="M0,50 L20,45 L40,35 L60,20 L80,10 L100,5"
-                fill="none"
-                stroke="url(#gradientPath)"
-                strokeWidth="2"
-                strokeDasharray="1, 2"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  repeatDelay: 0.5,
-                }}
-              />
-              <defs>
-                <linearGradient id="gradientPath" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor={primaryColor} />
-                  <stop offset="50%" stopColor={purpleColor} />
-                  <stop offset="100%" stopColor={pinkColor} />
-                </linearGradient>
-              </defs>
-
-              {/* Data points on the trend line */}
-              {[0, 20, 40, 60, 80, 100].map((x, i) => {
-                const y = i === 0 ? 50 : i === 1 ? 45 : i === 2 ? 35 : i === 3 ? 20 : i === 4 ? 10 : 5;
-                // Use different colors for different points to match the gradient
-                const pointColor = i < 2 ? primaryColor : i < 4 ? purpleColor : pinkColor;
-
-                return (
-                  <motion.circle
-                    key={`point-${i}`}
-                    cx={x}
-                    cy={y}
-                    r="2"
-                    fill={i < 2 ? primaryColor : i < 4 ? purpleColor : pinkColor}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{
-                      delay: i * 0.4,
-                      duration: 0.3,
-                      repeat: Infinity,
-                      repeatDelay: 2.5,
-                    }}
-                  />
-                );
-              })}
-            </motion.svg>
-          </div>
-
-          {/* Connection network dots (representing B2B network) */}
+        {/* B2B marketing themed elements - only on non-mobile */}
+        {!isMobile && (
           <div className="absolute inset-0">
-            {[...Array(12)].map((_, i) => {
-              const x = 15 + (i % 4) * 20;
-              const y = 15 + Math.floor(i / 4) * 25;
-              // Alternate colors between network nodes
-              const nodeColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
-
-              return (
+            {/* Data-driven graph elements */}
+            <div className="absolute inset-y-0 right-0 w-1/2">
+              {/* Animated bar chart that represents lead generation metrics */}
+              {[...Array(5)].map((_, i) => (
                 <motion.div
-                  key={`node-${i}`}
-                  className={`absolute w-2 h-2 rounded-full ${i % 3 === 0 ? 'bg-primary' : i % 3 === 1 ? 'bg-[#9333EA]' : 'bg-[#DB2777]'}`}
+                  key={`bar-${i}`}
+                  className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#9333EA] rounded-t-lg shadow-md"
                   style={{
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    opacity: 0.7,
+                    height: `${(i + 1) * 25 + 10}px`,
+                    bottom: '30%',
+                    right: `${30 + i * 8}%`,
                   }}
                   animate={{
-                    scale: [1, 1.3, 1],
-                    opacity: [0.4, 0.7, 0.4],
+                    height: [`${(i + 1) * 25 + 10}px`, `${(i + 1) * 25 + 40}px`, `${(i + 1) * 25 + 10}px`],
+                    opacity: [0.7, 0.9, 0.7],
                   }}
                   transition={{
-                    duration: 2 + (i % 3),
+                    duration: 3 + i * 0.5,
                     repeat: Infinity,
                     ease: "easeInOut",
                     delay: i * 0.2,
                   }}
-                />
-              );
-            })}
-
-            {/* Connection lines between nodes */}
-            {[...Array(8)].map((_, i) => {
-              const fromNode = i % 12;
-              const toNode = (fromNode + 1 + i) % 12;
-              const fromX = 15 + (fromNode % 4) * 20;
-              const fromY = 15 + Math.floor(fromNode / 4) * 25;
-              const toX = 15 + (toNode % 4) * 20;
-              const toY = 15 + Math.floor(toNode / 4) * 25;
-              // Alternate line colors
-              const lineColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
-
-              return (
-                <motion.svg
-                  key={`connection-${i}`}
-                  className="absolute left-0 top-0 w-full h-full"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.3 }}
-                  transition={{
-                    duration: 1,
-                    delay: i * 0.3,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                  }}
                 >
-                  <line
-                    x1={`${fromX}%`}
-                    y1={`${fromY}%`}
-                    x2={`${toX}%`}
-                    y2={`${toY}%`}
-                    stroke={lineColor}
-                    strokeWidth="1"
-                    strokeDasharray="3,3"
+                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#DB2777] rounded-full animate-ping" />
+                </motion.div>
+              ))}
+
+              {/* Growth trend line animation */}
+              <motion.svg
+                className="absolute right-[25%] top-[35%] w-48 h-24"
+                viewBox="0 0 100 50"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+              >
+                <motion.path
+                  d="M0,50 L20,45 L40,35 L60,20 L80,10 L100,5"
+                  fill="none"
+                  stroke="url(#gradientPath)"
+                  strokeWidth="2"
+                  strokeDasharray="1, 2"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    repeatDelay: 0.5,
+                  }}
+                />
+                <defs>
+                  <linearGradient id="gradientPath" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor={primaryColor} />
+                    <stop offset="50%" stopColor={purpleColor} />
+                    <stop offset="100%" stopColor={pinkColor} />
+                  </linearGradient>
+                </defs>
+
+                {/* Data points on the trend line */}
+                {[0, 20, 40, 60, 80, 100].map((x, i) => {
+                  const y = i === 0 ? 50 : i === 1 ? 45 : i === 2 ? 35 : i === 3 ? 20 : i === 4 ? 10 : 5;
+
+                  return (
+                    <motion.circle
+                      key={`point-${i}`}
+                      cx={x}
+                      cy={y}
+                      r="2"
+                      fill={i < 2 ? primaryColor : i < 4 ? purpleColor : pinkColor}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{
+                        delay: i * 0.4,
+                        duration: 0.3,
+                        repeat: Infinity,
+                        repeatDelay: 2.5,
+                      }}
+                    />
+                  );
+                })}
+              </motion.svg>
+            </div>
+
+            {/* Connection network dots (representing B2B network) */}
+            <div className="absolute inset-0">
+              {[...Array(12)].map((_, i) => {
+                const x = 15 + (i % 4) * 20;
+                const y = 15 + Math.floor(i / 4) * 25;
+
+                return (
+                  <motion.div
+                    key={`node-${i}`}
+                    className={`absolute w-2 h-2 rounded-full ${i % 3 === 0 ? 'bg-primary' : i % 3 === 1 ? 'bg-[#9333EA]' : 'bg-[#DB2777]'}`}
+                    style={{
+                      left: `${x}%`,
+                      top: `${y}%`,
+                      opacity: 0.7,
+                    }}
+                    animate={{
+                      scale: [1, 1.3, 1],
+                      opacity: [0.4, 0.7, 0.4],
+                    }}
+                    transition={{
+                      duration: 2 + (i % 3),
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: i * 0.2,
+                    }}
                   />
-                </motion.svg>
-              );
-            })}
+                );
+              })}
+
+              {/* Connection lines between nodes - reduced for performance */}
+              {[...Array(4)].map((_, i) => {
+                const fromNode = i % 12;
+                const toNode = (fromNode + 1 + i) % 12;
+                const fromX = 15 + (fromNode % 4) * 20;
+                const fromY = 15 + Math.floor(fromNode / 4) * 25;
+                const toX = 15 + (toNode % 4) * 20;
+                const toY = 15 + Math.floor(toNode / 4) * 25;
+                const lineColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
+
+                return (
+                  <motion.svg
+                    key={`connection-${i}`}
+                    className="absolute left-0 top-0 w-full h-full"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.3 }}
+                    transition={{
+                      duration: 1,
+                      delay: i * 0.3,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                    }}
+                  >
+                    <line
+                      x1={`${fromX}%`}
+                      y1={`${fromY}%`}
+                      x2={`${toX}%`}
+                      y2={`${toY}%`}
+                      stroke={lineColor}
+                      strokeWidth="1"
+                      strokeDasharray="3,3"
+                    />
+                  </motion.svg>
+                );
+              })}
+            </div>
+
+            {/* Floating B2B marketing icons - reduced for mobile */}
+            {[
+              { Icon: PieChart, top: '15%', left: '75%', color: primaryColor },
+              { Icon: TrendingUp, top: '25%', left: '65%', color: pinkColor }
+            ].map((item, i) => (
+              <motion.div
+                key={`icon-${i}`}
+                className="absolute"
+                style={{
+                  top: item.top,
+                  left: item.left,
+                  color: item.color,
+                  opacity: 0.6,
+                }}
+                animate={{
+                  y: [0, -10, 0],
+                  opacity: [0.4, 0.7, 0.4],
+                }}
+                transition={{
+                  duration: 3 + i,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <item.Icon size={24} />
+              </motion.div>
+            ))}
+
+            {/* Simplified grid overlay to represent data organization */}
+            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
           </div>
-
-          {/* Floating B2B marketing icons */}
-          {[
-            { Icon: PieChart, top: '15%', left: '75%', color: primaryColor },
-            { Icon: Users, top: '50%', left: '80%', color: purpleColor },
-            { Icon: Database, top: '70%', left: '70%', color: primaryColor },
-            { Icon: TrendingUp, top: '25%', left: '65%', color: pinkColor }
-          ].map((item, i) => (
-            <motion.div
-              key={`icon-${i}`}
-              className="absolute"
-              style={{
-                top: item.top,
-                left: item.left,
-                color: item.color,
-                opacity: 0.6,
-              }}
-              animate={{
-                y: [0, -10, 0],
-                opacity: [0.4, 0.7, 0.4],
-              }}
-              transition={{
-                duration: 3 + i,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <item.Icon size={24} />
-            </motion.div>
-          ))}
-
-          {/* Simplified grid overlay to represent data organization */}
-          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
-        </div>
+        )}
 
         {/* Bottom light effect for depth */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#14213d] to-transparent" />
       </div>
 
-      <div className="container mx-auto px-4 py-24 relative">
-        <div className="max-w-4xl">
+      <div className="container mx-auto px-4 py-12 md:py-16 lg:py-24 relative">
+        <div className="max-w-4xl mx-auto md:mx-0">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -241,18 +239,18 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-5xl font-bold mb-6 leading-tight"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight"
           >
-            Precision Demand Generation: Discover, Engage & Convert Ideal Buyers—Smarter
+            Precision Demand Generation: Discover, Engage & Convert Ideal Buyers
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-xl text-white/90 mb-8 leading-relaxed"
+            className="text-base md:text-xl text-white/90 mb-6 md:mb-8 leading-relaxed"
           >
-            Pivotal B2B harnesses precision demand generation to identify high-intent buyers, engage them with hyper-targeted campaigns and resonant content, and convert leads into revenue—powered by smarter data insights. We build winning sales pipelines that shorten cycles, amplify ROI, and transform prospects into predictable, sustained growth
+            Pivotal B2B harnesses precision demand generation to identify high-intent buyers, engage them with targeted campaigns and convert leads into revenue—powered by smarter data insights.
           </motion.p>
 
           <motion.div
