@@ -21,7 +21,7 @@ const services = [
   },
   {
     slug: "lead-qualification",
-    title: "Lead Qualification",
+    title: "Lead Qualification", 
     description: "Prioritize leads with high conversion potential for sales teams using BANT criteria. We evaluate prospects for fit, intent, and readiness, refining your pipeline to boost efficiency and achieve stronger results.",
   },
   // Add other services here...
