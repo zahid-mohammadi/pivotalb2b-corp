@@ -3,49 +3,52 @@ import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
 import { Testimonials } from "@/components/sections/testimonials";
 import { MetaTags } from "@/components/ui/meta-tags";
-import { motion, animate as runAnimate } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
-  transition: { duration: 0.5 }
+// Create a component wrapper for each section to ensure animations work consistently
+const AnimatedSection = ({ 
+  children, 
+  delay = 0,
+  className = ""
+}: { 
+  children: React.ReactNode; 
+  delay?: number;
+  className?: string;
+}) => {
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.5,
+        delay,
+        ease: "easeOut"
+      }}
+      className={className}
+    >
+      {children}
+    </motion.section>
+  );
 };
 
 export default function Home() {
-  // Reference to the main container for animations
-  const containerRef = useRef<HTMLDivElement>(null);
-  // Track animation state
-  const [hasAnimated, setHasAnimated] = useState(false);
-  // Detect mobile devices for simplified animations
+  // Detect mobile for simplified animations
   const isMobile = useIsMobile();
   
-  // Force animations to play on initial page load
+  // Force reset of scroll position on component mount
   useEffect(() => {
-    // Only run this once
-    if (!hasAnimated && containerRef.current) {
-      // Set the flag to prevent re-running
-      setHasAnimated(true);
-      
-      // Select all sections inside the container
-      const sections = containerRef.current.querySelectorAll('section');
-      
-      // Run the animation immediately
-      sections.forEach((section, index) => {
-        runAnimate(section, 
-          { opacity: [0, 1], y: [20, 0] }, 
-          { 
-            duration: 0.5, 
-            delay: index * 0.15, 
-            ease: "easeOut" 
-          }
-        );
-      });
-    }
-  }, [hasAnimated]);
-  
+    // Reset scroll position to top to ensure animations are visible
+    window.scrollTo(0, 0);
+    
+    // Apply a forced repaint to trigger animations properly
+    document.documentElement.style.opacity = "0.99";
+    setTimeout(() => {
+      document.documentElement.style.opacity = "1";
+    }, 10);
+  }, []);
+
   return (
     <>
       <MetaTags
@@ -68,31 +71,28 @@ export default function Home() {
         {/* Background gradient accent */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
-        {/* Enhanced page sections with animations - attach the ref for direct animation control */}
-        <div ref={containerRef} className="relative z-10">
-          {/* Hero Section with enhanced styling */}
-          <section className="relative z-10">
-            <Hero />
-          </section>
+        {/* Hero Section with enhanced styling */}
+        <AnimatedSection className="relative z-10" delay={0}>
+          <Hero />
+        </AnimatedSection>
 
-          {/* Approach Section with visual enhancements */}
-          <section className="relative z-20 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
-            <Approach />
-          </section>
+        {/* Approach Section with visual enhancements */}
+        <AnimatedSection className="relative z-20 overflow-hidden" delay={0.1}>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
+          <Approach />
+        </AnimatedSection>
 
-          {/* Services Section with improved visuals */}
-          <section className="relative z-30">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
-            <Services />
-          </section>
+        {/* Services Section with improved visuals */}
+        <AnimatedSection className="relative z-30" delay={0.2}>
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+          <Services />
+        </AnimatedSection>
 
-          {/* Testimonials Section with improved presentation */}
-          <section className="relative z-50">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
-            <Testimonials />
-          </section>
-        </div>
+        {/* Testimonials Section with improved presentation */}
+        <AnimatedSection className="relative z-50" delay={0.3}>
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
+          <Testimonials />
+        </AnimatedSection>
 
         {/* Decorative elements */}
         <div className="fixed inset-0 pointer-events-none">

@@ -36,29 +36,27 @@ function Router() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <PageTransition>
-        <main className="flex-grow">
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/services/:slug" component={Service} />
-            <Route path="/b2b-audience" component={B2BAudience} />
-            <Route path="/login" component={Login} />
-            <Route path="/blog" component={Blog} />
-            <Route path="/blog/:slug" component={BlogDetail} />
-            <Route path="/ebooks" component={Ebooks} />
-            <Route path="/ebooks/:id" component={EbookDetail} />
-            <Route path="/case-studies" component={CaseStudies} />
-            <Route path="/case-studies/:id" component={CaseStudyDetail} />
-            <Route path="/about" component={About} />
-            <Route path="/contact" component={Contact} />
-            <Route path="/privacy-policy" component={PrivacyPolicy} />
-            <Route path="/terms-conditions" component={TermsConditions} />
-            <Route path="/cookie-policy" component={CookiePolicy} />
-            <ProtectedRoute path="/dashboard" component={Dashboard} />
-            <Route component={NotFound} />
-          </Switch>
-        </main>
-      </PageTransition>
+      <main className="flex-grow">
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/services/:slug" component={Service} />
+          <Route path="/b2b-audience" component={B2BAudience} />
+          <Route path="/login" component={Login} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/blog/:slug" component={BlogDetail} />
+          <Route path="/ebooks" component={Ebooks} />
+          <Route path="/ebooks/:id" component={EbookDetail} />
+          <Route path="/case-studies" component={CaseStudies} />
+          <Route path="/case-studies/:id" component={CaseStudyDetail} />
+          <Route path="/about" component={About} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/terms-conditions" component={TermsConditions} />
+          <Route path="/cookie-policy" component={CookiePolicy} />
+          <ProtectedRoute path="/dashboard" component={Dashboard} />
+          <Route component={NotFound} />
+        </Switch>
+      </main>
       <Footer />
       <CookieConsent />
     </div>
