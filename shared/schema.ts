@@ -266,7 +266,7 @@ export const proposalRequests = pgTable("proposal_requests", {
   jobLevel: text("job_level").array().notNull(),
   otherJobLevel: text("other_job_level"),
   companyIndustries: text("company_industries").notNull(),
-  companySize: varchar("company_size", { length: 50 }).notNull(),
+  companySize: text("company_size").array().notNull(),
   technographics: text("technographics"),
   hasTargetAccounts: text("has_target_accounts"),
   targetAccountsList: text("target_accounts_list"),

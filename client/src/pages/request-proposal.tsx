@@ -103,11 +103,11 @@ const jobLevelOptions = [
 ];
 
 const companySizeOptions = [
-  { value: "<50 employees", label: "<50 employees" },
-  { value: "50-250 employees", label: "50-250 employees" },
-  { value: "251-1,000 employees", label: "251-1,000 employees" },
-  { value: "1,001-10,000 employees", label: "1,001-10,000 employees" },
-  { value: "10,000+ employees", label: "10,000+ employees" },
+  { id: "<50 employees", label: "<50 employees" },
+  { id: "50-250 employees", label: "50-250 employees" },
+  { id: "251-1,000 employees", label: "251-1,000 employees" },
+  { id: "1,001-10,000 employees", label: "1,001-10,000 employees" },
+  { id: "10,000+ employees", label: "10,000+ employees" },
 ];
 
 export default function RequestProposalPage() {
@@ -141,7 +141,7 @@ export default function RequestProposalPage() {
       jobFunction: [],
       jobLevel: [],
       companyIndustries: "",
-      companySize: undefined,
+      companySize: [],
       technographics: "",
       hasTargetAccounts: undefined,
       targetAccountsList: "",
@@ -875,26 +875,47 @@ export default function RequestProposalPage() {
                       <FormField
                         control={form.control}
                         name="companySize"
-                        render={({ field }) => (
+                        render={() => (
                           <FormItem>
                             <FormLabel>Target Company Size <span className="text-destructive">*</span></FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <div className="relative">
-                                  <SelectTrigger className="pl-10">
-                                    <Users className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                                    <SelectValue placeholder="Select company size" />
-                                  </SelectTrigger>
-                                </div>
-                              </FormControl>
-                              <SelectContent>
-                                {companySizeOptions.map((option) => (
-                                  <SelectItem key={option.value} value={option.value}>
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+                              {companySizeOptions.map((option) => (
+                                <FormField
+                                  key={option.id}
+                                  control={form.control}
+                                  name="companySize"
+                                  render={({ field }) => {
+                                    const isChecked = field.value?.includes(option.id);
+                                    return (
+                                      <FormItem key={option.id} className="flex flex-row items-center space-x-3 space-y-0 p-2 border rounded-md">
+                                        <FormControl>
+                                          <Checkbox
+                                            checked={isChecked}
+                                            onCheckedChange={(checked) => {
+                                              return checked
+                                                ? field.onChange([...field.value, option.id])
+                                                : field.onChange(
+                                                    field.value?.filter(
+                                                      (value) => value !== option.id
+                                                    )
+                                                  );
+                                            }}
+                                          />
+                                        </FormControl>
+                                        <FormLabel className="font-normal cursor-pointer flex-1" onClick={() => {
+                                          const newValue = isChecked
+                                            ? field.value.filter(value => value !== option.id)
+                                            : [...field.value, option.id];
+                                          field.onChange(newValue);
+                                        }}>
+                                          {option.label}
+                                        </FormLabel>
+                                      </FormItem>
+                                    );
+                                  }}
+                                />
+                              ))}
+                            </div>
                             <FormMessage />
                           </FormItem>
                         )}
