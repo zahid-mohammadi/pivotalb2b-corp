@@ -355,6 +355,28 @@ export async function registerRoutes(app: Express) {
     const pdfUrl = `/uploads/${req.file.filename}`;
     res.json({ url: pdfUrl });
   });
+  
+  // Target accounts file upload route
+  app.post("/api/upload-target-accounts", upload.single('file'), (req, res) => {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    // Validate file type
+    const allowedTypes = [
+      'text/csv', 
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/pdf'
+    ];
+    
+    if (!allowedTypes.includes(req.file.mimetype)) {
+      return res.status(400).json({ error: "Only CSV, Excel, and PDF files are allowed" });
+    }
+
+    const fileUrl = `/uploads/${req.file.filename}`;
+    res.json({ fileUrl });
+  });
 
   // Serve uploaded files
   app.use('/uploads', express.static('uploads'));

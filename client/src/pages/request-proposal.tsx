@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
+import { FileUpload } from "@/components/ui/file-upload";
 import { apiRequest } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
@@ -145,6 +146,7 @@ export default function RequestProposalPage() {
       technographics: "",
       hasTargetAccounts: undefined,
       targetAccountsList: "",
+      targetAccountsFileUrl: "",
       additionalNeeds: "",
       currentChallenges: "",
       acceptPrivacyPolicy: false,
@@ -1002,26 +1004,58 @@ export default function RequestProposalPage() {
                           />
 
                           {hasTargetAccounts && (
-                            <FormField
-                              control={form.control}
-                              name="targetAccountsList"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>Target Accounts List</FormLabel>
-                                  <FormControl>
-                                    <Textarea 
-                                      placeholder="List your target accounts here, one per line" 
-                                      className="min-h-[120px]" 
-                                      {...field} 
-                                    />
-                                  </FormControl>
-                                  <FormDescription>
-                                    Enter the names of companies you'd like to target, one per line
-                                  </FormDescription>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
+                            <div className="space-y-6">
+                              <FormField
+                                control={form.control}
+                                name="targetAccountsList"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Target Accounts List</FormLabel>
+                                    <FormControl>
+                                      <Textarea 
+                                        placeholder="List your target accounts here, one per line" 
+                                        className="min-h-[120px]" 
+                                        {...field} 
+                                      />
+                                    </FormControl>
+                                    <FormDescription>
+                                      Enter the names of companies you'd like to target, one per line
+                                    </FormDescription>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                              
+                              <div className="border border-muted p-4 rounded-md bg-muted/30">
+                                <div className="flex items-center gap-2 mb-3">
+                                  <Server className="h-5 w-5 text-primary" />
+                                  <h3 className="text-base font-medium">Upload Target Accounts File</h3>
+                                </div>
+                                <FormField
+                                  control={form.control}
+                                  name="targetAccountsFileUrl"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormDescription className="mb-3">
+                                        Optionally upload a CSV, Excel, or PDF file with your target accounts list
+                                      </FormDescription>
+                                      <FormControl>
+                                        <FileUpload
+                                          onFileUpload={(fileUrl) => {
+                                            form.setValue('targetAccountsFileUrl', fileUrl);
+                                          }}
+                                          acceptedFileTypes=".csv,.xls,.xlsx,.pdf"
+                                          maxFileSizeMB={5}
+                                          buttonText="Upload Accounts List"
+                                          currentFileUrl={field.value}
+                                        />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
                           )}
                         </>
                       )}

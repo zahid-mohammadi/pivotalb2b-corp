@@ -107,7 +107,22 @@ export function FileUpload({
     setUploadStatus("uploading");
     
     const formData = new FormData();
-    formData.append("file", file);
+    
+    // Determine the endpoint based on file type
+    let endpoint = '/api/upload';
+    
+    // Check file type and select the appropriate endpoint
+    const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase();
+    
+    if (fileExtension === '.pdf') {
+      formData.append("pdf", file);
+      endpoint = '/api/upload-pdf';
+    } else if (['.csv', '.xls', '.xlsx'].includes(fileExtension)) {
+      formData.append("file", file);
+      endpoint = '/api/upload-target-accounts';
+    } else {
+      formData.append("image", file);
+    }
     
     try {
       // Simulating upload progress
@@ -123,7 +138,7 @@ export function FileUpload({
       }, 200);
       
       // Actual upload
-      const response = await fetch('/api/upload', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         body: formData,
       });
@@ -138,8 +153,9 @@ export function FileUpload({
       setUploadProgress(100);
       setUploadStatus("success");
       
-      // Call the callback function with the URL
-      onFileUpload(data.fileUrl);
+      // Call the callback function with the URL (handle different response formats)
+      const fileUrl = data.url || data.fileUrl;
+      onFileUpload(fileUrl);
       
     } catch (error) {
       console.error('Error uploading file:', error);
