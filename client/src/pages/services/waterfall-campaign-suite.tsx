@@ -1,2 +1,2 @@
-import { ServicePage } from '../service';
+import ServicePage from '../service';
 export default ServicePage;

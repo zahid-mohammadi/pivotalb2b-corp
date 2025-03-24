@@ -45,6 +45,9 @@ export function Navbar() {
               <Link href="/services/account-based-marketing">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Account-Based Marketing</span>
               </Link>
+              <Link href="/services/waterfall-campaign-suite">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Waterfall Campaign Suite</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -136,6 +139,22 @@ export function Navbar() {
                           <div>
                             <div className="text-sm font-medium">Account-Based Marketing</div>
                             <p className="text-xs text-muted-foreground">Strategic targeting for key accounts</p>
+                          </div>
+                        </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/services/waterfall-campaign-suite" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M3 3v18h18"></path>
+                              <path d="m19 9-5 5-4-4-3 3"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Waterfall Campaign Suite</div>
+                            <p className="text-xs text-muted-foreground">Full-funnel integrated marketing</p>
                           </div>
                         </div>
                     </Link>

@@ -19,6 +19,7 @@ import {
   Award,
   TrendingUp,
   CheckCircle,
+  Workflow,
 } from "lucide-react";
 
 // Enhanced animation variants
@@ -199,6 +200,21 @@ const services = [
       "from-yellow-500/20 via-orange-500/30 to-amber-600/30"
     ],
     highlight: "67% improvement in lead quality"
+  },
+  {
+    icon: Workflow,
+    title: "Waterfall Campaign Suite",
+    description: "Maximize revenue with a full-funnel B2B marketing solution. Our end-to-end campaign integrates lead generation, content syndication, event promotion, lead qualification, and account-based marketing into a seamless waterfall strategy.",
+    features: [
+      { icon: Zap, text: "Integrated lead generation" },
+      { icon: Share2, text: "Content amplification" },
+      { icon: TrendingUp, text: "End-to-end tracking" }
+    ],
+    gradients: [
+      "from-cyan-600/30 via-blue-500/30 to-indigo-500/20",
+      "from-indigo-500/20 via-blue-500/30 to-cyan-600/30"
+    ],
+    highlight: "50% faster sales cycles"
   }
 ];
 
