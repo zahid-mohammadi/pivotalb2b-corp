@@ -128,7 +128,7 @@ const services = [
   {
     icon: TargetIcon,
     title: "Account-Based Marketing",
-    description: "Engage high-value accounts with personalized, multi-channel ABM strategies that drive measurable results.",
+    description: "Smarter engagement with buying groups at high-value accounts. Our targeted strategies personalize outreach, foster consensus among decision-makers, and accelerate sales cycles to drive success for your key accounts.",
     features: [
       { icon: Users, text: "Account intelligence" },
       { icon: BarChart3, text: "Engagement analytics" },
@@ -143,7 +143,7 @@ const services = [
   {
     icon: LineChart,
     title: "Strategic Lead Generation",
-    description: "Drive high-quality leads with multi-channel campaigns, intent signal identification, and account-based targeting.",
+    description: "Capture high-intent opt-in leads with tailored multi-channel campaigns. We attract and convert prospects across platforms, delivering qualified leads ready to engage and aligned with your goals.",
     features: [
       { icon: Zap, text: "Intent-based targeting" },
       { icon: BarChart3, text: "Performance analytics" },
@@ -158,7 +158,7 @@ const services = [
   {
     icon: Share2,
     title: "Content Syndication",
-    description: "Create and distribute compelling B2B content that resonates with your target audience and drives engagement.",
+    description: "Connect with ideal buyers and elevate branded demand. We distribute your content across curated channels to boost reach, strengthen brand awareness, and spark interest in your offerings.",
     features: [
       { icon: Globe, text: "Multi-channel distribution" },
       { icon: Users, text: "Audience targeting" },
@@ -173,7 +173,7 @@ const services = [
   {
     icon: Video,
     title: "Event Marketing Solutions",
-    description: "Maximize event attendance and engagement with targeted outreach and post-event lead nurturing strategies.",
+    description: "Maximize ideal customer registrations and event attendance. Our campaigns promote and manage virtual or in-person events, ensuring strong turnout and impactful experiences for your audience.",
     features: [
       { icon: Users, text: "Audience acquisition" },
       { icon: CheckCircle, text: "Registration management" },
@@ -188,7 +188,7 @@ const services = [
   {
     icon: CheckSquare,
     title: "Lead Qualification Services",
-    description: "Ensure sales readiness with expert lead qualification, data validation, and enrichment services.",
+    description: "Prioritize leads with high conversion potential for sales teams using BANT criteria. We evaluate prospects for fit, intent, and readiness, refining your pipeline to boost efficiency and achieve stronger results.",
     features: [
       { icon: Sparkles, text: "AI-powered scoring" },
       { icon: CheckCircle, text: "Data validation" },
