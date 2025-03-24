@@ -3,26 +3,47 @@ import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
 import { Testimonials } from "@/components/sections/testimonials";
 import { MetaTags } from "@/components/ui/meta-tags";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useAnimate, stagger } from "framer-motion";
+import { useEffect, useState, useRef } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
   transition: { duration: 0.6 }
 };
 
 export default function Home() {
-  // State to control animation - initialize to true for immediate animation
-  const [animate, setAnimate] = useState(true);
+  // Reference to the main container for animations
+  const containerRef = useRef(null);
+  // For direct animation control
+  const [scope, animate] = useAnimate();
+  // Track animation state
+  const [hasAnimated, setHasAnimated] = useState(false);
+  // Detect mobile devices for simplified animations
+  const isMobile = useIsMobile();
   
-  // Ensure animation state is set on mount
+  // Force animations to play on initial page load
   useEffect(() => {
-    // If somehow the animation is not true, set it to true
-    if (!animate) {
-      setAnimate(true);
-    }
-  }, [animate]);
+    // Make animations run immediately without waiting for another page navigation
+    const timer = setTimeout(() => {
+      setHasAnimated(true);
+      
+      // Run animations for each section
+      if (scope.current) {
+        animate("section", 
+          { opacity: 1, y: 0 }, 
+          { 
+            duration: 0.5, 
+            delay: stagger(0.15),
+            ease: "easeOut"
+          }
+        );
+      }
+    }, 100); // Short delay to ensure DOM is ready
+    
+    return () => clearTimeout(timer);
+  }, [animate, scope]);
   
   return (
     <>
@@ -46,24 +67,16 @@ export default function Home() {
         {/* Background gradient accent */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
-        {/* Enhanced page sections with animations */}
+        {/* Enhanced page sections with animations - attach the ref for direct animation control */}
         <motion.div
-          initial="hidden"
-          animate={animate ? "visible" : "hidden"}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3
-              }
-            }
-          }}
+          ref={scope}
+          className="relative z-10"
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
         >
           {/* Hero Section with enhanced styling */}
           <motion.section
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 10 }}
             className="relative z-10"
           >
             <Hero />
@@ -71,7 +84,7 @@ export default function Home() {
 
           {/* Approach Section with visual enhancements */}
           <motion.section
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 10 }}
             className="relative z-20 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
@@ -80,7 +93,7 @@ export default function Home() {
 
           {/* Services Section with improved visuals */}
           <motion.section
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 10 }}
             className="relative z-30"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
@@ -89,7 +102,7 @@ export default function Home() {
 
           {/* Testimonials Section with improved presentation */}
           <motion.section
-            variants={fadeInUp}
+            initial={{ opacity: 0, y: 10 }}
             className="relative z-50"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />

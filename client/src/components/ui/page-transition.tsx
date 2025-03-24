@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useLocation } from "wouter";
 
 interface PageTransitionProps {
@@ -29,19 +29,29 @@ const pageVariants = {
 
 export function PageTransition({ children }: PageTransitionProps) {
   const [location] = useLocation();
+  // State to force initial animation on first page load
+  const [isFirstMount, setIsFirstMount] = useState(true);
+  
+  // Force animations to run on initial page load
+  useEffect(() => {
+    // Set to false after first render to ensure animations run
+    setIsFirstMount(false);
+  }, []);
 
   return (
-    <AnimatePresence mode="sync" initial={false}>
-      <motion.div
-        key={location}
-        initial="initial"
-        animate="enter"
-        exit="exit"
-        variants={pageVariants}
-        className="min-h-screen will-change-opacity relative"
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div className="relative">
+      <AnimatePresence mode="wait" initial={!isFirstMount}>
+        <motion.div
+          key={location}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={pageVariants}
+          className="min-h-screen will-change-opacity relative"
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
