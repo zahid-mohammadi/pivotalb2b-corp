@@ -754,21 +754,53 @@ export default function Dashboard() {
                             <div className="mt-4 p-4 bg-muted/50 rounded-lg">
                               <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                  <h4 className="text-sm font-medium">Project Details</h4>
-                                  <p className="text-sm mt-1">{proposal.projectDetails}</p>
+                                  <h4 className="text-sm font-medium">Primary Goals</h4>
+                                  <p className="text-sm mt-1">{proposal.primaryGoals?.join(", ")}</p>
+                                  {proposal.otherGoal && (
+                                    <p className="text-sm mt-1">Other: {proposal.otherGoal}</p>
+                                  )}
                                 </div>
                                 <div>
-                                  <h4 className="text-sm font-medium">Goals</h4>
-                                  <p className="text-sm mt-1">{proposal.goals}</p>
+                                  <h4 className="text-sm font-medium">Target Geography</h4>
+                                  <p className="text-sm mt-1">{proposal.targetGeography?.join(", ")}</p>
+                                  {proposal.otherGeography && (
+                                    <p className="text-sm mt-1">Other: {proposal.otherGeography}</p>
+                                  )}
                                 </div>
                                 <div>
                                   <h4 className="text-sm font-medium">Timeline</h4>
                                   <p className="text-sm mt-1">{proposal.timeline}</p>
                                 </div>
                                 <div>
-                                  <h4 className="text-sm font-medium">Budget Range</h4>
-                                  <p className="text-sm mt-1">{proposal.budget}</p>
+                                  <h4 className="text-sm font-medium">Company Size</h4>
+                                  <p className="text-sm mt-1">{proposal.companySize}</p>
                                 </div>
+                                <div>
+                                  <h4 className="text-sm font-medium">Target Job Function</h4>
+                                  <p className="text-sm mt-1">{proposal.jobFunction?.join(", ")}</p>
+                                  {proposal.otherJobFunction && (
+                                    <p className="text-sm mt-1">Other: {proposal.otherJobFunction}</p>
+                                  )}
+                                </div>
+                                <div>
+                                  <h4 className="text-sm font-medium">Target Job Level</h4>
+                                  <p className="text-sm mt-1">{proposal.jobLevel?.join(", ")}</p>
+                                  {proposal.otherJobLevel && (
+                                    <p className="text-sm mt-1">Other: {proposal.otherJobLevel}</p>
+                                  )}
+                                </div>
+                                {proposal.currentChallenges && (
+                                  <div>
+                                    <h4 className="text-sm font-medium">Current Challenges</h4>
+                                    <p className="text-sm mt-1">{proposal.currentChallenges}</p>
+                                  </div>
+                                )}
+                                {proposal.additionalNeeds && (
+                                  <div>
+                                    <h4 className="text-sm font-medium">Additional Needs</h4>
+                                    <p className="text-sm mt-1">{proposal.additionalNeeds}</p>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
