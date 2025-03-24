@@ -314,8 +314,8 @@ export function Navbar() {
                       <Link href="/login">
                         <Button variant="outline" className="w-full">Login</Button>
                       </Link>
-                      <Link href="/contact">
-                        <Button className="w-full">Get Started Today</Button>
+                      <Link href="/request-proposal">
+                        <Button className="w-full">Request a Proposal</Button>
                       </Link>
                     </div>
                   )}
@@ -346,8 +346,8 @@ export function Navbar() {
                 <Link href="/login">
                   <Button variant="outline">Login</Button>
                 </Link>
-                <Link href="/contact">
-                  <Button>Get Started Today</Button>
+                <Link href="/request-proposal">
+                  <Button>Request a Proposal</Button>
                 </Link>
               </>
             )}

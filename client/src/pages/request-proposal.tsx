@@ -128,11 +128,11 @@ export default function RequestProposalPage() {
 
   const mutation = useMutation({
     mutationFn: async (data: Omit<ProposalFormValues, "acceptPrivacyPolicy">) => {
-      const response = await apiRequest({
-        method: "POST",
-        url: "/api/proposal-requests",
-        data,
-      });
+      const response = await apiRequest(
+        "POST",
+        "/api/proposal-requests",
+        data
+      );
 
       return response;
     },
