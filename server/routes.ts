@@ -10,7 +10,8 @@ import {
   insertLeadSchema,
   pageViews,
   userSessions,
-  insertUserSchema
+  insertUserSchema,
+  insertServiceSchema
 } from "@shared/schema";
 import multer from "multer";
 import path from "path";
@@ -264,6 +265,26 @@ export async function registerRoutes(app: Express) {
     const service = await storage.getServiceBySlug(req.params.slug);
     if (!service) return res.status(404).json({ message: "Service not found" });
     res.json(service);
+  });
+  
+  app.patch("/api/services/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      // We're using the insertServiceSchema partial to validate the input
+      const result = insertServiceSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const service = await storage.updateService(id, result.data);
+      res.json(service);
+    } catch (error) {
+      console.error("Error updating service:", error);
+      res.status(500).json({ error: "Failed to update service" });
+    }
   });
 
   // Testimonials

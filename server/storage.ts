@@ -310,6 +310,49 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  async updateService(id: number, service: Partial<InsertService>): Promise<Service> {
+    try {
+      const [updatedService] = await db
+        .update(services)
+        .set(service)
+        .where(eq(services.id, id))
+        .returning();
+      
+      // Parse the JSON arrays properly
+      const parsedUseCases = updatedService.useCases ? updatedService.useCases.map(useCase => {
+        if (typeof useCase === 'string') {
+          try {
+            return JSON.parse(useCase);
+          } catch {
+            return useCase;
+          }
+        }
+        return useCase;
+      }) : [];
+
+      const parsedFaqQuestions = updatedService.faqQuestions ? updatedService.faqQuestions.map(faq => {
+        if (typeof faq === 'string') {
+          try {
+            return JSON.parse(faq);
+          } catch {
+            return faq;
+          }
+        }
+        return faq;
+      }) : [];
+
+      return {
+        ...updatedService,
+        useCases: parsedUseCases,
+        faqQuestions: parsedFaqQuestions,
+        successMetrics: updatedService.successMetrics || []
+      };
+    } catch (error) {
+      console.error("Error updating service:", error);
+      throw error;
+    }
+  }
+
   // Testimonials
   async getTestimonials(): Promise<Testimonial[]> {
     return await db.select().from(testimonials);
@@ -580,6 +623,11 @@ export class DatabaseStorage implements IStorage {
       console.error("Error getting traffic sources:", error);
       throw error;
     }
+  }
+
+  async getUserFlow(): Promise<any[]> {
+    // Placeholder implementation - can be expanded later if needed
+    return [];
   }
 
   async getPageViewMetrics(startDate: Date): Promise<Array<{
