@@ -3,21 +3,20 @@ import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
 import { Testimonials } from "@/components/sections/testimonials";
 import { MetaTags } from "@/components/ui/meta-tags";
-import { motion, useAnimate, stagger } from "framer-motion";
+import { motion, animate as runAnimate } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
+  exit: { opacity: 0, y: -20 },
+  transition: { duration: 0.5 }
 };
 
 export default function Home() {
   // Reference to the main container for animations
-  const containerRef = useRef(null);
-  // For direct animation control
-  const [scope, animate] = useAnimate();
+  const containerRef = useRef<HTMLDivElement>(null);
   // Track animation state
   const [hasAnimated, setHasAnimated] = useState(false);
   // Detect mobile devices for simplified animations
@@ -25,25 +24,27 @@ export default function Home() {
   
   // Force animations to play on initial page load
   useEffect(() => {
-    // Make animations run immediately without waiting for another page navigation
-    const timer = setTimeout(() => {
+    // Only run this once
+    if (!hasAnimated && containerRef.current) {
+      // Set the flag to prevent re-running
       setHasAnimated(true);
       
-      // Run animations for each section
-      if (scope.current) {
-        animate("section", 
-          { opacity: 1, y: 0 }, 
+      // Select all sections inside the container
+      const sections = containerRef.current.querySelectorAll('section');
+      
+      // Run the animation immediately
+      sections.forEach((section, index) => {
+        runAnimate(section, 
+          { opacity: [0, 1], y: [20, 0] }, 
           { 
             duration: 0.5, 
-            delay: stagger(0.15),
-            ease: "easeOut"
+            delay: index * 0.15, 
+            ease: "easeOut" 
           }
         );
-      }
-    }, 100); // Short delay to ensure DOM is ready
-    
-    return () => clearTimeout(timer);
-  }, [animate, scope]);
+      });
+    }
+  }, [hasAnimated]);
   
   return (
     <>
@@ -68,47 +69,30 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none" />
 
         {/* Enhanced page sections with animations - attach the ref for direct animation control */}
-        <motion.div
-          ref={scope}
-          className="relative z-10"
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 1 }}
-        >
+        <div ref={containerRef} className="relative z-10">
           {/* Hero Section with enhanced styling */}
-          <motion.section
-            initial={{ opacity: 0, y: 10 }}
-            className="relative z-10"
-          >
+          <section className="relative z-10">
             <Hero />
-          </motion.section>
+          </section>
 
           {/* Approach Section with visual enhancements */}
-          <motion.section
-            initial={{ opacity: 0, y: 10 }}
-            className="relative z-20 overflow-hidden"
-          >
+          <section className="relative z-20 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
             <Approach />
-          </motion.section>
+          </section>
 
           {/* Services Section with improved visuals */}
-          <motion.section
-            initial={{ opacity: 0, y: 10 }}
-            className="relative z-30"
-          >
+          <section className="relative z-30">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
             <Services />
-          </motion.section>
+          </section>
 
           {/* Testimonials Section with improved presentation */}
-          <motion.section
-            initial={{ opacity: 0, y: 10 }}
-            className="relative z-50"
-          >
+          <section className="relative z-50">
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
             <Testimonials />
-          </motion.section>
-        </motion.div>
+          </section>
+        </div>
 
         {/* Decorative elements */}
         <div className="fixed inset-0 pointer-events-none">
