@@ -8,6 +8,7 @@ import {
   insertEbookSchema,
   insertCaseStudySchema,
   insertLeadSchema,
+  insertProposalRequestSchema,
   pageViews,
   userSessions,
   insertUserSchema,

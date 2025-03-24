@@ -6,6 +6,7 @@ import {
   type Ebook,
   type CaseStudy,
   type Lead,
+  type ProposalRequest,
   type InsertBlogPost, 
   type InsertService, 
   type InsertTestimonial,
@@ -13,6 +14,7 @@ import {
   type InsertEbook,
   type InsertCaseStudy,
   type InsertLead,
+  type InsertProposalRequest,
   blogPosts, 
   services, 
   testimonials,
@@ -20,6 +22,7 @@ import {
   ebooks,
   caseStudies,
   leads,
+  proposalRequests,
   pageViews,
   userSessions,
   type PageView,
@@ -654,6 +657,59 @@ export class DatabaseStorage implements IStorage {
       }));
     } catch (error) {
       console.error("Error getting page view metrics:", error);
+      throw error;
+    }
+  }
+
+  // Proposal Requests
+  async getProposalRequests(): Promise<ProposalRequest[]> {
+    try {
+      return await db.select().from(proposalRequests).orderBy(desc(proposalRequests.createdAt));
+    } catch (error) {
+      console.error("Error getting proposal requests:", error);
+      throw error;
+    }
+  }
+
+  async getProposalRequestById(id: number): Promise<ProposalRequest | undefined> {
+    try {
+      const [proposalRequest] = await db.select().from(proposalRequests).where(eq(proposalRequests.id, id));
+      return proposalRequest;
+    } catch (error) {
+      console.error("Error getting proposal request by ID:", error);
+      throw error;
+    }
+  }
+
+  async createProposalRequest(proposalData: InsertProposalRequest): Promise<ProposalRequest> {
+    try {
+      const [newProposal] = await db.insert(proposalRequests).values(proposalData).returning();
+      return newProposal;
+    } catch (error) {
+      console.error("Error creating proposal request:", error);
+      throw error;
+    }
+  }
+
+  async updateProposalRequestStatus(id: number, status: string): Promise<ProposalRequest> {
+    try {
+      const [updatedProposal] = await db
+        .update(proposalRequests)
+        .set({ status })
+        .where(eq(proposalRequests.id, id))
+        .returning();
+      return updatedProposal;
+    } catch (error) {
+      console.error("Error updating proposal request status:", error);
+      throw error;
+    }
+  }
+
+  async deleteProposalRequest(id: number): Promise<void> {
+    try {
+      await db.delete(proposalRequests).where(eq(proposalRequests.id, id));
+    } catch (error) {
+      console.error("Error deleting proposal request:", error);
       throw error;
     }
   }
