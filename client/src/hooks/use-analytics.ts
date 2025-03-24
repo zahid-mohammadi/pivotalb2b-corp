@@ -35,7 +35,7 @@ export function useAnalytics() {
 
   useEffect(() => {
     // Set up periodic ping
-    pingInterval.current = setInterval(sendPing, 30000); // Every 30 seconds
+    pingInterval.current = setInterval(sendPing, 60000); // Every 60 seconds
 
     return () => {
       if (pingInterval.current) {
