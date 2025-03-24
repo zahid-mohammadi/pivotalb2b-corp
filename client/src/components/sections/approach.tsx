@@ -122,8 +122,9 @@ export function Approach() {
       </div>
 
       <div 
-        className="container relative mx-auto px-4 max-w-6xl z-10" 
+        className="container relative mx-auto px-4 max-w-6xl z-10 position-relative" 
         ref={containerRef}
+        style={{ position: 'relative' }}
       >
         {/* Section Header */}
         <motion.div
