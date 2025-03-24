@@ -571,6 +571,86 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Proposal Requests
+  app.get("/api/proposal-requests", async (req, res) => {
+    try {
+      const proposalRequests = await storage.getProposalRequests();
+      res.json(proposalRequests);
+    } catch (error) {
+      console.error("Error fetching proposal requests:", error);
+      res.status(500).json({ error: "Failed to fetch proposal requests" });
+    }
+  });
+
+  app.get("/api/proposal-requests/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+      
+      const proposalRequest = await storage.getProposalRequestById(id);
+      if (!proposalRequest) {
+        return res.status(404).json({ error: "Proposal request not found" });
+      }
+      
+      res.json(proposalRequest);
+    } catch (error) {
+      console.error("Error fetching proposal request:", error);
+      res.status(500).json({ error: "Failed to fetch proposal request" });
+    }
+  });
+
+  app.post("/api/proposal-requests", async (req, res) => {
+    try {
+      const result = insertProposalRequestSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+
+      const proposalRequest = await storage.createProposalRequest(result.data);
+      res.status(201).json(proposalRequest);
+    } catch (error) {
+      console.error("Error creating proposal request:", error);
+      res.status(500).json({ error: "Failed to create proposal request" });
+    }
+  });
+
+  app.patch("/api/proposal-requests/:id/status", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      const { status } = req.body;
+      if (!status || typeof status !== 'string') {
+        return res.status(400).json({ error: "Status is required and must be a string" });
+      }
+
+      const proposalRequest = await storage.updateProposalRequestStatus(id, status);
+      res.json(proposalRequest);
+    } catch (error) {
+      console.error("Error updating proposal request status:", error);
+      res.status(500).json({ error: "Failed to update proposal request status" });
+    }
+  });
+
+  app.delete("/api/proposal-requests/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid ID" });
+      }
+
+      await storage.deleteProposalRequest(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting proposal request:", error);
+      res.status(500).json({ error: "Failed to delete proposal request" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
