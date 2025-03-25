@@ -21,6 +21,7 @@ import { eq, count } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
 import { sendContactFormNotification } from "./services/email";
 import type { User } from "@shared/schema";
+import { botBlockStats } from "./middleware/email-bot-blocker";
 
 // Configure multer for handling file uploads
 const upload = multer({
@@ -676,6 +677,101 @@ export async function registerRoutes(app: Express) {
       res.status(500).json({ error: "Failed to delete proposal request" });
     }
   });
+
+  // Email Campaign Bot Protection Stats
+  app.get("/api/security/email-bot-stats", (req, res) => {
+    try {
+      // Verify admin access
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(403).json({ error: "Access denied. Admin privileges required." });
+      }
+      
+      // Get stats from the campaigns that were specified in the request query
+      const campaignName = req.query.campaign as string;
+      
+      if (campaignName && campaignName !== 'all') {
+        // Return stats for a specific campaign
+        if (!botBlockStats.campaigns[campaignName]) {
+          return res.json({
+            campaign: campaignName,
+            totalBlocked: 0,
+            bots: {},
+            recentBlocks: []
+          });
+        }
+        
+        const campaignRecentBlocks = botBlockStats.recentBlocks.filter(
+          block => block.campaign === campaignName
+        );
+        
+        // Create a filtered version of bots for this campaign (we don't track this directly)
+        const botTypes: Record<string, number> = {};
+        campaignRecentBlocks.forEach(block => {
+          const userAgent = block.userAgent.toLowerCase();
+          let botType = 'unknown';
+          
+          // Try to identify bot type from user agent
+          if (userAgent.includes('google')) botType = 'google';
+          else if (userAgent.includes('bot')) botType = 'bot';
+          else if (userAgent.includes('preview')) botType = 'preview';
+          else if (userAgent.includes('scanner')) botType = 'scanner';
+          
+          if (!botTypes[botType]) botTypes[botType] = 0;
+          botTypes[botType]++;
+        });
+        
+        return res.json({
+          campaign: campaignName,
+          totalBlocked: botBlockStats.campaigns[campaignName],
+          bots: botTypes,
+          recentBlocks: campaignRecentBlocks
+        });
+      }
+      
+      // Return overall stats
+      return res.json({
+        totalBlocked: botBlockStats.totalBlocked,
+        campaigns: botBlockStats.campaigns,
+        bots: botBlockStats.bots,
+        recentBlocks: botBlockStats.recentBlocks.slice(0, 50) // Limit to 50 most recent
+      });
+    } catch (error) {
+      console.error("Error fetching email bot stats:", error);
+      res.status(500).json({ error: "Failed to fetch email bot statistics" });
+    }
+  });
+  
+  // Test route for bot detection (only available in development)
+  if (process.env.NODE_ENV !== 'production') {
+    app.get("/api/test/bot-detection", (req, res) => {
+      // Returns information about bot detection for the current request
+      const userAgent = req.headers['user-agent'] || '';
+      const referer = req.headers['referer'] || '';
+      
+      // Simulate bot detection logic
+      const isBot = 
+        userAgent.toLowerCase().includes('bot') ||
+        userAgent.toLowerCase().includes('crawler') ||
+        userAgent.toLowerCase().includes('preview') ||
+        userAgent.toLowerCase().includes('headless');
+      
+      // Information about the request
+      const info = {
+        ip: req.ip,
+        userAgent,
+        referer,
+        isBot,
+        params: req.query,
+        botBlockStats: {
+          totalBlocked: botBlockStats.totalBlocked,
+          campaignCount: Object.keys(botBlockStats.campaigns).length,
+          recentBlocksCount: botBlockStats.recentBlocks.length
+        }
+      };
+      
+      res.json(info);
+    });
+  }
 
   const httpServer = createServer(app);
   return httpServer;
