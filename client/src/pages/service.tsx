@@ -427,51 +427,51 @@ export default function ServicePage() {
                       // Cast to UseCase
                       const typedUseCase = useCase as UseCase;
                       return (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        whileHover={{ y: -5 }}
-                      >
-                        <Card className="h-full bg-gradient-to-br from-white to-slate-50 border-slate-200/80 hover:border-primary/20">
-                          <CardContent className="p-8">
-                            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                              <Sparkles className="h-5 w-5 text-primary" />
-                              {typedUseCase.title}
-                            </h3>
-                            <p className="text-muted-foreground mb-6">{typedUseCase.description}</p>
+                        <motion.div
+                          key={index}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          whileHover={{ y: -5 }}
+                        >
+                          <Card className="h-full bg-gradient-to-br from-white to-slate-50 border-slate-200/80 hover:border-primary/20">
+                            <CardContent className="p-8">
+                              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                                <Sparkles className="h-5 w-5 text-primary" />
+                                {typedUseCase.title}
+                              </h3>
+                              <p className="text-muted-foreground mb-6">{typedUseCase.description}</p>
 
-                            <div className="space-y-6">
-                              <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
-                                <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
-                                  <Target className="h-4 w-4" />
-                                  Challenge
-                                </h4>
-                                <p className="text-sm text-muted-foreground">{typedUseCase.challenge}</p>
-                              </div>
+                              <div className="space-y-6">
+                                <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
+                                  <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                                    <Target className="h-4 w-4" />
+                                    Challenge
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground">{typedUseCase.challenge}</p>
+                                </div>
 
-                              <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
-                                <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
-                                  <Lightbulb className="h-4 w-4" />
-                                  Solution
-                                </h4>
-                                <p className="text-sm text-muted-foreground">{typedUseCase.solution}</p>
-                              </div>
+                                <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
+                                  <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                                    <Lightbulb className="h-4 w-4" />
+                                    Solution
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground">{typedUseCase.solution}</p>
+                                </div>
 
-                              <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
-                                <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
-                                  <BarChart3 className="h-4 w-4" />
-                                  Outcome
-                                </h4>
-                                <p className="text-sm text-muted-foreground">{typedUseCase.outcome}</p>
+                                <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
+                                  <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                                    <BarChart3 className="h-4 w-4" />
+                                    Outcome
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground">{typedUseCase.outcome}</p>
+                                </div>
                               </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
                       );
-                    });
+                    })
                   ) : (
                     <div className="col-span-2 text-center py-12">
                       <p className="text-muted-foreground">No use cases available at this time.</p>
