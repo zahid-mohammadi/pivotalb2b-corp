@@ -1068,7 +1068,7 @@ export default function RequestProposalPage() {
                             <FormLabel>Current Challenges (Optional)</FormLabel>
                             <FormControl>
                               <Textarea 
-                                placeholder="What challenges are you currently facing with your sales and marketing efforts?" 
+                                placeholder="e.g., Low conversion rates from current IT leads." 
                                 className="min-h-[120px]" 
                                 {...field} 
                               />
