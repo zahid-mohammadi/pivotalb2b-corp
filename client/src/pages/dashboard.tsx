@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "wouter";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -740,6 +741,14 @@ export default function Dashboard() {
                                 </Select>
                               </div>
                               <div className="flex gap-2">
+                                <Link href={`/proposal/${proposal.id}`}>
+                                  <Button 
+                                    variant="outline"
+                                    size="sm"
+                                  >
+                                    View Details
+                                  </Button>
+                                </Link>
                                 <Button
                                   variant="destructive"
                                   size="sm"
