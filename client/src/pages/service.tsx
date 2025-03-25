@@ -198,11 +198,11 @@ export default function ServicePage() {
                   size="lg"
                   variant="secondary"
                   className="shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
-                  onClick={() => window.open(calendlyUrl, '_blank')}
+                  onClick={() => window.location.href = '/request-proposal'}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
                   <span className="relative flex items-center gap-2">
-                    Schedule a Consultation
+                    Request a Proposal
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </span>
                 </Button>
@@ -583,18 +583,19 @@ export default function ServicePage() {
                   <Button
                     size="lg"
                     variant="secondary"
-                    onClick={() => window.open(calendlyUrl, '_blank')}
+                    onClick={() => window.location.href = '/request-proposal'}
                     className="shadow-xl hover:shadow-2xl transition-shadow"
                   >
-                    Schedule a Demo
+                    Request a Proposal
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
+                    onClick={() => window.open(calendlyUrl, '_blank')}
                     className="bg-transparent hover:bg-white/10 transition-colors"
                   >
-                    Download Brochure
+                    Schedule a Call
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>

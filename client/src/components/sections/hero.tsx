@@ -274,9 +274,9 @@ export function Hero() {
               size="lg"
               variant="outline"
               className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-purple-600/60 text-white"
-              onClick={() => window.location.href = '/services'}
+              onClick={() => window.location.href = '/request-proposal'}
             >
-              Explore Solutions
+              Request a Proposal
             </Button>
           </motion.div>
 
