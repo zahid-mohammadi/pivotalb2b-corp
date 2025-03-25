@@ -423,7 +423,10 @@ export default function ServicePage() {
                   className="grid grid-cols-1 md:grid-cols-2 gap-8"
                 >
                   {Array.isArray(service.useCases) && service.useCases.length > 0 ? (
-                    service.useCases.map((useCase: UseCase, index) => (
+                    service.useCases.map((useCase, index) => {
+                      // Cast to UseCase
+                      const typedUseCase = useCase as UseCase;
+                      return (
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}
@@ -435,9 +438,9 @@ export default function ServicePage() {
                           <CardContent className="p-8">
                             <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
                               <Sparkles className="h-5 w-5 text-primary" />
-                              {useCase.title}
+                              {typedUseCase.title}
                             </h3>
-                            <p className="text-muted-foreground mb-6">{useCase.description}</p>
+                            <p className="text-muted-foreground mb-6">{typedUseCase.description}</p>
 
                             <div className="space-y-6">
                               <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
@@ -445,7 +448,7 @@ export default function ServicePage() {
                                   <Target className="h-4 w-4" />
                                   Challenge
                                 </h4>
-                                <p className="text-sm text-muted-foreground">{useCase.challenge}</p>
+                                <p className="text-sm text-muted-foreground">{typedUseCase.challenge}</p>
                               </div>
 
                               <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
@@ -453,7 +456,7 @@ export default function ServicePage() {
                                   <Lightbulb className="h-4 w-4" />
                                   Solution
                                 </h4>
-                                <p className="text-sm text-muted-foreground">{useCase.solution}</p>
+                                <p className="text-sm text-muted-foreground">{typedUseCase.solution}</p>
                               </div>
 
                               <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
@@ -461,13 +464,14 @@ export default function ServicePage() {
                                   <BarChart3 className="h-4 w-4" />
                                   Outcome
                                 </h4>
-                                <p className="text-sm text-muted-foreground">{useCase.outcome}</p>
+                                <p className="text-sm text-muted-foreground">{typedUseCase.outcome}</p>
                               </div>
                             </div>
                           </CardContent>
                         </Card>
                       </motion.div>
-                    ))
+                      );
+                    });
                   ) : (
                     <div className="col-span-2 text-center py-12">
                       <p className="text-muted-foreground">No use cases available at this time.</p>
@@ -537,23 +541,27 @@ export default function ServicePage() {
                         <h2 className="text-2xl font-bold">Frequently Asked Questions</h2>
                       </div>
                       <div className="space-y-6">
-                        {service.faqQuestions && service.faqQuestions.map((faq, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="group"
-                          >
-                            <div className="border-b border-slate-200 pb-6 last:border-0">
-                              <h3 className="font-semibold mb-3 text-lg flex items-center gap-2 group-hover:text-primary transition-colors">
-                                <CircleDot className="h-4 w-4 text-primary" />
-                                {faq.question}
-                              </h3>
-                              <p className="text-muted-foreground leading-relaxed pl-6">{faq.answer}</p>
-                            </div>
-                          </motion.div>
-                        ))}
+                        {service.faqQuestions && service.faqQuestions.map((faq, index) => {
+                          // Cast to FAQ type
+                          const typedFaq = faq as FAQ;
+                          return (
+                            <motion.div
+                              key={index}
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: index * 0.1 }}
+                              className="group"
+                            >
+                              <div className="border-b border-slate-200 pb-6 last:border-0">
+                                <h3 className="font-semibold mb-3 text-lg flex items-center gap-2 group-hover:text-primary transition-colors">
+                                  <CircleDot className="h-4 w-4 text-primary" />
+                                  {typedFaq.question}
+                                </h3>
+                                <p className="text-muted-foreground leading-relaxed pl-6">{typedFaq.answer}</p>
+                              </div>
+                            </motion.div>
+                          );
+                        })}
                       </div>
                     </CardContent>
                   </Card>
