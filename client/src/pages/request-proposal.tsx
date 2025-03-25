@@ -36,6 +36,7 @@ import {
   Building2, 
   Server, 
   FileText, 
+  BookText,
   AlertCircle, 
   ChevronRight
 } from "lucide-react";
@@ -251,33 +252,93 @@ export default function RequestProposalPage() {
     return (
       <div className="container mx-auto py-16 px-4 sm:px-6">
         <MetaTags title="Request Submitted | Pivotal B2B" />
-        <Card className="max-w-3xl mx-auto">
-          <CardHeader>
-            <div className="flex items-center justify-center mb-6">
-              <div className="bg-primary/10 rounded-full p-3">
-                <CheckCircle className="h-12 w-12 text-primary" />
+        <Card className="max-w-3xl mx-auto shadow-lg border-t-4 border-primary">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-center mb-8">
+              <div className="bg-primary/10 rounded-full p-4">
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 10,
+                    delay: 0.1
+                  }}
+                >
+                  <CheckCircle className="h-16 w-16 text-primary" />
+                </motion.div>
               </div>
             </div>
-            <h1 className="text-3xl font-bold text-center">Thanks, {submittedName}!</h1>
-            <p className="text-center text-muted-foreground mt-2">
-              Your proposal request is in. We'll reach out within 1-2 business days to discuss your needs.
-            </p>
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <h1 className="text-3xl font-bold text-center">Thanks, {submittedName}!</h1>
+              <p className="text-center text-muted-foreground mt-3">
+                Your proposal request is in. We'll reach out within 1-2 business days to discuss your needs.
+              </p>
+            </motion.div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <p>In the meantime, here are some resources that might interest you:</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <Button variant="outline" className="h-auto py-6" onClick={() => window.location.href = "/case-studies"}>
-                Explore our Case Studies
-              </Button>
-              <Button variant="outline" className="h-auto py-6" onClick={() => window.location.href = "/blog"}>
-                Browse our Blog
-              </Button>
-            </div>
+          <CardContent className="space-y-6 pt-6">
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <div className="bg-muted/30 p-4 rounded-lg border">
+                <h3 className="text-lg font-medium mb-2">Next Steps</h3>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <span>We'll review your requirements and prepare a tailored proposal</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <span>A B2B marketing specialist will contact you to discuss details</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <Check className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <span>You'll receive a confirmation email with submission details</span>
+                  </li>
+                </ul>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.7 }}
+            >
+              <p>In the meantime, explore these resources:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <Button variant="outline" className="h-auto py-6 hover:bg-primary/5 hover:border-primary/30 transition-all" onClick={() => window.location.href = "/case-studies"}>
+                  <div className="flex flex-col items-center gap-2">
+                    <FileText className="h-6 w-6 text-primary" />
+                    <span>Explore our Case Studies</span>
+                  </div>
+                </Button>
+                <Button variant="outline" className="h-auto py-6 hover:bg-primary/5 hover:border-primary/30 transition-all" onClick={() => window.location.href = "/blog"}>
+                  <div className="flex flex-col items-center gap-2">
+                    <BookText className="h-6 w-6 text-primary" />
+                    <span>Browse our Blog</span>
+                  </div>
+                </Button>
+              </div>
+            </motion.div>
           </CardContent>
-          <CardFooter className="flex justify-center">
-            <Button onClick={() => window.location.href = "/"}>
-              Return to Home
-            </Button>
+          <CardFooter className="flex justify-center pt-4">
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.9 }}
+              className="w-full"
+            >
+              <Button onClick={() => window.location.href = "/"} className="w-full">
+                Return to Home
+              </Button>
+            </motion.div>
           </CardFooter>
         </Card>
       </div>
@@ -1037,8 +1098,14 @@ export default function RequestProposalPage() {
                                   render={({ field }) => (
                                     <FormItem>
                                       <FormDescription className="mb-3">
-                                        Optionally upload a CSV, Excel, or PDF file with your target accounts list
+                                        Upload a CSV, Excel, or PDF file with your target accounts list. Please include company names and any relevant details (e.g., size, contact info).
                                       </FormDescription>
+                                      <div className="bg-muted/50 p-4 rounded-md mb-4 border border-dashed border-muted-foreground/30">
+                                        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
+                                          <AlertCircle className="h-4 w-4" />
+                                          <span>Accepted formats: CSV, Excel (.xlsx), PDF (Max 5MB)</span>
+                                        </div>
+                                      </div>
                                       <FormControl>
                                         <FileUpload
                                           onFileUpload={(fileUrl) => {
@@ -1086,7 +1153,7 @@ export default function RequestProposalPage() {
                             <FormLabel>Additional Requirements (Optional)</FormLabel>
                             <FormControl>
                               <Textarea 
-                                placeholder="Please share any additional information or requirements" 
+                                placeholder="e.g., We need 200 qualified leads for a SaaS launch in North America." 
                                 className="min-h-[120px]" 
                                 {...field} 
                               />
