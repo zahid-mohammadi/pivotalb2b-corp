@@ -423,7 +423,7 @@ export default function ServicePage() {
                   className="grid grid-cols-1 md:grid-cols-2 gap-8"
                 >
                   {Array.isArray(service.useCases) && service.useCases.length > 0 ? (
-                    service.useCases.map((useCase, index) => (
+                    service.useCases.map((useCase: UseCase, index) => (
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, y: 20 }}

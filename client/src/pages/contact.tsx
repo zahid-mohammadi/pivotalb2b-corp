@@ -15,9 +15,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { PageBanner } from "@/components/ui/page-banner";
-import { MailIcon, PhoneIcon, Building2Icon, Clock4Icon } from "lucide-react";
+import { MailIcon, PhoneIcon, Building2Icon, Clock4Icon, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { MetaTags } from "@/components/ui/meta-tags";
+import { Link } from "wouter";
+import { motion } from "framer-motion";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -196,6 +198,30 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      
+      {/* CTA Section */}
+      <section className="bg-primary/5 py-20 mt-10">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="max-w-3xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Looking for a comprehensive marketing strategy?</h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              If you're interested in a detailed marketing proposal tailored to your business, let's start with a formal project discussion.
+            </p>
+            <Link href="/request-proposal">
+              <Button size="lg" className="group">
+                Request a Proposal
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }

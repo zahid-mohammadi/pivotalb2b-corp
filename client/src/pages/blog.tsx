@@ -1,10 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { BlogPost } from "@shared/schema";
 import { Card } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { PageBanner } from "@/components/ui/page-banner";
 import { MetaTags } from "@/components/ui/meta-tags";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export default function BlogPage() {
   const { data: posts, isLoading } = useQuery<BlogPost[]>({
@@ -64,6 +66,30 @@ export default function BlogPage() {
             )}
           </div>
         </div>
+        
+        {/* CTA Section */}
+        <section className="bg-primary/5 py-20 mt-10">
+          <div className="container mx-auto px-4">
+            <motion.div 
+              className="max-w-3xl mx-auto text-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready for expert marketing support?</h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Transform insights into action. Let our team develop a strategic marketing plan aligned with your business objectives.
+              </p>
+              <Link href="/request-proposal">
+                <Button size="lg" className="group">
+                  Request a Proposal
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </motion.div>
+          </div>
+        </section>
       </div>
     </>
   );

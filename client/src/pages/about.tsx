@@ -18,7 +18,7 @@ export default function AboutPage() {
         title="About Pivotal B2B - Leading B2B Marketing & Lead Generation Agency"
         description="Discover how Pivotal B2B transforms B2B marketing through data-driven strategies, innovative technology, and measurable results. Learn about our mission, values, and commitment to delivering exceptional B2B marketing solutions."
         keywords="B2B marketing agency, lead generation experts, data-driven marketing, B2B strategy, marketing innovation, business growth solutions, customer success focus, marketing technology, Zahid Mohammadi"
-        canonicalUrl="https://pivotal-b2b.com/about"
+        canonical="https://pivotal-b2b.com/about"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "AboutPage",

@@ -1,10 +1,12 @@
 import { Card } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Ebook } from "@shared/schema";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { PageBanner } from "@/components/ui/page-banner";
 import { MetaTags } from "@/components/ui/meta-tags";
+import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 export default function EbooksPage() {
   const { data: ebooks, isLoading } = useQuery<Ebook[]>({
@@ -73,6 +75,30 @@ export default function EbooksPage() {
           )}
         </div>
       </main>
+      
+      {/* CTA Section */}
+      <section className="bg-primary/5 py-20">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="max-w-3xl mx-auto text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Need a customized B2B marketing solution?</h2>
+            <p className="text-lg text-muted-foreground mb-8">
+              Our team can create a tailored marketing strategy that meets your specific business requirements and goals.
+            </p>
+            <Link href="/request-proposal">
+              <Button size="lg" className="group">
+                Request a Proposal
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
     </div>
   );
 }
