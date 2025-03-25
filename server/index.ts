@@ -9,11 +9,15 @@ import { pool } from "./db";
 import connectPg from "connect-pg-simple";
 import { setupAnalyticsWebSocket } from "./services/analytics-ws";
 import cookieParser from 'cookie-parser';
+import { emailBotBlocker } from "./middleware/email-bot-blocker";
 
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Block email campaign bots
+app.use(emailBotBlocker);
 
 // Session configuration
 const PostgresStore = connectPg(session);
