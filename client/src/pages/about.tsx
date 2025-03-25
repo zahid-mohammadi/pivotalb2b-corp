@@ -352,6 +352,39 @@ export default function AboutPage() {
           </motion.div>
         </section>
 
+        {/* CTA Section */}
+        <section aria-labelledby="cta-heading" className="mb-32">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 id="cta-heading" className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your B2B Marketing?</h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Let us craft a customized solution that meets your unique business goals and target audience requirements.
+            </p>
+            <Button 
+              size="lg"
+              onClick={() => window.location.href = '/request-proposal'}
+              className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 text-white px-8 py-6 h-auto text-lg font-medium group"
+            >
+              Request a Proposal
+              <motion.span
+                className="ml-2 inline-block"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ 
+                  duration: 1.5,
+                  repeat: Infinity,
+                  repeatType: "reverse"
+                }}
+              >
+                →
+              </motion.span>
+            </Button>
+          </motion.div>
+        </section>
+
         {/* Media Property Section with Enhanced Visual Design */}
         <section aria-labelledby="media-heading">
           <motion.div {...fadeInUp} className="mb-32">

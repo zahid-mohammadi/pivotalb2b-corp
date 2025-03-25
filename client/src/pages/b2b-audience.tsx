@@ -521,10 +521,10 @@ return (
               <Button
                 size="lg"
                 className="bg-white text-primary hover:bg-white/90 shadow-lg group relative overflow-hidden"
-                onClick={() => window.location.href = '/contact'}
+                onClick={() => window.location.href = '/request-proposal'}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <span className="relative">Start Your Campaign</span>
+                <span className="relative">Request a Proposal</span>
               </Button>
             </motion.div>
           </div>

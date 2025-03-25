@@ -512,7 +512,7 @@ export function Services() {
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.98 }}
                       >
-                        <span>Explore Service</span>
+                        <span>Request a Proposal</span>
                         <motion.span
                           className="ml-2 flex items-center"
                           animate={{ 
@@ -625,7 +625,7 @@ export function Services() {
                       className="w-full sm:w-auto"
                     >
                       <motion.button
-                        onClick={() => window.open(calendlyUrl, '_blank')}
+                        onClick={() => window.location.href = '/request-proposal'}
                         className="relative group w-full sm:w-auto py-4 px-8 rounded-xl text-white font-medium
                           bg-gradient-to-r from-primary to-primary/90 hover:shadow-xl hover:shadow-primary/20
                           transition-all duration-300 flex items-center justify-center overflow-hidden"
@@ -633,7 +633,7 @@ export function Services() {
                         {/* Button glow effect */}
                         <div className="absolute inset-0 w-full h-full bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         
-                        <span className="mr-2">Schedule a Consultation</span>
+                        <span className="mr-2">Request a Proposal</span>
                         <motion.span
                           animate={{ 
                             x: [0, 5, 0],
