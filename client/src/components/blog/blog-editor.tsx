@@ -11,8 +11,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { ImageUpload } from "@/components/ui/image-upload";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -25,17 +25,39 @@ interface BlogEditorProps {
 
 export function BlogEditor({ initialData }: BlogEditorProps) {
   const { toast } = useToast();
-  const form = useForm<InsertBlogPost>({
-    resolver: zodResolver(insertBlogPostSchema),
-    defaultValues: initialData || {
+  
+  // Define default values properly
+  const getDefaultValues = (): InsertBlogPost => {
+    if (initialData) {
+      return {
+        title: initialData.title,
+        content: initialData.content,
+        metaDescription: initialData.metaDescription ?? "",
+        bannerImage: initialData.bannerImage ?? "",
+        contentImages: initialData.contentImages ?? [],
+        slug: initialData.slug,
+        tags: initialData.tags ?? [],
+        autoTags: initialData.autoTags ?? [],
+        publishedAt: initialData.publishedAt ? 
+          new Date(initialData.publishedAt).toISOString() : undefined
+      };
+    }
+    
+    return {
       title: "",
       content: "",
       metaDescription: "",
-      metaKeywords: "",
       bannerImage: "",
       contentImages: [],
       slug: "",
-    },
+      tags: [],
+      autoTags: []
+    };
+  };
+  
+  const form = useForm<InsertBlogPost>({
+    resolver: zodResolver(insertBlogPostSchema),
+    defaultValues: getDefaultValues(),
   });
 
   const title = form.watch("title");
@@ -87,7 +109,7 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} value={field.value || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -126,7 +148,11 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
             <FormItem>
               <FormLabel>Content</FormLabel>
               <FormControl>
-                <Textarea {...field} rows={10} />
+                <RichTextEditor
+                  value={field.value || ""}
+                  onChange={(content) => field.onChange(content)}
+                  error={form.formState.errors.content?.message}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -169,21 +195,7 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
               <FormItem>
                 <FormLabel>Meta Description</FormLabel>
                 <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="metaKeywords"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Meta Keywords</FormLabel>
-                <FormControl>
-                  <Input {...field} />
+                  <Input {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -197,7 +209,7 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
               <FormItem>
                 <FormLabel>URL Slug</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
