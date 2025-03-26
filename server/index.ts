@@ -10,6 +10,7 @@ import connectPg from "connect-pg-simple";
 import { setupAnalyticsWebSocket } from "./services/analytics-ws";
 import cookieParser from 'cookie-parser';
 import { emailBotBlocker } from "./middleware/email-bot-blocker";
+import { seoMetaTagsMiddleware } from "./middleware/seo-meta-tags";
 
 const app = express();
 app.use(cookieParser());
@@ -43,6 +44,9 @@ const trackAnalytics = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 app.use(trackAnalytics);
+
+// SEO middleware for server-side meta tag population
+app.use(seoMetaTagsMiddleware);
 
 // Logging middleware
 app.use((req, res, next) => {
