@@ -109,7 +109,7 @@ export default function BlogDetailPage() {
       </div>
       
       {/* Hero banner section */}
-      <div className="w-full bg-gradient-to-br from-primary/15 via-primary/5 to-background relative overflow-hidden mb-12">
+      <div className="w-full bg-gradient-to-br from-primary/15 via-primary/5 to-background relative overflow-hidden mb-6">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full">
           <div className="absolute top-10 left-10 w-20 h-20 rounded-full bg-primary/5 blur-xl"></div>
@@ -117,7 +117,7 @@ export default function BlogDetailPage() {
           <div className="absolute top-1/3 right-1/4 w-16 h-16 rounded-full bg-primary/5 blur-xl"></div>
         </div>
         
-        <div className="container py-16 px-4 relative z-10">
+        <div className="container py-12 px-4 relative z-10">
           <div className="max-w-4xl ml-0 mr-auto">
             {directPost.tags && directPost.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-5">
@@ -163,7 +163,7 @@ export default function BlogDetailPage() {
       </div>
       
       {/* Main content section */}
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 pt-6">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Article content */}
           <div className="lg:w-3/4">
