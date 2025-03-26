@@ -58,8 +58,8 @@ export default function BlogDetailPage() {
         </div>
       )}
       <div 
-        className="prose prose-lg max-w-none" 
-        dangerouslySetInnerHTML={{ __html: post.content }}
+        className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-li:text-foreground"
+        dangerouslySetInnerHTML={{ __html: post.content }} 
       />
       {post.contentImages && post.contentImages.length > 0 && (
         <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
