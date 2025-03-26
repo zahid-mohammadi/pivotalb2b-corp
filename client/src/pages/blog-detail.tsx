@@ -106,8 +106,8 @@ export default function BlogDetailPage() {
           <div className="absolute top-1/3 right-1/4 w-16 h-16 rounded-full bg-primary/5 blur-xl"></div>
         </div>
         
-        <div className="container mx-auto py-16 px-4 relative z-10">
-          <div className="max-w-3xl mx-auto">
+        <div className="container py-16 px-4 relative z-10">
+          <div className="max-w-4xl ml-0 mr-auto">
             {directPost.tags && directPost.tags.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-5">
                 {directPost.tags.map((tag, i) => (
