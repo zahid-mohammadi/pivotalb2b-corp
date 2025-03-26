@@ -3,6 +3,7 @@ import { useRoute, Link } from "wouter";
 import { useEffect, useState } from "react";
 import { BlogPost } from "@shared/schema";
 import { SocialSharePreview } from "@/components/ui/social-share-preview";
+import { SocialMetaTags } from "@/components/ui/social-meta-tags";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Avatar } from "@/components/ui/avatar";
@@ -88,6 +89,15 @@ export default function BlogDetailPage() {
 
   return (
     <div className="min-h-screen bg-background pb-16">
+      {/* Social Media Meta Tags for SEO and sharing */}
+      <SocialMetaTags
+        title={directPost.title}
+        description={directPost.metaDescription || processedContent.replace(/<[^>]*>/g, '').substring(0, 160)}
+        imageUrl={directPost.bannerImage ? `${window.location.origin}${directPost.bannerImage}` : undefined}
+        url={window.location.href}
+        type="article"
+      />
+      
       {/* Back navigation */}
       <div className="container mx-auto pt-8">
         <Link href="/blog">
@@ -207,7 +217,7 @@ export default function BlogDetailPage() {
                   <SocialSharePreview
                     title={directPost.title}
                     description={directPost.metaDescription || "Read this article on Pivotal B2B's blog"}
-                    imageUrl={(directPost.bannerImage) || undefined}
+                    imageUrl={directPost.bannerImage ? `${window.location.origin}${directPost.bannerImage}` : undefined}
                     url={window.location.href}
                   />
                 </div>
