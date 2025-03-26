@@ -1,38 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  CardDescription
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Input } from '@/components/ui/input';
-import { 
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose
-} from '@/components/ui/dialog';
-import { 
-  Share2,
-  Twitter,
-  Facebook,
-  Linkedin,
-  Copy,
-  Check,
-  X,
-  Download
-} from 'lucide-react';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
-import html2canvas from 'html2canvas';
+import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Twitter, Facebook, Linkedin } from "lucide-react";
 
 interface SocialSharePreviewProps {
   title: string;
@@ -41,298 +10,167 @@ interface SocialSharePreviewProps {
   url: string;
 }
 
-const PLATFORMS = {
-  twitter: {
-    name: 'Twitter',
-    icon: Twitter,
-    dimensions: '1200 × 675px',
-    characterLimit: 280,
-    backgroundColor: '#15202b',
-    textColor: '#ffffff',
-    fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-  },
-  facebook: {
-    name: 'Facebook',
-    icon: Facebook,
-    dimensions: '1200 × 630px',
-    characterLimit: 63206,
-    backgroundColor: '#ffffff',
-    textColor: '#1c1e21',
-    fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-  },
-  linkedin: {
-    name: 'LinkedIn',
-    icon: Linkedin,
-    dimensions: '1200 × 627px',
-    characterLimit: 3000,
-    backgroundColor: '#ffffff',
-    textColor: '#000000',
-    fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
-  }
-};
-
 export function SocialSharePreview({ 
   title, 
-  description,
-  imageUrl,
+  description, 
+  imageUrl, 
   url 
 }: SocialSharePreviewProps) {
-  const [platform, setPlatform] = useState<'twitter' | 'facebook' | 'linkedin'>('twitter');
-  const [customTitle, setCustomTitle] = useState(title);
-  const [customDescription, setCustomDescription] = useState(description);
-  const [copied, setCopied] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const previewRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
-
-  // Reset custom fields when dialog opens
-  useEffect(() => {
-    if (dialogOpen) {
-      setCustomTitle(title);
-      setCustomDescription(description);
-      setCopied(false);
-    }
-  }, [dialogOpen, title, description]);
-
-  const handlePlatformChange = (value: string) => {
-    setPlatform(value as 'twitter' | 'facebook' | 'linkedin');
+  const [activeTab, setActiveTab] = useState("twitter");
+  
+  // Ensure image URL is absolute
+  const absoluteImageUrl = imageUrl ? (
+    imageUrl.startsWith('http') ? imageUrl : `${window.location.origin}${imageUrl}`
+  ) : undefined;
+  
+  // Truncate description based on platform
+  const truncateDescription = (text: string, limit: number) => {
+    if (text.length <= limit) return text;
+    return text.substring(0, limit) + '...';
   };
-
-  const remainingChars = PLATFORMS[platform].characterLimit - 
-    (customTitle.length + customDescription.length + url.length + 5); // +5 for spaces and other chars
-
-  const generateShareUrl = () => {
-    const encodedTitle = encodeURIComponent(customTitle);
-    const encodedUrl = encodeURIComponent(url);
-
-    switch (platform) {
-      case 'twitter':
-        return `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
-      case 'facebook':
-        return `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-      case 'linkedin':
-        return `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-      default:
-        return '';
-    }
-  };
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(generateShareUrl());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-    toast({
-      title: "Link copied",
-      description: "Share URL has been copied to clipboard",
-    });
-  };
-
-  const downloadPreview = async () => {
-    if (!previewRef.current) return;
-    
+  
+  const twitterDescription = truncateDescription(description, 200);
+  const facebookDescription = truncateDescription(description, 300);
+  const linkedinDescription = truncateDescription(description, 300);
+  
+  // Get domain from URL
+  const getDomain = (url: string) => {
     try {
-      const canvas = await html2canvas(previewRef.current, {
-        scale: 2, // Better quality
-        backgroundColor: PLATFORMS[platform].backgroundColor,
-        logging: false
-      });
-      
-      const link = document.createElement('a');
-      link.download = `${platform}-preview-${new Date().getTime()}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      
-      toast({
-        title: "Preview downloaded",
-        description: `Your ${PLATFORMS[platform].name} preview has been downloaded`,
-      });
-    } catch (error) {
-      toast({
-        title: "Download failed",
-        description: "There was an error generating the preview image",
-        variant: "destructive"
-      });
-    }
-  };
-
-  const handleShare = () => {
-    const shareUrl = generateShareUrl();
-    window.open(shareUrl, '_blank');
-  };
-
-  const formatDomain = (url: string) => {
-    try {
-      const domain = new URL(url).hostname.replace('www.', '');
+      const domain = new URL(url).hostname;
       return domain;
-    } catch {
-      return url;
+    } catch (e) {
+      return window.location.hostname;
     }
   };
-
+  
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <Share2 className="h-4 w-4" />
-          Share Preview
-        </Button>
-      </DialogTrigger>
-      
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Social Media Share Preview</DialogTitle>
-          <DialogDescription>
-            Customize how your content will appear when shared on social media.
-          </DialogDescription>
-        </DialogHeader>
+    <div className="w-full">
+      <Tabs 
+        defaultValue="twitter" 
+        value={activeTab} 
+        onValueChange={setActiveTab}
+        className="w-full"
+      >
+        <TabsList className="w-full grid grid-cols-3">
+          <TabsTrigger value="twitter" className="flex items-center gap-1">
+            <Twitter className="w-4 h-4" />
+            <span className="hidden sm:inline">Twitter</span>
+          </TabsTrigger>
+          <TabsTrigger value="facebook" className="flex items-center gap-1">
+            <Facebook className="w-4 h-4" />
+            <span className="hidden sm:inline">Facebook</span>
+          </TabsTrigger>
+          <TabsTrigger value="linkedin" className="flex items-center gap-1">
+            <Linkedin className="w-4 h-4" />
+            <span className="hidden sm:inline">LinkedIn</span>
+          </TabsTrigger>
+        </TabsList>
         
-        <Tabs 
-          defaultValue="twitter" 
-          value={platform} 
-          onValueChange={handlePlatformChange}
-          className="w-full"
-        >
-          <TabsList className="grid grid-cols-3 mb-4">
-            <TabsTrigger value="twitter" className="flex items-center gap-2">
-              <Twitter className="h-4 w-4" />
-              Twitter
-            </TabsTrigger>
-            <TabsTrigger value="facebook" className="flex items-center gap-2">
-              <Facebook className="h-4 w-4" />
-              Facebook
-            </TabsTrigger>
-            <TabsTrigger value="linkedin" className="flex items-center gap-2">
-              <Linkedin className="h-4 w-4" />
-              LinkedIn
-            </TabsTrigger>
-          </TabsList>
-          
-          <div className="space-y-4">
-            <div className="space-y-1">
-              <label className="text-sm font-medium">Title</label>
-              <Input 
-                value={customTitle} 
-                onChange={(e) => setCustomTitle(e.target.value)}
-                maxLength={100}
-              />
-            </div>
-            
-            <div className="space-y-1">
-              <label className="text-sm font-medium">Description</label>
-              <Textarea 
-                value={customDescription} 
-                onChange={(e) => setCustomDescription(e.target.value)}
-                rows={3}
-                maxLength={platform === 'twitter' ? 220 : 1000}
-              />
-            </div>
-            
-            <p className="text-xs text-muted-foreground">
-              Recommended image: {PLATFORMS[platform].dimensions}
-              {platform === 'twitter' && (
-                <span className="ml-2">
-                  {remainingChars} characters remaining
-                </span>
-              )}
-            </p>
-            
-            <Card className="border shadow-sm overflow-hidden" ref={previewRef}>
-              <CardContent className="p-0">
-                {/* Preview container */}
-                <div
-                  style={{
-                    backgroundColor: PLATFORMS[platform].backgroundColor,
-                    color: PLATFORMS[platform].textColor,
-                    fontFamily: PLATFORMS[platform].fontFamily,
-                    padding: '16px',
-                  }}
-                >
-                  {/* Platform header */}
-                  <div className="flex items-center gap-2 mb-3">
-                    {React.createElement(PLATFORMS[platform].icon, { 
-                      className: 'h-5 w-5' 
-                    })}
-                    <span className="text-sm font-bold">
-                      {PLATFORMS[platform].name} Preview
-                    </span>
-                  </div>
+        {/* Twitter Preview */}
+        <TabsContent value="twitter" className="mt-4">
+          <Card className="border border-muted shadow-sm">
+            <CardContent className="p-0 overflow-hidden rounded-md">
+              <div className="max-w-md mx-auto bg-white dark:bg-slate-900 rounded-md shadow overflow-hidden">
+                {/* Twitter Card */}
+                <div className="border border-gray-200 dark:border-gray-800 rounded-md overflow-hidden">
+                  {/* Image */}
+                  {absoluteImageUrl && (
+                    <div className="w-full h-52 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                      <img 
+                        src={absoluteImageUrl} 
+                        alt={title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
                   
-                  {/* Content preview */}
-                  <div className="flex flex-col md:flex-row gap-4">
-                    {imageUrl && (
-                      <div className="md:w-2/5">
-                        <div className="rounded-md overflow-hidden bg-gray-100 aspect-video">
-                          <img 
-                            src={imageUrl} 
-                            alt="Preview"
-                            className="w-full h-full object-cover" 
-                          />
-                        </div>
+                  {/* Content */}
+                  <div className="p-3">
+                    <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                      {getDomain(url)}
+                    </div>
+                    <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-1 line-clamp-2">{title}</h3>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-3">{twitterDescription}</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Facebook Preview */}
+        <TabsContent value="facebook" className="mt-4">
+          <Card className="border border-muted shadow-sm">
+            <CardContent className="p-0 overflow-hidden rounded-md">
+              <div className="max-w-md mx-auto bg-white dark:bg-slate-900 rounded-md shadow overflow-hidden">
+                {/* Facebook Card */}
+                <div className="border border-gray-200 dark:border-gray-800 rounded-md overflow-hidden">
+                  {/* Image */}
+                  {absoluteImageUrl && (
+                    <div className="w-full h-52 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                      <img 
+                        src={absoluteImageUrl} 
+                        alt={title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  
+                  {/* Content */}
+                  <div className="p-3">
+                    <div className="text-xs uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1">
+                      {getDomain(url)}
+                    </div>
+                    <h3 className="font-bold text-gray-900 dark:text-gray-100 text-xl mb-2 line-clamp-2">{title}</h3>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-3">{facebookDescription}</p>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* LinkedIn Preview */}
+        <TabsContent value="linkedin" className="mt-4">
+          <Card className="border border-muted shadow-sm">
+            <CardContent className="p-0 overflow-hidden rounded-md">
+              <div className="max-w-md mx-auto bg-white dark:bg-slate-900 rounded-md shadow overflow-hidden">
+                {/* LinkedIn Card */}
+                <div className="border border-gray-200 dark:border-gray-800 rounded-md overflow-hidden">
+                  {/* Image */}
+                  {absoluteImageUrl && (
+                    <div className="w-full h-52 overflow-hidden bg-gray-100 dark:bg-gray-800">
+                      <img 
+                        src={absoluteImageUrl} 
+                        alt={title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                  
+                  {/* Content */}
+                  <div className="p-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden flex items-center justify-center text-gray-500">
+                        <img src="/logo.png" alt="Company" className="w-full h-full object-cover" />
                       </div>
-                    )}
-                    
-                    <div className={imageUrl ? 'md:w-3/5' : 'w-full'}>
-                      {platform === 'twitter' ? (
-                        <div className="space-y-2">
-                          <p className="font-bold text-base line-clamp-2">{customTitle}</p>
-                          <p className="text-sm opacity-80 line-clamp-3">{customDescription}</p>
-                          <div className="text-xs opacity-60 flex items-center gap-1 mt-2">
-                            <span>{formatDomain(url)}</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="space-y-2">
-                          <div className="text-xs opacity-60">{formatDomain(url)}</div>
-                          <p className="font-bold text-base line-clamp-2">{customTitle}</p>
-                          <p className="text-sm opacity-80 line-clamp-3">{customDescription}</p>
-                        </div>
-                      )}
+                      <div>
+                        <div className="font-semibold text-gray-900 dark:text-gray-100">Pivotal B2B</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">Shared via LinkedIn</div>
+                      </div>
+                    </div>
+                    <h3 className="font-bold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2">{title}</h3>
+                    <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-3">{linkedinDescription}</p>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                      {getDomain(url)}
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        </Tabs>
-        
-        <DialogFooter className="flex flex-col sm:flex-row gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="gap-2"
-            onClick={copyToClipboard}
-          >
-            {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-            Copy Link
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="gap-2"
-            onClick={downloadPreview}
-          >
-            <Download className="h-4 w-4" />
-            Download Preview
-          </Button>
-          
-          <Button 
-            size="sm" 
-            className="gap-2"
-            onClick={handleShare}
-          >
-            <Share2 className="h-4 w-4" />
-            Share Now
-          </Button>
-          
-          <DialogClose asChild>
-            <Button variant="ghost" size="sm">
-              <X className="h-4 w-4 mr-2" />
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
   );
 }
