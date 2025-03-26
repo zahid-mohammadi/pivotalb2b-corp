@@ -136,59 +136,95 @@ export async function autoGenerateSEO(post: BlogPost): Promise<BlogPost> {
 export function addInternalLinks(content: string, posts: BlogPost[]): string {
   let processedContent = content;
   
+  // If there are no other posts, return the original content
+  if (!posts || posts.length === 0) {
+    console.log("No posts available for internal linking");
+    return content;
+  }
+  
+  console.log(`Found ${posts.length} posts for internal linking`);
+  
   // Create a map of keywords to blog posts for efficient lookup
   const keywordPostMap = new Map<string, BlogPost>();
   
   posts.forEach(post => {
+    // Add the post title as a potential keyword for linking
+    keywordPostMap.set(post.title.toLowerCase(), post);
+    
+    // Add all tags and autotags as keywords
     const keywords = [...(post.tags || []), ...(post.autoTags || [])];
     keywords.forEach(keyword => {
-      keywordPostMap.set(keyword.toLowerCase(), post);
+      if (keyword && keyword.length > 3) { // Only use keywords that are longer than 3 chars
+        keywordPostMap.set(keyword.toLowerCase(), post);
+      }
     });
   });
   
-  // Regular expression to find potential keywords in content (outside of HTML tags)
+  console.log(`Extracted ${keywordPostMap.size} keywords for matching`);
+  
+  // Make sure we don't match text inside existing links or HTML tags
+  // This regex finds text between HTML tags but not inside attributes
   const contentTextRegex = />([^<]+)</g;
-  const matches = Array.from(content.matchAll(contentTextRegex));
+  const matches = Array.from(processedContent.matchAll(contentTextRegex));
+  
+  console.log(`Found ${matches.length} text segments to analyze`);
   
   // Track already linked words to avoid duplicate links
   const linkedWords = new Set<string>();
+  const linkedPosts = new Set<number>();
   
   // Process matches in reverse order to avoid messing up positions when adding links
   for (let i = matches.length - 1; i >= 0; i--) {
     const match = matches[i];
+    if (!match || !match[1]) continue;
+    
     const text = match[1];
     const startPos = match.index! + 1; // +1 to skip the '>'
     
     // Look for matches with keywords
     keywordPostMap.forEach((post, keyword) => {
-      // Skip if this is the current post to avoid self-linking
-      if (content.includes(`/blog/${post.slug}`)) return;
+      // Skip if we already linked to this post 
+      if (linkedPosts.has(post.id)) return;
+      
+      // Skip if this segment already contains an existing link
+      if (text.includes('<a') || text.includes('</a>')) return;
       
       // Find the keyword in the text, case insensitive
-      const keywordRegex = new RegExp(`\\b${keyword}\\b`, 'i');
-      const keywordMatch = text.match(keywordRegex);
-      
-      if (keywordMatch && !linkedWords.has(keyword.toLowerCase())) {
-        const keywordPos = text.indexOf(keywordMatch[0]);
-        if (keywordPos >= 0) {
-          const absolutePos = startPos + keywordPos;
-          const matchedWord = keywordMatch[0];
-          
-          // Replace the keyword with a link
-          const before = processedContent.substring(0, absolutePos);
-          const after = processedContent.substring(absolutePos + matchedWord.length);
-          
-          processedContent = `${before}<a href="/blog/${post.slug}" class="text-primary hover:underline">${matchedWord}</a>${after}`;
-          
-          // Mark this keyword as linked to avoid duplicate links
-          linkedWords.add(keyword.toLowerCase());
-          
-          // Limit to 5 internal links per post
-          if (linkedWords.size >= 5) return;
+      try {
+        // Escape special regex characters in the keyword
+        const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const keywordRegex = new RegExp(`\\b${escapedKeyword}\\b`, 'i');
+        const keywordMatch = text.match(keywordRegex);
+        
+        if (keywordMatch && !linkedWords.has(keyword.toLowerCase())) {
+          const keywordPos = text.indexOf(keywordMatch[0]);
+          if (keywordPos >= 0) {
+            const absolutePos = startPos + keywordPos;
+            const matchedWord = keywordMatch[0];
+            
+            // Replace the keyword with a link
+            const before = processedContent.substring(0, absolutePos);
+            const after = processedContent.substring(absolutePos + matchedWord.length);
+            
+            processedContent = `${before}<a href="/blog/${post.slug}" class="text-primary hover:underline">${matchedWord}</a>${after}`;
+            
+            // Mark this keyword as linked to avoid duplicate links
+            linkedWords.add(keyword.toLowerCase());
+            linkedPosts.add(post.id);
+            
+            console.log(`Added internal link to post '${post.title}' using keyword '${keyword}'`);
+            
+            // Limit to 5 internal links per post
+            if (linkedPosts.size >= 5) return;
+          }
         }
+      } catch (e) {
+        console.error(`Error processing keyword '${keyword}':`, e);
       }
     });
   }
+  
+  console.log(`Added ${linkedPosts.size} internal links to content`);
   
   return processedContent;
 }

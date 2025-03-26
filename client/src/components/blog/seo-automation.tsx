@@ -30,8 +30,9 @@ export function SEOAutomation({ post, allPosts, onComplete }: SEOAutomationProps
     hasInternalLinks: false, // We'll calculate this later
   });
 
-  // Check if content contains internal links
-  const hasInternalLinks = post.content.includes('<a href="/blog/');
+  // Check if content contains internal links by looking for links to blog posts
+  const hasInternalLinks = post.content.includes('<a href="/blog/') || 
+                          post.content.includes('href="/blog/');
 
   // Calculate SEO score (0-100)
   const calculateSEOScore = () => {
