@@ -156,17 +156,7 @@ export default function BlogDetailPage() {
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Article content */}
           <div className="lg:w-3/4">
-            {/* Feature image */}
-            {directPost.bannerImage && (
-              <div className="mb-10 rounded-xl overflow-hidden shadow-xl relative group">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <img
-                  src={directPost.bannerImage}
-                  alt={directPost.title}
-                  className="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
-            )}
+            {/* Banner image removed from detail page as requested */}
             
             {/* Article body */}
             <article className="prose prose-lg max-w-none lg:prose-xl text-foreground prose-headings:text-foreground prose-headings:font-bold prose-p:text-foreground/90 prose-strong:text-primary prose-a:text-primary hover:prose-a:text-primary/80 prose-blockquote:border-l-primary/50 prose-blockquote:bg-primary/5 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:rounded-r-md"
