@@ -2,6 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Quill editor custom styles */
+.quill {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ql-container {
+  flex: 1;
+  min-height: 250px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.ql-toolbar {
+  border-top: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid hsl(var(--border)) !important;
+  background-color: hsl(var(--secondary));
+}
+
+.ql-editor {
+  min-height: 250px;
+  font-family: inherit;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+}
+
+.ql-editor h1, .ql-editor h2, .ql-editor h3 {
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ql-editor h1 {
+  font-size: 1.875rem;
+}
+
+.ql-editor h2 {
+  font-size: 1.5rem;
+}
+
+.ql-editor h3 {
+  font-size: 1.25rem;
+}
+
+.ql-editor p {
+  margin-bottom: 0.75rem;
+}
+
+.ql-editor ol, .ql-editor ul {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ql-editor ul > li {
+  list-style-type: disc;
+}
+
+.ql-editor ol > li {
+  list-style-type: decimal;
+}
+
+/* Handle dark mode */
+.dark .ql-toolbar,
+.dark .ql-container {
+  border-color: hsl(var(--border)) !important;
+}
+
+.dark .ql-editor {
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+}
+
+.dark .ql-toolbar button,
+.dark .ql-picker {
+  color: hsl(var(--foreground)) !important;
+}
+
+.dark .ql-toolbar button svg path,
+.dark .ql-toolbar button svg polygon,
+.dark .ql-toolbar button svg line,
+.dark .ql-toolbar button svg rect {
+  stroke: hsl(var(--foreground)) !important;
+}
+
+.dark .ql-snow.ql-toolbar .ql-picker-label,
+.dark .ql-snow.ql-toolbar .ql-picker-options {
+  background-color: hsl(var(--background));
+}
+
+.dark .ql-snow .ql-stroke {
+  stroke: hsl(var(--foreground));
+}
+
+.dark .ql-snow .ql-fill {
+  fill: hsl(var(--foreground));
+}
+
+.dark .ql-toolbar .ql-picker-label {
+  color: hsl(var(--foreground));
+}
+
+/* Make quill editor responsive */
+@media (max-width: 640px) {
+  .ql-toolbar {
+    flex-wrap: wrap;
+  }
+}
+
 @layer base {
   * {
     @apply border-border;
