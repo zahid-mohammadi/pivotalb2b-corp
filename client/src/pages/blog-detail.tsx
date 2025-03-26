@@ -163,7 +163,7 @@ export default function BlogDetailPage() {
       </div>
       
       {/* Main content section */}
-      <div className="container mx-auto px-4 pt-6">
+      <div className="container mx-auto px-4 pt-12">
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Article content */}
           <div className="lg:w-3/4">
