@@ -233,21 +233,48 @@ export function addInternalLinks(content: string, posts: BlogPost[]): string {
  * Complete SEO optimization for a blog post
  */
 export async function optimizeBlogPost(post: BlogPost, allPosts: BlogPost[]): Promise<BlogPost> {
+  console.log(`Starting optimization for post ID ${post.id}: ${post.title}`);
+  
   // Step 1: Auto-generate SEO metadata
   const seoUpdatedPost = await autoGenerateSEO(post);
+  console.log(`Generated SEO metadata for post: ${seoUpdatedPost.title}`);
+  
+  // Filter posts to exclude the current one and make sure we have valid posts
+  const otherPosts = allPosts
+    .filter(p => p.id !== post.id)
+    .filter(p => p.title && p.content && p.slug); // Make sure posts have required fields
+  
+  console.log(`Found ${otherPosts.length} other posts to use for internal linking`);
+  otherPosts.forEach(p => console.log(`- Post for linking: ${p.id}: ${p.title}`));
   
   // Step 2: Add internal links
+  let updatedContent = seoUpdatedPost.content;
+  
+  // Only try to add internal links if we have other posts
+  if (otherPosts.length > 0) {
+    updatedContent = addInternalLinks(seoUpdatedPost.content, otherPosts);
+    console.log(`Content after internal linking has ${updatedContent.length} characters`);
+  } else {
+    console.log('No other posts available for internal linking');
+  }
+  
   const withInternalLinks = {
     ...seoUpdatedPost,
-    content: addInternalLinks(seoUpdatedPost.content, allPosts.filter(p => p.id !== post.id))
+    content: updatedContent
   };
   
   // Step 3: Save the updated post with internal links
   try {
+    console.log(`Saving post ${post.id} with updated content`);
+    
     const response = await apiRequest(
       'PATCH',
       `/api/blog-posts/${post.id}`,
-      { content: withInternalLinks.content }
+      { 
+        content: withInternalLinks.content,
+        metaDescription: withInternalLinks.metaDescription,
+        autoTags: withInternalLinks.autoTags
+      }
     );
     
     if (!response.ok) {
@@ -255,6 +282,7 @@ export async function optimizeBlogPost(post: BlogPost, allPosts: BlogPost[]): Pr
     }
     
     const finalPost = await response.json();
+    console.log(`Successfully saved optimized post ${post.id}`);
     return finalPost as BlogPost;
   } catch (error) {
     console.error('Failed to update post with internal links:', error);
