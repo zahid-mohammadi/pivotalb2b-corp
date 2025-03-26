@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { generateSlug } from "@/lib/utils";
 import { SEOAutomation } from "./seo-automation";
+import { SocialSharePreview } from "@/components/ui/social-share-preview";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useState } from 'react';
 
@@ -31,7 +32,7 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
   const [updatedPost, setUpdatedPost] = useState<BlogPost | null>(initialData || null);
   
   // Fetch all blog posts for internal linking and SEO recommendations
-  const { data: allPosts } = useQuery({
+  const { data: allPosts = [] } = useQuery<BlogPost[]>({
     queryKey: ["/api/blog-posts"],
     enabled: !!initialData, // Only fetch when editing an existing post
   });
@@ -323,7 +324,7 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
                     {updatedPost && (
                       <SEOAutomation 
                         post={updatedPost} 
-                        allPosts={allPosts || []} 
+                        allPosts={allPosts} 
                         onComplete={handleSEOComplete} 
                       />
                     )}
@@ -337,17 +338,13 @@ export function BlogEditor({ initialData }: BlogEditorProps) {
                     
                     {updatedPost && (
                       <div className="social-preview-container">
-                        {/* Import and use the component directly in this file */}
-                        {React.createElement(
-                          require("@/components/ui/social-share-preview").SocialSharePreview,
-                          {
-                            title: updatedPost.title,
-                            description: updatedPost.metaDescription || 
-                              (updatedPost.content.replace(/<[^>]*>/g, '').substring(0, 160) + "..."),
-                            imageUrl: updatedPost.bannerImage || undefined,
-                            url: `${window.location.origin}/blog/${updatedPost.slug}`
-                          }
-                        )}
+                        <SocialSharePreview
+                          title={updatedPost.title}
+                          description={updatedPost.metaDescription || 
+                            (updatedPost.content.replace(/<[^>]*>/g, '').substring(0, 160) + "...")}
+                          imageUrl={updatedPost.bannerImage || undefined}
+                          url={`${window.location.origin}/blog/${updatedPost.slug}`}
+                        />
                       </div>
                     )}
                   </div>
