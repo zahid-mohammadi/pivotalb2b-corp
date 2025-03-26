@@ -133,34 +133,84 @@ export async function autoGenerateSEO(post: BlogPost): Promise<BlogPost> {
 /**
  * Add internal links to content based on keyword matching
  */
-export function addInternalLinks(content: string, posts: BlogPost[]): string {
+export async function addInternalLinks(content: string, posts: BlogPost[]): Promise<string> {
   let processedContent = content;
   
-  // If there are no other posts, return the original content
-  if (!posts || posts.length === 0) {
-    console.log("No posts available for internal linking");
+  // If there's no content, return the original content
+  if (!content) {
+    console.log("No content provided for internal linking");
     return content;
   }
   
-  console.log(`Found ${posts.length} posts for internal linking`);
+  // Get service pages to include in internal linking
+  let services: any[] = [];
+  try {
+    const response = await fetch('/api/services');
+    if (response.ok) {
+      services = await response.json();
+      console.log(`Found ${services.length} service pages for internal linking`);
+    }
+  } catch (error) {
+    console.error("Error fetching service pages:", error);
+  }
   
-  // Create a map of keywords to blog posts for efficient lookup
-  const keywordPostMap = new Map<string, BlogPost>();
+  // If there are no other posts or services, return the original content
+  if ((!posts || posts.length === 0) && (!services || services.length === 0)) {
+    console.log("No posts or services available for internal linking");
+    return content;
+  }
   
+  console.log(`Found ${posts.length} posts and ${services.length} services for internal linking`);
+  
+  // Create a map of keywords to content items (blog posts and services) for efficient lookup
+  const keywordMap = new Map<string, { type: 'blog' | 'service', item: any }>();
+  
+  // Add blog post keywords
   posts.forEach(post => {
     // Add the post title as a potential keyword for linking
-    keywordPostMap.set(post.title.toLowerCase(), post);
+    keywordMap.set(post.title.toLowerCase(), { type: 'blog', item: post });
     
     // Add all tags and autotags as keywords
     const keywords = [...(post.tags || []), ...(post.autoTags || [])];
     keywords.forEach(keyword => {
       if (keyword && keyword.length > 3) { // Only use keywords that are longer than 3 chars
-        keywordPostMap.set(keyword.toLowerCase(), post);
+        keywordMap.set(keyword.toLowerCase(), { type: 'blog', item: post });
       }
     });
   });
   
-  console.log(`Extracted ${keywordPostMap.size} keywords for matching`);
+  // Add service page keywords
+  services.forEach(service => {
+    // Add the service title as a potential keyword for linking
+    if (service.title && service.title.length > 3) {
+      keywordMap.set(service.title.toLowerCase(), { type: 'service', item: service });
+    }
+    
+    // Add service keywords from tags if they exist
+    if (service.tags && Array.isArray(service.tags)) {
+      service.tags.forEach((tag: string) => {
+        if (tag && tag.length > 3) {
+          keywordMap.set(tag.toLowerCase(), { type: 'service', item: service });
+        }
+      });
+    }
+    
+    // Add some common service-related terms
+    const serviceTerms = [
+      'account-based marketing', 'abm', 'lead generation', 'intent data',
+      'content marketing', 'content syndication', 'waterfall campaign'
+    ];
+    
+    serviceTerms.forEach(term => {
+      // Only add the term if it's related to this service (appears in title or description)
+      if (service.title.toLowerCase().includes(term) || 
+         (service.description && service.description.toLowerCase().includes(term))) {
+        keywordMap.set(term, { type: 'service', item: service });
+      }
+    });
+  });
+  
+  console.log(`Extracted ${keywordMap.size} keywords for matching`);
   
   // Make sure we don't match text inside existing links or HTML tags
   // This regex finds text between HTML tags but not inside attributes
@@ -171,7 +221,7 @@ export function addInternalLinks(content: string, posts: BlogPost[]): string {
   
   // Track already linked words to avoid duplicate links
   const linkedWords = new Set<string>();
-  const linkedPosts = new Set<number>();
+  const linkedItems = new Set<string>(); // Using string IDs like "blog-123" or "service-abc"
   
   // Process matches in reverse order to avoid messing up positions when adding links
   for (let i = matches.length - 1; i >= 0; i--) {
@@ -181,13 +231,18 @@ export function addInternalLinks(content: string, posts: BlogPost[]): string {
     const text = match[1];
     const startPos = match.index! + 1; // +1 to skip the '>'
     
+    // Skip if this segment already contains an existing link
+    if (text.includes('<a') || text.includes('</a>')) continue;
+    
     // Look for matches with keywords
-    keywordPostMap.forEach((post, keyword) => {
-      // Skip if we already linked to this post 
-      if (linkedPosts.has(post.id)) return;
+    for (const [keyword, mappedItem] of keywordMap.entries()) {
+      const { type, item } = mappedItem;
       
-      // Skip if this segment already contains an existing link
-      if (text.includes('<a') || text.includes('</a>')) return;
+      // Generate a unique ID for this content item
+      const itemId = `${type}-${item.id || item.slug}`;
+      
+      // Skip if we already linked to this item
+      if (linkedItems.has(itemId)) continue;
       
       // Find the keyword in the text, case insensitive
       try {
@@ -202,29 +257,40 @@ export function addInternalLinks(content: string, posts: BlogPost[]): string {
             const absolutePos = startPos + keywordPos;
             const matchedWord = keywordMatch[0];
             
+            // Determine the link URL based on content type
+            let linkUrl = '';
+            if (type === 'blog') {
+              linkUrl = `/blog/${item.slug}`;
+            } else if (type === 'service') {
+              linkUrl = `/services/${item.slug}`;
+            }
+            
             // Replace the keyword with a link
             const before = processedContent.substring(0, absolutePos);
             const after = processedContent.substring(absolutePos + matchedWord.length);
             
-            processedContent = `${before}<a href="/blog/${post.slug}" class="text-primary hover:underline">${matchedWord}</a>${after}`;
+            processedContent = `${before}<a href="${linkUrl}" class="text-primary hover:underline">${matchedWord}</a>${after}`;
             
-            // Mark this keyword as linked to avoid duplicate links
+            // Mark this keyword and item as linked to avoid duplicate links
             linkedWords.add(keyword.toLowerCase());
-            linkedPosts.add(post.id);
+            linkedItems.add(itemId);
             
-            console.log(`Added internal link to post '${post.title}' using keyword '${keyword}'`);
+            console.log(`Added internal link to ${type} '${item.title || item.slug}' using keyword '${keyword}'`);
             
-            // Limit to 5 internal links per post
-            if (linkedPosts.size >= 5) return;
+            // Limit to 8 internal links per post (to include both blogs and services)
+            if (linkedItems.size >= 8) break;
           }
         }
       } catch (e) {
         console.error(`Error processing keyword '${keyword}':`, e);
       }
-    });
+    }
+    
+    // Stop processing if we've reached our link limit
+    if (linkedItems.size >= 8) break;
   }
   
-  console.log(`Added ${linkedPosts.size} internal links to content`);
+  console.log(`Added ${linkedItems.size} internal links to content`);
   
   return processedContent;
 }
@@ -247,20 +313,14 @@ export async function optimizeBlogPost(post: BlogPost, allPosts: BlogPost[]): Pr
   console.log(`Found ${otherPosts.length} other posts to use for internal linking`);
   otherPosts.forEach(p => console.log(`- Post for linking: ${p.id}: ${p.title}`));
   
-  // Step 2: Add internal links
-  let updatedContent = seoUpdatedPost.content;
-  
-  // Only try to add internal links if we have other posts
-  if (otherPosts.length > 0) {
-    updatedContent = addInternalLinks(seoUpdatedPost.content, otherPosts);
-    console.log(`Content after internal linking has ${updatedContent.length} characters`);
-  } else {
-    console.log('No other posts available for internal linking');
-  }
+  // Step 2: Add internal links to both blog posts and service pages
+  console.log(`Adding internal links to post: ${post.title}`);
+  const contentWithLinks = await addInternalLinks(seoUpdatedPost.content, otherPosts);
+  console.log(`Content after internal linking has ${contentWithLinks.length} characters`);
   
   const withInternalLinks = {
     ...seoUpdatedPost,
-    content: updatedContent
+    content: contentWithLinks
   };
   
   // Step 3: Save the updated post with internal links

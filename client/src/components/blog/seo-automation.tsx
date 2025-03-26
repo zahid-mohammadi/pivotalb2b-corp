@@ -99,7 +99,7 @@ export function SEOAutomation({ post, allPosts, onComplete }: SEOAutomationProps
       setSeoPreview({
         metaDescription: optimizedPost.metaDescription,
         autoTags: optimizedPost.autoTags,
-        hasInternalLinks: optimizedPost.content.includes('<a href="/blog/')
+        hasInternalLinks: optimizedPost.content.includes('<a href="/blog/') || optimizedPost.content.includes('<a href="/services/')
       });
       
       // Notify parent component
