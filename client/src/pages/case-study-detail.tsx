@@ -172,9 +172,10 @@ export default function CaseStudyDetailPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-2xl font-semibold mb-4">Challenge</h3>
-                        <div className="text-lg text-muted-foreground leading-relaxed">
-                          {caseStudy.challenge}
-                        </div>
+                        <div 
+                          className="text-lg text-muted-foreground leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: caseStudy.challenge }}
+                        />
                       </div>
                     </div>
                   </CardContent>
@@ -188,9 +189,10 @@ export default function CaseStudyDetailPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-2xl font-semibold mb-4">Solution</h3>
-                        <div className="text-lg text-muted-foreground leading-relaxed">
-                          {caseStudy.solution}
-                        </div>
+                        <div 
+                          className="text-lg text-muted-foreground leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: caseStudy.solution }}
+                        />
                       </div>
                     </div>
                   </CardContent>
@@ -204,9 +206,10 @@ export default function CaseStudyDetailPage() {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-2xl font-semibold mb-4">Results</h3>
-                        <div className="text-lg text-muted-foreground leading-relaxed">
-                          {caseStudy.results}
-                        </div>
+                        <div 
+                          className="text-lg text-muted-foreground leading-relaxed"
+                          dangerouslySetInnerHTML={{ __html: caseStudy.results }}
+                        />
                       </div>
                     </div>
                   </CardContent>

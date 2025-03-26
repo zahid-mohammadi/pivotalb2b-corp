@@ -157,9 +157,10 @@ export default function EbookDetailPage() {
               <div className="prose prose-lg max-w-none dark:prose-invert">
                 <div className="text-foreground">
                   {ebook.content && (
-                    <div className="whitespace-pre-wrap leading-relaxed">
-                      {ebook.content}
-                    </div>
+                    <div 
+                      className="leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: ebook.content }}
+                    />
                   )}
                 </div>
               </div>

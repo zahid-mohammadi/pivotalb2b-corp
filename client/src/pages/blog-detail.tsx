@@ -57,9 +57,10 @@ export default function BlogDetailPage() {
           {new Date(post.publishedAt).toLocaleDateString()}
         </div>
       )}
-      <div className="prose prose-lg max-w-none">
-        {post.content}
-      </div>
+      <div 
+        className="prose prose-lg max-w-none" 
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
       {post.contentImages && post.contentImages.length > 0 && (
         <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
           {post.contentImages.map((image, index) => (
