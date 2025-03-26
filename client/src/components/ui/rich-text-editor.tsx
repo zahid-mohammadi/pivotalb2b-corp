@@ -1,14 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Bold, Italic, Underline, List, AlignLeft, AlignCenter, AlignRight, 
-  AlignJustify, Link, Image, Code, Heading1, Heading2, Heading3 } from "lucide-react";
+  AlignJustify, Link2, Image, Code, Heading1, Heading2, Heading3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
 
 interface RichTextEditorProps {
   value: string;
@@ -20,15 +14,13 @@ interface RichTextEditorProps {
 export function RichTextEditor({ value, onChange, label, error }: RichTextEditorProps) {
   const [content, setContent] = useState(value || "");
   const editorRef = useRef<HTMLTextAreaElement>(null);
-  const [linkUrl, setLinkUrl] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
   
   // Handle external value changes
   useEffect(() => {
     if (value !== content) {
       setContent(value || "");
     }
-  }, [value]);
+  }, [value, content]);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
@@ -58,18 +50,15 @@ export function RichTextEditor({ value, onChange, label, error }: RichTextEditor
       textarea.selectionEnd = start + startTag.length + selectedText.length;
     }, 0);
   };
-
-  const insertLink = () => {
-    if (linkUrl) {
-      insertTag(`<a href="${linkUrl}" target="_blank">`, '</a>', 'Link text');
-      setLinkUrl("");
-    }
-  };
-
-  const insertImage = () => {
-    if (imageUrl) {
-      insertTag(`<img src="${imageUrl}" alt="Image" style="max-width: 100%;" />`);
-      setImageUrl("");
+  
+  const insertPrompt = (tag: string, promptMessage: string, defaultPlaceholder: string = "") => {
+    const userInput = prompt(promptMessage);
+    if (userInput !== null) {
+      if (tag === 'link') {
+        insertTag(`<a href="${userInput}" target="_blank">`, '</a>', defaultPlaceholder);
+      } else if (tag === 'image') {
+        insertTag(`<img src="${userInput}" alt="Image" style="max-width: 100%;" />`);
+      }
     }
   };
 
@@ -202,62 +191,22 @@ export function RichTextEditor({ value, onChange, label, error }: RichTextEditor
             <AlignJustify className="h-4 w-4" />
           </Button>
           <span className="w-px h-6 bg-border mx-1"></span>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon"
-                title="Insert Link"
-                type="button">
-                <Link className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80">
-              <div className="space-y-2">
-                <h4 className="font-medium">Insert Link</h4>
-                <Input 
-                  placeholder="https://example.com" 
-                  value={linkUrl} 
-                  onChange={(e) => setLinkUrl(e.target.value)} 
-                />
-                <Button 
-                  onClick={insertLink} 
-                  disabled={!linkUrl}
-                  className="w-full"
-                  type="button">
-                  Insert Link
-                </Button>
-              </div>
-            </PopoverContent>
-          </Popover>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon"
-                title="Insert Image"
-                type="button">
-                <Image className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80">
-              <div className="space-y-2">
-                <h4 className="font-medium">Insert Image</h4>
-                <Input 
-                  placeholder="https://example.com/image.jpg" 
-                  value={imageUrl} 
-                  onChange={(e) => setImageUrl(e.target.value)} 
-                />
-                <Button 
-                  onClick={insertImage} 
-                  disabled={!imageUrl}
-                  className="w-full"
-                  type="button">
-                  Insert Image
-                </Button>
-              </div>
-            </PopoverContent>
-          </Popover>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => insertPrompt('link', 'Enter URL:', 'Link text')}
+            title="Insert Link"
+            type="button">
+            <Link2 className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => insertPrompt('image', 'Enter image URL:')}
+            title="Insert Image"
+            type="button">
+            <Image className="h-4 w-4" />
+          </Button>
           <Button 
             variant="ghost" 
             size="icon" 
