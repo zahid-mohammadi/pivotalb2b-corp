@@ -82,6 +82,9 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-300">&copy; {new Date().getFullYear()} Pivotal B2B. All rights reserved.</p>
             <div className="flex flex-wrap gap-4 text-sm text-slate-300">
+              <Link href="/media-kit" className="hover:text-white transition-colors duration-200">
+                Media Kit
+              </Link>
               <Link href="/privacy-policy" className="hover:text-white transition-colors duration-200">
                 Privacy Policy
               </Link>
