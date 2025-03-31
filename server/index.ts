@@ -17,6 +17,13 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Import rate limiters
+import { apiLimiter, authLimiter } from './middleware/rate-limiter';
+
+// Apply rate limiting
+app.use('/api/', apiLimiter);
+app.use('/api/auth', authLimiter);
+
 // Block email campaign bots
 app.use(emailBotBlocker);
 
