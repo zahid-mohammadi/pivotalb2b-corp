@@ -1,3 +1,4 @@
+
 import { type RouteConfig } from "./types";
 import { storage } from "./storage";
 
@@ -39,5 +40,6 @@ export const excludedRoutes = [
   '/signup',    // Auth route
   '/admin',     // Admin routes
   '/api',       // API routes
-  '/agency-partnerships' // Removed from menu and sitemap
+  '/agency-partnerships', // Removed from menu and sitemap
+  '/media-kit'  // Removed media kit page
 ];
