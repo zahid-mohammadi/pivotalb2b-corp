@@ -65,11 +65,13 @@ export function emailBotBlocker(req: Request, res: Response, next: NextFunction)
   
   // Only check for bots if traffic is from email campaigns
   if (isFromEmailCampaign) {
-    // Common bot signatures in user agents
+    // Common bot signatures in user agents - removed some common terms that might cause false positives
     const botSignatures = [
-      'bot', 'crawl', 'spider', 'lighthouse', 'slurp', 'ping', 'preview',
-      'link preview', 'scanner', 'parse', 'fetch', 'check', 
-      'mail.ru', 'mail preview', 'email preview'
+      'bot', 'crawl', 'spider', 'lighthouse', 'slurp', 
+      'link preview', 'scanner', 
+      'mail.ru'
+      // Removed: 'ping', 'preview', 'parse', 'fetch', 'check', 'mail preview', 'email preview'
+      // as these might be in legitimate user agents
     ];
     
     // Common email tracking and preview services
@@ -110,9 +112,17 @@ export function emailBotBlocker(req: Request, res: Response, next: NextFunction)
     
     // Missing accept-language header is common with bots
     const hasNoAcceptLanguage = !req.headers['accept-language'];
+
+    // Special exception for known paths that real users access from campaigns
+    const isLoginOrProposalPage = 
+      req.path === '/login' || 
+      req.path === '/dashboard' || 
+      req.path === '/request-proposal' ||
+      req.path.includes('/api/login') ||
+      req.path.includes('/api/proposal');
     
-    // Block if it's a bot from email campaign
-    if (isBot || (hasNoBrowserSignature && hasNoAcceptLanguage)) {
+    // Block if it's a bot from email campaign, but allow important pages even with suspicious signatures
+    if (isBot || (hasNoBrowserSignature && hasNoAcceptLanguage && !isLoginOrProposalPage)) {
       // For tracking purposes, record these blocked requests
       if (!detectedBotType && (hasNoBrowserSignature && hasNoAcceptLanguage)) {
         detectedBotType = 'generic-email-preview';
