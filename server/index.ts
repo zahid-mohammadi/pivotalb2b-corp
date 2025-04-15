@@ -9,7 +9,7 @@ import { pool } from "./db";
 import connectPg from "connect-pg-simple";
 import { setupAnalyticsWebSocket } from "./services/analytics-ws";
 import cookieParser from 'cookie-parser';
-import { emailBotBlocker } from "./middleware/email-bot-blocker";
+// Removed email bot blocker import
 import { seoMetaTagsMiddleware } from "./middleware/seo-meta-tags";
 
 const app = express();
@@ -24,8 +24,7 @@ import { apiLimiter, authLimiter } from './middleware/rate-limiter';
 app.use('/api/', apiLimiter);
 app.use('/api/auth', authLimiter);
 
-// Block email campaign bots
-app.use(emailBotBlocker);
+// Email bot blocker removed to ensure all legitimate users can access the site
 
 // Session configuration
 const PostgresStore = connectPg(session);
