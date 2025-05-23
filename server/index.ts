@@ -19,10 +19,11 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());
 
-// Set connection timeout to handle traffic spikes
+// Optimize for massive traffic spikes
 app.use((req, res, next) => {
-  req.setTimeout(30000); // 30 seconds
-  res.setTimeout(30000);
+  // No timeouts - let requests complete naturally
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('Keep-Alive', 'timeout=60, max=1000');
   next();
 });
 
