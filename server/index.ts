@@ -13,16 +13,21 @@ import cookieParser from 'cookie-parser';
 import { seoMetaTagsMiddleware } from "./middleware/seo-meta-tags";
 
 const app = express();
+
+// Optimize for high traffic campaigns
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
-// Import rate limiters
-import { apiLimiter, authLimiter } from './middleware/rate-limiter';
+// Set connection timeout to handle traffic spikes
+app.use((req, res, next) => {
+  req.setTimeout(30000); // 30 seconds
+  res.setTimeout(30000);
+  next();
+});
 
-// Apply rate limiting
-app.use('/api/', apiLimiter);
-app.use('/api/auth', authLimiter);
+// Rate limiting completely removed for massive email campaigns
+// No limits to ensure high-volume traffic from campaigns works seamlessly
 
 // Email bot blocker removed to ensure all legitimate users can access the site
 
