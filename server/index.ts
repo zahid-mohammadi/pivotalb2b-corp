@@ -19,9 +19,11 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 app.use(cookieParser());
 
-// Optimize for massive traffic spikes
+// Optimize for massive traffic spikes and database operations
 app.use((req, res, next) => {
-  // No timeouts - let requests complete naturally
+  // Set appropriate timeouts for database operations
+  req.setTimeout(60000); // 60 seconds for requests
+  res.setTimeout(60000); // 60 seconds for responses
   res.setHeader('Connection', 'keep-alive');
   res.setHeader('Keep-Alive', 'timeout=60, max=1000');
   next();
@@ -81,12 +83,29 @@ app.use((req, res, next) => {
   // Register sitemap routes
   app.use(sitemapRouter);
 
-  // Error handling
+  // Enhanced error handling for database timeouts
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    console.error('Server error:', err);
+    
+    // Handle specific database timeout errors
+    if (err.message && err.message.includes('timeout') || err.code === 'ECONNABORTED') {
+      return res.status(503).json({ 
+        message: "Service temporarily unavailable. Please try again.", 
+        error: "timeout" 
+      });
+    }
+    
+    // Handle database connection errors
+    if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
+      return res.status(503).json({ 
+        message: "Database connection error. Please try again.", 
+        error: "connection" 
+      });
+    }
+    
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
     res.status(status).json({ message });
-    console.error('Server error:', err);
   });
 
   if (app.get("env") === "development") {
