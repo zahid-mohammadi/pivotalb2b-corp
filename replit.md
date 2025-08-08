@@ -29,6 +29,7 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 ## Recent Changes
 - Adding lead detail page functionality
 - Making dashboard mobile-friendly and responsive
+- Temporarily removed case studies and ebooks from navigation per user request
 - Date: 2025-08-08
 
 ## Lead Management Features

@@ -183,12 +183,6 @@ export function Navbar() {
             <Link href="/blog">
               <span className="text-sm text-muted-foreground hover:text-primary block">Blog</span>
             </Link>
-            <Link href="/ebooks">
-              <span className="text-sm text-muted-foreground hover:text-primary block">eBooks</span>
-            </Link>
-            <Link href="/case-studies">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Case Studies</span>
-            </Link>
           </div>
         </div>
       ) : (
@@ -197,7 +191,7 @@ export function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[600px] gap-3 p-4 grid-cols-3">
+                <ul className="grid w-[400px] gap-3 p-4 grid-cols-1">
                   <li>
                     <Link href="/blog" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                       <div className="flex items-center">
@@ -211,39 +205,6 @@ export function Navbar() {
                         <div>
                           <div className="text-sm font-medium">Blog</div>
                           <p className="text-xs text-muted-foreground">Latest insights and industry trends</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/ebooks" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
-                      <div className="flex items-center">
-                        <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                          <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
-                            <path d="M9 10h6"></path>
-                            <path d="M12 7v6"></path>
-                          </svg>
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium">eBooks</div>
-                          <p className="text-xs text-muted-foreground">In-depth guides and whitepapers</p>
-                        </div>
-                      </div>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/case-studies" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
-                      <div className="flex items-center">
-                        <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                          <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                          </svg>
-                        </div>
-                        <div>
-                          <div className="text-sm font-medium">Case Studies</div>
-                          <p className="text-xs text-muted-foreground">Success stories and client results</p>
                         </div>
                       </div>
                     </Link>

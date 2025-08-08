@@ -267,16 +267,6 @@ export default function Dashboard() {
                 <span className="hidden sm:inline">Blog Posts</span>
                 <span className="sm:hidden">Blog</span>
               </TabsTrigger>
-              <TabsTrigger value="ebooks" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
-                <BookText className="h-3 w-3 lg:h-4 lg:w-4" />
-                <span className="hidden sm:inline">eBooks</span>
-                <span className="sm:hidden">eBooks</span>
-              </TabsTrigger>
-              <TabsTrigger value="case-studies" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
-                <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
-                <span className="hidden sm:inline">Case Studies</span>
-                <span className="sm:hidden">Cases</span>
-              </TabsTrigger>
               <TabsTrigger value="leads" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
                 <Users className="h-3 w-3 lg:h-4 lg:w-4" />
                 <span className="hidden sm:inline">Leads</span>
