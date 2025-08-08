@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -17,7 +17,13 @@ import {
   User, 
   Pencil, 
   Trash2,
-  BarChart3 
+  BarChart3,
+  Eye,
+  Calendar,
+  Mail,
+  Building,
+  Download,
+  MessageSquare
 } from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
@@ -38,6 +44,7 @@ interface UserData {
 
 export default function Dashboard() {
   const { toast } = useToast();
+  const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState("analytics");
   const [showEditor, setShowEditor] = useState<"blog" | "ebook" | "case-study" | null>(null);
   const [editingItem, setEditingItem] = useState<BlogPost | Ebook | CaseStudy | null>(null);
@@ -238,40 +245,50 @@ export default function Dashboard() {
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
       />
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-3xl font-bold mb-8">Admin Dashboard</h1>
+      <div className="container mx-auto px-4 py-6 lg:py-12">
+        <h1 className="text-2xl lg:text-3xl font-bold mb-6 lg:mb-8">Admin Dashboard</h1>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-8">
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <BarChart3 className="h-4 w-4" />
-              Analytics
-            </TabsTrigger>
-            <TabsTrigger value="users" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              User Management
-            </TabsTrigger>
-            <TabsTrigger value="blog" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Blog Posts
-            </TabsTrigger>
-            <TabsTrigger value="ebooks" className="flex items-center gap-2">
-              <BookText className="h-4 w-4" />
-              eBooks
-            </TabsTrigger>
-            <TabsTrigger value="case-studies" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Case Studies
-            </TabsTrigger>
-            <TabsTrigger value="leads" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Leads
-            </TabsTrigger>
-            <TabsTrigger value="proposals" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Proposals
-            </TabsTrigger>
-          </TabsList>
+          {/* Mobile-friendly scrollable tabs */}
+          <div className="w-full overflow-x-auto scrollbar-hide mb-8">
+            <TabsList className="inline-flex h-10 w-max items-center justify-start rounded-md bg-muted p-1 text-muted-foreground min-w-full lg:w-fit">
+              <TabsTrigger value="analytics" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
+                <BarChart3 className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">Analytics</span>
+                <span className="sm:hidden">Stats</span>
+              </TabsTrigger>
+              <TabsTrigger value="users" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
+                <Users className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">User Management</span>
+                <span className="sm:hidden">Users</span>
+              </TabsTrigger>
+              <TabsTrigger value="blog" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
+                <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">Blog Posts</span>
+                <span className="sm:hidden">Blog</span>
+              </TabsTrigger>
+              <TabsTrigger value="ebooks" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
+                <BookText className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">eBooks</span>
+                <span className="sm:hidden">eBooks</span>
+              </TabsTrigger>
+              <TabsTrigger value="case-studies" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
+                <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">Case Studies</span>
+                <span className="sm:hidden">Cases</span>
+              </TabsTrigger>
+              <TabsTrigger value="leads" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
+                <Users className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">Leads</span>
+                <span className="sm:hidden">Leads</span>
+              </TabsTrigger>
+              <TabsTrigger value="proposals" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
+                <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">Proposals</span>
+                <span className="sm:hidden">Props</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           {/* Analytics Tab */}
           <TabsContent value="analytics">
@@ -637,40 +654,144 @@ export default function Dashboard() {
                     <Loader2 className="h-8 w-8 animate-spin" />
                   </div>
                 ) : (
-                  <div className="border rounded-lg">
-                    <div className="p-4 border-b bg-muted">
-                      <div className="grid grid-cols-6 gap-4 font-medium">
-                        <div>Full Name</div>
-                        <div>Email</div>
-                        <div>Company</div>
-                        <div>Content Type</div>
-                        <div>Content Title</div>
-                        <div>Downloaded At</div>
+                  <div className="space-y-4">
+                    {/* Desktop Table View */}
+                    <div className="hidden lg:block border rounded-lg">
+                      <div className="p-4 border-b bg-muted">
+                        <div className="grid grid-cols-7 gap-4 font-medium text-sm">
+                          <div>Full Name</div>
+                          <div>Email</div>
+                          <div>Company</div>
+                          <div>Content Type</div>
+                          <div>Content Title</div>
+                          <div>Downloaded At</div>
+                          <div>Actions</div>
+                        </div>
+                      </div>
+                      <div className="divide-y">
+                        {leads?.map((lead) => {
+                          const content = lead.contentType === 'ebook'
+                            ? ebooks?.find(e => e.id === lead.contentId)
+                            : caseStudies?.find(c => c.id === lead.contentId);
+
+                          return (
+                            <div 
+                              key={lead.id} 
+                              className="p-4 hover:bg-muted/50 transition-colors cursor-pointer"
+                              onClick={() => navigate(`/lead/${lead.id}`)}
+                            >
+                              <div className="grid grid-cols-7 gap-4 items-center text-sm">
+                                <div className="font-medium">{lead.fullName}</div>
+                                <div className="truncate">{lead.email}</div>
+                                <div>{lead.company}</div>
+                                <div className="capitalize">{lead.contentType}</div>
+                                <div className="truncate">{content?.title || 'Unknown'}</div>
+                                <div>{new Date(lead.downloadedAt).toLocaleDateString()}</div>
+                                <div>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      navigate(`/lead/${lead.id}`);
+                                    }}
+                                  >
+                                    <Eye className="w-4 h-4" />
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                        {!leads?.length && (
+                          <div className="p-8 text-center text-muted-foreground">
+                            No leads found
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <div className="divide-y">
+
+                    {/* Mobile Card View */}
+                    <div className="lg:hidden space-y-4">
                       {leads?.map((lead) => {
                         const content = lead.contentType === 'ebook'
                           ? ebooks?.find(e => e.id === lead.contentId)
                           : caseStudies?.find(c => c.id === lead.contentId);
 
                         return (
-                          <div key={lead.id} className="p-4">
-                            <div className="grid grid-cols-6 gap-4">
-                              <div>{lead.fullName}</div>
-                              <div>{lead.email}</div>
-                              <div>{lead.company}</div>
-                              <div className="capitalize">{lead.contentType}</div>
-                              <div>{content?.title || 'Unknown'}</div>
-                              <div>{new Date(lead.downloadedAt).toLocaleDateString()}</div>
-                            </div>
-                          </div>
+                          <Card 
+                            key={lead.id} 
+                            className="cursor-pointer hover:shadow-md transition-shadow"
+                            onClick={() => navigate(`/lead/${lead.id}`)}
+                          >
+                            <CardContent className="p-4">
+                              <div className="space-y-3">
+                                {/* Header */}
+                                <div className="flex items-start justify-between">
+                                  <div>
+                                    <h3 className="font-medium text-lg">{lead.fullName}</h3>
+                                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                                      <Building className="w-3 h-3" />
+                                      {lead.company}
+                                    </p>
+                                  </div>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      navigate(`/lead/${lead.id}`);
+                                    }}
+                                  >
+                                    <Eye className="w-4 h-4" />
+                                  </Button>
+                                </div>
+
+                                {/* Contact Info */}
+                                <div className="space-y-2">
+                                  <p className="text-sm flex items-center gap-2">
+                                    <Mail className="w-3 h-3 text-muted-foreground" />
+                                    <span className="truncate">{lead.email}</span>
+                                  </p>
+                                  
+                                  <div className="flex items-center justify-between">
+                                    <p className="text-sm flex items-center gap-2">
+                                      <Download className="w-3 h-3 text-muted-foreground" />
+                                      <span className="capitalize">{lead.contentType}</span>
+                                    </p>
+                                    <p className="text-xs text-muted-foreground flex items-center gap-1">
+                                      <Calendar className="w-3 h-3" />
+                                      {new Date(lead.downloadedAt).toLocaleDateString()}
+                                    </p>
+                                  </div>
+                                </div>
+
+                                {/* Content Info */}
+                                {content && (
+                                  <div className="bg-muted/50 rounded-lg p-3">
+                                    <p className="text-sm font-medium">{content.title}</p>
+                                    {lead.message && (
+                                      <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                                        <MessageSquare className="w-3 h-3" />
+                                        Has message
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </CardContent>
+                          </Card>
                         );
                       })}
+                      
                       {!leads?.length && (
-                        <div className="p-4 text-center text-muted-foreground">
-                          No leads found
-                        </div>
+                        <Card>
+                          <CardContent className="p-8 text-center text-muted-foreground">
+                            <Download className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                            <p>No leads found</p>
+                            <p className="text-sm mt-1">Leads will appear here when users download content</p>
+                          </CardContent>
+                        </Card>
                       )}
                     </div>
                   </div>

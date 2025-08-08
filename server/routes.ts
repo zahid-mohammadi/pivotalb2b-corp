@@ -342,6 +342,40 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.get("/api/leads/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid lead ID" });
+      }
+
+      const lead = await storage.getLeadById(id);
+      if (!lead) {
+        return res.status(404).json({ error: "Lead not found" });
+      }
+
+      res.json(lead);
+    } catch (error) {
+      console.error("Error fetching lead:", error);
+      res.status(500).json({ error: "Failed to fetch lead" });
+    }
+  });
+
+  app.delete("/api/leads/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid lead ID" });
+      }
+
+      await storage.deleteLead(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting lead:", error);
+      res.status(500).json({ error: "Failed to delete lead" });
+    }
+  });
+
   // PDF Upload route
   app.post("/api/upload-pdf", upload.single('pdf'), (req, res) => {
     if (!req.file) {

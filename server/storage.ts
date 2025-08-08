@@ -386,6 +386,26 @@ export class DatabaseStorage implements IStorage {
     }
   }
 
+  async getLeadById(id: number): Promise<Lead | null> {
+    try {
+      const [lead] = await db.select().from(leads).where(eq(leads.id, id));
+      return lead || null;
+    } catch (error) {
+      console.error("Error getting lead by ID:", error);
+      throw error;
+    }
+  }
+
+  async deleteLead(id: number): Promise<boolean> {
+    try {
+      const result = await db.delete(leads).where(eq(leads.id, id));
+      return true;
+    } catch (error) {
+      console.error("Error deleting lead:", error);
+      throw error;
+    }
+  }
+
   // Basic Analytics Methods
   async getBasicMetrics(): Promise<{
     totalPageViews: number;

@@ -27,6 +27,7 @@ import CookiePolicy from "@/pages/cookie-policy";
 import B2BAudience from "@/pages/b2b-audience";
 import RequestProposal from "@/pages/request-proposal";
 import ProposalDetail from "@/pages/proposal-detail";
+import LeadDetail from "@/pages/lead-detail";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
@@ -60,6 +61,7 @@ function Router() {
           <Route path="/cookie-policy" component={CookiePolicy} />
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <ProtectedRoute path="/proposal/:id" component={ProposalDetail} />
+          <ProtectedRoute path="/lead/:id" component={LeadDetail} />
           <Route component={NotFound} />
         </Switch>
       </main>
