@@ -15,7 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { PageBanner } from "@/components/ui/page-banner";
-import { MailIcon, PhoneIcon, Building2Icon, Clock4Icon, ArrowRight } from "lucide-react";
+import { MailIcon, PhoneIcon, Building2Icon, Clock4Icon, ArrowRight, MapPinIcon, GlobeIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { Link } from "wouter";
@@ -68,7 +68,7 @@ export default function ContactPage() {
     <div>
       <MetaTags
         title="Contact Pivotal B2B - Get in Touch with Our Marketing Experts"
-        description="Contact Pivotal B2B for expert B2B marketing solutions and lead generation services. Our team is ready to help transform your marketing strategy and drive business growth."
+        description="Contact Pivotal B2B's global offices in USA and Oman for expert B2B marketing solutions and lead generation services. Our international team is ready to help transform your marketing strategy and drive business growth."
         keywords="contact B2B marketing agency, marketing consultation, lead generation services, business growth strategy, marketing expertise, B2B solutions"
       />
       <PageBanner
@@ -146,38 +146,16 @@ export default function ContactPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl font-semibold mb-6">Contact Information</h2>
-            <div className="space-y-6">
+            <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
+            
+            {/* General Contact Info */}
+            <div className="space-y-4 mb-8">
               <Card className="p-6">
                 <div className="flex gap-4">
                   <MailIcon className="h-6 w-6 text-primary" />
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
                     <p className="text-muted-foreground">contact@pivotal-b2b.com</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6">
-                <div className="flex gap-4">
-                  <PhoneIcon className="h-6 w-6 text-primary" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Phone</h3>
-                    <p className="text-muted-foreground">+1 417-900-3844</p>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6">
-                <div className="flex gap-4">
-                  <Building2Icon className="h-6 w-6 text-primary" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Address</h3>
-                    <p className="text-muted-foreground">
-                      16192 Coastal Highway<br />
-                      Lewes, Delaware 19958<br />
-                      USA
-                    </p>
                   </div>
                 </div>
               </Card>
@@ -191,6 +169,56 @@ export default function ContactPage() {
                       Monday - Friday<br />
                       9:00 AM - 5:00 PM EST
                     </p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+              <GlobeIcon className="h-5 w-5 text-primary" />
+              Our Global Offices
+            </h3>
+            
+            <div className="space-y-4">
+              {/* USA Office */}
+              <Card className="p-6 border-l-4 border-l-primary">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <MapPinIcon className="h-5 w-5 text-primary" />
+                    <h4 className="font-semibold text-lg">United States</h4>
+                  </div>
+                  <div className="ml-8">
+                    <p className="font-medium text-foreground">Pivotal B2B</p>
+                    <p className="text-muted-foreground">
+                      16192 Coastal Highway<br />
+                      Lewes, Delaware 19958<br />
+                      USA
+                    </p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <PhoneIcon className="h-4 w-4 text-primary" />
+                      <span className="text-sm font-medium">+1 417-900-3844</span>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              {/* Oman Office */}
+              <Card className="p-6 border-l-4 border-l-secondary">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <MapPinIcon className="h-5 w-5 text-secondary" />
+                    <h4 className="font-semibold text-lg">Oman</h4>
+                  </div>
+                  <div className="ml-8">
+                    <p className="font-medium text-foreground">Pivotal Business International SPC</p>
+                    <p className="text-muted-foreground">
+                      Way 2403, 191<br />
+                      Muscat, Oman 114
+                    </p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <PhoneIcon className="h-4 w-4 text-secondary" />
+                      <span className="text-sm font-medium">+968 77523663</span>
+                    </div>
                   </div>
                 </div>
               </Card>
