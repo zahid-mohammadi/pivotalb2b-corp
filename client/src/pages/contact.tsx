@@ -77,8 +77,8 @@ export default function ContactPage() {
         pattern="grid"
       />
 
-      <div className="container mx-auto py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="container mx-auto py-12 px-4 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
           <div>
             <h2 className="text-2xl font-semibold mb-6">Send Us a Message</h2>
 
@@ -145,106 +145,110 @@ export default function ContactPage() {
             </Form>
           </div>
 
-          <div>
-            <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
-            
-            {/* General Contact Info */}
-            <div className="space-y-4 mb-8">
-              <Card className="p-6">
-                <div className="flex gap-4">
-                  <MailIcon className="h-6 w-6 text-primary" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">contact@pivotal-b2b.com</p>
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-2xl font-semibold mb-6">Get in Touch</h2>
+              
+              {/* General Contact Info */}
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-8">
+                <Card className="p-6">
+                  <div className="flex gap-4">
+                    <MailIcon className="h-6 w-6 text-primary" />
+                    <div>
+                      <h3 className="font-semibold mb-1">Email</h3>
+                      <p className="text-muted-foreground">contact@pivotal-b2b.com</p>
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
 
-              <Card className="p-6">
-                <div className="flex gap-4">
-                  <Clock4Icon className="h-6 w-6 text-primary" />
-                  <div>
-                    <h3 className="font-semibold mb-1">Business Hours</h3>
-                    <p className="text-muted-foreground">
-                      Monday - Friday<br />
-                      9:00 AM - 5:00 PM EST
-                    </p>
+                <Card className="p-6">
+                  <div className="flex gap-4">
+                    <Clock4Icon className="h-6 w-6 text-primary" />
+                    <div>
+                      <h3 className="font-semibold mb-1">Business Hours</h3>
+                      <p className="text-muted-foreground">
+                        Monday - Friday<br />
+                        9:00 AM - 5:00 PM EST
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </div>
             </div>
 
-            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-              <GlobeIcon className="h-5 w-5 text-primary" />
-              Our Global Offices
-            </h3>
-            
-            <div className="space-y-4">
-              {/* USA Office */}
-              <Card className="p-6 border-l-4 border-l-primary">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <MapPinIcon className="h-5 w-5 text-primary" />
-                    <h4 className="font-semibold text-lg">United States</h4>
-                  </div>
-                  <div className="ml-8">
-                    <p className="font-medium text-foreground">Pivotal B2B</p>
-                    <p className="text-muted-foreground">
-                      16192 Coastal Highway<br />
-                      Lewes, Delaware 19958<br />
-                      USA
-                    </p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <PhoneIcon className="h-4 w-4 text-primary" />
-                      <span className="text-sm font-medium">+1 417-900-3844</span>
+            <div>
+              <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
+                <GlobeIcon className="h-5 w-5 text-primary" />
+                Our Global Offices
+              </h3>
+              
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                {/* USA Office */}
+                <Card className="p-6 border-l-4 border-l-primary">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <MapPinIcon className="h-5 w-5 text-primary" />
+                      <h4 className="font-semibold text-lg">United States</h4>
+                    </div>
+                    <div className="ml-8">
+                      <p className="font-medium text-foreground">Pivotal B2B</p>
+                      <p className="text-muted-foreground">
+                        16192 Coastal Highway<br />
+                        Lewes, Delaware 19958<br />
+                        USA
+                      </p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <PhoneIcon className="h-4 w-4 text-primary" />
+                        <span className="text-sm font-medium">+1 417-900-3844</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
 
-              {/* Oman Office */}
-              <Card className="p-6 border-l-4 border-l-secondary">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <MapPinIcon className="h-5 w-5 text-secondary" />
-                    <h4 className="font-semibold text-lg">Oman</h4>
-                  </div>
-                  <div className="ml-8">
-                    <p className="font-medium text-foreground">Pivotal Business International SPC</p>
-                    <p className="text-muted-foreground">
-                      Way 2403, 191<br />
-                      Muscat, Oman 114
-                    </p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <PhoneIcon className="h-4 w-4 text-secondary" />
-                      <span className="text-sm font-medium">+968 77523663</span>
+                {/* Oman Office */}
+                <Card className="p-6 border-l-4 border-l-secondary">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <MapPinIcon className="h-5 w-5 text-secondary" />
+                      <h4 className="font-semibold text-lg">Oman</h4>
+                    </div>
+                    <div className="ml-8">
+                      <p className="font-medium text-foreground">Pivotal Business International SPC</p>
+                      <p className="text-muted-foreground">
+                        Way 2403, 191<br />
+                        Muscat, Oman 114
+                      </p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <PhoneIcon className="h-4 w-4 text-secondary" />
+                        <span className="text-sm font-medium">+968 77523663</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
       </div>
       
       {/* CTA Section */}
-      <section className="bg-primary/5 py-20 mt-10">
-        <div className="container mx-auto px-4">
+      <section className="bg-primary/5 py-16 lg:py-24 mt-16">
+        <div className="container mx-auto px-4 max-w-7xl">
           <motion.div 
-            className="max-w-3xl mx-auto text-center"
+            className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Looking for a comprehensive marketing strategy?</h2>
-            <p className="text-lg text-muted-foreground mb-8">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6">Looking for a comprehensive marketing strategy?</h2>
+            <p className="text-base lg:text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
               If you're interested in a detailed marketing proposal tailored to your business, let's start with a formal project discussion.
             </p>
             <Link href="/request-proposal">
-              <Button size="lg" className="group">
+              <Button size="lg" className="group px-8 py-6 text-lg">
                 Request a Proposal
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           </motion.div>
