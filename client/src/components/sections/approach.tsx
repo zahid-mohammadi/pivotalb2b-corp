@@ -1,4 +1,4 @@
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
   CheckCircle,
@@ -18,15 +18,6 @@ export function Approach() {
   // Changed to once: true so animations trigger immediately when visible
   // and increased threshold amount for earlier triggering
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  // Parallax effect for background elements
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
 
   const steps = [
     {
@@ -78,48 +69,6 @@ export function Approach() {
 
   return (
     <section className="relative py-24 overflow-hidden bg-white dark:bg-slate-950">
-      {/* Decorative Background  */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Large Gradient Orbs */}
-        <motion.div
-          className="absolute top-0 -left-[30%] w-[80%] aspect-square rounded-full opacity-[0.07] bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 blur-3xl"
-          style={{ y: y1 }}
-          aria-hidden="true"
-        />
-        <motion.div
-          className="absolute -top-[10%] -right-[30%] w-[70%] aspect-square rounded-full opacity-[0.07] bg-gradient-to-br from-purple-500 via-pink-500 to-red-500 blur-3xl"
-          style={{ y: y2 }}
-          aria-hidden="true"
-        />
-        
-        {/* Flowing dots and lines background */}
-        <div className="absolute inset-0 opacity-[0.03]">
-          {Array.from({ length: 300 }).map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute h-0.5 w-0.5 rounded-full bg-slate-600"
-              initial={{
-                opacity: Math.random() * 0.5 + 0.3,
-                x: Math.random() * 100 + "%",
-                y: -20,
-              }}
-              animate={{
-                y: ["0%", "100%"],
-                x: [
-                  `${Math.random() * 100}%`,
-                  `${Math.random() * 100 - 10}%`,
-                  `${Math.random() * 100}%`,
-                ],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 30,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </div>
-      </div>
 
       <div 
         className="container relative mx-auto px-4 max-w-6xl z-10 position-relative" 
@@ -157,26 +106,6 @@ export function Approach() {
           {/* Central Visual Connector - Visible on all screens */}
           <div className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2">
             <div className="h-full w-full bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 rounded-full" />
-            
-            {/* Animated Light Pulse Down the Line */}
-            <motion.div 
-              className="absolute inset-0 w-full bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500"
-              initial={{ 
-                opacity: 0,
-                scaleY: 0, 
-                y: 0 
-              }}
-              animate={{ 
-                opacity: [0, 1, 0],
-                scaleY: [0, 1, 1],
-                y: ["0%", "100%", "100%"]
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                repeatDelay: 1
-              }}
-            />
           </div>
 
           {/* Timeline Steps */}
