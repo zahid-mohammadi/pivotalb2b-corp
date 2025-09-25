@@ -2,26 +2,26 @@ const services = [
   {
     slug: "account-based-marketing-abm-programs", 
     title: "Account-Based Marketing (ABM) Programs",
-    description: "We engage entire buying committees at target accounts before evaluations begin, positioning your solution as the trusted choice.",
+    description: "We engage entire buying committees at your target accounts early—building trust and influencing deals before competitors even enter the conversation.",
   },
   {
     slug: "b2b-lead-generation-qualification",
     title: "B2B Lead Generation & Qualification", 
-    description: "We deliver sales-ready leads with authority, budget, and intent, so your sales team focuses only on opportunities that close.",
+    description: "We identify and connect with decision-makers from companies actively evaluating solutions like yours—verified for intent, authority, and budget alignment.",
   },
   {
     slug: "intent-based-demand-generation",
     title: "Intent-Based Demand Generation",
-    description: "We identify active buying signals and deliver content to decision-makers early, making you the clear choice when budgets open.",
+    description: "We detect buying signals and deliver tailored content to in-market buyers—positioning your brand as the trusted choice when purchase decisions are made.",
   },
   {
     slug: "event-marketing-audience-acquisition",
     title: "Event Marketing & Audience Acquisition",
-    description: "We attract ICP-matched decision-makers to your webinars, trade shows, and events—converting attendance into pipeline.",
+    description: "We fill your webinars, field events, and trade shows with qualified decision-makers who have real buying intent—turning attendance into measurable pipeline.",
   },
   {
-    slug: "lead-validation-sales-development-support",
-    title: "Lead Validation & Sales Development Support", 
-    description: "We verify every lead with live evidence and BANT checks, ensuring your CRM is filled only with sales-ready contacts.",
+    slug: "lead-validation-enrichment",
+    title: "Lead Validation & Enrichment", 
+    description: "We clean, verify, and validate your inbound or event leads—ensuring only genuine, in-market buyers enter your CRM while low-intent contacts are filtered out.",
   },
 ];

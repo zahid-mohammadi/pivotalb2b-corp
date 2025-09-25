@@ -129,7 +129,7 @@ const services = [
   {
     icon: TargetIcon,
     title: "Account-Based Marketing (ABM) Programs",
-    description: "We engage entire buying committees at target accounts before evaluations begin, positioning your solution as the trusted choice.",
+    description: "We engage entire buying committees at your target accounts early—building trust and influencing deals before competitors even enter the conversation.",
     features: [
       { icon: Users, text: "Complete buying committee mapping" },
       { icon: BarChart3, text: "Multi-threaded engagement" },
@@ -144,7 +144,7 @@ const services = [
   {
     icon: LineChart,
     title: "B2B Lead Generation & Qualification",
-    description: "We deliver sales-ready leads with authority, budget, and intent, so your sales team focuses only on opportunities that close.",
+    description: "We identify and connect with decision-makers from companies actively evaluating solutions like yours—verified for intent, authority, and budget alignment.",
     features: [
       { icon: Zap, text: "Sales-ready prospects" },
       { icon: BarChart3, text: "BANT qualification" },
@@ -159,7 +159,7 @@ const services = [
   {
     icon: Share2,
     title: "Intent-Based Demand Generation",
-    description: "We identify active buying signals and deliver content to decision-makers early, making you the clear choice when budgets open.",
+    description: "We detect buying signals and deliver tailored content to in-market buyers—positioning your brand as the trusted choice when purchase decisions are made.",
     features: [
       { icon: Globe, text: "Intent signal monitoring" },
       { icon: Users, text: "Early buyer engagement" },
@@ -174,7 +174,7 @@ const services = [
   {
     icon: Video,
     title: "Event Marketing & Audience Acquisition",
-    description: "We attract ICP-matched decision-makers to your webinars, trade shows, and events—converting attendance into pipeline.",
+    description: "We fill your webinars, field events, and trade shows with qualified decision-makers who have real buying intent—turning attendance into measurable pipeline.",
     features: [
       { icon: Users, text: "ICP-matched attendees" },
       { icon: CheckCircle, text: "Qualified registrations" },
@@ -188,8 +188,8 @@ const services = [
   },
   {
     icon: CheckSquare,
-    title: "Lead Validation & Sales Development Support",
-    description: "We verify every lead with live evidence and BANT checks, ensuring your CRM is filled only with sales-ready contacts.",
+    title: "Lead Validation & Enrichment",
+    description: "We clean, verify, and validate your inbound or event leads—ensuring only genuine, in-market buyers enter your CRM while low-intent contacts are filtered out.",
     features: [
       { icon: Sparkles, text: "Live BANT verification" },
       { icon: CheckCircle, text: "Evidence-based qualification" },

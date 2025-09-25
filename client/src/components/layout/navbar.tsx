@@ -42,8 +42,8 @@ export function Navbar() {
               <Link href="/services/event-marketing-audience-acquisition">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Event Marketing & Audience Acquisition</span>
               </Link>
-              <Link href="/services/lead-validation-sales-development-support">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Validation & Sales Development Support</span>
+              <Link href="/services/lead-validation-enrichment">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Validation & Enrichment</span>
               </Link>
             </div>
           </div>
@@ -125,7 +125,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/lead-validation-sales-development-support" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/lead-validation-enrichment" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -134,8 +134,8 @@ export function Navbar() {
                             </svg>
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Lead Validation & Sales Development Support</div>
-                            <p className="text-xs text-muted-foreground">Verified leads with evidence</p>
+                            <div className="text-sm font-medium">Lead Validation & Enrichment</div>
+                            <p className="text-xs text-muted-foreground">Clean and verify leads</p>
                           </div>
                         </div>
                     </Link>
