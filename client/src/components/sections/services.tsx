@@ -129,7 +129,7 @@ const services = [
   {
     icon: TargetIcon,
     title: "Turn Enterprise Prospects Into Closed Deals",
-    description: "Tired of losing big deals to competitors? We get you in front of the entire buying committee at your dream accounts—before they even start shopping. No more cold outreach. No more being ghosted by decision-makers.",
+    description: "When enterprise deals slip to competitors despite strong solutions, timing and positioning are critical factors. We establish relationships with complete buying committees at target accounts before competitive evaluations begin, ensuring your solution receives proper consideration.",
     features: [
       { icon: Users, text: "Direct access to C-suite" },
       { icon: BarChart3, text: "Deal velocity tracking" },
@@ -144,7 +144,7 @@ const services = [
   {
     icon: LineChart,
     title: "Fill Your Pipeline With Buyers, Not Browsers",
-    description: "Sick of leads that never buy? We find prospects who are actively looking to purchase solutions like yours—with budget approved and timeline in place. No more chasing tire-kickers who waste your sales team's time.",
+    description: "When lead volume doesn't translate to revenue, qualification is the missing element. We identify prospects with active purchasing intent, approved budgets, and defined timelines—delivering only sales-ready opportunities that justify your team's investment.",
     features: [
       { icon: Zap, text: "Ready-to-buy prospects" },
       { icon: BarChart3, text: "Sales-ready scoring" },
@@ -174,7 +174,7 @@ const services = [
   {
     icon: Video,
     title: "Pack Your Events With Qualified Prospects",
-    description: "Tired of events filled with consultants and competitors instead of buyers? We fill your events with decision-makers who have real budgets and genuine buying intent—not just people collecting swag.",
+    description: "When event investments fail to generate qualified pipeline, attendee quality determines ROI. We attract decision-makers with purchasing authority and genuine buying intent, transforming your events into high-value business development opportunities.",
     features: [
       { icon: Users, text: "Executive attendees" },
       { icon: CheckCircle, text: "Pre-qualified registrations" },
@@ -204,7 +204,7 @@ const services = [
   {
     icon: Workflow,
     title: "Turn Marketing Into a Revenue Machine",
-    description: "Frustrated that marketing feels like a cost center instead of a profit driver? Our complete system transforms your marketing into a predictable revenue engine—with full attribution and ROI tracking at every stage.",
+    description: "When marketing investment lacks clear revenue attribution, justifying budget becomes challenging. Our comprehensive system transforms marketing into a measurable revenue engine with complete funnel tracking and definitive ROI demonstration.",
     features: [
       { icon: Zap, text: "Revenue predictability" },
       { icon: Share2, text: "Full-funnel attribution" },
