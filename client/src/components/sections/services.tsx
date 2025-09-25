@@ -144,10 +144,10 @@ const services = [
   {
     icon: LineChart,
     title: "Fill Your Pipeline With Buyers, Not Browsers",
-    description: "When lead volume doesn't translate to revenue, qualification is the missing element. We identify prospects with active purchasing intent, approved budgets, and defined timelines—delivering only sales-ready opportunities that justify your team's investment.",
+    description: "When lead volume doesn't translate to revenue, qualification is the missing element. We identify prospects with active purchasing intent, approved budgets, and defined timelines—delivering only qualified opportunities with genuine interest in your solutions.",
     features: [
       { icon: Zap, text: "Ready-to-buy prospects" },
-      { icon: BarChart3, text: "Sales-ready scoring" },
+      { icon: BarChart3, text: "Intent-based scoring" },
       { icon: TrendingUp, text: "Revenue predictability" }
     ],
     gradients: [
@@ -191,7 +191,7 @@ const services = [
     title: "Stop Your Sales Team From Chasing Ghosts",
     description: "Sales team frustrated with leads that never respond or convert? We pre-qualify every prospect for budget, authority, need, and timeline before they hit your CRM. No more wasted calls or follow-ups.",
     features: [
-      { icon: Sparkles, text: "Sales-ready prospects only" },
+      { icon: Sparkles, text: "Pre-qualified prospects only" },
       { icon: CheckCircle, text: "BANT pre-verified" },
       { icon: TrendingUp, text: "Faster deal velocity" }
     ],

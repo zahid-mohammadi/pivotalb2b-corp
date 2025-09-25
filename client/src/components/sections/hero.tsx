@@ -250,7 +250,7 @@ export function Hero() {
             transition={{ delay: 0.4, duration: 0.7 }}
             className="text-base md:text-xl text-white/90 mb-6 md:mb-8 leading-relaxed"
           >
-When your marketing budget demands measurable results, every lead must count. We identify your exact buyer profile, engage them with strategic content that drives decisions, and deliver sales-ready prospects with verified intent—guaranteed.
+When your marketing budget demands measurable results, every lead must count. We identify your exact buyer profile, engage them with strategic content that drives decisions, and deliver qualified prospects actively evaluating solutions like yours—guaranteed.
           </motion.p>
 
           <motion.div
