@@ -197,7 +197,7 @@ export function Testimonials() {
             >
               Get Your Free Revenue Audit →
             </motion.button>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
