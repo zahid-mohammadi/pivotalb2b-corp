@@ -24,9 +24,4 @@ const services = [
     title: "Lead Validation & Sales Development Support", 
     description: "We verify every lead with live evidence and BANT checks, ensuring your CRM is filled only with sales-ready contacts.",
   },
-  {
-    slug: "marketing-operations-revenue-attribution",
-    title: "Marketing Operations & Revenue Attribution",
-    description: "We implement clean funnel tracking, dashboards, and attribution so every marketing dollar can be tied back to revenue.",
-  },
 ];

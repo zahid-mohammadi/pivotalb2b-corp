@@ -201,21 +201,6 @@ const services = [
     ],
     highlight: "Sales team productivity up 190%"
   },
-  {
-    icon: Workflow,
-    title: "Marketing Operations & Revenue Attribution",
-    description: "We implement clean funnel tracking, dashboards, and attribution so every marketing dollar can be tied back to revenue.",
-    features: [
-      { icon: Zap, text: "Full-funnel tracking" },
-      { icon: Share2, text: "Multi-touch attribution" },
-      { icon: TrendingUp, text: "Executive dashboards" }
-    ],
-    gradients: [
-      "from-cyan-600/30 via-blue-500/30 to-indigo-500/20",
-      "from-indigo-500/20 via-blue-500/30 to-cyan-600/30"
-    ],
-    highlight: "Marketing ROI improved 420%"
-  }
 ];
 
 const calendlyUrl = "https://calendly.com/zahid-m/30min";
