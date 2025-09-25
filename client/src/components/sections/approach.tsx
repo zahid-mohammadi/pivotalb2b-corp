@@ -2,11 +2,9 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import {
   CheckCircle,
-  ChevronRight,
   ArrowRight,
   Lightbulb,
   Target,
-  UserCheck,
 } from "lucide-react";
 import { ResearchStrategyIcon } from "@/components/animated-icons/research-strategy";
 import { ContentEngagementIcon } from "@/components/animated-icons/content-engagement";
@@ -275,94 +273,6 @@ export function Approach() {
           ))}
         </div>
 
-        {/* Results Overview Cards */}
-        <motion.div
-          className="mt-20 md:mt-24"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-        >
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text">
-              Proven Results That Drive Success
-            </h3>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-              Our approach consistently delivers measurable improvements in key pipeline metrics
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                value: "20%",
-                label: "Pipeline Efficiency Gains",
-                icon: Target,
-                color: "#4F46E5",
-                delay: 0
-              },
-              {
-                value: "2.5x",
-                label: "Lead Quality Improvement",
-                icon: UserCheck,
-                color: "#8B5CF6",
-                delay: 0.1
-              },
-              {
-                value: "45%",
-                label: "Lower Cost per Lead",
-                icon: ChevronRight,
-                color: "#A855F7",
-                delay: 0.2
-              },
-              {
-                value: "99%",
-                label: "Sales Acceptance",
-                icon: CheckCircle,
-                color: "#EC4899",
-                delay: 0.3
-              }
-            ].map((stat, index) => (
-              <motion.div
-                key={index}
-                className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-lg"
-                initial={{ opacity: 0, y: 30 }}
-                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.5, delay: stat.delay }}
-                whileHover={{ 
-                  y: -10,
-                  transition: { duration: 0.2 }
-                }}
-              >
-                <div 
-                  className="h-2 w-full"
-                  style={{ backgroundColor: stat.color }}
-                />
-                
-                <div className="p-6">
-                  <div 
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 mx-auto"
-                    style={{ backgroundColor: `${stat.color}15` }}
-                  >
-                    <stat.icon style={{ color: stat.color }} className="w-8 h-8" />
-                  </div>
-                  
-                  <motion.h4
-                    className="text-4xl font-bold mb-2 text-center"
-                    style={{ color: stat.color }}
-                    initial={{ scale: 1 }}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {stat.value}
-                  </motion.h4>
-                  
-                  <p className="text-slate-600 dark:text-slate-400 text-center">
-                    {stat.label}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
       </div>
     </section>
   );
