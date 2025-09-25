@@ -133,7 +133,7 @@ return (
             className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/20"
           >
             <Globe className="h-6 w-6 text-blue-300" />
-            <span className="text-lg">135+ Million Professional Profiles</span>
+            <span className="text-lg">135M+ Verified Professional Profiles</span>
           </motion.div>
 
           <motion.h1
@@ -142,7 +142,7 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            Connect with Your Ideal B2B Audience
+            Reach the Decision-Makers Who Matter
           </motion.h1>
           <motion.p
             className="text-xl text-white/80 mb-8 leading-relaxed max-w-3xl"
@@ -150,7 +150,7 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            Leverage our precision targeting capabilities to reach decision-makers across industries, company sizes, and job functions.
+            Our precision targeting helps you connect directly with the right companies and professionals—across industries, geographies, and seniority levels.
           </motion.p>
         </motion.div>
       </div>
@@ -184,32 +184,32 @@ return (
             {[
               {
                 icon: Building2,
-                title: "Company Information",
-                items: ["Company Name", "Company Size", "Revenue Range", "Growth Stage"],
+                title: "Company Data",
+                items: ["Name", "Size", "Revenue", "Growth Stage"],
                 iconBg: "bg-sky-500/30",
                 glowColor: "shadow-sky-500",
                 iconColor: "text-sky-100"
               },
               {
                 icon: MapPin,
-                title: "Geography & Location",
-                items: ["Global Region", "Country", "State/Province", "City"],
+                title: "Geography",
+                items: ["Region", "Country", "State", "City"],
                 iconBg: "bg-emerald-500/30",
                 glowColor: "shadow-emerald-500",
                 iconColor: "text-emerald-100"
               },
               {
                 icon: Database,
-                title: "Industry Targeting",
-                items: ["Industry Classification", "Business Model", "Market Segment", "Company Maturity"],
+                title: "Industry",
+                items: ["Sector", "Model", "Segment", "Maturity"],
                 iconBg: "bg-amber-500/30",
                 glowColor: "shadow-amber-500",
                 iconColor: "text-amber-100"
               },
               {
                 icon: Laptop,
-                title: "Technology Stack",
-                items: ["Tech Stack", "Digital Infrastructure", "Software Categories", "Implementation Stage"],
+                title: "Tech Stack",
+                items: ["Software", "Digital Infrastructure"],
                 iconBg: "bg-rose-500/30",
                 glowColor: "shadow-rose-500",
                 iconColor: "text-rose-100"
@@ -323,21 +323,21 @@ return (
                 {
                   icon: Target,
                   title: "Role & Seniority",
-                  items: ["Job Title", "Seniority Level", "Department", "Authority"],
+                  items: ["Title", "Department", "Authority"],
                   iconBg: "bg-blue-500/30",
                   iconColor: "text-blue-200"
                 },
                 {
                   icon: Filter,
-                  title: "Experience & Skills",
-                  items: ["Years of Experience", "Skills", "Education", "Groups"],
+                  title: "Skills & Experience",
+                  items: ["Education", "Networks", "Expertise"],
                   iconBg: "bg-purple-500/30",
                   iconColor: "text-purple-200"
                 },
                 {
                   icon: Network,
-                  title: "Engagement & Behavior",
-                  items: ["Content Interaction", "Platform Usage", "Event Participation", "Research"],
+                  title: "Behavior & Intent",
+                  items: ["Content Engagement", "Event Participation", "Research Activity"],
                   iconBg: "bg-indigo-500/30",
                   iconColor: "text-indigo-200"
                 }
@@ -510,9 +510,9 @@ return (
           </div>
 
           <div className="relative">
-            <h2 className="text-3xl font-bold mb-4">Ready to Reach Your Ideal B2B Audience?</h2>
+            <h2 className="text-3xl font-bold mb-4">Ready to Target With Precision?</h2>
             <p className="text-white/80 mb-8 max-w-2xl mx-auto">
-              Connect with decision-makers and drive meaningful engagement with our precision targeting capabilities.
+              Expand reach, increase engagement, and connect with the exact B2B audience that drives your growth.
             </p>
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -524,7 +524,7 @@ return (
                 onClick={() => window.location.href = '/request-proposal'}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <span className="relative">Request a Proposal</span>
+                <span className="relative">Get Started Today</span>
               </Button>
             </motion.div>
           </div>

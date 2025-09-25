@@ -1,28 +1,32 @@
 const services = [
   {
-    slug: "account-based-marketing", 
-    title: "Account-Based Marketing (ABM)",
-    description: "Smarter engagement with buying groups at high-value accounts. Our targeted strategies personalize outreach, foster consensus among decision-makers, and accelerate sales cycles to drive success for your key accounts.",
+    slug: "account-based-marketing-abm-programs", 
+    title: "Account-Based Marketing (ABM) Programs",
+    description: "We engage entire buying committees at target accounts before evaluations begin, positioning your solution as the trusted choice.",
   },
   {
-    slug: "strategic-lead-generation",
-    title: "Strategic Lead Generation", 
-    description: "Capture high-intent opt-in leads with tailored multi-channel campaigns. We attract and convert prospects across platforms, delivering qualified leads ready to engage and aligned with your goals.",
+    slug: "b2b-lead-generation-qualification",
+    title: "B2B Lead Generation & Qualification", 
+    description: "We deliver sales-ready leads with authority, budget, and intent, so your sales team focuses only on opportunities that close.",
   },
   {
-    slug: "content-syndication",
-    title: "Content Syndication",
-    description: "Connect with ideal buyers and elevate branded demand. We distribute your content across curated channels to boost reach, strengthen brand awareness, and spark interest in your offerings.",
+    slug: "intent-based-demand-generation",
+    title: "Intent-Based Demand Generation",
+    description: "We identify active buying signals and deliver content to decision-makers early, making you the clear choice when budgets open.",
   },
   {
-    slug: "event-marketing",
-    title: "Event Marketing",
-    description: "Maximize ideal customer registrations and event attendance. Our campaigns promote and manage virtual or in-person events, ensuring strong turnout and impactful experiences for your audience.",
+    slug: "event-marketing-audience-acquisition",
+    title: "Event Marketing & Audience Acquisition",
+    description: "We attract ICP-matched decision-makers to your webinars, trade shows, and events—converting attendance into pipeline.",
   },
   {
-    slug: "lead-qualification",
-    title: "Lead Qualification", 
-    description: "Prioritize leads with high conversion potential for sales teams using BANT criteria. We evaluate prospects for fit, intent, and readiness, refining your pipeline to boost efficiency and achieve stronger results.",
+    slug: "lead-validation-sales-development-support",
+    title: "Lead Validation & Sales Development Support", 
+    description: "We verify every lead with live evidence and BANT checks, ensuring your CRM is filled only with sales-ready contacts.",
   },
-  // Add other services here...
+  {
+    slug: "marketing-operations-revenue-attribution",
+    title: "Marketing Operations & Revenue Attribution",
+    description: "We implement clean funnel tracking, dashboards, and attribution so every marketing dollar can be tied back to revenue.",
+  },
 ];
