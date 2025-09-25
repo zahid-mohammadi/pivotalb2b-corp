@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   CheckCircle,
   ArrowRight,
@@ -13,9 +13,8 @@ import { cn } from "@/lib/utils";
 
 export function Approach() {
   const containerRef = useRef<HTMLDivElement>(null);
-  // Changed to once: true so animations trigger immediately when visible
-  // and increased threshold amount for earlier triggering
   const isInView = useInView(containerRef, { once: true, amount: 0.1 });
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const steps = [
     {
@@ -24,14 +23,12 @@ export function Approach() {
       subtitle: "Your Ideal Buyers",
       description:
 "Is your sales team chasing prospects without authority or budget? We cut the noise by identifying companies with live buying signals, approved budgets, and decision-makers who matter—so your team focuses only on opportunities that can convert.",
-      color: "#4F46E5", // indigo-600
-      highlightColor: "text-indigo-600 dark:text-indigo-400",
-      benefit:
-        "Eliminate wasted outreach. Target only real buyers.",
-      iconBg: "bg-indigo-100 dark:bg-indigo-950/40",
-      borderColor: "border-indigo-200 dark:border-indigo-800",
-      gradientFrom: "from-indigo-600",
-      gradientTo: "to-violet-600",
+      color: "#4F46E5",
+      gradient: "from-indigo-500 to-blue-600",
+      bgGradient: "from-indigo-50 to-blue-50",
+      benefit: "Eliminate wasted outreach. Target only real buyers.",
+      metric: "3x Higher Quality",
+      tools: ["Intent Monitoring", "BANT Verification", "Account Mapping"]
     },
     {
       icon: ContentEngagementIcon,
@@ -39,14 +36,12 @@ export function Approach() {
       subtitle: "With Authority",
       description:
 "If prospects disengage, it's rarely about interest—it's about value. We elevate your brand as a trusted advisor by delivering insight-driven content that speaks directly to buyer pain points, keeping you top-of-mind until they're ready to act.",
-      color: "#8B5CF6", // violet-500
-      highlightColor: "text-violet-600 dark:text-violet-400",
-      benefit:
-        "Build trust and win preference—without competing on price.",
-      iconBg: "bg-violet-100 dark:bg-violet-950/40",
-      borderColor: "border-violet-200 dark:border-violet-800",
-      gradientFrom: "from-violet-600",
-      gradientTo: "to-purple-600",
+      color: "#8B5CF6",
+      gradient: "from-violet-500 to-purple-600",
+      bgGradient: "from-violet-50 to-purple-50",
+      benefit: "Build trust and win preference—without competing on price.",
+      metric: "85% Response Rate",
+      tools: ["Content Strategy", "Multi-Channel", "Thought Leadership"]
     },
     {
       icon: ScaleGrowthIcon,
@@ -54,225 +49,287 @@ export function Approach() {
       subtitle: "Deals That Move the Needle",
       description:
 "When revenue stalls, the problem isn't sales effort—it's lead quality. Our pre-qualified leads meet strict BANT criteria so your sales team focuses only on deals worth closing.",
-      color: "#EC4899", // pink-500
-      highlightColor: "text-pink-600 dark:text-pink-400",
-      benefit:
-        "Higher close rates, shorter cycles, consistent quota achievement.",
-      iconBg: "bg-pink-100 dark:bg-pink-950/40",
-      borderColor: "border-pink-200 dark:border-pink-800",
-      gradientFrom: "from-purple-600",
-      gradientTo: "to-pink-600",
+      color: "#EC4899",
+      gradient: "from-pink-500 to-rose-600",
+      bgGradient: "from-pink-50 to-rose-50",
+      benefit: "Higher close rates, shorter cycles, consistent quota achievement.",
+      metric: "40% Faster Cycles",
+      tools: ["Pipeline Review", "Deal Coaching", "Revenue Ops"]
     },
   ];
 
-  return (
-    <section className="relative py-24 overflow-hidden bg-white dark:bg-slate-950">
+  // Auto-cycle through steps
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % steps.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
 
+  return (
+    <section className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/30">
       <div 
-        className="container relative mx-auto px-4 max-w-6xl z-10 position-relative" 
+        className="container relative mx-auto px-4 max-w-7xl z-10" 
         ref={containerRef}
-        style={{ position: 'relative' }}
       >
         {/* Section Header */}
         <motion.div
-          className="text-center mb-16 md:mb-24 relative"
+          className="text-center mb-20 relative"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="inline-flex flex-col items-center">
-            <div className="inline-flex items-center justify-center px-4 py-1.5 mb-4 rounded-full bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50">
-              <Lightbulb className="w-4 h-4 mr-2" />
-              <span className="text-sm font-medium">Our Process</span>
-            </div>
-
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight max-w-4xl mb-6">
-              How We Turn Marketing Spend Into Revenue Growth
-            </h2>
-
-            <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full mb-6" />
-
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
-              Stop guessing. Stop hoping. Our proven 3-step system transforms your marketing budget into measurable, repeatable revenue outcomes.
-            </p>
+          <div className="inline-flex items-center justify-center px-6 py-3 mb-6 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-950 dark:to-purple-950 border border-indigo-200 dark:border-indigo-800">
+            <Lightbulb className="w-5 h-5 mr-3 text-indigo-600 dark:text-indigo-400" />
+            <span className="text-sm font-semibold text-indigo-800 dark:text-indigo-300 tracking-wide">OUR REVENUE PROCESS</span>
           </div>
+
+          <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight mb-8">
+            From Prospects to Pipeline to Profit
+          </h2>
+
+          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto leading-relaxed">
+            Our systematic approach transforms your marketing spend into measurable revenue outcomes through targeted precision.
+          </p>
         </motion.div>
 
-        {/* Modern Vertical Timeline with Connected Nodes */}
-        <div className="relative py-10">
-          {/* Central Visual Connector - Visible on all screens */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2">
-            <div className="h-full w-full bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 rounded-full" />
-          </div>
-
-          {/* Timeline Steps */}
-          {steps.map((step, index) => (
-            <motion.div
-              key={index}
-              className={cn(
-                "relative flex flex-col md:flex-row md:items-center gap-8 mb-16 md:mb-32 last:mb-0 z-10",
-                index % 2 === 1 ? "md:flex-row-reverse" : ""
-              )}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                duration: 0.7, 
-                delay: index * 0.2,
-                ease: "easeOut" 
-              }}
-            >
-              {/* Central Node */}
-              <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
-                <motion.div
-                  className="w-16 h-16 rounded-full border-4 border-white dark:border-slate-900 flex items-center justify-center text-xl font-bold text-white relative"
-                  style={{ backgroundColor: step.color }}
-                  initial={{ scale: 0.8 }}
-                  animate={{ 
-                    scale: [0.8, 1, 0.8],
-                    boxShadow: [
-                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0)`,
-                      `0 0 30px rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0.5)`,
-                      `0 0 0 rgba(${index === 0 ? '79, 70, 229' : index === 1 ? '139, 92, 246' : '236, 72, 153'}, 0)`
-                    ]
-                  }}
-                  transition={{ 
-                    duration: 3, 
-                    repeat: Infinity,
-                    repeatType: "reverse"
-                  }}
-                >
-                  {index + 1}
-                  
-                  {/* Ripple Effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-full border-2 border-white/30"
-                    initial={{ scale: 0.8, opacity: 0.8 }}
-                    animate={{ scale: 2, opacity: 0 }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                </motion.div>
+        {/* Interactive Revenue Dashboard */}
+        <div className="relative">
+          {/* Main Pipeline Container */}
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-3xl border border-slate-200/50 dark:border-slate-700/50 p-8 md:p-12 shadow-2xl">
+            
+            {/* Pipeline Flow Header */}
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Revenue Pipeline Control Center</h3>
+                <p className="text-slate-600 dark:text-slate-400">Watch your leads transform into revenue</p>
               </div>
-              
-              {/* Content Card */}
-              <div className={cn(
-                "w-full md:w-5/12 ml-auto md:ml-0 pl-10 md:pl-0",
-                index % 2 === 1 ? "md:ml-auto md:text-right" : "md:mr-auto"
-              )}>
+              <div className="hidden md:flex items-center gap-2">
+                {steps.map((_, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => setActiveStep(index)}
+                    className={cn(
+                      "w-3 h-3 rounded-full transition-all duration-300",
+                      activeStep === index ? "bg-indigo-500 scale-125" : "bg-slate-300 dark:bg-slate-600"
+                    )}
+                    whileHover={{ scale: 1.2 }}
+                    whileTap={{ scale: 0.9 }}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Interactive Process Flow */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+              {steps.map((step, index) => (
                 <motion.div
+                  key={index}
                   className={cn(
-                    "bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border",
-                    step.borderColor
+                    "relative cursor-pointer group",
+                    activeStep === index ? "z-20" : "z-10"
                   )}
-                  whileHover={{ 
-                    y: -10,
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  onClick={() => setActiveStep(index)}
+                  whileHover={{ scale: 1.02 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
                 >
-                  {/* Card Header with Gradient */}
-                  <div className={cn(
-                    "p-6 bg-gradient-to-r", 
-                    step.gradientFrom, 
-                    step.gradientTo
-                  )}>
-                    <div className="flex items-center gap-3">
-                      <div className={cn(
-                        "p-2 rounded-lg", 
-                        step.iconBg
-                      )}>
+                  {/* Connection Line */}
+                  {index < steps.length - 1 && (
+                    <div className="hidden lg:block absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 z-0">
+                      <motion.div
+                        className="w-8 h-0.5 bg-gradient-to-r from-slate-300 to-slate-400 dark:from-slate-600 dark:to-slate-500"
+                        animate={{
+                          background: activeStep >= index 
+                            ? "linear-gradient(to right, #4F46E5, #8B5CF6)" 
+                            : "linear-gradient(to right, #cbd5e1, #94a3b8)"
+                        }}
+                        transition={{ duration: 0.5 }}
+                      />
+                      <motion.div
+                        className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
+                        style={{ backgroundColor: step.color }}
+                        animate={{
+                          scale: activeStep >= index ? [1, 1.5, 1] : 1,
+                          opacity: activeStep >= index ? [1, 0.7, 1] : 0.3
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    </div>
+                  )}
+
+                  {/* Process Card */}
+                  <div
+                    className={cn(
+                      "relative rounded-2xl border-2 transition-all duration-500 overflow-hidden",
+                      activeStep === index 
+                        ? "border-indigo-500 shadow-2xl transform scale-105" 
+                        : "border-slate-200 dark:border-slate-700 shadow-lg hover:border-slate-300"
+                    )}
+                  >
+                    {/* Animated Background */}
+                    <motion.div
+                      className={cn("absolute inset-0 bg-gradient-to-br", step.bgGradient)}
+                      animate={{
+                        opacity: activeStep === index ? 0.1 : 0.05
+                      }}
+                      transition={{ duration: 0.5 }}
+                    />
+                    
+                    {/* Card Content */}
+                    <div className="relative p-6">
+                      {/* Step Number & Icon */}
+                      <div className="flex items-center justify-between mb-4">
                         <motion.div
-                          animate={{ rotate: [0, 5, -5, 0] }}
-                          transition={{ 
-                            duration: 5, 
-                            repeat: Infinity,
-                            repeatType: "reverse" 
+                          className={cn(
+                            "w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg",
+                            `bg-gradient-to-r ${step.gradient}`
+                          )}
+                          animate={{
+                            scale: activeStep === index ? [1, 1.1, 1] : 1,
+                            rotate: activeStep === index ? [0, 5, -5, 0] : 0
                           }}
+                          transition={{ 
+                            duration: activeStep === index ? 2 : 0.5,
+                            repeat: activeStep === index ? Infinity : 0
+                          }}
+                        >
+                          {index + 1}
+                        </motion.div>
+                        
+                        <motion.div
+                          className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50"
+                          animate={{ rotate: activeStep === index ? 360 : 0 }}
+                          transition={{ duration: 2, repeat: activeStep === index ? Infinity : 0, ease: "linear" }}
                         >
                           <step.icon />
                         </motion.div>
                       </div>
-                      <div>
-                        <h3 className="text-white text-2xl font-bold">
+
+                      {/* Title & Metric */}
+                      <div className="mb-4">
+                        <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
                           {step.title}
-                        </h3>
-                        <p className="text-white/90 text-sm">
+                        </h4>
+                        <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
                           {step.subtitle}
                         </p>
+                        <motion.div
+                          className={cn(
+                            "inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold",
+                            activeStep === index 
+                              ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200"
+                              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
+                          )}
+                          animate={{
+                            scale: activeStep === index ? [1, 1.05, 1] : 1
+                          }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          🎯 {step.metric}
+                        </motion.div>
+                      </div>
+
+                      {/* Tools List */}
+                      <div className="space-y-2">
+                        {step.tools.map((tool, toolIndex) => (
+                          <motion.div
+                            key={toolIndex}
+                            className="flex items-center gap-2 text-sm"
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ 
+                              opacity: activeStep === index ? 1 : 0.6,
+                              x: 0 
+                            }}
+                            transition={{ 
+                              duration: 0.3, 
+                              delay: activeStep === index ? toolIndex * 0.1 : 0 
+                            }}
+                          >
+                            <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                            <span className="text-slate-700 dark:text-slate-300">{tool}</span>
+                          </motion.div>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                  
-                  {/* Card Content */}
-                  <div className="p-6">
-                    <p className="text-slate-600 dark:text-slate-300 mb-6">
-                      {step.description}
-                    </p>
-                    
-                    {/* Benefit Tag */}
-                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
-                      <CheckCircle 
-                        className="w-5 h-5 flex-shrink-0" 
-                        style={{ color: step.color }} 
+
+                    {/* Progress Bar */}
+                    <div className="h-1 bg-slate-200 dark:bg-slate-700">
+                      <motion.div
+                        className={cn("h-full bg-gradient-to-r", step.gradient)}
+                        animate={{
+                          width: activeStep === index ? "100%" : "0%"
+                        }}
+                        transition={{ duration: 0.8, ease: "easeInOut" }}
                       />
-                      <p className="text-sm" style={{ color: step.color }}>
-                        <strong>Key Benefit:</strong> {step.benefit}
-                      </p>
                     </div>
                   </div>
-                  
-                  {/* Arrow connector to next step */}
-                  {index < steps.length - 1 && (
-                    <motion.div 
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Active Step Details */}
+            <motion.div
+              key={activeStep}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-8"
+            >
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                    {steps[activeStep].title}: {steps[activeStep].subtitle}
+                  </h4>
+                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                    {steps[activeStep].description}
+                  </p>
+                  <div className="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                    <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
+                    <p className="text-slate-800 dark:text-slate-200 font-medium">
+                      {steps[activeStep].benefit}
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Visual Representation */}
+                <div className="flex items-center justify-center">
+                  <motion.div
+                    className="relative w-48 h-48"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <div
                       className={cn(
-                        "absolute hidden md:block",
-                        index % 2 === 0 ? "right-0 bottom-8 translate-x-full" : "left-0 bottom-8 -translate-x-full"
+                        "absolute inset-0 rounded-full border-4 border-dashed",
+                        activeStep === 0 ? "border-indigo-300" : activeStep === 1 ? "border-violet-300" : "border-pink-300"
                       )}
-                      animate={{ x: index % 2 === 0 ? [10, 20, 10] : [-10, -20, -10] }}
+                    />
+                    <motion.div
+                      className={cn(
+                        "absolute inset-4 rounded-full flex items-center justify-center bg-gradient-to-br",
+                        steps[activeStep].bgGradient
+                      )}
+                      animate={{ scale: [1, 1.1, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
-                      <ArrowRight 
-                        className={cn(
-                          "w-8 h-8",
-                          index === 0 ? "text-indigo-500" : "text-violet-500"
-                        )}
-                      />
+                      {/* Render active step icon */}
+                      {(() => {
+                        const ActiveIcon = steps[activeStep].icon;
+                        return (
+                          <div className="w-16 h-16 flex items-center justify-center" style={{ color: steps[activeStep].color }}>
+                            <ActiveIcon />
+                          </div>
+                        );
+                      })()}
                     </motion.div>
-                  )}
-                </motion.div>
-              </div>
-              
-              {/* Process Step Illustration (for medium and larger screens) */}
-              <div className={cn(
-                "hidden md:block w-5/12 relative",
-                index % 2 === 1 ? "mr-auto" : "ml-auto"
-              )}>
-                <motion.div
-                  className={cn(
-                    "aspect-square rounded-full flex items-center justify-center",
-                    step.iconBg,
-                    index % 2 === 1 ? "ml-auto mr-8" : "mr-auto ml-8"
-                  )}
-                  style={{ width: "75%" }}
-                  initial={{ scale: 0.9, opacity: 0.7 }}
-                  whileHover={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {/* Each step gets a different illustration */}
-                  {index === 0 && (
-                    <DiscoverAnimation />
-                  )}
-                  {index === 1 && (
-                    <EngageAnimation />
-                  )}
-                  {index === 2 && (
-                    <ConvertAnimation />
-                  )}
-                </motion.div>
+                  </motion.div>
+                </div>
               </div>
             </motion.div>
-          ))}
+          </div>
         </div>
-
       </div>
     </section>
   );
