@@ -10,27 +10,27 @@ export function Testimonials() {
   const testimonials = [
     {
       quote: "We scaled from 12 leads a month to 180+ qualified prospects in 90 days. The pipeline growth has been transformational.",
-      author: "Sarah Chen",
+      author: "S.C.",
       role: "VP Sales",
-      company: "TechFlow Solutions",
+      company: "Fortune 500 SaaS Company",
       revenue: "$2.4M",
       metric: "Pipeline added in 6 months",
       avatar: "SC"
     },
     {
       quote: "Our cost per acquisition dropped 60% while deal sizes grew 40%. This is marketing that finally delivers revenue.",
-      author: "Michael Rodriguez",
+      author: "M.R.",
       role: "CMO",
-      company: "DataCore Systems", 
+      company: "Enterprise Data Platform", 
       revenue: "340%",
       metric: "ROI improvement",
       avatar: "MR"
     },
     {
       quote: "Every lead now comes pre-qualified with budget and timeline. Our close rate climbed from 8% to 31%.",
-      author: "Jennifer Park",
+      author: "J.P.",
       role: "CEO",
-      company: "CloudScale Industries",
+      company: "Cloud Infrastructure Leader",
       revenue: "31%",
       metric: "Close rate achieved",
       avatar: "JP"
