@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion, useAnimationControls, useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   LineChart,
   Share2,
@@ -223,8 +223,22 @@ const calendlyUrl = "https://calendly.com/zahid-m/30min";
 export function Services() {
   // Scroll-triggered animations
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
+  const isInView = useInView(sectionRef, { once: false, amount: 0.1 }); // Reduced threshold for mobile
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  
+  // Check if user is on mobile device
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   return (
     <section 
@@ -295,21 +309,23 @@ export function Services() {
             <motion.div
               key={index}
               variants={cardVariants}
-              whileHover="hover"
-              whileTap="tap"
-              onHoverStart={() => setActiveIndex(index)}
-              onHoverEnd={() => setActiveIndex(null)}
+              whileHover={!isMobile ? "hover" : undefined}
+              whileTap={!isMobile ? "tap" : undefined}
+              onHoverStart={() => !isMobile && setActiveIndex(index)}
+              onHoverEnd={() => !isMobile && setActiveIndex(null)}
               className="flex transform-gpu"
             >
-              <div className="relative w-full h-full perspective-1000">
-                {/* Card with 3D hover effect */}
+              <div className="relative w-full h-full">
+                {/* Card with simplified mobile animations */}
                 <motion.div
                   className="relative w-full h-full"
-                  style={{ transformStyle: "preserve-3d" }}
-                  whileHover={{ 
+                  style={isMobile ? {} : { transformStyle: "preserve-3d" }}
+                  whileHover={!isMobile ? { 
                     rotateY: [-1, 3, 0], 
                     rotateX: [1, -2, 0],
                     z: 10,
+                  } : {
+                    scale: 1.02
                   }}
                   transition={{ 
                     type: "spring", 
@@ -332,7 +348,7 @@ export function Services() {
                       animate-morph-gradient
                     `}></div>
                     
-                    {/* Floating icon element with glow effect */}
+                    {/* Floating icon element with simplified mobile effects */}
                     <div className="relative flex justify-center mt-[-25px] sm:mt-[-30px]">
                       <motion.div
                         className={`
@@ -340,14 +356,14 @@ export function Services() {
                           shadow-xl border border-white/80
                           bg-gradient-to-br from-white to-white/90
                         `}
-                        animate={{ 
+                        animate={!isMobile ? { 
                           y: [0, -2, 0],
                           boxShadow: [
                             '0 10px 25px rgba(0, 0, 0, 0.1)', 
                             '0 20px 25px rgba(0, 0, 0, 0.12)', 
                             '0 10px 25px rgba(0, 0, 0, 0.1)'
                           ]
-                        }}
+                        } : {}}
                         transition={{ 
                           duration: 4, 
                           repeat: Infinity, 
@@ -355,21 +371,23 @@ export function Services() {
                         }}
                       >
                         <div className="relative">
-                          <motion.div 
-                            className={`
-                              absolute inset-0 rounded-[16px] opacity-30
-                              bg-gradient-to-r ${service.gradients[0].replace('/20', '/60').replace('/30', '/70')}
-                              blur-[10px] -z-10
-                            `}
-                            animate={{ 
-                              opacity: [0.3, 0.5, 0.3]
-                            }}
-                            transition={{ 
-                              duration: 4, 
-                              repeat: Infinity, 
-                              repeatType: "reverse"
-                            }}
-                          />
+                          {!isMobile && (
+                            <motion.div 
+                              className={`
+                                absolute inset-0 rounded-[16px] opacity-30
+                                bg-gradient-to-r ${service.gradients[0].replace('/20', '/60').replace('/30', '/70')}
+                                blur-[10px] -z-10
+                              `}
+                              animate={{ 
+                                opacity: [0.3, 0.5, 0.3]
+                              }}
+                              transition={{ 
+                                duration: 4, 
+                                repeat: Infinity, 
+                                repeatType: "reverse"
+                              }}
+                            />
+                          )}
                           <service.icon className="h-12 w-12 text-primary" />
                         </div>
                       </motion.div>
@@ -385,8 +403,8 @@ export function Services() {
                             h-1 rounded-full
                             bg-gradient-to-r ${service.gradients[0].replace('/20', '/60').replace('/30', '/70')}
                           `}
-                          initial={{ width: 0 }}
-                          animate={activeIndex === index ? { width: '100%' } : { width: '30%' }}
+                          initial={{ width: isMobile ? '30%' : 0 }}
+                          animate={!isMobile && activeIndex === index ? { width: '100%' } : { width: '30%' }}
                           transition={{ 
                             duration: 0.8, 
                             ease: "easeOut" 
@@ -405,7 +423,7 @@ export function Services() {
                           border border-primary/10 flex items-center font-medium
                         `}
                         initial={{ opacity: 0.7, y: 10 }}
-                        animate={activeIndex === index ? 
+                        animate={!isMobile && activeIndex === index ? 
                           { opacity: 1, y: 0, scale: 1.02 } : 
                           { opacity: 0.9, y: 0, scale: 1 }
                         }
@@ -434,11 +452,11 @@ export function Services() {
                         <motion.span
                           className="ml-2 flex items-center"
                           animate={{ 
-                            x: activeIndex === index ? [0, 5, 0] : 0,
+                            x: !isMobile && activeIndex === index ? [0, 5, 0] : 0,
                           }}
                           transition={{ 
                             duration: 1.2, 
-                            repeat: activeIndex === index ? Infinity : 0, 
+                            repeat: !isMobile && activeIndex === index ? Infinity : 0, 
                             repeatType: "reverse"
                           }}
                         >
