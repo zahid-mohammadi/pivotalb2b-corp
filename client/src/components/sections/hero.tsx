@@ -232,7 +232,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-purple-600/30 hover:border-pink-600/50 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary via-purple-600 to-pink-600 animate-pulse" />
-            <span className="text-sm text-white/90">Stop Wasting Budget on Unqualified Leads</span>
+            <span className="text-sm text-white/90">Stop Losing Revenue to Poor Lead Quality</span>
           </motion.div>
 
           <motion.h1
@@ -241,7 +241,7 @@ export function Hero() {
             transition={{ delay: 0.3, duration: 0.7 }}
             className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight"
           >
-            Turn Your Marketing Budget Into <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 text-transparent bg-clip-text">Predictable Revenue</span>
+            Turn Every Marketing Dollar Into <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 text-transparent bg-clip-text">Predictable Revenue</span>
           </motion.h1>
 
           <motion.p
@@ -250,7 +250,7 @@ export function Hero() {
             transition={{ delay: 0.4, duration: 0.7 }}
             className="text-base md:text-xl text-white/90 mb-6 md:mb-8 leading-relaxed"
           >
-When your marketing budget demands measurable results, every lead must count. We identify your exact buyer profile, engage them with strategic content that drives decisions, and deliver qualified prospects actively evaluating solutions like yours—guaranteed.
+When measurable results matter, lead quality is everything. We identify your ideal buyer profile, connect with them through content that builds trust, and deliver decision-ready prospects actively evaluating solutions like yours—guaranteed.
           </motion.p>
 
           <motion.div
@@ -266,7 +266,7 @@ When your marketing budget demands measurable results, every lead must count. We
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
               <span className="relative flex items-center font-semibold">
-                Get Your Free Revenue Audit
+                Request Your Free Revenue Audit
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </span>
             </Button>
@@ -276,7 +276,7 @@ When your marketing budget demands measurable results, every lead must count. We
               className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-purple-600/60 text-white text-lg px-8 py-4"
               onClick={() => window.location.href = '/request-proposal'}
             >
-              See Case Studies
+              Explore Case Studies
             </Button>
           </motion.div>
 
@@ -292,11 +292,11 @@ When your marketing budget demands measurable results, every lead must count. We
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-green-400" />
-              <span>90-day revenue guarantee</span>
+              <span>90-day performance guarantee</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-green-400" />
-              <span>Setup in 72 hours</span>
+              <span>Campaigns live in 72 hours</span>
             </div>
           </motion.div>
 
@@ -307,9 +307,9 @@ When your marketing budget demands measurable results, every lead must count. We
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
           >
             {[
-              { icon: Target, metric: "300%", label: "Higher Quality Leads", subtitle: "vs. traditional methods" },
-              { icon: TrendingUp, metric: "$2.5M", label: "Average Revenue Impact", subtitle: "for our clients in Year 1" },
-              { icon: Clock, metric: "72hrs", label: "To First Qualified Lead", subtitle: "guaranteed delivery" }
+              { icon: Target, metric: "3x", label: "Higher Quality Leads", subtitle: "vs traditional providers" },
+              { icon: TrendingUp, metric: "$2.5M", label: "Average Client Revenue Impact", subtitle: "(Year 1)" },
+              { icon: Clock, metric: "72hrs", label: "To First Qualified Lead", subtitle: "delivered" }
             ].map((benefit, index) => (
               <motion.div
                 key={index}

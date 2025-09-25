@@ -23,13 +23,13 @@ export function Approach() {
     {
       icon: ResearchStrategyIcon,
       title: "Find",
-      subtitle: "Your Perfect Buyers",
+      subtitle: "Your Ideal Buyers",
       description:
-"Is your sales team spending valuable time on prospects who lack purchasing authority or budget? We identify companies with active buying intent, approved budgets, and decision-makers ready to engage—eliminating wasted outreach to unqualified prospects.",
+"Is your sales team chasing prospects without authority or budget? We cut the noise by identifying companies with live buying signals, approved budgets, and decision-makers who matter—so your team focuses only on opportunities that can convert.",
       color: "#4F46E5", // indigo-600
       highlightColor: "text-indigo-600 dark:text-indigo-400",
       benefit:
-        "Stop wasting time on prospects who will never buy. Focus only on companies ready to spend money.",
+        "Eliminate wasted outreach. Target only real buyers.",
       iconBg: "bg-indigo-100 dark:bg-indigo-950/40",
       borderColor: "border-indigo-200 dark:border-indigo-800",
       gradientFrom: "from-indigo-600",
@@ -38,13 +38,13 @@ export function Approach() {
     {
       icon: ContentEngagementIcon,
       title: "Engage",
-      subtitle: "Like a Trusted Advisor",
+      subtitle: "With Authority",
       description:
-"When prospects disengage after initial contact, it signals a gap in value demonstration. We establish your market authority by delivering strategic insights that directly address their business challenges, positioning you as the preferred solution provider.",
+"If prospects disengage, it's rarely about interest—it's about value. We elevate your brand as a trusted advisor by delivering insight-driven content that speaks directly to buyer pain points, keeping you top-of-mind until they're ready to act.",
       color: "#8B5CF6", // violet-500
       highlightColor: "text-violet-600 dark:text-violet-400",
       benefit:
-        "Become the trusted advisor prospects turn to when they're ready to purchase—no more competing on price.",
+        "Build trust and win preference—without competing on price.",
       iconBg: "bg-violet-100 dark:bg-violet-950/40",
       borderColor: "border-violet-200 dark:border-violet-800",
       gradientFrom: "from-violet-600",
@@ -53,13 +53,13 @@ export function Approach() {
     {
       icon: ScaleGrowthIcon,
       title: "Close",
-      subtitle: "Deals That Actually Matter",
+      subtitle: "Deals That Move the Needle",
       description:
-"When sales effort doesn't translate to quota achievement, lead quality is the issue. We deliver rigorously pre-qualified prospects with verified BANT criteria, allowing your team to focus on high-value deal closure rather than prospect development.",
+"When revenue stalls, the problem isn't sales effort—it's lead quality. Our pre-qualified leads meet strict BANT criteria so your sales team focuses only on deals worth closing.",
       color: "#EC4899", // pink-500
       highlightColor: "text-pink-600 dark:text-pink-400",
       benefit:
-        "Watch your sales team hit quota consistently with less effort and shorter sales cycles.",
+        "Higher close rates, shorter cycles, consistent quota achievement.",
       iconBg: "bg-pink-100 dark:bg-pink-950/40",
       borderColor: "border-pink-200 dark:border-pink-800",
       gradientFrom: "from-purple-600",
@@ -89,13 +89,13 @@ export function Approach() {
             </div>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight max-w-4xl mb-6">
-              How We Transform Struggling Marketing Into Revenue Engines
+              How We Turn Marketing Spend Into Revenue Growth
             </h2>
 
             <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full mb-6" />
 
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
-              Stop throwing marketing dollars at the wall hoping something sticks. Our proven 3-step system turns your marketing spend into predictable revenue—every single time.
+              Stop guessing. Stop hoping. Our proven 3-step system transforms your marketing budget into measurable, repeatable revenue outcomes.
             </p>
           </div>
         </motion.div>
@@ -295,7 +295,7 @@ export function Approach() {
             {[
               {
                 value: "20%",
-                label: "Improved Pipeline Efficiency",
+                label: "Pipeline Efficiency Gains",
                 icon: Target,
                 color: "#4F46E5",
                 delay: 0
@@ -309,14 +309,14 @@ export function Approach() {
               },
               {
                 value: "45%",
-                label: "Cost per Lead Reduction",
+                label: "Lower Cost per Lead",
                 icon: ChevronRight,
                 color: "#A855F7",
                 delay: 0.2
               },
               {
                 value: "99%",
-                label: "Sales Acceptance Rate",
+                label: "Sales Acceptance",
                 icon: CheckCircle,
                 color: "#EC4899",
                 delay: 0.3
