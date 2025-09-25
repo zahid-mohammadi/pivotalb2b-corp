@@ -128,93 +128,93 @@ const iconAnimationVariants = {
 const services = [
   {
     icon: TargetIcon,
-    title: "Account-Based Marketing",
-    description: "Smarter engagement with buying groups at high-value accounts. Our targeted strategies personalize outreach, foster consensus among decision-makers, and accelerate sales cycles to drive success for your key accounts.",
+    title: "Turn Enterprise Prospects Into Closed Deals",
+    description: "Tired of losing big deals to competitors? We get you in front of the entire buying committee at your dream accounts—before they even start shopping. No more cold outreach. No more being ghosted by decision-makers.",
     features: [
-      { icon: Users, text: "Account intelligence" },
-      { icon: BarChart3, text: "Engagement analytics" },
-      { icon: Award, text: "ROI measurement" }
+      { icon: Users, text: "Direct access to C-suite" },
+      { icon: BarChart3, text: "Deal velocity tracking" },
+      { icon: Award, text: "Revenue attribution" }
     ],
     gradients: [
       "from-rose-600/30 via-red-500/30 to-pink-500/20",
       "from-pink-500/20 via-red-500/30 to-rose-600/30"
     ],
-    highlight: "45% higher conversion rates"
+    highlight: "Average deal size increased 340%"
   },
   {
     icon: LineChart,
-    title: "Strategic Lead Generation",
-    description: "Capture high-intent opt-in leads with tailored multi-channel campaigns. We attract and convert prospects across platforms, delivering qualified leads ready to engage and aligned with your goals.",
+    title: "Fill Your Pipeline With Buyers, Not Browsers",
+    description: "Sick of leads that never buy? We find prospects who are actively looking to purchase solutions like yours—with budget approved and timeline in place. No more chasing tire-kickers who waste your sales team's time.",
     features: [
-      { icon: Zap, text: "Intent-based targeting" },
-      { icon: BarChart3, text: "Performance analytics" },
-      { icon: TrendingUp, text: "Conversion optimization" }
+      { icon: Zap, text: "Ready-to-buy prospects" },
+      { icon: BarChart3, text: "Sales-ready scoring" },
+      { icon: TrendingUp, text: "Revenue predictability" }
     ],
     gradients: [
       "from-blue-600/30 via-purple-500/30 to-pink-500/20",
       "from-pink-500/20 via-purple-500/20 to-blue-500/30"
     ],
-    highlight: "85% increase in qualified leads"
+    highlight: "Sales team close rate up 85%"
   },
   {
     icon: Share2,
-    title: "Content Syndication",
-    description: "Connect with ideal buyers and elevate branded demand. We distribute your content across curated channels to boost reach, strengthen brand awareness, and spark interest in your offerings.",
+    title: "Get In Front of Buyers Before Competitors Do",
+    description: "While your competitors wait for RFPs, we position you as the trusted advisor. Your content reaches decision-makers when they're researching solutions—making you the obvious choice when they're ready to buy.",
     features: [
-      { icon: Globe, text: "Multi-channel distribution" },
-      { icon: Users, text: "Audience targeting" },
-      { icon: Award, text: "Premium publisher network" }
+      { icon: Globe, text: "First-mover advantage" },
+      { icon: Users, text: "Trusted advisor status" },
+      { icon: Award, text: "Competitive differentiation" }
     ],
     gradients: [
       "from-purple-600/30 via-indigo-500/30 to-blue-500/20",
       "from-blue-500/20 via-indigo-500/30 to-purple-600/30"
     ],
-    highlight: "3x content engagement rates"
+    highlight: "Win rate vs competitors up 245%"
   },
   {
     icon: Video,
-    title: "Event Marketing Solutions",
-    description: "Maximize ideal customer registrations and event attendance. Our campaigns promote and manage virtual or in-person events, ensuring strong turnout and impactful experiences for your audience.",
+    title: "Pack Your Events With Qualified Prospects",
+    description: "Tired of events filled with consultants and competitors instead of buyers? We fill your events with decision-makers who have real budgets and genuine buying intent—not just people collecting swag.",
     features: [
-      { icon: Users, text: "Audience acquisition" },
-      { icon: CheckCircle, text: "Registration management" },
-      { icon: TrendingUp, text: "Post-event analytics" }
+      { icon: Users, text: "Executive attendees" },
+      { icon: CheckCircle, text: "Pre-qualified registrations" },
+      { icon: TrendingUp, text: "Deal pipeline created" }
     ],
     gradients: [
       "from-emerald-600/30 via-green-500/30 to-teal-500/20",
       "from-teal-500/20 via-green-500/30 to-emerald-600/30"
     ],
-    highlight: "40% higher event attendance"
+    highlight: "Average event ROI increased 340%"
   },
   {
     icon: CheckSquare,
-    title: "Lead Qualification Services",
-    description: "Prioritize leads with high conversion potential for sales teams using BANT criteria. We evaluate prospects for fit, intent, and readiness, refining your pipeline to boost efficiency and achieve stronger results.",
+    title: "Stop Your Sales Team From Chasing Ghosts",
+    description: "Sales team frustrated with leads that never respond or convert? We pre-qualify every prospect for budget, authority, need, and timeline before they hit your CRM. No more wasted calls or follow-ups.",
     features: [
-      { icon: Sparkles, text: "AI-powered scoring" },
-      { icon: CheckCircle, text: "Data validation" },
-      { icon: TrendingUp, text: "Conversion tracking" }
+      { icon: Sparkles, text: "Sales-ready prospects only" },
+      { icon: CheckCircle, text: "BANT pre-verified" },
+      { icon: TrendingUp, text: "Faster deal velocity" }
     ],
     gradients: [
       "from-amber-600/30 via-orange-500/30 to-yellow-500/20",
       "from-yellow-500/20 via-orange-500/30 to-amber-600/30"
     ],
-    highlight: "67% improvement in lead quality"
+    highlight: "Sales team productivity up 190%"
   },
   {
     icon: Workflow,
-    title: "Waterfall Campaign Suite",
-    description: "Boost revenue with a full-funnel B2B marketing solution. Our Waterfall Campaign Suite blends proven tactics into a seamless strategy—hitting every buyer stage to deliver MQLs to sales-ready, high-value accounts with precision and efficiency.",
+    title: "Turn Marketing Into a Revenue Machine",
+    description: "Frustrated that marketing feels like a cost center instead of a profit driver? Our complete system transforms your marketing into a predictable revenue engine—with full attribution and ROI tracking at every stage.",
     features: [
-      { icon: Zap, text: "Integrated lead generation" },
-      { icon: Share2, text: "Content amplification" },
-      { icon: TrendingUp, text: "End-to-end tracking" }
+      { icon: Zap, text: "Revenue predictability" },
+      { icon: Share2, text: "Full-funnel attribution" },
+      { icon: TrendingUp, text: "Marketing ROI proof" }
     ],
     gradients: [
       "from-cyan-600/30 via-blue-500/30 to-indigo-500/20",
       "from-indigo-500/20 via-blue-500/30 to-cyan-600/30"
     ],
-    highlight: "50% faster sales cycles"
+    highlight: "Marketing ROI improved 420%"
   }
 ];
 
@@ -271,7 +271,7 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Comprehensive B2B Marketing Services
+            Stop Chasing Dead-End Leads. Start Building Revenue.
           </motion.h2>
           
           <motion.p 
@@ -280,8 +280,8 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Our data-driven solutions are designed to scale your demand generation efforts,
-            delivering measurable results and exceptional ROI for your B2B marketing initiatives.
+            Every solution is designed to solve one problem: turn your marketing spend into predictable revenue. 
+            Here's how we transform struggling marketing teams into growth engines.
           </motion.p>
         </motion.div>
 
