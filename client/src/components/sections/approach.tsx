@@ -22,14 +22,14 @@ export function Approach() {
   const steps = [
     {
       icon: ResearchStrategyIcon,
-      title: "Discover",
-      subtitle: "Strategic Targeting",
+      title: "Find",
+      subtitle: "Your Perfect Buyers",
       description:
-        "Identify your perfect buyers with smart data analytics and advanced filters at the account and persona levels. We define your Ideal Customer Profile (ICP) and pinpoint high-value decision-makers who are actively looking for solutions like yours, guaranteeing top-quality outreach.",
+        "Tired of your sales team chasing leads that never close? We identify the exact companies that are actively shopping for solutions like yours—with budget approved and decision-makers ready to buy. No more cold calls to people who aren't even looking.",
       color: "#4F46E5", // indigo-600
       highlightColor: "text-indigo-600 dark:text-indigo-400",
       benefit:
-        "Eliminate wasted spend on unqualified leads and focus resources on prospects primed to convert.",
+        "Stop wasting time on prospects who will never buy. Focus only on companies ready to spend money.",
       iconBg: "bg-indigo-100 dark:bg-indigo-950/40",
       borderColor: "border-indigo-200 dark:border-indigo-800",
       gradientFrom: "from-indigo-600",
@@ -38,13 +38,13 @@ export function Approach() {
     {
       icon: ContentEngagementIcon,
       title: "Engage",
-      subtitle: "Hyper-Targeted Campaigns",
+      subtitle: "Like a Trusted Advisor",
       description:
-        "Provide tailored content, multi-channel engagement, and account-focused campaigns that address buyer challenges directly. From whitepapers and eBooks to webinars, we deliver messages that resonate and generate more informed leads",
+        "Sick of prospects going dark after the first conversation? We position you as the go-to expert by delivering valuable insights that solve their immediate problems. When they're ready to buy, you're the obvious choice—not just another vendor.",
       color: "#8B5CF6", // violet-500
       highlightColor: "text-violet-600 dark:text-violet-400",
       benefit:
-        "Turn cold prospects into engaged buyers by meeting them where they are, with content they need.",
+        "Become the trusted advisor prospects turn to when they're ready to purchase—no more competing on price.",
       iconBg: "bg-violet-100 dark:bg-violet-950/40",
       borderColor: "border-violet-200 dark:border-violet-800",
       gradientFrom: "from-violet-600",
@@ -52,14 +52,14 @@ export function Approach() {
     },
     {
       icon: ScaleGrowthIcon,
-      title: "Convert",
-      subtitle: "Revenue-Driven Execution",
+      title: "Close",
+      subtitle: "Deals That Actually Matter",
       description:
-        "Target top-priority leads using BANT qualification, empowering sales teams with real-time insights to achieve results. Through in-depth analytics and practical data, we provide your team with the resources to connect with prospects efficiently, enhancing conversion rates and optimizing the sales journey.",
+        "Tired of your sales team working harder but not hitting quota? We deliver prospects who are pre-qualified with budget, authority, need, and timeline verified. Your team spends time closing deals, not chasing ghosts.",
       color: "#EC4899", // pink-500
       highlightColor: "text-pink-600 dark:text-pink-400",
       benefit:
-        "Shorten sales cycles, reduce leakage, and turn pipelines into predictable growth engines.",
+        "Watch your sales team hit quota consistently with less effort and shorter sales cycles.",
       iconBg: "bg-pink-100 dark:bg-pink-950/40",
       borderColor: "border-pink-200 dark:border-pink-800",
       gradientFrom: "from-purple-600",
@@ -89,14 +89,13 @@ export function Approach() {
             </div>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight max-w-4xl mb-6">
-              Our Approach to Building Winning Sales Pipelines
+              How We Transform Struggling Marketing Into Revenue Engines
             </h2>
 
             <div className="h-1 w-32 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full mb-6" />
 
             <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl">
-              We don't just generate leads—we build sales pipelines that convert. Our proven process ensures 
-              laser-focused targeting, engagement-optimized touchpoints, and revenue-ready conversions.
+              Stop throwing marketing dollars at the wall hoping something sticks. Our proven 3-step system turns your marketing spend into predictable revenue—every single time.
             </p>
           </div>
         </motion.div>
