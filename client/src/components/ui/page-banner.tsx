@@ -17,7 +17,7 @@ export function PageBanner({
 }: PageBannerProps) {
   return (
     <div className={cn(
-      "relative bg-primary overflow-hidden",
+      "relative bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 overflow-hidden",
       className
     )}>
       {/* Background Pattern */}
@@ -42,11 +42,11 @@ export function PageBanner({
       {/* Content - Reduced padding by 20% */}
       <div className="container mx-auto px-4 py-12 sm:py-20 relative z-10">
         <div className="max-w-3xl">
-          <h1 className="text-4xl sm:text-5xl font-bold text-primary-foreground mb-4">
+          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 dark:text-slate-100 mb-4">
             {title}
           </h1>
           {description && (
-            <p className="text-lg sm:text-xl text-primary-foreground/90 max-w-2xl">
+            <p className="text-lg sm:text-xl text-slate-700 dark:text-slate-300 max-w-2xl">
               {description}
             </p>
           )}
@@ -55,7 +55,7 @@ export function PageBanner({
       </div>
 
       {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/60" />
+      <div className="absolute inset-0 bg-gradient-to-r from-slate-100/40 to-slate-50/40 dark:from-slate-800/40 dark:to-slate-900/40" />
     </div>
   );
 }

@@ -110,10 +110,10 @@ export default function ServicePage() {
       />
       <div className="min-h-screen">
         {/* Hero Section - Enhanced with success metrics */}
-        <div className="relative bg-primary overflow-hidden">
+        <div className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
           {/* Enhanced animated background patterns */}
           <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary/80" />
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-800/90 to-slate-900/90" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 to-transparent" />
             <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10 animate-[pulse_4s_ease-in-out_infinite]" />
             {/* Decorative shapes */}
@@ -443,10 +443,10 @@ export default function ServicePage() {
             viewport={{ once: true }}
             className="mt-24"
           >
-            <Card className="bg-primary text-primary-foreground overflow-hidden relative">
+            <Card className="bg-gradient-to-br from-slate-900 to-slate-800 text-white overflow-hidden relative">
               <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary" />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900/90 to-slate-800/90" />
               </div>
               <CardContent className="p-12 relative">
                 <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Business?</h2>
