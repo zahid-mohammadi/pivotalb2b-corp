@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users, Database, PieChart, TrendingUp } from "lucide-react";
+import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users, Database, PieChart, TrendingUp, CheckCircle } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Hero() {
@@ -232,16 +232,16 @@ export function Hero() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-purple-600/30 hover:border-pink-600/50 transition-colors"
           >
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary via-purple-600 to-pink-600 animate-pulse" />
-            <span className="text-sm text-white/90">Trusted by B2B Leaders to Build High-Performing Sales Pipelines</span>
+            <span className="text-sm text-white/90">Stop Wasting Budget on Unqualified Leads</span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.7 }}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight"
+            className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight"
           >
-            Precision Demand Generation: Discover, Engage & Convert Ideal Buyers
+            Turn Your Marketing Budget Into <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 text-transparent bg-clip-text">Predictable Revenue</span>
           </motion.h1>
 
           <motion.p
@@ -250,34 +250,54 @@ export function Hero() {
             transition={{ delay: 0.4, duration: 0.7 }}
             className="text-base md:text-xl text-white/90 mb-6 md:mb-8 leading-relaxed"
           >
-            Pivotal B2B harnesses precision demand generation to identify high-intent buyers, engage them with targeted campaigns and convert leads into revenue—powered by smarter data insights.
+            Tired of chasing unqualified leads that never convert? We identify your perfect buyers, engage them with content they actually want, and deliver sales-ready prospects to your team—guaranteed.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.7 }}
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap gap-4 mb-8"
           >
             <Button
               size="lg"
-              className="shadow-lg group relative overflow-hidden bg-gradient-to-r from-primary via-purple-600 to-pink-600 hover:from-primary/90 hover:via-purple-600/90 hover:to-pink-600/90 text-white"
+              className="shadow-lg group relative overflow-hidden bg-gradient-to-r from-primary via-purple-600 to-pink-600 hover:from-primary/90 hover:via-purple-600/90 hover:to-pink-600/90 text-white text-lg px-8 py-4"
               onClick={() => window.open(calendlyUrl, '_blank')}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
               <span className="relative flex items-center font-semibold">
-                Schedule a Strategy Call
+                Get Your Free Revenue Audit
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
               </span>
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-purple-600/60 text-white"
+              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-purple-600/60 text-white text-lg px-8 py-4"
               onClick={() => window.location.href = '/request-proposal'}
             >
-              Request a Proposal
+              See Case Studies
             </Button>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            className="flex items-center gap-6 mb-12 text-white/80 text-sm"
+          >
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-400" />
+              <span>No long-term contracts</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-400" />
+              <span>90-day revenue guarantee</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <CheckCircle className="h-4 w-4 text-green-400" />
+              <span>Setup in 72 hours</span>
+            </div>
           </motion.div>
 
           <motion.div
@@ -287,9 +307,9 @@ export function Hero() {
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
           >
             {[
-              { icon: Target, metric: "2-3x", label: "More Cost-Efficient" },
-              { icon: Shield, metric: "100%", label: "GDPR, CCPA, CASL Compliance" },
-              { icon: Clock, metric: "24/7", label: "Lead Generation Engine" }
+              { icon: Target, metric: "300%", label: "Higher Quality Leads", subtitle: "vs. traditional methods" },
+              { icon: TrendingUp, metric: "$2.5M", label: "Average Revenue Impact", subtitle: "for our clients in Year 1" },
+              { icon: Clock, metric: "72hrs", label: "To First Qualified Lead", subtitle: "guaranteed delivery" }
             ].map((benefit, index) => (
               <motion.div
                 key={index}
@@ -306,7 +326,8 @@ export function Hero() {
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:via-purple-600 group-hover:to-pink-600 transition-colors">{benefit.metric}</div>
-                    <div className="text-sm text-white/80 group-hover:text-white transition-colors">{benefit.label}</div>
+                    <div className="text-sm text-white/90 group-hover:text-white transition-colors font-medium">{benefit.label}</div>
+                    <div className="text-xs text-white/70 group-hover:text-white/80 transition-colors">{benefit.subtitle}</div>
                   </div>
                 </div>
               </motion.div>
