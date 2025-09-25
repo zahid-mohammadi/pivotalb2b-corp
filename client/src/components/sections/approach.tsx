@@ -25,7 +25,7 @@ export function Approach() {
       title: "Find",
       subtitle: "Your Perfect Buyers",
       description:
-        "Tired of your sales team chasing leads that never close? We identify the exact companies that are actively shopping for solutions like yours—with budget approved and decision-makers ready to buy. No more cold calls to people who aren't even looking.",
+"Is your sales team spending valuable time on prospects who lack purchasing authority or budget? We identify companies with active buying intent, approved budgets, and decision-makers ready to engage—eliminating wasted outreach to unqualified prospects.",
       color: "#4F46E5", // indigo-600
       highlightColor: "text-indigo-600 dark:text-indigo-400",
       benefit:
@@ -40,7 +40,7 @@ export function Approach() {
       title: "Engage",
       subtitle: "Like a Trusted Advisor",
       description:
-        "Sick of prospects going dark after the first conversation? We position you as the go-to expert by delivering valuable insights that solve their immediate problems. When they're ready to buy, you're the obvious choice—not just another vendor.",
+"When prospects disengage after initial contact, it signals a gap in value demonstration. We establish your market authority by delivering strategic insights that directly address their business challenges, positioning you as the preferred solution provider.",
       color: "#8B5CF6", // violet-500
       highlightColor: "text-violet-600 dark:text-violet-400",
       benefit:
@@ -55,7 +55,7 @@ export function Approach() {
       title: "Close",
       subtitle: "Deals That Actually Matter",
       description:
-        "Tired of your sales team working harder but not hitting quota? We deliver prospects who are pre-qualified with budget, authority, need, and timeline verified. Your team spends time closing deals, not chasing ghosts.",
+"When sales effort doesn't translate to quota achievement, lead quality is the issue. We deliver rigorously pre-qualified prospects with verified BANT criteria, allowing your team to focus on high-value deal closure rather than prospect development.",
       color: "#EC4899", // pink-500
       highlightColor: "text-pink-600 dark:text-pink-400",
       benefit:

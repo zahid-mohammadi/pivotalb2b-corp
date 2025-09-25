@@ -250,7 +250,7 @@ export function Hero() {
             transition={{ delay: 0.4, duration: 0.7 }}
             className="text-base md:text-xl text-white/90 mb-6 md:mb-8 leading-relaxed"
           >
-            Tired of chasing unqualified leads that never convert? We identify your perfect buyers, engage them with content they actually want, and deliver sales-ready prospects to your team—guaranteed.
+When your marketing budget demands measurable results, every lead must count. We identify your exact buyer profile, engage them with strategic content that drives decisions, and deliver sales-ready prospects with verified intent—guaranteed.
           </motion.p>
 
           <motion.div
