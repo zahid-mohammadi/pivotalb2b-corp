@@ -128,12 +128,12 @@ const iconAnimationVariants = {
 const services = [
   {
     icon: TargetIcon,
-    title: "Turn Enterprise Prospects Into Closed Deals",
-    description: "When enterprise deals slip to competitors despite strong solutions, timing and positioning are critical factors. We establish relationships with complete buying committees at target accounts before competitive evaluations begin, ensuring your solution receives proper consideration.",
+    title: "Account-Based Marketing (ABM) Programs",
+    description: "We engage entire buying committees at target accounts before evaluations begin, positioning your solution as the trusted choice.",
     features: [
-      { icon: Users, text: "Direct access to C-suite" },
-      { icon: BarChart3, text: "Deal velocity tracking" },
-      { icon: Award, text: "Revenue attribution" }
+      { icon: Users, text: "Complete buying committee mapping" },
+      { icon: BarChart3, text: "Multi-threaded engagement" },
+      { icon: Award, text: "Executive-level messaging" }
     ],
     gradients: [
       "from-rose-600/30 via-red-500/30 to-pink-500/20",
@@ -143,12 +143,12 @@ const services = [
   },
   {
     icon: LineChart,
-    title: "Fill Your Pipeline With Buyers, Not Browsers",
-    description: "When lead volume doesn't translate to revenue, qualification is the missing element. We identify prospects with active purchasing intent, approved budgets, and defined timelines—delivering only qualified opportunities with genuine interest in your solutions.",
+    title: "B2B Lead Generation & Qualification",
+    description: "We deliver sales-ready leads with authority, budget, and intent, so your sales team focuses only on opportunities that close.",
     features: [
-      { icon: Zap, text: "Ready-to-buy prospects" },
-      { icon: BarChart3, text: "Intent-based scoring" },
-      { icon: TrendingUp, text: "Revenue predictability" }
+      { icon: Zap, text: "Sales-ready prospects" },
+      { icon: BarChart3, text: "BANT qualification" },
+      { icon: TrendingUp, text: "Live verification calls" }
     ],
     gradients: [
       "from-blue-600/30 via-purple-500/30 to-pink-500/20",
@@ -158,12 +158,12 @@ const services = [
   },
   {
     icon: Share2,
-    title: "Get In Front of Buyers Before Competitors Do",
-    description: "While your competitors wait for RFPs, we position you as the trusted advisor. Your content reaches decision-makers when they're researching solutions—making you the obvious choice when they're ready to buy.",
+    title: "Intent-Based Demand Generation",
+    description: "We identify active buying signals and deliver content to decision-makers early, making you the clear choice when budgets open.",
     features: [
-      { icon: Globe, text: "First-mover advantage" },
-      { icon: Users, text: "Trusted advisor status" },
-      { icon: Award, text: "Competitive differentiation" }
+      { icon: Globe, text: "Intent signal monitoring" },
+      { icon: Users, text: "Early buyer engagement" },
+      { icon: Award, text: "Thought leadership content" }
     ],
     gradients: [
       "from-purple-600/30 via-indigo-500/30 to-blue-500/20",
@@ -173,27 +173,27 @@ const services = [
   },
   {
     icon: Video,
-    title: "Pack Your Events With Qualified Prospects",
-    description: "When event investments fail to generate qualified pipeline, attendee quality determines ROI. We attract decision-makers with purchasing authority and genuine buying intent, transforming your events into high-value business development opportunities.",
+    title: "Event Marketing & Audience Acquisition",
+    description: "We attract ICP-matched decision-makers to your webinars, trade shows, and events—converting attendance into pipeline.",
     features: [
-      { icon: Users, text: "Executive attendees" },
-      { icon: CheckCircle, text: "Pre-qualified registrations" },
-      { icon: TrendingUp, text: "Deal pipeline created" }
+      { icon: Users, text: "ICP-matched attendees" },
+      { icon: CheckCircle, text: "Qualified registrations" },
+      { icon: TrendingUp, text: "Post-event follow-up" }
     ],
     gradients: [
       "from-emerald-600/30 via-green-500/30 to-teal-500/20",
       "from-teal-500/20 via-green-500/30 to-emerald-600/30"
     ],
-    highlight: "Average event ROI increased 340%"
+    highlight: "Event ROI increased 340%"
   },
   {
     icon: CheckSquare,
-    title: "Stop Your Sales Team From Chasing Ghosts",
-    description: "Sales team frustrated with leads that never respond or convert? We pre-qualify every prospect for budget, authority, need, and timeline before they hit your CRM. No more wasted calls or follow-ups.",
+    title: "Lead Validation & Sales Development Support",
+    description: "We verify every lead with live evidence and BANT checks, ensuring your CRM is filled only with sales-ready contacts.",
     features: [
-      { icon: Sparkles, text: "Pre-qualified prospects only" },
-      { icon: CheckCircle, text: "BANT pre-verified" },
-      { icon: TrendingUp, text: "Faster deal velocity" }
+      { icon: Sparkles, text: "Live BANT verification" },
+      { icon: CheckCircle, text: "Evidence-based qualification" },
+      { icon: TrendingUp, text: "Lead replacement policy" }
     ],
     gradients: [
       "from-amber-600/30 via-orange-500/30 to-yellow-500/20",
@@ -203,12 +203,12 @@ const services = [
   },
   {
     icon: Workflow,
-    title: "Turn Marketing Into a Revenue Machine",
-    description: "When marketing investment lacks clear revenue attribution, justifying budget becomes challenging. Our comprehensive system transforms marketing into a measurable revenue engine with complete funnel tracking and definitive ROI demonstration.",
+    title: "Marketing Operations & Revenue Attribution",
+    description: "We implement clean funnel tracking, dashboards, and attribution so every marketing dollar can be tied back to revenue.",
     features: [
-      { icon: Zap, text: "Revenue predictability" },
-      { icon: Share2, text: "Full-funnel attribution" },
-      { icon: TrendingUp, text: "Marketing ROI proof" }
+      { icon: Zap, text: "Full-funnel tracking" },
+      { icon: Share2, text: "Multi-touch attribution" },
+      { icon: TrendingUp, text: "Executive dashboards" }
     ],
     gradients: [
       "from-cyan-600/30 via-blue-500/30 to-indigo-500/20",
@@ -271,7 +271,7 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            Stop Chasing Dead-End Leads. Start Building Revenue.
+            From Wasted Leads to Measurable Revenue
           </motion.h2>
           
           <motion.p 
@@ -280,8 +280,7 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Every solution is designed to solve one problem: turn your marketing spend into predictable revenue. 
-            Here's how we transform struggling marketing teams into growth engines.
+            Every solution we offer is designed to solve one problem—turn marketing investment into predictable, scalable revenue growth.
           </motion.p>
         </motion.div>
 
@@ -527,12 +526,11 @@ export function Services() {
                   className="text-center"
                 >
                   <h2 className="text-4xl sm:text-5xl font-bold mb-8 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight">
-                    Ready to Transform Your B2B Marketing Strategy?
+                    Ready to Build a Revenue Engine?
                   </h2>
                   
                   <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed">
-                    Whether you're looking to scale your demand generation, optimize your sales pipeline, or enhance your compliant 
-                    lead generation efforts, our data-driven approach delivers measurable growth and exceptional ROI.
+                    Whether scaling demand generation, optimizing pipeline efficiency, or tightening lead qualification, our data-driven system delivers measurable growth you can trust.
                   </p>
                   
                   {/* Action buttons */}

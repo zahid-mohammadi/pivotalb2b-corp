@@ -9,16 +9,16 @@ export function Testimonials() {
 
   const testimonials = [
     {
-      quote: "We went from 12 leads per month to 180+ qualified prospects in 90 days. Our sales team can't keep up with all the opportunities—this is the best problem we've ever had.",
+      quote: "We scaled from 12 leads a month to 180+ qualified prospects in 90 days. The pipeline growth has been transformational.",
       author: "Sarah Chen",
-      role: "VP of Sales",
+      role: "VP Sales",
       company: "TechFlow Solutions",
       revenue: "$2.4M",
       metric: "Pipeline added in 6 months",
       avatar: "SC"
     },
     {
-      quote: "Finally, marketing that actually drives revenue. Our cost per acquisition dropped 60% while deal sizes increased 40%. The ROI is undeniable.",
+      quote: "Our cost per acquisition dropped 60% while deal sizes grew 40%. This is marketing that finally delivers revenue.",
       author: "Michael Rodriguez",
       role: "CMO",
       company: "DataCore Systems", 
@@ -27,7 +27,7 @@ export function Testimonials() {
       avatar: "MR"
     },
     {
-      quote: "Before Pivotal B2B, our sales team was chasing ghosts. Now every lead comes pre-qualified with budget and timeline. Our close rate jumped from 8% to 31%.",
+      quote: "Every lead now comes pre-qualified with budget and timeline. Our close rate climbed from 8% to 31%.",
       author: "Jennifer Park",
       role: "CEO",
       company: "CloudScale Industries",
@@ -47,9 +47,9 @@ export function Testimonials() {
   ];
 
   const metrics = [
-    { value: "300+", label: "Companies Transformed", icon: Building },
+    { value: "300+", label: "Companies Served", icon: Building },
     { value: "$50M+", label: "Revenue Generated", icon: DollarSign },
-    { value: "87%", label: "Client Retention Rate", icon: Award },
+    { value: "87%", label: "Retention Rate", icon: Award },
     { value: "180%", label: "Average ROI", icon: TrendingUp }
   ];
 
@@ -72,11 +72,11 @@ export function Testimonials() {
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text">
-            Companies Who Stopped Wasting Money on Bad Leads
+            Clients Who Stopped Paying for Bad Leads
           </h2>
           
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            See how we transformed struggling marketing teams into revenue-generating machines—with real numbers and documented results.
+            See how we helped companies shift from wasted budgets to predictable revenue growth.
           </p>
         </motion.div>
 
@@ -184,10 +184,10 @@ export function Testimonials() {
             transition={{ duration: 0.3 }}
           >
             <h3 className="text-2xl font-bold mb-4 text-gray-900">
-              Ready to Join These Success Stories?
+              Your Next Success Story Starts Here
             </h3>
             <p className="text-gray-600 mb-6 text-lg">
-              See how we can transform your marketing spend into predictable revenue in just 90 days.
+              Let's turn your marketing spend into predictable revenue within 90 days.
             </p>
             <motion.button
               onClick={() => window.open('https://calendly.com/zahid-m/30min', '_blank')}
@@ -195,7 +195,7 @@ export function Testimonials() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
             >
-              Get Your Free Revenue Audit →
+              Request Your Free Revenue Audit →
             </motion.button>
           </motion.div>
         </motion.div>
