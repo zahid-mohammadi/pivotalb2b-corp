@@ -214,7 +214,7 @@ export default function ServicePage() {
         {/* Main Content Tabs */}
         <div className="container mx-auto px-4 py-20">
           <Tabs defaultValue="overview" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-1 md:grid-cols-5 h-auto gap-4 p-1 bg-gradient-to-r from-slate-100 to-white rounded-xl shadow-lg border border-slate-200/50">
+            <TabsList className="grid w-full grid-cols-1 md:grid-cols-3 h-auto gap-4 p-1 bg-gradient-to-r from-slate-100 to-white rounded-xl shadow-lg border border-slate-200/50">
               <TabsTrigger
                 value="overview"
                 className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 data-[state=active]:from-blue-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white"
@@ -237,30 +237,6 @@ export default function ServicePage() {
                     <Workflow className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
                   </div>
                   <span className="font-medium">Methodology</span>
-                </div>
-              </TabsTrigger>
-              <TabsTrigger
-                value="use-cases"
-                className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white"
-              >
-                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
-                <div className="relative flex items-center justify-center gap-2">
-                  <div className="p-2 rounded-lg bg-white/80 group-hover:bg-white/90 group-data-[state=active]:bg-white/20 transition-colors">
-                    <Sparkles className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
-                  </div>
-                  <span className="font-medium">Use Cases</span>
-                </div>
-              </TabsTrigger>
-              <TabsTrigger
-                value="industries"
-                className="relative group overflow-hidden rounded-lg py-6 transition-all duration-300 bg-gradient-to-br from-amber-50 to-orange-50 hover:from-amber-100 hover:to-orange-100 data-[state=active]:from-amber-500 data-[state=active]:to-orange-500 data-[state=active]:text-white"
-              >
-                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
-                <div className="relative flex items-center justify-center gap-2">
-                  <div className="p-2 rounded-lg bg-white/80 group-hover:bg-white/90 group-data-[state=active]:bg-white/20 transition-colors">
-                    <Building2 className="h-4 w-4 group-data-[state=active]:text-white transition-colors" />
-                  </div>
-                  <span className="font-medium">Industries</span>
                 </div>
               </TabsTrigger>
               <TabsTrigger
@@ -413,116 +389,6 @@ export default function ServicePage() {
                 </motion.div>
               </TabsContent>
 
-              {/* Use Cases Tab */}
-              <TabsContent value="use-cases">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3 }}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                >
-                  {Array.isArray(service.useCases) && service.useCases.length > 0 ? (
-                    service.useCases.map((useCase, index) => {
-                      // Cast to UseCase
-                      const typedUseCase = useCase as UseCase;
-                      return (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1 }}
-                          whileHover={{ y: -5 }}
-                        >
-                          <Card className="h-full bg-gradient-to-br from-white to-slate-50 border-slate-200/80 hover:border-primary/20">
-                            <CardContent className="p-8">
-                              <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                                <Sparkles className="h-5 w-5 text-primary" />
-                                {typedUseCase.title}
-                              </h3>
-                              <p className="text-muted-foreground mb-6">{typedUseCase.description}</p>
-
-                              <div className="space-y-6">
-                                <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
-                                  <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
-                                    <Target className="h-4 w-4" />
-                                    Challenge
-                                  </h4>
-                                  <p className="text-sm text-muted-foreground">{typedUseCase.challenge}</p>
-                                </div>
-
-                                <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
-                                  <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
-                                    <Lightbulb className="h-4 w-4" />
-                                    Solution
-                                  </h4>
-                                  <p className="text-sm text-muted-foreground">{typedUseCase.solution}</p>
-                                </div>
-
-                                <div className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors">
-                                  <h4 className="font-semibold text-primary mb-2 flex items-center gap-2">
-                                    <BarChart3 className="h-4 w-4" />
-                                    Outcome
-                                  </h4>
-                                  <p className="text-sm text-muted-foreground">{typedUseCase.outcome}</p>
-                                </div>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </motion.div>
-                      );
-                    })
-                  ) : (
-                    <div className="col-span-2 text-center py-12">
-                      <p className="text-muted-foreground">No use cases available at this time.</p>
-                    </div>
-                  )}
-                </motion.div>
-              </TabsContent>
-
-              {/* Industries Tab */}
-              <TabsContent value="industries">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card className="bg-gradient-to-br from-white to-slate-50 border-slate-200/80">
-                    <CardContent className="p-8">
-                      <div className="flex items-center gap-3 mb-8">
-                        <div className="p-2 rounded-lg bg-primary/10">
-                          <Building2 className="h-6 w-6 text-primary" />
-                        </div>
-                        <h2 className="text-2xl font-bold">Industries We Serve</h2>
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {industries.map((industry, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            whileHover={{ y: -5 }}
-                            className="relative group"
-                          >
-                            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg transform group-hover:scale-105 transition-transform duration-300" />
-                            <div className="relative bg-white/80 backdrop-blur-sm rounded-lg p-6 border border-slate-200/80 group-hover:border-primary/20 transition-colors">
-                              <h3 className="font-semibold mb-2 flex items-center gap-2">
-                                <CircleDot className="h-4 w-4 text-primary" />
-                                {industry}
-                              </h3>
-                              <p className="text-sm text-muted-foreground">
-                                Specialized solutions tailored for {industry.toLowerCase()} sector requirements and challenges.
-                              </p>
-                            </div>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </TabsContent>
 
               {/* FAQ Tab */}
               <TabsContent value="faq">
