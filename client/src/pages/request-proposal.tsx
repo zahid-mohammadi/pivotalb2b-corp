@@ -463,7 +463,7 @@ export default function RequestProposalPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-4xl md:text-6xl font-bold text-white mb-6"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
             >
               Transform Your 
               <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
@@ -477,7 +477,7 @@ export default function RequestProposalPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed"
+              className="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed px-4"
             >
               Tell us about your goals and we'll craft a revolutionary B2B marketing solution designed to accelerate your revenue and dominate your market.
             </motion.p>
@@ -487,7 +487,7 @@ export default function RequestProposalPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="flex flex-wrap items-center justify-center gap-8 mt-8"
+              className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mt-8 px-4"
             >
               <div className="flex items-center gap-2 text-slate-300">
                 <CheckCircle className="h-5 w-5 text-green-400" />
@@ -512,30 +512,30 @@ export default function RequestProposalPage() {
           transition={{ duration: 0.8, delay: 1 }}
           className="max-w-4xl mx-auto"
         >
-          <Card className="backdrop-blur-xl bg-white/10 border-white/20 shadow-2xl overflow-hidden">
+          <Card className="backdrop-blur-xl bg-white/95 border border-gray-200 shadow-2xl overflow-hidden">
             {/* Revolutionary Progress System */}
-            <div className="relative p-8 border-b border-white/10">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5" />
+            <div className="relative p-4 sm:p-8 border-b border-gray-200">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50" />
               
               {/* Progress Stats */}
               <div className="relative flex items-center justify-between mb-6">
                 <motion.div 
-                  className="text-white"
+                  className="text-gray-800"
                   animate={{ 
                     textShadow: ['0 0 0px rgba(59, 130, 246, 0)', '0 0 20px rgba(59, 130, 246, 0.5)', '0 0 0px rgba(59, 130, 246, 0)'] 
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
                   <span className="text-2xl font-bold">{formProgress}%</span>
-                  <span className="text-blue-300 ml-2">Complete</span>
+                  <span className="text-blue-600 ml-2">Complete</span>
                 </motion.div>
-                <div className="text-slate-300">
+                <div className="text-gray-600">
                   <span>Step {currentStep} of {totalSteps}</span>
                 </div>
               </div>
               
               {/* Beautiful Progress Bar */}
-              <div className="relative h-3 w-full bg-white/10 overflow-hidden rounded-full backdrop-blur-sm">
+              <div className="relative h-3 w-full bg-gray-200 overflow-hidden rounded-full">
                 <motion.div 
                   className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 relative overflow-hidden"
                   initial={{ width: 0 }}
@@ -553,7 +553,7 @@ export default function RequestProposalPage() {
             </div>
           
             {/* Revolutionary Step Navigation */}
-            <div className="p-8 border-b border-white/10">
+            <div className="p-4 sm:p-8 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 {steps.map((step, index) => (
                   <motion.div 
@@ -625,20 +625,13 @@ export default function RequestProposalPage() {
                     
                     {/* Step Label */}
                     <motion.span 
-                      className={`text-sm font-medium text-center hidden md:block ${
-                        currentStep === step.number ? 'text-blue-300' : 
-                        currentStep > step.number ? 'text-green-300' : 'text-white/60'
+                      className={`text-xs sm:text-sm font-medium text-center px-1 ${
+                        currentStep === step.number ? 'text-blue-700' : 
+                        currentStep > step.number ? 'text-green-700' : 'text-gray-500'
                       }`}
-                      animate={currentStep === step.number ? {
-                        textShadow: [
-                          '0 0 0px rgba(147, 197, 253, 0)',
-                          '0 0 10px rgba(147, 197, 253, 0.8)',
-                          '0 0 0px rgba(147, 197, 253, 0)'
-                        ]
-                      } : {}}
-                      transition={{ duration: 2, repeat: Infinity }}
                     >
-                      {step.title}
+                      <span className="hidden sm:inline">{step.title}</span>
+                      <span className="sm:hidden">Step {step.number}</span>
                     </motion.span>
                   </motion.div>
                 ))}
@@ -668,7 +661,7 @@ export default function RequestProposalPage() {
                       >
                         <div className="flex items-center justify-center gap-3 mb-3">
                           <motion.div 
-                            className="p-3 rounded-2xl bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm"
+                            className="p-3 rounded-2xl bg-gradient-to-r from-blue-100 to-purple-100"
                             animate={{ 
                               boxShadow: [
                                 '0 0 0px rgba(59, 130, 246, 0.4)',
@@ -678,14 +671,14 @@ export default function RequestProposalPage() {
                             }}
                             transition={{ duration: 2, repeat: Infinity }}
                           >
-                            <User className="h-6 w-6 text-blue-300" />
+                            <User className="h-6 w-6 text-blue-600" />
                           </motion.div>
-                          <h2 className="text-2xl font-bold text-white">Contact Information</h2>
+                          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Contact Information</h2>
                         </div>
-                        <p className="text-slate-300 text-lg">Tell us who you are so we can create your custom proposal</p>
+                        <p className="text-gray-600 text-sm sm:text-lg">Tell us who you are so we can create your custom proposal</p>
                       </motion.div>
                       
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
                           name="fullName"
@@ -719,7 +712,7 @@ export default function RequestProposalPage() {
                           )}
                         />
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
                           name="phoneNumber"
