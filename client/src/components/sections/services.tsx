@@ -276,7 +276,7 @@ export function Services() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mb-20"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-12 mb-20"
           style={{ perspective: "2000px" }}
         >
           {services.map((service, index) => (
@@ -292,7 +292,7 @@ export function Services() {
               }}
             >
               {/* Revolutionary Card Container */}
-              <div className="relative h-[600px] w-full">
+              <div className="relative h-auto min-h-[500px] lg:h-[600px] w-full">
                 
                 {/* Magnetic Field Visualization */}
                 <AnimatePresence>
@@ -448,7 +448,7 @@ export function Services() {
                   </div>
 
                   {/* Holographic Header Section */}
-                  <div className="relative p-8 pb-6">
+                  <div className="relative p-4 sm:p-6 lg:p-8 pb-4 sm:pb-6">
                     <motion.div
                       className="relative mb-8 flex justify-center"
                       animate={{
@@ -534,7 +534,7 @@ export function Services() {
                               rotate: { duration: 1.5, repeat: activeIndex === index ? Infinity : 0 }
                             }}
                           >
-                            <service.icon className={`h-14 w-14 text-${service.accentColor}-600 relative z-10 drop-shadow-lg`} />
+                            <service.icon className={`h-8 w-8 sm:h-10 sm:w-10 lg:h-14 lg:w-14 text-${service.accentColor}-600 relative z-10 drop-shadow-lg`} />
                           </motion.div>
                         </motion.div>
                       </div>
@@ -543,7 +543,7 @@ export function Services() {
                     {/* Revolutionary Typography */}
                     <div className="text-center mb-8">
                       <motion.h3 
-                        className="text-2xl font-bold mb-3 leading-tight relative"
+                        className="text-xl sm:text-2xl lg:text-2xl font-bold mb-3 leading-tight relative"
                         animate={{
                           scale: activeIndex === index ? [1, 1.03, 1] : 1
                         }}
@@ -608,7 +608,7 @@ export function Services() {
                   </div>
 
                   {/* Enhanced Description with Reading Light */}
-                  <div className="px-8 pb-6">
+                  <div className="px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6">
                     <motion.div
                       className="relative"
                       animate={{
@@ -620,7 +620,7 @@ export function Services() {
                         repeatType: "reverse"
                       }}
                     >
-                      <p className="text-gray-600 text-center leading-relaxed mb-8 relative z-10">
+                      <p className="text-gray-600 text-center leading-relaxed text-sm sm:text-base mb-4 sm:mb-6 lg:mb-8 relative z-10">
                         {service.description}
                       </p>
                       
@@ -644,10 +644,10 @@ export function Services() {
                   </div>
 
                   {/* Revolutionary Bottom Section */}
-                  <div className="px-8 pb-8">
+                  <div className="px-4 sm:px-6 lg:px-8 pb-4 sm:pb-6 lg:pb-8">
                     {/* Holographic Metrics Display */}
                     <motion.div
-                      className="mb-8 p-6 rounded-3xl relative overflow-hidden border border-gray-100/50 backdrop-blur-sm"
+                      className="mb-4 sm:mb-6 lg:mb-8 p-4 sm:p-6 rounded-2xl sm:rounded-3xl relative overflow-hidden border border-gray-100/50 backdrop-blur-sm"
                       style={{ 
                         background: `linear-gradient(135deg, white, rgba(255,255,255,0.9))`,
                         boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
@@ -695,7 +695,7 @@ export function Services() {
                           }}
                         >
                           <motion.div
-                            className="relative p-4 rounded-2xl bg-gradient-to-br from-white to-gray-50 shadow-xl border border-white/20"
+                            className="relative p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white to-gray-50 shadow-xl border border-white/20"
                             animate={{
                               rotate: activeIndex === index ? [0, 12, -12, 0] : 0,
                               scale: activeIndex === index ? [1, 1.15, 1] : 1
@@ -719,7 +719,7 @@ export function Services() {
                                 repeatType: "reverse"
                               }}
                             />
-                            <TrendingUp className={`h-8 w-8 text-${service.accentColor}-600 relative z-10`} />
+                            <TrendingUp className={`h-6 w-6 sm:h-8 sm:w-8 text-${service.accentColor}-600 relative z-10`} />
                           </motion.div>
                           
                           <div className="text-center">
@@ -733,10 +733,10 @@ export function Services() {
                                 repeatType: "reverse"
                               }}
                             >
-                              <span className={`font-bold text-xl text-${service.accentColor}-700 block`}>
+                              <span className={`font-bold text-lg sm:text-xl text-${service.accentColor}-700 block`}>
                                 {service.highlight}
                               </span>
-                              <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
+                              <span className="text-xs sm:text-sm text-gray-500 uppercase tracking-wider font-medium">
                                 Proven Results
                               </span>
                             </motion.div>
@@ -758,7 +758,7 @@ export function Services() {
                         const slug = serviceSlugMap[service.title] || service.title.toLowerCase().replace(/ & | /g, '-');
                         window.location.href = `/services/${slug}`;
                       }}
-                      className="w-full py-6 px-6 rounded-3xl font-bold text-white relative overflow-hidden group transform-gpu border-2 border-transparent"
+                      className="w-full py-4 sm:py-5 lg:py-6 px-4 sm:px-6 rounded-2xl sm:rounded-3xl font-bold text-white text-sm sm:text-base relative overflow-hidden group transform-gpu border-2 border-transparent"
                       style={{
                         background: `linear-gradient(135deg, ${service.particleColor.replace('0.6', '0.9')}, ${service.particleColor.replace('0.6', '0.7')})`
                       }}
