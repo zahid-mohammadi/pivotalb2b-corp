@@ -117,6 +117,12 @@ export function Footer() {
             </h3>
             <ul className="space-y-3 text-slate-300 text-sm">
               <li>
+                <Link href="/about" className="hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                  The Company
+                </Link>
+              </li>
+              <li>
                 <Link href="/contact" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                   Contact Us
