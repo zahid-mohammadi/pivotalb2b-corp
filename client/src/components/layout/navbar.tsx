@@ -204,7 +204,7 @@ export function Navbar() {
   );
 
   return (
-    <header className="border-b">
+    <header className="">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center">
           <Link href="/">
