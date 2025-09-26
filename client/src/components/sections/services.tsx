@@ -857,7 +857,7 @@ export function Services() {
                               <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
                                 Proven Results
                               </span>
-                            </div>
+                            </motion.div>
                           </div>
                         </motion.div>
                       </div>
