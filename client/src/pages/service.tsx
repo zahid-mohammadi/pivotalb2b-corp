@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useRoute } from "wouter";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -464,7 +465,7 @@ export default function ServicePage() {
                   {/* Secondary CTA */}
                   <motion.button
                     onClick={() => window.location.href = '/case-studies'}
-                    className="px-10 py-5 border-2 border-white/40 rounded-3xl font-semibold text-white hover:bg-white/10 transition-all backdrop-blur-sm"
+                    className="px-10 py-5 border-2 border-white/40 rounded-3xl font-semibold text-white hover:bg-white/10 backdrop-blur-sm"
                     whileHover={{ scale: 1.03, borderColor: 'rgba(255,255,255,0.6)' }}
                     whileTap={{ scale: 0.97 }}
                   >
@@ -715,17 +716,6 @@ export default function ServicePage() {
                       opacity: 0.9, 
                       y: -2,
                       backgroundColor: 'rgba(255,255,255,0.1)'
-                    }}
-                    animate={{
-                      y: [0, -3, 0]
-                    }}
-                    transition={{
-                      y: { 
-                        duration: 2, 
-                        repeat: Infinity, 
-                        repeatType: "reverse",
-                        delay: index * 0.2
-                      }
                     }}
                   >
                     <span className="text-white/70 font-bold text-lg tracking-wider">{company}</span>
