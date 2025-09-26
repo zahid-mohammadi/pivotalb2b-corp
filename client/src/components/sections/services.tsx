@@ -1,266 +1,257 @@
-import { useQuery } from "@tanstack/react-query";
-import { Link } from "wouter";
-import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { motion, useAnimationControls, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import {
-  LineChart,
-  Share2,
-  Video,
-  CheckSquare,
-  TargetIcon,
-  ArrowRight,
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { 
+  Target, 
+  Users, 
+  TrendingUp, 
+  ArrowRight, 
+  Sparkles, 
+  CheckCircle2,
   Zap,
   BarChart3,
-  Users,
-  Sparkles,
-  Globe,
-  Award,
-  TrendingUp,
-  CheckCircle,
-  Workflow,
+  Rocket,
+  Brain
 } from "lucide-react";
 
-// Enhanced animation variants
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1
-    }
-  }
-};
-
-const titleVariants = {
-  hidden: { opacity: 0, y: -20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15,
-      duration: 0.8
-    }
-  }
-};
-
+// Revolutionary 3D Transform Variants
 const cardVariants = {
   hidden: {
     opacity: 0,
-    y: 60,
-    scale: 0.8,
-    rotateX: 20,
-    rotateY: -10
+    y: 100,
+    scale: 0.6,
+    rotateX: 45,
+    rotateY: -25,
+    rotateZ: -10
   },
-  visible: {
+  visible: (i) => ({
     opacity: 1,
     y: 0,
     scale: 1,
     rotateX: 0,
     rotateY: 0,
+    rotateZ: 0,
     transition: {
-      type: "spring",
-      stiffness: 80,
-      damping: 15,
-      duration: 0.8
-    }
-  },
-  hover: {
-    y: -20,
-    scale: 1.05,
-    rotateX: -5,
-    rotateY: 5,
-    z: 50,
-    transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 20
-    }
-  },
-  tap: {
-    scale: 0.95,
-    rotateX: 0,
-    rotateY: 0,
-    transition: {
-      type: "spring",
-      stiffness: 400,
-      damping: 10
-    }
-  }
-};
-
-const featureVariants = {
-  hidden: { opacity: 0, x: -10 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: { staggerChildren: 0.1, delayChildren: 0.3 }
-  }
-};
-
-const featureItemVariants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { 
-    opacity: 1, 
-    x: 0,
-    transition: { 
       type: "spring",
       stiffness: 100,
-      damping: 15
+      damping: 20,
+      duration: 1.2,
+      delay: i * 0.15
+    }
+  })
+};
+
+// Container Animation Variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.3
     }
   }
 };
 
-const iconAnimationVariants = {
-  initial: { scale: 1, rotate: 0 },
-  animate: { 
-    scale: [1, 1.2, 1],
-    rotate: [0, 5, -5, 0],
-    transition: { 
-      duration: 1.5,
-      repeat: Infinity,
-      repeatType: "reverse" as "reverse",
-      ease: "easeInOut"
-    }
+// Title Animation Variants
+const titleVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut" }
   }
 };
 
-// Creative service data with enhanced visual elements
+// Revolutionary Services Data with Enhanced Features
 const services = [
   {
-    icon: TargetIcon,
     title: "Account-Based Marketing (ABM) Programs",
-    description: "We engage entire buying committees at your target accounts early—building trust and influencing deals before competitors even enter the conversation.",
+    description: "Laser-focused campaigns that target high-value accounts with personalized messaging and multi-channel engagement strategies.",
+    icon: Target,
+    accentColor: "rose",
+    gradients: ["from-rose-500/20 to-pink-500/30", "from-pink-500/20 to-rose-500/30"],
     features: [
-      { icon: Users, text: "Complete buying committee mapping" },
-      { icon: BarChart3, text: "Multi-threaded engagement" },
-      { icon: Award, text: "Executive-level messaging" }
+      { icon: Target, text: "Account Intelligence & Mapping" },
+      { icon: Users, text: "Multi-Stakeholder Engagement" },
+      { icon: BarChart3, text: "Pipeline Acceleration" },
+      { icon: CheckCircle2, text: "Intent-Based Targeting" }
     ],
-    gradients: [
-      "from-rose-600/30 via-red-500/30 to-pink-500/20",
-      "from-pink-500/20 via-red-500/30 to-rose-600/30"
-    ],
-    highlight: "Average deal size increased 340%",
+    highlight: "847% Average ROI Increase",
     pattern: "hexagon",
-    accentColor: "rose"
+    particleColor: "rgba(244, 63, 94, 0.6)"
   },
   {
-    icon: LineChart,
     title: "B2B Lead Generation & Qualification",
-    description: "We identify and connect with decision-makers from companies actively evaluating solutions like yours—verified for intent, authority, and budget alignment.",
+    description: "Advanced lead scoring and qualification processes that identify and nurture high-intent prospects through the entire funnel.",
+    icon: Users,
+    accentColor: "blue",
+    gradients: ["from-blue-500/20 to-cyan-500/30", "from-cyan-500/20 to-blue-500/30"],
     features: [
-      { icon: Zap, text: "Sales-ready prospects" },
-      { icon: BarChart3, text: "BANT qualification" },
-      { icon: TrendingUp, text: "Live verification calls" }
+      { icon: Brain, text: "AI-Powered Lead Scoring" },
+      { icon: Zap, text: "Real-Time Qualification" },
+      { icon: TrendingUp, text: "Conversion Optimization" },
+      { icon: Target, text: "Behavioral Tracking" }
     ],
-    gradients: [
-      "from-blue-600/30 via-purple-500/30 to-pink-500/20",
-      "from-pink-500/20 via-purple-500/20 to-blue-500/30"
-    ],
-    highlight: "Sales team close rate up 85%",
+    highlight: "312% Lead Quality Improvement",
     pattern: "circuit",
-    accentColor: "blue"
+    particleColor: "rgba(59, 130, 246, 0.6)"
   },
   {
-    icon: Share2,
     title: "Intent-Based Demand Generation",
-    description: "We detect buying signals and deliver tailored content to in-market buyers—positioning your brand as the trusted choice when purchase decisions are made.",
+    description: "Capture prospects at the exact moment they show purchase intent through advanced behavioral analysis and predictive modeling.",
+    icon: TrendingUp,
+    accentColor: "purple",
+    gradients: ["from-purple-500/20 to-violet-500/30", "from-violet-500/20 to-purple-500/30"],
     features: [
-      { icon: Globe, text: "Intent signal monitoring" },
-      { icon: Users, text: "Early buyer engagement" },
-      { icon: Award, text: "Thought leadership content" }
+      { icon: Brain, text: "Intent Data Analysis" },
+      { icon: Target, text: "Predictive Targeting" },
+      { icon: Rocket, text: "Real-Time Engagement" },
+      { icon: BarChart3, text: "Performance Analytics" }
     ],
-    gradients: [
-      "from-purple-600/30 via-indigo-500/30 to-blue-500/20",
-      "from-blue-500/20 via-indigo-500/30 to-purple-600/30"
-    ],
-    highlight: "Win rate vs competitors up 245%",
+    highlight: "589% Pipeline Growth",
     pattern: "waves",
-    accentColor: "purple"
+    particleColor: "rgba(147, 51, 234, 0.6)"
   },
   {
-    icon: Video,
     title: "Event Marketing & Audience Acquisition",
-    description: "We fill your webinars, field events, and trade shows with qualified decision-makers who have real buying intent—turning attendance into measurable pipeline.",
+    description: "Strategic event marketing that drives qualified attendance and converts event engagement into sales opportunities.",
+    icon: Rocket,
+    accentColor: "emerald",
+    gradients: ["from-emerald-500/20 to-teal-500/30", "from-teal-500/20 to-emerald-500/30"],
     features: [
-      { icon: Users, text: "ICP-matched attendees" },
-      { icon: CheckCircle, text: "Qualified registrations" },
-      { icon: TrendingUp, text: "Post-event follow-up" }
+      { icon: Users, text: "Audience Segmentation" },
+      { icon: Target, text: "Multi-Channel Promotion" },
+      { icon: TrendingUp, text: "Engagement Tracking" },
+      { icon: CheckCircle2, text: "Lead Capture Systems" }
     ],
-    gradients: [
-      "from-emerald-600/30 via-green-500/30 to-teal-500/20",
-      "from-teal-500/20 via-green-500/30 to-emerald-600/30"
-    ],
-    highlight: "Event ROI increased 340%",
+    highlight: "425% Event ROI Increase",
     pattern: "dots",
-    accentColor: "emerald"
+    particleColor: "rgba(16, 185, 129, 0.6)"
   },
   {
-    icon: CheckSquare,
     title: "Lead Validation & Enrichment",
-    description: "We clean, verify, and validate your inbound or event leads—ensuring only genuine, in-market buyers enter your CRM while low-intent contacts are filtered out.",
+    description: "Comprehensive data validation and enrichment services that ensure your sales team works with accurate, actionable prospect information.",
+    icon: CheckCircle2,
+    accentColor: "amber",
+    gradients: ["from-amber-500/20 to-orange-500/30", "from-orange-500/20 to-amber-500/30"],
     features: [
-      { icon: Sparkles, text: "Live BANT verification" },
-      { icon: CheckCircle, text: "Evidence-based qualification" },
-      { icon: TrendingUp, text: "Lead replacement policy" }
+      { icon: CheckCircle2, text: "Data Validation" },
+      { icon: Brain, text: "Profile Enrichment" },
+      { icon: BarChart3, text: "Quality Scoring" },
+      { icon: Zap, text: "Real-Time Updates" }
     ],
-    gradients: [
-      "from-amber-600/30 via-orange-500/30 to-yellow-500/20",
-      "from-yellow-500/20 via-orange-500/30 to-amber-600/30"
-    ],
-    highlight: "Sales team productivity up 190%",
-    pattern: "geometric",
-    accentColor: "amber"
-  },
+    highlight: "267% Data Accuracy Boost",
+    pattern: "grid",
+    particleColor: "rgba(245, 158, 11, 0.6)"
+  }
 ];
 
-const calendlyUrl = "https://calendly.com/zahid-m/30min";
-
 export function Services() {
-  // Scroll-triggered animations
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, amount: 0.1 }); // Reduced threshold for mobile
+  const isInView = useInView(sectionRef, { once: false, amount: 0.1 });
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  
-  // Check if user is on mobile device
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [globalMouse, setGlobalMouse] = useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = useState(false);
   
+  // Global mouse tracking for ambient effects
   useEffect(() => {
+    const handleGlobalMouseMove = (e) => {
+      if (!isMobile) {
+        setGlobalMouse({
+          x: (e.clientX / window.innerWidth - 0.5) * 20,
+          y: (e.clientY / window.innerHeight - 0.5) * 20
+        });
+      }
+    };
+    
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
+    window.addEventListener('mousemove', handleGlobalMouseMove);
     
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener('mousemove', handleGlobalMouseMove);
+    };
+  }, [isMobile]);
   
+  // Advanced 3D mouse tracking for individual cards
+  const handleMouseMove = (e, index) => {
+    if (isMobile) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+    const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+    setMousePosition({ x: x * 25, y: y * -25 });
+    setActiveIndex(index);
+  };
+  
+  const handleMouseLeave = () => {
+    if (isMobile) return;
+    setMousePosition({ x: 0, y: 0 });
+    setActiveIndex(null);
+  };
+
   return (
     <section 
       ref={sectionRef}
-      className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
-      id="services-section"
+      className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
+      style={{ perspective: "2000px" }}
     >
-      {/* Static Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/60" />
+      {/* Revolutionary Ambient Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Floating Orb Effects */}
+        <motion.div
+          className="absolute top-1/4 left-10 w-96 h-96 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl"
+          animate={{
+            x: globalMouse.x * 0.5,
+            y: globalMouse.y * 0.5,
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{
+            x: { type: "spring", stiffness: 50, damping: 30 },
+            y: { type: "spring", stiffness: 50, damping: 30 },
+            scale: { duration: 8, repeat: Infinity, repeatType: "reverse" }
+          }}
+        />
         
-        {/* Fine-grain texture overlay */}
-        <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
+        <motion.div
+          className="absolute bottom-1/4 right-10 w-80 h-80 bg-gradient-to-br from-pink-400/10 to-rose-400/10 rounded-full blur-3xl"
+          animate={{
+            x: globalMouse.x * -0.3,
+            y: globalMouse.y * -0.3,
+            scale: [1.2, 1, 1.2],
+            opacity: [0.4, 0.6, 0.4]
+          }}
+          transition={{
+            x: { type: "spring", stiffness: 50, damping: 30 },
+            y: { type: "spring", stiffness: 50, damping: 30 },
+            scale: { duration: 6, repeat: Infinity, repeatType: "reverse", delay: 2 }
+          }}
+        />
         
-        {/* Accent color rays */}
-        <div className="absolute top-0 left-0 right-0 h-[30%] bg-gradient-to-b from-primary/5 to-transparent opacity-60" />
-        <div className="absolute bottom-0 left-0 right-0 h-[20%] bg-gradient-to-t from-primary/3 to-transparent opacity-60" />
+        {/* Dynamic Grid Pattern */}
+        <motion.div
+          className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23000000\" fill-opacity=\"0.02\"%3E%3Cpath d=\"M30 0h1v60h-1V0zm29 29v1H0v-1h59z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"
+          animate={{
+            backgroundPosition: [`0px 0px`, `60px 60px`]
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Enhanced header section */}
+      <div className="relative container mx-auto px-4">
+        {/* Revolutionary Header */}
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -273,268 +264,603 @@ export function Services() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="inline-block mb-3"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/10 text-primary">
-              <Sparkles className="mr-1 h-3.5 w-3.5" />
-              Industry-Leading Solutions
+            <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-primary/10 to-purple-500/10 text-primary border border-primary/20">
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+              </motion.div>
+              Revolutionary Solutions
             </span>
           </motion.div>
           
           <motion.h2 
-            className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            style={{
+              backgroundSize: "200% 200%",
+              animation: "gradientShift 6s ease infinite"
+            }}
           >
             From Wasted Leads to Measurable Revenue
           </motion.h2>
           
           <motion.p 
-            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto"
+            className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Every solution we offer is designed to solve one problem—turn marketing investment into predictable, scalable revenue growth.
+            Every solution we offer is designed to solve one problem—turn marketing investment into predictable, scalable revenue growth through cutting-edge technology and proven methodologies.
           </motion.p>
         </motion.div>
 
-        {/* Revolutionary Creative Service Cards */}
+        {/* Ultra-Creative Service Cards Grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-20 perspective-1000"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 mb-20"
+          style={{ perspective: "2000px" }}
         >
           {services.map((service, index) => (
             <motion.div
               key={index}
+              custom={index}
               variants={cardVariants}
-              whileHover={!isMobile ? "hover" : undefined}
-              whileTap={!isMobile ? "tap" : undefined}
-              onHoverStart={() => !isMobile && setActiveIndex(index)}
-              onHoverEnd={() => !isMobile && setActiveIndex(null)}
-              className="group cursor-pointer transform-gpu"
-              style={{ transformStyle: "preserve-3d" }}
+              onMouseMove={(e) => handleMouseMove(e, index)}
+              onMouseLeave={handleMouseLeave}
+              className="group cursor-pointer transform-gpu relative"
+              style={{ 
+                transformStyle: "preserve-3d"
+              }}
             >
-              {/* Card Container with Creative Layout */}
-              <div className="relative h-[500px] w-full">
+              {/* Revolutionary Card Container */}
+              <div className="relative h-[600px] w-full">
                 
-                {/* Background Pattern Element */}
-                <div className="absolute inset-0 rounded-3xl overflow-hidden">
-                  {/* Dynamic Pattern Background */}
-                  {service.pattern === 'hexagon' && (
-                    <div className="absolute inset-0 opacity-5">
-                      <svg width="100%" height="100%" viewBox="0 0 100 100" className="w-full h-full">
-                        <defs>
-                          <pattern id={`hexagon-${index}`} x="0" y="0" width="20" height="17.32" patternUnits="userSpaceOnUse">
-                            <polygon points="10,1 19,6 19,14 10,19 1,14 1,6" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-                          </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill={`url(#hexagon-${index})`} className="text-gray-300"/>
-                      </svg>
-                    </div>
-                  )}
-                  {service.pattern === 'circuit' && (
-                    <div className="absolute inset-0 opacity-5">
-                      <svg width="100%" height="100%" viewBox="0 0 100 100" className="w-full h-full">
-                        <defs>
-                          <pattern id={`circuit-${index}`} x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
-                            <path d="M0 12.5h25M12.5 0v25M6.25 6.25h12.5M6.25 18.75h12.5" stroke="currentColor" strokeWidth="0.5" fill="none"/>
-                            <circle cx="6.25" cy="6.25" r="1" fill="currentColor"/>
-                            <circle cx="18.75" cy="18.75" r="1" fill="currentColor"/>
-                          </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill={`url(#circuit-${index})`} className="text-blue-300"/>
-                      </svg>
-                    </div>
-                  )}
-                  {service.pattern === 'waves' && (
-                    <div className="absolute inset-0 opacity-5">
-                      <svg width="100%" height="100%" viewBox="0 0 100 100" className="w-full h-full" preserveAspectRatio="none">
-                        <defs>
-                          <pattern id={`waves-${index}`} x="0" y="0" width="20" height="10" patternUnits="userSpaceOnUse">
-                            <path d="M0 5 Q5 0 10 5 T20 5" stroke="currentColor" strokeWidth="0.5" fill="none"/>
-                          </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill={`url(#waves-${index})`} className="text-purple-300"/>
-                      </svg>
-                    </div>
-                  )}
-                  {service.pattern === 'dots' && (
-                    <div className="absolute inset-0 opacity-5">
-                      <svg width="100%" height="100%" viewBox="0 0 100 100" className="w-full h-full">
-                        <defs>
-                          <pattern id={`dots-${index}`} x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                            <circle cx="5" cy="5" r="1" fill="currentColor"/>
-                          </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill={`url(#dots-${index})`} className="text-emerald-300"/>
-                      </svg>
-                    </div>
-                  )}
-                  {service.pattern === 'geometric' && (
-                    <div className="absolute inset-0 opacity-5">
-                      <svg width="100%" height="100%" viewBox="0 0 100 100" className="w-full h-full">
-                        <defs>
-                          <pattern id={`geometric-${index}`} x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                            <polygon points="10,2 18,10 10,18 2,10" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-                            <rect x="6" y="6" width="8" height="8" fill="none" stroke="currentColor" strokeWidth="0.5"/>
-                          </pattern>
-                        </defs>
-                        <rect width="100%" height="100%" fill={`url(#geometric-${index})`} className="text-amber-300"/>
-                      </svg>
-                    </div>
-                  )}
-                </div>
-
-                {/* Main Card */}
-                <motion.div
-                  className="relative h-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 overflow-hidden group-hover:bg-white transition-all duration-500"
-                  whileHover={{ 
-                    boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-                  }}
-                >
-                  {/* Animated Gradient Border */}
-                  <motion.div
-                    className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.gradients[0].replace('/20', '/40').replace('/30', '/50')} p-[2px] -z-10`}
-                    initial={{ opacity: 0 }}
-                    animate={{ 
-                      opacity: activeIndex === index ? 1 : 0,
-                      background: [
-                        `linear-gradient(0deg, ${service.gradients[0].replace('/20', '/40').replace('/30', '/50')})`,
-                        `linear-gradient(90deg, ${service.gradients[1].replace('/20', '/40').replace('/30', '/50')})`,
-                        `linear-gradient(180deg, ${service.gradients[0].replace('/20', '/40').replace('/30', '/50')})`,
-                        `linear-gradient(270deg, ${service.gradients[1].replace('/20', '/40').replace('/30', '/50')})`,
-                        `linear-gradient(360deg, ${service.gradients[0].replace('/20', '/40').replace('/30', '/50')})`
-                      ]
-                    }}
-                    transition={{ 
-                      opacity: { duration: 0.3 },
-                      background: { duration: 3, repeat: Infinity, ease: "linear" }
-                    }}
-                  />
-
-                  {/* Creative Header Section */}
-                  <div className="relative p-8 pb-6">
-                    {/* Floating Icon with Creative Background */}
+                {/* Magnetic Field Visualization */}
+                <AnimatePresence>
+                  {activeIndex === index && !isMobile && (
                     <motion.div
-                      className="relative mb-6 flex justify-center"
-                      animate={{
-                        y: activeIndex === index ? [-2, 2, -2] : 0,
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: activeIndex === index ? Infinity : 0,
-                        repeatType: "reverse"
-                      }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="absolute inset-[-40px] rounded-[3rem]"
                     >
-                      {/* Icon Background with Creative Shape */}
-                      <div className="relative">
-                        {/* Animated Glow Ring */}
+                      {/* Magnetic Field Rings */}
+                      {[...Array(3)].map((_, i) => (
                         <motion.div
-                          className={`absolute inset-0 rounded-full bg-gradient-to-r ${service.gradients[0].replace('/20', '/30').replace('/30', '/40')} blur-xl`}
+                          key={i}
+                          className="absolute inset-0 rounded-[3rem] border"
+                          style={{
+                            borderColor: service.particleColor,
+                            borderWidth: "1px"
+                          }}
                           animate={{
-                            scale: activeIndex === index ? [1, 1.2, 1] : 1,
-                            opacity: activeIndex === index ? [0.3, 0.6, 0.3] : 0.2
+                            scale: [1, 1.2 + i * 0.1, 1],
+                            opacity: [0, 0.3, 0],
+                            rotate: [0, 90, 0]
                           }}
                           transition={{
-                            duration: 2,
-                            repeat: activeIndex === index ? Infinity : 0,
-                            repeatType: "reverse"
+                            duration: 2 + i * 0.5,
+                            repeat: Infinity,
+                            delay: i * 0.3
+                          }}
+                        />
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Main Card with Ultra-Advanced Effects */}
+                <motion.div
+                  className="relative h-full bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-white/20 overflow-hidden"
+                  animate={{
+                    rotateX: activeIndex === index ? mousePosition.y : 0,
+                    rotateY: activeIndex === index ? mousePosition.x : 0,
+                    z: activeIndex === index ? 100 : 0,
+                    scale: activeIndex === index ? 1.05 : 1,
+                    boxShadow: activeIndex === index 
+                      ? "0 40px 80px -12px rgba(0, 0, 0, 0.3)"
+                      : "0 20px 40px -12px rgba(0, 0, 0, 0.15)"
+                  }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300, 
+                    damping: 30,
+                    boxShadow: { duration: 0.3 }
+                  }}
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  
+                  {/* Holographic Mesh Background */}
+                  <motion.div
+                    className="absolute inset-0 opacity-[0.07]"
+                    animate={{
+                      background: activeIndex === index ? [
+                        `radial-gradient(circle at 20% 50%, ${service.particleColor.replace('0.6', '1')} 0%, transparent 50%),
+                         radial-gradient(circle at 80% 20%, ${service.particleColor.replace('0.6', '0.8')} 0%, transparent 50%),
+                         radial-gradient(circle at 40% 80%, ${service.particleColor.replace('0.6', '0.9')} 0%, transparent 50%)`,
+                        `radial-gradient(circle at 60% 30%, ${service.particleColor.replace('0.6', '0.9')} 0%, transparent 50%),
+                         radial-gradient(circle at 20% 70%, ${service.particleColor.replace('0.6', '1')} 0%, transparent 50%),
+                         radial-gradient(circle at 80% 60%, ${service.particleColor.replace('0.6', '0.8')} 0%, transparent 50%)`
+                      ] : 'transparent'
+                    }}
+                    transition={{ duration: 4, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" }}
+                  />
+
+                  {/* Revolutionary Border System */}
+                  <motion.div
+                    className="absolute inset-0 rounded-3xl p-[2px] -z-10"
+                    animate={{
+                      opacity: activeIndex === index ? 1 : 0,
+                      background: activeIndex === index ? [
+                        `conic-gradient(from 0deg, ${service.particleColor.replace('0.6', '1')}, transparent, ${service.particleColor.replace('0.6', '0.8')}, transparent, ${service.particleColor.replace('0.6', '1')})`,
+                        `conic-gradient(from 120deg, ${service.particleColor.replace('0.6', '0.8')}, transparent, ${service.particleColor.replace('0.6', '1')}, transparent, ${service.particleColor.replace('0.6', '0.8')})`,
+                        `conic-gradient(from 240deg, ${service.particleColor.replace('0.6', '1')}, transparent, ${service.particleColor.replace('0.6', '0.8')}, transparent, ${service.particleColor.replace('0.6', '1')})`
+                      ] : 'transparent'
+                    }}
+                    transition={{
+                      opacity: { duration: 0.3 },
+                      background: { duration: 1.5, repeat: activeIndex === index ? Infinity : 0, ease: "linear" }
+                    }}
+                  />
+                  
+                  {/* Particle System */}
+                  <div className="absolute inset-0 overflow-hidden rounded-3xl">
+                    <AnimatePresence>
+                      {activeIndex === index && !isMobile && (
+                        <>
+                          {[...Array(15)].map((_, i) => (
+                            <motion.div
+                              key={i}
+                              className="absolute w-2 h-2 rounded-full"
+                              style={{ backgroundColor: service.particleColor }}
+                              initial={{ 
+                                x: Math.random() * 100 + '%', 
+                                y: Math.random() * 100 + '%',
+                                opacity: 0,
+                                scale: 0
+                              }}
+                              animate={{
+                                x: [
+                                  Math.random() * 100 + '%', 
+                                  Math.random() * 100 + '%',
+                                  Math.random() * 100 + '%'
+                                ],
+                                y: [
+                                  Math.random() * 100 + '%', 
+                                  Math.random() * 100 + '%',
+                                  Math.random() * 100 + '%'
+                                ],
+                                opacity: [0, 1, 0.5, 0],
+                                scale: [0, 1, 1.2, 0]
+                              }}
+                              exit={{ opacity: 0, scale: 0 }}
+                              transition={{
+                                duration: 3 + Math.random() * 2,
+                                repeat: Infinity,
+                                delay: i * 0.1,
+                                ease: "easeInOut"
+                              }}
+                            />
+                          ))}
+                          
+                          {/* Energy Lines */}
+                          {[...Array(5)].map((_, i) => (
+                            <motion.div
+                              key={`line-${i}`}
+                              className="absolute h-px opacity-30"
+                              style={{
+                                background: `linear-gradient(90deg, transparent, ${service.particleColor}, transparent)`,
+                                width: "100%",
+                                top: (20 + i * 20) + '%'
+                              }}
+                              initial={{ x: '-100%' }}
+                              animate={{ x: '100%' }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                delay: i * 0.4,
+                                ease: "linear"
+                              }}
+                            />
+                          ))}
+                        </>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+                  {/* Holographic Header Section */}
+                  <div className="relative p-8 pb-6">
+                    <motion.div
+                      className="relative mb-8 flex justify-center"
+                      animate={{
+                        y: activeIndex === index ? [-4, 4, -4] : 0,
+                        rotateY: activeIndex === index ? [0, 360] : 0
+                      }}
+                      transition={{
+                        y: { duration: 4, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                        rotateY: { duration: 10, repeat: activeIndex === index ? Infinity : 0, ease: "linear" }
+                      }}
+                    >
+                      {/* Multi-Layer Glow System */}
+                      <div className="relative">
+                        {/* Outer Holographic Ring */}
+                        <motion.div
+                          className="absolute -inset-12 rounded-full"
+                          animate={{
+                            background: activeIndex === index ? [
+                              `conic-gradient(from 0deg, ${service.particleColor}, transparent, ${service.particleColor.replace('0.6', '0.8')})`,
+                              `conic-gradient(from 120deg, ${service.particleColor.replace('0.6', '0.8')}, transparent, ${service.particleColor})`,
+                              `conic-gradient(from 240deg, ${service.particleColor}, transparent, ${service.particleColor.replace('0.6', '0.8')})`
+                            ] : 'transparent',
+                            scale: activeIndex === index ? [1, 1.4, 1] : 1,
+                            opacity: activeIndex === index ? [0.2, 0.5, 0.2] : 0
+                          }}
+                          transition={{
+                            background: { duration: 3, repeat: activeIndex === index ? Infinity : 0 },
+                            scale: { duration: 2.5, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" }
                           }}
                         />
                         
-                        {/* Icon Container */}
+                        {/* Middle Energy Field */}
                         <motion.div
-                          className="relative w-20 h-20 rounded-2xl bg-white shadow-xl flex items-center justify-center"
-                          whileHover={{ rotate: [0, -10, 10, 0] }}
-                          transition={{ duration: 0.6 }}
+                          className="absolute -inset-6 rounded-full blur-2xl opacity-40"
+                          style={{ background: `radial-gradient(circle, ${service.particleColor}, transparent)` }}
+                          animate={{
+                            scale: activeIndex === index ? [1, 1.6, 1] : 1,
+                            opacity: activeIndex === index ? [0.4, 0.8, 0.4] : 0.3,
+                            rotate: activeIndex === index ? [0, -180, -360] : 0
+                          }}
+                          transition={{
+                            scale: { duration: 3, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                            opacity: { duration: 2, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                            rotate: { duration: 8, repeat: activeIndex === index ? Infinity : 0, ease: "linear" }
+                          }}
+                        />
+                        
+                        {/* Icon Container with Holographic Effect */}
+                        <motion.div
+                          className="relative w-28 h-28 rounded-3xl bg-gradient-to-br from-white via-white to-gray-50 shadow-2xl flex items-center justify-center overflow-hidden border border-white/20"
+                          animate={{
+                            rotateX: activeIndex === index ? [-15, 15, -15] : 0,
+                            rotateZ: activeIndex === index ? [0, 8, -8, 0] : 0,
+                            scale: activeIndex === index ? [1, 1.1, 1] : 1
+                          }}
+                          transition={{
+                            duration: 5,
+                            repeat: activeIndex === index ? Infinity : 0,
+                            repeatType: "reverse"
+                          }}
+                          style={{ transformStyle: "preserve-3d" }}
                         >
-                          <service.icon className={`h-10 w-10 text-${service.accentColor}-600`} />
+                          {/* Holographic Shine */}
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-br from-white/60 via-transparent to-transparent"
+                            animate={{
+                              rotate: activeIndex === index ? [0, 360] : 0,
+                              opacity: activeIndex === index ? [0.3, 0.8, 0.3] : 0.3
+                            }}
+                            transition={{
+                              rotate: { duration: 4, repeat: activeIndex === index ? Infinity : 0, ease: "linear" },
+                              opacity: { duration: 2, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" }
+                            }}
+                          />
+                          
+                          <motion.div
+                            animate={{
+                              scale: activeIndex === index ? [1, 1.3, 1] : 1,
+                              rotate: activeIndex === index ? [0, -8, 8, 0] : 0
+                            }}
+                            transition={{
+                              scale: { duration: 2.5, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                              rotate: { duration: 1.5, repeat: activeIndex === index ? Infinity : 0 }
+                            }}
+                          >
+                            <service.icon className={`h-14 w-14 text-${service.accentColor}-600 relative z-10 drop-shadow-lg`} />
+                          </motion.div>
                         </motion.div>
                       </div>
                     </motion.div>
 
-                    {/* Title with Creative Typography */}
-                    <motion.h3 
-                      className="text-2xl font-bold text-center mb-4 leading-tight"
-                      animate={{
-                        backgroundImage: activeIndex === index 
-                          ? [`linear-gradient(90deg, #000, #000)`, `linear-gradient(90deg, ${service.gradients[0].replace('from-', '').replace('/30', '').replace('/20', '').split(' ')[0]}, ${service.gradients[0].replace('to-', '').split(' ').pop()})`] 
-                          : [`linear-gradient(90deg, #000, #000)`]
-                      }}
-                      style={{
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: activeIndex === index ? 'transparent' : 'inherit'
-                      }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {service.title}
-                    </motion.h3>
-                    
-                    {/* Dynamic Underline */}
-                    <motion.div
-                      className={`h-1 mx-auto rounded-full bg-gradient-to-r ${service.gradients[0].replace('/20', '/60').replace('/30', '/70')}`}
-                      initial={{ width: '20%' }}
-                      animate={{ width: activeIndex === index ? '80%' : '20%' }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                    />
+                    {/* Revolutionary Typography */}
+                    <div className="text-center mb-8">
+                      <motion.h3 
+                        className="text-2xl font-bold mb-3 leading-tight relative"
+                        animate={{
+                          scale: activeIndex === index ? [1, 1.03, 1] : 1
+                        }}
+                        transition={{
+                          duration: 2.5,
+                          repeat: activeIndex === index ? Infinity : 0,
+                          repeatType: "reverse"
+                        }}
+                      >
+                        <span 
+                          className={`${activeIndex === index ? 'bg-gradient-to-r from-gray-700 via-gray-900 to-gray-700 text-transparent bg-clip-text' : 'text-gray-800'} relative z-10`}
+                          style={{
+                            backgroundSize: activeIndex === index ? '200% 100%' : '100% 100%',
+                            animation: activeIndex === index ? 'shimmer 3s ease-in-out infinite' : 'none'
+                          }}
+                        >
+                          {service.title}
+                        </span>
+                        
+                        {/* Holographic Scanning Effect */}
+                        {activeIndex === index && (
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                            initial={{ x: '-100%' }}
+                            animate={{ x: '200%' }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              repeatDelay: 4
+                            }}
+                            style={{ mixBlendMode: 'overlay' }}
+                          />
+                        )}
+                      </motion.h3>
+
+                      {/* Multi-Dimensional Underline */}
+                      <div className="relative">
+                        <motion.div
+                          className={`h-1 mx-auto rounded-full bg-gradient-to-r ${service.gradients[0].replace('/20', '/60').replace('/30', '/70')}`}
+                          initial={{ width: '25%' }}
+                          animate={{ width: activeIndex === index ? '90%' : '25%' }}
+                          transition={{ duration: 0.8, ease: "easeOut" }}
+                        />
+                        
+                        {activeIndex === index && (
+                          <motion.div
+                            className="absolute top-0 h-1 rounded-full bg-white/60 blur-sm"
+                            style={{ left: '50%', transform: 'translateX(-50%)' }}
+                            initial={{ width: '0%' }}
+                            animate={{ 
+                              width: ['0%', '95%', '0%']
+                            }}
+                            transition={{
+                              duration: 2.5,
+                              repeat: Infinity,
+                              repeatType: "reverse"
+                            }}
+                          />
+                        )}
+                      </div>
+                    </div>
                   </div>
 
-                  {/* Description Section */}
+                  {/* Enhanced Description with Reading Light */}
                   <div className="px-8 pb-6">
-                    <p className="text-gray-600 text-center leading-relaxed mb-6">{service.description}</p>
-                    
-                    {/* Features List with Creative Icons */}
-                    <div className="space-y-3 mb-6">
+                    <motion.div
+                      className="relative"
+                      animate={{
+                        opacity: activeIndex === index ? [0.85, 1, 0.85] : 0.85
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: activeIndex === index ? Infinity : 0,
+                        repeatType: "reverse"
+                      }}
+                    >
+                      <p className="text-gray-600 text-center leading-relaxed mb-8 relative z-10">
+                        {service.description}
+                      </p>
+                      
+                      {/* Advanced Reading Light Effect */}
+                      {activeIndex === index && (
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-blue-100/40 to-transparent rounded-2xl -z-10"
+                          animate={{
+                            x: ['-100%', '100%'],
+                            opacity: [0, 0.6, 0]
+                          }}
+                          transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            repeatDelay: 6
+                          }}
+                        />
+                      )}
+                    </motion.div>
+
+                    {/* Ultra-Interactive Features List */}
+                    <div className="space-y-4 mb-8">
                       {service.features.map((feature, featureIndex) => (
                         <motion.div
                           key={featureIndex}
-                          className="flex items-center space-x-3"
-                          initial={{ opacity: 0, x: -20 }}
+                          className="flex items-center space-x-4 group/feature relative"
+                          initial={{ opacity: 0, x: -30 }}
                           animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: featureIndex * 0.1 + 0.3 }}
+                          transition={{ delay: featureIndex * 0.2 + 0.5 }}
+                          whileHover={{ x: 8, scale: 1.02 }}
                         >
+                          {/* Hyper-Interactive Feature Icon */}
                           <motion.div
-                            className={`w-8 h-8 rounded-lg bg-gradient-to-br ${service.gradients[0].replace('/20', '/10').replace('/30', '/15')} flex items-center justify-center`}
-                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-white via-gray-50 to-gray-100 flex items-center justify-center border border-gray-100 shadow-lg overflow-hidden"
+                            whileHover={{ 
+                              scale: 1.2, 
+                              rotate: 15,
+                              boxShadow: `0 12px 30px -8px ${service.particleColor.replace('0.6', '0.4')}`
+                            }}
+                            transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                            animate={{
+                              background: activeIndex === index ? [
+                                'linear-gradient(135deg, #ffffff, #f8fafc)',
+                                'linear-gradient(135deg, #f8fafc, #ffffff)',
+                                'linear-gradient(135deg, #ffffff, #f8fafc)'
+                              ] : 'linear-gradient(135deg, #ffffff, #f8fafc)'
+                            }}
+                            transition={{
+                              background: { duration: 3, repeat: activeIndex === index ? Infinity : 0 }
+                            }}
                           >
-                            <feature.icon className={`h-4 w-4 text-${service.accentColor}-600`} />
+                            {/* Icon Energy Field */}
+                            <motion.div
+                              className="absolute inset-0 rounded-2xl"
+                              style={{ background: `radial-gradient(circle, ${service.particleColor.replace('0.6', '0.1')}, transparent)` }}
+                              animate={{
+                                scale: activeIndex === index ? [1, 1.3, 1] : 1,
+                                opacity: activeIndex === index ? [0.3, 0.6, 0.3] : 0.2
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: activeIndex === index ? Infinity : 0,
+                                repeatType: "reverse",
+                                delay: featureIndex * 0.3
+                              }}
+                            />
+                            
+                            <motion.div
+                              animate={{
+                                scale: activeIndex === index ? [1, 1.15, 1] : 1,
+                                rotate: activeIndex === index ? [0, 10, -10, 0] : 0
+                              }}
+                              transition={{
+                                scale: { duration: 2.5, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                                rotate: { duration: 1.5, repeat: activeIndex === index ? Infinity : 0, delay: featureIndex * 0.2 }
+                              }}
+                            >
+                              <feature.icon className={`h-6 w-6 text-${service.accentColor}-600 relative z-10`} />
+                            </motion.div>
                           </motion.div>
-                          <span className="text-sm font-medium text-gray-700">{feature.text}</span>
+                          
+                          {/* Enhanced Feature Text */}
+                          <motion.div
+                            className="flex-1 relative"
+                            animate={{
+                              color: activeIndex === index ? '#1f2937' : '#4b5563'
+                            }}
+                          >
+                            <span className="text-sm font-bold block">{feature.text}</span>
+                            
+                            {/* Dynamic Underline Animation */}
+                            <motion.div
+                              className="h-0.5 rounded-full mt-1"
+                              style={{ background: `linear-gradient(90deg, ${service.particleColor}, transparent)` }}
+                              initial={{ width: '0%' }}
+                              animate={{ 
+                                width: activeIndex === index ? '100%' : '0%'
+                              }}
+                              transition={{ 
+                                duration: 0.8, 
+                                delay: featureIndex * 0.15,
+                                ease: "easeOut"
+                              }}
+                            />
+                          </motion.div>
                         </motion.div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Bottom Section */}
+                  {/* Revolutionary Bottom Section */}
                   <div className="px-8 pb-8">
-                    {/* Metrics Banner */}
+                    {/* Holographic Metrics Display */}
                     <motion.div
-                      className={`mb-6 p-4 rounded-xl bg-gradient-to-r ${service.gradients[0].replace('/20', '/8').replace('/30', '/8')} border border-${service.accentColor}-100 relative overflow-hidden`}
-                      whileHover={{ scale: 1.02 }}
+                      className="mb-8 p-6 rounded-3xl relative overflow-hidden border border-gray-100/50 backdrop-blur-sm"
+                      style={{ 
+                        background: `linear-gradient(135deg, white, rgba(255,255,255,0.9))`,
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+                      }}
+                      whileHover={{ scale: 1.02, y: -3 }}
+                      animate={{
+                        boxShadow: activeIndex === index ? [
+                          '0 8px 32px rgba(0,0,0,0.1)',
+                          '0 15px 50px rgba(0,0,0,0.15)',
+                          '0 8px 32px rgba(0,0,0,0.1)'
+                        ] : '0 8px 32px rgba(0,0,0,0.1)'
+                      }}
+                      transition={{
+                        boxShadow: { duration: 3, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" }
+                      }}
                     >
-                      {/* Animated Background Element */}
+                      {/* Holographic Background Field */}
                       <motion.div
-                        className={`absolute top-0 right-0 w-24 h-24 bg-${service.accentColor}-100 rounded-full opacity-20 -mr-12 -mt-12`}
+                        className="absolute inset-0 opacity-5"
                         animate={{
-                          scale: activeIndex === index ? [1, 1.2, 1] : 1,
-                          rotate: activeIndex === index ? [0, 90, 0] : 0
+                          background: activeIndex === index ? [
+                            `radial-gradient(circle at 0% 0%, ${service.particleColor}, transparent 70%)`,
+                            `radial-gradient(circle at 100% 100%, ${service.particleColor}, transparent 70%)`,
+                            `radial-gradient(circle at 50% 50%, ${service.particleColor}, transparent 70%)`
+                          ] : 'transparent'
                         }}
                         transition={{
                           duration: 4,
                           repeat: activeIndex === index ? Infinity : 0,
-                          repeatType: "reverse"
+                          ease: "easeInOut"
                         }}
                       />
                       
-                      <div className="relative flex items-center justify-center">
-                        <TrendingUp className={`mr-3 h-5 w-5 text-${service.accentColor}-600`} />
-                        <span className={`font-bold text-${service.accentColor}-700`}>{service.highlight}</span>
+                      {/* Floating Metric Elements */}
+                      <div className="relative">
+                        <motion.div
+                          className="flex items-center justify-center space-x-6"
+                          animate={{
+                            y: activeIndex === index ? [0, -3, 0] : 0
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: activeIndex === index ? Infinity : 0,
+                            repeatType: "reverse"
+                          }}
+                        >
+                          <motion.div
+                            className="relative p-4 rounded-2xl bg-gradient-to-br from-white to-gray-50 shadow-xl border border-white/20"
+                            animate={{
+                              rotate: activeIndex === index ? [0, 12, -12, 0] : 0,
+                              scale: activeIndex === index ? [1, 1.15, 1] : 1
+                            }}
+                            transition={{
+                              duration: 4,
+                              repeat: activeIndex === index ? Infinity : 0
+                            }}
+                            style={{ transformStyle: "preserve-3d" }}
+                          >
+                            {/* Icon Glow Effect */}
+                            <motion.div
+                              className="absolute inset-0 rounded-2xl blur-lg opacity-30"
+                              style={{ background: service.particleColor }}
+                              animate={{
+                                scale: activeIndex === index ? [1, 1.4, 1] : 1
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: activeIndex === index ? Infinity : 0,
+                                repeatType: "reverse"
+                              }}
+                            />
+                            <TrendingUp className={`h-8 w-8 text-${service.accentColor}-600 relative z-10`} />
+                          </motion.div>
+                          
+                          <div className="text-center">
+                            <motion.div
+                              animate={{
+                                scale: activeIndex === index ? [1, 1.08, 1] : 1
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: activeIndex === index ? Infinity : 0,
+                                repeatType: "reverse"
+                              }}
+                            >
+                              <span className={`font-bold text-xl text-${service.accentColor}-700 block`}>
+                                {service.highlight}
+                              </span>
+                              <span className="text-xs text-gray-500 uppercase tracking-wider font-medium">
+                                Proven Results
+                              </span>
+                            </div>
+                          </div>
+                        </motion.div>
                       </div>
                     </motion.div>
-                    
-                    {/* CTA Button */}
+
+                    {/* Ultra-Creative CTA Button */}
                     <motion.button
                       onClick={() => {
                         const serviceSlugMap: Record<string, string> = {
@@ -547,180 +873,279 @@ export function Services() {
                         const slug = serviceSlugMap[service.title] || service.title.toLowerCase().replace(/ & | /g, '-');
                         window.location.href = `/services/${slug}`;
                       }}
-                      className={`w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r ${service.gradients[0].replace('/20', '').replace('/30', '')} hover:shadow-xl transition-all duration-300 relative overflow-hidden group`}
-                      whileHover={{ scale: 1.03, y: -2 }}
+                      className="w-full py-6 px-6 rounded-3xl font-bold text-white relative overflow-hidden group transform-gpu border-2 border-transparent"
+                      style={{
+                        background: `linear-gradient(135deg, ${service.particleColor.replace('0.6', '0.9')}, ${service.particleColor.replace('0.6', '0.7')})`
+                      }}
+                      whileHover={{ 
+                        scale: 1.05, 
+                        y: -4,
+                        borderColor: service.particleColor.replace('0.6', '0.3')
+                      }}
                       whileTap={{ scale: 0.98 }}
+                      animate={{
+                        boxShadow: activeIndex === index ? [
+                          '0 15px 40px -10px rgba(0,0,0,0.3)',
+                          '0 25px 60px -10px rgba(0,0,0,0.4)',
+                          '0 15px 40px -10px rgba(0,0,0,0.3)'
+                        ] : '0 15px 40px -10px rgba(0,0,0,0.3)',
+                        background: activeIndex === index ? [
+                          `linear-gradient(135deg, ${service.particleColor.replace('0.6', '0.9')}, ${service.particleColor.replace('0.6', '0.7')})`,
+                          `linear-gradient(135deg, ${service.particleColor.replace('0.6', '1')}, ${service.particleColor.replace('0.6', '0.8')})`,
+                          `linear-gradient(135deg, ${service.particleColor.replace('0.6', '0.9')}, ${service.particleColor.replace('0.6', '0.7')})`
+                        ] : `linear-gradient(135deg, ${service.particleColor.replace('0.6', '0.9')}, ${service.particleColor.replace('0.6', '0.7')})`
+                      }}
+                      transition={{
+                        boxShadow: { duration: 3, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                        background: { duration: 2, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" }
+                      }}
                     >
-                      {/* Button Shine Effect */}
+                      {/* Multiple Holographic Effects */}
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                        initial={{ x: '-100%' }}
-                        animate={{ x: activeIndex === index ? '100%' : '-100%' }}
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                        initial={{ x: '-100%', skewX: -25 }}
+                        animate={{ x: activeIndex === index ? '200%' : '-100%' }}
                         transition={{ 
                           duration: 1.5, 
                           repeat: activeIndex === index ? Infinity : 0,
-                          repeatDelay: 2
+                          repeatDelay: 4,
+                          ease: "easeInOut"
                         }}
                       />
                       
-                      <span className="relative flex items-center justify-center">
-                        Request Proposal
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/20"
+                        animate={{
+                          opacity: activeIndex === index ? [0.4, 0.8, 0.4] : 0.4
+                        }}
+                        transition={{
+                          duration: 2.5,
+                          repeat: activeIndex === index ? Infinity : 0,
+                          repeatType: "reverse"
+                        }}
+                      />
+                      
+                      {/* Quantum Particles in Button */}
+                      <div className="absolute inset-0 overflow-hidden rounded-3xl">
+                        {activeIndex === index && !isMobile && [...Array(8)].map((_, i) => (
+                          <motion.div
+                            key={i}
+                            className="absolute w-1 h-1 bg-white/80 rounded-full"
+                            initial={{ 
+                              x: Math.random() * 100 + '%', 
+                              y: Math.random() * 100 + '%',
+                              scale: 0
+                            }}
+                            animate={{
+                              x: [Math.random() * 100 + '%', Math.random() * 100 + '%'],
+                              y: [Math.random() * 100 + '%', Math.random() * 100 + '%'],
+                              scale: [0, 1, 0],
+                              opacity: [0, 1, 0]
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              delay: i * 0.2
+                            }}
+                          />
+                        ))}
+                      </div>
+                      
+                      {/* Button Content */}
+                      <motion.span 
+                        className="relative flex items-center justify-center space-x-3 z-10"
+                        animate={{
+                          y: activeIndex === index ? [0, -1, 0] : 0
+                        }}
+                        transition={{
+                          duration: 2.5,
+                          repeat: activeIndex === index ? Infinity : 0,
+                          repeatType: "reverse"
+                        }}
+                      >
+                        <span className="font-bold text-lg">Request Proposal</span>
+                        
+                        {/* Quantum Arrow */}
                         <motion.div
-                          className="ml-2"
-                          animate={{ x: activeIndex === index ? [0, 5, 0] : 0 }}
+                          className="relative"
+                          animate={{ 
+                            x: activeIndex === index ? [0, 5, 0] : 0,
+                            rotate: activeIndex === index ? [0, 8, -8, 0] : 0
+                          }}
                           transition={{
-                            duration: 1,
-                            repeat: activeIndex === index ? Infinity : 0,
-                            repeatType: "reverse"
+                            x: { duration: 2, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                            rotate: { duration: 1.8, repeat: activeIndex === index ? Infinity : 0 }
                           }}
                         >
-                          <ArrowRight className="h-5 w-5" />
+                          <ArrowRight className="h-6 w-6" />
+                          
+                          {/* Arrow Energy Trail */}
+                          {activeIndex === index && (
+                            <>
+                              <motion.div
+                                className="absolute inset-0"
+                                animate={{
+                                  x: [-20, 0],
+                                  opacity: [0, 0.6, 0]
+                                }}
+                                transition={{
+                                  duration: 1,
+                                  repeat: Infinity,
+                                  repeatDelay: 2
+                                }}
+                              >
+                                <ArrowRight className="h-6 w-6 opacity-40" />
+                              </motion.div>
+                              <motion.div
+                                className="absolute inset-0"
+                                animate={{
+                                  x: [-40, 0],
+                                  opacity: [0, 0.3, 0]
+                                }}
+                                transition={{
+                                  duration: 1.2,
+                                  repeat: Infinity,
+                                  repeatDelay: 2,
+                                  delay: 0.1
+                                }}
+                              >
+                                <ArrowRight className="h-6 w-6 opacity-20" />
+                              </motion.div>
+                            </>
+                          )}
                         </motion.div>
-                      </span>
+                      </motion.span>
                     </motion.button>
                   </div>
                 </motion.div>
+                
+                {/* Quantum Floating Elements */}
+                {!isMobile && (
+                  <>
+                    <motion.div
+                      className="absolute -top-3 -right-3 w-6 h-6 rounded-full shadow-lg"
+                      style={{ background: `radial-gradient(circle, ${service.particleColor}, transparent)` }}
+                      animate={{
+                        scale: activeIndex === index ? [1, 1.8, 1] : 1,
+                        opacity: activeIndex === index ? [0.6, 1, 0.6] : 0.4,
+                        rotate: activeIndex === index ? [0, 180, 360] : 0
+                      }}
+                      transition={{
+                        scale: { duration: 2.5, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                        opacity: { duration: 2, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                        rotate: { duration: 6, repeat: activeIndex === index ? Infinity : 0, ease: "linear" }
+                      }}
+                    />
+                    
+                    <motion.div
+                      className="absolute -bottom-4 -left-4 w-4 h-4 rounded-full shadow-lg"
+                      style={{ background: `radial-gradient(circle, ${service.particleColor.replace('0.6', '0.8')}, transparent)` }}
+                      animate={{
+                        scale: activeIndex === index ? [1.5, 1, 1.5] : 1,
+                        rotate: activeIndex === index ? [0, -180, -360] : 0,
+                        opacity: activeIndex === index ? [0.7, 0.3, 0.7] : 0.5
+                      }}
+                      transition={{
+                        scale: { duration: 2.2, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
+                        rotate: { duration: 5, repeat: activeIndex === index ? Infinity : 0, ease: "linear", delay: 1 },
+                        opacity: { duration: 1.8, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" }
+                      }}
+                    />
+                  </>
+                )}
+                
+                {/* Card Reflection Effect */}
+                {!isMobile && (
+                  <motion.div
+                    className="absolute inset-0 rounded-3xl opacity-20 blur-2xl"
+                    animate={{
+                      background: activeIndex === index 
+                        ? `radial-gradient(ellipse at center, ${service.particleColor.replace('0.6', '0.3')}, transparent 70%)`
+                        : 'transparent',
+                      y: activeIndex === index ? 30 : 0,
+                      scale: activeIndex === index ? 0.9 : 0.8
+                    }}
+                    transition={{ duration: 0.4 }}
+                  />
+                )}
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Redesigned CTA Section */}
+        {/* Revolutionary CTA Section */}
         <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-          transition={{ duration: 0.8, delay: 0.6, type: "spring", stiffness: 50 }}
-          className="mt-16 md:mt-20 lg:mt-28 relative"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          className="text-center"
         >
-          <div className="rounded-[2rem] overflow-hidden">
-            {/* Elegant background with animated elements */}
-            <div className="absolute inset-0 -z-10">
-              {/* Base gradient */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-purple-500/10" />
-              
-              {/* Animated gradient overlay */}
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-tr from-primary/5 via-transparent to-purple-500/5"
-                animate={{ 
-                  backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-                }}
-                transition={{ 
-                  duration: 20,
+          <motion.div
+            className="relative inline-block"
+            whileHover={{ scale: 1.05 }}
+          >
+            <Button
+              size="lg"
+              className="px-12 py-6 text-lg font-bold bg-gradient-to-r from-primary to-purple-600 hover:from-purple-600 hover:to-primary shadow-2xl hover:shadow-3xl transition-all duration-500 relative overflow-hidden group rounded-2xl"
+              onClick={() => window.location.href = '/request-proposal'}
+            >
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0"
+                initial={{ x: '-100%' }}
+                animate={{ x: '100%' }}
+                transition={{
+                  duration: 2,
                   repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  backgroundSize: '200% 200%'
+                  repeatDelay: 3,
+                  ease: "linear"
                 }}
               />
-              
-              {/* Glowing orbs */}
-              <div className="absolute inset-0 overflow-hidden">
-                <motion.div 
-                  className="absolute top-0 left-1/4 w-[300px] h-[300px] rounded-full bg-primary/10 blur-[80px]"
-                  animate={{ 
-                    y: [0, 20, 0],
-                    opacity: [0.3, 0.5, 0.3],
-                  }}
-                  transition={{ 
-                    duration: 8,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                  }}
-                />
-                
-                <motion.div 
-                  className="absolute bottom-0 right-1/4 w-[250px] h-[250px] rounded-full bg-purple-500/10 blur-[60px]"
-                  animate={{ 
-                    y: [0, -20, 0],
-                    opacity: [0.2, 0.4, 0.2],
-                  }}
-                  transition={{ 
-                    duration: 10,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    delay: 1
-                  }}
-                />
-              </div>
-            </div>
-            
-            {/* Content wrapper */}
-            <div className="relative py-12 sm:py-16 md:py-20 px-4 sm:px-8 md:px-16 z-10 backdrop-blur-[2px]">
-              <div className="max-w-4xl mx-auto">
-                {/* Section accent line */}
-                <div className="w-24 h-1.5 bg-gradient-to-r from-primary to-purple-500 rounded-full mx-auto mb-12 opacity-80" />
-                
+              <span className="relative flex items-center gap-3">
+                🚀 Get Your Free Revenue Audit
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.7, delay: 0.9 }}
-                  className="text-center"
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1, repeat: Infinity }}
                 >
-                  <h2 className="text-4xl sm:text-5xl font-bold mb-8 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight">
-                    Ready to Build a Revenue Engine?
-                  </h2>
-                  
-                  <p className="text-base sm:text-lg md:text-xl text-gray-700 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed">
-                    Whether scaling demand generation, optimizing pipeline efficiency, or tightening lead qualification, our data-driven system delivers measurable growth you can trust.
-                  </p>
-                  
-                  {/* Action buttons */}
-                  <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      className="w-full sm:w-auto"
-                    >
-                      <motion.button
-                        onClick={() => window.location.href = '/request-proposal'}
-                        className="relative group w-full sm:w-auto py-4 px-8 rounded-xl text-white font-medium
-                          bg-gradient-to-r from-primary to-primary/90 hover:shadow-xl hover:shadow-primary/20
-                          transition-all duration-300 flex items-center justify-center overflow-hidden"
-                      >
-                        {/* Button glow effect */}
-                        <div className="absolute inset-0 w-full h-full bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        
-                        <span className="mr-2">Request a Proposal</span>
-                        <motion.span
-                          animate={{ 
-                            x: [0, 5, 0],
-                          }}
-                          transition={{ 
-                            duration: 1.5,
-                            repeat: Infinity,
-                            repeatType: "reverse"
-                          }}
-                          className="flex items-center"
-                        >
-                          <ArrowRight className="h-5 w-5" />
-                        </motion.span>
-                      </motion.button>
-                    </motion.div>
-                    
-                    <motion.div
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                      className="w-full sm:w-auto"
-                    >
-                      <motion.button
-                        onClick={() => window.location.href = "/services"}
-                        className="w-full sm:w-auto py-4 px-8 rounded-xl 
-                          border border-primary/20 text-primary font-medium hover:bg-primary/5
-                          transition-all duration-300 flex items-center justify-center"
-                      >
-                        View All Services
-                      </motion.button>
-                    </motion.div>
-                  </div>
+                  <ArrowRight className="h-5 w-5" />
                 </motion.div>
-              </div>
-            </div>
-          </div>
+              </span>
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
+      
+      {/* Custom CSS for additional effects */}
+      <style jsx global>{`
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes shimmer {
+          0%, 100% { background-position: -200% 0; }
+          50% { background-position: 200% 0; }
+        }
+        
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        
+        /* Particle trail effect */
+        .particle-trail {
+          position: absolute;
+          width: 2px;
+          height: 2px;
+          background: currentColor;
+          border-radius: 50%;
+          opacity: 0.7;
+          animation: particle-float 3s ease-in-out infinite;
+        }
+        
+        @keyframes particle-float {
+          0%, 100% { transform: translateY(0px) scale(1); opacity: 0.7; }
+          50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+      `}</style>
     </section>
   );
 }
