@@ -51,23 +51,53 @@ const proposalFormSchema = insertProposalRequestSchema
 
 type ProposalFormValues = z.infer<typeof proposalFormSchema>;
 
-// Define services and their options
+// Define services and their options - Updated to match actual services
 const serviceOptions = [
-  { id: "strategic-lead-generation", label: "Strategic Lead Generation (High-intent leads via email/phone)" },
-  { id: "content-syndication", label: "Content Syndication (Boost brand reach)" },
-  { id: "event-marketing", label: "Event Marketing Solutions (Drive event registrations)" },
-  { id: "lead-qualification", label: "Lead Qualification Services (BANT-qualified leads)" },
-  { id: "account-based-marketing", label: "Account-Based Marketing (Target high-value accounts)" },
-  { id: "waterfall-campaign", label: "Waterfall Campaign Suite (Full-funnel solution)" },
+  { 
+    id: "account-based-marketing", 
+    label: "Account-Based Marketing (ABM) Programs", 
+    description: "Target high-value accounts with personalized campaigns",
+    icon: "🎯",
+    color: "from-blue-500 to-purple-600"
+  },
+  { 
+    id: "b2b-lead-generation", 
+    label: "B2B Lead Generation & Qualification", 
+    description: "Generate and qualify high-intent B2B prospects",
+    icon: "🚀",
+    color: "from-green-500 to-teal-600"
+  },
+  { 
+    id: "intent-based-demand-generation", 
+    label: "Intent-Based Demand Generation", 
+    description: "Target prospects showing buying intent signals",
+    icon: "🧠",
+    color: "from-purple-500 to-pink-600"
+  },
+  { 
+    id: "event-marketing", 
+    label: "Event Marketing & Audience Acquisition", 
+    description: "Drive registrations and audience engagement for events",
+    icon: "🎪",
+    color: "from-orange-500 to-red-600"
+  },
+  { 
+    id: "lead-validation-enrichment", 
+    label: "Lead Validation & Enrichment", 
+    description: "Verify, clean, and enrich your lead database",
+    icon: "✨",
+    color: "from-cyan-500 to-blue-600"
+  }
 ];
 
 const goalOptions = [
-  { id: "generate-leads", label: "Generate more leads" },
-  { id: "increase-awareness", label: "Increase brand awareness" },
-  { id: "boost-attendance", label: "Boost event attendance" },
-  { id: "improve-quality", label: "Improve lead quality" },
-  { id: "close-accounts", label: "Close high-value accounts" },
-  { id: "other", label: "Other" },
+  { id: "generate-leads", label: "🎯 Generate high-quality leads", priority: "high" },
+  { id: "increase-revenue", label: "💰 Accelerate revenue growth", priority: "high" },
+  { id: "improve-quality", label: "🔍 Improve lead quality & conversion", priority: "high" },
+  { id: "close-accounts", label: "🏆 Close enterprise accounts faster", priority: "medium" },
+  { id: "boost-attendance", label: "📅 Boost event attendance", priority: "medium" },
+  { id: "increase-awareness", label: "📢 Increase brand awareness", priority: "medium" },
+  { id: "other", label: "🎨 Other (please specify)", priority: "low" },
 ];
 
 const timelineOptions = [
