@@ -72,12 +72,6 @@ const services = [
     icon: Target,
     accentColor: "rose",
     gradients: ["from-rose-500/20 to-pink-500/30", "from-pink-500/20 to-rose-500/30"],
-    features: [
-      { icon: Target, text: "Account Intelligence & Mapping" },
-      { icon: Users, text: "Multi-Stakeholder Engagement" },
-      { icon: BarChart3, text: "Pipeline Acceleration" },
-      { icon: CheckCircle2, text: "Intent-Based Targeting" }
-    ],
     highlight: "847% Average ROI Increase",
     pattern: "hexagon",
     particleColor: "rgba(244, 63, 94, 0.6)"
@@ -88,12 +82,6 @@ const services = [
     icon: Users,
     accentColor: "blue",
     gradients: ["from-blue-500/20 to-cyan-500/30", "from-cyan-500/20 to-blue-500/30"],
-    features: [
-      { icon: Brain, text: "AI-Powered Lead Scoring" },
-      { icon: Zap, text: "Real-Time Qualification" },
-      { icon: TrendingUp, text: "Conversion Optimization" },
-      { icon: Target, text: "Behavioral Tracking" }
-    ],
     highlight: "312% Lead Quality Improvement",
     pattern: "circuit",
     particleColor: "rgba(59, 130, 246, 0.6)"
@@ -104,12 +92,6 @@ const services = [
     icon: TrendingUp,
     accentColor: "purple",
     gradients: ["from-purple-500/20 to-violet-500/30", "from-violet-500/20 to-purple-500/30"],
-    features: [
-      { icon: Brain, text: "Intent Data Analysis" },
-      { icon: Target, text: "Predictive Targeting" },
-      { icon: Rocket, text: "Real-Time Engagement" },
-      { icon: BarChart3, text: "Performance Analytics" }
-    ],
     highlight: "589% Pipeline Growth",
     pattern: "waves",
     particleColor: "rgba(147, 51, 234, 0.6)"
@@ -120,12 +102,6 @@ const services = [
     icon: Rocket,
     accentColor: "emerald",
     gradients: ["from-emerald-500/20 to-teal-500/30", "from-teal-500/20 to-emerald-500/30"],
-    features: [
-      { icon: Users, text: "Audience Segmentation" },
-      { icon: Target, text: "Multi-Channel Promotion" },
-      { icon: TrendingUp, text: "Engagement Tracking" },
-      { icon: CheckCircle2, text: "Lead Capture Systems" }
-    ],
     highlight: "425% Event ROI Increase",
     pattern: "dots",
     particleColor: "rgba(16, 185, 129, 0.6)"
@@ -136,12 +112,6 @@ const services = [
     icon: CheckCircle2,
     accentColor: "amber",
     gradients: ["from-amber-500/20 to-orange-500/30", "from-orange-500/20 to-amber-500/30"],
-    features: [
-      { icon: CheckCircle2, text: "Data Validation" },
-      { icon: Brain, text: "Profile Enrichment" },
-      { icon: BarChart3, text: "Quality Scoring" },
-      { icon: Zap, text: "Real-Time Updates" }
-    ],
     highlight: "267% Data Accuracy Boost",
     pattern: "grid",
     particleColor: "rgba(245, 158, 11, 0.6)"
@@ -671,94 +641,6 @@ export function Services() {
                       )}
                     </motion.div>
 
-                    {/* Ultra-Interactive Features List */}
-                    <div className="space-y-4 mb-8">
-                      {service.features.map((feature, featureIndex) => (
-                        <motion.div
-                          key={featureIndex}
-                          className="flex items-center space-x-4 group/feature relative"
-                          initial={{ opacity: 0, x: -30 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: featureIndex * 0.2 + 0.5 }}
-                          whileHover={{ x: 8, scale: 1.02 }}
-                        >
-                          {/* Hyper-Interactive Feature Icon */}
-                          <motion.div
-                            className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-white via-gray-50 to-gray-100 flex items-center justify-center border border-gray-100 shadow-lg overflow-hidden"
-                            whileHover={{ 
-                              scale: 1.2, 
-                              rotate: 15,
-                              boxShadow: `0 12px 30px -8px ${service.particleColor.replace('0.6', '0.4')}`
-                            }}
-                            transition={{ type: "spring", stiffness: 400, damping: 20 }}
-                            animate={{
-                              background: activeIndex === index ? [
-                                'linear-gradient(135deg, #ffffff, #f8fafc)',
-                                'linear-gradient(135deg, #f8fafc, #ffffff)',
-                                'linear-gradient(135deg, #ffffff, #f8fafc)'
-                              ] : 'linear-gradient(135deg, #ffffff, #f8fafc)'
-                            }}
-                            transition={{
-                              background: { duration: 3, repeat: activeIndex === index ? Infinity : 0 }
-                            }}
-                          >
-                            {/* Icon Energy Field */}
-                            <motion.div
-                              className="absolute inset-0 rounded-2xl"
-                              style={{ background: `radial-gradient(circle, ${service.particleColor.replace('0.6', '0.1')}, transparent)` }}
-                              animate={{
-                                scale: activeIndex === index ? [1, 1.3, 1] : 1,
-                                opacity: activeIndex === index ? [0.3, 0.6, 0.3] : 0.2
-                              }}
-                              transition={{
-                                duration: 2,
-                                repeat: activeIndex === index ? Infinity : 0,
-                                repeatType: "reverse",
-                                delay: featureIndex * 0.3
-                              }}
-                            />
-                            
-                            <motion.div
-                              animate={{
-                                scale: activeIndex === index ? [1, 1.15, 1] : 1,
-                                rotate: activeIndex === index ? [0, 10, -10, 0] : 0
-                              }}
-                              transition={{
-                                scale: { duration: 2.5, repeat: activeIndex === index ? Infinity : 0, repeatType: "reverse" },
-                                rotate: { duration: 1.5, repeat: activeIndex === index ? Infinity : 0, delay: featureIndex * 0.2 }
-                              }}
-                            >
-                              <feature.icon className={`h-6 w-6 text-${service.accentColor}-600 relative z-10`} />
-                            </motion.div>
-                          </motion.div>
-                          
-                          {/* Enhanced Feature Text */}
-                          <motion.div
-                            className="flex-1 relative"
-                            animate={{
-                              color: activeIndex === index ? '#1f2937' : '#4b5563'
-                            }}
-                          >
-                            <span className="text-sm font-bold block">{feature.text}</span>
-                            
-                            {/* Dynamic Underline Animation */}
-                            <motion.div
-                              className="h-0.5 rounded-full mt-1"
-                              style={{ background: `linear-gradient(90deg, ${service.particleColor}, transparent)` }}
-                              initial={{ width: '0%' }}
-                              animate={{ 
-                                width: activeIndex === index ? '100%' : '0%'
-                              }}
-                              transition={{ 
-                                duration: 0.8, 
-                                delay: featureIndex * 0.15,
-                                ease: "easeOut"
-                              }}
-                            />
-                          </motion.div>
-                        </motion.div>
-                      ))}
-                    </div>
                   </div>
 
                   {/* Revolutionary Bottom Section */}
