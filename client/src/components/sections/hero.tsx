@@ -256,7 +256,7 @@ export function Hero() {
                   }}
                   className="drop-shadow-2xl"
                 >
-                  Build a Pipeline That
+                  Fill Your Pipeline With
                   <br />
                   <motion.span
                     className="relative"
@@ -276,7 +276,7 @@ export function Hero() {
                       WebkitTextFillColor: "transparent",
                     }}
                   >
-                    Actually Converts
+                    Buyers Who Convert
                     <motion.div
                       className="absolute -bottom-4 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent rounded-full"
                       animate={{
