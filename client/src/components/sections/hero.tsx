@@ -282,12 +282,10 @@ export function Hero() {
             <h3 className="text-2xl font-bold text-white mb-8">🔹 Core Value Promises</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
               {[
-                { icon: Shield, text: "No long-term contracts, full flexibility" },
-                { icon: Clock, text: "Guaranteed pipeline growth in 90 days" },
-                { icon: CheckCircle, text: "100% compliant data and outreach — GDPR, CCPA & TCPA ready" },
-                { icon: TrendingUp, text: "Predictable, revenue-focused pipeline growth" },
-                { icon: BarChart, text: "Lower cost per qualified lead with measurable ROI" },
                 { icon: Target, text: "Quality Over Quantity" },
+                { icon: CheckCircle, text: "100% Compliant Outreach" },
+                { icon: BarChart, text: "Lower Cost per Lead" },
+                { icon: Shield, text: "No Long-Term Contracts, Zero Lock-In" },
               ].map((item, i) => (
                 <motion.div
                   key={i}
