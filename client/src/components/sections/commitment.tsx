@@ -9,26 +9,26 @@ export function Commitment() {
   const commitments = [
     {
       icon: Target,
-      title: "Qualified B2B Leads",
-      description: "Every lead meets BANT criteria with verified budget and authority",
+      title: "Quality Over Quantity",
+      description: "We focus on delivering high-value leads that align with your ideal customer profile rather than overwhelming you with unqualified prospects",
       color: "from-blue-500 to-indigo-600"
     },
     {
-      icon: TrendingUp,
-      title: "Predictable Pipeline Growth",
-      description: "Build consistent revenue streams with demand generation services",
+      icon: Users,
+      title: "100% Compliant Outreach",
+      description: "All our outreach activities strictly follow CAN-SPAM, GDPR, and industry best practices to protect your brand reputation",
       color: "from-green-500 to-emerald-600"
     },
     {
-      icon: Shield,
-      title: "Risk-Free Guarantee",
-      description: "If leads don't meet quality standards, we replace them at no cost",
+      icon: TrendingUp,
+      title: "Lower Cost per Lead",
+      description: "Our proven methodologies and targeting strategies deliver superior ROI and reduce your overall customer acquisition costs",
       color: "from-purple-500 to-violet-600"
     },
     {
-      icon: Users,
-      title: "Expert ABM Programs",
-      description: "Accelerate B2B pipeline growth by engaging entire buying committees with strategic account-based marketing",
+      icon: Shield,
+      title: "No Long-Term Contracts, Zero Lock-In",
+      description: "Partner with confidence knowing you can adjust or pause services at any time without penalties or long-term commitments",
       color: "from-orange-500 to-red-600"
     }
   ];
