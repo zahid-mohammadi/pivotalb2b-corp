@@ -8,7 +8,7 @@ export function Hero() {
   const isMobile = useIsMobile();
   
   return (
-    <div className="relative min-h-screen pt-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 text-foreground overflow-hidden">
+    <div className="relative min-h-screen pt-16 sm:pt-20 md:pt-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 text-foreground overflow-hidden">
       {/* Modern Clean Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-primary/3 to-primary/12" />
@@ -67,14 +67,14 @@ export function Hero() {
         )}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 min-h-screen flex items-center">
-        <div className="grid lg:grid-cols-2 gap-16 items-center w-full max-w-7xl mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-h-screen flex items-center">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center w-full max-w-7xl mx-auto">
           {/* Left Column - Main Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-10 order-2 lg:order-1"
+            className="space-y-6 sm:space-y-8 lg:space-y-10 order-2 lg:order-1"
           >
             {/* Premium Badge */}
             <motion.div
@@ -91,7 +91,7 @@ export function Hero() {
 
             {/* Main Headline - Original Content */}
             <motion.h1 
-              className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-left"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-left"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
@@ -118,7 +118,7 @@ export function Hero() {
 
             {/* Subheadline - Original Content */}
             <motion.p 
-              className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl text-left"
+              className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl text-left"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
@@ -134,7 +134,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 items-start"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start"
             >
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
@@ -143,7 +143,7 @@ export function Hero() {
               >
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg font-semibold px-8 py-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg font-semibold px-6 sm:px-8 py-4 sm:py-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
                   onClick={() => window.open(calendlyUrl, '_blank')}
                 >
                   <div className="flex items-center gap-3">
@@ -161,7 +161,7 @@ export function Hero() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-2 border-primary/20 hover:border-primary/40 bg-background/60 hover:bg-background/80 backdrop-blur text-foreground text-lg font-medium px-8 py-6 rounded-2xl transition-all duration-300"
+                  className="border-2 border-primary/20 hover:border-primary/40 bg-background/60 hover:bg-background/80 backdrop-blur text-foreground text-base sm:text-lg font-medium px-6 sm:px-8 py-4 sm:py-6 rounded-xl sm:rounded-2xl transition-all duration-300 w-full sm:w-auto"
                   onClick={() => window.location.href = '/request-proposal'}
                 >
                   <div className="flex items-center gap-3">
@@ -177,7 +177,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 0.8 }}
-              className="flex flex-wrap gap-4 pt-6"
+              className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 pt-4 sm:pt-6"
             >
               {[
                 { icon: Target, text: "Quality Over Quantity" },
@@ -187,14 +187,14 @@ export function Hero() {
               ].map((item, i) => (
                 <motion.div
                   key={i}
-                  className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-primary/8 border border-primary/15 hover:border-primary/30 hover:bg-primary/12 transition-all duration-300 shadow-sm hover:shadow-md backdrop-blur-sm"
+                  className="inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-primary/8 border border-primary/15 hover:border-primary/30 hover:bg-primary/12 transition-all duration-300 shadow-sm hover:shadow-md backdrop-blur-sm"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 1.2 + (i * 0.1), duration: 0.6 }}
                   whileHover={{ scale: 1.05, y: -2 }}
                 >
-                  <item.icon className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.text}</span>
+                  <item.icon className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
+                  <span className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">{item.text}</span>
                 </motion.div>
               ))}
             </motion.div>
