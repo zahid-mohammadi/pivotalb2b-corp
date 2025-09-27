@@ -207,9 +207,9 @@ export default function ServicePage() {
 
               {service.methodology ? (
                 <div className="grid gap-8">
-                  {service.methodology.split(/\d+\./).filter(Boolean).map((step: string, index: number) => {
-                    const [title, ...descriptionParts] = step.split(':');
-                    const description = descriptionParts.join(':').trim();
+                  {service.methodology.split('.').filter(step => step.trim().length > 0).map((step: string, index: number) => {
+                    const [title, ...descriptionParts] = step.split('–');
+                    const description = descriptionParts.join('–').trim();
                     
                     return (
                       <motion.div
@@ -250,7 +250,7 @@ export default function ServicePage() {
                         </div>
 
                         {/* Connecting Line */}
-                        {index < service.methodology.split(/\d+\./).filter(Boolean).length - 1 && (
+                        {index < service.methodology.split('.').filter(step => step.trim().length > 0).length - 1 && (
                           <div className="hidden lg:block absolute left-8 top-20 w-0.5 h-8 bg-gradient-to-b from-blue-300 to-blue-100 z-10"></div>
                         )}
                       </motion.div>
