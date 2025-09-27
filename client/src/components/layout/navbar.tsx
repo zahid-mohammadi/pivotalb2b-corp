@@ -68,9 +68,9 @@ export function Navbar() {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Services</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[800px] gap-3 p-4 grid-cols-3">
+                <ul className="grid w-[800px] gap-3 p-4 grid-cols-3 bg-background border rounded-lg shadow-lg">
                   <li>
-                    <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -87,7 +87,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/b2b-lead-generation-qualification" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/b2b-lead-generation-qualification" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -105,7 +105,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/lead-nurturing-buyer-engagement" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/lead-nurturing-buyer-engagement" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -120,7 +120,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/precision-demand-generation" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/precision-demand-generation" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -137,7 +137,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/event-marketing-audience-acquisition" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/event-marketing-audience-acquisition" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -154,7 +154,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/lead-validation-enrichment" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/lead-validation-enrichment" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -199,49 +199,27 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <NavigationMenuTrigger className="group relative px-4 py-2 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md">
-                  <span className="flex items-center space-x-2">
-                    <Sparkles className="w-4 h-4 text-primary group-hover:animate-spin" />
-                    <span>Resources</span>
-                  </span>
-                </NavigationMenuTrigger>
-              </motion.div>
-              <NavigationMenuContent className="!p-0">
-                <motion.div
-                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="w-[450px] bg-background/95 backdrop-blur-xl border-2 border-primary/20 rounded-2xl shadow-2xl shadow-primary/10 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-                  <ul className="grid gap-3 p-6 grid-cols-1 relative z-10">
-                  <motion.li
-                    whileHover={{ scale: 1.02, y: -2 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <Link href="/blog" className="block p-4 bg-gradient-to-br from-background/50 to-background/80 hover:from-primary/10 hover:to-primary/5 border border-border/50 hover:border-primary/30 rounded-xl cursor-pointer transition-all duration-300 group shadow-sm hover:shadow-lg">
+              <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 grid-cols-1 bg-background border rounded-lg shadow-lg">
+                  <li>
+                    <Link href="/blog" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
                       <div className="flex items-center">
-                        <motion.div 
-                          className="mr-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-primary/20 group-hover:from-primary/20 group-hover:to-primary/30 transition-all duration-300 shadow-md group-hover:shadow-lg"
-                          whileHover={{ rotate: 5, scale: 1.1 }}
-                          transition={{ type: "spring", stiffness: 300 }}
-                        >
+                        <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/15 transition-colors duration-200">
                           <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                            <path d="M18 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"></path>
+                            <path d="M18 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0-2-2V6a2 2 0 0 0-2-2Z"></path>
                             <path d="m8 10 4 4 4-4"></path>
                             <path d="M12 6v8"></path>
                           </svg>
-                        </motion.div>
-                        <div className="flex-1">
-                          <div className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors duration-300">Blog</div>
-                          <p className="text-xs text-muted-foreground group-hover:text-muted-foreground/80 mt-1">Latest insights and industry trends</p>
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium">Blog</div>
+                          <p className="text-xs text-muted-foreground">Latest insights and industry trends</p>
                         </div>
                       </div>
                     </Link>
-                  </motion.li>
+                  </li>
                 </ul>
-                </motion.div>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
