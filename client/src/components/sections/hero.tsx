@@ -11,8 +11,9 @@ export function Hero() {
     <div className="relative min-h-screen pt-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 text-foreground overflow-hidden">
       {/* Modern Clean Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-primary/20 via-primary/5 to-transparent opacity-30" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-primary/3 to-primary/12" />
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-primary/25 via-primary/8 to-transparent opacity-40" />
+        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-tr from-primary/15 via-transparent to-transparent opacity-30" />
         
         {/* Clean geometric shapes */}
         {!isMobile && (
@@ -67,13 +68,13 @@ export function Hero() {
       </div>
 
       <div className="container mx-auto px-4 relative z-10 min-h-screen flex items-center">
-        <div className="grid lg:grid-cols-2 gap-12 items-center w-full max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16 items-center w-full max-w-7xl mx-auto">
           {/* Left Column - Main Content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-8 order-2 lg:order-1"
+            className="space-y-10 order-2 lg:order-1"
           >
             {/* Premium Badge */}
             <motion.div
@@ -82,9 +83,9 @@ export function Hero() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="inline-flex"
             >
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 hover:border-primary/30 transition-colors">
-                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                <span className="text-sm font-medium text-primary">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary/20 border-2 border-primary/40 hover:border-primary/60 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                <div className="w-3 h-3 bg-primary rounded-full animate-pulse shadow-lg" />
+                <span className="text-base font-semibold text-primary bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
               </div>
             </motion.div>
 
@@ -123,9 +124,9 @@ export function Hero() {
               transition={{ delay: 0.6, duration: 0.8 }}
             >
               Our programs generate and qualify leads that align with your{' '}
-              <span className="font-semibold text-primary">ICP</span>, ensuring every 
+              <span className="font-bold text-primary bg-primary/10 px-2 py-1 rounded-md">ICP</span>, ensuring every 
               opportunity in your funnel has the potential to drive{' '}
-              <span className="font-semibold text-primary">real revenue</span>.
+              <span className="font-bold text-primary bg-primary/10 px-2 py-1 rounded-md">real revenue</span>.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -171,12 +172,12 @@ export function Hero() {
               </motion.div>
             </motion.div>
 
-            {/* Key Benefits */}
+            {/* Enhanced Key Benefits */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 0.8 }}
-              className="flex flex-wrap gap-3 pt-4"
+              className="flex flex-wrap gap-4 pt-6"
             >
               {[
                 { icon: Target, text: "Quality Over Quantity" },
@@ -186,14 +187,14 @@ export function Hero() {
               ].map((item, i) => (
                 <motion.div
                   key={i}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-primary/5 border border-primary/10 hover:border-primary/20 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-3 rounded-full bg-primary/8 border border-primary/15 hover:border-primary/30 hover:bg-primary/12 transition-all duration-300 shadow-sm hover:shadow-md backdrop-blur-sm"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 1.2 + (i * 0.1), duration: 0.6 }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
                 >
                   <item.icon className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium text-foreground">{item.text}</span>
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{item.text}</span>
                 </motion.div>
               ))}
             </motion.div>
