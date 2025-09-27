@@ -49,7 +49,7 @@ export function Footer() {
             </h3>
             <ul className="space-y-3 text-slate-300 text-sm">
               <li>
-                <Link href="/services/account-based-marketing" className="hover:text-white transition-colors duration-200 flex items-center group">
+                <Link href="/services/account-based-marketing-abm-programs" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                   ABM Programs
                 </Link>
@@ -61,13 +61,13 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/services/intent-based-lead-generation" className="hover:text-white transition-colors duration-200 flex items-center group">
+                <Link href="/services/intent-based-demand-generation" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Intent-Based Marketing
+                  Demand Generation
                 </Link>
               </li>
               <li>
-                <Link href="/services/event-marketing-solutions" className="hover:text-white transition-colors duration-200 flex items-center group">
+                <Link href="/services/event-marketing-audience-acquisition" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                   Event Marketing
                 </Link>
@@ -95,15 +95,27 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/ebooks" className="hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Ebooks & Guides
+                </Link>
+              </li>
+              <li>
+                <Link href="/case-studies" className="hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Case Studies
+                </Link>
+              </li>
+              <li>
                 <Link href="/b2b-audience" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  B2B Audience
+                  B2B Audience Data
                 </Link>
               </li>
               <li>
                 <Link href="/media-kit" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Media Kit
+                  Professional Media Kit
                 </Link>
               </li>
             </ul>
@@ -119,13 +131,19 @@ export function Footer() {
               <li>
                 <Link href="/about" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  The Company
+                  About Pivotal B2B
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Contact Us
+                  Contact & Support
+                </Link>
+              </li>
+              <li>
+                <Link href="/request-proposal" className="hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Get Custom Proposal
                 </Link>
               </li>
               <li>
