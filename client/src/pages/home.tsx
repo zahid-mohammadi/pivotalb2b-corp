@@ -1,5 +1,4 @@
 import { Hero } from "@/components/sections/hero";
-import { Commitment } from "@/components/sections/commitment";
 import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
 import { MarketingChannels } from "@/components/sections/marketing-channels";
@@ -77,25 +76,20 @@ export default function Home() {
           <Hero />
         </AnimatedSection>
 
-        {/* Commitment Section */}
-        <AnimatedSection className="relative z-15" delay={0.05}>
-          <Commitment />
-        </AnimatedSection>
-
         {/* Approach Section with visual enhancements */}
-        <AnimatedSection className="relative z-20 overflow-hidden" delay={0.1}>
+        <AnimatedSection className="relative z-20 overflow-hidden" delay={0.05}>
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
           <Approach />
         </AnimatedSection>
 
         {/* Services Section with improved visuals */}
-        <AnimatedSection className="relative z-30" delay={0.2}>
+        <AnimatedSection className="relative z-30" delay={0.1}>
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
           <Services />
         </AnimatedSection>
 
         {/* Marketing Channels Section */}
-        <AnimatedSection className="relative z-40" delay={0.25}>
+        <AnimatedSection className="relative z-40" delay={0.15}>
           <MarketingChannels />
         </AnimatedSection>
 
