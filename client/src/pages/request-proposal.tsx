@@ -87,6 +87,13 @@ const serviceOptions = [
     description: "Verify, clean, and enrich your lead database",
     icon: "✨",
     color: "from-cyan-500 to-blue-600"
+  },
+  { 
+    id: "lead-nurturing-buyer-engagement", 
+    label: "Lead Nurturing & Buyer Engagement", 
+    description: "Keep future buyers engaged until they're ready — turning cold leads into revenue",
+    icon: "❤️",
+    color: "from-rose-500 to-pink-600"
   }
 ];
 
