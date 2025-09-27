@@ -154,32 +154,27 @@ export function Services() {
               whileHover={{ y: -8, scale: 1.02 }}
             >
               {/* Enhanced Card Container with Beautiful Hover Effects */}
-              <Card className="h-full bg-white relative overflow-hidden flex flex-col transition-all duration-500 ease-in-out transform-gpu group-hover:shadow-2xl group-hover:shadow-purple-500/25 border-2 border-transparent group-hover:border-gradient-to-r group-hover:border-opacity-50">
+              <Card className="h-full bg-white relative overflow-hidden flex flex-col transition-all duration-500 ease-in-out transform-gpu group-hover:shadow-2xl border-2 border-transparent">
                 
-                {/* Animated Background Overlay */}
+                {/* Continuous Rotating Background Animation - Full Card Fill */}
                 <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.bgGradient} opacity-0 group-hover:opacity-20 transition-all duration-500`}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileHover={{ scale: 1, opacity: 0.2 }}
-                  transition={{ duration: 0.5 }}
-                />
-                
-                {/* Animated Border Effect */}
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500`}
+                  className="absolute inset-0 opacity-0 group-hover:opacity-75 transition-opacity duration-500"
                   style={{
-                    background: `linear-gradient(45deg, transparent, transparent, transparent, ${service.gradient.includes('blue') ? '#3B82F6' : service.gradient.includes('green') ? '#10B981' : service.gradient.includes('purple') ? '#8B5CF6' : service.gradient.includes('orange') ? '#F97316' : service.gradient.includes('cyan') ? '#06B6D4' : '#EC4899'}40, transparent, transparent, transparent)`,
-                    maskImage: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
-                    WebkitMask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
-                    maskComposite: 'exclude'
+                    background: `conic-gradient(from 0deg, ${service.gradient.includes('blue') ? '#3B82F6, #60A5FA, #93C5FD, #DBEAFE, #3B82F6' : service.gradient.includes('green') ? '#10B981, #34D399, #6EE7B7, #D1FAE5, #10B981' : service.gradient.includes('purple') ? '#8B5CF6, #A78BFA, #C4B5FD, #EDE9FE, #8B5CF6' : service.gradient.includes('orange') ? '#F97316, #FB923C, #FDBA74, #FED7AA, #F97316' : service.gradient.includes('cyan') ? '#06B6D4, #22D3EE, #67E8F9, #CFFAFE, #06B6D4' : '#EC4899, #F472B6, #F9A8D4, #FCE7F3, #EC4899'})`
                   }}
                   animate={{
-                    background: [
-                      `linear-gradient(45deg, transparent, transparent, transparent, ${service.gradient.includes('blue') ? '#3B82F6' : service.gradient.includes('green') ? '#10B981' : service.gradient.includes('purple') ? '#8B5CF6' : service.gradient.includes('orange') ? '#F97316' : service.gradient.includes('cyan') ? '#06B6D4' : '#EC4899'}40, transparent, transparent, transparent)`,
-                      `linear-gradient(225deg, transparent, transparent, transparent, ${service.gradient.includes('blue') ? '#3B82F6' : service.gradient.includes('green') ? '#10B981' : service.gradient.includes('purple') ? '#8B5CF6' : service.gradient.includes('orange') ? '#F97316' : service.gradient.includes('cyan') ? '#06B6D4' : '#EC4899'}40, transparent, transparent, transparent)`,
-                    ]
+                    rotate: [0, 360]
                   }}
-                  transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                />
+                
+                {/* Text Readability Overlay */}
+                <motion.div
+                  className="absolute inset-0 bg-white/90 opacity-100 group-hover:opacity-85 transition-opacity duration-500"
                 />
                 
                 {/* Card Header */}
