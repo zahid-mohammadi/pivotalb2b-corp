@@ -134,7 +134,7 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Every solution we offer is designed to solve one problem—turn marketing investment into predictable, scalable revenue growth through cutting-edge technology and proven methodologies.
+            Our B2B lead generation and demand generation services are designed to accelerate B2B pipeline growth. Through proven ABM programs and qualified B2B leads, we turn marketing investment into predictable, scalable revenue growth.
           </motion.p>
         </motion.div>
 

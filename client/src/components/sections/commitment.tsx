@@ -28,7 +28,7 @@ export function Commitment() {
     {
       icon: Users,
       title: "Expert ABM Programs",
-      description: "Engage entire buying committees with account-based marketing expertise",
+      description: "Accelerate B2B pipeline growth by engaging entire buying committees with strategic account-based marketing",
       color: "from-orange-500 to-red-600"
     }
   ];
@@ -51,7 +51,7 @@ export function Commitment() {
             Our Commitment to You
           </h2>
           <p className="text-xl text-slate-700 dark:text-slate-300 max-w-3xl mx-auto">
-            We deliver qualified B2B leads and demand generation services that transform your marketing investment into predictable revenue growth
+            We deliver qualified B2B leads through proven demand generation services and ABM programs that accelerate B2B pipeline growth and transform your marketing investment into predictable revenue
           </p>
         </motion.div>
 
