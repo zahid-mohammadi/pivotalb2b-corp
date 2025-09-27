@@ -3,7 +3,8 @@ import { motion } from "framer-motion";
 import { 
   Download, Check, Target, Users, TrendingUp, Rocket, Sparkles, Shield,
   Building2, UserCheck, DollarSign, Award, Globe, Mail, Phone, Linkedin,
-  ExternalLink, Calendar, Star, CheckCircle2, BarChart3
+  ExternalLink, Calendar, Star, CheckCircle2, BarChart3, Send, FileText,
+  Heart, Zap
 } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { Button } from "@/components/ui/button";
@@ -21,28 +22,15 @@ export default function MediaKit() {
     
     try {
       toast({
-        title: "Generating Media Kit PDF",
-        description: "Please wait while we create your high-resolution media kit...",
-        duration: 5000,
+        title: "Generating Professional Media Kit",
+        description: "Creating your high-resolution media kit with proper page breaks...",
+        duration: 6000,
       });
 
-      const element = document.getElementById('media-kit-content');
-      if (!element) return;
+      // Get all page sections
+      const pageElements = document.querySelectorAll('.pdf-page');
+      if (!pageElements.length) return;
 
-      // High-quality PDF generation
-      const canvas = await html2canvas(element, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: '#ffffff',
-        width: element.scrollWidth,
-        height: element.scrollHeight,
-        scrollX: 0,
-        scrollY: 0,
-        allowTaint: true,
-        logging: false
-      });
-
-      const imgData = canvas.toDataURL('image/png', 1.0);
       const pdf = new jsPDF({
         orientation: 'portrait',
         unit: 'mm',
@@ -51,31 +39,52 @@ export default function MediaKit() {
       
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      // Calculate dimensions for better fit
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-      
-      let heightLeft = imgHeight;
-      let position = 0;
 
-      // Add first page
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
+      // Process each page separately for proper pagination
+      for (let i = 0; i < pageElements.length; i++) {
+        const element = pageElements[i] as HTMLElement;
+        
+        // Add page break except for first page
+        if (i > 0) {
+          pdf.addPage();
+        }
 
-      // Add additional pages if content is long
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
+        // Generate canvas for this page only
+        const canvas = await html2canvas(element, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          width: element.offsetWidth,
+          height: element.offsetHeight,
+          logging: false,
+          allowTaint: true
+        });
+
+        const imgData = canvas.toDataURL('image/png', 1.0);
+        
+        // Calculate dimensions to fit page properly
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+        
+        // If content is too tall, scale it down to fit
+        if (imgHeight > pdfHeight) {
+          const scale = pdfHeight / imgHeight;
+          const scaledWidth = imgWidth * scale;
+          const scaledHeight = pdfHeight;
+          const xOffset = (pdfWidth - scaledWidth) / 2;
+          pdf.addImage(imgData, 'PNG', xOffset, 0, scaledWidth, scaledHeight);
+        } else {
+          // Center content vertically if it's shorter than page
+          const yOffset = (pdfHeight - imgHeight) / 2;
+          pdf.addImage(imgData, 'PNG', 0, yOffset, imgWidth, imgHeight);
+        }
       }
 
-      pdf.save('Pivotal-B2B-Media-Kit.pdf');
+      pdf.save('Pivotal-B2B-Professional-Media-Kit.pdf');
       
       toast({
         title: "Download Complete!",
-        description: "Your media kit has been downloaded successfully.",
+        description: "Your professional media kit has been downloaded successfully.",
         variant: "default",
         duration: 3000,
       });
@@ -134,23 +143,27 @@ export default function MediaKit() {
   const valuePromises = [
     {
       title: "Quality Over Quantity",
-      description: "Only real buyers, not browsers",
-      icon: Target
+      description: "We focus on delivering high-value leads that align with your ideal customer profile rather than overwhelming you with unqualified prospects",
+      icon: Target,
+      color: "from-emerald-500 to-emerald-600"
     },
     {
       title: "100% Compliant Outreach",
-      description: "GDPR, CCPA & TCPA ready",
-      icon: Shield
+      description: "All our outreach activities strictly follow CAN-SPAM, GDPR, and industry best practices to protect your brand reputation",
+      icon: Shield,
+      color: "from-blue-500 to-blue-600"
     },
     {
       title: "Lower Cost per Lead",
-      description: "Reduce acquisition costs, increase ROI",
-      icon: DollarSign
+      description: "Our proven methodologies and targeting strategies deliver superior ROI and reduce your overall customer acquisition costs",
+      icon: DollarSign,
+      color: "from-purple-500 to-purple-600"
     },
     {
       title: "No Long-Term Contracts, Zero Lock-In",
-      description: "Full flexibility",
-      icon: Award
+      description: "Partner with confidence knowing you can adjust or pause services at any time without penalties or long-term commitments",
+      icon: Award,
+      color: "from-orange-500 to-orange-600"
     }
   ];
 
@@ -158,17 +171,20 @@ export default function MediaKit() {
     {
       company: "TechFlow Solutions",
       result: "+180 qualified prospects in 90 days",
-      impact: "$2.4M pipeline added"
+      impact: "$2.4M pipeline added",
+      improvement: "340% ROI increase"
     },
     {
       company: "DataCore Systems",
       result: "Cost per acquisition down 60%",
-      impact: "340% ROI improvement"
+      impact: "340% ROI improvement",
+      improvement: "87% lead quality boost"
     },
     {
       company: "CloudScale Industries",
       result: "Close rate jumped from 8% to 31%",
-      impact: "Fully pre-qualified leads delivered"
+      impact: "Fully pre-qualified leads delivered",
+      improvement: "288% conversion increase"
     }
   ];
 
@@ -177,25 +193,29 @@ export default function MediaKit() {
       stat: "3x",
       description: "Higher Lead Quality",
       subtext: "compared to traditional providers",
-      icon: Target
+      icon: Target,
+      color: "from-emerald-500 to-emerald-600"
     },
     {
       stat: "90 Days",
       description: "Guaranteed Pipeline Growth",
       subtext: "measurable results in 3 months",
-      icon: TrendingUp
+      icon: TrendingUp,
+      color: "from-blue-500 to-blue-600"
     },
     {
       stat: "87%",
       description: "Client Retention Rate",
       subtext: "long-term partnerships",
-      icon: Users
+      icon: Heart,
+      color: "from-rose-500 to-rose-600"
     },
     {
       stat: "135M+",
       description: "Professional Profiles",
       subtext: "across all major industries",
-      icon: Globe
+      icon: Globe,
+      color: "from-purple-500 to-purple-600"
     }
   ];
 
@@ -206,411 +226,509 @@ export default function MediaKit() {
   return (
     <div className="min-h-screen bg-gray-50">
       <MetaTags
-        title="Media Kit | Pivotal B2B - Professional B2B Lead Generation"
-        description="Download our comprehensive media kit with company information, services, case studies, and contact details for press and partners."
-        keywords="media kit, press kit, brand assets, B2B lead generation, company information"
+        title="Professional Media Kit | Pivotal B2B - B2B Lead Generation Experts"
+        description="Download our comprehensive professional media kit with company information, services, case studies, and brand assets for press and partners."
+        keywords="media kit, press kit, brand assets, B2B lead generation, company information, professional services"
       />
 
       {/* Header with Download Button */}
-      <div className="bg-white shadow-sm border-b sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">Pivotal B2B Media Kit</h1>
-          <Button 
-            onClick={generatePDF} 
-            disabled={isGeneratingPDF}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 shadow-lg"
-            data-testid="button-download-pdf"
-          >
-            {isGeneratingPDF ? (
-              <div className="flex items-center gap-2">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Generating PDF...
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Download className="w-4 h-4" />
-                Download PDF
-              </div>
-            )}
-          </Button>
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 shadow-2xl border-b sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-center md:text-left">
+              <h1 className="text-3xl font-bold text-white mb-2">Pivotal B2B Professional Media Kit</h1>
+              <p className="text-blue-100">Comprehensive brand assets and company information</p>
+            </div>
+            <Button 
+              onClick={generatePDF} 
+              disabled={isGeneratingPDF}
+              className="bg-white text-blue-600 hover:bg-gray-100 font-bold px-8 py-4 text-lg shadow-2xl hover:shadow-3xl transition-all duration-300"
+              data-testid="button-download-pdf"
+            >
+              {isGeneratingPDF ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 border-2 border-blue-600/30 border-t-blue-600 rounded-full animate-spin" />
+                  Generating Professional PDF...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Download className="w-5 h-5" />
+                  Download Professional Media Kit
+                </div>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Media Kit Content - Optimized for PDF */}
-      <div 
-        id="media-kit-content" 
-        className="bg-white max-w-[210mm] mx-auto"
-        style={{ 
-          fontFamily: '"Open Sans", "Lato", system-ui, -apple-system, sans-serif',
-          lineHeight: '1.6'
-        }}
-      >
+      {/* PDF Content - Each section is a separate page */}
+      <div className="pdf-content">
         
-        {/* 1. Cover Page */}
-        <section className="min-h-screen flex flex-col justify-center items-center text-center p-16 bg-gradient-to-br from-blue-50 via-white to-gray-50">
+        {/* Page 1: Cover Page */}
+        <div className="pdf-page min-h-screen flex flex-col justify-center items-center p-12 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            }} />
+          </div>
+          
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-12"
+            transition={{ duration: 1.2 }}
+            className="text-center relative z-10"
           >
             {/* Logo */}
-            <div className="w-40 h-40 bg-gradient-to-br from-blue-600 to-blue-800 rounded-3xl flex items-center justify-center mb-8 mx-auto shadow-2xl">
-              <span className="text-6xl font-bold text-white">PB</span>
+            <div className="mb-12">
+              <img 
+                src="/logo.png" 
+                alt="Pivotal B2B Logo" 
+                className="h-32 mx-auto mb-8 drop-shadow-2xl"
+                style={{ filter: 'brightness(0) invert(1)' }}
+              />
+              <div className="w-32 h-1 bg-white mx-auto rounded-full"></div>
             </div>
             
-            <h1 className="text-6xl font-bold text-gray-900 mb-6 tracking-tight">Pivotal B2B</h1>
-            <p className="text-3xl text-blue-600 font-semibold mb-12 tracking-wide">
+            <h1 className="text-6xl md:text-7xl font-bold mb-6 tracking-tight">
+              <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                Pivotal B2B
+              </span>
+            </h1>
+            
+            <p className="text-2xl md:text-3xl font-light mb-12 text-blue-100 leading-relaxed max-w-3xl">
               Every Lead. Vetted. Qualified. Revenue-Ready.
             </p>
-          </motion.div>
-          
-          <div className="text-gray-600 space-y-4 text-lg">
-            <p className="flex items-center justify-center gap-3">
-              <Globe className="w-6 h-6 text-blue-600" />
-              <span className="font-medium">pivotal-b2b.com</span>
-            </p>
-            <p className="flex items-center justify-center gap-3">
-              <Mail className="w-6 h-6 text-blue-600" />
-              <span className="font-medium">contact@pivotal-b2b.com</span>
-            </p>
-            <p className="flex items-center justify-center gap-3">
-              <Phone className="w-6 h-6 text-blue-600" />
-              <span className="font-medium">+1 417-900-3844</span>
-            </p>
-          </div>
-        </section>
 
-        {/* 2. About Pivotal B2B */}
-        <section className="py-20 px-16 bg-white">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4 flex items-center">
-              <div className="w-2 h-16 bg-blue-600 rounded-full mr-6"></div>
-              About Pivotal B2B
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 ml-8"></div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-                Founded in 2017 by Zahid Mohammadi, Pivotal B2B helps companies transform marketing budgets into predictable revenue. We specialize in precision-driven B2B lead generation and demand generation services that guarantee qualified leads aligned with your ICP.
-              </p>
-              
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
-                  <Calendar className="w-8 h-8 text-blue-600" />
-                  <div>
-                    <span className="font-bold text-gray-900 text-lg">Founded:</span>
-                    <span className="text-gray-700 text-lg ml-2">2017</span>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
-                  <Users className="w-8 h-8 text-blue-600" />
-                  <div>
-                    <span className="font-bold text-gray-900 text-lg">Founder & CEO:</span>
-                    <span className="text-gray-700 text-lg ml-2">Zahid Mohammadi</span>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
-                  <Target className="w-8 h-8 text-blue-600" />
-                  <div>
-                    <span className="font-bold text-gray-900 text-lg">Core Strengths:</span>
-                    <span className="text-gray-700 text-lg ml-2">Lead Quality, Compliance, Pipeline Growth</span>
-                  </div>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-12">
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                <Globe className="w-8 h-8 mx-auto mb-3 text-blue-200" />
+                <p className="font-semibold text-lg">pivotal-b2b.com</p>
               </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                <Mail className="w-8 h-8 mx-auto mb-3 text-blue-200" />
+                <p className="font-semibold text-lg">contact@pivotal-b2b.com</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                <Phone className="w-8 h-8 mx-auto mb-3 text-blue-200" />
+                <p className="font-semibold text-lg">+1 417-900-3844</p>
+              </div>
+            </div>
+
+            <div className="text-sm text-blue-200">
+              Professional Media Kit • {new Date().getFullYear()}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Page 2: About Pivotal B2B */}
+        <div className="pdf-page min-h-screen bg-white p-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">About Pivotal B2B</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Transforming B2B marketing from a cost center into a predictable revenue engine
+              </p>
             </div>
             
-            <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-10 rounded-3xl text-white shadow-2xl">
-              <h3 className="text-3xl font-bold mb-6">Our Mission</h3>
-              <p className="text-xl leading-relaxed text-blue-100">
-                To transform B2B marketing from a cost center into a predictable revenue engine through precision targeting, compliant outreach, and qualified lead delivery.
-              </p>
-              <div className="mt-8 flex items-center gap-3">
-                <Star className="w-6 h-6 text-yellow-300" />
-                <span className="text-lg font-semibold">Transforming B2B Marketing Since 2017</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 3. Core Value Promises */}
-        <section className="py-20 px-16 bg-gray-50">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4 flex items-center">
-              <div className="w-2 h-16 bg-blue-600 rounded-full mr-6"></div>
-              Our Core Value Promises
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 ml-8"></div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-8">
-            {valuePromises.map((promise, index) => (
-              <div key={index} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
-                <div className="flex items-start gap-6">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                    <Check className="w-8 h-8 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-3">{promise.title}</h3>
-                    <p className="text-gray-600 text-lg leading-relaxed">{promise.description}</p>
-                  </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-xl text-gray-700 leading-relaxed mb-8">
+                    Founded in 2017 by Zahid Mohammadi, Pivotal B2B helps companies transform marketing budgets into predictable revenue. We specialize in precision-driven B2B lead generation and demand generation services that guarantee qualified leads aligned with your ICP.
+                  </p>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 4. Services Overview */}
-        <section className="py-20 px-16 bg-white">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4 flex items-center">
-              <div className="w-2 h-16 bg-blue-600 rounded-full mr-6"></div>
-              Our Services
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 ml-8"></div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-8">
-            {services.map((service, index) => (
-              <div key={index} className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow">
-                <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-6 shadow-lg`}>
-                  <service.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4 leading-tight">{service.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 5. Target Audience Reach */}
-        <section className="py-20 px-16 bg-gray-50">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4 flex items-center">
-              <div className="w-2 h-16 bg-blue-600 rounded-full mr-6"></div>
-              Target Audience Reach
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 ml-8"></div>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-10">
-            <div className="col-span-2">
-              <div className="bg-white p-10 rounded-2xl shadow-lg">
-                <h3 className="text-3xl font-bold text-gray-900 mb-8 flex items-center gap-3">
-                  <Globe className="w-8 h-8 text-blue-600" />
-                  135M+ Professional Profiles
-                </h3>
                 
-                <div className="grid grid-cols-2 gap-10">
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-6 text-xl">Departments</h4>
-                    <div className="space-y-4">
-                      {['IT & Technology', 'Sales & Business Development', 'Marketing', 'Human Resources', 'Finance', 'Operations'].map((dept, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
-                          <span className="text-gray-700 text-lg">{dept}</span>
-                        </div>
-                      ))}
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200">
+                    <Calendar className="w-8 h-8 text-blue-600 mb-3" />
+                    <div className="font-bold text-gray-900 text-lg mb-1">Founded</div>
+                    <div className="text-gray-700">2017</div>
                   </div>
                   
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-6 text-xl">Filtering Criteria</h4>
-                    <div className="space-y-4">
-                      {['Company Size & Revenue', 'Job Title & Seniority', 'Technology Stack', 'Buying Signals', 'Geographic Location', 'Industry Vertical'].map((criteria, i) => (
-                        <div key={i} className="flex items-center gap-3">
-                          <div className="w-3 h-3 bg-green-600 rounded-full"></div>
-                          <span className="text-gray-700 text-lg">{criteria}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl border border-purple-200">
+                    <Users className="w-8 h-8 text-purple-600 mb-3" />
+                    <div className="font-bold text-gray-900 text-lg mb-1">Founder & CEO</div>
+                    <div className="text-gray-700">Zahid Mohammadi</div>
                   </div>
                 </div>
               </div>
+              
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-10 rounded-3xl text-white shadow-2xl">
+                <Star className="w-12 h-12 text-yellow-300 mb-6" />
+                <h3 className="text-3xl font-bold mb-6">Our Mission</h3>
+                <p className="text-xl leading-relaxed text-blue-100 mb-8">
+                  To transform B2B marketing from a cost center into a predictable revenue engine through precision targeting, compliant outreach, and qualified lead delivery.
+                </p>
+                <div className="flex items-center gap-4 text-blue-100">
+                  <Zap className="w-6 h-6 text-yellow-300" />
+                  <span className="font-semibold">Accelerating B2B Success Since 2017</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Page 3: Our Commitment to You */}
+        <div className="pdf-page min-h-screen bg-gradient-to-br from-gray-50 to-white p-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">Our Commitment to You</h2>
+              <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                We deliver qualified B2B leads through proven demand generation services and ABM programs that accelerate B2B pipeline growth and transform your marketing investment into predictable revenue
+              </p>
             </div>
             
-            <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-10 rounded-2xl text-white shadow-2xl">
-              <h3 className="text-2xl font-bold mb-8 text-center">Decision-Maker Focus</h3>
-              <div className="space-y-8">
-                <div className="text-center">
-                  <div className="text-5xl font-bold mb-2">87%</div>
-                  <div className="text-blue-200 text-lg">Director+ Level</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-5xl font-bold mb-2">$1M+</div>
-                  <div className="text-blue-200 text-lg">Budget Authority</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-5xl font-bold mb-2">92%</div>
-                  <div className="text-blue-200 text-lg">Verified Profiles</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 6. Proof of Impact */}
-        <section className="py-20 px-16 bg-white">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4 flex items-center">
-              <div className="w-2 h-16 bg-blue-600 rounded-full mr-6"></div>
-              Proof of Impact
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 ml-8"></div>
-          </div>
-          
-          <div className="grid grid-cols-4 gap-6">
-            {impactStats.map((stat, index) => (
-              <div key={index} className="text-center bg-gradient-to-br from-gray-50 to-white p-8 rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                  <stat.icon className="w-10 h-10 text-white" />
-                </div>
-                <div className="text-4xl font-bold text-gray-900 mb-3">{stat.stat}</div>
-                <div className="font-bold text-gray-800 mb-2 text-lg">{stat.description}</div>
-                <div className="text-gray-600">{stat.subtext}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 7. Client Success Stories */}
-        <section className="py-20 px-16 bg-gray-50">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4 flex items-center">
-              <div className="w-2 h-16 bg-blue-600 rounded-full mr-6"></div>
-              Client Success Stories
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 ml-8"></div>
-          </div>
-          
-          <div className="grid grid-cols-3 gap-8">
-            {successStories.map((story, index) => (
-              <div key={index} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-shadow">
-                <div className="mb-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mb-4">
-                    <Building2 className="w-6 h-6 text-white" />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {valuePromises.map((promise, index) => (
+                <div key={index} className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                  <div className="flex items-start gap-6">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${promise.color} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                      <promise.icon className="w-8 h-8 text-white" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">
+                        {promise.title}
+                      </h3>
+                      <p className="text-gray-600 leading-relaxed text-lg">
+                        {promise.description}
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-900">{story.company}</h3>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl">
-                    <CheckCircle2 className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700 font-medium">{story.result}</span>
-                  </div>
-                  <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl">
-                    <BarChart3 className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-                    <span className="font-bold text-blue-900 text-lg">{story.impact}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 8. Trusted By */}
-        <section className="py-20 px-16 bg-white">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold text-gray-900 mb-4 flex items-center">
-              <div className="w-2 h-16 bg-blue-600 rounded-full mr-6"></div>
-              Trusted By
-            </h2>
-            <div className="w-24 h-1 bg-blue-600 ml-8"></div>
-          </div>
-          
-          <div className="bg-gradient-to-br from-gray-50 to-white p-12 rounded-2xl border border-gray-200 shadow-lg">
-            <div className="grid grid-cols-6 gap-8 items-center">
-              {trustedCompanies.map((company, index) => (
-                <div key={index} className="text-center group">
-                  <div className="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:from-blue-100 group-hover:to-blue-200 transition-colors">
-                    <Building2 className="w-10 h-10 text-gray-600 group-hover:text-blue-600 transition-colors" />
-                  </div>
-                  <div className="font-bold text-gray-700 group-hover:text-blue-700 transition-colors">{company}</div>
                 </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* 9. Contact Information */}
-        <section className="py-20 px-16 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-          <div className="mb-12">
-            <h2 className="text-5xl font-bold mb-4 flex items-center">
-              <div className="w-2 h-16 bg-white rounded-full mr-6"></div>
-              Contact Us
-            </h2>
-            <div className="w-24 h-1 bg-white ml-8"></div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-16 items-center">
-            <div>
-              <h3 className="text-3xl font-bold mb-8">Ready to Transform Your Pipeline?</h3>
-              <p className="text-xl text-blue-100 mb-10 leading-relaxed">
-                Get in touch with our team to discuss how we can help you generate qualified leads and accelerate your revenue growth.
+        {/* Page 4: Services Overview */}
+        <div className="pdf-page min-h-screen bg-white p-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">Our Services</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Comprehensive B2B marketing solutions designed to accelerate your revenue growth
               </p>
-              
-              <div className="space-y-6">
-                <a href="https://pivotal-b2b.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group">
-                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                    <Globe className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <span className="font-bold block">Website</span>
-                    <span className="text-blue-200">pivotal-b2b.com</span>
-                  </div>
-                  <ExternalLink className="w-5 h-5 ml-auto" />
-                </a>
-                
-                <a href="mailto:contact@pivotal-b2b.com" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group">
-                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                    <Mail className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <span className="font-bold block">Email</span>
-                    <span className="text-blue-200">contact@pivotal-b2b.com</span>
-                  </div>
-                </a>
-                
-                <a href="tel:+14179003844" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group">
-                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                    <Phone className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <span className="font-bold block">Phone</span>
-                    <span className="text-blue-200">+1 417-900-3844</span>
-                  </div>
-                </a>
-                
-                <a href="https://linkedin.com/company/pivotalb2b" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group">
-                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                    <Linkedin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <span className="font-bold block">LinkedIn</span>
-                    <span className="text-blue-200">linkedin.com/company/pivotalb2b</span>
-                  </div>
-                  <ExternalLink className="w-5 h-5 ml-auto" />
-                </a>
-              </div>
             </div>
             
-            <div className="text-center">
-              <div className="w-56 h-56 bg-white/10 rounded-3xl flex items-center justify-center mx-auto mb-8 backdrop-blur-sm shadow-2xl">
-                <div className="text-8xl font-bold text-white">PB</div>
-              </div>
-              <p className="text-2xl text-blue-100 font-semibold tracking-wide">
-                Every Lead. Vetted. Qualified. Revenue-Ready.
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service, index) => (
+                <div key={index} className="bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                  <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <service.icon className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4 leading-tight">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Page 5: Target Audience Reach */}
+        <div className="pdf-page min-h-screen bg-gradient-to-br from-blue-50 to-white p-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-green-500 mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">Target Audience Reach</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Access to decision-makers across all major industries and company sizes
               </p>
-              <div className="mt-6 text-blue-200">
-                © {new Date().getFullYear()} Pivotal B2B. All rights reserved.
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="lg:col-span-2">
+                <div className="bg-white p-10 rounded-3xl shadow-xl border border-gray-100">
+                  <div className="flex items-center gap-4 mb-8">
+                    <Globe className="w-12 h-12 text-blue-600" />
+                    <div>
+                      <h3 className="text-4xl font-bold text-gray-900">135M+</h3>
+                      <p className="text-xl text-gray-600">Professional Profiles</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-6 text-xl flex items-center gap-2">
+                        <Building2 className="w-6 h-6 text-blue-600" />
+                        Key Departments
+                      </h4>
+                      <div className="space-y-4">
+                        {['IT & Technology', 'Sales & Business Development', 'Marketing & Communications', 'Human Resources', 'Finance & Accounting', 'Operations & Supply Chain'].map((dept, i) => (
+                          <div key={i} className="flex items-center gap-3 p-3 bg-blue-50 rounded-xl">
+                            <div className="w-3 h-3 bg-blue-600 rounded-full"></div>
+                            <span className="text-gray-700 font-medium">{dept}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-bold text-gray-900 mb-6 text-xl flex items-center gap-2">
+                        <Target className="w-6 h-6 text-green-600" />
+                        Targeting Criteria
+                      </h4>
+                      <div className="space-y-4">
+                        {['Company Size & Revenue', 'Job Title & Seniority Level', 'Technology Stack & Tools', 'Buying Signals & Intent', 'Geographic Location', 'Industry Vertical & Niche'].map((criteria, i) => (
+                          <div key={i} className="flex items-center gap-3 p-3 bg-green-50 rounded-xl">
+                            <div className="w-3 h-3 bg-green-600 rounded-full"></div>
+                            <span className="text-gray-700 font-medium">{criteria}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-10 rounded-3xl text-white shadow-2xl">
+                <h3 className="text-2xl font-bold mb-8 text-center">Decision-Maker Focus</h3>
+                <div className="space-y-8">
+                  <div className="text-center bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <div className="text-5xl font-bold mb-2">87%</div>
+                    <div className="text-blue-200 text-lg">Director+ Level</div>
+                  </div>
+                  <div className="text-center bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <div className="text-5xl font-bold mb-2">$1M+</div>
+                    <div className="text-blue-200 text-lg">Budget Authority</div>
+                  </div>
+                  <div className="text-center bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <div className="text-5xl font-bold mb-2">92%</div>
+                    <div className="text-blue-200 text-lg">Verified Profiles</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+
+        {/* Page 6: Proof of Impact */}
+        <div className="pdf-page min-h-screen bg-white p-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-gradient-to-r from-emerald-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">Proof of Impact</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Measurable results that demonstrate our commitment to your success
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+              {impactStats.map((stat, index) => (
+                <div key={index} className="text-center bg-gradient-to-br from-gray-50 to-white p-8 rounded-3xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                  <div className={`w-20 h-20 bg-gradient-to-br ${stat.color} rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <stat.icon className="w-10 h-10 text-white" />
+                  </div>
+                  <div className="text-4xl font-bold text-gray-900 mb-3">{stat.stat}</div>
+                  <div className="font-bold text-gray-800 mb-2 text-lg">{stat.description}</div>
+                  <div className="text-gray-600 text-sm">{stat.subtext}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-10 rounded-3xl text-white text-center shadow-2xl">
+              <h3 className="text-3xl font-bold mb-4">Ready to Transform Your Pipeline?</h3>
+              <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+                Join hundreds of B2B companies that trust Pivotal B2B to deliver qualified leads and accelerate revenue growth.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Page 7: Client Success Stories */}
+        <div className="pdf-page min-h-screen bg-gradient-to-br from-gray-50 to-white p-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">Client Success Stories</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Real results from real companies who transformed their lead generation with Pivotal B2B
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {successStories.map((story, index) => (
+                <div key={index} className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 group">
+                  <div className="mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <Building2 className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{story.company}</h3>
+                    <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-200">
+                      <div className="flex items-start gap-3">
+                        <CheckCircle2 className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-gray-900 mb-1">Key Result</p>
+                          <p className="text-gray-700">{story.result}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gradient-to-br from-blue-50 to-blue-50 p-4 rounded-2xl border border-blue-200">
+                      <div className="flex items-start gap-3">
+                        <BarChart3 className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-gray-900 mb-1">Business Impact</p>
+                          <p className="text-blue-900 font-bold">{story.impact}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-gradient-to-br from-purple-50 to-purple-50 p-4 rounded-2xl border border-purple-200">
+                      <div className="flex items-start gap-3">
+                        <TrendingUp className="w-6 h-6 text-purple-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <p className="font-semibold text-gray-900 mb-1">Overall Improvement</p>
+                          <p className="text-purple-700 font-medium">{story.improvement}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Page 8: Trusted By */}
+        <div className="pdf-page min-h-screen bg-white p-12">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold text-gray-900 mb-6">Trusted By Industry Leaders</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Join the companies that rely on Pivotal B2B for their lead generation and demand generation success
+              </p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-gray-50 to-white p-12 rounded-3xl border border-gray-200 shadow-xl mb-16">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
+                {trustedCompanies.map((company, index) => (
+                  <div key={index} className="text-center group">
+                    <div className="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:from-blue-100 group-hover:to-blue-200 transition-all duration-300 shadow-lg group-hover:shadow-xl">
+                      <Building2 className="w-10 h-10 text-gray-600 group-hover:text-blue-600 transition-colors duration-300" />
+                    </div>
+                    <div className="font-bold text-gray-700 group-hover:text-blue-700 transition-colors duration-300 text-lg">
+                      {company}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="text-center bg-gradient-to-br from-blue-600 to-purple-600 p-12 rounded-3xl text-white shadow-2xl">
+              <h3 className="text-3xl font-bold mb-6">Ready to Join Them?</h3>
+              <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                Discover how Pivotal B2B can transform your lead generation and drive predictable revenue growth for your business.
+              </p>
+              <div className="flex items-center justify-center gap-4">
+                <Send className="w-8 h-8 text-blue-200" />
+                <span className="text-2xl font-semibold">Let's Start the Conversation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Page 9: Contact Information */}
+        <div className="pdf-page min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white p-12 relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M40 40c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20m20 0c0-11.046-8.954-20-20-20s-20 8.954-20 20 8.954 20 20 20 20-8.954 20-20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            }} />
+          </div>
+
+          <div className="max-w-6xl mx-auto relative z-10">
+            <div className="text-center mb-16">
+              <div className="w-24 h-1 bg-white mx-auto mb-8 rounded-full"></div>
+              <h2 className="text-5xl font-bold mb-6">Let's Connect</h2>
+              <p className="text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                Ready to transform your B2B marketing? Get in touch with our team to start your journey to predictable revenue growth.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                <h3 className="text-3xl font-bold mb-8">Get Started Today</h3>
+                <p className="text-xl text-blue-100 leading-relaxed mb-12">
+                  Schedule a consultation to discuss your specific needs and learn how we can help you generate qualified leads, accelerate pipeline growth, and achieve predictable revenue.
+                </p>
+                
+                <div className="space-y-6">
+                  <a href="https://pivotal-b2b.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                      <Globe className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xl">Website</div>
+                      <div className="text-blue-200">pivotal-b2b.com</div>
+                    </div>
+                    <ExternalLink className="w-5 h-5 ml-auto" />
+                  </a>
+                  
+                  <a href="mailto:contact@pivotal-b2b.com" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                      <Mail className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xl">Email</div>
+                      <div className="text-blue-200">contact@pivotal-b2b.com</div>
+                    </div>
+                  </a>
+                  
+                  <a href="tel:+14179003844" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                      <Phone className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xl">Phone</div>
+                      <div className="text-blue-200">+1 417-900-3844</div>
+                    </div>
+                  </a>
+                  
+                  <a href="https://linkedin.com/company/pivotalb2b" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-white hover:text-blue-200 transition-colors text-lg group bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                      <Linkedin className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-xl">LinkedIn</div>
+                      <div className="text-blue-200">linkedin.com/company/pivotalb2b</div>
+                    </div>
+                    <ExternalLink className="w-5 h-5 ml-auto" />
+                  </a>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white/10 backdrop-blur-md rounded-3xl p-12 border border-white/20 shadow-2xl">
+                  <img 
+                    src="/logo.png" 
+                    alt="Pivotal B2B Logo" 
+                    className="h-32 mx-auto mb-8"
+                    style={{ filter: 'brightness(0) invert(1)' }}
+                  />
+                  <h4 className="text-3xl font-bold mb-4">Every Lead.</h4>
+                  <h4 className="text-3xl font-bold mb-4">Vetted. Qualified.</h4>
+                  <h4 className="text-3xl font-bold mb-8">Revenue-Ready.</h4>
+                  <div className="text-blue-200 text-lg">
+                    © {new Date().getFullYear()} Pivotal B2B. All rights reserved.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </div>
