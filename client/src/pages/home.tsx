@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/hero";
 import { Commitment } from "@/components/sections/commitment";
 import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
+import { MarketingChannels } from "@/components/sections/marketing-channels";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
@@ -91,6 +92,11 @@ export default function Home() {
         <AnimatedSection className="relative z-30" delay={0.2}>
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
           <Services />
+        </AnimatedSection>
+
+        {/* Marketing Channels Section */}
+        <AnimatedSection className="relative z-40" delay={0.25}>
+          <MarketingChannels />
         </AnimatedSection>
 
 
