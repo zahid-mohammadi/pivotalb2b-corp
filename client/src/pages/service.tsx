@@ -241,55 +241,70 @@ export default function ServicePage() {
 
               {service.methodology ? (
                 <div className="grid gap-8">
-                  {service.methodology.split('.').filter(step => step.trim().length > 0).map((step: string, index: number) => {
-                    const [title, ...descriptionParts] = step.split('–');
-                    const description = descriptionParts.join('–').trim();
-                    
-                    return (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: index * 0.2, duration: 0.6 }}
-                        className="relative"
-                      >
-                        <div className="flex items-start gap-6 bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50">
-                          {/* Step Number */}
-                          <div className="flex-shrink-0">
-                            <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                              {index + 1}
-                            </div>
-                          </div>
-                          
-                          {/* Content */}
-                          <div className="flex-1">
-                            <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 leading-tight">
-                              {title.trim()}
-                            </h3>
-                            <p className="text-gray-600 leading-relaxed text-lg">
-                              {description}
-                            </p>
-                          </div>
+                  {(() => {
+                    // Check if methodology contains HTML
+                    if (service.methodology.includes('<div') || service.methodology.includes('<h3')) {
+                      // Render HTML content directly
+                      return (
+                        <div 
+                          className="prose prose-lg max-w-none"
+                          dangerouslySetInnerHTML={{ __html: service.methodology }}
+                        />
+                      );
+                    } else {
+                      // Parse plain text methodology
+                      const steps = service.methodology.split(/\d+\./).filter(step => step.trim().length > 0);
+                      return steps.map((step: string, index: number) => {
+                        const [title, ...descriptionParts] = step.split(':');
+                        const description = descriptionParts.join(':').trim();
+                        
+                        return (
+                          <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.2, duration: 0.6 }}
+                            className="relative"
+                          >
+                            <div className="flex items-start gap-6 bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-white/50">
+                              {/* Step Number */}
+                              <div className="flex-shrink-0">
+                                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                  {index + 1}
+                                </div>
+                              </div>
+                              
+                              {/* Content */}
+                              <div className="flex-1">
+                                <h3 className="text-xl lg:text-2xl font-bold text-gray-900 mb-4 leading-tight">
+                                  {title.trim()}
+                                </h3>
+                                <p className="text-gray-600 leading-relaxed text-lg">
+                                  {description}
+                                </p>
+                              </div>
 
-                          {/* Visual Icon */}
-                          <div className="hidden lg:block flex-shrink-0">
-                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                              {index === 0 && <Target className="w-6 h-6 text-blue-600" />}
-                              {index === 1 && <Users className="w-6 h-6 text-blue-600" />}
-                              {index === 2 && <Rocket className="w-6 h-6 text-blue-600" />}
-                              {index === 3 && <TrendingUp className="w-6 h-6 text-blue-600" />}
-                              {index > 3 && <CheckCircle2 className="w-6 h-6 text-blue-600" />}
+                              {/* Visual Icon */}
+                              <div className="hidden lg:block flex-shrink-0">
+                                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                  {index === 0 && <Target className="w-6 h-6 text-blue-600" />}
+                                  {index === 1 && <Users className="w-6 h-6 text-blue-600" />}
+                                  {index === 2 && <Rocket className="w-6 h-6 text-blue-600" />}
+                                  {index === 3 && <TrendingUp className="w-6 h-6 text-blue-600" />}
+                                  {index > 3 && <CheckCircle2 className="w-6 h-6 text-blue-600" />}
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
 
-                        {/* Connecting Line */}
-                        {service.methodology && index < service.methodology.split('.').filter(step => step.trim().length > 0).length - 1 && (
-                          <div className="hidden lg:block absolute left-8 top-20 w-0.5 h-8 bg-gradient-to-b from-blue-300 to-blue-100 z-10"></div>
-                        )}
-                      </motion.div>
-                    );
-                  })}
+                            {/* Connecting Line */}
+                            {index < steps.length - 1 && (
+                              <div className="hidden lg:block absolute left-8 top-20 w-0.5 h-8 bg-gradient-to-b from-blue-300 to-blue-100 z-10"></div>
+                            )}
+                          </motion.div>
+                        );
+                      });
+                    }
+                  })()}
                 </div>
               ) : (
                 <div className="text-center text-gray-500 bg-white rounded-2xl p-12">
