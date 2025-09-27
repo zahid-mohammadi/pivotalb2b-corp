@@ -336,17 +336,17 @@ export default function ServicePage() {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-                Ready to Transform Your Lead Generation?
+                {ctaContent[params?.slug!]?.headline || "Ready to Transform Your Lead Generation?"}
               </h2>
               <p className="text-xl text-blue-100 mb-8">
-                Schedule a consultation to discuss your specific needs and goals.
+                {ctaContent[params?.slug!]?.description || "Schedule a consultation to discuss your specific needs and goals."}
               </p>
               <Button
                 size="lg"
                 className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-lg"
                 onClick={() => window.open(calendlyUrl, '_blank')}
               >
-                Schedule Your Free Consultation
+                {ctaContent[params?.slug!]?.buttonText || "Schedule Your Free Consultation"}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
