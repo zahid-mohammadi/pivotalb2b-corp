@@ -42,24 +42,25 @@ const pulseVariants = {
 
 export default function B2BAudiencePage() {
 const audienceData = [
-  { name: 'Information Technology', value: 'High', color: 'rgb(var(--primary))' },
-  { name: 'Sales', value: 'High', color: '#60A5FA' },
-  { name: 'Marketing', value: 'High', color: '#818CF8' },
-  { name: 'Human Resources', value: 'Medium', color: '#A78BFA' },
-  { name: 'Operations', value: 'Medium', color: '#C084FC' },
-  { name: 'Finance', value: 'Medium', color: '#E879F9' },
-  { name: 'Executive Management', value: 'Medium', color: '#F472B6' },
-  { name: 'Supply Chain', value: 'Low', color: '#FB7185' },
-  { name: 'Learning & Development', value: 'Low', color: '#FCA5A5' },
-  { name: 'Customer Experience', value: 'Low', color: '#FBBF24' }
-];
+  { name: 'Information Technology', value: 42, displayValue: '42+', color: '#3B82F6' },
+  { name: 'Sales', value: 26, displayValue: '26+', color: '#60A5FA' },
+  { name: 'Marketing', value: 24, displayValue: '24+', color: '#818CF8' },
+  { name: 'Human Resources', value: 14, displayValue: '14+', color: '#A78BFA' },
+  { name: 'Operations', value: 12.8, displayValue: '12.8+', color: '#C084FC' },
+  { name: 'Finance', value: 10, displayValue: '10+', color: '#E879F9' },
+  { name: 'Executive Management', value: 2, displayValue: '2+', color: '#F472B6' },
+  { name: 'Supply Chain', value: 1.8, displayValue: '1.8+', color: '#FB7185' },
+  { name: 'Learning & Development', value: 1.5, displayValue: '1.5+', color: '#FCA5A5' },
+  { name: 'Customer Experience', value: 0.7, displayValue: '0.7+', color: '#FBBF24' }
+].sort((a, b) => b.value - a.value);
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
+    const data = audienceData.find(item => item.name === label);
     return (
-      <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg border border-primary/20">
-        <p className="font-semibold text-sm">{label}</p>
-        <p className="text-primary text-lg font-bold">{payload[0].value} Reach</p>
+      <div className="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-xl border border-primary/20">
+        <p className="font-semibold text-gray-900 mb-1">{label}</p>
+        <p className="text-primary text-xl font-bold">{data?.displayValue} Million Professionals</p>
       </div>
     );
   }
@@ -152,6 +153,29 @@ return (
           >
             Our precision targeting helps you connect directly with the right companies and professionals—across industries, geographies, and seniority levels.
           </motion.p>
+
+          {/* Total Reach Highlight */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/30 mb-8"
+          >
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white">135+</div>
+              <div className="text-sm text-white/70">Million Professionals</div>
+            </div>
+            <div className="w-px h-12 bg-white/30"></div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white">10</div>
+              <div className="text-sm text-white/70">Key Job Functions</div>
+            </div>
+            <div className="w-px h-12 bg-white/30"></div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white">21K+</div>
+              <div className="text-sm text-white/70">Technologies Tracked</div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
@@ -413,7 +437,11 @@ return (
             </div>
             <div>
               <h2 className="text-3xl font-bold">Our Total Audience Reach by Job Function</h2>
-              <p className="text-muted-foreground mt-1">Connect with professionals across key industries</p>
+              <p className="text-muted-foreground mt-1">Connect with 135+ million verified professionals across key industries</p>
+              <div className="mt-3 flex items-center gap-2 text-sm text-green-600 font-medium">
+                <CheckCircle className="w-4 h-4" />
+                <span>100% Verified Professional Profiles</span>
+              </div>
             </div>
           </div>
 
@@ -440,6 +468,7 @@ return (
                     />
                     <YAxis
                       tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                      domain={[0, 45]}
                       label={{
                         value: 'Millions of Professionals',
                         angle: -90,
@@ -478,7 +507,8 @@ return (
               >
                 <Card className="p-4 hover:shadow-xl transition-all duration-300 bg-white border border-primary/10">
                   <h3 className="text-sm text-muted-foreground mb-1 line-clamp-1">{stat.name}</h3>
-                  <p className="text-2xl font-bold" style={{ color: stat.color }}>{stat.value}M+</p>
+                  <p className="text-2xl font-bold" style={{ color: stat.color }}>{stat.displayValue}M</p>
+                  <div className="text-xs text-muted-foreground mt-1">Professionals</div>
                 </Card>
               </motion.div>
             ))}
