@@ -1,7 +1,6 @@
 import { Hero } from "@/components/sections/hero";
 import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
-import { Testimonials } from "@/components/sections/testimonials";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
@@ -88,11 +87,6 @@ export default function Home() {
           <Services />
         </AnimatedSection>
 
-        {/* Testimonials Section with improved presentation */}
-        <AnimatedSection className="relative z-50" delay={0.3}>
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none" />
-          <Testimonials />
-        </AnimatedSection>
 
         {/* Decorative elements */}
         <div className="fixed inset-0 pointer-events-none">
