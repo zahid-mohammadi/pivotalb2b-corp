@@ -295,7 +295,6 @@ export function Hero() {
                   transition={{ type: "spring", stiffness: 400, damping: 17 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  delay={i * 0.1}
                 >
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 5 }}
