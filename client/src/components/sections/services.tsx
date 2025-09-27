@@ -125,7 +125,7 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            From Wasted Leads to Measurable Revenue
+            Why B2B Teams Choose Pivotal B2B
           </motion.h2>
           
           <motion.p 

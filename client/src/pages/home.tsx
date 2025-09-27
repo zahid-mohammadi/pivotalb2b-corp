@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/hero";
+import { Commitment } from "@/components/sections/commitment";
 import { Approach } from "@/components/sections/approach";
 import { Services } from "@/components/sections/services";
 import { MetaTags } from "@/components/ui/meta-tags";
@@ -73,6 +74,11 @@ export default function Home() {
         {/* Hero Section with enhanced styling */}
         <AnimatedSection className="relative z-10" delay={0}>
           <Hero />
+        </AnimatedSection>
+
+        {/* Commitment Section */}
+        <AnimatedSection className="relative z-15" delay={0.05}>
+          <Commitment />
         </AnimatedSection>
 
         {/* Approach Section with visual enhancements */}

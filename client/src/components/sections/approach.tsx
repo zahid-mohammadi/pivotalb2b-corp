@@ -86,7 +86,7 @@ export function Approach() {
           </h2>
 
           <p className="text-xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto leading-relaxed">
-            Our systematic approach transforms your marketing spend into measurable revenue outcomes through targeted precision.
+            Stop chasing dead-end leads. Start building revenue. Our systematic approach transforms your marketing spend into measurable revenue outcomes through targeted precision.
           </p>
         </motion.div>
 
