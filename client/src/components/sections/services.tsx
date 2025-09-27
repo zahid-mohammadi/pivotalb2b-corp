@@ -17,7 +17,7 @@ const services = [
   {
     title: "Account-Based Marketing (ABM) Programs",
     description: "We help you engage entire buying committees inside your target accounts—building trust and positioning your solution before competitors even enter the conversation.",
-    slogan: "Turn prospects into partners",
+    slogan: "Convert your Best Account Faster",
     icon: Target,
     ctaLabel: "Explore ABM Solutions",
     gradient: "from-blue-500 to-indigo-600",
