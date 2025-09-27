@@ -51,8 +51,8 @@ export default function Home() {
   return (
     <>
       <MetaTags
-        title="Premium B2B Lead Generation & Marketing Solutions | Pivotal B2B"
-        description="Transform your B2B marketing with Pivotal B2B's premium lead generation services, intent-based targeting, and comprehensive marketing solutions. Drive growth with our data-driven approach to lead qualification and account-based marketing."
+        title="B2B Lead Generation & Demand Generation Services | Pivotal B2B"
+        description="Generate qualified B2B leads with precision. Pivotal B2B helps you build predictable pipelines, reduce cost per lead, and scale revenue growth."
         canonical="https://pivotal-b2b.com"
         structuredData={{
           "@context": "https://schema.org",
