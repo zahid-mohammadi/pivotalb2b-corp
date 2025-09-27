@@ -30,19 +30,19 @@ export function Navbar() {
           <div className="space-y-2">
             <p className="text-sm font-medium">Services</p>
             <div className="pl-4 space-y-2">
-              <Link href="/services/account-based-marketing">
+              <Link href="/services/account-based-marketing-abm-programs">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Account-Based Marketing (ABM) Programs</span>
               </Link>
               <Link href="/services/b2b-lead-generation-qualification">
                 <span className="text-sm text-muted-foreground hover:text-primary block">B2B Lead Generation & Qualification</span>
               </Link>
-              <Link href="/services/lead-nurturing-engagement">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Nurturing & Engagement</span>
+              <Link href="/services/lead-nurturing-buyer-engagement">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Nurturing & Buyer Engagement</span>
               </Link>
-              <Link href="/services/intent-based-lead-generation">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Intent-Based Lead Generation</span>
+              <Link href="/services/precision-demand-generation">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Precision Demand Generation</span>
               </Link>
-              <Link href="/services/event-marketing-solutions">
+              <Link href="/services/event-marketing-audience-acquisition">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Event Marketing & Audience Acquisition</span>
               </Link>
               <Link href="/services/lead-validation-enrichment">
@@ -59,7 +59,7 @@ export function Navbar() {
               <NavigationMenuContent>
                 <ul className="grid w-[800px] gap-3 p-4 grid-cols-3">
                   <li>
-                    <Link href="/services/account-based-marketing" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -94,7 +94,7 @@ export function Navbar() {
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/lead-nurturing-engagement" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/lead-nurturing-buyer-engagement" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -102,14 +102,14 @@ export function Navbar() {
                             </svg>
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Lead Nurturing & Engagement</div>
+                            <div className="text-sm font-medium">Lead Nurturing & Buyer Engagement</div>
                             <p className="text-xs text-muted-foreground">Transform cold leads into revenue</p>
                           </div>
                         </div>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/intent-based-lead-generation" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/precision-demand-generation" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
@@ -119,14 +119,14 @@ export function Navbar() {
                             </svg>
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Intent-Based Lead Generation</div>
-                            <p className="text-xs text-muted-foreground">Identify active buying signals</p>
+                            <div className="text-sm font-medium">Precision Demand Generation</div>
+                            <p className="text-xs text-muted-foreground">Position as trusted choice</p>
                           </div>
                         </div>
                     </Link>
                   </li>
                   <li>
-                    <Link href="/services/event-marketing-solutions" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                    <Link href="/services/event-marketing-audience-acquisition" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
                           <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
                             <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
