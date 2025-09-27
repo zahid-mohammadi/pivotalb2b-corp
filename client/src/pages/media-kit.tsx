@@ -535,9 +535,9 @@ export default function MediaKit() {
         </section>
 
         {/* Section 6: Target Audience Reach */}
-        <section className="min-h-screen bg-white p-16">
+        <section className="bg-white p-12">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
+            <div className="text-center mb-10">
               <h2 className="text-5xl font-bold text-slate-800 mb-6">Target Audience Reach</h2>
               <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
               <p className="text-xl text-slate-600 max-w-3xl mx-auto">
@@ -545,18 +545,18 @@ export default function MediaKit() {
               </p>
             </div>
             
-            <div className="grid lg:grid-cols-2 gap-16">
+            <div className="grid lg:grid-cols-2 gap-10">
               {/* Capabilities */}
-              <div className="space-y-8">
-                <h3 className="text-3xl font-bold text-slate-800 mb-8">Our Capabilities</h3>
-                <div className="space-y-6">
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-slate-800 mb-6">Our Capabilities</h3>
+                <div className="space-y-4">
                   {[
                     { title: "Company Information", desc: "Size, revenue, growth stage" },
                     { title: "Role & Seniority", desc: "Job titles, departments, authority" },
                     { title: "Technology", desc: "Tech stack & adoption stage" },
                     { title: "Engagement Signals", desc: "Content interactions, event participation, buying intent" }
                   ].map((item, index) => (
-                    <div key={index} className="flex items-start gap-4 p-6 bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl">
+                    <div key={index} className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-lg">
                       <div className="w-3 h-3 bg-purple-600 rounded-full mt-2 flex-shrink-0" />
                       <div>
                         <h4 className="font-bold text-slate-800 mb-1">{item.title}</h4>
@@ -569,7 +569,7 @@ export default function MediaKit() {
               
               {/* Audience Segments */}
               <div>
-                <h3 className="text-3xl font-bold text-slate-800 mb-8">Audience Segments</h3>
+                <h3 className="text-2xl font-bold text-slate-800 mb-6">Audience Segments</h3>
                 <div className="grid grid-cols-2 gap-4">
                   {audienceSegments.map((segment, index) => {
                     const IconComponent = segment.icon;
@@ -579,9 +579,9 @@ export default function MediaKit() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: index * 0.1 }}
-                        className="bg-white p-6 rounded-xl shadow-lg border border-slate-100 hover:shadow-xl transition-shadow text-center group hover:-translate-y-1"
+                        className="bg-white p-4 rounded-lg shadow-md border border-slate-100 hover:shadow-lg transition-shadow text-center group"
                       >
-                        <IconComponent className="w-8 h-8 text-blue-600 mx-auto mb-3 group-hover:scale-110 transition-transform" />
+                        <IconComponent className="w-6 h-6 text-purple-600 mx-auto mb-2 group-hover:scale-110 transition-transform" />
                         <h4 className="font-semibold text-slate-800 text-sm leading-tight">
                           {segment.title}
                         </h4>
@@ -594,7 +594,7 @@ export default function MediaKit() {
           </div>
           
           {/* Footer */}
-          <div className="mt-16 pt-8 flex justify-between items-center text-sm text-slate-400 border-t">
+          <div className="mt-8 pt-6 flex justify-between items-center text-sm text-slate-400 border-t">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-gradient-to-br from-purple-600 to-violet-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
               <span>Pivotal B2B</span>
