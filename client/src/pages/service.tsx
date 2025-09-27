@@ -32,6 +32,40 @@ export default function ServicePage() {
     "B2B Marketing Agencies"
   ];
 
+  // Hero content mapping based on user specifications
+  const heroContent: Record<string, { headline: string; subheadline: string; cta: string }> = {
+    "account-based-marketing-abm-programs": {
+      headline: "Influence Buying Committees at Your Target Accounts",
+      subheadline: "Our ABM programs engage entire buying groups inside your named target accounts, building relationships and influencing decisions before competitors are even considered.",
+      cta: "Request an ABM Proposal"
+    },
+    "b2b-lead-generation-qualification": {
+      headline: "Generate and Qualify Leads That Actually Convert", 
+      subheadline: "We combine precise lead generation with rigorous qualification, delivering a steady flow of new opportunities while ensuring every lead is relevant, accurate, and aligned with your target accounts.",
+      cta: "Request a Lead Generation Proposal"
+    },
+    "precision-demand-generation": {
+      headline: "Deliver the Right Message to the Right Buyers at the Right Time",
+      subheadline: "Our Precision Demand Generation programs identify in-market accounts, connect with the right decision-makers, and educate buyers with insights that solve their challenges—so when they're ready to buy, your solution is already top of mind.",
+      cta: "Request a Precision Demand Gen Proposal"
+    },
+    "event-marketing-audience-acquisition": {
+      headline: "Fill Your Events With Real Buyers",
+      subheadline: "We ensure your events attract decision-makers with genuine intent, so every conversation moves pipeline forward and every event delivers measurable ROI.",
+      cta: "Request an Event Marketing Proposal"
+    },
+    "lead-validation-enrichment": {
+      headline: "Stop Wasting Time on Bad Data",
+      subheadline: "We validate, clean, and enrich every lead so your sales team engages only with accurate, compliant, and relevant opportunities.",
+      cta: "Request a Lead Validation Proposal"
+    },
+    "lead-nurturing-buyer-engagement": {
+      headline: "Turn Cold Leads Into Future Revenue",
+      subheadline: "We keep future buyers engaged with educational content and personalized touchpoints until they're ready to talk with sales—ensuring no opportunity is lost.",
+      cta: "Request a Nurture Strategy Proposal"
+    }
+  };
+
   const { data: service, isLoading } = useQuery<Service>({
     queryKey: [`/api/services/${params?.slug}`],
   });
@@ -90,17 +124,17 @@ export default function ServicePage() {
           <div className="container mx-auto px-4 relative">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                {service.title}
+                {heroContent[params?.slug!]?.headline || service.title}
               </h1>
               <h2 className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed font-light">
-                {service.description}
+                {heroContent[params?.slug!]?.subheadline || service.description}
               </h2>
               <Button
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-lg"
                 onClick={() => window.location.href = '/request-proposal'}
               >
-                Request a Proposal
+                {heroContent[params?.slug!]?.cta || "Request a Proposal"}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
