@@ -66,6 +66,40 @@ export default function ServicePage() {
     }
   };
 
+  // Service-specific CTA content for the final section
+  const ctaContent: Record<string, { headline: string; description: string; buttonText: string }> = {
+    "account-based-marketing-abm-programs": {
+      headline: "Ready to Influence Your Target Accounts?",
+      description: "Let's discuss how our ABM programs can help you engage buying committees and accelerate deal velocity at your highest-value accounts.",
+      buttonText: "Schedule Your ABM Strategy Call"
+    },
+    "b2b-lead-generation-qualification": {
+      headline: "Ready to Generate Qualified Leads That Convert?",
+      description: "Schedule a consultation to discuss your lead generation goals and learn how we can deliver qualified prospects to your sales team.",
+      buttonText: "Schedule Your Lead Gen Strategy Call"
+    },
+    "precision-demand-generation": {
+      headline: "Ready to Capture In-Market Demand?",
+      description: "Let's explore how our precision demand generation approach can position you as the preferred solution when buyers are ready to purchase.",
+      buttonText: "Schedule Your Demand Gen Strategy Call"
+    },
+    "event-marketing-audience-acquisition": {
+      headline: "Ready to Fill Your Events With Quality Buyers?",
+      description: "Discuss how we can help you attract decision-makers with genuine interest and budget to your upcoming events and webinars.",
+      buttonText: "Schedule Your Event Marketing Call"
+    },
+    "lead-validation-enrichment": {
+      headline: "Ready to Clean Up Your Lead Data?",
+      description: "Let's discuss how our validation and enrichment services can improve your data quality and boost your sales team's efficiency.",
+      buttonText: "Schedule Your Data Strategy Call"
+    },
+    "lead-nurturing-buyer-engagement": {
+      headline: "Ready to Turn Prospects Into Pipeline?",
+      description: "Explore how our nurturing programs can keep your prospects engaged and move them through the buying journey until they're sales-ready.",
+      buttonText: "Schedule Your Nurturing Strategy Call"
+    }
+  };
+
   const { data: service, isLoading } = useQuery<Service>({
     queryKey: [`/api/services/${params?.slug}`],
   });
