@@ -1,31 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users, Database, PieChart, TrendingUp, CheckCircle } from "lucide-react";
+import { ArrowRight, Target, Shield, Clock, BarChart, Network, LineChart, Users, Database, PieChart, TrendingUp, CheckCircle, Sparkles, Zap, Rocket, Star } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
-
-  // Purple-to-pink gradient color palette to match "Our Approach" section
-  const primaryColor = "rgb(var(--primary))"; // Primary color from CSS variables
-  const purpleColor = "#9333EA"; // purple-600
-  const pinkColor = "#DB2777"; // pink-600
-
   const isMobile = useIsMobile();
   
   return (
-    <div className="relative bg-[#14213d] text-white overflow-hidden">
-      {/* Simplified animated background */}
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden flex items-center">
+      {/* Revolutionary Background Design */}
       <div className="absolute inset-0">
-        {/* Base gradient layer */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#14213d] via-[#14213d]/90 to-[#14213d]" />
+        {/* Primary Gradient Base */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900/50 to-slate-900" />
 
-        {/* Main background gradient animation matching "Our Approach" colors */}
+        {/* Floating Orbs */}
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-[#9333EA]/30 via-transparent to-[#DB2777]/20"
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-3xl"
           animate={{
-            opacity: [0.3, 0.5, 0.3],
-            scale: [1, 1.05, 1],
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3],
+            x: [0, 50, 0],
+            y: [0, -30, 0],
           }}
           transition={{
             duration: 8,
@@ -33,302 +29,333 @@ export function Hero() {
             ease: "easeInOut",
           }}
         />
+        <motion.div
+          className="absolute top-1/2 right-1/4 w-80 h-80 bg-gradient-to-r from-pink-500/20 to-orange-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.5, 0.2],
+            x: [0, -40, 0],
+            y: [0, 40, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 left-1/2 w-64 h-64 bg-gradient-to-r from-cyan-500/25 to-blue-500/25 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.3, 1],
+            opacity: [0.4, 0.7, 0.4],
+            rotate: [0, 180, 360],
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 4,
+          }}
+        />
 
-        {/* B2B marketing themed elements - only on non-mobile */}
+        {/* Geometric Elements */}
         {!isMobile && (
           <div className="absolute inset-0">
-            {/* Data-driven graph elements */}
-            <div className="absolute inset-y-0 right-0 w-1/2">
-              {/* Animated bar chart that represents lead generation metrics */}
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={`bar-${i}`}
-                  className="absolute w-6 bg-gradient-to-t from-[#E5E5E5] to-[#9333EA] rounded-t-lg shadow-md"
-                  style={{
-                    height: `${(i + 1) * 25 + 10}px`,
-                    bottom: '30%',
-                    right: `${30 + i * 8}%`,
-                  }}
-                  animate={{
-                    height: [`${(i + 1) * 25 + 10}px`, `${(i + 1) * 25 + 40}px`, `${(i + 1) * 25 + 10}px`],
-                    opacity: [0.7, 0.9, 0.7],
-                  }}
-                  transition={{
-                    duration: 3 + i * 0.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.2,
-                  }}
-                >
-                  <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#DB2777] rounded-full animate-ping" />
-                </motion.div>
-              ))}
+            {/* Floating Geometric Shapes */}
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={`shape-${i}`}
+                className={`absolute w-4 h-4 rounded-full ${
+                  i % 3 === 0 ? 'bg-blue-400/30' : 
+                  i % 3 === 1 ? 'bg-purple-400/30' : 'bg-pink-400/30'
+                }`}
+                style={{
+                  top: `${15 + (i * 12)}%`,
+                  left: `${10 + (i * 15)}%`,
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  scale: [1, 1.5, 1],
+                  opacity: [0.3, 0.8, 0.3],
+                }}
+                transition={{
+                  duration: 4 + i,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: i * 0.5,
+                }}
+              />
+            ))}
 
-              {/* Growth trend line animation */}
-              <motion.svg
-                className="absolute right-[25%] top-[35%] w-48 h-24"
-                viewBox="0 0 100 50"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1 }}
+            {/* Revenue Growth Visualization */}
+            <div className="absolute top-1/2 right-10 opacity-20">
+              <motion.div
+                className="flex items-end gap-2"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 0.3, scale: 1 }}
+                transition={{ duration: 1, delay: 1 }}
               >
-                <motion.path
-                  d="M0,50 L20,45 L40,35 L60,20 L80,10 L100,5"
-                  fill="none"
-                  stroke="url(#gradientPath)"
-                  strokeWidth="2"
-                  strokeDasharray="1, 2"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    repeatDelay: 0.5,
-                  }}
-                />
-                <defs>
-                  <linearGradient id="gradientPath" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor={primaryColor} />
-                    <stop offset="50%" stopColor={purpleColor} />
-                    <stop offset="100%" stopColor={pinkColor} />
-                  </linearGradient>
-                </defs>
-
-                {/* Data points on the trend line */}
-                {[0, 20, 40, 60, 80, 100].map((x, i) => {
-                  const y = i === 0 ? 50 : i === 1 ? 45 : i === 2 ? 35 : i === 3 ? 20 : i === 4 ? 10 : 5;
-
-                  return (
-                    <motion.circle
-                      key={`point-${i}`}
-                      cx={x}
-                      cy={y}
-                      r="2"
-                      fill={i < 2 ? primaryColor : i < 4 ? purpleColor : pinkColor}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{
-                        delay: i * 0.4,
-                        duration: 0.3,
-                        repeat: Infinity,
-                        repeatDelay: 2.5,
-                      }}
-                    />
-                  );
-                })}
-              </motion.svg>
-            </div>
-
-            {/* Connection network dots (representing B2B network) */}
-            <div className="absolute inset-0">
-              {[...Array(12)].map((_, i) => {
-                const x = 15 + (i % 4) * 20;
-                const y = 15 + Math.floor(i / 4) * 25;
-
-                return (
+                {[40, 60, 80, 100, 120].map((height, i) => (
                   <motion.div
-                    key={`node-${i}`}
-                    className={`absolute w-2 h-2 rounded-full ${i % 3 === 0 ? 'bg-primary' : i % 3 === 1 ? 'bg-[#9333EA]' : 'bg-[#DB2777]'}`}
-                    style={{
-                      left: `${x}%`,
-                      top: `${y}%`,
-                      opacity: 0.7,
-                    }}
-                    animate={{
-                      scale: [1, 1.3, 1],
-                      opacity: [0.4, 0.7, 0.4],
-                    }}
+                    key={i}
+                    className="w-6 bg-gradient-to-t from-blue-500 to-purple-500 rounded-t"
+                    style={{ height: 0 }}
+                    animate={{ height: height }}
                     transition={{
-                      duration: 2 + (i % 3),
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                      delay: i * 0.2,
+                      duration: 1.5,
+                      delay: 1.5 + i * 0.2,
+                      ease: "easeOut"
                     }}
                   />
-                );
-              })}
-
-              {/* Connection lines between nodes - reduced for performance */}
-              {[...Array(4)].map((_, i) => {
-                const fromNode = i % 12;
-                const toNode = (fromNode + 1 + i) % 12;
-                const fromX = 15 + (fromNode % 4) * 20;
-                const fromY = 15 + Math.floor(fromNode / 4) * 25;
-                const toX = 15 + (toNode % 4) * 20;
-                const toY = 15 + Math.floor(toNode / 4) * 25;
-                const lineColor = i % 3 === 0 ? primaryColor : i % 3 === 1 ? purpleColor : pinkColor;
-
-                return (
-                  <motion.svg
-                    key={`connection-${i}`}
-                    className="absolute left-0 top-0 w-full h-full"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.3 }}
-                    transition={{
-                      duration: 1,
-                      delay: i * 0.3,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                    }}
-                  >
-                    <line
-                      x1={`${fromX}%`}
-                      y1={`${fromY}%`}
-                      x2={`${toX}%`}
-                      y2={`${toY}%`}
-                      stroke={lineColor}
-                      strokeWidth="1"
-                      strokeDasharray="3,3"
-                    />
-                  </motion.svg>
-                );
-              })}
+                ))}
+              </motion.div>
             </div>
 
-            {/* Floating B2B marketing icons - reduced for mobile */}
+            {/* Floating Success Icons */}
             {[
-              { Icon: PieChart, top: '15%', left: '75%', color: primaryColor },
-              { Icon: TrendingUp, top: '25%', left: '65%', color: pinkColor }
+              { Icon: Target, top: '20%', right: '20%' },
+              { Icon: Rocket, top: '40%', right: '15%' },
+              { Icon: TrendingUp, top: '60%', right: '25%' },
             ].map((item, i) => (
               <motion.div
                 key={`icon-${i}`}
-                className="absolute"
-                style={{
-                  top: item.top,
-                  left: item.left,
-                  color: item.color,
-                  opacity: 0.6,
-                }}
+                className="absolute text-white/20"
+                style={{ top: item.top, right: item.right }}
                 animate={{
-                  y: [0, -10, 0],
-                  opacity: [0.4, 0.7, 0.4],
+                  y: [0, -15, 0],
+                  rotate: [0, 5, -5, 0],
+                  opacity: [0.2, 0.4, 0.2],
                 }}
                 transition={{
                   duration: 3 + i,
                   repeat: Infinity,
                   ease: "easeInOut",
+                  delay: i * 0.8,
                 }}
               >
-                <item.Icon size={24} />
+                <item.Icon size={32} />
               </motion.div>
             ))}
-
-            {/* Simplified grid overlay to represent data organization */}
-            <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
           </div>
         )}
 
-        {/* Bottom light effect for depth */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#14213d] to-transparent" />
+        {/* Mesh Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
       </div>
 
-      <div className="container mx-auto px-4 py-12 md:py-16 lg:py-24 relative">
-        <div className="max-w-4xl mx-auto md:mx-0">
+      <div className="container mx-auto px-4 py-16 md:py-24 lg:py-32 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          {/* Hero Badge */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-sm mb-6 border border-purple-600/30 hover:border-pink-600/50 transition-colors"
-          >
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary via-purple-600 to-pink-600 animate-pulse" />
-            <span className="text-sm text-white/90">Stop Losing Revenue to Poor Lead Quality</span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
-            className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 md:mb-6 leading-tight"
+            transition={{ duration: 0.8 }}
+            className="text-center mb-8"
           >
-            Turn Every Marketing Dollar Into <span className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 text-transparent bg-clip-text">Predictable Revenue</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.7 }}
-            className="text-base md:text-xl text-white/90 mb-6 md:mb-8 leading-relaxed"
-          >
-When measurable results matter, lead quality is everything. We identify your ideal buyer profile, connect with them through content that builds trust, and deliver decision-ready prospects actively evaluating solutions like yours—guaranteed.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.7 }}
-            className="flex flex-wrap gap-4 mb-8"
-          >
-            <Button
-              size="lg"
-              className="shadow-lg group relative overflow-hidden bg-gradient-to-r from-primary via-purple-600 to-pink-600 hover:from-primary/90 hover:via-purple-600/90 hover:to-pink-600/90 text-white text-lg px-8 py-4"
-              onClick={() => window.open(calendlyUrl, '_blank')}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 animate-[shine_2s_ease-in-out_infinite] -translate-x-full" />
-              <span className="relative flex items-center font-semibold">
-                Request Your Free Revenue Audit
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-xl border border-white/20 hover:border-white/40 transition-all">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="w-5 h-5 text-yellow-400" />
+              </motion.div>
+              <span className="text-white font-medium">
+                🚀 Revenue-First B2B Marketing That Actually Works
               </span>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors border-white/30 hover:border-purple-600/60 text-white text-lg px-8 py-4"
-              onClick={() => window.location.href = '/request-proposal'}
-            >
-              Explore Case Studies
-            </Button>
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Star className="w-5 h-5 text-yellow-400" />
+              </motion.div>
+            </div>
           </motion.div>
 
+          {/* Main Headline */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="flex items-center gap-6 mb-12 text-white/80 text-sm"
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-center mb-8"
           >
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-400" />
-              <span>No long-term contracts</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-400" />
-              <span>90-day performance guarantee</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-400" />
-              <span>Campaigns live in 72 hours</span>
-            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+              Stop Wasting Money On
+              <br />
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text animate-pulse">
+                Bad Leads
+              </span>
+              <br />
+              <motion.span 
+                className="inline-block"
+                animate={{ 
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+                style={{
+                  background: "linear-gradient(45deg, #ffffff, #a78bfa, #ffffff, #f472b6, #ffffff)",
+                  backgroundSize: "300% 300%",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent"
+                }}
+              >
+                Start Closing Deals
+              </motion.span>
+            </h1>
           </motion.div>
 
+          {/* Subheadline */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16"
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed">
+              We don't just generate leads—we deliver 
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-semibold"> decision-ready buyers </span>
+              who have budget, authority, and genuine intent to purchase your solution.
+            </p>
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="relative group"
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl blur opacity-70 group-hover:opacity-100 transition duration-300" />
+              <Button
+                size="lg"
+                className="relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white text-xl font-bold px-10 py-6 rounded-2xl shadow-2xl transition-all duration-300"
+                onClick={() => window.open(calendlyUrl, '_blank')}
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "100%" }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "linear"
+                  }}
+                />
+                <span className="relative flex items-center gap-3">
+                  <Zap className="w-6 h-6" />
+                  Get Your Free Revenue Audit
+                  <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Button>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-xl border-2 border-white/30 hover:border-white/60 text-white text-xl font-semibold px-10 py-6 rounded-2xl transition-all duration-300"
+                onClick={() => window.location.href = '/request-proposal'}
+              >
+                <span className="flex items-center gap-3">
+                  <Rocket className="w-6 h-6" />
+                  Request a Proposal
+                </span>
+              </Button>
+            </motion.div>
+          </motion.div>
+
+          {/* Trust Indicators */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="flex flex-wrap justify-center items-center gap-8 mb-16 text-white/90"
           >
             {[
-              { icon: Target, metric: "3x", label: "Higher Quality Leads", subtitle: "vs traditional providers" },
-              { icon: TrendingUp, metric: "$2.5M", label: "Average Client Revenue Impact", subtitle: "(Year 1)" },
-              { icon: Clock, metric: "72hrs", label: "To First Qualified Lead", subtitle: "delivered" }
-            ].map((benefit, index) => (
+              { icon: Shield, text: "No Long-Term Contracts" },
+              { icon: Target, text: "90-Day Performance Guarantee" },
+              { icon: Clock, text: "Campaigns Live in 72 Hours" },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <item.icon className="w-5 h-5 text-green-400" />
+                <span className="font-medium">{item.text}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Results Preview Cards */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
+            {[
+              { 
+                icon: Target, 
+                title: "Quality Over Quantity", 
+                description: "Every lead is pre-qualified with budget, authority, and genuine buying intent",
+                gradient: "from-blue-500/20 to-purple-500/20"
+              },
+              { 
+                icon: TrendingUp, 
+                title: "Predictable Growth", 
+                description: "Turn your marketing spend into a reliable revenue generation machine",
+                gradient: "from-purple-500/20 to-pink-500/20"
+              },
+              { 
+                icon: Rocket, 
+                title: "Fast Implementation", 
+                description: "See your first qualified leads within 72 hours of campaign launch",
+                gradient: "from-pink-500/20 to-orange-500/20"
+              }
+            ].map((card, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8 + index * 0.1, duration: 0.8 }}
-                whileHover={{ scale: 1.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.2 + index * 0.2, duration: 0.6 }}
+                whileHover={{ y: -10, scale: 1.02 }}
                 className="relative group"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-600/40 to-pink-600/20 rounded-xl blur-xl group-hover:opacity-100 opacity-0 transition-opacity" />
-                <div className="relative flex items-center gap-3 bg-[#14213d]/90 rounded-xl p-6 backdrop-blur-sm border border-white/20 group-hover:border-purple-600/40 transition-all">
-                  <div className="p-2 bg-gradient-to-r from-primary via-purple-600/80 to-pink-600/80 rounded-lg group-hover:from-primary group-hover:via-purple-600 group-hover:to-pink-600 transition-colors">
-                    <benefit.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-primary group-hover:via-purple-600 group-hover:to-pink-600 transition-colors">{benefit.metric}</div>
-                    <div className="text-sm text-white/90 group-hover:text-white transition-colors font-medium">{benefit.label}</div>
-                    <div className="text-xs text-white/70 group-hover:text-white/80 transition-colors">{benefit.subtitle}</div>
-                  </div>
+                {/* Glow Effect */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500`} />
+                
+                {/* Card Content */}
+                <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 group-hover:border-white/40 transition-all duration-300">
+                  <motion.div
+                    className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
+                    whileHover={{ rotate: [0, -10, 10, 0] }}
+                  >
+                    <card.icon className="w-8 h-8 text-white" />
+                  </motion.div>
+                  
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all">
+                    {card.title}
+                  </h3>
+                  
+                  <p className="text-white/80 leading-relaxed group-hover:text-white transition-colors">
+                    {card.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
