@@ -619,64 +619,33 @@ export default function MediaKit() {
               </p>
             </div>
             
-            {/* Creative diamond arrangement */}
-            <div className="relative flex justify-center items-center min-h-[600px]">
-              {/* Center success hub */}
-              <div className="absolute z-20 w-48 h-48 bg-gradient-to-br from-blue-600 to-slate-700 rounded-full flex items-center justify-center shadow-2xl">
-                <div className="text-center text-white">
-                  <TrendingUp className="w-12 h-12 mx-auto mb-2" />
+            {/* Central value proposition */}
+            <div className="text-center mb-16">
+              <div className="inline-block bg-gradient-to-br from-purple-600 to-violet-700 rounded-full px-8 py-4 shadow-2xl">
+                <div className="flex items-center gap-3 text-white">
+                  <TrendingUp className="w-6 h-6" />
                   <span className="font-bold text-lg">Proven Results</span>
                 </div>
               </div>
-              
-              {/* Connect lines from center to each proof point */}
-              <div className="absolute inset-0">
-                {/* Top line */}
-                <div className="absolute top-20 left-1/2 w-px h-32 bg-gradient-to-b from-blue-300 to-transparent transform -translate-x-px" />
-                {/* Right line */}
-                <div className="absolute top-1/2 right-20 w-32 h-px bg-gradient-to-l from-blue-300 to-transparent transform -translate-y-px" />
-                {/* Bottom line */}
-                <div className="absolute bottom-20 left-1/2 w-px h-32 bg-gradient-to-t from-blue-300 to-transparent transform -translate-x-px" />
-                {/* Left line */}
-                <div className="absolute top-1/2 left-20 w-32 h-px bg-gradient-to-r from-blue-300 to-transparent transform -translate-y-px" />
-              </div>
-              
-              {/* Proof point cards arranged in diamond pattern */}
+            </div>
+            
+            {/* Simple responsive grid layout */}
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
               {proofPoints.map((point, index) => {
                 const IconComponent = point.icon;
-                const positions = [
-                  { top: '0', left: '50%', transform: 'translate(-50%, 0)' }, // Top
-                  { top: '50%', right: '0', transform: 'translate(0, -50%)' }, // Right
-                  { bottom: '0', left: '50%', transform: 'translate(-50%, 0)' }, // Bottom
-                  { top: '50%', left: '0', transform: 'translate(0, -50%)' } // Left
-                ];
-                
                 return (
-                  <div 
-                    key={index}
-                    className="absolute z-10"
-                    style={positions[index]}
-                  >
-                    <div className="w-72 h-64 bg-white rounded-3xl shadow-2xl border border-blue-100 p-8 hover:shadow-3xl transition-all duration-500 hover:-translate-y-3 group relative">
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-slate-50/50 rounded-3xl" />
-                      
-                      <div className="relative z-10 text-center h-full flex flex-col justify-center">
-                        <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-xl">
-                          <IconComponent className="w-8 h-8 text-white" />
-                        </div>
-                        
-                        <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">
-                          {point.title}
-                        </h3>
-                        
-                        <p className="text-slate-600 leading-relaxed text-sm">
-                          {point.description}
-                        </p>
+                  <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-purple-100">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <IconComponent className="w-8 h-8 text-white" />
                       </div>
-                      
-                      {/* Accent line */}
-                      <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 to-slate-600 rounded-b-3xl" />
+                      <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">
+                        {point.title}
+                      </h3>
+                      <p className="text-slate-600 leading-relaxed mb-6">
+                        {point.description}
+                      </p>
+                      <div className="h-1 bg-gradient-to-r from-purple-600 to-violet-600 rounded-full" />
                     </div>
                   </div>
                 );
@@ -685,9 +654,9 @@ export default function MediaKit() {
             
             {/* Value proposition at bottom */}
             <div className="mt-32 text-center">
-              <div className="bg-gradient-to-r from-blue-600 to-slate-700 rounded-3xl p-8 shadow-2xl">
+              <div className="bg-gradient-to-r from-purple-600 to-violet-700 rounded-3xl p-8 shadow-2xl">
                 <h3 className="text-2xl font-bold text-white mb-4">The Pivotal Difference</h3>
-                <p className="text-blue-100 text-lg leading-relaxed max-w-3xl mx-auto">
+                <p className="text-purple-100 text-lg leading-relaxed max-w-3xl mx-auto">
                   We don't just generate leads — we deliver revenue-ready prospects that fit your ideal customer profile, backed by data-driven insights and proven methodologies.
                 </p>
               </div>
@@ -697,7 +666,7 @@ export default function MediaKit() {
           {/* Footer */}
           <div className="mt-20 pt-8 flex justify-between items-center text-sm text-slate-400 border-t border-slate-200 relative z-10">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-gradient-to-br from-blue-600 to-slate-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
+              <div className="w-6 h-6 bg-gradient-to-br from-purple-600 to-violet-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
               <span>Pivotal B2B</span>
             </div>
             <span>contact@pivotal-b2b.com | +1 417-900-3844</span>
