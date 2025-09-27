@@ -43,16 +43,6 @@ export function Navbar() {
         <span className="text-sm hover:text-primary cursor-pointer">Home</span>
       </Link>
 
-      {/* Marketing Channels - only show on home page for mobile */}
-      {location === "/" && (
-        <span 
-          className="text-sm hover:text-primary cursor-pointer transition-colors duration-200"
-          onClick={scrollToMarketingChannels}
-        >
-          Marketing Channels
-        </span>
-      )}
-
       {/* Solutions Dropdown/List */}
       {isMobile ? (
         <div className="space-y-2">
