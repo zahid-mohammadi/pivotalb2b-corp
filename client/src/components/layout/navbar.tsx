@@ -11,12 +11,23 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Menu, X, Loader2 } from "lucide-react";
+import { Menu, X, Loader2, Sparkles, Zap } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const { user, logoutMutation } = useAuth();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const NavItems = ({ className, isMobile = false }: { className?: string; isMobile?: boolean }) => (
     <div className={cn("flex", isMobile ? "flex-col space-y-4" : "items-center space-x-4", className)}>
@@ -222,13 +233,78 @@ export function Navbar() {
   );
 
   return (
-    <header className="">
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center">
+    <motion.header 
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        isScrolled 
+          ? "backdrop-blur-xl bg-background/80 border-b border-border/50 shadow-2xl shadow-primary/10" 
+          : "backdrop-blur-md bg-background/60"
+      )}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5"
+        animate={{
+          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+        style={{
+          backgroundSize: "200% 200%"
+        }}
+      />
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between relative z-10">
+        <motion.div 
+          className="flex items-center group"
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
           <Link href="/">
-            <img src="/logo.png" alt="Pivotal B2B" className="h-10 cursor-pointer" />
+            <motion.div 
+              className="relative flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-primary/10 transition-all duration-300"
+              whileHover={{ scale: 1.02 }}
+            >
+              <motion.div
+                className="relative"
+                animate={{
+                  rotate: [0, 5, -5, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <img src="/logo.png" alt="Pivotal B2B" className="h-10 cursor-pointer" />
+                <motion.div
+                  className="absolute -top-1 -right-1 w-3 h-3"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.7, 1, 0.7],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <Sparkles className="w-3 h-3 text-primary" />
+                </motion.div>
+              </motion.div>
+              <motion.div className="hidden sm:block">
+                <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                  Pivotal B2B
+                </h1>
+                <p className="text-xs text-muted-foreground -mt-1">Marketing Solutions</p>
+              </motion.div>
+            </motion.div>
           </Link>
-        </div>
+        </motion.div>
 
         {/* Desktop Navigation */}
         <div className="hidden md:block">
@@ -314,6 +390,31 @@ export function Navbar() {
           </div>
         </div>
       </div>
-    </header>
+      
+      {/* Decorative elements */}
+      <motion.div
+        className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent"
+        animate={{
+          opacity: [0.5, 1, 0.5],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      <motion.div
+        className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent"
+        animate={{
+          opacity: [1, 0.5, 1],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.5
+        }}
+      />
+    </motion.header>
   );
 }
