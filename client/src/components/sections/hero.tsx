@@ -199,124 +199,160 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - Visual Elements */}
+          {/* Right Column - Creative Visual Elements */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            className="relative h-96 lg:h-[500px] order-1 lg:order-2"
+            className="relative h-96 lg:h-[500px] order-1 lg:order-2 flex items-center justify-center"
           >
-            {/* Main visual card */}
+            {/* Central Hero Visual */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background/50 to-primary/5 backdrop-blur-xl rounded-3xl border border-primary/20 shadow-2xl"
+              className="relative w-80 h-80 lg:w-96 lg:h-96"
               animate={{
-                y: [0, -10, 0],
-                rotateY: [0, 5, 0]
+                rotate: [0, 360]
               }}
               transition={{
-                duration: 6,
+                duration: 50,
                 repeat: Infinity,
-                ease: "easeInOut"
+                ease: "linear"
               }}
             >
-              <div className="p-8 h-full flex flex-col justify-center space-y-6">
-                {/* Success metrics visualization */}
-                <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-foreground">Our Commitment to You</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Lead Quality Score</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-muted rounded-full">
-                          <motion.div 
-                            className="h-full bg-primary rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: "85%" }}
-                            transition={{ delay: 1.5, duration: 1.5 }}
-                          />
-                        </div>
-                        <span className="text-sm font-semibold text-primary">85%</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Qualification Rate</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-muted rounded-full">
-                          <motion.div 
-                            className="h-full bg-primary rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: "72%" }}
-                            transition={{ delay: 2, duration: 1.5 }}
-                          />
-                        </div>
-                        <span className="text-sm font-semibold text-primary">72%</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Cost Reduction</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-24 h-2 bg-muted rounded-full">
-                          <motion.div 
-                            className="h-full bg-primary rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: "95%" }}
-                            transition={{ delay: 2.5, duration: 1.5 }}
-                          />
-                        </div>
-                        <span className="text-sm font-semibold text-primary">-35%</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Success indicators */}
-                <div className="flex items-center gap-4 pt-4 border-t border-primary/20">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-sm text-muted-foreground">Live Campaigns</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Star className="w-4 h-4 text-yellow-500" />
-                    <span className="text-sm text-muted-foreground">Zero Lock-In</span>
-                  </div>
-                </div>
-              </div>
+              {/* Outer Ring */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-4 border-primary/30 border-dashed"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.3, 0.6, 0.3]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              
+              {/* Middle Ring */}
+              <motion.div
+                className="absolute inset-8 rounded-full border-2 border-primary/50"
+                animate={{
+                  rotate: [0, -360]
+                }}
+                transition={{
+                  duration: 30,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+              
+              {/* Inner Circle */}
+              <motion.div
+                className="absolute inset-16 rounded-full bg-gradient-to-br from-primary/20 via-primary/10 to-primary/30 backdrop-blur-sm border border-primary/40 shadow-2xl flex items-center justify-center"
+                animate={{
+                  scale: [1, 1.05, 1],
+                  boxShadow: [
+                    "0 25px 50px -12px rgba(0, 0, 0, 0.1)",
+                    "0 35px 60px -12px rgba(0, 0, 0, 0.2)",
+                    "0 25px 50px -12px rgba(0, 0, 0, 0.1)"
+                  ]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <motion.div
+                  className="text-center space-y-3"
+                  animate={{
+                    rotate: [0, -360]
+                  }}
+                  transition={{
+                    duration: 50,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  <motion.div
+                    className="w-12 h-12 mx-auto bg-primary/20 rounded-2xl flex items-center justify-center"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 180, 360]
+                    }}
+                    transition={{
+                      scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { duration: 6, repeat: Infinity, ease: "linear" }
+                    }}
+                  >
+                    <Target className="w-6 h-6 text-primary" />
+                  </motion.div>
+                  <div className="text-sm font-semibold text-primary">B2B LEADS</div>
+                  <div className="text-xs text-muted-foreground">QUALIFIED</div>
+                </motion.div>
+              </motion.div>
             </motion.div>
 
-            {/* Floating elements */}
+            {/* Floating Action Icons */}
             {!isMobile && (
               <>
-                <motion.div
-                  className="absolute -top-4 -right-4 w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center"
-                  animate={{
-                    rotate: [0, 360],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{
-                    rotate: { duration: 10, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                >
-                  <Target className="w-8 h-8 text-primary" />
-                </motion.div>
-
-                <motion.div
-                  className="absolute -bottom-4 -left-4 w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center"
-                  animate={{
-                    y: [0, -10, 0],
-                    rotate: [0, -10, 0]
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1
-                  }}
-                >
-                  <TrendingUp className="w-6 h-6 text-primary" />
-                </motion.div>
+                {[
+                  { icon: Users, delay: 0, position: "top-8 left-8" },
+                  { icon: Rocket, delay: 0.5, position: "top-8 right-8" },
+                  { icon: TrendingUp, delay: 1, position: "bottom-8 left-8" },
+                  { icon: Star, delay: 1.5, position: "bottom-8 right-8" }
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    className={`absolute ${item.position} w-14 h-14 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center shadow-lg`}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ 
+                      opacity: 1, 
+                      scale: 1,
+                      y: [0, -8, 0],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{
+                      opacity: { delay: item.delay, duration: 0.6 },
+                      scale: { delay: item.delay, duration: 0.6 },
+                      y: { delay: item.delay + 1, duration: 3, repeat: Infinity, ease: "easeInOut" },
+                      rotate: { delay: item.delay + 1, duration: 4, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    whileHover={{ scale: 1.1, rotate: 15 }}
+                  >
+                    <item.icon className="w-6 h-6 text-primary" />
+                  </motion.div>
+                ))}
               </>
             )}
+
+            {/* Decorative Elements */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 2, duration: 1 }}
+            >
+              {[...Array(8)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-primary/40 rounded-full"
+                  style={{
+                    top: `${20 + (i * 10)}%`,
+                    left: `${10 + (i * 10)}%`,
+                  }}
+                  animate={{
+                    scale: [0, 1, 0],
+                    opacity: [0, 1, 0]
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: i * 0.3
+                  }}
+                />
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </div>
