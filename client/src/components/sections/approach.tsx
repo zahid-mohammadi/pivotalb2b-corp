@@ -64,14 +64,14 @@ export function Approach() {
   }, []);
 
   return (
-    <section className="relative py-24 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/30">
+    <section className="relative py-12 sm:py-16 md:py-20 lg:py-24 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/30">
       <div 
-        className="container relative mx-auto px-4 max-w-7xl z-10" 
+        className="container relative mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl z-10" 
         ref={containerRef}
       >
         {/* Section Header */}
         <motion.div
-          className="text-center mb-20 relative"
+          className="text-center mb-12 sm:mb-16 lg:mb-20 relative"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -81,11 +81,11 @@ export function Approach() {
             <span className="text-sm font-semibold text-indigo-800 dark:text-indigo-300 tracking-wide">OUR REVENUE PROCESS</span>
           </div>
 
-          <h2 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-transparent bg-clip-text leading-tight mb-4 sm:mb-6 lg:mb-8">
             From Prospects to Pipeline to Profit
           </h2>
 
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
             Stop chasing dead-end leads. Start building revenue. Our systematic approach transforms your marketing spend into measurable revenue outcomes through targeted precision.
           </p>
         </motion.div>
@@ -93,13 +93,13 @@ export function Approach() {
         {/* Interactive Revenue Dashboard */}
         <div className="relative">
           {/* Main Pipeline Container */}
-          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-3xl border border-slate-200/50 dark:border-slate-700/50 p-8 md:p-12 shadow-2xl">
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-2xl sm:rounded-3xl border border-slate-200/50 dark:border-slate-700/50 p-4 sm:p-6 md:p-8 lg:p-12 shadow-2xl">
             
             {/* Pipeline Flow Header */}
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-0">
               <div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Revenue Pipeline Control Center</h3>
-                <p className="text-slate-600 dark:text-slate-400">Watch your leads transform into revenue</p>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Revenue Pipeline Control Center</h3>
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 text-center sm:text-left">Watch your leads transform into revenue</p>
               </div>
               <div className="hidden md:flex items-center gap-2">
                 {steps.map((_, index) => (
@@ -118,7 +118,7 @@ export function Approach() {
             </div>
 
             {/* Interactive Process Flow */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12">
               {steps.map((step, index) => (
                 <motion.div
                   key={index}
@@ -175,12 +175,12 @@ export function Approach() {
                     />
                     
                     {/* Card Content */}
-                    <div className="relative p-6">
+                    <div className="relative p-4 sm:p-6">
                       {/* Step Number & Icon */}
-                      <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
                         <motion.div
                           className={cn(
-                            "w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg",
+                            "w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-white font-bold text-base sm:text-lg",
                             `bg-gradient-to-r ${step.gradient}`
                           )}
                           animate={{
@@ -196,7 +196,7 @@ export function Approach() {
                         </motion.div>
                         
                         <motion.div
-                          className="p-3 rounded-lg bg-white/50 dark:bg-slate-800/50"
+                          className="p-2 sm:p-3 rounded-lg bg-white/50 dark:bg-slate-800/50"
                           animate={{ rotate: activeStep === index ? 360 : 0 }}
                           transition={{ duration: 2, repeat: activeStep === index ? Infinity : 0, ease: "linear" }}
                         >
@@ -206,10 +206,10 @@ export function Approach() {
 
                       {/* Title & Metric */}
                       <div className="mb-4">
-                        <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+                        <h4 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-1">
                           {step.title}
                         </h4>
-                        <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
+                        <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm mb-2">
                           {step.subtitle}
                         </p>
                       </div>
@@ -258,28 +258,28 @@ export function Approach() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-8"
+              className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 sm:p-6 lg:p-8"
             >
-              <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className="grid md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 items-center">
                 <div>
-                  <h4 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                  <h4 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-3 sm:mb-4">
                     {steps[activeStep].title}: {steps[activeStep].subtitle}
                   </h4>
-                  <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-4 sm:mb-6">
                     {steps[activeStep].description}
                   </p>
-                  <div className="flex items-center gap-3 p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
                     <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
-                    <p className="text-slate-800 dark:text-slate-200 font-medium">
+                    <p className="text-sm sm:text-base text-slate-800 dark:text-slate-200 font-medium">
                       {steps[activeStep].benefit}
                     </p>
                   </div>
                 </div>
                 
                 {/* Visual Representation */}
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center mt-6 md:mt-0">
                   <motion.div
-                    className="relative w-48 h-48"
+                    className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48"
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                   >
@@ -301,7 +301,7 @@ export function Approach() {
                       {(() => {
                         const ActiveIcon = steps[activeStep].icon;
                         return (
-                          <div className="w-16 h-16 flex items-center justify-center" style={{ color: steps[activeStep].color }}>
+                          <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 flex items-center justify-center" style={{ color: steps[activeStep].color }}>
                             <ActiveIcon />
                           </div>
                         );

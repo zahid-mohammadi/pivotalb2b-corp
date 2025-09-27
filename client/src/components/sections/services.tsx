@@ -89,18 +89,18 @@ export function Services() {
   return (
     <section 
       ref={sectionRef}
-      className="relative py-20 md:py-32 bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
+      className="relative py-12 sm:py-16 md:py-20 lg:py-32 bg-gradient-to-br from-slate-50 via-white to-slate-100 overflow-hidden"
     >
       {/* Simple Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-purple-50/30" />
 
-      <div className="relative container mx-auto px-4">
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -120,7 +120,7 @@ export function Services() {
           </motion.div>
           
           <motion.h2 
-            className="text-3xl sm:text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary via-purple-600 to-pink-600 text-transparent bg-clip-text"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -129,7 +129,7 @@ export function Services() {
           </motion.h2>
           
           <motion.p 
-            className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed"
+            className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed px-4 sm:px-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
@@ -142,7 +142,7 @@ export function Services() {
         <motion.div
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-20"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-12 sm:mb-16 lg:mb-20"
         >
           {services.map((service, index) => (
             <motion.div
@@ -178,7 +178,7 @@ export function Services() {
                 />
                 
                 {/* Card Header */}
-                <div className="relative p-6 pb-4 text-center">
+                <div className="relative p-4 sm:p-6 pb-3 sm:pb-4 text-center">
                   {/* Animated Icon Container */}
                   <motion.div 
                     className={`w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${service.bgGradient} rounded-2xl flex items-center justify-center relative overflow-hidden group-hover:shadow-lg`}
