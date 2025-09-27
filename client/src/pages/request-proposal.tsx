@@ -376,264 +376,128 @@ export default function RequestProposalPage() {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Revolutionary Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900">
-        {/* Animated Particle Grid */}
-        <motion.div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: `radial-gradient(circle, rgba(59, 130, 246, 0.15) 1px, transparent 1px)`
-          }}
-          animate={{
-            backgroundPosition: ['0px 0px', '50px 50px'],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "linear"
-          }}
-        />
-        
-        {/* Floating Orbs */}
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-72 h-72 rounded-full blur-3xl opacity-20"
-            style={{
-              background: `radial-gradient(circle, ${
-                ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'][i]
-              }, transparent)`
-            }}
-            animate={{
-              x: [0, 100, 0],
-              y: [0, -50, 0],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 8 + i * 2,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-            initial={{
-              top: `${20 + i * 15}%`,
-              left: `${10 + i * 20}%`,
-            }}
-          />
-        ))}
-      </div>
-      
-      <div className="relative z-10 container mx-auto py-8 px-4 sm:px-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="container mx-auto py-8 px-4 sm:px-6">
         <MetaTags
           title="Request a Proposal | Pivotal B2B"
           description="Tell us about your goals and audience, and we'll craft a solution to drive your pipeline and revenue."
         />
         
-        {/* Revolutionary Hero Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12"
-        >
+        {/* Clean Hero Section */}
+        <div className="text-center mb-12">
           <div className="max-w-4xl mx-auto">
-            {/* Animated Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="mb-6"
-            >
-              <span className="inline-flex items-center px-6 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-blue-400 border border-blue-500/20 backdrop-blur-sm">
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                  className="mr-2"
-                >
-                  🚀
-                </motion.div>
-                Get Your Custom Proposal
+            {/* Badge */}
+            <div className="mb-6">
+              <span className="inline-flex items-center px-6 py-2 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
+                🚀 Get Your Custom Proposal
               </span>
-            </motion.div>
+            </div>
             
             {/* Main Headlines */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
-            >
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Transform Your 
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+              <span className="text-primary">
                 B2B Pipeline
               </span>
               <br />
               Into Revenue Growth
-            </motion.h1>
+            </h1>
             
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed px-4"
-            >
-              Tell us about your goals and we'll craft a revolutionary B2B marketing solution designed to accelerate your revenue and dominate your market.
-            </motion.p>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed px-4">
+              Tell us about your goals and we'll craft a customized B2B marketing solution designed to accelerate your revenue growth.
+            </p>
             
             {/* Trust Indicators */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-              className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mt-8 px-4"
-            >
-              <div className="flex items-center gap-2 text-slate-300">
-                <CheckCircle className="h-5 w-5 text-green-400" />
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mt-8 px-4">
+              <div className="flex items-center gap-2 text-gray-700">
+                <CheckCircle className="h-5 w-5 text-green-500" />
                 <span>Free Consultation</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-300">
-                <CheckCircle className="h-5 w-5 text-green-400" />
+              <div className="flex items-center gap-2 text-gray-700">
+                <CheckCircle className="h-5 w-5 text-green-500" />
                 <span>Custom Strategy</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-300">
-                <CheckCircle className="h-5 w-5 text-green-400" />
+              <div className="flex items-center gap-2 text-gray-700">
+                <CheckCircle className="h-5 w-5 text-green-500" />
                 <span>24h Response</span>
               </div>
-            </motion.div>
+            </div>
           </div>
-        </motion.div>
-      
-        {/* Revolutionary Form Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="max-w-4xl mx-auto"
-        >
-          <Card className="backdrop-blur-xl bg-white/95 border border-gray-200 shadow-2xl overflow-hidden">
-            {/* Revolutionary Progress System */}
-            <div className="relative p-4 sm:p-8 border-b border-gray-200">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50" />
-              
+        </div>
+        
+        {/* Clean Form Card */}
+        <div className="max-w-4xl mx-auto">
+          <Card className="bg-white border border-gray-200 shadow-xl overflow-hidden">
+            {/* Clean Progress System */}
+            <div className="p-4 sm:p-8 border-b border-gray-200 bg-gray-50">
               {/* Progress Stats */}
-              <div className="relative flex items-center justify-between mb-6">
-                <motion.div 
-                  className="text-gray-800"
-                  animate={{ 
-                    textShadow: ['0 0 0px rgba(59, 130, 246, 0)', '0 0 20px rgba(59, 130, 246, 0.5)', '0 0 0px rgba(59, 130, 246, 0)'] 
-                  }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
+              <div className="flex items-center justify-between mb-6">
+                <div className="text-gray-800">
                   <span className="text-2xl font-bold">{formProgress}%</span>
-                  <span className="text-blue-600 ml-2">Complete</span>
-                </motion.div>
+                  <span className="text-primary ml-2">Complete</span>
+                </div>
                 <div className="text-gray-600">
                   <span>Step {currentStep} of {totalSteps}</span>
                 </div>
               </div>
               
-              {/* Beautiful Progress Bar */}
-              <div className="relative h-3 w-full bg-gray-200 overflow-hidden rounded-full">
-                <motion.div 
-                  className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 relative overflow-hidden"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${formProgress}%` }}
-                  transition={{ duration: 0.8, type: "spring" }}
-                >
-                  {/* Animated Shimmer Effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                  />
-                </motion.div>
+              {/* Simple Progress Bar */}
+              <div className="h-3 w-full bg-gray-200 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-primary transition-all duration-500 ease-out"
+                  style={{ width: `${formProgress}%` }}
+                />
               </div>
             </div>
           
-            {/* Revolutionary Step Navigation */}
+            {/* Clean Step Navigation */}
             <div className="p-4 sm:p-8 border-b border-gray-200">
               <div className="flex items-center justify-between">
                 {steps.map((step, index) => (
-                  <motion.div 
+                  <div 
                     key={step.number}
                     className={`flex flex-col items-center space-y-3 ${index < steps.length - 1 ? 'w-full' : ''}`}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: index * 0.15, type: "spring" }}
                   >
                     <div className="flex items-center w-full">
-                      {/* Revolutionary Step Circle */}
-                      <motion.div 
-                        className={`relative flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full border-2 backdrop-blur-sm ${
+                      {/* Clean Step Circle */}
+                      <div 
+                        className={`relative flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full border-2 ${
                           currentStep === step.number 
-                            ? 'border-blue-400 bg-blue-500/20 text-blue-300 shadow-lg shadow-blue-500/25' 
+                            ? 'border-primary bg-primary/10 text-primary shadow-lg' 
                             : currentStep > step.number
-                              ? 'border-green-400 bg-green-500/20 text-green-300 shadow-lg shadow-green-500/25' 
-                              : 'border-white/30 bg-white/5 text-white/60'
+                              ? 'border-green-500 bg-green-50 text-green-600 shadow-lg' 
+                              : 'border-gray-300 bg-gray-50 text-gray-400'
                         }`}
-                        animate={currentStep === step.number ? {
-                          boxShadow: [
-                            '0 0 0px rgba(59, 130, 246, 0.4)',
-                            '0 0 25px rgba(59, 130, 246, 0.8)',
-                            '0 0 0px rgba(59, 130, 246, 0.4)'
-                          ]
-                        } : {}}
-                        transition={{ duration: 2, repeat: Infinity }}
                       >
-                        {/* Animated Ring for Active Step */}
-                        {currentStep === step.number && (
-                          <motion.div
-                            className="absolute inset-0 rounded-full border-2 border-blue-400/50"
-                            animate={{ scale: [1, 1.3, 1], opacity: [1, 0, 1] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                          />
-                        )}
                         {currentStep > step.number ? (
-                          <motion.div
-                            initial={{ scale: 0, rotate: -90 }}
-                            animate={{ scale: 1, rotate: 0 }}
-                            transition={{ type: "spring", delay: 0.1 }}
-                          >
-                            <Check className="h-6 w-6" />
-                          </motion.div>
+                          <Check className="h-6 w-6" />
                         ) : (
-                          <motion.div
-                            animate={currentStep === step.number ? { scale: [1, 1.1, 1] } : {}}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          >
-                            {step.icon}
-                          </motion.div>
+                          step.icon
                         )}
-                      </motion.div>
+                      </div>
                       
-                      {/* Connecting Line */}
+                      {/* Connection Line */}
                       {index < steps.length - 1 && (
-                        <div className="w-full h-[3px] bg-white/10 mx-2 rounded-full overflow-hidden">
-                          <motion.div 
-                            className="h-full bg-gradient-to-r from-blue-500 to-green-500"
-                            initial={{ width: '0%' }}
-                            animate={{ 
-                              width: currentStep > step.number ? '100%' : currentStep === step.number ? '50%' : '0%'
-                            }}
-                            transition={{ duration: 0.8, ease: "easeInOut" }}
-                          />
-                        </div>
+                        <div className={`flex-1 h-0.5 mx-4 ${
+                          currentStep > step.number ? 'bg-green-500' : 'bg-gray-300'
+                        }`} />
                       )}
                     </div>
                     
-                    {/* Step Label */}
-                    <motion.span 
-                      className={`text-xs sm:text-sm font-medium text-center px-1 ${
-                        currentStep === step.number ? 'text-blue-700' : 
-                        currentStep > step.number ? 'text-green-700' : 'text-gray-500'
-                      }`}
-                    >
-                      <span className="hidden sm:inline">{step.title}</span>
-                      <span className="sm:hidden">Step {step.number}</span>
-                    </motion.span>
-                  </motion.div>
+                    {/* Step Labels */}
+                    <div className="text-center min-h-[2.5rem] flex items-center">
+                      <div className={`text-xs sm:text-sm font-medium px-2 ${
+                        currentStep === step.number
+                          ? 'text-primary font-bold'
+                          : currentStep > step.number
+                            ? 'text-green-600'
+                            : 'text-gray-500'
+                      }`}>
+                        <span className="hidden sm:inline">{step.title}</span>
+                        <span className="sm:hidden">Step {step.number}</span>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -652,31 +516,16 @@ export default function RequestProposalPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-6">
-                      {/* Beautiful Step Header */}
-                      <motion.div 
-                        className="text-center mb-8"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                      >
+                      {/* Clean Step Header */}
+                      <div className="text-center mb-8">
                         <div className="flex items-center justify-center gap-3 mb-3">
-                          <motion.div 
-                            className="p-3 rounded-2xl bg-gradient-to-r from-blue-100 to-purple-100"
-                            animate={{ 
-                              boxShadow: [
-                                '0 0 0px rgba(59, 130, 246, 0.4)',
-                                '0 0 25px rgba(59, 130, 246, 0.6)',
-                                '0 0 0px rgba(59, 130, 246, 0.4)'
-                              ]
-                            }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          >
-                            <User className="h-6 w-6 text-blue-600" />
-                          </motion.div>
-                          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Contact Information</h2>
+                          <div className="p-3 rounded-xl bg-primary/10">
+                            <User className="h-6 w-6 text-primary" />
+                          </div>
+                          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Contact Information</h2>
                         </div>
                         <p className="text-gray-600 text-sm sm:text-lg">Tell us who you are so we can create your custom proposal</p>
-                      </motion.div>
+                      </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <FormField
@@ -776,38 +625,23 @@ export default function RequestProposalPage() {
                     className="space-y-6"
                   >
                     <div className="space-y-8">
-                      {/* Beautiful Step Header */}
-                      <motion.div 
-                        className="text-center mb-8"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                      >
+                      {/* Clean Step Header */}
+                      <div className="text-center mb-8">
                         <div className="flex items-center justify-center gap-3 mb-3">
-                          <motion.div 
-                            className="p-3 rounded-2xl bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm"
-                            animate={{ 
-                              boxShadow: [
-                                '0 0 0px rgba(168, 85, 247, 0.4)',
-                                '0 0 25px rgba(168, 85, 247, 0.6)',
-                                '0 0 0px rgba(168, 85, 247, 0.4)'
-                              ]
-                            }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                          >
-                            <Briefcase className="h-6 w-6 text-purple-300" />
-                          </motion.div>
-                          <h2 className="text-2xl font-bold text-white">Choose Your Solutions</h2>
+                          <div className="p-3 rounded-xl bg-primary/10">
+                            <Briefcase className="h-6 w-6 text-primary" />
+                          </div>
+                          <h2 className="text-2xl font-bold text-gray-900">Choose Your Solutions</h2>
                         </div>
-                        <p className="text-slate-300 text-lg">Select the services that align with your growth objectives</p>
-                      </motion.div>
+                        <p className="text-gray-600 text-lg">Select the services that align with your growth objectives</p>
+                      </div>
                       
                       <FormField
                         control={form.control}
                         name="interestedServices"
                         render={() => (
                           <FormItem>
-                            {/* Revolutionary Service Cards */}
+                            {/* Clean Service Cards */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               {serviceOptions.map((option, index) => (
                                 <FormField
@@ -817,35 +651,15 @@ export default function RequestProposalPage() {
                                   render={({ field }) => {
                                     const isChecked = field.value?.includes(option.id);
                                     return (
-                                      <motion.div
-                                        key={option.id}
-                                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                        transition={{ delay: index * 0.1, type: "spring" }}
-                                        className="relative"
-                                      >
+                                      <div key={option.id} className="relative">
                                         <FormItem className="space-y-0">
                                           <FormControl>
-                                            <motion.div 
-                                              className={`relative p-6 rounded-3xl cursor-pointer overflow-hidden border-2 backdrop-blur-sm transition-all duration-300 ${
+                                            <div 
+                                              className={`relative p-6 rounded-xl cursor-pointer border-2 transition-all duration-200 ${
                                                 isChecked 
-                                                  ? 'border-white/40 bg-gradient-to-br from-white/20 to-white/5 shadow-2xl' 
-                                                  : 'border-white/20 bg-white/5 hover:border-white/30 hover:bg-white/10'
+                                                  ? 'border-primary bg-primary/5 shadow-lg' 
+                                                  : 'border-gray-200 bg-white hover:border-primary/50 hover:bg-primary/5'
                                               }`}
-                                              whileHover={{ 
-                                                scale: 1.02,
-                                                y: -4,
-                                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-                                              }}
-                                              whileTap={{ scale: 0.98 }}
-                                              animate={isChecked ? {
-                                                boxShadow: [
-                                                  '0 10px 30px -5px rgba(59, 130, 246, 0.3)',
-                                                  '0 20px 40px -5px rgba(59, 130, 246, 0.5)',
-                                                  '0 10px 30px -5px rgba(59, 130, 246, 0.3)'
-                                                ]
-                                              } : {}}
-                                              transition={{ duration: 2, repeat: isChecked ? Infinity : 0 }}
                                               onClick={() => {
                                                 const newValue = isChecked
                                                   ? field.value.filter(value => value !== option.id)
@@ -853,42 +667,23 @@ export default function RequestProposalPage() {
                                                 field.onChange(newValue);
                                               }}
                                             >
-                                              {/* Background Pattern */}
-                                              <div className="absolute inset-0 opacity-[0.03]">
-                                                <div 
-                                                  className={`w-full h-full bg-gradient-to-br ${option.color}`} 
-                                                />
-                                              </div>
-                                              
                                               {/* Selection Indicator */}
                                               {isChecked && (
-                                                <motion.div
-                                                  className="absolute top-4 right-4"
-                                                  initial={{ scale: 0, rotate: -90 }}
-                                                  animate={{ scale: 1, rotate: 0 }}
-                                                  transition={{ type: "spring", delay: 0.1 }}
-                                                >
-                                                  <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                                                    <Check className="h-5 w-5 text-white" />
+                                                <div className="absolute top-4 right-4">
+                                                  <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
+                                                    <Check className="h-4 w-4 text-white" />
                                                   </div>
-                                                </motion.div>
+                                                </div>
                                               )}
                                               
-                                              {/* Service Icon */}
+                                              {/* Service Icon and Label */}
                                               <div className="flex items-center gap-4 mb-4">
-                                                <motion.div 
-                                                  className="text-4xl filter drop-shadow-lg"
-                                                  animate={isChecked ? { 
-                                                    scale: [1, 1.1, 1],
-                                                    rotate: [0, 5, -5, 0]
-                                                  } : {}}
-                                                  transition={{ duration: 1, repeat: isChecked ? Infinity : 0 }}
-                                                >
+                                                <div className="text-2xl text-primary">
                                                   {option.icon}
-                                                </motion.div>
+                                                </div>
                                                 <div className="flex-1">
-                                                  <FormLabel className={`font-bold text-lg cursor-pointer block ${
-                                                    isChecked ? 'text-white' : 'text-slate-200'
+                                                  <FormLabel className={`font-semibold text-lg cursor-pointer block ${
+                                                    isChecked ? 'text-gray-900' : 'text-gray-700'
                                                   }`}>
                                                     {option.label}
                                                   </FormLabel>
@@ -897,14 +692,14 @@ export default function RequestProposalPage() {
                                               
                                               {/* Description */}
                                               <p className={`text-sm leading-relaxed ${
-                                                isChecked ? 'text-slate-200' : 'text-slate-400'
+                                                isChecked ? 'text-gray-700' : 'text-gray-600'
                                               }`}>
                                                 {option.description}
                                               </p>
-                                            </motion.div>
+                                            </div>
                                           </FormControl>
                                         </FormItem>
-                                      </motion.div>
+                                      </div>
                                     );
                                   }}
                                 />
@@ -1504,145 +1299,74 @@ export default function RequestProposalPage() {
                 )}
               </AnimatePresence>
 
-              {/* Revolutionary Navigation Buttons */}
-              <motion.div 
-                className="flex justify-between items-center mt-12 pt-8 border-t border-white/10"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
+              {/* Navigation Buttons */}
+              <div className="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
                 {currentStep > 1 ? (
-                  <motion.div
-                    whileHover={{ scale: 1.05, x: -3 }}
-                    whileTap={{ scale: 0.95 }}
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={prevStep}
+                    className="px-6 py-2"
                   >
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      onClick={prevStep}
-                      className="px-8 py-3 bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 backdrop-blur-sm transition-all duration-300"
-                    >
-                      <ChevronRight className="h-4 w-4 mr-2 rotate-180" />
-                      Previous Step
-                    </Button>
-                  </motion.div>
+                    <ChevronRight className="h-4 w-4 mr-2 rotate-180" />
+                    Previous Step
+                  </Button>
                 ) : (
                   <div></div> 
                 )}
                 
                 {currentStep < totalSteps ? (
-                  <motion.div
-                    whileHover={{ scale: 1.05, x: 3 }}
-                    whileTap={{ scale: 0.95 }}
-                    animate={{
-                      boxShadow: [
-                        '0 0 0px rgba(59, 130, 246, 0.4)',
-                        '0 0 25px rgba(59, 130, 246, 0.6)',
-                        '0 0 0px rgba(59, 130, 246, 0.4)'
-                      ]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                  <Button 
+                    type="button" 
+                    onClick={nextStep} 
+                    className="px-6 py-2"
                   >
-                    <Button 
-                      type="button" 
-                      onClick={nextStep} 
-                      className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 gap-2"
-                    >
-                      Continue Journey
-                      <motion.div
-                        animate={{ x: [0, 4, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </motion.div>
-                    </Button>
-                  </motion.div>
+                    Continue
+                    <ChevronRight className="h-4 w-4 ml-2" />
+                  </Button>
                 ) : (
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    animate={{
-                      boxShadow: [
-                        '0 0 0px rgba(34, 197, 94, 0.4)',
-                        '0 0 30px rgba(34, 197, 94, 0.8)',
-                        '0 0 0px rgba(34, 197, 94, 0.4)'
-                      ]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                  <Button 
+                    type="submit" 
+                    className="px-8 py-3"
+                    disabled={mutation.isPending}
                   >
-                    <Button 
-                      type="submit" 
-                      className="px-12 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white text-lg font-bold shadow-2xl hover:shadow-3xl transition-all duration-300 relative overflow-hidden"
-                      disabled={mutation.isPending}
-                    >
-                      {/* Shimmer Effect */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                        animate={{ x: ['-100%', '100%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      />
-                      
-                      <span className="relative flex items-center gap-3">
-                        {mutation.isPending ? (
-                          <>
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                            >
-                              <Loader2 className="h-5 w-5" />
-                            </motion.div>
-                            Creating Your Proposal...
-                          </>
-                        ) : (
-                          <>
-                            🚀 Get My Custom Proposal
-                            <motion.div
-                              animate={{ 
-                                scale: [1, 1.2, 1],
-                                rotate: [0, 10, -10, 0] 
-                              }}
-                              transition={{ duration: 1, repeat: Infinity }}
-                            >
-                              ✨
-                            </motion.div>
-                          </>
-                        )}
-                      </span>
-                    </Button>
-                  </motion.div>
+                    {mutation.isPending ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Creating Your Proposal...
+                      </>
+                    ) : (
+                      'Get My Custom Proposal'
+                    )}
+                  </Button>
                 )}
-              </motion.div>
+              </div>
               
-              {/* Conversion Trust Elements */}
-              <motion.div
-                className="text-center mt-8 space-y-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
-              >
-                <div className="flex items-center justify-center gap-6 text-sm text-slate-400">
+              {/* Trust Elements */}
+              <div className="text-center mt-8 space-y-4">
+                <div className="flex items-center justify-center gap-6 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-400" />
+                    <CheckCircle className="h-4 w-4 text-green-600" />
                     <span>Free consultation</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-400" />
+                    <CheckCircle className="h-4 w-4 text-green-600" />
                     <span>No commitment required</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-400" />
+                    <CheckCircle className="h-4 w-4 text-green-600" />
                     <span>Custom strategy</span>
                   </div>
                 </div>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-gray-500">
                   We'll respond within 24 hours with your personalized B2B growth strategy
                 </p>
-              </motion.div>
+              </div>
             </form>
           </Form>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
