@@ -287,6 +287,7 @@ export function Hero() {
                 { icon: CheckCircle, text: "100% compliant data and outreach — GDPR, CCPA & TCPA ready" },
                 { icon: TrendingUp, text: "Predictable, revenue-focused pipeline growth" },
                 { icon: BarChart, text: "Lower cost per qualified lead with measurable ROI" },
+                { icon: Target, text: "Quality Over Quantity" },
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -308,64 +309,6 @@ export function Hero() {
             </div>
           </motion.div>
 
-          {/* Results Preview Cards */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-          >
-            {[
-              { 
-                icon: Target, 
-                title: "Quality Over Quantity", 
-                description: "Every lead is pre-qualified with budget, authority, and genuine buying intent",
-                gradient: "from-blue-500/20 to-purple-500/20"
-              },
-              { 
-                icon: TrendingUp, 
-                title: "Predictable Growth", 
-                description: "Turn your marketing spend into a reliable revenue generation machine",
-                gradient: "from-purple-500/20 to-pink-500/20"
-              },
-              { 
-                icon: Rocket, 
-                title: "Fast Implementation", 
-                description: "See your first qualified leads within 72 hours of campaign launch",
-                gradient: "from-pink-500/20 to-orange-500/20"
-              }
-            ].map((card, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 + index * 0.2, duration: 0.6 }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="relative group"
-              >
-                {/* Glow Effect */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500`} />
-                
-                {/* Card Content */}
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-2xl p-8 border border-white/20 group-hover:border-white/40 transition-all duration-300">
-                  <motion.div
-                    className="w-16 h-16 rounded-2xl bg-gradient-to-br from-white/20 to-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300"
-                    whileHover={{ rotate: [0, -10, 10, 0] }}
-                  >
-                    <card.icon className="w-8 h-8 text-white" />
-                  </motion.div>
-                  
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all">
-                    {card.title}
-                  </h3>
-                  
-                  <p className="text-white/80 leading-relaxed group-hover:text-white transition-colors">
-                    {card.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </div>
     </div>
