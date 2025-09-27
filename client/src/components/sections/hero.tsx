@@ -85,7 +85,7 @@ export function Hero() {
             >
               <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary/20 border-2 border-primary/40 hover:border-primary/60 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
                 <div className="w-3 h-3 bg-primary rounded-full animate-pulse shadow-lg" />
-                <span className="text-base font-semibold text-primary bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
+                <span className="text-base font-bold text-white">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
               </div>
             </motion.div>
 
