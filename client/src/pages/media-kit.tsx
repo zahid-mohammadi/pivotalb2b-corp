@@ -167,26 +167,6 @@ export default function MediaKit() {
     }
   ];
 
-  const successStories = [
-    {
-      company: "TechFlow Solutions",
-      result: "+180 qualified prospects in 90 days",
-      impact: "$2.4M pipeline added",
-      improvement: "340% ROI increase"
-    },
-    {
-      company: "DataCore Systems",
-      result: "Cost per acquisition down 60%",
-      impact: "340% ROI improvement",
-      improvement: "87% lead quality boost"
-    },
-    {
-      company: "CloudScale Industries",
-      result: "Close rate jumped from 8% to 31%",
-      impact: "Fully pre-qualified leads delivered",
-      improvement: "288% conversion increase"
-    }
-  ];
 
   const impactStats = [
     {
@@ -219,9 +199,6 @@ export default function MediaKit() {
     }
   ];
 
-  const trustedCompanies = [
-    "Microsoft", "Salesforce", "HubSpot", "Oracle", "AWS", "Google"
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -542,105 +519,8 @@ export default function MediaKit() {
           </div>
         </div>
 
-        {/* Page 7: Client Success Stories */}
-        <div className="pdf-page min-h-screen bg-gradient-to-br from-gray-50 to-white p-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="w-24 h-1 bg-gradient-to-r from-green-500 to-blue-500 mx-auto mb-8 rounded-full"></div>
-              <h2 className="text-5xl font-bold text-gray-900 mb-6">Client Success Stories</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Real results from real companies who transformed their lead generation with Pivotal B2B
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {successStories.map((story, index) => (
-                <div key={index} className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 group">
-                  <div className="mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <Building2 className="w-8 h-8 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{story.company}</h3>
-                    <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-200">
-                      <div className="flex items-start gap-3">
-                        <CheckCircle2 className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-gray-900 mb-1">Key Result</p>
-                          <p className="text-gray-700">{story.result}</p>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-50 p-4 rounded-2xl border border-blue-200">
-                      <div className="flex items-start gap-3">
-                        <BarChart3 className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-gray-900 mb-1">Business Impact</p>
-                          <p className="text-blue-900 font-bold">{story.impact}</p>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-gradient-to-br from-purple-50 to-purple-50 p-4 rounded-2xl border border-purple-200">
-                      <div className="flex items-start gap-3">
-                        <TrendingUp className="w-6 h-6 text-purple-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="font-semibold text-gray-900 mb-1">Overall Improvement</p>
-                          <p className="text-purple-700 font-medium">{story.improvement}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
-        {/* Page 8: Trusted By */}
-        <div className="pdf-page min-h-screen bg-white p-12">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mb-8 rounded-full"></div>
-              <h2 className="text-5xl font-bold text-gray-900 mb-6">Trusted By Industry Leaders</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Join the companies that rely on Pivotal B2B for their lead generation and demand generation success
-              </p>
-            </div>
-            
-            <div className="bg-gradient-to-br from-gray-50 to-white p-12 rounded-3xl border border-gray-200 shadow-xl mb-16">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
-                {trustedCompanies.map((company, index) => (
-                  <div key={index} className="text-center group">
-                    <div className="w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-300 rounded-3xl flex items-center justify-center mx-auto mb-4 group-hover:from-blue-100 group-hover:to-blue-200 transition-all duration-300 shadow-lg group-hover:shadow-xl">
-                      <Building2 className="w-10 h-10 text-gray-600 group-hover:text-blue-600 transition-colors duration-300" />
-                    </div>
-                    <div className="font-bold text-gray-700 group-hover:text-blue-700 transition-colors duration-300 text-lg">
-                      {company}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-center bg-gradient-to-br from-blue-600 to-purple-600 p-12 rounded-3xl text-white shadow-2xl">
-              <h3 className="text-3xl font-bold mb-6">Ready to Join Them?</h3>
-              <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                Discover how Pivotal B2B can transform your lead generation and drive predictable revenue growth for your business.
-              </p>
-              <div className="flex items-center justify-center gap-4">
-                <Send className="w-8 h-8 text-blue-200" />
-                <span className="text-2xl font-semibold">Let's Start the Conversation</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Page 9: Contact Information */}
+        {/* Page 7: Contact Information */
         <div className="pdf-page min-h-screen bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white p-12 relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
