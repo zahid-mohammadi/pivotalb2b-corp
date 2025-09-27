@@ -83,15 +83,15 @@ export function Hero() {
               transition={{ delay: 0.2, duration: 0.6 }}
               className="inline-flex"
             >
-              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary/20 border-2 border-primary/40 hover:border-primary/60 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
-                <div className="w-3 h-3 bg-primary rounded-full animate-pulse shadow-lg" />
-                <span className="text-base font-bold text-white">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary border-2 border-primary/60 hover:border-primary/80 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
+                <div className="w-3 h-3 bg-white rounded-full animate-pulse shadow-lg" />
+                <span className="text-base font-bold text-white drop-shadow-sm">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
               </div>
             </motion.div>
 
             {/* Main Headline - Original Content */}
             <motion.h1 
-              className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-left"
+              className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight text-left"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
