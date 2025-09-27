@@ -405,47 +405,120 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 4: Services Overview */}
-        <section className="min-h-screen bg-white p-16">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-bold text-slate-800 mb-6">Our Services</h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-slate-600 mx-auto mb-8" />
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+        {/* Section 4: Our Services - Creative Hexagon Layout */}
+        <section className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50 p-16 relative overflow-hidden">
+          {/* Background elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-20 right-20 w-40 h-40 bg-blue-100 rounded-full blur-3xl opacity-60" />
+            <div className="absolute bottom-20 left-20 w-32 h-32 bg-slate-100 rounded-full blur-2xl opacity-60" />
+          </div>
+          
+          <div className="max-w-7xl mx-auto relative z-10">
+            <div className="text-center mb-20">
+              <div className="inline-flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-slate-700 rounded-2xl flex items-center justify-center shadow-xl">
+                  <Briefcase className="w-8 h-8 text-white" />
+                </div>
+                <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-700 to-slate-800 bg-clip-text text-transparent">Our Services</h2>
+              </div>
+              <div className="w-32 h-1.5 bg-gradient-to-r from-blue-600 via-slate-600 to-blue-600 mx-auto mb-8 rounded-full shadow-lg" />
+              <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
                 Comprehensive B2B marketing solutions designed to drive qualified leads and accelerate revenue growth
               </p>
             </div>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => {
-                const IconComponent = service.icon;
-                return (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 group hover:-translate-y-1"
-                  >
-                    <div className={`w-16 h-16 bg-gradient-to-br ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                      <IconComponent className="w-8 h-8 text-white" />
+            {/* Creative honeycomb layout for services */}
+            <div className="relative">
+              {/* Top row - 2 services */}
+              <div className="flex justify-center gap-8 mb-8">
+                {services.slice(0, 2).map((service, index) => {
+                  const IconComponent = service.icon;
+                  return (
+                    <div key={index} className="relative">
+                      <div className="w-80 h-72 bg-white rounded-3xl shadow-2xl border border-blue-100 p-8 hover:shadow-3xl transition-all duration-500 hover:-translate-y-3 group relative overflow-hidden">
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-slate-50/30 rounded-3xl" />
+                        
+                        <div className="absolute -top-8 left-8 z-10">
+                          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-slate-700 rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                            <IconComponent className="w-8 h-8 text-white" />
+                          </div>
+                        </div>
+                        
+                        <div className="relative z-10 mt-12">
+                          <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">{service.title}</h3>
+                          <p className="text-slate-600 leading-relaxed">{service.description}</p>
+                        </div>
+                        
+                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 to-slate-600 rounded-b-3xl" />
+                      </div>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">
-                      {service.title}
-                    </h3>
-                    <p className="text-slate-600 leading-relaxed">
-                      {service.description}
-                    </p>
-                  </motion.div>
-                );
-              })}
+                  );
+                })}
+              </div>
+              
+              {/* Middle row - 2 services */}
+              <div className="flex justify-center gap-8 mb-8">
+                {services.slice(2, 4).map((service, index) => {
+                  const IconComponent = service.icon;
+                  return (
+                    <div key={index + 2} className="relative">
+                      <div className="w-80 h-72 bg-white rounded-3xl shadow-2xl border border-slate-100 p-8 hover:shadow-3xl transition-all duration-500 hover:-translate-y-3 group relative overflow-hidden">
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-slate-50/30 to-blue-50/30 rounded-3xl" />
+                        
+                        <div className="absolute -top-8 left-8 z-10">
+                          <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-blue-700 rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                            <IconComponent className="w-8 h-8 text-white" />
+                          </div>
+                        </div>
+                        
+                        <div className="relative z-10 mt-12">
+                          <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">{service.title}</h3>
+                          <p className="text-slate-600 leading-relaxed">{service.description}</p>
+                        </div>
+                        
+                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-slate-600 to-blue-600 rounded-b-3xl" />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              
+              {/* Bottom row - 2 services */}
+              <div className="flex justify-center gap-8">
+                {services.slice(4, 6).map((service, index) => {
+                  const IconComponent = service.icon;
+                  return (
+                    <div key={index + 4} className="relative">
+                      <div className="w-80 h-72 bg-white rounded-3xl shadow-2xl border border-blue-100 p-8 hover:shadow-3xl transition-all duration-500 hover:-translate-y-3 group relative overflow-hidden">
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-slate-50/30 rounded-3xl" />
+                        
+                        <div className="absolute -top-8 left-8 z-10">
+                          <div className="w-16 h-16 bg-gradient-to-br from-blue-700 to-slate-600 rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
+                            <IconComponent className="w-8 h-8 text-white" />
+                          </div>
+                        </div>
+                        
+                        <div className="relative z-10 mt-12">
+                          <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">{service.title}</h3>
+                          <p className="text-slate-600 leading-relaxed">{service.description}</p>
+                        </div>
+                        
+                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 to-slate-600 rounded-b-3xl" />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
           
           {/* Footer */}
-          <div className="mt-16 pt-8 flex justify-between items-center text-sm text-slate-400 border-t">
+          <div className="mt-20 pt-8 flex justify-between items-center text-sm text-slate-400 border-t border-slate-200 relative z-10">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-blue-600 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
+              <div className="w-6 h-6 bg-gradient-to-br from-blue-600 to-slate-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
               <span>Pivotal B2B</span>
             </div>
             <span>contact@pivotal-b2b.com | +1 417-900-3844</span>
