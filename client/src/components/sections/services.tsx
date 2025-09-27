@@ -16,7 +16,7 @@ import {
 const services = [
   {
     title: "Account-Based Marketing (ABM) Programs",
-    description: "Laser-focused campaigns that target high-value accounts with personalized messaging and multi-channel engagement strategies.",
+    description: "We help you engage entire buying committees inside your target accounts—building trust and positioning your solution before competitors even enter the conversation.",
     slogan: "Turn prospects into partners",
     icon: Target,
     ctaLabel: "Explore ABM Solutions",
@@ -27,7 +27,7 @@ const services = [
   },
   {
     title: "B2B Lead Generation & Qualification",
-    description: "Advanced lead scoring and qualification processes that identify and nurture high-intent prospects through the entire funnel.",
+    description: "We generate net-new leads and rigorously qualify them against your ICP, ensuring your pipeline fills with opportunities that actually convert into revenue.",
     slogan: "Quality leads, guaranteed results",
     icon: Users,
     ctaLabel: "Generate Quality Leads",
@@ -37,8 +37,8 @@ const services = [
     iconColor: "text-green-600"
   },
   {
-    title: "Lead Nurturing & Engagement",
-    description: "We keep your future buyers engaged with tailored content and touchpoints until they're ready to buy—so no lead is wasted and pipeline value keeps growing.",
+    title: "Lead Nurturing & Buyer Engagement",
+    description: "We keep future buyers engaged with personalized content and touchpoints until they're ready—turning cold leads into long-term revenue opportunities.",
     slogan: "Transform cold leads into revenue",
     icon: Sparkles,
     ctaLabel: "Start Nurturing Leads",
@@ -49,7 +49,7 @@ const services = [
   },
   {
     title: "Precision Demand Generation",
-    description: "We connect you with buyers who are actively researching solutions like yours, delivering your message at the right time to influence their decision-making and secure pipeline opportunities before competitors.",
+    description: "We identify in-market accounts and educate decision-makers with insights that solve their challenges—turning intent signals into qualified opportunities.",
     slogan: "Reach buyers when it matters most",
     icon: TrendingUp,
     ctaLabel: "Request Precision Demand Gen Proposal",
@@ -60,7 +60,7 @@ const services = [
   },
   {
     title: "Event Marketing & Audience Acquisition",
-    description: "Strategic event marketing that drives qualified attendance and converts event engagement into sales opportunities.",
+    description: "We attract decision-makers with real buying intent to your events, ensuring every attendee is relevant, engaged, and connected to revenue outcomes.",
     slogan: "Events that convert",
     icon: Rocket,
     ctaLabel: "Scale Event Marketing",
@@ -71,7 +71,7 @@ const services = [
   },
   {
     title: "Lead Validation & Enrichment",
-    description: "Comprehensive data validation and enrichment services that ensure your sales team works with accurate, actionable prospect information.",
+    description: "We clean, validate, and enrich your lead data so your sales team works only with accurate, compliant, and conversion-ready opportunities.",
     slogan: "Clean data, clear results",
     icon: CheckCircle2,
     ctaLabel: "Validate Your Leads",
