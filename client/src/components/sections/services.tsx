@@ -125,7 +125,7 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Why B2B Teams Choose Pivotal B2B
+            Services That Build Predictable Revenue
           </motion.h2>
           
           <motion.p 
@@ -134,7 +134,7 @@ export function Services() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
           >
-            Our B2B lead generation and demand generation services are designed to accelerate B2B pipeline growth. Through proven ABM programs and qualified B2B leads, we turn marketing investment into predictable, scalable revenue growth.
+            From ABM to Demand Gen, every program is designed to deliver qualified leads and scalable pipeline growth.
           </motion.p>
         </motion.div>
 
