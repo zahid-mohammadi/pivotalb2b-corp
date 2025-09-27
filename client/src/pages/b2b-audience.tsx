@@ -206,11 +206,10 @@ return (
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.8 }}
-            className="grid md:grid-cols-4 gap-6 mb-12"
+            className="grid md:grid-cols-3 gap-6 mb-12"
           >
             {[
               { value: '135M+', label: 'Verified Professionals', icon: Users },
-              { value: '50K+', label: 'Enterprise Companies', icon: Building2 },
               { value: '25K+', label: 'Technologies Tracked', icon: Database },
               { value: '92%', label: 'Targeting Accuracy', icon: Target }
             ].map((stat, index) => (
