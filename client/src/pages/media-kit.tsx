@@ -455,93 +455,57 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 5: Marketing Channels - Creative Network Layout */}
-        <section className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-white p-16 relative overflow-hidden">
-          {/* Background network elements */}
-          <div className="absolute inset-0">
-            <div className="absolute top-32 left-32 w-24 h-24 bg-blue-200/40 rounded-full blur-2xl" />
-            <div className="absolute bottom-32 right-32 w-36 h-36 bg-slate-200/40 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 left-1/2 w-20 h-20 bg-blue-300/30 rounded-full blur-xl" />
-          </div>
-          
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-20">
+        {/* Section 5: Marketing Channels - Simple Grid Layout */}
+        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-violet-50 p-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
               <div className="inline-flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl">
                   <TrendingUp className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-slate-700 to-blue-800 bg-clip-text text-transparent">Marketing Channels</h2>
+                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Marketing Channels</h2>
               </div>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-slate-600 via-blue-600 to-slate-600 mx-auto mb-8 rounded-full shadow-lg" />
+              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
               <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
                 We use a multi-channel strategy to reach buyers where they are
               </p>
             </div>
             
-            {/* Creative interconnected layout */}
-            <div className="relative">
-              {/* Central hub */}
-              <div className="flex justify-center mb-16">
-                <div className="w-32 h-32 bg-gradient-to-br from-blue-600 to-slate-700 rounded-full flex items-center justify-center shadow-2xl relative z-10">
-                  <span className="text-white font-bold text-lg">Multi-Channel</span>
-                </div>
+            {/* Central value proposition */}
+            <div className="text-center mb-16">
+              <div className="inline-block bg-gradient-to-br from-purple-600 to-violet-700 rounded-full px-8 py-4 shadow-2xl">
+                <span className="text-white font-bold text-lg">Multi-Channel Approach</span>
               </div>
-              
-              {/* Channels arranged in a circle around the center */}
-              <div className="relative">
-                {marketingChannels.map((channel, index) => {
-                  const IconComponent = channel.icon;
-                  const angle = (index * 360) / marketingChannels.length;
-                  const radius = 280;
-                  const x = Math.cos((angle - 90) * Math.PI / 180) * radius;
-                  const y = Math.sin((angle - 90) * Math.PI / 180) * radius;
-                  
-                  return (
-                    <div 
-                      key={index}
-                      className="absolute flex items-center justify-center"
-                      style={{
-                        left: `calc(50% + ${x}px - 120px)`,
-                        top: `calc(50% + ${y}px - 100px)`
-                      }}
-                    >
-                      {/* Connection line to center */}
-                      <div 
-                        className="absolute w-0.5 bg-gradient-to-r from-blue-300 to-slate-300 z-0"
-                        style={{
-                          height: `${radius - 50}px`,
-                          transformOrigin: 'bottom center',
-                          transform: `rotate(${angle + 90}deg) translateY(50px)`
-                        }}
-                      />
-                      
-                      <div className="w-60 h-52 bg-white rounded-3xl shadow-2xl border border-blue-100 p-6 hover:shadow-3xl transition-all duration-500 hover:-translate-y-2 group relative z-10">
-                        <div className="text-center">
-                          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 shadow-xl">
-                            <IconComponent className="w-8 h-8 text-white" />
-                          </div>
-                          <h3 className="text-lg font-bold text-slate-800 mb-3 leading-tight">
-                            {channel.title}
-                          </h3>
-                          <p className="text-slate-600 leading-relaxed text-sm">
-                            {channel.description}
-                          </p>
-                        </div>
-                        
-                        {/* Accent line */}
-                        <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 to-slate-600 rounded-b-3xl" />
+            </div>
+            
+            {/* Simple responsive grid layout */}
+            <div className="grid md:grid-cols-3 gap-8">
+              {marketingChannels.map((channel, index) => {
+                const IconComponent = channel.icon;
+                return (
+                  <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-purple-100">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                        <IconComponent className="w-8 h-8 text-white" />
                       </div>
+                      <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">
+                        {channel.title}
+                      </h3>
+                      <p className="text-slate-600 leading-relaxed mb-6">
+                        {channel.description}
+                      </p>
+                      <div className="h-1 bg-gradient-to-r from-purple-600 to-violet-600 rounded-full" />
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           
           {/* Footer */}
-          <div className="mt-32 pt-8 flex justify-between items-center text-sm text-slate-400 border-t border-slate-200 relative z-10">
+          <div className="mt-20 pt-8 flex justify-between items-center text-sm text-slate-400 border-t border-slate-200">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-gradient-to-br from-slate-600 to-blue-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
+              <div className="w-6 h-6 bg-gradient-to-br from-purple-600 to-violet-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
               <span>Pivotal B2B</span>
             </div>
             <span>contact@pivotal-b2b.com | +1 417-900-3844</span>
