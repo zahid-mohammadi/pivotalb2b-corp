@@ -213,9 +213,7 @@ export function Hero() {
             className="text-center mb-12"
           >
             <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed">
-              Our programs generate and qualify leads that align with your 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 font-semibold"> ICP</span>, ensuring every opportunity in your funnel has the potential to drive 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400 font-semibold"> real revenue</span>.
+              Our programs generate and qualify leads that align with your ICP, ensuring every opportunity in your funnel has the potential to drive real revenue.
             </p>
           </motion.div>
 
@@ -274,28 +272,41 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Trust Indicators */}
+          {/* Core Value Promises */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="flex flex-wrap justify-center items-center gap-8 mb-16 text-white/90"
+            className="text-center mb-16"
           >
-            {[
-              { icon: Shield, text: "No long-term contracts, full flexibility" },
-              { icon: Target, text: "Guaranteed pipeline growth in 90 days" },
-              { icon: Clock, text: "First campaigns live within 72 hours" },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
-                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.15)" }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <item.icon className="w-5 h-5 text-green-400" />
-                <span className="font-medium">{item.text}</span>
-              </motion.div>
-            ))}
+            <h3 className="text-2xl font-bold text-white mb-8">🔹 Core Value Promises</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+              {[
+                { icon: Shield, text: "No long-term contracts, full flexibility" },
+                { icon: Clock, text: "Guaranteed pipeline growth in 90 days" },
+                { icon: CheckCircle, text: "100% compliant data and outreach — GDPR, CCPA & TCPA ready" },
+                { icon: TrendingUp, text: "Predictable, revenue-focused pipeline growth" },
+                { icon: BarChart, text: "Lower cost per qualified lead with measurable ROI" },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  className="flex items-center gap-3 px-6 py-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 hover:border-white/40 hover:bg-white/15 transition-all duration-300"
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  delay={i * 0.1}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <item.icon className="w-6 h-6 text-green-400 flex-shrink-0" />
+                  </motion.div>
+                  <span className="font-medium text-white/90 text-left">{item.text}</span>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
 
           {/* Results Preview Cards */}
