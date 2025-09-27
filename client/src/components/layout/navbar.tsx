@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { ThemeSwitcher } from "@/components/theme-switcher";
@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 export function Navbar() {
   const { user, logoutMutation } = useAuth();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [location] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,11 +30,28 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToMarketingChannels = () => {
+    const element = document.getElementById('marketing-channels');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const NavItems = ({ className, isMobile = false }: { className?: string; isMobile?: boolean }) => (
     <div className={cn("flex", isMobile ? "flex-col space-y-4" : "items-center space-x-4", className)}>
       <Link href="/">
         <span className="text-sm hover:text-primary cursor-pointer">Home</span>
       </Link>
+
+      {/* Marketing Channels - only show on home page for mobile */}
+      {location === "/" && (
+        <span 
+          className="text-sm hover:text-primary cursor-pointer transition-colors duration-200"
+          onClick={scrollToMarketingChannels}
+        >
+          Marketing Channels
+        </span>
+      )}
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
@@ -172,6 +190,18 @@ export function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
+            {/* Marketing Channels - only show on home page */}
+            {location === "/" && (
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  className={cn(navigationMenuTriggerStyle(), "cursor-pointer")}
+                  onClick={scrollToMarketingChannels}
+                >
+                  Marketing Channels
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            )}
+            
             <NavigationMenuItem>
               <NavigationMenuLink
                 className={navigationMenuTriggerStyle()}
