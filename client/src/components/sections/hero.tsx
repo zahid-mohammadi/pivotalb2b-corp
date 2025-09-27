@@ -8,7 +8,7 @@ export function Hero() {
   const isMobile = useIsMobile();
   
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 text-foreground overflow-hidden">
+    <div className="relative min-h-screen pt-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 text-foreground overflow-hidden">
       {/* Modern Clean Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
@@ -95,8 +95,8 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
             >
-              <span className="block text-foreground">Fill Your Pipeline</span>
-              <span className="block text-foreground">With </span>
+              <span className="block text-slate-900 dark:text-slate-100">Fill Your Pipeline</span>
+              <span className="block text-slate-900 dark:text-slate-100">With </span>
               <motion.span 
                 className="block bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent"
                 animate={{
@@ -117,7 +117,7 @@ export function Hero() {
 
             {/* Subheadline - Original Content */}
             <motion.p 
-              className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl text-left"
+              className="text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl text-left"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
