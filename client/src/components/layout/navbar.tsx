@@ -36,6 +36,9 @@ export function Navbar() {
               <Link href="/services/b2b-lead-generation-qualification">
                 <span className="text-sm text-muted-foreground hover:text-primary block">B2B Lead Generation & Qualification</span>
               </Link>
+              <Link href="/services/lead-nurturing-engagement">
+                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Nurturing & Engagement</span>
+              </Link>
               <Link href="/services/intent-based-lead-generation">
                 <span className="text-sm text-muted-foreground hover:text-primary block">Intent-Based Lead Generation</span>
               </Link>
@@ -86,6 +89,21 @@ export function Navbar() {
                           <div>
                             <div className="text-sm font-medium">B2B Lead Generation & Qualification</div>
                             <p className="text-xs text-muted-foreground">Sales-ready leads with BANT criteria</p>
+                          </div>
+                        </div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/services/lead-nurturing-engagement" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
+                        <div className="flex items-center">
+                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
+                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
+                              <path d="M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                          </div>
+                          <div>
+                            <div className="text-sm font-medium">Lead Nurturing & Engagement</div>
+                            <p className="text-xs text-muted-foreground">Transform cold leads into revenue</p>
                           </div>
                         </div>
                     </Link>
