@@ -44,7 +44,7 @@ export default function MediaKit() {
         const section = sections[i] as HTMLElement;
         
         const canvas = await html2canvas(section, {
-          scale: 2,
+          scale: 1.5,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
@@ -53,21 +53,33 @@ export default function MediaKit() {
         });
         
         const imgData = canvas.toDataURL('image/png');
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
         
         if (i > 0) {
           pdf.addPage();
         }
         
-        // Fit to page height if needed
-        if (imgHeight > pdfHeight) {
-          const scaledHeight = pdfHeight;
-          const scaledWidth = (canvas.width * pdfHeight) / canvas.height;
-          pdf.addImage(imgData, 'PNG', (pdfWidth - scaledWidth) / 2, 0, scaledWidth, scaledHeight);
+        // Calculate scaling to fill A4 page while maintaining aspect ratio
+        const canvasAspectRatio = canvas.width / canvas.height;
+        const pageAspectRatio = pdfWidth / pdfHeight;
+        
+        let finalWidth, finalHeight, xOffset, yOffset;
+        
+        if (canvasAspectRatio > pageAspectRatio) {
+          // Canvas is wider relative to its height, fit to width
+          finalWidth = pdfWidth;
+          finalHeight = pdfWidth / canvasAspectRatio;
+          xOffset = 0;
+          yOffset = 0; // Align to top instead of centering
         } else {
-          pdf.addImage(imgData, 'PNG', 0, (pdfHeight - imgHeight) / 2, imgWidth, imgHeight);
+          // Canvas is taller relative to its width, fit to height
+          finalHeight = pdfHeight;
+          finalWidth = pdfHeight * canvasAspectRatio;
+          xOffset = (pdfWidth - finalWidth) / 2;
+          yOffset = 0;
         }
+        
+        // Always start from top of page and fill available space
+        pdf.addImage(imgData, 'PNG', xOffset, yOffset, finalWidth, finalHeight);
       }
       
       pdf.save('Pivotal-B2B-Media-Kit.pdf');
