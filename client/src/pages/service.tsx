@@ -284,7 +284,7 @@ export default function ServicePage() {
                         </div>
 
                         {/* Connecting Line */}
-                        {index < service.methodology.split('.').filter(step => step.trim().length > 0).length - 1 && (
+                        {service.methodology && index < service.methodology.split('.').filter(step => step.trim().length > 0).length - 1 && (
                           <div className="hidden lg:block absolute left-8 top-20 w-0.5 h-8 bg-gradient-to-b from-blue-300 to-blue-100 z-10"></div>
                         )}
                       </motion.div>
