@@ -35,51 +35,61 @@ export default function MediaKit() {
     
     setIsGeneratingPDF(true);
     try {
-      const sections = contentRef.current.querySelectorAll('section');
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
       
-      for (let i = 0; i < sections.length; i++) {
-        const section = sections[i] as HTMLElement;
-        
-        const canvas = await html2canvas(section, {
-          scale: 1.5,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          height: section.scrollHeight,
-          width: section.scrollWidth
-        });
-        
-        const imgData = canvas.toDataURL('image/png');
-        
-        if (i > 0) {
+      // Capture the entire content container once
+      const canvas = await html2canvas(contentRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        height: contentRef.current.scrollHeight,
+        width: contentRef.current.scrollWidth
+      });
+      
+      // Calculate mm-per-pixel ratio and page dimensions in pixels
+      const mmPerPixel = pdfWidth / canvas.width;
+      const pageHeightPx = pdfHeight / mmPerPixel;
+      const pageWidthPx = pdfWidth / mmPerPixel;
+      
+      // Calculate number of pages needed
+      const totalPages = Math.ceil(canvas.height / pageHeightPx);
+      
+      for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
+        if (pageIndex > 0) {
           pdf.addPage();
         }
         
-        // Calculate scaling to fill A4 page while maintaining aspect ratio
-        const canvasAspectRatio = canvas.width / canvas.height;
-        const pageAspectRatio = pdfWidth / pdfHeight;
+        // Create a canvas for this page slice
+        const sliceCanvas = document.createElement('canvas');
+        sliceCanvas.width = pageWidthPx;
+        sliceCanvas.height = pageHeightPx;
+        const sliceCtx = sliceCanvas.getContext('2d');
         
-        let finalWidth, finalHeight, xOffset, yOffset;
-        
-        if (canvasAspectRatio > pageAspectRatio) {
-          // Canvas is wider relative to its height, fit to width
-          finalWidth = pdfWidth;
-          finalHeight = pdfWidth / canvasAspectRatio;
-          xOffset = 0;
-          yOffset = 0; // Align to top instead of centering
-        } else {
-          // Canvas is taller relative to its width, fit to height
-          finalHeight = pdfHeight;
-          finalWidth = pdfHeight * canvasAspectRatio;
-          xOffset = (pdfWidth - finalWidth) / 2;
-          yOffset = 0;
+        if (sliceCtx) {
+          // Fill with white background
+          sliceCtx.fillStyle = '#ffffff';
+          sliceCtx.fillRect(0, 0, pageWidthPx, pageHeightPx);
+          
+          // Calculate source rectangle for this slice
+          const sourceY = pageIndex * pageHeightPx;
+          const remainingHeight = Math.min(pageHeightPx, canvas.height - sourceY);
+          
+          // Draw the slice from the main canvas
+          sliceCtx.drawImage(
+            canvas,
+            0, sourceY, // source x, y
+            canvas.width, remainingHeight, // source width, height
+            0, 0, // destination x, y
+            pageWidthPx, remainingHeight // destination width, height
+          );
+          
+          // Convert slice to image and add to PDF at full A4 dimensions
+          const sliceImgData = sliceCanvas.toDataURL('image/png');
+          pdf.addImage(sliceImgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
         }
-        
-        // Always start from top of page and fill available space
-        pdf.addImage(imgData, 'PNG', xOffset, yOffset, finalWidth, finalHeight);
       }
       
       pdf.save('Pivotal-B2B-Media-Kit.pdf');
