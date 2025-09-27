@@ -83,37 +83,37 @@ export default function MediaKit() {
       title: "Account-Based Marketing (ABM) Programs",
       description: "Engage buying committees inside target accounts before competitors enter the conversation.",
       icon: Target,
-      color: "from-blue-500 to-blue-600"
+      color: "from-purple-500 to-purple-600"
     },
     {
       title: "B2B Lead Generation & Qualification",
       description: "Generate and qualify net-new leads that align with your ICP and are ready to convert.",
       icon: Users,
-      color: "from-slate-500 to-slate-600"
+      color: "from-violet-500 to-violet-600"
     },
     {
       title: "Precision Demand Generation",
       description: "Identify in-market accounts, educate buyers, and capture intent at the right moment.",
       icon: Zap,
-      color: "from-blue-600 to-slate-600"
+      color: "from-purple-600 to-violet-600"
     },
     {
       title: "Event Marketing & Audience Acquisition",
       description: "Fill your events with decision-makers who have real budget and authority.",
       icon: Calendar,
-      color: "from-slate-600 to-blue-600"
+      color: "from-violet-600 to-purple-600"
     },
     {
       title: "Lead Validation & Enrichment",
       description: "Clean, validate, and enrich lead data for accuracy, compliance, and conversion-readiness.",
       icon: Database,
-      color: "from-blue-500 to-slate-500"
+      color: "from-purple-500 to-violet-500"
     },
     {
       title: "Lead Nurturing & Buyer Engagement",
       description: "Keep future buyers engaged until they're ready — turning cold leads into revenue.",
       icon: Heart,
-      color: "from-slate-500 to-blue-500"
+      color: "from-violet-500 to-purple-500"
     }
   ];
 
@@ -129,19 +129,19 @@ export default function MediaKit() {
       title: "Email Marketing",
       description: "Personalized, compliant outreach that drives engagement",
       icon: Mail,
-      color: "from-blue-500 to-blue-600"
+      color: "from-purple-500 to-purple-600"
     },
     {
       title: "Form Fills & Landing Pages",
       description: "High-intent capture through gated content",
       icon: FileText,
-      color: "from-slate-500 to-slate-600"
+      color: "from-violet-500 to-violet-600"
     },
     {
       title: "Phone Outreach",
       description: "Human-to-human validation and buyer conversations",
       icon: Phone,
-      color: "from-blue-600 to-slate-600"
+      color: "from-purple-600 to-violet-600"
     }
   ];
 
@@ -192,22 +192,22 @@ export default function MediaKit() {
       />
 
       {/* Sticky Header with Download Button */}
-      <div className="bg-gradient-to-r from-slate-800 via-blue-800 to-slate-900 shadow-xl border-b sticky top-0 z-50">
+      <div className="bg-gradient-to-r from-purple-800 via-violet-800 to-purple-900 shadow-xl border-b sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
               <h1 className="text-2xl font-bold text-white mb-1">Pivotal B2B Media Kit</h1>
-              <p className="text-blue-100 text-sm">Professional brand assets and company information</p>
+              <p className="text-purple-100 text-sm">Professional brand assets and company information</p>
             </div>
             <Button 
               onClick={generatePDF} 
               disabled={isGeneratingPDF}
-              className="bg-white text-slate-800 hover:bg-gray-100 font-bold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-white text-purple-800 hover:bg-gray-100 font-bold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300"
               data-testid="button-download-pdf"
             >
               {isGeneratingPDF ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-slate-800/30 border-t-slate-800 rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-purple-800/30 border-t-purple-800 rounded-full animate-spin" />
                   Generating PDF...
                 </div>
               ) : (
@@ -224,12 +224,12 @@ export default function MediaKit() {
       {/* PDF Content */}
       <div ref={contentRef} className="bg-white">
         {/* Section 1: Cover Page */}
-        <section className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-gray-50 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-gray-50 flex flex-col items-center justify-center p-8 relative overflow-hidden">
           {/* Abstract background shapes */}
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 left-20 w-32 h-32 bg-blue-200/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-20 w-48 h-48 bg-slate-200/30 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-300/20 rounded-full blur-2xl" />
+            <div className="absolute top-20 left-20 w-32 h-32 bg-purple-200/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 right-20 w-48 h-48 bg-violet-200/30 rounded-full blur-3xl" />
+            <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-purple-300/20 rounded-full blur-2xl" />
           </div>
           
           <div className="text-center max-w-4xl mx-auto relative z-10">
@@ -239,7 +239,7 @@ export default function MediaKit() {
               transition={{ duration: 0.8 }}
               className="mb-12"
             >
-              <div className="w-32 h-32 bg-gradient-to-br from-blue-600 to-slate-700 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
+              <div className="w-32 h-32 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
                 <span className="text-white font-bold text-4xl">PB2B</span>
               </div>
               
@@ -247,29 +247,29 @@ export default function MediaKit() {
                 Pivotal B2B
               </h1>
               
-              <div className="bg-gradient-to-r from-blue-600 to-slate-600 bg-clip-text text-transparent text-2xl font-semibold mb-8">
+              <div className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent text-2xl font-semibold mb-8">
                 Every Lead. Vetted. Qualified. Revenue-Ready.
               </div>
               
               <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto text-slate-600">
                 <div className="flex items-center gap-2">
-                  <Globe className="w-5 h-5 text-blue-600" />
-                  <a href="https://pivotal-b2b.com" className="hover:text-blue-600 transition-colors">
+                  <Globe className="w-5 h-5 text-purple-600" />
+                  <a href="https://pivotal-b2b.com" className="hover:text-purple-600 transition-colors">
                     pivotal-b2b.com
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-blue-600" />
-                  <a href="mailto:contact@pivotal-b2b.com" className="hover:text-blue-600 transition-colors">
+                  <Mail className="w-5 h-5 text-purple-600" />
+                  <a href="mailto:contact@pivotal-b2b.com" className="hover:text-purple-600 transition-colors">
                     contact@pivotal-b2b.com
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Phone className="w-5 h-5 text-blue-600" />
+                  <Phone className="w-5 h-5 text-purple-600" />
                   <span>+1 417-900-3844</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <ExternalLink className="w-5 h-5 text-blue-600" />
+                  <ExternalLink className="w-5 h-5 text-purple-600" />
                   <a href="https://linkedin.com/company/pivotalb2b" className="hover:text-blue-600 transition-colors">
                     LinkedIn
                   </a>
@@ -405,120 +405,50 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 4: Our Services - Creative Hexagon Layout */}
-        <section className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50 p-16 relative overflow-hidden">
-          {/* Background elements */}
-          <div className="absolute inset-0">
-            <div className="absolute top-20 right-20 w-40 h-40 bg-blue-100 rounded-full blur-3xl opacity-60" />
-            <div className="absolute bottom-20 left-20 w-32 h-32 bg-slate-100 rounded-full blur-2xl opacity-60" />
-          </div>
-          
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-20">
+        {/* Section 4: Our Services - Simple Grid Layout */}
+        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-violet-50 p-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
               <div className="inline-flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-slate-700 rounded-2xl flex items-center justify-center shadow-xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl">
                   <Briefcase className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-700 to-slate-800 bg-clip-text text-transparent">Our Services</h2>
+                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Our Services</h2>
               </div>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-blue-600 via-slate-600 to-blue-600 mx-auto mb-8 rounded-full shadow-lg" />
+              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
               <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
                 Comprehensive B2B marketing solutions designed to drive qualified leads and accelerate revenue growth
               </p>
             </div>
             
-            {/* Creative honeycomb layout for services */}
-            <div className="relative">
-              {/* Top row - 2 services */}
-              <div className="flex justify-center gap-8 mb-8">
-                {services.slice(0, 2).map((service, index) => {
-                  const IconComponent = service.icon;
-                  return (
-                    <div key={index} className="relative">
-                      <div className="w-80 h-72 bg-white rounded-3xl shadow-2xl border border-blue-100 p-8 hover:shadow-3xl transition-all duration-500 hover:-translate-y-3 group relative overflow-hidden">
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-slate-50/30 rounded-3xl" />
-                        
-                        <div className="absolute -top-8 left-8 z-10">
-                          <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-slate-700 rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
-                            <IconComponent className="w-8 h-8 text-white" />
-                          </div>
-                        </div>
-                        
-                        <div className="relative z-10 mt-12">
-                          <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">{service.title}</h3>
-                          <p className="text-slate-600 leading-relaxed">{service.description}</p>
-                        </div>
-                        
-                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 to-slate-600 rounded-b-3xl" />
+            {/* Simple responsive grid layout */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service, index) => {
+                const IconComponent = service.icon;
+                return (
+                  <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-purple-100">
+                    <div className="mb-6">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-lg mb-4">
+                        <IconComponent className="w-8 h-8 text-white" />
                       </div>
+                      <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight">
+                        {service.title}
+                      </h3>
                     </div>
-                  );
-                })}
-              </div>
-              
-              {/* Middle row - 2 services */}
-              <div className="flex justify-center gap-8 mb-8">
-                {services.slice(2, 4).map((service, index) => {
-                  const IconComponent = service.icon;
-                  return (
-                    <div key={index + 2} className="relative">
-                      <div className="w-80 h-72 bg-white rounded-3xl shadow-2xl border border-slate-100 p-8 hover:shadow-3xl transition-all duration-500 hover:-translate-y-3 group relative overflow-hidden">
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-slate-50/30 to-blue-50/30 rounded-3xl" />
-                        
-                        <div className="absolute -top-8 left-8 z-10">
-                          <div className="w-16 h-16 bg-gradient-to-br from-slate-600 to-blue-700 rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
-                            <IconComponent className="w-8 h-8 text-white" />
-                          </div>
-                        </div>
-                        
-                        <div className="relative z-10 mt-12">
-                          <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">{service.title}</h3>
-                          <p className="text-slate-600 leading-relaxed">{service.description}</p>
-                        </div>
-                        
-                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-slate-600 to-blue-600 rounded-b-3xl" />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-              
-              {/* Bottom row - 2 services */}
-              <div className="flex justify-center gap-8">
-                {services.slice(4, 6).map((service, index) => {
-                  const IconComponent = service.icon;
-                  return (
-                    <div key={index + 4} className="relative">
-                      <div className="w-80 h-72 bg-white rounded-3xl shadow-2xl border border-blue-100 p-8 hover:shadow-3xl transition-all duration-500 hover:-translate-y-3 group relative overflow-hidden">
-                        {/* Gradient overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-slate-50/30 rounded-3xl" />
-                        
-                        <div className="absolute -top-8 left-8 z-10">
-                          <div className="w-16 h-16 bg-gradient-to-br from-blue-700 to-slate-600 rounded-3xl flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
-                            <IconComponent className="w-8 h-8 text-white" />
-                          </div>
-                        </div>
-                        
-                        <div className="relative z-10 mt-12">
-                          <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">{service.title}</h3>
-                          <p className="text-slate-600 leading-relaxed">{service.description}</p>
-                        </div>
-                        
-                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-blue-600 to-slate-600 rounded-b-3xl" />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    <p className="text-slate-600 leading-relaxed mb-6">
+                      {service.description}
+                    </p>
+                    <div className="h-1 bg-gradient-to-r from-purple-600 to-violet-600 rounded-full" />
+                  </div>
+                );
+              })}
             </div>
           </div>
           
           {/* Footer */}
-          <div className="mt-20 pt-8 flex justify-between items-center text-sm text-slate-400 border-t border-slate-200 relative z-10">
+          <div className="mt-20 pt-8 flex justify-between items-center text-sm text-slate-400 border-t border-slate-200">
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 bg-gradient-to-br from-blue-600 to-slate-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
+              <div className="w-6 h-6 bg-gradient-to-br from-purple-600 to-violet-700 rounded text-white text-xs flex items-center justify-center font-bold">P</div>
               <span>Pivotal B2B</span>
             </div>
             <span>contact@pivotal-b2b.com | +1 417-900-3844</span>
