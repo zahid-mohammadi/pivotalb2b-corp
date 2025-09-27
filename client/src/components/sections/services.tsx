@@ -12,42 +12,73 @@ import {
   Rocket
 } from "lucide-react";
 
-// Simplified Services Data
+// Enhanced Services Data with Color Themes
 const services = [
   {
     title: "Account-Based Marketing (ABM) Programs",
     description: "Laser-focused campaigns that target high-value accounts with personalized messaging and multi-channel engagement strategies.",
     slogan: "Turn prospects into partners",
     icon: Target,
-    ctaLabel: "Explore ABM Solutions"
+    ctaLabel: "Explore ABM Solutions",
+    gradient: "from-blue-500 to-indigo-600",
+    hoverGradient: "from-blue-600 to-indigo-700",
+    bgGradient: "from-blue-50 to-indigo-50",
+    iconColor: "text-blue-600"
   },
   {
     title: "B2B Lead Generation & Qualification",
     description: "Advanced lead scoring and qualification processes that identify and nurture high-intent prospects through the entire funnel.",
     slogan: "Quality leads, guaranteed results",
     icon: Users,
-    ctaLabel: "Generate Quality Leads"
+    ctaLabel: "Generate Quality Leads",
+    gradient: "from-green-500 to-emerald-600",
+    hoverGradient: "from-green-600 to-emerald-700",
+    bgGradient: "from-green-50 to-emerald-50",
+    iconColor: "text-green-600"
+  },
+  {
+    title: "Lead Nurturing & Engagement",
+    description: "We keep your future buyers engaged with tailored content and touchpoints until they're ready to buy—so no lead is wasted and pipeline value keeps growing.",
+    slogan: "Transform cold leads into revenue",
+    icon: Sparkles,
+    ctaLabel: "Start Nurturing Leads",
+    gradient: "from-purple-500 to-violet-600",
+    hoverGradient: "from-purple-600 to-violet-700",
+    bgGradient: "from-purple-50 to-violet-50",
+    iconColor: "text-purple-600"
   },
   {
     title: "Precision Demand Generation",
     description: "We connect you with buyers who are actively researching solutions like yours, delivering your message at the right time to influence their decision-making and secure pipeline opportunities before competitors.",
     slogan: "Reach buyers when it matters most",
     icon: TrendingUp,
-    ctaLabel: "Request Precision Demand Gen Proposal"
+    ctaLabel: "Request Precision Demand Gen Proposal",
+    gradient: "from-orange-500 to-red-600",
+    hoverGradient: "from-orange-600 to-red-700",
+    bgGradient: "from-orange-50 to-red-50",
+    iconColor: "text-orange-600"
   },
   {
     title: "Event Marketing & Audience Acquisition",
     description: "Strategic event marketing that drives qualified attendance and converts event engagement into sales opportunities.",
     slogan: "Events that convert",
     icon: Rocket,
-    ctaLabel: "Scale Event Marketing"
+    ctaLabel: "Scale Event Marketing",
+    gradient: "from-cyan-500 to-blue-600",
+    hoverGradient: "from-cyan-600 to-blue-700",
+    bgGradient: "from-cyan-50 to-blue-50",
+    iconColor: "text-cyan-600"
   },
   {
     title: "Lead Validation & Enrichment",
     description: "Comprehensive data validation and enrichment services that ensure your sales team works with accurate, actionable prospect information.",
     slogan: "Clean data, clear results",
     icon: CheckCircle2,
-    ctaLabel: "Validate Your Leads"
+    ctaLabel: "Validate Your Leads",
+    gradient: "from-pink-500 to-rose-600",
+    hoverGradient: "from-pink-600 to-rose-700",
+    bgGradient: "from-pink-50 to-rose-50",
+    iconColor: "text-pink-600"
   }
 ];
 
@@ -120,55 +151,156 @@ export function Services() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="group cursor-pointer"
+              whileHover={{ y: -8, scale: 1.02 }}
             >
-              {/* Simple Card Container */}
-              <Card className="h-full bg-white hover:shadow-xl transition-all duration-300 flex flex-col">
+              {/* Enhanced Card Container with Beautiful Hover Effects */}
+              <Card className="h-full bg-white relative overflow-hidden flex flex-col transition-all duration-500 ease-in-out transform-gpu group-hover:shadow-2xl group-hover:shadow-purple-500/25 border-2 border-transparent group-hover:border-gradient-to-r group-hover:border-opacity-50">
+                
+                {/* Animated Background Overlay */}
+                <motion.div
+                  className={`absolute inset-0 bg-gradient-to-br ${service.bgGradient} opacity-0 group-hover:opacity-20 transition-all duration-500`}
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  whileHover={{ scale: 1, opacity: 0.2 }}
+                  transition={{ duration: 0.5 }}
+                />
+                
+                {/* Animated Border Effect */}
+                <motion.div
+                  className={`absolute inset-0 bg-gradient-to-r ${service.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500`}
+                  style={{
+                    background: `linear-gradient(45deg, transparent, transparent, transparent, ${service.gradient.includes('blue') ? '#3B82F6' : service.gradient.includes('green') ? '#10B981' : service.gradient.includes('purple') ? '#8B5CF6' : service.gradient.includes('orange') ? '#F97316' : service.gradient.includes('cyan') ? '#06B6D4' : '#EC4899'}40, transparent, transparent, transparent)`,
+                    maskImage: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
+                    WebkitMask: 'linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0)',
+                    maskComposite: 'exclude'
+                  }}
+                  animate={{
+                    background: [
+                      `linear-gradient(45deg, transparent, transparent, transparent, ${service.gradient.includes('blue') ? '#3B82F6' : service.gradient.includes('green') ? '#10B981' : service.gradient.includes('purple') ? '#8B5CF6' : service.gradient.includes('orange') ? '#F97316' : service.gradient.includes('cyan') ? '#06B6D4' : '#EC4899'}40, transparent, transparent, transparent)`,
+                      `linear-gradient(225deg, transparent, transparent, transparent, ${service.gradient.includes('blue') ? '#3B82F6' : service.gradient.includes('green') ? '#10B981' : service.gradient.includes('purple') ? '#8B5CF6' : service.gradient.includes('orange') ? '#F97316' : service.gradient.includes('cyan') ? '#06B6D4' : '#EC4899'}40, transparent, transparent, transparent)`,
+                    ]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+                />
                 
                 {/* Card Header */}
-                <div className="p-6 pb-4 text-center">
-                  {/* Icon */}
-                  <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <service.icon className="h-8 w-8 text-blue-600" />
-                  </div>
+                <div className="relative p-6 pb-4 text-center">
+                  {/* Animated Icon Container */}
+                  <motion.div 
+                    className={`w-20 h-20 mx-auto mb-4 bg-gradient-to-br ${service.bgGradient} rounded-2xl flex items-center justify-center relative overflow-hidden group-hover:shadow-lg`}
+                    whileHover={{ 
+                      scale: 1.15, 
+                      rotate: [0, -10, 10, -5, 0],
+                      boxShadow: `0 10px 25px -5px ${service.gradient.includes('blue') ? '#3B82F620' : service.gradient.includes('green') ? '#10B98120' : service.gradient.includes('purple') ? '#8B5CF620' : service.gradient.includes('orange') ? '#F9731620' : service.gradient.includes('cyan') ? '#06B6D420' : '#EC489920'}`
+                    }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  >
+                    {/* Animated Background Pulse */}
+                    <motion.div
+                      className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-20 rounded-2xl`}
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0, 0.3, 0]
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        repeatType: "loop"
+                      }}
+                    />
+                    
+                    <motion.div
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.6, type: "spring" }}
+                    >
+                      <service.icon className={`h-10 w-10 ${service.iconColor} relative z-10`} />
+                    </motion.div>
+                  </motion.div>
                   
-                  {/* Title */}
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  {/* Animated Title */}
+                  <motion.h3 
+                    className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
                     {service.title}
-                  </h3>
+                  </motion.h3>
                 </div>
                 
                 {/* Card Content */}
-                <div className="px-6 pb-6 flex-1 flex flex-col">
+                <div className="relative px-6 pb-6 flex-1 flex flex-col">
                   {/* Description */}
-                  <p className="text-gray-600 leading-relaxed mb-4 flex-1">
-                    {service.description}
-                  </p>
-                  
-                  {/* Solution Slogan */}
-                  <div className="mb-6">
-                    <p className="text-blue-700 font-semibold text-lg italic">
-                      "{service.slogan}"
-                    </p>
-                  </div>
-                  
-                  {/* Call to Action Button */}
-                  <Button
-                    onClick={() => {
-                      const serviceSlugMap: Record<string, string> = {
-                        'Account-Based Marketing (ABM) Programs': 'account-based-marketing',
-                        'B2B Lead Generation & Qualification': 'b2b-lead-generation-qualification', 
-                        'Precision Demand Generation': 'precision-demand-generation',
-                        'Event Marketing & Audience Acquisition': 'event-marketing-solutions',
-                        'Lead Validation & Enrichment': 'lead-validation-enrichment'
-                      };
-                      const slug = serviceSlugMap[service.title] || service.title.toLowerCase().replace(/ & | /g, '-');
-                      window.location.href = `/services/${slug}`;
-                    }}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg"
+                  <motion.p 
+                    className="text-gray-600 leading-relaxed mb-4 flex-1 group-hover:text-gray-700 transition-colors duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300 }}
                   >
-                    {service.ctaLabel}
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                    {service.description}
+                  </motion.p>
+                  
+                  {/* Solution Slogan with Color Animation */}
+                  <motion.div 
+                    className="mb-6"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    <motion.p 
+                      className={`font-semibold text-lg italic bg-gradient-to-r ${service.gradient} bg-clip-text text-transparent group-hover:scale-105 transition-all duration-300`}
+                      animate={{
+                        backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                      style={{
+                        backgroundSize: "200% 200%"
+                      }}
+                    >
+                      "{service.slogan}"
+                    </motion.p>
+                  </motion.div>
+                  
+                  {/* Enhanced Call to Action Button */}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                  >
+                    <Button
+                      onClick={() => {
+                        const serviceSlugMap: Record<string, string> = {
+                          'Account-Based Marketing (ABM) Programs': 'account-based-marketing',
+                          'B2B Lead Generation & Qualification': 'b2b-lead-generation-qualification',
+                          'Lead Nurturing & Engagement': 'lead-nurturing-engagement',
+                          'Precision Demand Generation': 'precision-demand-generation',
+                          'Event Marketing & Audience Acquisition': 'event-marketing-solutions',
+                          'Lead Validation & Enrichment': 'lead-validation-enrichment'
+                        };
+                        const slug = serviceSlugMap[service.title] || service.title.toLowerCase().replace(/ & | /g, '-');
+                        window.location.href = `/services/${slug}`;
+                      }}
+                      className={`w-full bg-gradient-to-r ${service.gradient} hover:${service.hoverGradient} text-white font-semibold py-3 rounded-xl transition-all duration-500 relative overflow-hidden group/btn shadow-lg hover:shadow-xl`}
+                    >
+                      {/* Button Shine Effect */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
+                        initial={{ x: "-100%" }}
+                        whileHover={{ x: "100%" }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                      />
+                      
+                      <span className="relative flex items-center justify-center">
+                        {service.ctaLabel}
+                        <motion.div
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </motion.div>
+                      </span>
+                    </Button>
+                  </motion.div>
                 </div>
               </Card>
             </motion.div>
