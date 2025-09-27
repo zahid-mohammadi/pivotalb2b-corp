@@ -30,7 +30,7 @@ const structuredServiceData = [
       "Advanced analytics and attribution"
     ],
     methodology: "1. Account Research & Selection: Identify and prioritize target accounts based on ideal customer profile, revenue potential, and strategic alignment. 2. Stakeholder Mapping & Persona Development: Map the complete buying committee for each target account and develop detailed personas. 3. Multi-Channel Campaign Execution: Deploy coordinated campaigns across email, LinkedIn, direct mail, and digital advertising. 4. Sales Enablement & Handoff: Provide sales teams with detailed account intelligence and warm introductions.",
-    faqQuestions: [
+    faq_questions: [
       {
         question: "How do you identify which accounts to target?",
         answer: "We work with your team to define ideal customer profiles based on company size, industry, technology stack, and buying behaviors. We then use intent data and technographic insights to prioritize accounts showing buying signals."
@@ -44,7 +44,7 @@ const structuredServiceData = [
         answer: "We use a combination of account intelligence, dynamic content, and marketing automation to deliver personalized experiences. Our approach balances scalability with the personal touch that makes ABM effective."
       }
     ],
-    toolsAndTechnologies: [
+    tools_and_technologies: [
       "Account intelligence platforms",
       "Marketing automation",
       "LinkedIn Sales Navigator",
@@ -70,7 +70,7 @@ const structuredServiceData = [
       "Sales team enablement"
     ],
     methodology: "1. Ideal Customer Profile Development: Define your perfect customer characteristics including company size, industry, technology stack, and buying behaviors to ensure precise targeting. 2. Intent Signal Monitoring: Track companies showing buying signals through content consumption, technology research, and competitive intelligence to identify in-market prospects. 3. Multi-Channel Engagement: Reach decision-makers through coordinated email, LinkedIn, and phone campaigns designed to build relationships and generate qualified conversations. 4. Lead Qualification & Nurturing: Qualify prospects against your criteria and nurture them through the consideration process until they're ready for sales engagement.",
-    faqQuestions: [
+    faq_questions: [
       {
         question: "How do you ensure lead quality?",
         answer: "We use a combination of intent data, technographic analysis, and manual qualification to ensure leads meet your specific criteria for budget, authority, need, and timeline before passing them to sales."
@@ -80,7 +80,7 @@ const structuredServiceData = [
         answer: "Our qualified leads typically convert to opportunities at 15-25%, significantly higher than industry averages of 5-10%, because we focus on intent-driven prospects who are actively evaluating solutions."
       }
     ],
-    toolsAndTechnologies: [
+    tools_and_technologies: [
       "Intent data platforms",
       "Sales engagement tools",
       "LinkedIn Sales Navigator",
@@ -106,7 +106,7 @@ const structuredServiceData = [
       "Performance analytics and optimization"
     ],
     methodology: "1. Buyer Journey Mapping: Map your customer's complete buying journey to identify key decision points, content needs, and optimal engagement moments. 2. Intent Data Integration: Monitor buying signals across web behavior, content consumption, and search patterns to identify prospects entering the market. 3. Content Creation & Distribution: Develop targeted content for each buyer journey stage and distribute through SEO, paid advertising, social media, and email marketing. 4. Lead Capture & Nurturing: Convert content engagement into qualified leads through optimized landing pages, forms, and automated nurturing sequences.",
-    faqQuestions: [
+    faq_questions: [
       {
         question: "How do you identify buying intent?",
         answer: "We use a combination of first-party data (website behavior, content downloads), third-party intent data, and search trends to identify companies and individuals showing buying signals for your category."
@@ -120,7 +120,7 @@ const structuredServiceData = [
         answer: "You'll typically see initial traffic and engagement within 30-60 days. Qualified leads usually begin flowing within 60-90 days, with sustained growth over 6-12 months as content and campaigns optimize."
       }
     ],
-    toolsAndTechnologies: [
+    tools_and_technologies: [
       "Intent data platforms",
       "Marketing automation",
       "Content management systems",
@@ -146,7 +146,7 @@ const structuredServiceData = [
       "Post-event follow-up automation"
     ],
     methodology: "1. Audience Strategy & Targeting: Define ideal attendee profiles and use intent data, lookalike modeling, and account targeting to identify prospects most likely to convert. 2. Multi-Channel Promotion: Execute coordinated promotion campaigns across email marketing, social media, paid advertising, and strategic partnerships. 3. Pre-Event Engagement & Qualification: Engage registered attendees with relevant content, polls, and one-on-one outreach to qualify interest levels. 4. Post-Event Follow-Up & Nurturing: Implement systematic follow-up campaigns for attendees and no-shows to maximize conversion opportunities.",
-    faqQuestions: [
+    faq_questions: [
       {
         question: "How do you ensure event attendees are qualified prospects?",
         answer: "We use intent data, firmographic targeting, and pre-event qualification surveys to attract prospects who match your ideal customer profile and show genuine interest in your solutions."
@@ -156,7 +156,7 @@ const structuredServiceData = [
         answer: "Well-executed event marketing typically generates pipeline conversion rates of 10-20% for webinars and 15-30% for in-person events, depending on the audience quality and follow-up strategy."
       }
     ],
-    toolsAndTechnologies: [
+    tools_and_technologies: [
       "Event management platforms",
       "Marketing automation",
       "Social media advertising",
@@ -182,7 +182,7 @@ const structuredServiceData = [
       "Lead routing optimization"
     ],
     methodology: "1. Data Validation & Cleansing: Verify email addresses, phone numbers, and company information to ensure accuracy and deliverability while removing duplicates and outdated records. 2. Intent Assessment & Scoring: Analyze lead behavior, engagement patterns, and buying signals to assign intent scores that help sales teams prioritize follow-up efforts. 3. Lead Enrichment & Intelligence: Append comprehensive company and contact data including technographics, firmographics, recent news, and social insights. 4. Quality Routing & Assignment: Route qualified leads to appropriate sales representatives based on territory, industry expertise, and lead characteristics for optimal conversion.",
-    faqQuestions: [
+    faq_questions: [
       {
         question: "How do you determine if a lead is sales-ready?",
         answer: "We use a combination of explicit criteria (job title, company size, budget) and implicit signals (engagement level, content consumption, timing) to score leads and determine readiness for sales engagement."
@@ -196,7 +196,7 @@ const structuredServiceData = [
         answer: "Yes, we provide seamless integration with major CRM platforms (Salesforce, HubSpot, Pipedrive) and marketing automation tools to enrich leads in real-time as they enter your system."
       }
     ],
-    toolsAndTechnologies: [
+    tools_and_technologies: [
       "Data validation tools",
       "Intent data platforms",
       "Enrichment APIs",
@@ -222,7 +222,7 @@ const structuredServiceData = [
       "Sales enablement and handoff"
     ],
     methodology: "1. Buyer Journey Mapping & Segmentation: Map your customer's decision-making process and segment prospects based on stage, role, industry, and engagement level to deliver relevant experiences. 2. Content Strategy & Creation: Develop educational content, case studies, and tools that address specific concerns and questions prospects have at each stage of their buying journey. 3. Multi-Channel Nurture Orchestration: Execute coordinated touchpoints across email, social media, phone calls, and direct mail to maintain engagement and build relationships over time. 4. Sales Readiness & Handoff: Identify when prospects are ready for sales engagement and provide context about their interests, concerns, and preferred communication style.",
-    faqQuestions: [
+    faq_questions: [
       {
         question: "How long should nurturing campaigns run?",
         answer: "B2B nurturing should align with your sales cycle length. We typically recommend 6-18 month programs depending on your industry and deal complexity, with ongoing engagement for prospects who aren't immediately ready to buy."
@@ -236,7 +236,7 @@ const structuredServiceData = [
         answer: "We use behavioral scoring and explicit signals (demo requests, pricing inquiries, high engagement) to identify sales-ready prospects. The handoff includes context about their interests, concerns, and optimal approach."
       }
     ],
-    toolsAndTechnologies: [
+    tools_and_technologies: [
       "Marketing automation platforms",
       "CRM integration",
       "Dynamic content engines",
