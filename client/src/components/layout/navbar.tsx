@@ -66,9 +66,23 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[800px] gap-3 p-4 grid-cols-3">
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <NavigationMenuTrigger className="group relative px-4 py-2 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md">
+                  <span className="flex items-center space-x-2">
+                    <Zap className="w-4 h-4 text-primary group-hover:animate-pulse" />
+                    <span>Services</span>
+                  </span>
+                </NavigationMenuTrigger>
+              </motion.div>
+              <NavigationMenuContent className="!p-0">
+                <motion.div
+                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                  className="w-[850px] bg-background/95 backdrop-blur-xl border-2 border-primary/20 rounded-2xl shadow-2xl shadow-primary/10 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
+                  <ul className="grid gap-2 p-6 grid-cols-3 relative z-10">
                   <li>
                     <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
@@ -170,6 +184,7 @@ export function Navbar() {
                     </Link>
                   </li>
                 </ul>
+                </motion.div>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
