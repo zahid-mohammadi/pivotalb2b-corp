@@ -246,7 +246,7 @@ export function Navbar() {
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between relative z-10 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between relative z-10 max-w-7xl">
         <motion.div 
           className="flex items-center group"
           whileHover={{ scale: 1.05 }}
