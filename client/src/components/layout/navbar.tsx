@@ -237,10 +237,10 @@ export function Navbar() {
   return (
     <motion.header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/95 backdrop-blur-sm border-b",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b",
         isScrolled 
-          ? "border-border shadow-md" 
-          : "border-transparent"
+          ? "border-gray-200 shadow-lg" 
+          : "border-gray-100"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
