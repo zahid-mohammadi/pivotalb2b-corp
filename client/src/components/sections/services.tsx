@@ -29,11 +29,11 @@ const services = [
     ctaLabel: "Generate Quality Leads"
   },
   {
-    title: "Intent-Based Demand Generation",
-    description: "Capture prospects at the exact moment they show purchase intent through advanced behavioral analysis and predictive modeling.",
-    slogan: "Precision targeting, maximum impact",
+    title: "Precision Demand Generation",
+    description: "We connect you with buyers who are actively researching solutions like yours, delivering your message at the right time to influence their decision-making and secure pipeline opportunities before competitors.",
+    slogan: "Reach buyers when it matters most",
     icon: TrendingUp,
-    ctaLabel: "Boost Demand Generation"
+    ctaLabel: "Request Precision Demand Gen Proposal"
   },
   {
     title: "Event Marketing & Audience Acquisition",
@@ -157,7 +157,7 @@ export function Services() {
                       const serviceSlugMap: Record<string, string> = {
                         'Account-Based Marketing (ABM) Programs': 'account-based-marketing',
                         'B2B Lead Generation & Qualification': 'b2b-lead-generation-qualification', 
-                        'Intent-Based Demand Generation': 'intent-based-lead-generation',
+                        'Precision Demand Generation': 'precision-demand-generation',
                         'Event Marketing & Audience Acquisition': 'event-marketing-solutions',
                         'Lead Validation & Enrichment': 'lead-validation-enrichment'
                       };
