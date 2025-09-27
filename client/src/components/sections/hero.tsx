@@ -84,11 +84,11 @@ export function Hero() {
             >
               <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 hover:border-primary/30 transition-colors">
                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                <span className="text-sm font-medium text-primary">Revenue-Ready Leads</span>
+                <span className="text-sm font-medium text-primary">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
               </div>
             </motion.div>
 
-            {/* Main Headline */}
+            {/* Main Headline - Original Content */}
             <motion.h1 
               className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-left"
               initial={{ opacity: 0, y: 30 }}
@@ -115,17 +115,14 @@ export function Hero() {
               </motion.span>
             </motion.h1>
 
-            {/* Subheadline */}
+            {/* Subheadline - Original Content */}
             <motion.p 
               className="text-xl md:text-2xl text-muted-foreground leading-relaxed max-w-2xl text-left"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              Our programs generate and qualify leads that align with your{' '}
-              <span className="font-semibold text-primary">ICP</span>, ensuring every 
-              opportunity in your funnel has the potential to drive{' '}
-              <span className="font-semibold text-primary">real revenue</span>.
+              We help businesses stop wasting budget on unqualified leads—and start building pipelines filled with decision-makers actively evaluating solutions.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -147,7 +144,7 @@ export function Hero() {
                 >
                   <div className="flex items-center gap-3">
                     <Zap className="w-5 h-5" />
-                    Get Your Free Revenue Audit
+                    Schedule a Strategy Call
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Button>
@@ -171,7 +168,7 @@ export function Hero() {
               </motion.div>
             </motion.div>
 
-            {/* Key Benefits - Now as horizontal badges */}
+            {/* Key Benefits */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -180,8 +177,8 @@ export function Hero() {
             >
               {[
                 { icon: Target, text: "Quality Over Quantity" },
-                { icon: Users, text: "100% Compliant" },
-                { icon: TrendingUp, text: "Lower Cost per Lead" }
+                { icon: Users, text: "100% Compliant Outreach" },
+                { icon: TrendingUp, text: "No Long-Term Contracts" }
               ].map((item, i) => (
                 <motion.div
                   key={i}
@@ -219,12 +216,12 @@ export function Hero() {
               }}
             >
               <div className="p-8 h-full flex flex-col justify-center space-y-6">
-                {/* Revenue metrics visualization */}
+                {/* Success metrics visualization */}
                 <div className="space-y-4">
-                  <h3 className="text-2xl font-bold text-foreground">Revenue Impact</h3>
+                  <h3 className="text-2xl font-bold text-foreground">Our Commitment to You</h3>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Lead Quality</span>
+                      <span className="text-muted-foreground">Lead Quality Score</span>
                       <div className="flex items-center gap-2">
                         <div className="w-24 h-2 bg-muted rounded-full">
                           <motion.div 
@@ -238,7 +235,7 @@ export function Hero() {
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Conversion Rate</span>
+                      <span className="text-muted-foreground">Qualification Rate</span>
                       <div className="flex items-center gap-2">
                         <div className="w-24 h-2 bg-muted rounded-full">
                           <motion.div 
@@ -252,7 +249,7 @@ export function Hero() {
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">ROI Increase</span>
+                      <span className="text-muted-foreground">Cost Reduction</span>
                       <div className="flex items-center gap-2">
                         <div className="w-24 h-2 bg-muted rounded-full">
                           <motion.div 
@@ -262,7 +259,7 @@ export function Hero() {
                             transition={{ delay: 2.5, duration: 1.5 }}
                           />
                         </div>
-                        <span className="text-sm font-semibold text-primary">+340%</span>
+                        <span className="text-sm font-semibold text-primary">-35%</span>
                       </div>
                     </div>
                   </div>
@@ -272,11 +269,11 @@ export function Hero() {
                 <div className="flex items-center gap-4 pt-4 border-t border-primary/20">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
-                    <span className="text-sm text-muted-foreground">Active Campaigns</span>
+                    <span className="text-sm text-muted-foreground">Live Campaigns</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Star className="w-4 h-4 text-yellow-500" />
-                    <span className="text-sm text-muted-foreground">Verified Results</span>
+                    <span className="text-sm text-muted-foreground">Zero Lock-In</span>
                   </div>
                 </div>
               </div>
