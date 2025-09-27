@@ -122,7 +122,10 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              We help businesses stop wasting budget on unqualified leads—and start building pipelines filled with decision-makers actively evaluating solutions.
+              Our programs generate and qualify leads that align with your{' '}
+              <span className="font-semibold text-primary">ICP</span>, ensuring every 
+              opportunity in your funnel has the potential to drive{' '}
+              <span className="font-semibold text-primary">real revenue</span>.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -144,7 +147,7 @@ export function Hero() {
                 >
                   <div className="flex items-center gap-3">
                     <Zap className="w-5 h-5" />
-                    Schedule a Strategy Call
+                    Get Your Free Revenue Audit
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </Button>
@@ -178,7 +181,8 @@ export function Hero() {
               {[
                 { icon: Target, text: "Quality Over Quantity" },
                 { icon: Users, text: "100% Compliant Outreach" },
-                { icon: TrendingUp, text: "No Long-Term Contracts" }
+                { icon: TrendingUp, text: "Lower Cost per Lead" },
+                { icon: Sparkles, text: "No Long-Term Contracts, Zero Lock-In" }
               ].map((item, i) => (
                 <motion.div
                   key={i}
