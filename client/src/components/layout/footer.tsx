@@ -78,6 +78,12 @@ export function Footer() {
                   Lead Validation
                 </Link>
               </li>
+              <li>
+                <Link href="/services/lead-nurturing-buyer-engagement" className="hover:text-white transition-colors duration-200 flex items-center group">
+                  <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
+                  Lead Nurturing
+                </Link>
+              </li>
             </ul>
           </div>
 
