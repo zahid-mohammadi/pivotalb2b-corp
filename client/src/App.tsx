@@ -20,7 +20,7 @@ import CaseStudies from "@/pages/case-studies";
 import CaseStudyDetail from "@/pages/case-study-detail";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
-import MediaKit from "@/pages/media-kit";
+// import MediaKit from "@/pages/media-kit";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsConditions from "@/pages/terms-conditions";
 import CookiePolicy from "@/pages/cookie-policy";
@@ -54,7 +54,7 @@ function Router() {
           <Route path="/case-studies/:id" component={CaseStudyDetail} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
-          <Route path="/media-kit" component={MediaKit} />
+          {/* <Route path="/media-kit" component={MediaKit} /> */}
           <Route path="/request-proposal" component={RequestProposal} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-conditions" component={TermsConditions} />

@@ -63,7 +63,7 @@ export function Footer() {
               <li>
                 <Link href="/services/intent-based-demand-generation" className="hover:text-white transition-colors duration-200 flex items-center group">
                   <ArrowRight className="mr-2 h-3 w-3 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
-                  Demand Generation
+                  Intent-Based Marketing
                 </Link>
               </li>
               <li>
