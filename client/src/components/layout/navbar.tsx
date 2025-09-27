@@ -66,23 +66,9 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <NavigationMenuTrigger className="group relative px-4 py-2 bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md">
-                  <span className="flex items-center space-x-2">
-                    <Zap className="w-4 h-4 text-primary group-hover:animate-pulse" />
-                    <span>Services</span>
-                  </span>
-                </NavigationMenuTrigger>
-              </motion.div>
-              <NavigationMenuContent className="!p-0">
-                <motion.div
-                  initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="w-[850px] bg-background/95 backdrop-blur-xl border-2 border-primary/20 rounded-2xl shadow-2xl shadow-primary/10 overflow-hidden"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10" />
-                  <ul className="grid gap-2 p-6 grid-cols-3 relative z-10">
+              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid w-[800px] gap-3 p-4 grid-cols-3">
                   <li>
                     <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-muted/60 rounded-md cursor-pointer transition-colors duration-200 group">
                         <div className="flex items-center">
@@ -184,27 +170,16 @@ export function Navbar() {
                     </Link>
                   </li>
                 </ul>
-                </motion.div>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <NavigationMenuLink
-                  className={cn(navigationMenuTriggerStyle(), "group relative px-4 py-2 bg-gradient-to-r from-primary/5 to-transparent hover:from-primary/15 hover:to-primary/5 rounded-xl transition-all duration-300 shadow-sm hover:shadow-md")}
-                  href="/b2b-audience"
-                  asChild={false}
-                >
-                  <span className="flex items-center space-x-2">
-                    <motion.div
-                      animate={{ rotate: [0, 10, -10, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <Zap className="w-4 h-4 text-primary group-hover:text-primary/80" />
-                    </motion.div>
-                    <span>B2B Audience</span>
-                  </span>
-                </NavigationMenuLink>
-              </motion.div>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                href="/b2b-audience"
+                asChild={false}
+              >
+                B2B Audience
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
@@ -274,19 +249,9 @@ export function Navbar() {
       )}
 
       <Link href="/contact">
-        <motion.span 
-          className="text-sm hover:text-primary cursor-pointer relative group transition-all duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <span className="text-sm hover:text-primary cursor-pointer transition-colors duration-200">
           Contact Us
-          <motion.div
-            className="absolute -bottom-1 left-0 h-0.5 bg-primary rounded-full"
-            initial={{ width: 0 }}
-            whileHover={{ width: "100%" }}
-            transition={{ duration: 0.3 }}
-          />
-        </motion.span>
+        </span>
       </Link>
     </div>
   );
@@ -294,29 +259,15 @@ export function Navbar() {
   return (
     <motion.header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/95 backdrop-blur-sm border-b",
         isScrolled 
-          ? "backdrop-blur-xl bg-background/80 border-b border-border/50 shadow-2xl shadow-primary/10" 
-          : "backdrop-blur-md bg-background/60"
+          ? "border-border shadow-md" 
+          : "border-transparent"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5"
-        animate={{
-          backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "linear"
-        }}
-        style={{
-          backgroundSize: "200% 200%"
-        }}
-      />
       <div className="container mx-auto px-4 h-16 flex items-center justify-between relative z-10">
         <motion.div 
           className="flex items-center group"
@@ -324,44 +275,9 @@ export function Navbar() {
           transition={{ type: "spring", stiffness: 300 }}
         >
           <Link href="/">
-            <motion.div 
-              className="relative flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-primary/10 transition-all duration-300"
-              whileHover={{ scale: 1.02 }}
-            >
-              <motion.div
-                className="relative"
-                animate={{
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <img src="/logo.png" alt="Pivotal B2B" className="h-10 cursor-pointer" />
-                <motion.div
-                  className="absolute -top-1 -right-1 w-3 h-3"
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                >
-                  <Sparkles className="w-3 h-3 text-primary" />
-                </motion.div>
-              </motion.div>
-              <motion.div className="hidden sm:block">
-                <h1 className="text-lg font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  Pivotal B2B
-                </h1>
-                <p className="text-xs text-muted-foreground -mt-1">Marketing Solutions</p>
-              </motion.div>
-            </motion.div>
+            <div className="flex items-center hover:opacity-80 transition-opacity duration-200">
+              <img src="/logo.png" alt="Pivotal B2B" className="h-10 cursor-pointer" />
+            </div>
           </Link>
         </motion.div>
 
@@ -376,17 +292,10 @@ export function Navbar() {
           {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild className="md:hidden">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button variant="ghost" size="icon" className="relative bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 rounded-xl border border-primary/20 hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-md">
-                  <motion.div
-                    animate={{ rotate: [0, 180, 360] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-primary/5 to-transparent"
-                  />
-                  <Menu className="h-5 w-5 text-primary relative z-10" />
-                  <span className="sr-only">Toggle Menu</span>
-                </Button>
-              </motion.div>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle Menu</span>
+              </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-[320px] bg-background/95 backdrop-blur-xl border-l-2 border-primary/20 shadow-2xl">
               <motion.div
@@ -486,21 +395,10 @@ export function Navbar() {
             ) : (
               <>
                 <Link href="/login">
-                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                    <Button variant="outline" className="bg-gradient-to-r from-background/50 to-background/80 hover:from-primary/10 hover:to-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md">
-                      Login
-                    </Button>
-                  </motion.div>
+                  <Button variant="outline">Login</Button>
                 </Link>
                 <Link href="/request-proposal">
-                  <motion.div whileHover={{ scale: 1.05, y: -2 }} whileTap={{ scale: 0.95 }}>
-                    <Button className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-primary/30 hover:border-primary/50">
-                      <span className="flex items-center space-x-2">
-                        <Sparkles className="w-4 h-4" />
-                        <span>Request a Proposal</span>
-                      </span>
-                    </Button>
-                  </motion.div>
+                  <Button>Request a Proposal</Button>
                 </Link>
               </>
             )}
@@ -508,74 +406,6 @@ export function Navbar() {
         </div>
       </div>
       
-      {/* Decorative elements */}
-      <motion.div
-        className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent"
-        animate={{
-          opacity: [0.5, 1, 0.5],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      <motion.div
-        className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent"
-        animate={{
-          opacity: [1, 0.5, 1],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1.5
-        }}
-      />
-      
-      {/* Floating particles */}
-      <motion.div
-        className="absolute top-2 left-8 w-1 h-1 bg-primary/30 rounded-full"
-        animate={{
-          y: [0, -10, 0],
-          opacity: [0.3, 1, 0.3],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 0
-        }}
-      />
-      <motion.div
-        className="absolute top-3 right-12 w-1.5 h-1.5 bg-primary/40 rounded-full"
-        animate={{
-          y: [0, -15, 0],
-          opacity: [0.4, 1, 0.4],
-          scale: [1, 1.3, 1],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
-      />
-      <motion.div
-        className="absolute top-4 left-1/3 w-0.5 h-0.5 bg-primary/20 rounded-full"
-        animate={{
-          y: [0, -8, 0],
-          opacity: [0.2, 0.8, 0.2],
-          scale: [1, 1.5, 1],
-        }}
-        transition={{
-          duration: 3.5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
-        }}
-      />
     </motion.header>
   );
 }
