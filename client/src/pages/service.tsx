@@ -85,17 +85,17 @@ export default function ServicePage() {
           <div className="container mx-auto px-4 relative">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                {(service as any).heroHeadline || service.title}
+                {service.title}
               </h1>
               <h2 className="text-xl lg:text-2xl text-white/90 mb-8 leading-relaxed font-light">
-                {(service as any).heroSubheadline || service.description}
+                {service.description}
               </h2>
               <Button
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-lg"
                 onClick={() => window.location.href = '/request-proposal'}
               >
-                {(service as any).heroCta || 'Request a Proposal'}
+                Request a Proposal
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
@@ -110,7 +110,7 @@ export default function ServicePage() {
                 What You Gain
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
-                {(service as any).benefits?.map((benefit: any, index: number) => (
+                {service.benefits?.map((benefit: string, index: number) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
@@ -121,11 +121,7 @@ export default function ServicePage() {
                     <CheckCircle2 className="h-6 w-6 text-green-600 mt-1 flex-shrink-0" />
                     <p className="text-gray-700 text-lg">{benefit}</p>
                   </motion.div>
-                )) || (
-                  <div className="col-span-2 text-center text-gray-500">
-                    Benefits content will be loaded from database
-                  </div>
-                )}
+                ))}
               </div>
             </div>
           </div>
@@ -140,14 +136,14 @@ export default function ServicePage() {
               </h2>
               <div className="space-y-6">
                 <p className="text-xl text-gray-700 leading-relaxed">
-                  {(service as any).overview || service.description}
+                  {service.description}
                 </p>
-                {(service as any).overviewPoints && (
+                {service.features && (
                   <ul className="space-y-3">
-                    {(service as any).overviewPoints.map((point: any, index: number) => (
+                    {service.features.slice(0, 3).map((feature: string, index: number) => (
                       <li key={index} className="flex items-start gap-3">
                         <CircleDot className="h-5 w-5 text-blue-600 mt-1 flex-shrink-0" />
-                        <span className="text-gray-700">{point}</span>
+                        <span className="text-gray-700">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -165,25 +161,11 @@ export default function ServicePage() {
                 Methodology
               </h2>
               <div className="space-y-8">
-                {(service as any).methodology?.map((step: any, index: number) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.2 }}
-                    className="flex items-start gap-6"
-                  >
-                    <div className="flex-shrink-0 w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                      <span className="text-white font-bold text-lg">{index + 1}</span>
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                        {step.title}
-                      </h3>
-                      <p className="text-gray-700">{step.description}</p>
-                    </div>
-                  </motion.div>
-                )) || (
+                {service.methodology ? (
+                  <div className="prose prose-lg max-w-none">
+                    <p className="text-gray-700 leading-relaxed">{service.methodology}</p>
+                  </div>
+                ) : (
                   <div className="text-center text-gray-500">
                     Methodology content will be loaded from database
                   </div>
@@ -201,7 +183,7 @@ export default function ServicePage() {
                 Frequently Asked Questions
               </h2>
               <div className="space-y-6">
-                {(service as any).faqs?.map((faq: any, index: number) => (
+                {service.faqQuestions?.map((faq: any, index: number) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, y: 20 }}
@@ -215,11 +197,7 @@ export default function ServicePage() {
                     </h3>
                     <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
                   </motion.div>
-                )) || (
-                  <div className="text-center text-gray-500">
-                    FAQ content will be loaded from database
-                  </div>
-                )}
+                ))}
               </div>
             </div>
           </div>

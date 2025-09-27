@@ -131,12 +131,19 @@ export const services = pgTable("services", {
   features: text("features").array().notNull(),
   benefits: text("benefits").array().notNull(),
   successMetrics: text("success_metrics").array(),
-  methodology: text("methodology"),
+  methodology: jsonb("methodology").array(),
   toolsAndTechnologies: text("tools_and_technologies").array(),
   bannerImage: text("banner_image"),
   slug: text("slug").notNull().unique(),
   useCases: jsonb("use_cases").array(),
   faqQuestions: jsonb("faq_questions").array(),
+  // New fields for content structure
+  heroHeadline: text("hero_headline"),
+  heroSubheadline: text("hero_subheadline"),
+  heroCta: text("hero_cta"),
+  overview: text("overview"),
+  overviewPoints: text("overview_points").array(),
+  faqs: jsonb("faqs").array(),
 });
 
 export type UseCase = {
@@ -152,17 +159,27 @@ export type FAQ = {
   answer: string;
 };
 
+export type MethodologyStep = {
+  title: string;
+  description: string;
+};
+
 export type Service = typeof services.$inferSelect & {
   useCases: UseCase[];
   faqQuestions: FAQ[];
   successMetrics: string[];
+  methodology: MethodologyStep[];
+  faqs: FAQ[];
 };
 
 export const insertServiceSchema = createInsertSchema(services)
   .omit({ id: true })
   .extend({
     bannerImage: z.string().optional(),
-    methodology: z.string().optional(),
+    methodology: z.array(z.object({
+      title: z.string(),
+      description: z.string()
+    })).optional(),
     toolsAndTechnologies: z.array(z.string()).optional(),
     successMetrics: z.array(z.string()).optional(),
     useCases: z.array(z.object({
@@ -173,6 +190,15 @@ export const insertServiceSchema = createInsertSchema(services)
       outcome: z.string()
     })).optional(),
     faqQuestions: z.array(z.object({
+      question: z.string(),
+      answer: z.string()
+    })).optional(),
+    heroHeadline: z.string().optional(),
+    heroSubheadline: z.string().optional(),
+    heroCta: z.string().optional(),
+    overview: z.string().optional(),
+    overviewPoints: z.array(z.string()).optional(),
+    faqs: z.array(z.object({
       question: z.string(),
       answer: z.string()
     })).optional(),
