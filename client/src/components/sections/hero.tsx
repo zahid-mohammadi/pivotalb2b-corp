@@ -262,11 +262,18 @@ export function Hero() {
                     className="relative"
                     animate={{
                       scale: [1, 1.02, 1],
+                      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                     }}
                     transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
+                      scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
+                      backgroundPosition: { duration: 6, repeat: Infinity, ease: "linear" }
+                    }}
+                    style={{
+                      background: "linear-gradient(45deg, #ffffff, #60a5fa, #a78bfa, #06b6d4, #f472b6, #fbbf24, #ffffff)",
+                      backgroundSize: "600% 600%",
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
                     }}
                   >
                     Actually Converts
