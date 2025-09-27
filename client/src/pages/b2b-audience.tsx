@@ -240,37 +240,6 @@ return (
         animate="visible"
         className="space-y-24 py-24"
       >
-        {/* Performance Metrics Section */}
-        <motion.section
-          variants={itemVariants}
-          className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-white to-gray-50 p-12 shadow-2xl border border-primary/10"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Real Performance Metrics</h2>
-            <p className="text-muted-foreground text-lg">Proven results from our B2B audience platform</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {performanceMetrics.map((metric, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="relative group"
-              >
-                <Card className="h-full p-6 text-center border-0 shadow-lg relative overflow-hidden">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${metric.color} opacity-5 group-hover:opacity-10 transition-opacity`} />
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-xl bg-gradient-to-br ${metric.color} mb-4 shadow-lg`}>
-                    <metric.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-1">{metric.value}</h3>
-                  <p className="text-sm font-medium text-muted-foreground mb-1">{metric.title}</p>
-                  <p className="text-xs text-muted-foreground">{metric.subtitle}</p>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
 
         {/* Enhanced Audience Stats Section with Interactive Chart */}
         <motion.section
