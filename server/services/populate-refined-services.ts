@@ -216,6 +216,94 @@ const refinedServiceData = [
         answer: "Yes—validated leads are synced directly into your system."
       }
     ]
+  },
+  {
+    slug: "lead-nurturing-engagement",
+    title: "Lead Nurturing & Engagement",
+    description: "We keep your future buyers engaged with tailored content and touchpoints until they're ready to buy—so no lead is wasted and pipeline value keeps growing.",
+    features: [
+      "Multi-Channel Nurturing through email, retargeting, and content syndication",
+      "Behavioral Triggers that deliver content based on engagement signals",
+      "Trust-Building initiatives to establish your brand as the go-to advisor",
+      "Automated re-engagement sequences for dormant prospects",
+      "Progressive profiling to gather more prospect intelligence over time"
+    ],
+    benefits: [
+      "Transform cold leads into future revenue opportunities",
+      "Keep prospects engaged with your brand throughout their buying journey",
+      "Build trust and establish thought leadership in your market",
+      "Maximize the value of every lead captured through other channels"
+    ],
+    successMetrics: [
+      "Improved conversion rates from nurtured leads",
+      "Faster sales cycles when nurtured leads re-engage",
+      "Higher pipeline value from long-term opportunities"
+    ],
+    methodology: `
+      <div class="space-y-8">
+        <div class="relative">
+          <div class="absolute left-0 top-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+            <span class="text-purple-600 font-bold text-xl">1</span>
+          </div>
+          <div class="pl-16">
+            <h3 class="text-lg font-semibold mb-2">Segment Unqualified Leads</h3>
+            <p class="text-gray-600">Identify and categorize early-stage or unqualified leads for nurturing.</p>
+          </div>
+        </div>
+        
+        <div class="relative">
+          <div class="absolute left-0 top-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+            <span class="text-purple-600 font-bold text-xl">2</span>
+          </div>
+          <div class="pl-16">
+            <h3 class="text-lg font-semibold mb-2">Develop Nurture Tracks</h3>
+            <p class="text-gray-600">Create relevant content sequences tailored to buyer personas and stages.</p>
+          </div>
+        </div>
+        
+        <div class="relative">
+          <div class="absolute left-0 top-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+            <span class="text-purple-600 font-bold text-xl">3</span>
+          </div>
+          <div class="pl-16">
+            <h3 class="text-lg font-semibold mb-2">Trigger Behavioral Engagement</h3>
+            <p class="text-gray-600">Deploy content and touchpoints based on prospect behavior and signals.</p>
+          </div>
+        </div>
+        
+        <div class="relative">
+          <div class="absolute left-0 top-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+            <span class="text-purple-600 font-bold text-xl">4</span>
+          </div>
+          <div class="pl-16">
+            <h3 class="text-lg font-semibold mb-2">Re-qualify and Handoff</h3>
+            <p class="text-gray-600">Hand qualified prospects back to sales when intent signals are clear.</p>
+          </div>
+        </div>
+      </div>
+    `,
+    faqQuestions: [
+      {
+        question: "Why not let my sales team handle this?",
+        answer: "Sales teams are best at closing deals. We handle the nurture journeys so your team focuses on high-value conversations."
+      },
+      {
+        question: "What types of content do you use for nurturing?",
+        answer: "We create industry-specific insights, case studies, product updates, and educational content that builds trust over time."
+      },
+      {
+        question: "How do you know when a lead is ready to re-engage?",
+        answer: "We track engagement signals like email opens, content downloads, website visits, and social media interactions to identify buying intent."
+      },
+      {
+        question: "Do you integrate with our existing marketing tools?",
+        answer: "Yes, we work with your CRM and marketing automation platforms to ensure seamless lead handoffs and data sync."
+      },
+      {
+        question: "How long do you nurture leads before they convert?",
+        answer: "Nurture cycles vary by industry and deal complexity, but we typically see re-engagement within 3-12 months depending on buying cycles."
+      }
+    ]
   }
 ];
 
