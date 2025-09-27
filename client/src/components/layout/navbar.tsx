@@ -388,13 +388,42 @@ export function Navbar() {
                 </Button>
               </motion.div>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px]">
-              <div className="flex flex-col space-y-4 mt-4">
-                <NavItems isMobile />
-                <Link href="/b2b-audience" className="block px-4 py-2 text-sm">
-                  B2B Audience
-                </Link>
-                <div className="pt-4 border-t">
+            <SheetContent side="right" className="w-[320px] bg-background/95 backdrop-blur-xl border-l-2 border-primary/20 shadow-2xl">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="flex flex-col space-y-6 mt-8"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 -z-10" />
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1, duration: 0.3 }}
+                >
+                  <NavItems isMobile />
+                </motion.div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.3 }}
+                >
+                  <Link href="/b2b-audience" className="block px-4 py-3 text-sm bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 rounded-xl transition-all duration-300 border border-primary/20 hover:border-primary/30 shadow-sm hover:shadow-md">
+                    <span className="flex items-center space-x-2">
+                      <Zap className="w-4 h-4 text-primary" />
+                      <span className="font-medium">B2B Audience</span>
+                    </span>
+                  </Link>
+                </motion.div>
+                
+                <motion.div 
+                  className="pt-6 border-t border-primary/20"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.3 }}
+                >
                   {user ? (
                     <Button
                       variant="outline"
@@ -412,17 +441,28 @@ export function Navbar() {
                       )}
                     </Button>
                   ) : (
-                    <div className="flex flex-col space-y-2">
+                    <div className="flex flex-col space-y-3">
                       <Link href="/login">
-                        <Button variant="outline" className="w-full">Login</Button>
+                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                          <Button variant="outline" className="w-full bg-gradient-to-r from-background/50 to-background/80 hover:from-primary/10 hover:to-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md">
+                            Login
+                          </Button>
+                        </motion.div>
                       </Link>
                       <Link href="/request-proposal">
-                        <Button className="w-full">Request a Proposal</Button>
+                        <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
+                          <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-primary/30 hover:border-primary/50">
+                            <span className="flex items-center justify-center space-x-2">
+                              <Sparkles className="w-4 h-4" />
+                              <span>Request a Proposal</span>
+                            </span>
+                          </Button>
+                        </motion.div>
                       </Link>
                     </div>
                   )}
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </SheetContent>
           </Sheet>
 
@@ -490,6 +530,50 @@ export function Navbar() {
           repeat: Infinity,
           ease: "easeInOut",
           delay: 1.5
+        }}
+      />
+      
+      {/* Floating particles */}
+      <motion.div
+        className="absolute top-2 left-8 w-1 h-1 bg-primary/30 rounded-full"
+        animate={{
+          y: [0, -10, 0],
+          opacity: [0.3, 1, 0.3],
+          scale: [1, 1.2, 1],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0
+        }}
+      />
+      <motion.div
+        className="absolute top-3 right-12 w-1.5 h-1.5 bg-primary/40 rounded-full"
+        animate={{
+          y: [0, -15, 0],
+          opacity: [0.4, 1, 0.4],
+          scale: [1, 1.3, 1],
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1
+        }}
+      />
+      <motion.div
+        className="absolute top-4 left-1/3 w-0.5 h-0.5 bg-primary/20 rounded-full"
+        animate={{
+          y: [0, -8, 0],
+          opacity: [0.2, 0.8, 0.2],
+          scale: [1, 1.5, 1],
+        }}
+        transition={{
+          duration: 3.5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
         }}
       />
     </motion.header>
