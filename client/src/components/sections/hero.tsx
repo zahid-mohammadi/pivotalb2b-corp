@@ -160,8 +160,8 @@ export function Hero() {
               >
                 <Sparkles className="w-5 h-5 text-yellow-400" />
               </motion.div>
-              <span className="text-white font-medium">
-                🚀 Revenue-First B2B Marketing That Actually Works
+              <span className="text-white font-medium tracking-wide">
+                Every Lead. Vetted. Qualified. Revenue-Ready.
               </span>
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
@@ -180,31 +180,27 @@ export function Hero() {
             className="text-center mb-8"
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              Stop Wasting Money On
-              <br />
-              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 text-transparent bg-clip-text animate-pulse">
-                Bad Leads
-              </span>
-              <br />
               <motion.span 
                 className="inline-block"
                 animate={{ 
                   backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 4,
                   repeat: Infinity,
                   ease: "linear"
                 }}
                 style={{
-                  background: "linear-gradient(45deg, #ffffff, #a78bfa, #ffffff, #f472b6, #ffffff)",
-                  backgroundSize: "300% 300%",
+                  background: "linear-gradient(45deg, #ffffff, #60a5fa, #a78bfa, #f472b6, #ffffff)",
+                  backgroundSize: "400% 400%",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   WebkitTextFillColor: "transparent"
                 }}
               >
-                Start Closing Deals
+                Build a Pipeline That
+                <br />
+                Actually Converts
               </motion.span>
             </h1>
           </motion.div>
@@ -217,9 +213,9 @@ export function Hero() {
             className="text-center mb-12"
           >
             <p className="text-xl md:text-2xl text-white/90 max-w-4xl mx-auto leading-relaxed">
-              We don't just generate leads—we deliver 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-semibold"> decision-ready buyers </span>
-              who have budget, authority, and genuine intent to purchase your solution.
+              Our programs generate and qualify leads that align with your 
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 font-semibold"> ICP</span>, ensuring every opportunity in your funnel has the potential to drive 
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-400 font-semibold"> real revenue</span>.
             </p>
           </motion.div>
 
@@ -286,9 +282,9 @@ export function Hero() {
             className="flex flex-wrap justify-center items-center gap-8 mb-16 text-white/90"
           >
             {[
-              { icon: Shield, text: "No Long-Term Contracts" },
-              { icon: Target, text: "90-Day Performance Guarantee" },
-              { icon: Clock, text: "Campaigns Live in 72 Hours" },
+              { icon: Shield, text: "No long-term contracts, full flexibility" },
+              { icon: Target, text: "Guaranteed pipeline growth in 90 days" },
+              { icon: Clock, text: "First campaigns live within 72 hours" },
             ].map((item, i) => (
               <motion.div
                 key={i}
