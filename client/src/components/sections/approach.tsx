@@ -27,7 +27,6 @@ export function Approach() {
       gradient: "from-indigo-500 to-blue-600",
       bgGradient: "from-indigo-50 to-blue-50",
       benefit: "Eliminate wasted outreach. Target only real buyers.",
-      metric: "3x Higher Quality",
       tools: ["Intent Monitoring", "BANT Verification", "Account Mapping"]
     },
     {
@@ -40,7 +39,6 @@ export function Approach() {
       gradient: "from-violet-500 to-purple-600",
       bgGradient: "from-violet-50 to-purple-50",
       benefit: "Build trust and win preference—without competing on price.",
-      metric: "85% Response Rate",
       tools: ["Content Strategy", "Multi-Channel", "Thought Leadership"]
     },
     {
@@ -53,7 +51,6 @@ export function Approach() {
       gradient: "from-pink-500 to-rose-600",
       bgGradient: "from-pink-50 to-rose-50",
       benefit: "Higher close rates, shorter cycles, consistent quota achievement.",
-      metric: "40% Faster Cycles",
       tools: ["Pipeline Review", "Deal Coaching", "Revenue Ops"]
     },
   ];
@@ -215,20 +212,6 @@ export function Approach() {
                         <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
                           {step.subtitle}
                         </p>
-                        <motion.div
-                          className={cn(
-                            "inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold",
-                            activeStep === index 
-                              ? "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-200"
-                              : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
-                          )}
-                          animate={{
-                            scale: activeStep === index ? [1, 1.05, 1] : 1
-                          }}
-                          transition={{ duration: 2, repeat: Infinity }}
-                        >
-                          🎯 {step.metric}
-                        </motion.div>
                       </div>
 
                       {/* Tools List */}

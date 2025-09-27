@@ -521,82 +521,77 @@ export default function ServicePage() {
                     >
                       Guaranteed Results
                     </motion.h3>
-                    <p className="text-white/70 text-lg">Real metrics from our enterprise clients</p>
+                    <p className="text-white/70 text-lg">Proven success with our enterprise clients</p>
                   </div>
                   
-                  {/* Dynamic Metrics Display */}
+                  {/* Success Indicators */}
                   <div className="space-y-8 mb-10">
-                    {service.successMetrics?.map((metric, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 1 + index * 0.2 }}
-                        className="relative group"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <div className="flex items-center gap-4">
-                            <motion.div 
-                              className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/30 to-purple-500/30 backdrop-blur-sm"
-                              whileHover={{ scale: 1.1, rotate: 5 }}
-                              animate={{
-                                background: [
-                                  'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3))',
-                                  'linear-gradient(135deg, rgba(147, 51, 234, 0.4), rgba(236, 72, 153, 0.3))',
-                                  'linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(59, 130, 246, 0.3))'
-                                ]
-                              }}
-                              transition={{
-                                background: { duration: 3, repeat: Infinity }
-                              }}
-                            >
-                              {index === 0 && <Target className="h-6 w-6 text-white" />}
-                              {index === 1 && <Users className="h-6 w-6 text-white" />}
-                              {index === 2 && <BarChart3 className="h-6 w-6 text-white" />}
-                            </motion.div>
-                            <span className="text-white/80 font-medium">Success Metric #{index + 1}</span>
-                          </div>
-                        </div>
-                        
-                        {/* Animated Progress Bar */}
-                        <div className="relative bg-white/10 rounded-full p-1 mb-4 overflow-hidden">
-                          <motion.div
-                            className="h-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 rounded-full relative overflow-hidden"
-                            initial={{ width: '0%' }}
-                            animate={{ width: '100%' }}
-                            transition={{ 
-                              delay: 1.2 + index * 0.3, 
-                              duration: 1.5,
-                              ease: "easeOut"
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 1 }}
+                      className="relative group"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-4">
+                          <motion.div 
+                            className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/30 to-purple-500/30 backdrop-blur-sm"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                            animate={{
+                              background: [
+                                'linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3))',
+                                'linear-gradient(135deg, rgba(147, 51, 234, 0.4), rgba(236, 72, 153, 0.3))',
+                                'linear-gradient(135deg, rgba(236, 72, 153, 0.3), rgba(59, 130, 246, 0.3))'
+                              ]
+                            }}
+                            transition={{
+                              background: { duration: 3, repeat: Infinity }
                             }}
                           >
-                            <motion.div
-                              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                              animate={{
-                                x: ['-100%', '200%']
-                              }}
-                              transition={{
-                                duration: 2,
-                                repeat: Infinity,
-                                repeatDelay: 3
-                              }}
-                            />
+                            <Target className="h-6 w-6 text-white" />
                           </motion.div>
+                          <span className="text-white/80 font-medium">Predictable Pipeline Growth</span>
                         </div>
-                        
-                        <motion.p 
-                          className="text-white font-bold text-xl"
-                          animate={{ 
-                            scale: [1, 1.03, 1]
-                          }}
+                      </div>
+                      
+                      {/* Animated Progress Bar */}
+                      <div className="relative bg-white/10 rounded-full p-1 mb-4 overflow-hidden">
+                        <motion.div
+                          className="h-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 rounded-full relative overflow-hidden"
+                          initial={{ width: '0%' }}
+                          animate={{ width: '100%' }}
                           transition={{ 
-                            scale: { duration: 2, repeat: Infinity, repeatType: "reverse", delay: index * 0.2 }
+                            delay: 1.2, 
+                            duration: 1.5,
+                            ease: "easeOut"
                           }}
                         >
-                          {metric}
-                        </motion.p>
-                      </motion.div>
-                    ))}
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                            animate={{
+                              x: ['-100%', '200%']
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              repeatDelay: 3
+                            }}
+                          />
+                        </motion.div>
+                      </div>
+                      
+                      <motion.p 
+                        className="text-white font-bold text-xl"
+                        animate={{ 
+                          scale: [1, 1.03, 1]
+                        }}
+                        transition={{ 
+                          scale: { duration: 2, repeat: Infinity, repeatType: "reverse" }
+                        }}
+                      >
+                        Consistent Revenue Generation
+                      </motion.p>
+                    </motion.div>
                   </div>
                   
                   {/* Quantum Trust Indicators */}

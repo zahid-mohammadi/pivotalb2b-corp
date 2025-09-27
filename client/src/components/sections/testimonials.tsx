@@ -9,30 +9,24 @@ export function Testimonials() {
 
   const testimonials = [
     {
-      quote: "We scaled from 12 leads a month to 180+ qualified prospects in 90 days. The pipeline growth has been transformational.",
+      quote: "The pipeline growth has been transformational. We now get qualified prospects that are genuinely interested in our solutions.",
       author: "S.C.",
       role: "VP Sales",
       company: "Fortune 500 SaaS Company",
-      revenue: "$2.4M",
-      metric: "Pipeline added in 6 months",
       avatar: "SC"
     },
     {
-      quote: "Our cost per acquisition dropped 60% while deal sizes grew 40%. This is marketing that finally delivers revenue.",
+      quote: "This is marketing that finally delivers revenue. Our cost per acquisition improved significantly while deal quality increased.",
       author: "M.R.",
       role: "CMO",
       company: "Enterprise Data Platform", 
-      revenue: "340%",
-      metric: "ROI improvement",
       avatar: "MR"
     },
     {
-      quote: "Every lead now comes pre-qualified with budget and timeline. Our close rate climbed from 8% to 31%.",
+      quote: "Every lead now comes pre-qualified with budget and timeline. Our sales team can focus on closing rather than qualifying.",
       author: "J.P.",
       role: "CEO",
       company: "Cloud Infrastructure Leader",
-      revenue: "31%",
-      metric: "Close rate achieved",
       avatar: "JP"
     }
   ];
@@ -47,10 +41,10 @@ export function Testimonials() {
   ];
 
   const metrics = [
-    { value: "300+", label: "Companies Served", icon: Building },
-    { value: "$50M+", label: "Revenue Generated", icon: DollarSign },
-    { value: "87%", label: "Retention Rate", icon: Award },
-    { value: "180%", label: "Average ROI", icon: TrendingUp }
+    { value: "Enterprise", label: "Companies Served", icon: Building },
+    { value: "Substantial", label: "Revenue Generated", icon: DollarSign },
+    { value: "High", label: "Retention Rate", icon: Award },
+    { value: "Strong", label: "Average ROI", icon: TrendingUp }
   ];
 
   return (
@@ -134,11 +128,6 @@ export function Testimonials() {
                 "{testimonial.quote}"
               </blockquote>
 
-              {/* Metric highlight */}
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-lg mb-6 border border-green-100">
-                <div className="text-2xl font-bold text-green-700">{testimonial.revenue}</div>
-                <div className="text-green-600 text-sm">{testimonial.metric}</div>
-              </div>
 
               {/* Author */}
               <div className="flex items-center gap-4">

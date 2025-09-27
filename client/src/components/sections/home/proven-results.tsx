@@ -1,16 +1,16 @@
-// Assuming a React component or similar structure where metrics are displayed
-const metrics = [
-  { value: "20%", label: "Improved Pipeline Efficiency" },
-  { value: "15%", label: "Reduced Customer Churn" },
-  // ... other metrics
+// Proven results component with qualitative benefits instead of specific metrics
+const benefits = [
+  { value: "Improved", label: "Pipeline Efficiency" },
+  { value: "Reduced", label: "Customer Churn" },
+  // ... other benefits
 ];
 
-// ... rest of the component rendering the metrics ...
+// ... rest of the component rendering the benefits ...
 
 // Example rendering in JSX:
-{metrics.map((metric) => (
-  <div key={metric.label}>
-    {metric.label}: {metric.value}
+{benefits.map((benefit) => (
+  <div key={benefit.label}>
+    {benefit.label}: {benefit.value}
   </div>
 ))}
 

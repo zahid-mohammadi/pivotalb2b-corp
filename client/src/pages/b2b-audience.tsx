@@ -42,16 +42,16 @@ const pulseVariants = {
 
 export default function B2BAudiencePage() {
 const audienceData = [
-  { name: 'Information Technology', value: 42, color: 'rgb(var(--primary))' },
-  { name: 'Sales', value: 26, color: '#60A5FA' },
-  { name: 'Marketing', value: 24, color: '#818CF8' },
-  { name: 'Human Resources', value: 14, color: '#A78BFA' },
-  { name: 'Operations', value: 12.8, color: '#C084FC' },
-  { name: 'Finance', value: 10, color: '#E879F9' },
-  { name: 'Executive Management', value: 2, color: '#F472B6' },
-  { name: 'Supply Chain', value: 1.8, color: '#FB7185' },
-  { name: 'Learning & Development', value: 1.5, color: '#FCA5A5' },
-  { name: 'Customer Experience', value: 0.7, color: '#FBBF24' }
+  { name: 'Information Technology', value: 'High', color: 'rgb(var(--primary))' },
+  { name: 'Sales', value: 'High', color: '#60A5FA' },
+  { name: 'Marketing', value: 'High', color: '#818CF8' },
+  { name: 'Human Resources', value: 'Medium', color: '#A78BFA' },
+  { name: 'Operations', value: 'Medium', color: '#C084FC' },
+  { name: 'Finance', value: 'Medium', color: '#E879F9' },
+  { name: 'Executive Management', value: 'Medium', color: '#F472B6' },
+  { name: 'Supply Chain', value: 'Low', color: '#FB7185' },
+  { name: 'Learning & Development', value: 'Low', color: '#FCA5A5' },
+  { name: 'Customer Experience', value: 'Low', color: '#FBBF24' }
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -59,7 +59,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg border border-primary/20">
         <p className="font-semibold text-sm">{label}</p>
-        <p className="text-primary text-lg font-bold">{payload[0].value}M+ Professionals</p>
+        <p className="text-primary text-lg font-bold">{payload[0].value} Reach</p>
       </div>
     );
   }
@@ -70,7 +70,7 @@ return (
   <>
     <MetaTags
       title="B2B Audience Reach & Targeting | Pivotal B2B"
-      description="Connect with over 135 million professionals across key job functions. Precision targeting capabilities for B2B marketing campaigns across industries and job roles."
+      description="Connect with enterprise professionals across key job functions. Precision targeting capabilities for B2B marketing campaigns across industries and job roles."
     />
 
     {/* Enhanced Banner Section with Dynamic Background */}
@@ -133,7 +133,7 @@ return (
             className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/20"
           >
             <Globe className="h-6 w-6 text-blue-300" />
-            <span className="text-lg">135M+ Verified Professional Profiles</span>
+            <span className="text-lg">Extensive Verified Professional Profiles</span>
           </motion.div>
 
           <motion.h1
