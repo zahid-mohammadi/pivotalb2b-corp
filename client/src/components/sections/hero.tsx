@@ -225,7 +225,7 @@ export function Hero() {
             transition={{ delay: 0.4, duration: 1.2, ease: "easeOut" }}
             className="text-center mb-12"
           >
-            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black leading-[0.9] mb-8 relative">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-8 relative">
               <motion.span 
                 className="inline-block relative"
                 initial={{ scale: 0.8, opacity: 0 }}
