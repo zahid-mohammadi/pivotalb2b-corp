@@ -581,24 +581,17 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 7: Proof of Impact - Creative Diamond Layout */}
-        <section className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-slate-50 p-16 relative overflow-hidden">
-          {/* Background elements */}
-          <div className="absolute inset-0">
-            <div className="absolute top-20 left-20 w-48 h-48 bg-blue-200/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-20 w-36 h-36 bg-slate-200/30 rounded-full blur-2xl" />
-            <div className="absolute top-1/3 right-1/3 w-28 h-28 bg-blue-300/20 rounded-full blur-xl" />
-          </div>
-          
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-24">
+        {/* Section 7: Proof of Impact - Simple Grid Layout */}
+        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-violet-50 p-16">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
               <div className="inline-flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-700 to-slate-800 rounded-2xl flex items-center justify-center shadow-xl">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl">
                   <Award className="w-8 h-8 text-white" />
                 </div>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-blue-700 to-slate-800 bg-clip-text text-transparent">Proof of Impact</h2>
+                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Proof of Impact</h2>
               </div>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-blue-600 via-slate-600 to-blue-600 mx-auto mb-8 rounded-full shadow-lg" />
+              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
               <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
                 Our commitment to measurable results and client success
               </p>
