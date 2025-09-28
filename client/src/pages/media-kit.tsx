@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -20,11 +20,60 @@ import {
   Shield,
   Award,
   Globe,
-  ExternalLink
+  ExternalLink,
+  BarChart,
+  CheckCircle
 } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+
+// Counter Animation Component
+interface CounterAnimationProps {
+  target: number;
+  suffix?: string;
+  duration?: number;
+  delay?: number;
+  className?: string;
+}
+
+const CounterAnimation = ({ target, suffix = "", duration = 2, delay = 0, className }: CounterAnimationProps) => {
+  const [current, setCurrent] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+    
+    const increment = target / (duration * 60); // 60fps
+    let currentValue = 0;
+    
+    const timer = setInterval(() => {
+      currentValue += increment;
+      if (currentValue >= target) {
+        setCurrent(target);
+        clearInterval(timer);
+      } else {
+        setCurrent(Math.floor(currentValue));
+      }
+    }, 1000 / 60);
+
+    return () => clearInterval(timer);
+  }, [hasStarted, target, duration]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHasStarted(true);
+    }, delay * 1000);
+
+    return () => clearTimeout(timer);
+  }, [delay]);
+
+  return (
+    <div className={className}>
+      {current.toLocaleString()}{suffix}
+    </div>
+  );
+};
 
 export default function MediaKit() {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
@@ -2090,64 +2139,462 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 7: Proof of Impact - Simple Grid Layout */}
-        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-violet-50 p-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl">
-                  <Award className="w-8 h-8 text-white" />
-                </div>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Proof of Impact</h2>
-              </div>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
-              <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-                Our commitment to measurable results and client success
-              </p>
-            </div>
+        {/* Section 7: Proof of Impact - Enhanced Animated Statistics */}
+        <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/40 p-16 relative overflow-hidden">
+          {/* Dynamic background visualization */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Chart visualization elements */}
+            <motion.div 
+              className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-green-200/10 to-blue-200/10 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                x: [0, 50, 0],
+                y: [0, -30, 0]
+              }}
+              transition={{ 
+                duration: 20,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-gradient-to-r from-purple-200/15 to-violet-200/15 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 0.8, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 25,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
             
-            {/* Central value proposition */}
-            <div className="text-center mb-16">
-              <div className="inline-block bg-gradient-to-br from-purple-600 to-violet-700 rounded-full px-8 py-4 shadow-2xl">
-                <div className="flex items-center gap-3 text-white">
-                  <TrendingUp className="w-6 h-6" />
-                  <span className="font-bold text-lg">Proven Results</span>
-                </div>
-              </div>
-            </div>
+            {/* Floating chart elements */}
+            <motion.div 
+              className="absolute top-32 right-32 w-14 h-14 bg-green-200/20 rounded-lg flex items-center justify-center backdrop-blur-sm"
+              animate={{ 
+                y: [0, -25, 0],
+                rotate: [0, 45, 0]
+              }}
+              transition={{ 
+                duration: 14,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <TrendingUp className="w-7 h-7 text-green-500/60" />
+            </motion.div>
+            <motion.div 
+              className="absolute bottom-32 left-32 w-12 h-12 bg-blue-200/20 rounded-lg flex items-center justify-center backdrop-blur-sm"
+              animate={{ 
+                x: [0, 30, 0],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ 
+                duration: 16,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <BarChart className="w-6 h-6 text-blue-500/60" />
+            </motion.div>
             
-            {/* Simple responsive grid layout */}
-            <div className="grid md:grid-cols-2 gap-8 mb-16">
-              {proofPoints.map((point, index) => {
-                const IconComponent = point.icon;
-                return (
-                  <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-purple-100">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <IconComponent className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">
-                        {point.title}
-                      </h3>
-                      <p className="text-slate-600 leading-relaxed mb-6">
-                        {point.description}
-                      </p>
-                      <div className="h-1 bg-gradient-to-r from-purple-600 to-violet-600 rounded-full" />
+            {/* Performance indicators */}
+            <motion.div 
+              className="absolute top-1/2 left-20 w-4 h-4 bg-green-400/40 rounded-full"
+              animate={{ 
+                x: [0, 200, 400, 600],
+                y: [0, -80, 40, 0],
+                scale: [1, 1.5, 1, 0]
+              }}
+              transition={{ 
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 right-20 w-3 h-3 bg-blue-400/50 rounded-full"
+              animate={{ 
+                x: [0, -150, -300, -450],
+                y: [0, 60, -40, 0],
+                scale: [1, 1.3, 1, 0]
+              }}
+              transition={{ 
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 3
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-6 mb-10">
+                <motion.div 
+                  className="w-24 h-24 bg-gradient-to-br from-green-600 to-blue-600 rounded-3xl flex items-center justify-center shadow-2xl relative group"
+                  whileHover={{ scale: 1.1, rotate: 12 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <BarChart className="w-12 h-12 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                  
+                  {/* Performance indicator rings */}
+                  <motion.div 
+                    className="absolute -inset-3 border-2 border-green-300/20 rounded-full"
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.6, 0.2] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <motion.div 
+                    className="absolute -inset-6 border border-blue-300/15 rounded-full"
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.4, 0.1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                  />
+                </motion.div>
+                <h2 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-slate-800 via-green-800 to-blue-800 bg-clip-text text-transparent">
+                  Proof of Impact
+                </h2>
+              </div>
+              <motion.div 
+                className="w-64 h-2 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 mx-auto rounded-full shadow-lg mb-10"
+                initial={{ width: 0 }}
+                whileInView={{ width: 256 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <motion.p 
+                className="text-2xl text-slate-600 max-w-5xl mx-auto leading-relaxed font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                Real results from real partnerships – driving measurable growth for B2B companies since 2017
+              </motion.p>
+            </motion.div>
+            
+            {/* Enhanced animated statistics grid */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+              {[
+                { value: "150+", label: "Qualified Leads Delivered Monthly", percentage: 95 },
+                { value: "73%", label: "Average Lead-to-Opportunity Rate", percentage: 92 },
+                { value: "2.5x", label: "Cost Efficiency vs Industry Average", percentage: 88 },
+                { value: "7+", label: "Years of Proven B2B Success", percentage: 100 }
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ 
+                    opacity: 0, 
+                    y: 60,
+                    scale: 0.9,
+                    rotate: Math.random() * 10 - 5
+                  }}
+                  whileInView={{ 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    rotate: 0
+                  }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 100
+                  }}
+                  viewport={{ once: true }}
+                  className="group relative"
+                  whileHover={{ 
+                    y: -12, 
+                    scale: 1.05,
+                    rotate: Math.random() * 6 - 3
+                  }}
+                >
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-200/20 to-blue-200/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  <div className="relative bg-white/95 backdrop-blur-sm p-10 rounded-3xl shadow-xl border border-green-100/50 group-hover:shadow-2xl transition-all duration-500 text-center overflow-hidden">
+                    {/* Background decorative elements */}
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-green-100/30 to-blue-100/30 rounded-full blur-3xl" />
+                    <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-100/40 to-purple-100/40 rounded-full blur-2xl" />
+                    
+                    <div className="relative z-10">
+                      {/* Animated counter */}
+                      <motion.div 
+                        className="mb-6"
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        transition={{ 
+                          duration: 0.8, 
+                          delay: index * 0.1 + 0.3,
+                          type: "spring",
+                          stiffness: 200
+                        }}
+                        viewport={{ once: true }}
+                      >
+                        <div className="text-5xl font-black bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent mb-4">
+                          {stat.value}
+                        </div>
+                        <motion.div 
+                          className="text-sm text-green-600 font-bold uppercase tracking-wider"
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: index * 0.1 + 0.8 }}
+                          viewport={{ once: true }}
+                        >
+                          {stat.label}
+                        </motion.div>
+                      </motion.div>
+                      
+                      {/* Performance bar */}
+                      <motion.div 
+                        className="h-2 bg-gray-100 rounded-full overflow-hidden"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 + 1 }}
+                        viewport={{ once: true }}
+                      >
+                        <motion.div 
+                          className="h-full bg-gradient-to-r from-green-500 to-blue-500 rounded-full relative"
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${stat.percentage}%` }}
+                          transition={{ 
+                            duration: 2, 
+                            delay: index * 0.1 + 1.2,
+                            ease: "easeOut"
+                          }}
+                          viewport={{ once: true }}
+                        >
+                          <motion.div 
+                            className="absolute top-0 left-0 h-full w-6 bg-gradient-to-r from-white/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            animate={{ x: ['-100%', '400%'] }}
+                            transition={{ 
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "linear"
+                            }}
+                          />
+                        </motion.div>
+                      </motion.div>
+                      
+                      {/* Impact badge */}
+                      <motion.div 
+                        className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full backdrop-blur-sm border border-green-200/50"
+                        initial={{ opacity: 0, scale: 0 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ 
+                          duration: 0.5, 
+                          delay: index * 0.1 + 0.2,
+                          type: "spring",
+                          stiffness: 200
+                        }}
+                        viewport={{ once: true }}
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        <span className="text-xs font-bold text-green-700">
+                          Verified
+                        </span>
+                      </motion.div>
                     </div>
                   </div>
-                );
-              })}
+                </motion.div>
+              ))}
             </div>
             
-            {/* Value proposition at bottom */}
-            <div className="mt-32 text-center">
-              <div className="bg-gradient-to-r from-purple-600 to-violet-700 rounded-3xl p-8 shadow-2xl">
-                <h3 className="text-2xl font-bold text-white mb-4">The Pivotal Difference</h3>
-                <p className="text-purple-100 text-lg leading-relaxed max-w-3xl mx-auto">
-                  We don't just generate leads — we deliver revenue-ready prospects that fit your ideal customer profile, backed by data-driven insights and proven methodologies.
-                </p>
+            {/* Enhanced proof points */}
+            <div className="space-y-16">
+              <motion.div 
+                className="text-center"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-4 mb-8">
+                  <motion.div 
+                    className="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-xl"
+                    whileHover={{ rotate: 360, scale: 1.1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Award className="w-8 h-8 text-white" />
+                  </motion.div>
+                  <h3 className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-purple-800 bg-clip-text text-transparent">
+                    Our Proven Approach
+                  </h3>
+                </div>
+                <motion.div 
+                  className="w-32 h-1 bg-gradient-to-r from-purple-600 to-violet-600 mx-auto rounded-full"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 128 }}
+                  transition={{ duration: 0.8, delay: 0.3 }}
+                  viewport={{ once: true }}
+                />
+              </motion.div>
+              
+              <div className="grid lg:grid-cols-2 gap-8">
+                {proofPoints.map((point, index) => {
+                  const IconComponent = point.icon;
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ 
+                        opacity: 0, 
+                        y: 50,
+                        rotate: index % 2 === 0 ? -3 : 3,
+                        scale: 0.95
+                      }}
+                      whileInView={{ 
+                        opacity: 1, 
+                        y: 0, 
+                        rotate: 0,
+                        scale: 1
+                      }}
+                      transition={{ 
+                        duration: 0.8, 
+                        delay: index * 0.2,
+                        type: "spring",
+                        stiffness: 100
+                      }}
+                      viewport={{ once: true }}
+                      className="group relative"
+                      whileHover={{ 
+                        y: -15, 
+                        rotate: index % 2 === 0 ? 2 : -2,
+                        scale: 1.02
+                      }}
+                    >
+                      {/* Success glow */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-green-200/20 to-purple-200/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                      
+                      <div className="relative bg-white/95 backdrop-blur-sm p-10 rounded-3xl shadow-xl border border-purple-100/50 group-hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                        {/* Background decorative elements */}
+                        <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-green-100/30 to-purple-100/30 rounded-full blur-3xl" />
+                        <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-br from-purple-100/40 to-blue-100/40 rounded-full blur-2xl" />
+                        
+                        <div className="relative z-10">
+                          <motion.div 
+                            className="mb-8"
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            transition={{ 
+                              duration: 0.6, 
+                              delay: index * 0.2 + 0.3,
+                              type: "spring",
+                              stiffness: 200
+                            }}
+                            viewport={{ once: true }}
+                          >
+                            <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl mb-6 group-hover:shadow-2xl transition-shadow">
+                              <IconComponent className="w-8 h-8 text-white" />
+                            </div>
+                            <div className="text-2xl font-bold text-slate-800 mb-4">
+                              {point.title}
+                            </div>
+                          </motion.div>
+                          
+                          <motion.p 
+                            className="text-slate-600 leading-relaxed text-lg mb-8"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.2 + 0.5 }}
+                            viewport={{ once: true }}
+                          >
+                            {point.description}
+                          </motion.p>
+                          
+                          {/* Success indicator */}
+                          <motion.div 
+                            className="h-2 bg-gray-100 rounded-full overflow-hidden"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 0.4, delay: index * 0.2 + 0.7 }}
+                            viewport={{ once: true }}
+                          >
+                            <motion.div 
+                              className="h-full bg-gradient-to-r from-green-500 to-purple-500 rounded-full"
+                              initial={{ width: 0 }}
+                              whileInView={{ width: "100%" }}
+                              transition={{ 
+                                duration: 1.5, 
+                                delay: index * 0.2 + 0.9,
+                                ease: "easeOut"
+                              }}
+                              viewport={{ once: true }}
+                            />
+                          </motion.div>
+                          
+                          {/* Client badge */}
+                          <motion.div 
+                            className="absolute top-6 right-6 w-12 h-12 bg-gradient-to-br from-green-500/20 to-purple-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-green-200/50"
+                            initial={{ opacity: 0, scale: 0 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ 
+                              duration: 0.5, 
+                              delay: index * 0.2 + 0.2,
+                              type: "spring",
+                              stiffness: 200
+                            }}
+                            viewport={{ once: true }}
+                            whileHover={{ scale: 1.2, rotate: 360 }}
+                          >
+                            <CheckCircle className="w-6 h-6 text-green-600" />
+                          </motion.div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
+            
+            {/* Enhanced call-to-action section */}
+            <motion.div 
+              className="mt-24 text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-block bg-gradient-to-r from-green-600 via-purple-600 to-blue-600 p-12 rounded-4xl shadow-2xl relative group overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                <motion.div 
+                  className="absolute inset-0"
+                  animate={{ 
+                    background: [
+                      'linear-gradient(45deg, rgba(34, 197, 94, 0.1) 0%, rgba(147, 51, 234, 0.1) 50%, rgba(37, 99, 235, 0.1) 100%)',
+                      'linear-gradient(45deg, rgba(37, 99, 235, 0.1) 0%, rgba(34, 197, 94, 0.1) 50%, rgba(147, 51, 234, 0.1) 100%)',
+                      'linear-gradient(45deg, rgba(34, 197, 94, 0.1) 0%, rgba(147, 51, 234, 0.1) 50%, rgba(37, 99, 235, 0.1) 100%)'
+                    ]
+                  }}
+                  transition={{ 
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                <div className="relative z-10">
+                  <motion.div 
+                    className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-8 backdrop-blur-sm"
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Zap className="w-12 h-12 text-white" />
+                  </motion.div>
+                  <h3 className="text-4xl font-bold text-white mb-6">Ready to Join Our Success Stories?</h3>
+                  <p className="text-green-100 text-xl font-medium max-w-4xl mx-auto leading-relaxed">
+                    Experience proven methodologies that have delivered consistent results across industries for over 7 years
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
           
           {/* Footer */}
