@@ -246,57 +246,200 @@ export default function MediaKit() {
       {/* PDF Content */}
       <div ref={contentRef} className="bg-white">
         {/* Section 1: Cover Page */}
-        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-gray-50 flex flex-col items-center justify-center p-8 relative overflow-hidden">
-          {/* Abstract background shapes */}
+        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-50 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+          {/* Enhanced Animated Background */}
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-20 left-20 w-32 h-32 bg-purple-200/30 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-20 w-48 h-48 bg-violet-200/30 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-purple-300/20 rounded-full blur-2xl" />
+            {/* Primary gradient orbs */}
+            <motion.div 
+              className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-r from-purple-400/20 to-violet-500/20 rounded-full blur-3xl"
+              animate={{ 
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-20 right-20 w-56 h-56 bg-gradient-to-r from-violet-400/20 to-purple-500/20 rounded-full blur-3xl"
+              animate={{ 
+                x: [0, -25, 0],
+                y: [0, 15, 0],
+                scale: [1, 0.9, 1]
+              }}
+              transition={{ 
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/2 left-1/3 w-32 h-32 bg-gradient-to-r from-indigo-400/15 to-purple-400/15 rounded-full blur-2xl"
+              animate={{ 
+                x: [0, 20, 0],
+                y: [0, -10, 0],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            
+            {/* Floating geometric particles */}
+            <motion.div 
+              className="absolute top-40 right-1/3 w-6 h-6 bg-purple-500/40 rotate-45"
+              animate={{ 
+                y: [0, -30, 0],
+                rotate: [45, 225, 405]
+              }}
+              transition={{ 
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-40 left-1/4 w-4 h-4 bg-violet-500/50 rounded-full"
+              animate={{ 
+                y: [0, 25, 0],
+                x: [0, 15, 0]
+              }}
+              transition={{ 
+                duration: 7,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 right-1/4 w-3 h-3 bg-indigo-500/60"
+              animate={{ 
+                rotate: [0, 360],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ 
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.3) 1px, transparent 0)`,
+                backgroundSize: '50px 50px'
+              }} />
+            </div>
           </div>
           
-          <div className="text-center max-w-4xl mx-auto relative z-10">
+          <div className="text-center max-w-5xl mx-auto relative z-10">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="mb-16"
             >
-              <div className="w-32 h-32 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                <span className="text-white font-bold text-4xl">PB2B</span>
-              </div>
+              {/* Enhanced Logo */}
+              <motion.div 
+                className="w-40 h-40 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-700 rounded-3xl flex items-center justify-center mx-auto mb-10 shadow-2xl relative group cursor-pointer"
+                whileHover={{ 
+                  scale: 1.05,
+                  rotate: 2,
+                  boxShadow: "0 25px 50px -12px rgba(147, 51, 234, 0.4)"
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.span 
+                  className="text-white font-bold text-5xl"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  PB2B
+                </motion.span>
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                <div className="absolute -inset-4 bg-gradient-to-r from-purple-600/20 to-violet-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
               
-              <h1 className="text-6xl font-bold text-slate-800 mb-6 leading-tight">
+              {/* Enhanced Typography */}
+              <motion.h1 
+                className="text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 mb-8 leading-tight tracking-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
                 Pivotal B2B
-              </h1>
+              </motion.h1>
               
-              <div className="bg-gradient-to-r from-purple-600 to-violet-600 bg-clip-text text-transparent text-2xl font-semibold mb-8">
-                Every Lead. Vetted. Qualified. Revenue-Ready.
-              </div>
+              <motion.div 
+                className="relative mb-12"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+              >
+                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+                  Every Lead. Vetted. Qualified.
+                </div>
+                <motion.div 
+                  className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+                  animate={{ 
+                    backgroundPosition: ['0%', '100%', '0%']
+                  }}
+                  transition={{ 
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  style={{ backgroundSize: '200% 200%' }}
+                >
+                  Revenue-Ready.
+                </motion.div>
+                
+                {/* Accent line */}
+                <motion.div 
+                  className="w-32 h-1 bg-gradient-to-r from-purple-500 to-violet-500 mx-auto mt-6 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: 128 }}
+                  transition={{ duration: 1, delay: 1 }}
+                />
+              </motion.div>
               
-              <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto text-slate-600">
-                <div className="flex items-center gap-2">
-                  <Globe className="w-5 h-5 text-purple-600" />
-                  <a href="https://pivotal-b2b.com" className="hover:text-purple-600 transition-colors">
-                    pivotal-b2b.com
-                  </a>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-purple-600" />
-                  <a href="mailto:contact@pivotal-b2b.com" className="hover:text-purple-600 transition-colors">
-                    contact@pivotal-b2b.com
-                  </a>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-5 h-5 text-purple-600" />
-                  <span>+1 417-900-3844</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <ExternalLink className="w-5 h-5 text-purple-600" />
-                  <a href="https://linkedin.com/company/pivotalb2b" className="hover:text-blue-600 transition-colors">
-                    LinkedIn
-                  </a>
-                </div>
-              </div>
+              {/* Enhanced Contact Grid */}
+              <motion.div 
+                className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.9 }}
+              >
+                {[
+                  { icon: Globe, text: "pivotal-b2b.com", href: "https://pivotal-b2b.com", color: "text-purple-600" },
+                  { icon: Mail, text: "contact@pivotal-b2b.com", href: "mailto:contact@pivotal-b2b.com", color: "text-violet-600" },
+                  { icon: Phone, text: "+1 417-900-3844", href: "tel:+14179003844", color: "text-indigo-600" },
+                  { icon: ExternalLink, text: "LinkedIn", href: "https://linkedin.com/company/pivotalb2b", color: "text-blue-600" }
+                ].map((item, index) => (
+                  <motion.div 
+                    key={index}
+                    className="flex items-center gap-4 p-4 bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:bg-white/90"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
+                  >
+                    <div className={`w-12 h-12 ${item.color} bg-gradient-to-br from-white to-gray-50 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow`}>
+                      <item.icon className="w-6 h-6" />
+                    </div>
+                    <div className="text-left">
+                      <a href={item.href} className={`${item.color} hover:opacity-80 transition-opacity font-medium text-lg`}>
+                        {item.text}
+                      </a>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
             </motion.div>
           </div>
           
