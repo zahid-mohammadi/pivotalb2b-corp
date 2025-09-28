@@ -454,60 +454,196 @@ export default function MediaKit() {
         </section>
 
         {/* Section 2: About Pivotal B2B */}
-        <section className="min-h-screen bg-white p-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-bold text-slate-800 mb-6">About Pivotal B2B</h2>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
-            </div>
+        <section className="min-h-screen bg-gradient-to-br from-white via-purple-50/30 to-violet-50/30 p-16 relative overflow-hidden">
+          {/* Background decorative elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <motion.div 
+              className="absolute top-1/4 right-10 w-64 h-64 bg-gradient-to-br from-purple-200/20 to-violet-200/20 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                x: [0, 20, 0]
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/3 left-10 w-48 h-48 bg-gradient-to-br from-violet-200/20 to-indigo-200/20 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 0.8, 1],
+                y: [0, -30, 0]
+              }}
+              transition={{ 
+                duration: 20,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-4 mb-8">
+                <motion.div 
+                  className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Building className="w-8 h-8 text-white" />
+                </motion.div>
+                <h2 className="text-6xl font-black bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 bg-clip-text text-transparent">
+                  About Pivotal B2B
+                </h2>
+              </div>
+              <motion.div 
+                className="w-40 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 mx-auto rounded-full shadow-lg"
+                initial={{ width: 0 }}
+                whileInView={{ width: 160 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+            </motion.div>
             
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
-                <div className="bg-gradient-to-br from-purple-50 to-violet-50 p-8 rounded-2xl">
-                  <h3 className="text-2xl font-bold text-slate-800 mb-4">Our Mission</h3>
-                  <p className="text-slate-600 leading-relaxed text-lg">
-                    Founded in 2017 by Zahid Mohammadi, Pivotal B2B helps companies turn marketing budgets into predictable revenue.
-                  </p>
-                </div>
+            <div className="grid lg:grid-cols-5 gap-12 items-start">
+              {/* Left side - Mission & Expertise with more creative design */}
+              <div className="lg:col-span-3 space-y-10">
+                <motion.div 
+                  className="relative bg-gradient-to-br from-white via-purple-50/50 to-violet-50/50 p-10 rounded-3xl shadow-2xl border border-purple-100/50 backdrop-blur-sm group hover:shadow-3xl transition-all duration-500"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-xl group-hover:rotate-12 transition-transform duration-300">
+                    <Target className="w-10 h-10 text-white" />
+                  </div>
+                  <div className="ml-8">
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-700 to-violet-700 bg-clip-text text-transparent mb-6">Our Mission</h3>
+                    <p className="text-slate-700 leading-relaxed text-xl font-medium">
+                      Founded in 2017 by <span className="font-bold text-purple-700">Zahid Mohammadi</span>, Pivotal B2B helps companies turn marketing budgets into predictable revenue.
+                    </p>
+                    <div className="mt-6 flex items-center gap-3 text-purple-600 font-semibold">
+                      <div className="w-2 h-2 bg-purple-600 rounded-full animate-pulse" />
+                      <span>Transforming B2B Marketing Since 2017</span>
+                    </div>
+                  </div>
+                </motion.div>
                 
-                <div className="bg-gradient-to-br from-violet-50 to-purple-50 p-8 rounded-2xl">
-                  <h3 className="text-2xl font-bold text-slate-800 mb-4">Our Expertise</h3>
-                  <p className="text-slate-600 leading-relaxed text-lg">
-                    We specialize in precision-driven B2B lead generation, demand generation, and ABM programs that deliver qualified leads aligned with your ICP.
-                  </p>
-                </div>
+                <motion.div 
+                  className="relative bg-gradient-to-br from-white via-violet-50/50 to-purple-50/50 p-10 rounded-3xl shadow-2xl border border-violet-100/50 backdrop-blur-sm group hover:shadow-3xl transition-all duration-500"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                >
+                  <div className="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl group-hover:-rotate-12 transition-transform duration-300">
+                    <Zap className="w-10 h-10 text-white" />
+                  </div>
+                  <div className="mr-8">
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-violet-700 to-purple-700 bg-clip-text text-transparent mb-6">Our Expertise</h3>
+                    <p className="text-slate-700 leading-relaxed text-xl font-medium mb-6">
+                      We specialize in precision-driven B2B lead generation, demand generation, and ABM programs that deliver qualified leads aligned with your ICP.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {['Lead Generation', 'Demand Generation', 'ABM Programs'].map((tag, index) => (
+                        <motion.span 
+                          key={index}
+                          className="px-4 py-2 bg-gradient-to-r from-violet-100 to-purple-100 text-violet-700 rounded-full text-sm font-semibold border border-violet-200"
+                          whileHover={{ scale: 1.05 }}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
+                          viewport={{ once: true }}
+                        >
+                          {tag}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
               </div>
               
-              <div className="grid grid-cols-1 gap-8">
-                <Card className="p-8 border-l-4 border-l-blue-600 shadow-lg">
-                  <div className="flex items-center gap-4 mb-4">
-                    <Calendar className="w-8 h-8 text-blue-600" />
-                    <div>
-                      <h4 className="font-bold text-slate-800">Founded</h4>
-                      <p className="text-slate-600">2017</p>
-                    </div>
-                  </div>
-                </Card>
+              {/* Right side - Company Facts with creative cards */}
+              <div className="lg:col-span-2 space-y-6">
+                <motion.div 
+                  className="text-center mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="text-2xl font-bold text-slate-800 mb-2">Company Highlights</h3>
+                  <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-violet-500 mx-auto rounded-full" />
+                </motion.div>
+
+                {[
+                  { icon: Calendar, title: "Founded", value: "2017", color: "from-blue-500 to-blue-600", delay: 0.4 },
+                  { icon: Users, title: "Founder & CEO", value: "Zahid Mohammadi", color: "from-purple-500 to-purple-600", delay: 0.5 },
+                  { icon: Target, title: "Focus Areas", value: "Lead Quality, Compliance, Predictable Growth", color: "from-violet-500 to-violet-600", delay: 0.6 }
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative group"
+                    initial={{ opacity: 0, y: 30, rotate: -5 }}
+                    whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                    transition={{ duration: 0.6, delay: item.delay }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -8, rotate: 2 }}
+                  >
+                    <Card className="p-8 bg-gradient-to-br from-white to-gray-50/50 shadow-xl border-0 rounded-2xl group-hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-purple-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <div className="relative z-10">
+                        <div className="flex items-start gap-4">
+                          <motion.div 
+                            className={`w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}
+                            whileHover={{ rotate: 360, scale: 1.1 }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            <item.icon className="w-8 h-8 text-white" />
+                          </motion.div>
+                          <div className="flex-1">
+                            <h4 className="font-bold text-slate-800 text-lg mb-2">{item.title}</h4>
+                            <p className="text-slate-600 font-medium leading-relaxed">{item.value}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                ))}
                 
-                <Card className="p-8 border-l-4 border-l-slate-600 shadow-lg">
-                  <div className="flex items-center gap-4 mb-4">
-                    <Users className="w-8 h-8 text-slate-600" />
-                    <div>
-                      <h4 className="font-bold text-slate-800">Founder & CEO</h4>
-                      <p className="text-slate-600">Zahid Mohammadi</p>
+                {/* Add a special highlight card */}
+                <motion.div
+                  className="mt-8"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.7 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className="p-8 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-600 text-white rounded-2xl shadow-2xl overflow-hidden relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl" />
+                    <div className="relative z-10 text-center">
+                      <motion.div 
+                        className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm"
+                        whileHover={{ scale: 1.1, rotate: 360 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        <Award className="w-8 h-8 text-white" />
+                      </motion.div>
+                      <h4 className="font-bold text-xl mb-2">7+ Years</h4>
+                      <p className="text-purple-100 font-medium">of B2B Marketing Excellence</p>
                     </div>
-                  </div>
-                </Card>
-                
-                <Card className="p-8 border-l-4 border-l-blue-600 shadow-lg">
-                  <div className="flex items-center gap-4 mb-4">
-                    <Target className="w-8 h-8 text-blue-600" />
-                    <div>
-                      <h4 className="font-bold text-slate-800">Focus Areas</h4>
-                      <p className="text-slate-600">Lead Quality, Compliance, Predictable Growth</p>
-                    </div>
-                  </div>
-                </Card>
+                  </Card>
+                </motion.div>
               </div>
             </div>
           </div>
