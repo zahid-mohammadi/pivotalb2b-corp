@@ -2,6 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global improvements for media kit */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+/* Enhanced smooth scrolling for sections */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Better text rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Performance optimizations for animations */
+.animate-optimized {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Custom rounded corners for modern look */
+.rounded-4xl {
+  border-radius: 2rem;
+}
+
+/* Enhanced focus states for accessibility */
+*:focus-visible {
+  outline: 2px solid theme('colors.blue.500');
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Better selection colors */
+::selection {
+  background-color: theme('colors.purple.200');
+  color: theme('colors.purple.900');
+}
+
+/* Improved print styles for PDF generation */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
 /* Scrollbar utilities */
 .scrollbar-hide {
   -ms-overflow-style: none;
