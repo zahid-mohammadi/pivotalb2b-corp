@@ -299,14 +299,83 @@ export default function MediaKit() {
           {/* Enhanced Animated Background */}
           <div className="absolute inset-0 overflow-hidden">
             {/* Primary gradient orbs */}
-            <div className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-r from-purple-400/20 to-violet-500/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-20 w-56 h-56 bg-gradient-to-r from-violet-400/20 to-purple-500/20 rounded-full blur-3xl" />
-            <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-gradient-to-r from-indigo-400/15 to-purple-400/15 rounded-full blur-2xl" />
+            <motion.div 
+              className="absolute top-20 left-20 w-40 h-40 bg-gradient-to-r from-purple-400/20 to-violet-500/20 rounded-full blur-3xl"
+              animate={{ 
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+                scale: [1, 1.1, 1]
+              }}
+              transition={{ 
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-20 right-20 w-56 h-56 bg-gradient-to-r from-violet-400/20 to-purple-500/20 rounded-full blur-3xl"
+              animate={{ 
+                x: [0, -25, 0],
+                y: [0, 15, 0],
+                scale: [1, 0.9, 1]
+              }}
+              transition={{ 
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/2 left-1/3 w-32 h-32 bg-gradient-to-r from-indigo-400/15 to-purple-400/15 rounded-full blur-2xl"
+              animate={{ 
+                x: [0, 20, 0],
+                y: [0, -10, 0],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
             
             {/* Floating geometric particles */}
-            <div className="absolute top-40 right-1/3 w-6 h-6 bg-purple-500/40 rotate-45" />
-            <div className="absolute bottom-40 left-1/4 w-4 h-4 bg-violet-500/50 rounded-full" />
-            <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-indigo-500/60" />
+            <motion.div 
+              className="absolute top-40 right-1/3 w-6 h-6 bg-purple-500/40 rotate-45"
+              animate={{ 
+                y: [0, -30, 0],
+                rotate: [45, 225, 405]
+              }}
+              transition={{ 
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-40 left-1/4 w-4 h-4 bg-violet-500/50 rounded-full"
+              animate={{ 
+                y: [0, 25, 0],
+                x: [0, 15, 0]
+              }}
+              transition={{ 
+                duration: 7,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 right-1/4 w-3 h-3 bg-indigo-500/60"
+              animate={{ 
+                rotate: [0, 360],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ 
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
             
             {/* Subtle grid pattern */}
             <div className="absolute inset-0 opacity-5">
@@ -318,44 +387,96 @@ export default function MediaKit() {
           </div>
           
           <div className="text-center max-w-5xl mx-auto relative z-10">
-            <div className="mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="mb-16"
+            >
               {/* Enhanced Logo */}
-              <div className="w-40 h-40 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-700 rounded-3xl flex items-center justify-center mx-auto mb-10 shadow-2xl relative group cursor-pointer hover:scale-105 hover:shadow-purple-500/40 transition-all duration-300">
-                <span className="text-white font-bold text-5xl hover:scale-110 transition-transform duration-200">
+              <motion.div 
+                className="w-40 h-40 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-700 rounded-3xl flex items-center justify-center mx-auto mb-10 shadow-2xl relative group cursor-pointer"
+                whileHover={{ 
+                  scale: 1.05,
+                  rotate: 2,
+                  boxShadow: "0 25px 50px -12px rgba(147, 51, 234, 0.4)"
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.span 
+                  className="text-white font-bold text-5xl"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.2 }}
+                >
                   PB2B
-                </span>
+                </motion.span>
                 <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
                 <div className="absolute -inset-4 bg-gradient-to-r from-purple-600/20 to-violet-600/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </div>
+              </motion.div>
               
               {/* Enhanced Typography */}
-              <h1 className="text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 mb-8 leading-tight tracking-tight">
+              <motion.h1 
+                className="text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 mb-8 leading-tight tracking-tight"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              >
                 Pivotal B2B
-              </h1>
+              </motion.h1>
               
-              <div className="relative mb-12">
+              <motion.div 
+                className="relative mb-12"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+              >
                 <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 bg-clip-text text-transparent mb-4">
                   Every Lead. Vetted. Qualified.
                 </div>
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <motion.div 
+                  className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent"
+                  animate={{ 
+                    backgroundPosition: ['0%', '100%', '0%']
+                  }}
+                  transition={{ 
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  style={{ backgroundSize: '200% 200%' }}
+                >
                   Revenue-Ready.
-                </div>
+                </motion.div>
                 
                 {/* Accent line */}
-                <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-violet-500 mx-auto mt-6 rounded-full" />
-              </div>
+                <motion.div 
+                  className="w-32 h-1 bg-gradient-to-r from-purple-500 to-violet-500 mx-auto mt-6 rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: 128 }}
+                  transition={{ duration: 1, delay: 1 }}
+                />
+              </motion.div>
               
               {/* Enhanced Contact Grid */}
-              <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+              <motion.div 
+                className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.9 }}
+              >
                 {[
                   { icon: Globe, text: "pivotal-b2b.com", href: "https://pivotal-b2b.com", color: "text-purple-600" },
                   { icon: Mail, text: "contact@pivotal-b2b.com", href: "mailto:contact@pivotal-b2b.com", color: "text-violet-600" },
                   { icon: Phone, text: "+1 417-900-3844", href: "tel:+14179003844", color: "text-indigo-600" },
                   { icon: ExternalLink, text: "LinkedIn", href: "https://linkedin.com/company/pivotalb2b", color: "text-blue-600" }
                 ].map((item, index) => (
-                  <div 
+                  <motion.div 
                     key={index}
-                    className="flex items-center gap-4 p-4 bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:bg-white/90 hover:scale-[1.02] hover:-translate-y-0.5"
+                    className="flex items-center gap-4 p-4 bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group hover:bg-white/90"
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
                   >
                     <div className={`w-12 h-12 ${item.color} bg-gradient-to-br from-white to-gray-50 rounded-xl flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow`}>
                       <item.icon className="w-6 h-6" />
@@ -365,10 +486,10 @@ export default function MediaKit() {
                         {item.text}
                       </a>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
           
           {/* Footer on cover page */}
@@ -385,27 +506,72 @@ export default function MediaKit() {
         <section className="min-h-screen bg-gradient-to-br from-white via-purple-50/30 to-violet-50/30 p-16 relative overflow-hidden">
           {/* Background decorative elements */}
           <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 right-10 w-64 h-64 bg-gradient-to-br from-purple-200/20 to-violet-200/20 rounded-full blur-3xl" />
-            <div className="absolute bottom-1/3 left-10 w-48 h-48 bg-gradient-to-br from-violet-200/20 to-indigo-200/20 rounded-full blur-3xl" />
+            <motion.div 
+              className="absolute top-1/4 right-10 w-64 h-64 bg-gradient-to-br from-purple-200/20 to-violet-200/20 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                x: [0, 20, 0]
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/3 left-10 w-48 h-48 bg-gradient-to-br from-violet-200/20 to-indigo-200/20 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 0.8, 1],
+                y: [0, -30, 0]
+              }}
+              transition={{ 
+                duration: 20,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
           </div>
 
           <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-20">
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
               <div className="inline-flex items-center gap-4 mb-8">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl hover:scale-110 hover:rotate-12 transition-all duration-500">
+                <motion.div 
+                  className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                >
                   <Building className="w-8 h-8 text-white" />
-                </div>
+                </motion.div>
                 <h2 className="text-6xl font-black bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 bg-clip-text text-transparent">
                   About Pivotal B2B
                 </h2>
               </div>
-              <div className="w-40 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 mx-auto rounded-full shadow-lg" />
-            </div>
+              <motion.div 
+                className="w-40 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 mx-auto rounded-full shadow-lg"
+                initial={{ width: 0 }}
+                whileInView={{ width: 160 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+            </motion.div>
             
             <div className="grid lg:grid-cols-5 gap-12 items-start">
               {/* Left side - Mission & Expertise with more creative design */}
               <div className="lg:col-span-3 space-y-10">
-                <div className="relative bg-gradient-to-br from-white via-purple-50/50 to-violet-50/50 p-10 rounded-3xl shadow-2xl border border-purple-100/50 backdrop-blur-sm group hover:shadow-3xl transition-all duration-500 hover:-translate-y-1">
+                <motion.div 
+                  className="relative bg-gradient-to-br from-white via-purple-50/50 to-violet-50/50 p-10 rounded-3xl shadow-2xl border border-purple-100/50 backdrop-blur-sm group hover:shadow-3xl transition-all duration-500"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                >
                   <div className="absolute -top-6 -left-6 w-20 h-20 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-xl group-hover:rotate-12 transition-transform duration-300">
                     <Target className="w-10 h-10 text-white" />
                   </div>
@@ -419,9 +585,16 @@ export default function MediaKit() {
                       <span>Transforming B2B Marketing Since 2017</span>
                     </div>
                   </div>
-                </div>
+                </motion.div>
                 
-                <div className="relative bg-gradient-to-br from-white via-violet-50/50 to-purple-50/50 p-10 rounded-3xl shadow-2xl border border-violet-100/50 backdrop-blur-sm group hover:shadow-3xl transition-all duration-500 hover:-translate-y-1">
+                <motion.div 
+                  className="relative bg-gradient-to-br from-white via-violet-50/50 to-purple-50/50 p-10 rounded-3xl shadow-2xl border border-violet-100/50 backdrop-blur-sm group hover:shadow-3xl transition-all duration-500"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                >
                   <div className="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl group-hover:-rotate-12 transition-transform duration-300">
                     <Zap className="w-10 h-10 text-white" />
                   </div>
@@ -432,43 +605,61 @@ export default function MediaKit() {
                     </p>
                     <div className="flex flex-wrap gap-3">
                       {['Lead Generation', 'Demand Generation', 'ABM Programs'].map((tag, index) => (
-                        <span 
+                        <motion.span 
                           key={index}
-                          className="px-4 py-2 bg-gradient-to-r from-violet-100 to-purple-100 text-violet-700 rounded-full text-sm font-semibold border border-violet-200 hover:scale-105 transition-transform duration-300"
+                          className="px-4 py-2 bg-gradient-to-r from-violet-100 to-purple-100 text-violet-700 rounded-full text-sm font-semibold border border-violet-200"
+                          whileHover={{ scale: 1.05 }}
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
+                          viewport={{ once: true }}
                         >
                           {tag}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
               
               {/* Right side - Company Facts with creative cards */}
               <div className="lg:col-span-2 space-y-6">
-                <div className="text-center mb-8">
+                <motion.div 
+                  className="text-center mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  viewport={{ once: true }}
+                >
                   <h3 className="text-2xl font-bold text-slate-800 mb-2">Company Highlights</h3>
                   <div className="w-20 h-1 bg-gradient-to-r from-purple-500 to-violet-500 mx-auto rounded-full" />
-                </div>
+                </motion.div>
 
                 {[
                   { icon: Calendar, title: "Founded", value: "2017", color: "from-blue-500 to-blue-600", delay: 0.4 },
                   { icon: Users, title: "Founder & CEO", value: "Zahid Mohammadi", color: "from-purple-500 to-purple-600", delay: 0.5 },
                   { icon: Target, title: "Focus Areas", value: "Lead Quality, Compliance, Predictable Growth", color: "from-violet-500 to-violet-600", delay: 0.6 }
                 ].map((item, index) => (
-                  <div
+                  <motion.div
                     key={index}
-                    className="relative group hover:-translate-y-2 hover:rotate-1 transition-all duration-300"
+                    className="relative group"
+                    initial={{ opacity: 0, y: 30, rotate: -5 }}
+                    whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                    transition={{ duration: 0.6, delay: item.delay }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -8, rotate: 2 }}
                   >
                     <Card className="p-8 bg-gradient-to-br from-white to-gray-50/50 shadow-xl border-0 rounded-2xl group-hover:shadow-2xl transition-all duration-300 overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-purple-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <div className="relative z-10">
                         <div className="flex items-start gap-4">
-                          <div 
-                            className={`w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-500 hover:rotate-12 hover:scale-110`}
+                          <motion.div 
+                            className={`w-16 h-16 bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}
+                            whileHover={{ rotate: 360, scale: 1.1 }}
+                            transition={{ duration: 0.5 }}
                           >
                             <item.icon className="w-8 h-8 text-white" />
-                          </div>
+                          </motion.div>
                           <div className="flex-1">
                             <h4 className="font-bold text-slate-800 text-lg mb-2">{item.title}</h4>
                             <p className="text-slate-600 font-medium leading-relaxed">{item.value}</p>
@@ -476,22 +667,32 @@ export default function MediaKit() {
                         </div>
                       </div>
                     </Card>
-                  </div>
+                  </motion.div>
                 ))}
                 
                 {/* Add a special highlight card */}
-                <div className="mt-8">
+                <motion.div
+                  className="mt-8"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.7 }}
+                  viewport={{ once: true }}
+                >
                   <Card className="p-8 bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-600 text-white rounded-2xl shadow-2xl overflow-hidden relative group">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent rounded-2xl" />
                     <div className="relative z-10 text-center">
-                      <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm hover:scale-110 hover:rotate-12 transition-all duration-500">
+                      <motion.div 
+                        className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm"
+                        whileHover={{ scale: 1.1, rotate: 360 }}
+                        transition={{ duration: 0.5 }}
+                      >
                         <Award className="w-8 h-8 text-white" />
-                      </div>
+                      </motion.div>
                       <h4 className="font-bold text-xl mb-2">7+ Years</h4>
                       <p className="text-purple-100 font-medium">of B2B Marketing Excellence</p>
                     </div>
                   </Card>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
