@@ -2607,58 +2607,465 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 8: Trusted By */}
-        <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50 p-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl">
-                  <Shield className="w-8 h-8 text-white" />
-                </div>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Trusted By</h2>
+        {/* Section 8: Trusted By - Enhanced Trust Visualization */}
+        <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/40 p-16 relative overflow-hidden">
+          {/* Trust network visualization background */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Network nodes representing trust connections */}
+            <motion.div 
+              className="absolute top-1/4 left-1/4 w-48 h-48 bg-gradient-to-r from-blue-200/10 to-green-200/10 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.6, 0.3],
+                x: [0, 80, 0],
+                y: [0, -40, 0]
+              }}
+              transition={{ 
+                duration: 18,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/3 right-1/4 w-32 h-32 bg-gradient-to-r from-green-200/15 to-blue-200/15 rounded-full blur-2xl"
+              animate={{ 
+                scale: [1, 0.7, 1],
+                rotate: [0, 360, 720]
+              }}
+              transition={{ 
+                duration: 22,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            
+            {/* Trust indicator elements */}
+            <motion.div 
+              className="absolute top-32 right-24 w-16 h-16 bg-green-200/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-green-200/30"
+              animate={{ 
+                y: [0, -35, 0],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Shield className="w-8 h-8 text-green-500/70" />
+            </motion.div>
+            <motion.div 
+              className="absolute bottom-24 left-24 w-14 h-14 bg-blue-200/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-blue-200/30"
+              animate={{ 
+                x: [0, 40, 0],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Award className="w-7 h-7 text-blue-500/70" />
+            </motion.div>
+            
+            {/* Trust network connections */}
+            <motion.div 
+              className="absolute top-1/2 left-16 w-5 h-5 bg-green-400/50 rounded-full"
+              animate={{ 
+                x: [0, 250, 500, 750],
+                y: [0, -100, 50, 0],
+                scale: [1, 1.8, 1, 0],
+                opacity: [1, 0.8, 0.6, 0]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 right-16 w-4 h-4 bg-blue-400/60 rounded-full"
+              animate={{ 
+                x: [0, -200, -400, -600],
+                y: [0, 80, -30, 0],
+                scale: [1, 1.5, 1, 0],
+                opacity: [1, 0.7, 0.5, 0]
+              }}
+              transition={{ 
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 4
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-24"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-6 mb-12">
+                <motion.div 
+                  className="w-24 h-24 bg-gradient-to-br from-blue-600 to-green-600 rounded-3xl flex items-center justify-center shadow-2xl relative group"
+                  whileHover={{ scale: 1.15, rotate: 15 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Shield className="w-12 h-12 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                  
+                  {/* Trust indicator pulses */}
+                  <motion.div 
+                    className="absolute -inset-4 border-2 border-green-300/30 rounded-full"
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.3, 0.7, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  <motion.div 
+                    className="absolute -inset-8 border border-blue-300/20 rounded-full"
+                    animate={{ scale: [1, 1.6, 1], opacity: [0.2, 0.5, 0.2] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+                  />
+                </motion.div>
+                <h2 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-slate-800 via-blue-800 to-green-800 bg-clip-text text-transparent">
+                  Trusted By
+                </h2>
               </div>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                Trusted by leading B2B teams across multiple industries
-              </p>
+              <motion.div 
+                className="w-80 h-2 bg-gradient-to-r from-blue-600 via-green-600 to-purple-600 mx-auto rounded-full shadow-lg mb-12"
+                initial={{ width: 0 }}
+                whileInView={{ width: 320 }}
+                transition={{ duration: 1.5, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <motion.p 
+                className="text-2xl text-slate-600 max-w-5xl mx-auto leading-relaxed font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                Building lasting partnerships across industries with a foundation of trust, reliability, and proven results
+              </motion.p>
+            </motion.div>
+            
+            {/* Trust metrics dashboard */}
+            <div className="grid md:grid-cols-3 gap-8 mb-20">
+              {[
+                { metric: "98%", label: "Client Satisfaction Rate", icon: Heart, color: "from-pink-500 to-red-500" },
+                { metric: "7+", label: "Years of Trusted Partnerships", icon: Award, color: "from-blue-500 to-indigo-500" },
+                { metric: "100%", label: "Data Privacy Compliance", icon: Shield, color: "from-green-500 to-emerald-500" }
+              ].map((trust, index) => {
+                const IconComponent = trust.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ 
+                      opacity: 0, 
+                      y: 60,
+                      scale: 0.9,
+                      rotate: Math.random() * 8 - 4
+                    }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0, 
+                      scale: 1,
+                      rotate: 0
+                    }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: index * 0.2,
+                      type: "spring",
+                      stiffness: 120
+                    }}
+                    viewport={{ once: true }}
+                    className="group relative"
+                    whileHover={{ 
+                      y: -20, 
+                      scale: 1.05,
+                      rotate: Math.random() * 4 - 2
+                    }}
+                  >
+                    {/* Trust aura */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-200/20 to-green-200/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    
+                    <div className="relative bg-white/95 backdrop-blur-sm p-12 rounded-3xl shadow-xl border border-blue-100/50 group-hover:shadow-2xl transition-all duration-500 text-center overflow-hidden">
+                      {/* Background trust elements */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-green-100/30 rounded-full blur-3xl" />
+                      <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-br from-green-100/40 to-blue-100/40 rounded-full blur-2xl" />
+                      
+                      <div className="relative z-10">
+                        <motion.div 
+                          className="mb-8"
+                          initial={{ scale: 0 }}
+                          whileInView={{ scale: 1 }}
+                          transition={{ 
+                            duration: 0.6, 
+                            delay: index * 0.2 + 0.3,
+                            type: "spring",
+                            stiffness: 200
+                          }}
+                          viewport={{ once: true }}
+                        >
+                          <div className={`w-20 h-20 bg-gradient-to-r ${trust.color} rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:shadow-2xl transition-shadow`}>
+                            <IconComponent className="w-10 h-10 text-white" />
+                          </div>
+                          <div className="text-5xl font-black bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-4">
+                            {trust.metric}
+                          </div>
+                          <motion.div 
+                            className="text-sm text-blue-600 font-bold uppercase tracking-wider"
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.2 + 0.8 }}
+                            viewport={{ once: true }}
+                          >
+                            {trust.label}
+                          </motion.div>
+                        </motion.div>
+                        
+                        {/* Trust verification badge */}
+                        <motion.div 
+                          className="absolute top-4 right-4 px-4 py-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-full backdrop-blur-sm border border-green-200/50"
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ 
+                            duration: 0.5, 
+                            delay: index * 0.2 + 0.2,
+                            type: "spring",
+                            stiffness: 200
+                          }}
+                          viewport={{ once: true }}
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <span className="text-xs font-bold text-green-700">
+                            Verified
+                          </span>
+                        </motion.div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
             
-            <div className="space-y-12">
-              <div className="text-center">
-                <div className="bg-white rounded-3xl p-12 shadow-lg border border-purple-100 mb-16">
-                  <div className="inline-flex items-center gap-3 mb-8">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-violet-700 rounded-full flex items-center justify-center">
-                      <Globe className="w-6 h-6 text-white" />
-                    </div>
-                    <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Industry Focus</h3>
-                  </div>
-                  <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {industries.map((industry, index) => (
-                      <div
-                        key={index}
-                        className="bg-gradient-to-br from-purple-50 to-violet-50 p-6 rounded-xl text-center hover:shadow-lg transition-all duration-300 group hover:-translate-y-1 border border-purple-100"
-                      >
-                        <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-violet-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                          <Building className="w-6 h-6 text-white" />
+            {/* Enhanced industry ecosystem */}
+            <div className="space-y-20">
+              <motion.div 
+                className="text-center"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <div className="inline-flex items-center gap-4 mb-10">
+                  <motion.div 
+                    className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-3xl flex items-center justify-center shadow-xl"
+                    whileHover={{ rotate: 360, scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                  >
+                    <Globe className="w-10 h-10 text-white" />
+                  </motion.div>
+                  <h3 className="text-5xl font-bold bg-gradient-to-r from-slate-800 to-indigo-800 bg-clip-text text-transparent">
+                    Industry Ecosystem
+                  </h3>
+                </div>
+                <motion.div 
+                  className="w-40 h-1.5 bg-gradient-to-r from-indigo-600 to-blue-600 mx-auto rounded-full"
+                  initial={{ width: 0 }}
+                  whileInView={{ width: 160 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                  viewport={{ once: true }}
+                />
+              </motion.div>
+              
+              {/* Innovative industry grid with network connections */}
+              <div className="relative">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {industries.map((industry, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ 
+                        opacity: 0, 
+                        y: 50,
+                        scale: 0.9,
+                        rotate: index % 2 === 0 ? -5 : 5
+                      }}
+                      whileInView={{ 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1,
+                        rotate: 0
+                      }}
+                      transition={{ 
+                        duration: 0.8, 
+                        delay: index * 0.15,
+                        type: "spring",
+                        stiffness: 100
+                      }}
+                      viewport={{ once: true }}
+                      className="group relative"
+                      whileHover={{ 
+                        y: -18, 
+                        scale: 1.05,
+                        rotate: index % 2 === 0 ? 3 : -3
+                      }}
+                    >
+                      {/* Industry connection glow */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-200/25 to-blue-200/25 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                      
+                      <div className="relative bg-white/95 backdrop-blur-sm p-10 rounded-3xl shadow-xl border border-indigo-100/50 group-hover:shadow-2xl transition-all duration-500 text-center overflow-hidden">
+                        {/* Network background pattern */}
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-100/30 to-blue-100/30 rounded-full blur-3xl" />
+                        <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-100/40 to-indigo-100/40 rounded-full blur-2xl" />
+                        
+                        <div className="relative z-10">
+                          <motion.div 
+                            className="mb-8"
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            transition={{ 
+                              duration: 0.6, 
+                              delay: index * 0.15 + 0.3,
+                              type: "spring",
+                              stiffness: 200
+                            }}
+                            viewport={{ once: true }}
+                          >
+                            <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl group-hover:shadow-2xl transition-shadow">
+                              <Building className="w-8 h-8 text-white" />
+                            </div>
+                            <h4 className="text-xl font-bold text-slate-800 leading-tight">
+                              {industry}
+                            </h4>
+                          </motion.div>
+                          
+                          {/* Industry strength indicator */}
+                          <motion.div 
+                            className="h-2 bg-gray-100 rounded-full overflow-hidden"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 0.4, delay: index * 0.15 + 0.5 }}
+                            viewport={{ once: true }}
+                          >
+                            <motion.div 
+                              className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full"
+                              initial={{ width: 0 }}
+                              whileInView={{ width: "100%" }}
+                              transition={{ 
+                                duration: 1.5, 
+                                delay: index * 0.15 + 0.7,
+                                ease: "easeOut"
+                              }}
+                              viewport={{ once: true }}
+                            />
+                          </motion.div>
+                          
+                          {/* Trust connection badge */}
+                          <motion.div 
+                            className="absolute top-4 right-4 w-10 h-10 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-green-200/50"
+                            initial={{ opacity: 0, scale: 0 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ 
+                              duration: 0.5, 
+                              delay: index * 0.15 + 0.2,
+                              type: "spring",
+                              stiffness: 200
+                            }}
+                            viewport={{ once: true }}
+                            whileHover={{ scale: 1.3, rotate: 360 }}
+                          >
+                            <CheckCircle className="w-5 h-5 text-green-600" />
+                          </motion.div>
                         </div>
-                        <h4 className="font-semibold text-slate-800 text-sm leading-tight">
-                          {industry}
-                        </h4>
                       </div>
-                    ))}
-                  </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {/* Network connection lines between industries */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <svg className="w-full h-full opacity-20">
+                    <defs>
+                      <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="#10b981" stopOpacity="0.1" />
+                      </linearGradient>
+                    </defs>
+                    {/* Animated connection paths */}
+                    <motion.path
+                      d="M 100 100 Q 300 50 500 150"
+                      stroke="url(#connectionGradient)"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeDasharray="5,5"
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 1 }}
+                      transition={{ duration: 3, delay: 1 }}
+                      viewport={{ once: true }}
+                    />
+                    <motion.path
+                      d="M 200 200 Q 400 100 600 250"
+                      stroke="url(#connectionGradient)"
+                      strokeWidth="2"
+                      fill="none"
+                      strokeDasharray="5,5"
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 1 }}
+                      transition={{ duration: 3, delay: 1.5 }}
+                      viewport={{ once: true }}
+                    />
+                  </svg>
                 </div>
               </div>
-              
-              <div className="bg-gradient-to-br from-purple-600 to-violet-700 p-12 rounded-3xl text-center shadow-2xl">
-                <h3 className="text-2xl font-bold text-white mb-4">
-                  Serving Growth-Driven B2B Companies Since 2017
-                </h3>
-                <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                  From emerging startups to established enterprises, we help companies across technology, SaaS, finance, manufacturing, and professional services achieve their growth objectives through precision B2B marketing.
-                </p>
-              </div>
             </div>
+            
+            {/* Enhanced partnership promise */}
+            <motion.div 
+              className="mt-24 text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-block bg-gradient-to-r from-indigo-600 via-blue-600 to-green-600 p-16 rounded-4xl shadow-2xl relative group overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                <motion.div 
+                  className="absolute inset-0"
+                  animate={{ 
+                    background: [
+                      'linear-gradient(45deg, rgba(79, 70, 229, 0.1) 0%, rgba(59, 130, 246, 0.1) 50%, rgba(16, 185, 129, 0.1) 100%)',
+                      'linear-gradient(45deg, rgba(16, 185, 129, 0.1) 0%, rgba(79, 70, 229, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%)',
+                      'linear-gradient(45deg, rgba(79, 70, 229, 0.1) 0%, rgba(59, 130, 246, 0.1) 50%, rgba(16, 185, 129, 0.1) 100%)'
+                    ]
+                  }}
+                  transition={{ 
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                <div className="relative z-10">
+                  <motion.div 
+                    className="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-10 backdrop-blur-sm"
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 1 }}
+                  >
+                    <Heart className="w-16 h-16 text-white" />
+                  </motion.div>
+                  <h3 className="text-5xl font-bold text-white mb-8">
+                    Building Trust Through Results
+                  </h3>
+                  <p className="text-indigo-100 text-2xl font-medium max-w-5xl mx-auto leading-relaxed">
+                    From startups to enterprises across technology, SaaS, finance, and beyond – our commitment to excellence has earned the trust of growth-driven companies since 2017
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
           
           {/* Footer */}
