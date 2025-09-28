@@ -1635,61 +1635,447 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 6: Target Audience Reach */}
-        <section className="bg-white p-12">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-5xl font-bold text-slate-800 mb-6">Target Audience Reach</h2>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-                We help you connect with decision-makers across industries and functions
-              </p>
-            </div>
+        {/* Section 6: Target Audience Reach - Enhanced Data Visualization */}
+        <section className="min-h-screen bg-gradient-to-br from-white via-slate-50/50 to-purple-50/30 p-16 relative overflow-hidden">
+          {/* Data visualization background */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Network connection visualization */}
+            <svg className="absolute inset-0 w-full h-full opacity-5" viewBox="0 0 800 600">
+              {/* Network nodes */}
+              <motion.circle cx="150" cy="150" r="4" fill="#8b5cf6"
+                animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 3, repeat: Infinity, delay: 0 }}
+              />
+              <motion.circle cx="650" cy="200" r="3" fill="#a855f7"
+                animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0.8, 0.4] }}
+                transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+              />
+              <motion.circle cx="400" cy="100" r="5" fill="#8b5cf6"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 3.5, repeat: Infinity, delay: 2 }}
+              />
+              <motion.circle cx="200" cy="400" r="3" fill="#a855f7"
+                animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.7, 0.3] }}
+                transition={{ duration: 5, repeat: Infinity, delay: 0.5 }}
+              />
+              <motion.circle cx="600" cy="450" r="4" fill="#8b5cf6"
+                animate={{ scale: [1, 1.6, 1], opacity: [0.5, 0.9, 0.5] }}
+                transition={{ duration: 2.5, repeat: Infinity, delay: 1.5 }}
+              />
+              
+              {/* Connection lines */}
+              <motion.path d="M150,150 Q300,50 400,100" stroke="#8b5cf6" strokeWidth="1" fill="none" opacity="0.3"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: [0, 1, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.path d="M400,100 Q550,150 650,200" stroke="#a855f7" strokeWidth="1" fill="none" opacity="0.3"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: [0, 1, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+              />
+              <motion.path d="M150,150 Q175,275 200,400" stroke="#8b5cf6" strokeWidth="1" fill="none" opacity="0.3"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: [0, 1, 0] }}
+                transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              />
+            </svg>
             
-            <div className="grid lg:grid-cols-2 gap-10">
-              {/* Capabilities */}
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-slate-800 mb-6">Our Capabilities</h3>
-                <div className="space-y-4">
+            {/* Floating data points */}
+            <motion.div 
+              className="absolute top-20 right-20 w-12 h-12 bg-purple-200/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+              animate={{ 
+                y: [0, -30, 0],
+                rotate: [0, 360, 0],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ 
+                duration: 18,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Users className="w-6 h-6 text-purple-500/60" />
+            </motion.div>
+            <motion.div 
+              className="absolute bottom-32 left-20 w-10 h-10 bg-violet-200/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+              animate={{ 
+                x: [0, 40, 0],
+                y: [0, -20, 0],
+                scale: [1, 1.3, 1]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Database className="w-5 h-5 text-violet-500/60" />
+            </motion.div>
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-6 mb-10">
+                <motion.div 
+                  className="w-24 h-24 bg-gradient-to-br from-purple-600 to-violet-700 rounded-3xl flex items-center justify-center shadow-2xl relative group"
+                  whileHover={{ scale: 1.1, rotate: 12 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Target className="w-12 h-12 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                  
+                  {/* Data flow rings */}
+                  <motion.div 
+                    className="absolute -inset-3 border-2 border-purple-300/20 rounded-full"
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.6, 0.2] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  <motion.div 
+                    className="absolute -inset-6 border border-violet-300/15 rounded-full"
+                    animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.4, 0.1] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: 1 }}
+                  />
+                </motion.div>
+                <h2 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 bg-clip-text text-transparent">
+                  Target Audience Reach
+                </h2>
+              </div>
+              <motion.div 
+                className="w-60 h-2 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 mx-auto rounded-full shadow-lg mb-10"
+                initial={{ width: 0 }}
+                whileInView={{ width: 240 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <motion.p 
+                className="text-2xl text-slate-600 max-w-5xl mx-auto leading-relaxed font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                We help you connect with decision-makers across industries and functions using precision targeting
+              </motion.p>
+            </motion.div>
+            
+            <div className="grid lg:grid-cols-5 gap-12 items-start">
+              {/* Enhanced Capabilities Section */}
+              <div className="lg:col-span-3 space-y-8">
+                <motion.div 
+                  className="text-center lg:text-left mb-10"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="inline-flex items-center gap-4 mb-6">
+                    <motion.div 
+                      className="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-xl"
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Database className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-purple-800 bg-clip-text text-transparent">
+                      Our Targeting Capabilities
+                    </h3>
+                  </div>
+                  <motion.div 
+                    className="w-24 h-1 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full mb-6"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 96 }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    viewport={{ once: true }}
+                  />
+                </motion.div>
+
+                <div className="space-y-6">
                   {[
-                    { title: "Company Information", desc: "Size, revenue, growth stage" },
-                    { title: "Role & Seniority", desc: "Job titles, departments, authority" },
-                    { title: "Technology", desc: "Tech stack & adoption stage" },
-                    { title: "Engagement Signals", desc: "Content interactions, event participation, buying intent" }
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-lg">
-                      <div className="w-3 h-3 bg-purple-600 rounded-full mt-2 flex-shrink-0" />
-                      <div>
-                        <h4 className="font-bold text-slate-800 mb-1">{item.title}</h4>
-                        <p className="text-slate-600">{item.desc}</p>
+                    { 
+                      title: "Company Intelligence", 
+                      desc: "Size, revenue, growth stage, tech stack",
+                      icon: Building,
+                      color: "from-blue-500 to-blue-600",
+                      percentage: 95
+                    },
+                    { 
+                      title: "Role & Authority Mapping", 
+                      desc: "Job titles, departments, decision-making power",
+                      icon: Users,
+                      color: "from-purple-500 to-purple-600",
+                      percentage: 92
+                    },
+                    { 
+                      title: "Technology Profiling", 
+                      desc: "Current tech stack & adoption readiness",
+                      icon: Globe,
+                      color: "from-violet-500 to-violet-600",
+                      percentage: 88
+                    },
+                    { 
+                      title: "Behavioral Signals", 
+                      desc: "Content engagement, event participation, buying intent",
+                      icon: TrendingUp,
+                      color: "from-indigo-500 to-indigo-600",
+                      percentage: 90
+                    }
+                  ].map((capability, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -50, rotate: -2 }}
+                      whileInView={{ opacity: 1, x: 0, rotate: 0 }}
+                      transition={{ 
+                        duration: 0.8, 
+                        delay: index * 0.15,
+                        type: "spring",
+                        stiffness: 100
+                      }}
+                      viewport={{ once: true }}
+                      className="group relative"
+                      whileHover={{ y: -5, rotate: 1 }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-100/20 to-violet-100/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      
+                      <div className="relative bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-purple-100/50 group-hover:shadow-xl transition-all duration-300 overflow-hidden">
+                        {/* Background decorative elements */}
+                        <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-100/30 to-violet-100/30 rounded-full blur-2xl" />
+                        <div className="absolute bottom-0 left-0 w-12 h-12 bg-gradient-to-br from-violet-100/40 to-indigo-100/40 rounded-full blur-xl" />
+                        
+                        <div className="relative z-10 flex items-start gap-6">
+                          <motion.div 
+                            className={`w-14 h-14 bg-gradient-to-br ${capability.color} rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}
+                            whileHover={{ scale: 1.1, rotate: 360 }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            <capability.icon className="w-7 h-7 text-white" />
+                          </motion.div>
+                          
+                          <div className="flex-1">
+                            <motion.h4 
+                              className="text-xl font-bold text-slate-800 mb-2"
+                              initial={{ opacity: 0, y: 10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+                              viewport={{ once: true }}
+                            >
+                              {capability.title}
+                            </motion.h4>
+                            <motion.p 
+                              className="text-slate-600 mb-4 leading-relaxed"
+                              initial={{ opacity: 0, y: 10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: index * 0.1 + 0.4 }}
+                              viewport={{ once: true }}
+                            >
+                              {capability.desc}
+                            </motion.p>
+                            
+                            {/* Accuracy indicator */}
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between text-sm">
+                                <span className="text-slate-500 font-medium">Targeting Accuracy</span>
+                                <motion.span 
+                                  className="text-purple-600 font-bold"
+                                  initial={{ opacity: 0 }}
+                                  whileInView={{ opacity: 1 }}
+                                  transition={{ duration: 0.5, delay: index * 0.1 + 0.6 }}
+                                  viewport={{ once: true }}
+                                >
+                                  {capability.percentage}%
+                                </motion.span>
+                              </div>
+                              <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <motion.div 
+                                  className={`h-full bg-gradient-to-r ${capability.color} rounded-full relative`}
+                                  initial={{ width: 0 }}
+                                  whileInView={{ width: `${capability.percentage}%` }}
+                                  transition={{ 
+                                    duration: 1.5, 
+                                    delay: index * 0.1 + 0.8,
+                                    ease: "easeOut"
+                                  }}
+                                  viewport={{ once: true }}
+                                >
+                                  <motion.div 
+                                    className="absolute top-0 left-0 h-full w-4 bg-gradient-to-r from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                    animate={{ x: ['-100%', `${capability.percentage * 4}px`] }}
+                                    transition={{ 
+                                      duration: 2,
+                                      repeat: Infinity,
+                                      ease: "linear"
+                                    }}
+                                  />
+                                </motion.div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
               
-              {/* Audience Segments */}
-              <div>
-                <h3 className="text-2xl font-bold text-slate-800 mb-6">Audience Segments</h3>
+              {/* Enhanced Audience Segments Visualization */}
+              <div className="lg:col-span-2">
+                <motion.div 
+                  className="text-center mb-10"
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="inline-flex items-center gap-4 mb-6">
+                    <motion.div 
+                      className="w-16 h-16 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-xl"
+                      whileHover={{ rotate: -360, scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Users className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-violet-800 bg-clip-text text-transparent">
+                      Key Segments
+                    </h3>
+                  </div>
+                  <motion.div 
+                    className="w-20 h-1 bg-gradient-to-r from-violet-500 to-purple-500 mx-auto rounded-full"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 80 }}
+                    transition={{ duration: 0.8, delay: 0.3 }}
+                    viewport={{ once: true }}
+                  />
+                </motion.div>
+
                 <div className="grid grid-cols-2 gap-4">
                   {audienceSegments.map((segment, index) => {
                     const IconComponent = segment.icon;
                     return (
                       <motion.div
                         key={index}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: index * 0.1 }}
-                        className="bg-white p-4 rounded-lg shadow-md border border-slate-100 hover:shadow-lg transition-shadow text-center group"
+                        initial={{ 
+                          opacity: 0, 
+                          scale: 0.8,
+                          rotate: Math.random() * 10 - 5
+                        }}
+                        whileInView={{ 
+                          opacity: 1, 
+                          scale: 1,
+                          rotate: 0
+                        }}
+                        transition={{ 
+                          duration: 0.6, 
+                          delay: index * 0.1,
+                          type: "spring",
+                          stiffness: 150
+                        }}
+                        viewport={{ once: true }}
+                        className="group relative"
+                        whileHover={{ 
+                          y: -8, 
+                          scale: 1.05,
+                          rotate: Math.random() * 6 - 3
+                        }}
                       >
-                        <IconComponent className="w-6 h-6 text-purple-600 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                        <h4 className="font-semibold text-slate-800 text-sm leading-tight">
-                          {segment.title}
-                        </h4>
+                        {/* Glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-purple-200/30 to-violet-200/30 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        
+                        <div className="relative bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-purple-100/50 group-hover:shadow-xl transition-all duration-300 text-center overflow-hidden">
+                          {/* Background decoration */}
+                          <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-purple-100/30 to-violet-100/30 rounded-full blur-2xl" />
+                          
+                          <div className="relative z-10">
+                            <motion.div 
+                              className="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:shadow-xl transition-shadow"
+                              whileHover={{ 
+                                scale: 1.2, 
+                                rotate: 360,
+                                background: "linear-gradient(135deg, #8b5cf6, #a855f7)"
+                              }}
+                              transition={{ duration: 0.5 }}
+                            >
+                              <IconComponent className="w-6 h-6 text-white" />
+                            </motion.div>
+                            
+                            <motion.h4 
+                              className="font-bold text-slate-800 text-sm leading-tight mb-3"
+                              initial={{ opacity: 0, y: 10 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.5, delay: index * 0.05 + 0.2 }}
+                              viewport={{ once: true }}
+                            >
+                              {segment.title}
+                            </motion.h4>
+                            
+                            {/* Segment reach indicator */}
+                            <motion.div 
+                              className="h-1 bg-gray-100 rounded-full overflow-hidden"
+                              initial={{ opacity: 0 }}
+                              whileInView={{ opacity: 1 }}
+                              transition={{ duration: 0.3, delay: index * 0.05 + 0.4 }}
+                              viewport={{ once: true }}
+                            >
+                              <motion.div 
+                                className="h-full bg-gradient-to-r from-purple-500 to-violet-500 rounded-full"
+                                initial={{ width: 0 }}
+                                whileInView={{ width: `${75 + Math.random() * 25}%` }}
+                                transition={{ 
+                                  duration: 1, 
+                                  delay: index * 0.05 + 0.6,
+                                  ease: "easeOut"
+                                }}
+                                viewport={{ once: true }}
+                              />
+                            </motion.div>
+                          </div>
+                        </div>
                       </motion.div>
                     );
                   })}
                 </div>
+                
+                {/* Summary stats */}
+                <motion.div 
+                  className="mt-10 p-8 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl shadow-2xl text-white relative overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, delay: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent"
+                    animate={{ 
+                      backgroundPosition: ['0%', '100%', '0%']
+                    }}
+                    transition={{ 
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                    style={{ backgroundSize: '200% 200%' }}
+                  />
+                  
+                  <div className="relative z-10 text-center">
+                    <motion.div 
+                      className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm"
+                      whileHover={{ scale: 1.2, rotate: 360 }}
+                      transition={{ duration: 0.8 }}
+                    >
+                      <Target className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <h4 className="text-2xl font-bold mb-4">Precision Targeting</h4>
+                    <p className="text-purple-100 leading-relaxed">
+                      Access decision-makers across 8+ key business functions with 90%+ targeting accuracy
+                    </p>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>
