@@ -1179,51 +1179,450 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 5: Marketing Channels - Simple Grid Layout */}
-        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-violet-50 p-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl">
-                  <TrendingUp className="w-8 h-8 text-white" />
+        {/* Section 5: Marketing Channels - Enhanced Interactive Layout */}
+        <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50 p-16 relative overflow-hidden">
+          {/* Dynamic background flow */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Flowing lines representing channel connections */}
+            <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+              <motion.path
+                d="M0,500 Q250,300 500,400 T1000,300"
+                stroke="url(#gradient1)"
+                strokeWidth="2"
+                fill="none"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 3, delay: 0.5 }}
+                viewport={{ once: true }}
+              />
+              <motion.path
+                d="M0,400 Q250,600 500,500 T1000,600"
+                stroke="url(#gradient2)"
+                strokeWidth="2"
+                fill="none"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 3, delay: 1 }}
+                viewport={{ once: true }}
+              />
+              <defs>
+                <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#8b5cf6" />
+                  <stop offset="100%" stopColor="#a855f7" />
+                </linearGradient>
+                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#a855f7" />
+                  <stop offset="100%" stopColor="#8b5cf6" />
+                </linearGradient>
+              </defs>
+            </svg>
+            
+            {/* Floating channel icons */}
+            <motion.div 
+              className="absolute top-32 left-1/4 w-16 h-16 bg-purple-200/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+              animate={{ 
+                y: [0, -30, 0],
+                x: [0, 20, 0],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 20,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Mail className="w-8 h-8 text-purple-500/60" />
+            </motion.div>
+            <motion.div 
+              className="absolute bottom-32 right-1/4 w-14 h-14 bg-violet-200/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+              animate={{ 
+                y: [0, 20, 0],
+                x: [0, -15, 0],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Phone className="w-7 h-7 text-violet-500/60" />
+            </motion.div>
+            
+            {/* Data flow particles */}
+            <motion.div 
+              className="absolute top-1/2 left-10 w-3 h-3 bg-purple-400/40 rounded-full"
+              animate={{ 
+                x: [0, 300, 600, 900],
+                y: [0, -50, 50, 0],
+                scale: [1, 1.5, 1, 0]
+              }}
+              transition={{ 
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 right-10 w-2 h-2 bg-violet-400/50 rounded-full"
+              animate={{ 
+                x: [0, -250, -500, -750],
+                y: [0, 30, -30, 0],
+                scale: [1, 1.3, 1, 0]
+              }}
+              transition={{ 
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-6 mb-10">
+                <motion.div 
+                  className="relative w-24 h-24 bg-gradient-to-br from-purple-600 to-violet-700 rounded-3xl flex items-center justify-center shadow-2xl group"
+                  whileHover={{ scale: 1.1, rotate: 15 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <TrendingUp className="w-12 h-12 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                  
+                  {/* Pulsing rings */}
+                  <motion.div 
+                    className="absolute -inset-4 border-2 border-purple-300/30 rounded-full"
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <motion.div 
+                    className="absolute -inset-8 border border-violet-300/20 rounded-full"
+                    animate={{ scale: [1, 1.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                  />
+                </motion.div>
+                <h2 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 bg-clip-text text-transparent">
+                  Marketing Channels
+                </h2>
+              </div>
+              <motion.div 
+                className="w-56 h-2 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 mx-auto rounded-full shadow-lg mb-10"
+                initial={{ width: 0 }}
+                whileInView={{ width: 224 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <motion.p 
+                className="text-2xl text-slate-600 max-w-5xl mx-auto leading-relaxed font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                We use a precision multi-channel strategy to reach buyers exactly where they are
+              </motion.p>
+            </motion.div>
+            
+            {/* Central flow visualization */}
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative inline-block">
+                <motion.div 
+                  className="bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 rounded-full px-12 py-6 shadow-2xl relative overflow-hidden group"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent" />
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent"
+                    animate={{ 
+                      backgroundPosition: ['0%', '100%', '0%']
+                    }}
+                    transition={{ 
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                    style={{ backgroundSize: '200% 200%' }}
+                  />
+                  
+                  <div className="relative z-10 flex items-center gap-4">
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                    >
+                      <Target className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <span className="text-white font-bold text-xl">Multi-Channel Precision Targeting</span>
+                  </div>
+                </motion.div>
+                
+                {/* Connection lines to channels */}
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4">
+                  <svg width="400" height="120" className="opacity-20">
+                    <motion.path
+                      d="M200,0 L80,100"
+                      stroke="#8b5cf6"
+                      strokeWidth="2"
+                      fill="none"
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 1 }}
+                      transition={{ duration: 1.5, delay: 1 }}
+                      viewport={{ once: true }}
+                    />
+                    <motion.path
+                      d="M200,0 L200,100"
+                      stroke="#a855f7"
+                      strokeWidth="2"
+                      fill="none"
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 1 }}
+                      transition={{ duration: 1.5, delay: 1.2 }}
+                      viewport={{ once: true }}
+                    />
+                    <motion.path
+                      d="M200,0 L320,100"
+                      stroke="#8b5cf6"
+                      strokeWidth="2"
+                      fill="none"
+                      initial={{ pathLength: 0 }}
+                      whileInView={{ pathLength: 1 }}
+                      transition={{ duration: 1.5, delay: 1.4 }}
+                      viewport={{ once: true }}
+                    />
+                  </svg>
                 </div>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Marketing Channels</h2>
               </div>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
-              <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-                We use a multi-channel strategy to reach buyers where they are
-              </p>
-            </div>
+            </motion.div>
             
-            {/* Central value proposition */}
-            <div className="text-center mb-16">
-              <div className="inline-block bg-gradient-to-br from-purple-600 to-violet-700 rounded-full px-8 py-4 shadow-2xl">
-                <span className="text-white font-bold text-lg">Multi-Channel Approach</span>
-              </div>
-            </div>
-            
-            {/* Simple responsive grid layout */}
-            <div className="grid md:grid-cols-3 gap-8">
+            {/* Enhanced channel cards with flow design */}
+            <div className="grid md:grid-cols-3 gap-10 lg:gap-12 mt-16">
               {marketingChannels.map((channel, index) => {
                 const IconComponent = channel.icon;
+                const isCenter = index === 1;
+                
                 return (
-                  <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-purple-100">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <IconComponent className="w-8 h-8 text-white" />
+                  <motion.div
+                    key={index}
+                    initial={{ 
+                      opacity: 0, 
+                      y: 80,
+                      scale: 0.9,
+                      rotate: isCenter ? 0 : (index === 0 ? -5 : 5)
+                    }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0, 
+                      scale: 1,
+                      rotate: 0
+                    }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: index * 0.2 + 0.8,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    viewport={{ once: true }}
+                    className="group relative"
+                    whileHover={{ 
+                      y: -20, 
+                      scale: 1.03,
+                      rotate: isCenter ? 0 : (index === 0 ? 3 : -3)
+                    }}
+                  >
+                    {/* Connection flow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-200/20 to-violet-200/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    
+                    <div className={`relative bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border group-hover:shadow-2xl transition-all duration-500 overflow-hidden ${
+                      isCenter ? 'border-purple-200/80 shadow-purple-100/50' : 'border-purple-100/60'
+                    }`}>
+                      {/* Enhanced background decorations */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100/40 to-violet-100/40 rounded-full blur-3xl" />
+                      <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-br from-violet-100/50 to-indigo-100/50 rounded-full blur-2xl" />
+                      
+                      {/* Data flow visualization */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        <motion.div 
+                          className="absolute top-4 left-4 w-2 h-2 bg-purple-400 rounded-full"
+                          animate={{ 
+                            x: [0, 100, 200],
+                            y: [0, 50, 100],
+                            scale: [1, 1.5, 0]
+                          }}
+                          transition={{ 
+                            duration: 3,
+                            repeat: Infinity,
+                            ease: "easeInOut"
+                          }}
+                        />
+                        <motion.div 
+                          className="absolute bottom-4 right-4 w-1.5 h-1.5 bg-violet-400 rounded-full"
+                          animate={{ 
+                            x: [0, -80, -160],
+                            y: [0, -30, -60],
+                            scale: [1, 1.3, 0]
+                          }}
+                          transition={{ 
+                            duration: 2.5,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: 1
+                          }}
+                        />
                       </div>
-                      <h3 className="text-xl font-bold text-slate-800 mb-4 leading-tight">
-                        {channel.title}
-                      </h3>
-                      <p className="text-slate-600 leading-relaxed mb-6">
-                        {channel.description}
-                      </p>
-                      <div className="h-1 bg-gradient-to-r from-purple-600 to-violet-600 rounded-full" />
+                      
+                      <div className="relative z-10 p-10 text-center">
+                        {/* Enhanced icon with pulse effect */}
+                        <div className="mb-8">
+                          <motion.div 
+                            className={`w-20 h-20 bg-gradient-to-br ${channel.color} rounded-3xl flex items-center justify-center mx-auto shadow-xl relative group-hover:shadow-2xl transition-shadow mb-6`}
+                            whileHover={{ 
+                              scale: 1.2,
+                              rotate: 360
+                            }}
+                            transition={{ duration: 0.6 }}
+                          >
+                            <IconComponent className="w-10 h-10 text-white" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                            
+                            {/* Pulse rings */}
+                            <motion.div 
+                              className="absolute -inset-2 border-2 border-purple-300/30 rounded-full opacity-0 group-hover:opacity-100"
+                              animate={{ scale: [1, 1.5, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            />
+                          </motion.div>
+                          
+                          <motion.h3 
+                            className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-purple-800 bg-clip-text text-transparent mb-4 leading-tight"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.2 + 1 }}
+                            viewport={{ once: true }}
+                          >
+                            {channel.title}
+                          </motion.h3>
+                        </div>
+                        
+                        <motion.p 
+                          className="text-slate-600 leading-relaxed text-lg font-medium mb-8"
+                          initial={{ opacity: 0, y: 15 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: index * 0.2 + 1.2 }}
+                          viewport={{ once: true }}
+                        >
+                          {channel.description}
+                        </motion.p>
+                        
+                        {/* Interactive channel strength indicator */}
+                        <motion.div 
+                          className="relative h-2 bg-gray-100 rounded-full overflow-hidden"
+                          initial={{ opacity: 0 }}
+                          whileInView={{ opacity: 1 }}
+                          transition={{ duration: 0.4, delay: index * 0.2 + 1.4 }}
+                          viewport={{ once: true }}
+                        >
+                          <motion.div 
+                            className={`h-full bg-gradient-to-r ${channel.color} rounded-full shadow-sm relative`}
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "100%" }}
+                            transition={{ 
+                              duration: 2, 
+                              delay: index * 0.2 + 1.6,
+                              ease: "easeOut"
+                            }}
+                            viewport={{ once: true }}
+                          >
+                            <motion.div 
+                              className="absolute top-0 left-0 h-full w-4 bg-gradient-to-r from-white/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              animate={{ x: ['-100%', '300%'] }}
+                              transition={{ 
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "linear"
+                              }}
+                            />
+                          </motion.div>
+                        </motion.div>
+                        
+                        {/* Channel effectiveness badge */}
+                        <motion.div 
+                          className="absolute top-6 right-6 px-3 py-1 bg-gradient-to-r from-purple-500/20 to-violet-500/20 rounded-full backdrop-blur-sm border border-purple-200/50"
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ 
+                            duration: 0.5, 
+                            delay: index * 0.2 + 0.8,
+                            type: "spring",
+                            stiffness: 200
+                          }}
+                          viewport={{ once: true }}
+                          whileHover={{ scale: 1.1 }}
+                        >
+                          <span className="text-xs font-bold text-purple-700">
+                            High Impact
+                          </span>
+                        </motion.div>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
+            
+            {/* Results showcase */}
+            <motion.div 
+              className="mt-24 text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 p-12 rounded-4xl shadow-2xl relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                <motion.div 
+                  className="absolute inset-0"
+                  animate={{ 
+                    background: [
+                      'linear-gradient(45deg, rgba(147, 51, 234, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(99, 102, 241, 0.1) 100%)',
+                      'linear-gradient(45deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 50%, rgba(147, 51, 234, 0.1) 100%)',
+                      'linear-gradient(45deg, rgba(147, 51, 234, 0.1) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(99, 102, 241, 0.1) 100%)'
+                    ]
+                  }}
+                  transition={{ 
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                />
+                
+                <div className="relative z-10">
+                  <motion.div 
+                    className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-8 backdrop-blur-sm"
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Database className="w-12 h-12 text-white" />
+                  </motion.div>
+                  <h3 className="text-4xl font-bold text-white mb-6">Integrated Channel Intelligence</h3>
+                  <p className="text-purple-100 text-xl font-medium max-w-4xl mx-auto leading-relaxed">
+                    Every channel works in harmony, delivering consistent messaging and maximizing touchpoint effectiveness for higher conversion rates
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
           
           {/* Footer */}
