@@ -3078,80 +3078,341 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 9: Contact Information */}
-        <section className="min-h-screen bg-gradient-to-br from-slate-800 via-purple-800 to-violet-900 p-16 text-white">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-bold text-white mb-6">Contact Us</h2>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-400 via-violet-400 to-white mx-auto mb-8 rounded-full shadow-lg" />
-              <p className="text-xl text-purple-100 max-w-3xl mx-auto">
-                Ready to transform your B2B marketing? Let's start a conversation.
-              </p>
-            </div>
+        {/* Section 9: Contact Information - Enhanced Communication Hub */}
+        <section className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-violet-900 p-16 text-white relative overflow-hidden">
+          {/* Dynamic communication visualization background */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Communication signal waves */}
+            <motion.div 
+              className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400/5 to-purple-400/5 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.4, 1],
+                opacity: [0.2, 0.5, 0.2],
+                x: [0, 100, 0],
+                y: [0, -60, 0]
+              }}
+              transition={{ 
+                duration: 25,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-violet-400/8 to-pink-400/8 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 0.6, 1],
+                rotate: [0, 180, 360],
+                opacity: [0.3, 0.6, 0.3]
+              }}
+              transition={{ 
+                duration: 30,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
             
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div className="space-y-8">
-                <div className="text-center md:text-left">
-                  <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto md:mx-0 mb-6">
-                    <span className="text-slate-800 font-bold text-2xl">PB2B</span>
-                  </div>
-                  <h3 className="text-3xl font-bold text-white mb-4">
-                    Every Lead. Vetted. Qualified. Revenue-Ready.
-                  </h3>
+            {/* Floating communication elements */}
+            <motion.div 
+              className="absolute top-20 right-20 w-20 h-20 bg-blue-400/10 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-blue-400/20"
+              animate={{ 
+                y: [0, -40, 0],
+                rotate: [0, 90, 0],
+                scale: [1, 1.3, 1]
+              }}
+              transition={{ 
+                duration: 18,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Mail className="w-10 h-10 text-blue-400/60" />
+            </motion.div>
+            <motion.div 
+              className="absolute bottom-20 left-20 w-16 h-16 bg-green-400/10 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-green-400/20"
+              animate={{ 
+                x: [0, 50, 0],
+                scale: [1, 1.4, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 20,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Phone className="w-8 h-8 text-green-400/60" />
+            </motion.div>
+            
+            {/* Communication flow indicators */}
+            <motion.div 
+              className="absolute top-1/2 left-10 w-6 h-6 bg-gradient-to-r from-blue-400/70 to-purple-400/70 rounded-full"
+              animate={{ 
+                x: [0, 300, 600, 900],
+                y: [0, -120, 80, 0],
+                scale: [1, 2, 1, 0],
+                opacity: [1, 0.8, 0.6, 0]
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute top-1/3 right-10 w-5 h-5 bg-gradient-to-r from-violet-400/80 to-pink-400/80 rounded-full"
+              animate={{ 
+                x: [0, -250, -500, -750],
+                y: [0, 100, -50, 0],
+                scale: [1, 1.8, 1, 0],
+                opacity: [1, 0.7, 0.5, 0]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 5
+              }}
+            />
+            
+            {/* Data connection lines */}
+            <motion.div 
+              className="absolute top-1/4 left-1/3 w-1 h-32 bg-gradient-to-b from-blue-400/30 to-transparent"
+              animate={{ 
+                rotate: [0, 45, 90, 135, 180],
+                scale: [1, 1.5, 1, 0.5, 1]
+              }}
+              transition={{ 
+                duration: 10,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-24"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-8 mb-12">
+                <motion.div 
+                  className="w-32 h-32 bg-gradient-to-br from-blue-500 to-purple-600 rounded-4xl flex items-center justify-center shadow-2xl relative group"
+                  whileHover={{ scale: 1.15, rotate: 20 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <Zap className="w-16 h-16 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-4xl" />
+                  
+                  {/* Communication signal pulses */}
+                  <motion.div 
+                    className="absolute -inset-6 border-2 border-blue-300/30 rounded-full"
+                    animate={{ scale: [1, 1.6, 1], opacity: [0.3, 0.8, 0.3] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                  />
+                  <motion.div 
+                    className="absolute -inset-12 border border-purple-300/20 rounded-full"
+                    animate={{ scale: [1, 1.8, 1], opacity: [0.2, 0.6, 0.2] }}
+                    transition={{ duration: 4, repeat: Infinity, delay: 2 }}
+                  />
+                </motion.div>
+                <h2 className="text-7xl md:text-8xl font-black bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+                  Let's Connect
+                </h2>
+              </div>
+              <motion.div 
+                className="w-96 h-2.5 bg-gradient-to-r from-blue-500 via-purple-500 to-violet-500 mx-auto rounded-full shadow-lg mb-12"
+                initial={{ width: 0 }}
+                whileInView={{ width: 384 }}
+                transition={{ duration: 1.8, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <motion.p 
+                className="text-2xl text-blue-100 max-w-5xl mx-auto leading-relaxed font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                Ready to transform your B2B marketing strategy? Let's start building your success story together
+              </motion.p>
+            </motion.div>
+            
+            <div className="grid lg:grid-cols-2 gap-20 items-center">
+              {/* Brand promise section */}
+              <motion.div 
+                className="space-y-12"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                <div className="text-center lg:text-left">
+                  <motion.div 
+                    className="w-32 h-32 bg-gradient-to-br from-white/10 to-white/5 rounded-3xl flex items-center justify-center mx-auto lg:mx-0 mb-10 backdrop-blur-sm border border-white/10"
+                    whileHover={{ scale: 1.1, rotate: 15 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <span className="text-white font-black text-3xl tracking-tight">PB2B</span>
+                  </motion.div>
+                  <motion.h3 
+                    className="text-5xl font-bold text-white mb-8 leading-tight"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    viewport={{ once: true }}
+                  >
+                    Every Lead.<br />
+                    <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">Vetted. Qualified.</span><br />
+                    Revenue-Ready.
+                  </motion.h3>
+                  <motion.p 
+                    className="text-xl text-blue-100 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.7 }}
+                    viewport={{ once: true }}
+                  >
+                    Join the hundreds of B2B companies that trust us to deliver measurable growth through precision marketing and qualified lead generation.
+                  </motion.p>
                 </div>
-              </div>
-              
-              <div className="space-y-6">
-                <Card className="bg-white/10 backdrop-blur-md border-white/20 p-8">
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
-                        <Globe className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-white">Website</h4>
-                        <a href="https://pivotal-b2b.com" className="text-blue-200 hover:text-white transition-colors">
-                          pivotal-b2b.com
-                        </a>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center">
-                        <Mail className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-white">Email</h4>
-                        <a href="mailto:contact@pivotal-b2b.com" className="text-blue-200 hover:text-white transition-colors">
-                          contact@pivotal-b2b.com
-                        </a>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center">
-                        <Phone className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-white">Phone</h4>
-                        <span className="text-blue-200">+1 417-900-3844</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center">
-                        <ExternalLink className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-white">LinkedIn</h4>
-                        <a href="https://linkedin.com/company/pivotalb2b" className="text-blue-200 hover:text-white transition-colors">
-                          linkedin.com/company/pivotalb2b
-                        </a>
-                      </div>
-                    </div>
+                
+                {/* Call-to-action showcase */}
+                <motion.div 
+                  className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-10 rounded-3xl backdrop-blur-sm border border-white/10"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.9 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <div className="text-center lg:text-left">
+                    <h4 className="text-2xl font-bold text-white mb-4">Ready to Get Started?</h4>
+                    <p className="text-blue-100 mb-6 leading-relaxed">
+                      Schedule a strategy call to discover how we can accelerate your B2B growth with qualified leads that convert.
+                    </p>
+                    <motion.div 
+                      className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl font-bold text-white shadow-xl"
+                      whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.3)" }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Zap className="w-5 h-5" />
+                      <span>Start Your Growth Journey</span>
+                    </motion.div>
                   </div>
-                </Card>
-              </div>
+                </motion.div>
+              </motion.div>
+              
+              {/* Enhanced contact methods */}
+              <motion.div 
+                className="space-y-8"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                {[
+                  { icon: Globe, title: "Website", value: "pivotal-b2b.com", href: "https://pivotal-b2b.com", color: "from-blue-500 to-indigo-600" },
+                  { icon: Mail, title: "Email", value: "contact@pivotal-b2b.com", href: "mailto:contact@pivotal-b2b.com", color: "from-green-500 to-emerald-600" },
+                  { icon: Phone, title: "Phone", value: "+1 417-900-3844", href: "tel:+14179003844", color: "from-purple-500 to-violet-600" },
+                  { icon: ExternalLink, title: "LinkedIn", value: "linkedin.com/company/pivotalb2b", href: "https://linkedin.com/company/pivotalb2b", color: "from-indigo-500 to-blue-600" }
+                ].map((contact, index) => {
+                  const IconComponent = contact.icon;
+                  return (
+                    <motion.div
+                      key={index}
+                      initial={{ 
+                        opacity: 0, 
+                        y: 50,
+                        scale: 0.9
+                      }}
+                      whileInView={{ 
+                        opacity: 1, 
+                        y: 0, 
+                        scale: 1
+                      }}
+                      transition={{ 
+                        duration: 0.6, 
+                        delay: index * 0.15 + 0.7,
+                        type: "spring",
+                        stiffness: 120
+                      }}
+                      viewport={{ once: true }}
+                      className="group"
+                      whileHover={{ y: -10, scale: 1.02 }}
+                    >
+                      <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-8 group-hover:bg-white/10 group-hover:border-white/20 transition-all duration-500 overflow-hidden relative">
+                        {/* Background glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-400/5 to-purple-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        
+                        <div className="relative z-10">
+                          <div className="flex items-center gap-6">
+                            <motion.div 
+                              className={`w-16 h-16 bg-gradient-to-r ${contact.color} rounded-2xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-shadow`}
+                              whileHover={{ scale: 1.2, rotate: 360 }}
+                              transition={{ duration: 0.6 }}
+                            >
+                              <IconComponent className="w-8 h-8 text-white" />
+                            </motion.div>
+                            <div className="flex-1">
+                              <motion.h4 
+                                className="font-bold text-white text-xl mb-2"
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.15 + 0.9 }}
+                                viewport={{ once: true }}
+                              >
+                                {contact.title}
+                              </motion.h4>
+                              <motion.a 
+                                href={contact.href} 
+                                className="text-blue-200 hover:text-white transition-colors text-lg font-medium group-hover:underline"
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.5, delay: index * 0.15 + 1.1 }}
+                                viewport={{ once: true }}
+                              >
+                                {contact.value}
+                              </motion.a>
+                            </div>
+                            
+                            {/* Interaction indicator */}
+                            <motion.div 
+                              className="w-3 h-3 bg-green-400 rounded-full opacity-0 group-hover:opacity-100"
+                              animate={{ scale: [1, 1.5, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            />
+                          </div>
+                        </div>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
+                
+                {/* Trust indicator */}
+                <motion.div 
+                  className="mt-12 p-8 bg-gradient-to-r from-green-600/20 to-blue-600/20 rounded-3xl backdrop-blur-sm border border-green-300/20 text-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1.5 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.02 }}
+                >
+                  <motion.div 
+                    className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Shield className="w-8 h-8 text-green-400" />
+                  </motion.div>
+                  <h5 className="text-lg font-bold text-white mb-2">Trusted & Secure</h5>
+                  <p className="text-green-100 text-sm">
+                    100% GDPR & CCPA compliant. Your data is safe with us.
+                  </p>
+                </motion.div>
+              </motion.div>
             </div>
           </div>
           
