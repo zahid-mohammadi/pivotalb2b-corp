@@ -659,41 +659,216 @@ export default function MediaKit() {
         </section>
 
         {/* Section 3: Core Value Promises */}
-        <section className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50 p-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl font-bold text-slate-800 mb-6">Core Value Promises</h2>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+        <section className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50 p-16 relative overflow-hidden">
+          {/* Dynamic background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <motion.div 
+              className="absolute top-20 left-1/4 w-72 h-72 bg-gradient-to-r from-purple-300/10 to-violet-300/10 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.3, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 25,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-20 right-1/4 w-48 h-48 bg-gradient-to-r from-violet-300/15 to-indigo-300/15 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 0.7, 1],
+                x: [0, 50, 0]
+              }}
+              transition={{ 
+                duration: 18,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            
+            {/* Geometric accent shapes */}
+            <motion.div 
+              className="absolute top-1/3 right-10 w-8 h-8 bg-purple-400/30 rotate-45"
+              animate={{ 
+                y: [0, -40, 0],
+                rotate: [45, 405, 45]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/3 left-10 w-6 h-6 bg-violet-400/40 rounded-full"
+              animate={{ 
+                x: [0, 30, 0],
+                scale: [1, 1.5, 1]
+              }}
+              transition={{ 
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-4 mb-8">
+                <motion.div 
+                  className="w-20 h-20 bg-gradient-to-br from-purple-600 to-violet-700 rounded-3xl flex items-center justify-center shadow-2xl relative group"
+                  whileHover={{ scale: 1.1, rotate: 15 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Shield className="w-10 h-10 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                  <motion.div 
+                    className="absolute -inset-2 bg-gradient-to-r from-purple-500/30 to-violet-500/30 rounded-3xl blur-lg opacity-0 group-hover:opacity-100"
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.div>
+                <h2 className="text-6xl font-black bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 bg-clip-text text-transparent">
+                  Core Value Promises
+                </h2>
+              </div>
+              <motion.div 
+                className="w-48 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 mx-auto rounded-full shadow-lg mb-8"
+                initial={{ width: 0 }}
+                whileInView={{ width: 192 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <motion.p 
+                className="text-2xl text-slate-600 max-w-4xl mx-auto font-medium leading-relaxed"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
                 Our commitment to delivering exceptional value through quality, compliance, and performance
-              </p>
+              </motion.p>
+            </motion.div>
+            
+            {/* Enhanced promise cards in asymmetric layout */}
+            <div className="grid md:grid-cols-2 gap-10 lg:gap-12">
+              {valuePromises.map((promise, index) => {
+                const titlePart = promise.split(' – ')[0];
+                const descriptionPart = promise.split(' – ')[1];
+                
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 50, rotate: index % 2 === 0 ? -3 : 3 }}
+                    whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: index * 0.15,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    viewport={{ once: true }}
+                    className="group relative"
+                    whileHover={{ y: -12, rotate: index % 2 === 0 ? 2 : -2 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-200/20 to-violet-200/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    <div className="relative bg-white/90 backdrop-blur-sm p-10 rounded-3xl shadow-xl border border-purple-100/50 group-hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                      {/* Decorative elements */}
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-purple-100/50 to-violet-100/50 rounded-full blur-2xl" />
+                      <div className="absolute bottom-0 left-0 w-16 h-16 bg-gradient-to-br from-violet-100/50 to-indigo-100/50 rounded-full blur-xl" />
+                      
+                      <div className="relative z-10 flex items-start gap-6">
+                        <motion.div 
+                          className="w-16 h-16 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:shadow-xl transition-shadow relative"
+                          whileHover={{ scale: 1.15, rotate: 360 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <Check className="w-8 h-8 text-white" />
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl" />
+                        </motion.div>
+                        
+                        <div className="flex-1">
+                          <motion.h3 
+                            className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-purple-800 bg-clip-text text-transparent mb-4 leading-tight"
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
+                            viewport={{ once: true }}
+                          >
+                            {titlePart}
+                          </motion.h3>
+                          <motion.p 
+                            className="text-slate-600 leading-relaxed text-lg font-medium"
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
+                            viewport={{ once: true }}
+                          >
+                            {descriptionPart}
+                          </motion.p>
+                          
+                          {/* Progress indicator */}
+                          <motion.div 
+                            className="mt-6 h-1 bg-gradient-to-r from-purple-500 to-violet-500 rounded-full shadow-sm"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "100%" }}
+                            transition={{ duration: 1, delay: index * 0.1 + 0.6 }}
+                            viewport={{ once: true }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
             
-            <div className="grid md:grid-cols-2 gap-8">
-              {valuePromises.map((promise, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-slate-100"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-800 mb-2">
-                        {promise.split(' – ')[0]}
-                      </h3>
-                      <p className="text-slate-600 leading-relaxed">
-                        {promise.split(' – ')[1]}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            {/* Central call-to-action */}
+            <motion.div 
+              className="mt-20 text-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-block bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 p-10 rounded-3xl shadow-2xl relative group overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{ 
+                    backgroundPosition: ['0%', '100%', '0%']
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  style={{ backgroundSize: '200% 200%' }}
+                />
+                
+                <div className="relative z-10">
+                  <motion.div 
+                    className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm"
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Award className="w-10 h-10 text-white" />
+                  </motion.div>
+                  <h3 className="text-3xl font-bold text-white mb-4">Our Guarantee</h3>
+                  <p className="text-purple-100 text-xl font-medium max-w-2xl mx-auto leading-relaxed">
+                    Every promise backed by proven methodologies and a track record of success since 2017
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
           
           {/* Footer */}
