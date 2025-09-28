@@ -881,44 +881,292 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* Section 4: Our Services - Simple Grid Layout */}
-        <section className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-violet-50 p-16">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-xl">
-                  <Briefcase className="w-8 h-8 text-white" />
-                </div>
-                <h2 className="text-5xl font-bold bg-gradient-to-r from-purple-700 to-violet-800 bg-clip-text text-transparent">Our Services</h2>
-              </div>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-purple-600 via-violet-600 to-purple-600 mx-auto mb-8 rounded-full shadow-lg" />
-              <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
-                Comprehensive B2B marketing solutions designed to drive qualified leads and accelerate revenue growth
-              </p>
-            </div>
+        {/* Section 4: Our Services - Enhanced Creative Layout */}
+        <section className="min-h-screen bg-gradient-to-br from-white via-purple-50/40 to-violet-50/40 p-16 relative overflow-hidden">
+          {/* Enhanced background elements */}
+          <div className="absolute inset-0 overflow-hidden">
+            <motion.div 
+              className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-200/15 to-violet-200/15 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 1.4, 1],
+                x: [0, 30, 0],
+                y: [0, -20, 0]
+              }}
+              transition={{ 
+                duration: 22,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-violet-200/20 to-indigo-200/20 rounded-full blur-3xl"
+              animate={{ 
+                scale: [1, 0.8, 1],
+                rotate: [0, 180, 360]
+              }}
+              transition={{ 
+                duration: 28,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
             
-            {/* Simple responsive grid layout */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Floating service icons */}
+            <motion.div 
+              className="absolute top-20 right-20 w-12 h-12 bg-purple-300/20 rounded-full flex items-center justify-center"
+              animate={{ 
+                y: [0, -20, 0],
+                rotate: [0, 360, 0]
+              }}
+              transition={{ 
+                duration: 15,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Target className="w-6 h-6 text-purple-500/60" />
+            </motion.div>
+            <motion.div 
+              className="absolute bottom-20 left-20 w-10 h-10 bg-violet-300/20 rounded-full flex items-center justify-center"
+              animate={{ 
+                x: [0, 25, 0],
+                scale: [1, 1.2, 1]
+              }}
+              transition={{ 
+                duration: 12,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            >
+              <Users className="w-5 h-5 text-violet-500/60" />
+            </motion.div>
+          </div>
+
+          <div className="max-w-7xl mx-auto relative z-10">
+            <motion.div 
+              className="text-center mb-20"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center gap-6 mb-10">
+                <motion.div 
+                  className="w-24 h-24 bg-gradient-to-br from-purple-600 to-violet-700 rounded-3xl flex items-center justify-center shadow-2xl relative group"
+                  whileHover={{ scale: 1.1, rotate: 12 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  <Briefcase className="w-12 h-12 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                  <motion.div 
+                    className="absolute -inset-4 bg-gradient-to-r from-purple-500/30 to-violet-500/30 rounded-3xl blur-xl opacity-0 group-hover:opacity-100"
+                    transition={{ duration: 0.4 }}
+                  />
+                </motion.div>
+                <h2 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-slate-800 via-purple-800 to-violet-800 bg-clip-text text-transparent">
+                  Our Services
+                </h2>
+              </div>
+              <motion.div 
+                className="w-52 h-2 bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 mx-auto rounded-full shadow-lg mb-10"
+                initial={{ width: 0 }}
+                whileInView={{ width: 208 }}
+                transition={{ duration: 1.2, delay: 0.3 }}
+                viewport={{ once: true }}
+              />
+              <motion.p 
+                className="text-2xl text-slate-600 max-w-5xl mx-auto leading-relaxed font-medium"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                viewport={{ once: true }}
+              >
+                Comprehensive B2B marketing solutions designed to drive qualified leads and accelerate revenue growth
+              </motion.p>
+            </motion.div>
+            
+            {/* Enhanced services grid with creative layouts */}
+            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
               {services.map((service, index) => {
                 const IconComponent = service.icon;
+                const isLargeCard = index === 0 || index === 3; // Make certain cards more prominent
+                
                 return (
-                  <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8 border border-purple-100">
-                    <div className="mb-6">
-                      <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-violet-700 rounded-2xl flex items-center justify-center shadow-lg mb-4">
-                        <IconComponent className="w-8 h-8 text-white" />
+                  <motion.div
+                    key={index}
+                    initial={{ 
+                      opacity: 0, 
+                      y: 60,
+                      rotate: index % 2 === 0 ? -2 : 2,
+                      scale: 0.95
+                    }}
+                    whileInView={{ 
+                      opacity: 1, 
+                      y: 0, 
+                      rotate: 0,
+                      scale: 1
+                    }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: index * 0.1,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    viewport={{ once: true }}
+                    className={`group relative ${
+                      isLargeCard ? 'md:col-span-2 xl:col-span-1' : ''
+                    }`}
+                    whileHover={{ 
+                      y: -15, 
+                      rotate: index % 2 === 0 ? 3 : -3,
+                      scale: 1.02
+                    }}
+                  >
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-200/30 to-violet-200/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                    
+                    <div className="relative bg-white/95 backdrop-blur-sm rounded-3xl shadow-xl border border-purple-100/60 group-hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                      {/* Background decorative elements */}
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-100/40 to-violet-100/40 rounded-full blur-3xl opacity-60" />
+                      <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-br from-violet-100/50 to-indigo-100/50 rounded-full blur-2xl opacity-50" />
+                      
+                      <div className="relative z-10 p-8 lg:p-10">
+                        {/* Enhanced icon design */}
+                        <div className="mb-8">
+                          <motion.div 
+                            className={`w-20 h-20 bg-gradient-to-br ${service.color} rounded-3xl flex items-center justify-center shadow-xl relative group-hover:shadow-2xl transition-shadow mb-6`}
+                            whileHover={{ 
+                              rotate: 360,
+                              scale: 1.15 
+                            }}
+                            transition={{ duration: 0.6 }}
+                          >
+                            <IconComponent className="w-10 h-10 text-white" />
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl" />
+                            <motion.div 
+                              className="absolute -inset-1 bg-gradient-to-r from-purple-500/20 to-violet-500/20 rounded-3xl blur-lg opacity-0 group-hover:opacity-100"
+                              transition={{ duration: 0.3 }}
+                            />
+                          </motion.div>
+                          
+                          <motion.h3 
+                            className={`${
+                              isLargeCard ? 'text-2xl' : 'text-xl'
+                            } font-bold bg-gradient-to-r from-slate-800 to-purple-800 bg-clip-text text-transparent mb-4 leading-tight`}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6, delay: index * 0.1 + 0.3 }}
+                            viewport={{ once: true }}
+                          >
+                            {service.title}
+                          </motion.h3>
+                        </div>
+                        
+                        <motion.p 
+                          className={`text-slate-600 leading-relaxed ${
+                            isLargeCard ? 'text-lg' : 'text-base'
+                          } font-medium mb-8`}
+                          initial={{ opacity: 0, y: 15 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.6, delay: index * 0.1 + 0.4 }}
+                          viewport={{ once: true }}
+                        >
+                          {service.description}
+                        </motion.p>
+                        
+                        {/* Interactive progress bar */}
+                        <motion.div 
+                          className="relative h-2 bg-gray-100 rounded-full overflow-hidden"
+                          initial={{ opacity: 0 }}
+                          whileInView={{ opacity: 1 }}
+                          transition={{ duration: 0.4, delay: index * 0.1 + 0.6 }}
+                          viewport={{ once: true }}
+                        >
+                          <motion.div 
+                            className={`h-full bg-gradient-to-r ${service.color} rounded-full shadow-sm`}
+                            initial={{ width: 0 }}
+                            whileInView={{ width: "100%" }}
+                            transition={{ 
+                              duration: 1.5, 
+                              delay: index * 0.1 + 0.8,
+                              ease: "easeOut"
+                            }}
+                            viewport={{ once: true }}
+                          />
+                          <motion.div 
+                            className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            animate={{ x: ['-100%', '100%'] }}
+                            transition={{ 
+                              duration: 2,
+                              repeat: Infinity,
+                              ease: "linear"
+                            }}
+                          />
+                        </motion.div>
+                        
+                        {/* Service number badge */}
+                        <motion.div 
+                          className="absolute top-6 right-6 w-10 h-10 bg-gradient-to-br from-purple-500/20 to-violet-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-purple-200/50"
+                          initial={{ opacity: 0, scale: 0 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ 
+                            duration: 0.5, 
+                            delay: index * 0.1 + 0.2,
+                            type: "spring",
+                            stiffness: 200
+                          }}
+                          viewport={{ once: true }}
+                          whileHover={{ scale: 1.2, rotate: 360 }}
+                        >
+                          <span className="text-sm font-bold text-purple-700">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                        </motion.div>
                       </div>
-                      <h3 className="text-xl font-bold text-slate-800 mb-3 leading-tight">
-                        {service.title}
-                      </h3>
                     </div>
-                    <p className="text-slate-600 leading-relaxed mb-6">
-                      {service.description}
-                    </p>
-                    <div className="h-1 bg-gradient-to-r from-purple-600 to-violet-600 rounded-full" />
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
+            
+            {/* Call-to-action section */}
+            <motion.div 
+              className="mt-24 text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-block bg-gradient-to-r from-purple-600 via-violet-600 to-indigo-600 p-12 rounded-4xl shadow-2xl relative group overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
+                <motion.div 
+                  className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{ 
+                    backgroundPosition: ['0%', '100%', '0%']
+                  }}
+                  transition={{ 
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  style={{ backgroundSize: '200% 200%' }}
+                />
+                
+                <div className="relative z-10">
+                  <motion.div 
+                    className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-8 backdrop-blur-sm"
+                    whileHover={{ scale: 1.2, rotate: 360 }}
+                    transition={{ duration: 0.8 }}
+                  >
+                    <Zap className="w-12 h-12 text-white" />
+                  </motion.div>
+                  <h3 className="text-4xl font-bold text-white mb-6">Ready to Transform Your B2B Marketing?</h3>
+                  <p className="text-purple-100 text-xl font-medium max-w-3xl mx-auto leading-relaxed">
+                    Discover how our precision-driven approach can turn your marketing budget into predictable revenue growth
+                  </p>
+                </div>
+              </div>
+            </motion.div>
           </div>
           
           {/* Footer */}
