@@ -16,6 +16,8 @@ import Blog from "@/pages/blog";
 import BlogDetail from "@/pages/blog-detail";
 import Ebooks from "@/pages/ebooks";
 import EbookDetail from "@/pages/ebook-detail";
+import EbookABMLanding from "@/pages/ebook-abm-landing";
+import EbookABMDetail from "@/pages/ebook-abm-detail";
 import CaseStudies from "@/pages/case-studies";
 import CaseStudyDetail from "@/pages/case-study-detail";
 import About from "@/pages/about";
@@ -50,6 +52,8 @@ function Router() {
           <Route path="/blog/:slug" component={BlogDetail} />
           <Route path="/ebooks" component={Ebooks} />
           <Route path="/ebooks/:id" component={EbookDetail} />
+          <Route path="/ebook-abm-guide" component={EbookABMLanding} />
+          <Route path="/ebook/abm-guide" component={EbookABMDetail} />
           <Route path="/case-studies" component={CaseStudies} />
           <Route path="/case-studies/:id" component={CaseStudyDetail} />
           <Route path="/about" component={About} />
