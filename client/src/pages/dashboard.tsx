@@ -660,23 +660,30 @@ export default function Dashboard() {
                       </div>
                       <div className="divide-y">
                         {leads?.map((lead) => {
-                          const content = lead.contentType === 'ebook'
-                            ? ebooks?.find(e => e.id === lead.contentId)
-                            : caseStudies?.find(c => c.id === lead.contentId);
+                          let contentTitle = 'Unknown';
+                          if (lead.contentType === 'media-kit') {
+                            contentTitle = 'Media Kit';
+                          } else {
+                            const content = lead.contentType === 'ebook'
+                              ? ebooks?.find(e => e.id === lead.contentId)
+                              : caseStudies?.find(c => c.id === lead.contentId);
+                            contentTitle = content?.title || 'Unknown';
+                          }
 
                           return (
                             <div 
                               key={lead.id} 
                               className="p-4 hover:bg-muted/50 transition-colors cursor-pointer"
                               onClick={() => navigate(`/lead/${lead.id}`)}
+                              data-testid={`lead-row-${lead.id}`}
                             >
                               <div className="grid grid-cols-7 gap-4 items-center text-sm">
-                                <div className="font-medium">{lead.fullName}</div>
-                                <div className="truncate">{lead.email}</div>
-                                <div>{lead.company}</div>
-                                <div className="capitalize">{lead.contentType}</div>
-                                <div className="truncate">{content?.title || 'Unknown'}</div>
-                                <div>{new Date(lead.downloadedAt).toLocaleDateString()}</div>
+                                <div className="font-medium" data-testid={`lead-name-${lead.id}`}>{lead.fullName}</div>
+                                <div className="truncate" data-testid={`lead-email-${lead.id}`}>{lead.email}</div>
+                                <div data-testid={`lead-company-${lead.id}`}>{lead.company}</div>
+                                <div className="capitalize" data-testid={`lead-type-${lead.id}`}>{lead.contentType}</div>
+                                <div className="truncate" data-testid={`lead-content-${lead.id}`}>{contentTitle}</div>
+                                <div data-testid={`lead-date-${lead.id}`}>{new Date(lead.downloadedAt).toLocaleDateString()}</div>
                                 <div>
                                   <Button
                                     variant="ghost"
@@ -685,6 +692,7 @@ export default function Dashboard() {
                                       e.stopPropagation();
                                       navigate(`/lead/${lead.id}`);
                                     }}
+                                    data-testid={`button-view-lead-${lead.id}`}
                                   >
                                     <Eye className="w-4 h-4" />
                                   </Button>
@@ -704,25 +712,32 @@ export default function Dashboard() {
                     {/* Mobile Card View */}
                     <div className="lg:hidden space-y-4">
                       {leads?.map((lead) => {
-                        const content = lead.contentType === 'ebook'
-                          ? ebooks?.find(e => e.id === lead.contentId)
-                          : caseStudies?.find(c => c.id === lead.contentId);
+                        let contentTitle = 'Unknown';
+                        if (lead.contentType === 'media-kit') {
+                          contentTitle = 'Media Kit';
+                        } else {
+                          const content = lead.contentType === 'ebook'
+                            ? ebooks?.find(e => e.id === lead.contentId)
+                            : caseStudies?.find(c => c.id === lead.contentId);
+                          contentTitle = content?.title || 'Unknown';
+                        }
 
                         return (
                           <Card 
                             key={lead.id} 
                             className="cursor-pointer hover:shadow-md transition-shadow"
                             onClick={() => navigate(`/lead/${lead.id}`)}
+                            data-testid={`lead-card-${lead.id}`}
                           >
                             <CardContent className="p-4">
                               <div className="space-y-3">
                                 {/* Header */}
                                 <div className="flex items-start justify-between">
                                   <div>
-                                    <h3 className="font-medium text-lg">{lead.fullName}</h3>
+                                    <h3 className="font-medium text-lg" data-testid={`lead-name-mobile-${lead.id}`}>{lead.fullName}</h3>
                                     <p className="text-sm text-muted-foreground flex items-center gap-1">
                                       <Building className="w-3 h-3" />
-                                      {lead.company}
+                                      <span data-testid={`lead-company-mobile-${lead.id}`}>{lead.company}</span>
                                     </p>
                                   </div>
                                   <Button
@@ -732,6 +747,7 @@ export default function Dashboard() {
                                       e.stopPropagation();
                                       navigate(`/lead/${lead.id}`);
                                     }}
+                                    data-testid={`button-view-lead-mobile-${lead.id}`}
                                   >
                                     <Eye className="w-4 h-4" />
                                   </Button>
@@ -741,33 +757,31 @@ export default function Dashboard() {
                                 <div className="space-y-2">
                                   <p className="text-sm flex items-center gap-2">
                                     <Mail className="w-3 h-3 text-muted-foreground" />
-                                    <span className="truncate">{lead.email}</span>
+                                    <span className="truncate" data-testid={`lead-email-mobile-${lead.id}`}>{lead.email}</span>
                                   </p>
                                   
                                   <div className="flex items-center justify-between">
                                     <p className="text-sm flex items-center gap-2">
                                       <Download className="w-3 h-3 text-muted-foreground" />
-                                      <span className="capitalize">{lead.contentType}</span>
+                                      <span className="capitalize" data-testid={`lead-type-mobile-${lead.id}`}>{lead.contentType}</span>
                                     </p>
                                     <p className="text-xs text-muted-foreground flex items-center gap-1">
                                       <Calendar className="w-3 h-3" />
-                                      {new Date(lead.downloadedAt).toLocaleDateString()}
+                                      <span data-testid={`lead-date-mobile-${lead.id}`}>{new Date(lead.downloadedAt).toLocaleDateString()}</span>
                                     </p>
                                   </div>
                                 </div>
 
                                 {/* Content Info */}
-                                {content && (
-                                  <div className="bg-muted/50 rounded-lg p-3">
-                                    <p className="text-sm font-medium">{content.title}</p>
-                                    {lead.message && (
-                                      <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
-                                        <MessageSquare className="w-3 h-3" />
-                                        Has message
-                                      </p>
-                                    )}
-                                  </div>
-                                )}
+                                <div className="bg-muted/50 rounded-lg p-3">
+                                  <p className="text-sm font-medium" data-testid={`lead-content-mobile-${lead.id}`}>{contentTitle}</p>
+                                  {lead.message && (
+                                    <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                                      <MessageSquare className="w-3 h-3" />
+                                      Has message
+                                    </p>
+                                  )}
+                                </div>
                               </div>
                             </CardContent>
                           </Card>

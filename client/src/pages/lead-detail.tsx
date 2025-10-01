@@ -57,6 +57,10 @@ export default function LeadDetail() {
   const getContentDetails = () => {
     if (!lead) return null;
     
+    if (lead.contentType === 'media-kit') {
+      return null; // Media kit doesn't have a content item
+    }
+    
     const content = lead.contentType === 'ebook'
       ? ebooks?.find(e => e.id === lead.contentId)
       : caseStudies?.find(c => c.id === lead.contentId);
@@ -178,12 +182,20 @@ export default function LeadDetail() {
                   <p className="text-lg break-all">{lead.email}</p>
                 </div>
               </div>
-              <div>
-                <label className="text-sm font-medium text-muted-foreground">Company</label>
-                <p className="text-lg flex items-center gap-2">
-                  <Building className="w-4 h-4" />
-                  {lead.company}
-                </p>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Company</label>
+                  <p className="text-lg flex items-center gap-2">
+                    <Building className="w-4 h-4" />
+                    {lead.company}
+                  </p>
+                </div>
+                {lead.phone && (
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Phone</label>
+                    <p className="text-lg">{lead.phone}</p>
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -254,7 +266,24 @@ export default function LeadDetail() {
                 </p>
               </div>
               
-              {contentDetails && (
+              {lead.contentType === 'media-kit' ? (
+                <>
+                  <Separator />
+                  <div>
+                    <label className="text-sm font-medium text-muted-foreground">Title</label>
+                    <p className="font-medium">Media Kit</p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => navigate('/media-kit')}
+                    className="w-full"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    View Media Kit
+                  </Button>
+                </>
+              ) : contentDetails ? (
                 <>
                   <Separator />
                   <div>
@@ -288,7 +317,7 @@ export default function LeadDetail() {
                     View Content
                   </Button>
                 </>
-              )}
+              ) : null}
             </CardContent>
           </Card>
         </div>
