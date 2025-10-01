@@ -361,11 +361,40 @@ export default function ServicePage() {
 
   const stepIcons = [Target, Users, Rocket, TrendingUp];
 
+  const seoMetadata: Record<string, { title: string; description: string }> = {
+    "account-based-marketing-abm-programs": {
+      title: "Account-Based Marketing Programs | Target Account Engagement",
+      description: "ABM programs designed to engage full buying committees inside your Target Accounts—driving qualified pipeline before formal vendor comparison."
+    },
+    "b2b-lead-generation-qualification": {
+      title: "B2B Lead Generation & Qualification Services",
+      description: "Generate and qualify B2B leads matched to your Ideal Customer Profile. Only speak with decision-makers who have real interest and authority."
+    },
+    "precision-demand-generation": {
+      title: "Precision Demand Generation Services for B2B Teams",
+      description: "Convert buyer research into measurable pipeline with content-led demand generation that educates key stakeholders early."
+    },
+    "event-marketing-audience-acquisition": {
+      title: "Event Marketing & Audience Acquisition for B2B Companies",
+      description: "Attract decision-makers with real buying intent to your events. Ensure every attendee is relevant, engaged, and revenue-aligned."
+    },
+    "lead-validation-enrichment": {
+      title: "Lead Validation & Data Enrichment Services",
+      description: "Clean, verify, and enrich lead data to ensure accuracy, compliance, and sales readiness across your campaigns."
+    },
+    "lead-nurturing-buyer-engagement": {
+      title: "Lead Nurturing & Buyer Engagement Programs",
+      description: "Keep early-stage leads engaged with relevant touchpoints until they're ready to buy—turning long-term interest into pipeline."
+    }
+  };
+
+  const currentSEO = params?.slug ? seoMetadata[params.slug] : null;
+
   return (
     <>
       <MetaTags
-        title={`${service.title} - B2B Marketing Solutions | Pivotal B2B`}
-        description={`Transform your B2B marketing with our ${service.title}. ${service.description} Expert solutions for enterprise software, telecommunication, financial services, and IT services sectors.`}
+        title={currentSEO?.title || `${service.title} - B2B Marketing Solutions | Pivotal B2B`}
+        description={currentSEO?.description || `Transform your B2B marketing with our ${service.title}. ${service.description} Expert solutions for enterprise software, telecommunication, financial services, and IT services sectors.`}
         keywords={`${service.title.toLowerCase()}, B2B ${service.title.toLowerCase()}, ${industryKeywords}, enterprise marketing solutions, B2B lead generation`}
         structuredData={{
           "@context": "https://schema.org",

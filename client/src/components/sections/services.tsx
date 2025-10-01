@@ -265,11 +265,11 @@ export function Services() {
                     <Button
                       onClick={() => {
                         const serviceSlugMap: Record<string, string> = {
-                          'Account-Based Marketing (ABM) Programs': 'account-based-marketing',
+                          'Account-Based Marketing (ABM) Programs': 'account-based-marketing-abm-programs',
                           'B2B Lead Generation & Qualification': 'b2b-lead-generation-qualification',
-                          'Lead Nurturing & Engagement': 'lead-nurturing-engagement',
+                          'Lead Nurturing & Buyer Engagement': 'lead-nurturing-buyer-engagement',
                           'Precision Demand Generation': 'precision-demand-generation',
-                          'Event Marketing & Audience Acquisition': 'event-marketing-solutions',
+                          'Event Marketing & Audience Acquisition': 'event-marketing-audience-acquisition',
                           'Lead Validation & Enrichment': 'lead-validation-enrichment'
                         };
                         const slug = serviceSlugMap[service.title] || service.title.toLowerCase().replace(/ & | /g, '-');
