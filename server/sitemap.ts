@@ -104,10 +104,8 @@ router.get('/sitemap.xml', async (req, res) => {
       return;
     }
 
-    // Get the hostname and ensure it includes www for production
-    const protocol = req.get('x-forwarded-proto') || req.protocol;
-    const host = normalizeHostname(req.get('host') || req.hostname);
-    const hostname = `${protocol}://${host}`;
+    // Use production domain for sitemap URLs
+    const hostname = 'https://pivotal-b2b.com';
 
     log(`Generating sitemap for hostname: ${hostname}`);
 
