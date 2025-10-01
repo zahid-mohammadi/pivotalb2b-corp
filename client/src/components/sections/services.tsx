@@ -60,7 +60,7 @@ const services = [
   },
   {
     title: "Event Marketing & Audience Acquisition",
-    description: "Drive event attendance from real decision-makers with budget, need, and authority.",
+    description: "Fill your events with the right audience — engaged decision-makers from your Target Accounts who are exploring solutions and open to meaningful conversations.",
     slogan: "Events Filled with Decision-Makers",
     icon: Rocket,
     ctaLabel: "Scale Event Marketing",
