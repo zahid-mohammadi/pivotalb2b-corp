@@ -253,32 +253,6 @@ export function Hero() {
                 </motion.div>
               ))}
             </motion.div>
-
-            {/* Trust Indicators */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.8 }}
-              className="pt-8 sm:pt-12 flex flex-wrap justify-center items-center gap-6 sm:gap-8 text-blue-200"
-            >
-              {[
-                { value: "500+", label: "Qualified Leads Delivered" },
-                { value: "95%", label: "Client Satisfaction Rate" },
-                { value: "3x", label: "Average ROI Increase" }
-              ].map((stat, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 1.8 + (i * 0.1), duration: 0.5 }}
-                  className="text-center px-6 py-3 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10"
-                  data-testid={`stat-${i}`}
-                >
-                  <div className="text-3xl sm:text-4xl font-bold text-white mb-1">{stat.value}</div>
-                  <div className="text-sm text-blue-300">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
           </motion.div>
         </div>
       </div>
