@@ -19,38 +19,38 @@ export function Approach() {
   const steps = [
     {
       icon: ResearchStrategyIcon,
-      title: "Find",
+      title: "FIND",
       subtitle: "Your Ideal Buyers",
       description:
-"Is your sales team chasing prospects without authority or budget? We cut the noise by identifying companies with live buying signals, approved budgets, and decision-makers who matter—so your team focuses only on opportunities that can convert.",
+"The best results start with precision targeting. We define and prioritize accounts that match your ICP, layer intent signals to spot active buyers, and map the decision-makers who matter most.",
       color: "#4F46E5",
       gradient: "from-indigo-500 to-blue-600",
       bgGradient: "from-indigo-50 to-blue-50",
-      benefit: "Eliminate wasted outreach. Target only real buyers.",
+      benefit: "Focus only on accounts and contacts that fit your growth strategy.",
       tools: ["Intent Monitoring", "BANT Verification", "Account Mapping"]
     },
     {
       icon: ContentEngagementIcon,
-      title: "Engage",
+      title: "ENGAGE",
       subtitle: "With Authority",
       description:
-"If prospects disengage, it's rarely about interest—it's about value. We elevate your brand as a trusted advisor by delivering insight-driven content that speaks directly to buyer pain points, keeping you top-of-mind until they're ready to act.",
+"Prospects don't disengage because of lack of interest — they disengage because of lack of value. We deliver content and insights that address real business challenges, positioning your brand as the trusted advisor when buying decisions are made.",
       color: "#8B5CF6",
       gradient: "from-violet-500 to-purple-600",
       bgGradient: "from-violet-50 to-purple-50",
-      benefit: "Build trust and win preference—without competing on price.",
+      benefit: "Build trust. Earn preference. Stay top-of-mind.",
       tools: ["Content Strategy", "Multi-Channel", "Thought Leadership"]
     },
     {
       icon: ScaleGrowthIcon,
-      title: "Close",
-      subtitle: "Deals That Move the Needle",
+      title: "CLOSE",
+      subtitle: "Deals That Matter",
       description:
-"When revenue stalls, the problem isn't sales effort—it's lead quality. Our pre-qualified leads meet strict BANT criteria so your sales team focuses only on deals worth closing.",
+"Pipeline stalls when lead quality fails. By delivering pre-validated opportunities aligned with your ICP, your sales team spends time only on deals worth winning — shortening cycles and increasing consistency.",
       color: "#EC4899",
       gradient: "from-pink-500 to-rose-600",
       bgGradient: "from-pink-50 to-rose-50",
-      benefit: "Higher close rates, shorter cycles, consistent quota achievement.",
+      benefit: "Higher conversion. Stronger revenue. Predictable growth.",
       tools: ["Pipeline Review", "Deal Coaching", "Revenue Ops"]
     },
   ];
@@ -86,7 +86,7 @@ export function Approach() {
           </h2>
 
           <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
-            Stop chasing dead-end leads. Start building revenue. Our systematic approach transforms your marketing spend into measurable revenue outcomes through targeted precision.
+            Stop chasing dead-end leads. Start building revenue. Our systematic approach transforms marketing investment into predictable, measurable growth by focusing only on the right buyers, the right engagement, and the right opportunities.
           </p>
         </motion.div>
 
@@ -99,7 +99,7 @@ export function Approach() {
             <div className="flex flex-col sm:flex-row items-center justify-between mb-8 sm:mb-12 gap-4 sm:gap-0">
               <div>
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">Revenue Pipeline Control Center</h3>
-                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 text-center sm:text-left">Watch your leads transform into revenue</p>
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 text-center sm:text-left">See how every step builds towards revenue outcomes.</p>
               </div>
               <div className="hidden md:flex items-center gap-2">
                 {steps.map((_, index) => (
