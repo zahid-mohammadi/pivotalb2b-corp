@@ -7,20 +7,20 @@ export function MarketingChannels() {
   const channels = [
     {
       icon: Mail,
-      title: "Email Marketing",
-      description: "Reach decision-makers directly with compliant, personalized campaigns designed to educate and convert.",
+      title: "Email Outreach",
+      description: "Educate and influence decision-makers with compliant, personalized messaging that builds trust and drives action.",
       color: "from-blue-500 to-blue-600"
     },
     {
       icon: FormInput,
-      title: "Form Fills & Landing Pages",
-      description: "Drive inbound interest with gated content and conversion-focused forms that capture high-intent leads.",
+      title: "Landing Pages & Form Fills",
+      description: "Capture high-intent interest through conversion-optimized pages and gated assets that deliver qualified leads.",
       color: "from-green-500 to-green-600"
     },
     {
       icon: Phone,
       title: "Phone Outreach",
-      description: "Validate intent and accelerate conversations with direct, human-to-human engagement.",
+      description: "Accelerate engagement with direct, one-to-one conversations that validate intent and open doors for sales.",
       color: "from-purple-500 to-purple-600"
     }
   ];
@@ -41,7 +41,7 @@ export function MarketingChannels() {
               Multi-Channel Outreach That Reaches Buyers Where They Are
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              We don't rely on a single tactic. Our programs combine multiple trusted channels to maximize engagement, response, and lead quality.
+              Your prospects don't live in one channel — and neither do we. Our programs integrate proven outreach methods to ensure consistent engagement, stronger responses, and higher-quality opportunities.
             </p>
           </motion.div>
 
