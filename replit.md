@@ -27,10 +27,11 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - Optimize for mobile views
 
 ## Recent Changes
-- Adding lead detail page functionality
-- Making dashboard mobile-friendly and responsive
-- Temporarily removed case studies and ebooks from navigation per user request
-- Date: 2025-08-08
+- Added dynamic sitemap generation at /sitemap.xml with pivotal-b2b.com domain
+- Sitemap automatically includes all pages except compliance (privacy, terms, cookies)
+- Sitemap updates dynamically as new content (blog posts, services, ebooks) is added
+- Fixed React SlotClone errors in eBook detail page by using onClick navigation
+- Date: 2025-10-01
 
 ## Lead Management Features
 - Lead collection from content downloads
