@@ -33,14 +33,6 @@ async function generateSitemapUrls(hostname: string): Promise<SitemapUrl[]> {
     const routes = await getRouteConfigs();
     const urls: SitemapUrl[] = [];
 
-    // Get dynamic content from database
-    const [services, ebooks, blogPosts, caseStudies] = await Promise.all([
-      storage.getServices(),
-      storage.getEbooks(),
-      storage.getBlogPosts(),
-      storage.getCaseStudies()
-    ]);
-
     // Process each route configuration
     for (const route of routes) {
       // Skip excluded routes and explicitly skip agency-partnerships
@@ -49,18 +41,8 @@ async function generateSitemapUrls(hostname: string): Promise<SitemapUrl[]> {
       }
 
       if (route.dynamicPaths) {
-        // Handle dynamic routes with database content
-        const slugs = route.path.includes('services')
-          ? services.map(s => s.slug)
-          : route.path.includes('ebooks')
-          ? ebooks.map(e => e.slug)
-          : route.path.includes('blog')
-          ? blogPosts.map(p => p.slug)
-          : route.path.includes('case-studies')
-          ? caseStudies.map(c => c.slug)
-          : route.dynamicPaths;
-
-        for (const slug of slugs) {
+        // Handle dynamic routes - use the configured dynamic paths directly
+        for (const slug of route.dynamicPaths) {
           const url = route.path.replace(':slug', slug);
           urls.push({
             url,
