@@ -27,7 +27,7 @@ export function Approach() {
       gradient: "from-indigo-500 to-blue-600",
       bgGradient: "from-indigo-50 to-blue-50",
       benefit: "Focus only on accounts and contacts that fit your growth strategy.",
-      tools: ["Intent Monitoring", "BANT Verification", "Account Mapping"]
+      tools: ["ICP Targeting & Account Mapping", "Intent Signal Monitoring", "Verified Decision-Maker Identification"]
     },
     {
       icon: ContentEngagementIcon,
@@ -39,7 +39,7 @@ export function Approach() {
       gradient: "from-violet-500 to-purple-600",
       bgGradient: "from-violet-50 to-purple-50",
       benefit: "Build trust. Earn preference. Stay top-of-mind.",
-      tools: ["Content Strategy", "Multi-Channel", "Thought Leadership"]
+      tools: ["Insight-Driven Content Strategy", "Multi-Channel Buyer Outreach", "Thought Leadership Positioning"]
     },
     {
       icon: ScaleGrowthIcon,
@@ -51,7 +51,7 @@ export function Approach() {
       gradient: "from-pink-500 to-rose-600",
       bgGradient: "from-pink-50 to-rose-50",
       benefit: "Higher conversion. Stronger revenue. Predictable growth.",
-      tools: ["Pipeline Review", "Deal Coaching", "Revenue Ops"]
+      tools: ["Pipeline Quality Review", "Sales-Ready Lead Delivery", "Revenue Growth Acceleration"]
     },
   ];
 
