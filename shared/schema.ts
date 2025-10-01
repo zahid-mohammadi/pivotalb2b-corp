@@ -94,6 +94,7 @@ export const leads = pgTable("leads", {
   fullName: varchar("full_name", { length: 100 }).notNull(),
   email: varchar("email", { length: 255 }).notNull(),
   company: varchar("company", { length: 100 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
   contentType: text("content_type").notNull(),
   contentId: serial("content_id").notNull(),
   downloadedAt: timestamp("downloaded_at").defaultNow().notNull(),
@@ -105,6 +106,7 @@ export type Lead = typeof leads.$inferSelect;
 export const insertLeadSchema = createInsertSchema(leads)
   .omit({ id: true, downloadedAt: true })
   .extend({
+    phone: z.string().optional(),
     message: z.string().optional(),
     source: z.string().optional(),
   });
