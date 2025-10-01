@@ -17,9 +17,11 @@ import {
   Award,
   Brain
 } from "lucide-react";
-import { Link } from "wouter";
+import { useLocation } from "wouter";
 
 export default function EbookABMDetail() {
+  const [, navigate] = useLocation();
+  
   const sections = [
     {
       number: "1",
@@ -150,12 +152,11 @@ export default function EbookABMDetail() {
                 size="lg" 
                 variant="outline" 
                 className="border-2 border-white text-white hover:bg-white/10 font-bold px-8 py-6 text-lg"
-                asChild
+                onClick={() => navigate("/contact")}
+                data-testid="link-contact-us"
               >
-                <Link href="/contact" data-testid="link-contact-us">
-                  Talk to an Expert
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
+                Talk to an Expert
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
           </motion.div>
@@ -325,23 +326,21 @@ export default function EbookABMDetail() {
               <Button 
                 size="lg" 
                 className="bg-white text-blue-900 hover:bg-blue-50 font-bold px-8 py-6 text-lg"
-                asChild
+                onClick={() => navigate("/contact")}
+                data-testid="button-schedule-call"
               >
-                <Link href="/contact" data-testid="button-schedule-call">
-                  <Target className="w-5 h-5 mr-2" />
-                  Schedule a Strategy Call
-                </Link>
+                <Target className="w-5 h-5 mr-2" />
+                Schedule a Strategy Call
               </Button>
               <Button 
                 size="lg" 
                 variant="outline" 
                 className="border-2 border-white text-white hover:bg-white/10 font-bold px-8 py-6 text-lg"
-                asChild
+                onClick={() => navigate("/request-proposal")}
+                data-testid="button-request-proposal"
               >
-                <Link href="/request-proposal" data-testid="button-request-proposal">
-                  Request a Proposal
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Link>
+                Request a Proposal
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
           </div>
