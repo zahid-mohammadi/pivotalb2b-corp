@@ -775,6 +775,98 @@ export async function registerRoutes(app: Express) {
     }
   });
   
+  // Sitemap generation endpoint
+  app.get("/sitemap.xml", async (req, res) => {
+    try {
+      const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+        ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+        : 'https://pivotal-b2b.com';
+
+      // Static routes (excluding compliance pages)
+      const staticRoutes = [
+        { url: '/', priority: '1.0', changefreq: 'daily' },
+        { url: '/about', priority: '0.8', changefreq: 'monthly' },
+        { url: '/contact', priority: '0.8', changefreq: 'monthly' },
+        { url: '/b2b-audience', priority: '0.8', changefreq: 'monthly' },
+        { url: '/blog', priority: '0.9', changefreq: 'daily' },
+        { url: '/ebooks', priority: '0.8', changefreq: 'weekly' },
+        { url: '/case-studies', priority: '0.8', changefreq: 'weekly' },
+        { url: '/media-kit', priority: '0.7', changefreq: 'monthly' },
+        { url: '/request-proposal', priority: '0.9', changefreq: 'monthly' },
+        { url: '/ebook-abm-guide', priority: '0.9', changefreq: 'monthly' },
+      ];
+
+      // Fetch dynamic content
+      const [blogPosts, ebooks, caseStudies, services] = await Promise.all([
+        storage.getBlogPosts(),
+        storage.getEbooks(),
+        storage.getCaseStudies(),
+        storage.getServices()
+      ]);
+
+      // Build sitemap XML
+      let sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n';
+      sitemap += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+      // Add static routes
+      staticRoutes.forEach(route => {
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}${route.url}</loc>\n`;
+        sitemap += `    <changefreq>${route.changefreq}</changefreq>\n`;
+        sitemap += `    <priority>${route.priority}</priority>\n`;
+        sitemap += '  </url>\n';
+      });
+
+      // Add services
+      services.forEach(service => {
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/services/${service.slug}</loc>\n`;
+        sitemap += `    <lastmod>${new Date(service.updatedAt || Date.now()).toISOString()}</lastmod>\n`;
+        sitemap += `    <changefreq>monthly</changefreq>\n`;
+        sitemap += `    <priority>0.8</priority>\n`;
+        sitemap += '  </url>\n';
+      });
+
+      // Add blog posts
+      blogPosts.forEach(post => {
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+        sitemap += `    <lastmod>${new Date(post.publishedAt || Date.now()).toISOString()}</lastmod>\n`;
+        sitemap += `    <changefreq>weekly</changefreq>\n`;
+        sitemap += `    <priority>0.7</priority>\n`;
+        sitemap += '  </url>\n';
+      });
+
+      // Add ebooks
+      ebooks.forEach(ebook => {
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/ebooks/${ebook.id}</loc>\n`;
+        sitemap += `    <lastmod>${new Date(ebook.publishedAt || Date.now()).toISOString()}</lastmod>\n`;
+        sitemap += `    <changefreq>monthly</changefreq>\n`;
+        sitemap += `    <priority>0.7</priority>\n`;
+        sitemap += '  </url>\n';
+      });
+
+      // Add case studies
+      caseStudies.forEach(study => {
+        sitemap += '  <url>\n';
+        sitemap += `    <loc>${baseUrl}/case-studies/${study.id}</loc>\n`;
+        sitemap += `    <lastmod>${new Date(study.publishedAt || Date.now()).toISOString()}</lastmod>\n`;
+        sitemap += `    <changefreq>monthly</changefreq>\n`;
+        sitemap += `    <priority>0.7</priority>\n`;
+        sitemap += '  </url>\n';
+      });
+
+      sitemap += '</urlset>';
+
+      res.header('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error('Error generating sitemap:', error);
+      res.status(500).send('Error generating sitemap');
+    }
+  });
+  
   // Test route for bot detection (only available in development)
   if (process.env.NODE_ENV !== 'production') {
     app.get("/api/test/bot-detection", (req, res) => {
