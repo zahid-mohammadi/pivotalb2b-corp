@@ -114,12 +114,11 @@ export function Navbar() {
               <NavigationMenuTrigger className="font-medium">Services</NavigationMenuTrigger>
               <NavigationMenuContent>
                 <motion.ul 
-                  className="grid w-[850px] gap-3 p-6 grid-cols-3 bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl overflow-hidden relative"
+                  className="grid w-[850px] gap-3 p-6 grid-cols-3 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-2xl shadow-2xl overflow-hidden"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
                   <li className="relative">
                     <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
                         <div className="flex items-start gap-3">
@@ -281,17 +280,15 @@ export function Navbar() {
   return (
     <motion.header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white dark:bg-gray-950",
         isScrolled 
-          ? "bg-background/80 backdrop-blur-xl border-b border-primary/10 shadow-lg shadow-primary/5" 
-          : "bg-background/60 backdrop-blur-md border-b border-transparent"
+          ? "border-b border-gray-200 dark:border-gray-800 shadow-lg" 
+          : "border-b border-gray-100 dark:border-gray-900 shadow-sm"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between relative z-10 max-w-7xl">
         <motion.div 
