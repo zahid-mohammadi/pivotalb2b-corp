@@ -35,6 +35,7 @@ import {
   BarChart
 } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
+import { MediaKitForm } from "@/components/forms/media-kit-form";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -85,6 +86,7 @@ const CounterAnimation = ({ target, suffix = "", duration = 2, delay = 0, classN
 };
 
 export default function MediaKit() {
+  const [hasAccess, setHasAccess] = useState(false);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -237,6 +239,20 @@ export default function MediaKit() {
     { name: "TCPA", region: "U.S. Telecommunication", icon: Phone },
     { name: "CAN-SPAM", region: "Email Governance", icon: Mail }
   ];
+
+  // Show form if user hasn't submitted it yet
+  if (!hasAccess) {
+    return (
+      <>
+        <MetaTags
+          title="Access Media Kit | Pivotal B2B - Strategic ABM & Demand Generation"
+          description="Get instant access to our comprehensive media kit featuring company overview, services, audience capabilities, and contact information."
+          keywords="media kit, B2B marketing, ABM, demand generation, lead generation, press kit, company information"
+        />
+        <MediaKitForm onSuccess={() => setHasAccess(true)} />
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
