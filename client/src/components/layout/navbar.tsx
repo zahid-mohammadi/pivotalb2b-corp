@@ -11,7 +11,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Menu, X, Loader2, Sparkles, Zap } from "lucide-react";
+import { Menu, X, Loader2, Sparkles, Zap, ArrowRight, Target, Users, TrendingUp, Calendar, ShieldCheck, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -53,39 +53,55 @@ export function Navbar() {
   };
 
   const NavItems = ({ className, isMobile = false }: { className?: string; isMobile?: boolean }) => (
-    <div className={cn("flex", isMobile ? "flex-col space-y-4" : "items-center space-x-4", className)}>
+    <div className={cn("flex", isMobile ? "flex-col space-y-4" : "items-center space-x-6", className)}>
       <Link href="/">
-        <span className="text-sm hover:text-primary cursor-pointer">Home</span>
+        <motion.span 
+          className="text-sm font-medium hover:text-primary cursor-pointer transition-colors duration-200 relative group"
+          whileHover={{ y: -2 }}
+        >
+          Home
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-purple-600 group-hover:w-full transition-all duration-300" />
+        </motion.span>
+      </Link>
+
+      <Link href="/about">
+        <motion.span 
+          className="text-sm font-medium hover:text-primary cursor-pointer transition-colors duration-200 relative group"
+          whileHover={{ y: -2 }}
+        >
+          About
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-purple-600 group-hover:w-full transition-all duration-300" />
+        </motion.span>
       </Link>
 
       {/* Solutions Dropdown/List */}
       {isMobile ? (
-        <div className="space-y-2">
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Services</p>
-            <div className="pl-4 space-y-2">
+        <div className="space-y-3">
+          <div className="space-y-3">
+            <p className="text-sm font-semibold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">Services</p>
+            <div className="pl-4 space-y-3">
               <Link href="/services/account-based-marketing-abm-programs">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Account-Based Marketing (ABM) Programs</span>
+                <span className="text-sm text-muted-foreground hover:text-primary block transition-all duration-200 hover:translate-x-1">Account-Based Marketing (ABM)</span>
               </Link>
               <Link href="/services/b2b-lead-generation-qualification">
-                <span className="text-sm text-muted-foreground hover:text-primary block">B2B Lead Generation & Qualification</span>
+                <span className="text-sm text-muted-foreground hover:text-primary block transition-all duration-200 hover:translate-x-1">B2B Lead Generation</span>
               </Link>
               <Link href="/services/lead-nurturing-buyer-engagement">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Nurturing & Buyer Engagement</span>
+                <span className="text-sm text-muted-foreground hover:text-primary block transition-all duration-200 hover:translate-x-1">Lead Nurturing & Engagement</span>
               </Link>
               <Link href="/services/precision-demand-generation">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Precision Demand Generation</span>
+                <span className="text-sm text-muted-foreground hover:text-primary block transition-all duration-200 hover:translate-x-1">Precision Demand Generation</span>
               </Link>
               <Link href="/services/event-marketing-audience-acquisition">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Event Marketing & Audience Acquisition</span>
+                <span className="text-sm text-muted-foreground hover:text-primary block transition-all duration-200 hover:translate-x-1">Event Marketing</span>
               </Link>
               <Link href="/services/lead-validation-enrichment">
-                <span className="text-sm text-muted-foreground hover:text-primary block">Lead Validation & Enrichment</span>
+                <span className="text-sm text-muted-foreground hover:text-primary block transition-all duration-200 hover:translate-x-1">Lead Validation</span>
               </Link>
             </div>
           </div>
           <span 
-            className="text-sm hover:text-primary cursor-pointer" 
+            className="text-sm font-medium hover:text-primary cursor-pointer transition-colors duration-200" 
             onClick={scrollToMarketingChannels}
           >
             Marketing Channels
@@ -95,115 +111,99 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="font-medium">Services</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[800px] gap-3 p-4 grid-cols-3 bg-background border rounded-lg shadow-lg">
-                  <li>
-                    <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
-                        <div className="flex items-center">
-                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                              <path d="M3 6 8 3 13 6 18 3 21 5v13L18 16l-5 3-5-3-5 3V6"></path>
-                              <line x1="13" x2="13" y1="6" y2="16"></line>
-                              <line x1="8" x2="8" y1="3" y2="16"></line>
-                            </svg>
+                <motion.ul 
+                  className="grid w-[850px] gap-3 p-6 grid-cols-3 bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl overflow-hidden relative"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
+                  <li className="relative">
+                    <Link href="/services/account-based-marketing-abm-programs" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                            <Target className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Account-Based Marketing (ABM) Programs</div>
-                            <p className="text-xs text-muted-foreground">Engage entire buying committees</p>
+                            <div className="text-sm font-semibold mb-1 group-hover:text-primary transition-colors">Account-Based Marketing</div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Engage entire buying committees</p>
                           </div>
                         </div>
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/services/b2b-lead-generation-qualification" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
-                        <div className="flex items-center">
-                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                              <circle cx="9" cy="7" r="4"></circle>
-                              <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
+                  <li className="relative">
+                    <Link href="/services/b2b-lead-generation-qualification" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                            <Users className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium">B2B Lead Generation & Qualification</div>
-                            <p className="text-xs text-muted-foreground">Sales-ready leads with BANT criteria</p>
+                            <div className="text-sm font-semibold mb-1 group-hover:text-primary transition-colors">B2B Lead Generation</div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">High-quality qualified leads</p>
                           </div>
                         </div>
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/services/lead-nurturing-buyer-engagement" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
-                        <div className="flex items-center">
-                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                              <path d="M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-                            </svg>
+                  <li className="relative">
+                    <Link href="/services/lead-nurturing-buyer-engagement" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                            <Sparkles className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Lead Nurturing & Buyer Engagement</div>
-                            <p className="text-xs text-muted-foreground">Transform cold leads into revenue</p>
+                            <div className="text-sm font-semibold mb-1 group-hover:text-primary transition-colors">Lead Nurturing</div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Multi-touch buyer engagement</p>
                           </div>
                         </div>
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/services/precision-demand-generation" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
-                        <div className="flex items-center">
-                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                              <polyline points="17 8 12 3 7 8"></polyline>
-                              <line x1="12" x2="12" y1="3" y2="15"></line>
-                            </svg>
+                  <li className="relative">
+                    <Link href="/services/precision-demand-generation" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                            <TrendingUp className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Precision Demand Generation</div>
-                            <p className="text-xs text-muted-foreground">Position as trusted choice</p>
+                            <div className="text-sm font-semibold mb-1 group-hover:text-primary transition-colors">Demand Generation</div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Precision-targeted campaigns</p>
                           </div>
                         </div>
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/services/event-marketing-audience-acquisition" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
-                        <div className="flex items-center">
-                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
-                              <path d="M8 12h8"></path>
-                              <path d="M12 8v8"></path>
-                            </svg>
+                  <li className="relative">
+                    <Link href="/services/event-marketing-audience-acquisition" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                            <Calendar className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Event Marketing & Audience Acquisition</div>
-                            <p className="text-xs text-muted-foreground">Attract ICP-matched attendees</p>
+                            <div className="text-sm font-semibold mb-1 group-hover:text-primary transition-colors">Event Marketing</div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">ICP-matched attendees</p>
                           </div>
                         </div>
                     </Link>
                   </li>
-                  <li>
-                    <Link href="/services/lead-validation-enrichment" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
-                        <div className="flex items-center">
-                          <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/20 transition-colors duration-200">
-                            <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                              <path d="M12 10.586 5.636 4.221a9.002 9.002 0 0 0 0 12.728L12 10.586z"></path>
-                              <path d="M12 10.586 18.364 4.221a9.002 9.002 0 0 1 0 12.728L12 10.586z"></path>
-                            </svg>
+                  <li className="relative">
+                    <Link href="/services/lead-validation-enrichment" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
+                        <div className="flex items-start gap-3">
+                          <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                            <ShieldCheck className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium">Lead Validation & Enrichment</div>
-                            <p className="text-xs text-muted-foreground">Clean and verify leads</p>
+                            <div className="text-sm font-semibold mb-1 group-hover:text-primary transition-colors">Lead Validation</div>
+                            <p className="text-xs text-muted-foreground leading-relaxed">Clean and verify leads</p>
                           </div>
                         </div>
                     </Link>
                   </li>
-                </ul>
+                </motion.ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuLink
-                className={cn(navigationMenuTriggerStyle(), "cursor-pointer")}
+                className={cn(navigationMenuTriggerStyle(), "cursor-pointer font-medium hover:text-primary transition-colors")}
                 onClick={scrollToMarketingChannels}
               >
                 Marketing Channels
@@ -212,7 +212,7 @@ export function Navbar() {
             
             <NavigationMenuItem>
               <NavigationMenuLink
-                className={navigationMenuTriggerStyle()}
+                className={cn(navigationMenuTriggerStyle(), "font-medium hover:text-primary transition-colors")}
                 href="/b2b-audience"
                 asChild={false}
               >
@@ -225,11 +225,11 @@ export function Navbar() {
 
       {/* Resources Dropdown/List */}
       {isMobile ? (
-        <div className="space-y-2">
-          <p className="text-sm font-medium">Resources</p>
-          <div className="pl-4 space-y-2">
+        <div className="space-y-3">
+          <p className="text-sm font-semibold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">Resources</p>
+          <div className="pl-4 space-y-3">
             <Link href="/blog">
-              <span className="text-sm text-muted-foreground hover:text-primary block">Blog</span>
+              <span className="text-sm text-muted-foreground hover:text-primary block transition-all duration-200 hover:translate-x-1">Blog</span>
             </Link>
           </div>
         </div>
@@ -237,27 +237,29 @@ export function Navbar() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+              <NavigationMenuTrigger className="font-medium">Resources</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 grid-cols-1 bg-background border rounded-lg shadow-lg">
-                  <li>
-                    <Link href="/blog" className="block p-4 hover:bg-accent hover:text-accent-foreground rounded-md cursor-pointer transition-colors duration-200 group">
-                      <div className="flex items-center">
-                        <div className="mr-3 flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 group-hover:bg-primary/15 transition-colors duration-200">
-                          <svg className="h-5 w-5 text-primary" fill="none" height="24" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="24">
-                            <path d="M18 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0-2-2V6a2 2 0 0 0-2-2Z"></path>
-                            <path d="m8 10 4 4 4-4"></path>
-                            <path d="M12 6v8"></path>
-                          </svg>
+                <motion.ul 
+                  className="grid w-[420px] gap-3 p-6 grid-cols-1 bg-background/95 backdrop-blur-xl border rounded-2xl shadow-2xl overflow-hidden relative"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
+                  <li className="relative">
+                    <Link href="/blog" className="block p-4 hover:bg-gradient-to-br hover:from-primary/10 hover:to-purple-500/10 rounded-xl cursor-pointer transition-all duration-300 group border border-transparent hover:border-primary/20 hover:shadow-lg">
+                      <div className="flex items-start gap-3">
+                        <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-purple-600 group-hover:scale-110 transition-transform duration-300 shadow-md">
+                          <BookOpen className="h-5 w-5 text-white" />
                         </div>
                         <div>
-                          <div className="text-sm font-medium">Blog</div>
-                          <p className="text-xs text-muted-foreground">Latest insights and industry trends</p>
+                          <div className="text-sm font-semibold mb-1 group-hover:text-primary transition-colors">Blog</div>
+                          <p className="text-xs text-muted-foreground leading-relaxed">Latest insights and industry trends</p>
                         </div>
                       </div>
                     </Link>
                   </li>
-                </ul>
+                </motion.ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
@@ -265,9 +267,13 @@ export function Navbar() {
       )}
 
       <Link href="/contact">
-        <span className="text-sm hover:text-primary cursor-pointer transition-colors duration-200">
-          Contact Us
-        </span>
+        <motion.span 
+          className="text-sm font-medium hover:text-primary cursor-pointer transition-colors duration-200 relative group"
+          whileHover={{ y: -2 }}
+        >
+          Contact
+          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-purple-600 group-hover:w-full transition-all duration-300" />
+        </motion.span>
       </Link>
     </div>
   );
@@ -275,153 +281,160 @@ export function Navbar() {
   return (
     <motion.header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         isScrolled 
-          ? "border-gray-200 shadow-lg" 
-          : "border-gray-100"
+          ? "bg-background/80 backdrop-blur-xl border-b border-primary/10 shadow-lg shadow-primary/5" 
+          : "bg-background/60 backdrop-blur-md border-b border-transparent"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between relative z-10 max-w-7xl">
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between relative z-10 max-w-7xl">
         <motion.div 
-          className="flex items-center group"
+          className="flex items-center"
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 300 }}
         >
           <Link href="/">
-            <div className="flex items-center hover:opacity-80 transition-opacity duration-200">
-              <img src="/logo.png" alt="Pivotal B2B" className="h-10 cursor-pointer" />
+            <div className="flex items-center gap-3 group">
+              <div className="relative">
+                <img src="/logo.png" alt="Pivotal B2B" className="h-10 cursor-pointer transition-all duration-300 group-hover:drop-shadow-lg" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary to-purple-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300" />
+              </div>
             </div>
           </Link>
         </motion.div>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <NavItems />
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* CTA & Actions */}
+        <div className="flex items-center gap-3">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="hidden md:block"
+          >
+            <Link href="/request-proposal">
+              <Button 
+                className="bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-700 text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 font-semibold group"
+                data-testid="button-get-started"
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
+          </motion.div>
+
           <ThemeSwitcher />
+
+          {/* User Menu for Authenticated Users */}
+          {user && (
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-medium">
+                    {user.username}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[200px] gap-2 p-3 bg-background/95 backdrop-blur-xl border rounded-xl shadow-xl">
+                      <li>
+                        <Link href="/dashboard" className="block p-3 hover:bg-accent rounded-lg transition-colors text-sm font-medium">
+                          Dashboard
+                        </Link>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => logoutMutation.mutate()}
+                          disabled={logoutMutation.isPending}
+                          className="w-full text-left p-3 hover:bg-accent rounded-lg transition-colors text-sm font-medium disabled:opacity-50"
+                        >
+                          {logoutMutation.isPending ? (
+                            <span className="flex items-center">
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              Logging out...
+                            </span>
+                          ) : (
+                            'Logout'
+                          )}
+                        </button>
+                      </li>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
 
           {/* Mobile Menu */}
           <Sheet>
-            <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
+            <SheetTrigger asChild className="lg:hidden">
+              <Button variant="ghost" size="icon" className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-purple-600/10 rounded-md opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Menu className="h-5 w-5 relative z-10" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[320px] bg-background/95 backdrop-blur-xl border-l-2 border-primary/20 shadow-2xl">
+            <SheetContent side="right" className="w-[320px] bg-background/95 backdrop-blur-2xl border-l-2 border-primary/20 shadow-2xl overflow-y-auto">
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="flex flex-col space-y-6 mt-8"
+                className="flex flex-col space-y-8 mt-8"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 -z-10" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-purple-500/10 -z-10" />
                 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1, duration: 0.3 }}
-                >
-                  <NavItems isMobile />
-                </motion.div>
+                {/* Mobile Logo */}
+                <div className="flex items-center gap-3 pb-6 border-b border-primary/20">
+                  <img src="/logo.png" alt="Pivotal B2B" className="h-8" />
+                </div>
+
+                <NavItems isMobile />
                 
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.3 }}
-                >
-                  <Link href="/b2b-audience" className="block px-4 py-3 text-sm bg-gradient-to-r from-primary/10 to-primary/5 hover:from-primary/20 hover:to-primary/10 rounded-xl transition-all duration-300 border border-primary/20 hover:border-primary/30 shadow-sm hover:shadow-md">
-                    <span className="flex items-center space-x-2">
-                      <Zap className="w-4 h-4 text-primary" />
-                      <span className="font-medium">B2B Audience</span>
-                    </span>
-                  </Link>
-                </motion.div>
-                
-                <motion.div 
-                  className="pt-6 border-t border-primary/20"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.3 }}
-                >
-                  {user ? (
-                    <Button
-                      variant="outline"
+                {/* Mobile CTA */}
+                <Link href="/request-proposal" className="mt-4">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-700 text-white shadow-lg shadow-primary/25 font-semibold group"
+                    data-testid="button-mobile-get-started"
+                  >
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
+
+                {/* Mobile User Menu */}
+                {user && (
+                  <div className="pt-6 border-t border-primary/20 space-y-3">
+                    <Link href="/dashboard">
+                      <span className="text-sm font-medium hover:text-primary block transition-colors">Dashboard</span>
+                    </Link>
+                    <button
                       onClick={() => logoutMutation.mutate()}
                       disabled={logoutMutation.isPending}
-                      className="w-full"
+                      className="text-sm font-medium hover:text-primary transition-colors disabled:opacity-50 text-left w-full"
                     >
                       {logoutMutation.isPending ? (
-                        <>
+                        <span className="flex items-center">
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Logging out...
-                        </>
+                        </span>
                       ) : (
-                        "Logout"
+                        'Logout'
                       )}
-                    </Button>
-                  ) : (
-                    <div className="flex flex-col space-y-3">
-                      <Link href="/login">
-                        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                          <Button variant="outline" className="w-full bg-gradient-to-r from-background/50 to-background/80 hover:from-primary/10 hover:to-primary/5 border-2 border-primary/20 hover:border-primary/40 transition-all duration-300 shadow-sm hover:shadow-md">
-                            Login
-                          </Button>
-                        </motion.div>
-                      </Link>
-                      <Link href="/request-proposal">
-                        <motion.div whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}>
-                          <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-primary/30 hover:border-primary/50">
-                            <span className="flex items-center justify-center space-x-2">
-                              <Sparkles className="w-4 h-4" />
-                              <span>Request a Proposal</span>
-                            </span>
-                          </Button>
-                        </motion.div>
-                      </Link>
-                    </div>
-                  )}
-                </motion.div>
+                    </button>
+                  </div>
+                )}
               </motion.div>
             </SheetContent>
           </Sheet>
-
-          {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center gap-4">
-            {user ? (
-              <Button
-                variant="outline"
-                onClick={() => logoutMutation.mutate()}
-                disabled={logoutMutation.isPending}
-              >
-                {logoutMutation.isPending ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Logging out...
-                  </>
-                ) : (
-                  "Logout"
-                )}
-              </Button>
-            ) : (
-              <>
-                <Link href="/login">
-                  <Button variant="outline">Login</Button>
-                </Link>
-                <Link href="/request-proposal">
-                  <Button>Request a Proposal</Button>
-                </Link>
-              </>
-            )}
-          </div>
         </div>
       </div>
-      
     </motion.header>
   );
 }
