@@ -1,65 +1,80 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Users, Rocket, TrendingUp, Sparkles, Zap, Star } from "lucide-react";
+import { ArrowRight, Target, Shield, TrendingDown, Unlock, Calendar, FileText, CheckCircle, Sparkles } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Card } from "@/components/ui/card";
 
 export function Hero() {
   const calendlyUrl = "https://calendly.com/zahid-m/30min";
   const isMobile = useIsMobile();
   
   return (
-    <div className="relative min-h-screen pt-16 sm:pt-20 md:pt-24 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-indigo-950 dark:to-slate-950 text-foreground overflow-hidden">
-      {/* Modern Clean Background */}
+    <div className="relative min-h-screen pt-16 sm:pt-20 md:pt-24 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white overflow-hidden">
+      {/* Animated Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-primary/3 to-primary/12" />
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-primary/25 via-primary/8 to-transparent opacity-40" />
-        <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-gradient-to-tr from-primary/15 via-transparent to-transparent opacity-30" />
+        {/* Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-blue-800/20" />
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-blue-500/30 via-transparent to-transparent" />
+        <div className="absolute bottom-0 left-0 w-1/2 h-full bg-gradient-to-tr from-purple-600/30 via-transparent to-transparent" />
         
-        {/* Clean geometric shapes */}
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }} />
+        </div>
+
+        {/* Floating Orbs */}
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        
+        {/* Animated geometric shapes - Desktop only */}
         {!isMobile && (
           <>
             <motion.div
-              className="absolute top-1/4 right-1/4 w-32 h-32 border-2 border-primary/20 rounded-3xl"
+              className="absolute top-1/4 right-1/4 w-32 h-32 border-2 border-blue-400/30 rounded-3xl"
               animate={{
                 rotate: [0, 360],
-                scale: [1, 1.1, 1]
+                scale: [1, 1.2, 1]
               }}
               transition={{
-                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                rotate: { duration: 25, repeat: Infinity, ease: "linear" },
+                scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
               }}
             />
             <motion.div
-              className="absolute top-1/3 right-1/6 w-24 h-24 bg-primary/10 rounded-full"
+              className="absolute bottom-1/3 right-1/3 w-24 h-24 bg-purple-400/20 rounded-full backdrop-blur-sm"
               animate={{
-                y: [0, -20, 0],
-                opacity: [0.5, 1, 0.5]
+                y: [0, -30, 0],
+                opacity: [0.3, 0.8, 0.3]
               }}
               transition={{
-                duration: 3,
+                duration: 4,
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
             />
             
-            {/* Simple floating dots */}
-            {[...Array(6)].map((_, i) => (
+            {/* Floating particles */}
+            {[...Array(12)].map((_, i) => (
               <motion.div
-                key={`dot-${i}`}
-                className="absolute w-2 h-2 bg-primary/30 rounded-full"
+                key={`particle-${i}`}
+                className="absolute w-2 h-2 bg-blue-300/40 rounded-full"
                 style={{
-                  top: `${20 + Math.random() * 60}%`,
-                  right: `${10 + Math.random() * 30}%`,
+                  top: `${15 + Math.random() * 70}%`,
+                  left: `${10 + Math.random() * 80}%`,
                 }}
                 animate={{
-                  y: [0, -15, 0],
-                  opacity: [0.3, 0.8, 0.3],
+                  y: [0, -20, 0],
+                  opacity: [0.2, 0.8, 0.2],
+                  scale: [1, 1.5, 1]
                 }}
                 transition={{
-                  duration: 4 + (i * 0.5),
+                  duration: 3 + (i * 0.3),
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: i * 0.5,
+                  delay: i * 0.2,
                 }}
               />
             ))}
@@ -68,43 +83,41 @@ export function Hero() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 min-h-screen flex items-center">
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center w-full max-w-7xl mx-auto">
-          {/* Left Column - Main Content */}
+        <div className="w-full max-w-7xl mx-auto">
+          {/* Main Content - Centered Layout */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="space-y-6 sm:space-y-8 lg:space-y-10 order-2 lg:order-1"
+            className="text-center space-y-8 sm:space-y-10 lg:space-y-12"
           >
             {/* Premium Badge */}
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl"
             >
-              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-primary border-2 border-primary/60 hover:border-primary/80 transition-all duration-300 shadow-lg hover:shadow-xl backdrop-blur-sm">
-                <div className="w-3 h-3 bg-white rounded-full animate-pulse shadow-lg" />
-                <span className="text-base font-bold text-white drop-shadow-sm">Every Lead. Vetted. Qualified. Revenue-Ready.</span>
-              </div>
+              <Sparkles className="w-5 h-5 text-blue-300" />
+              <span className="text-sm font-semibold text-white">Premium B2B Lead Generation & ABM Programs</span>
             </motion.div>
 
-            {/* Main Headline - Original Content */}
+            {/* Main Headline */}
             <motion.h1 
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-left"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
+              data-testid="headline-hero"
             >
-              <span className="block text-slate-900 dark:text-slate-100">Fill Your Pipeline</span>
-              <span className="block text-slate-900 dark:text-slate-100">With </span>
+              <span className="block text-white mb-2">Build a Pipeline That</span>
               <motion.span 
-                className="block bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent"
+                className="block bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-400 bg-clip-text text-transparent"
                 animate={{
                   backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 5,
                   repeat: Infinity,
                   ease: "linear"
                 }}
@@ -112,21 +125,22 @@ export function Hero() {
                   backgroundSize: "200%"
                 }}
               >
-                Buyers Who Convert
+                Converts
               </motion.span>
+              <span className="block text-white/90 text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2">
+                — Not Just One That Fills
+              </span>
             </motion.h1>
 
-            {/* Subheadline - Original Content */}
+            {/* Subheadline */}
             <motion.p 
-              className="text-lg sm:text-xl md:text-2xl text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl text-left"
+              className="text-xl sm:text-2xl md:text-3xl text-blue-100 leading-relaxed max-w-5xl mx-auto font-light"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
+              data-testid="subheadline-hero"
             >
-              Our programs generate and qualify leads that align with your{' '}
-              <span className="font-bold text-primary bg-primary/10 px-2 py-1 rounded-md">ICP</span>, ensuring every 
-              opportunity in your funnel has the potential to drive{' '}
-              <span className="font-bold text-primary bg-primary/10 px-2 py-1 rounded-md">real revenue</span>.
+              Our ABM and demand generation programs engage decision-makers inside your Target Accounts through compliant, content-led outreach — delivering <span className="font-semibold text-white">real buyers</span>, not random leads.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -134,228 +148,146 @@ export function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start"
+              className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center"
             >
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative"
+                whileTap={{ scale: 0.98 }}
               >
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-primary-foreground text-base sm:text-lg font-semibold px-6 sm:px-8 py-4 sm:py-6 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 w-full sm:w-auto"
+                  className="bg-white text-blue-900 hover:bg-blue-50 text-lg sm:text-xl font-bold px-8 sm:px-10 py-6 sm:py-8 rounded-2xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 group w-full sm:w-auto"
                   onClick={() => window.open(calendlyUrl, '_blank')}
+                  data-testid="button-schedule-strategy-call-hero"
                 >
-                  <div className="flex items-center gap-3">
-                    <Zap className="w-5 h-5" />
-                    Get Your Free Revenue Audit
-                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  <Calendar className="w-6 h-6 mr-3" />
+                  Schedule a Strategy Call
+                  <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </motion.div>
 
               <motion.div
                 whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <Button
                   size="lg"
                   variant="outline"
-                  className="border-2 border-primary/20 hover:border-primary/40 bg-background/60 hover:bg-background/80 backdrop-blur text-foreground text-base sm:text-lg font-medium px-6 sm:px-8 py-4 sm:py-6 rounded-xl sm:rounded-2xl transition-all duration-300 w-full sm:w-auto"
+                  className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-900 text-lg sm:text-xl font-semibold px-8 sm:px-10 py-6 sm:py-8 rounded-2xl transition-all duration-300 w-full sm:w-auto"
                   onClick={() => window.location.href = '/request-proposal'}
+                  data-testid="button-request-proposal-hero"
                 >
-                  <div className="flex items-center gap-3">
-                    <Rocket className="w-5 h-5" />
-                    Request a Proposal
-                  </div>
+                  <FileText className="w-6 h-6 mr-3" />
+                  Request a Proposal
                 </Button>
               </motion.div>
             </motion.div>
 
-            {/* Enhanced Key Benefits */}
+            {/* Key Benefits - Enhanced Cards */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0, duration: 0.8 }}
-              className="flex flex-wrap gap-2 sm:gap-3 lg:gap-4 pt-4 sm:pt-6"
+              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto pt-8 sm:pt-12"
             >
               {[
-                { icon: Target, text: "Quality Over Quantity" },
-                { icon: Users, text: "100% Compliant Outreach" },
-                { icon: TrendingUp, text: "Lower Cost per Lead" },
-                { icon: Sparkles, text: "No Long-Term Contracts, Zero Lock-In" }
+                { 
+                  icon: Target, 
+                  title: "Quality Over Quantity",
+                  description: "Only pre-qualified buyers aligned with your ICP",
+                  gradient: "from-blue-500 to-cyan-500"
+                },
+                { 
+                  icon: Shield, 
+                  title: "100% Compliant Outreach",
+                  description: "GDPR, CCPA & TCPA ready",
+                  gradient: "from-purple-500 to-pink-500"
+                },
+                { 
+                  icon: TrendingDown, 
+                  title: "Lower Cost per Lead",
+                  description: "Smarter targeting, measurable ROI",
+                  gradient: "from-green-500 to-emerald-500"
+                },
+                { 
+                  icon: Unlock, 
+                  title: "No Long-Term Contracts",
+                  description: "Total flexibility, zero lock-in",
+                  gradient: "from-orange-500 to-red-500"
+                }
               ].map((item, i) => (
                 <motion.div
                   key={i}
-                  className="inline-flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 sm:py-3 rounded-full bg-primary/8 border border-primary/15 hover:border-primary/30 hover:bg-primary/12 transition-all duration-300 shadow-sm hover:shadow-md backdrop-blur-sm"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
                   transition={{ delay: 1.2 + (i * 0.1), duration: 0.6 }}
-                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileHover={{ y: -8, scale: 1.05 }}
+                  className="group"
+                  data-testid={`benefit-card-${i}`}
                 >
-                  <item.icon className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                  <span className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">{item.text}</span>
+                  <Card className="relative overflow-hidden bg-white/10 backdrop-blur-md border-white/20 hover:border-white/40 transition-all duration-300 h-full">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                    
+                    <div className="relative p-6 sm:p-8 text-center space-y-4">
+                      <motion.div
+                        className={`w-16 h-16 mx-auto bg-gradient-to-br ${item.gradient} rounded-2xl flex items-center justify-center shadow-lg`}
+                        whileHover={{ rotate: 360, scale: 1.1 }}
+                        transition={{ duration: 0.6 }}
+                      >
+                        <item.icon className="w-8 h-8 text-white" />
+                      </motion.div>
+                      
+                      <h3 className="text-lg sm:text-xl font-bold text-white">
+                        {item.title}
+                      </h3>
+                      
+                      <p className="text-sm sm:text-base text-blue-200 leading-relaxed">
+                        {item.description}
+                      </p>
+
+                      <div className="pt-2">
+                        <CheckCircle className="w-5 h-5 text-green-400 mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                    </div>
+                  </Card>
                 </motion.div>
               ))}
             </motion.div>
-          </motion.div>
 
-          {/* Right Column - Creative Visual Elements */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            className="relative h-96 lg:h-[500px] order-1 lg:order-2 flex items-center justify-center"
-          >
-            {/* Central Hero Visual */}
+            {/* Trust Indicators */}
             <motion.div
-              className="relative w-80 h-80 lg:w-96 lg:h-96"
-              animate={{
-                rotate: [0, 360]
-              }}
-              transition={{
-                duration: 50,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            >
-              {/* Outer Ring */}
-              <motion.div
-                className="absolute inset-0 rounded-full border-4 border-primary/30 border-dashed"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.6, 0.3]
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              
-              {/* Middle Ring */}
-              <motion.div
-                className="absolute inset-8 rounded-full border-2 border-primary/50"
-                animate={{
-                  rotate: [0, -360]
-                }}
-                transition={{
-                  duration: 30,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              />
-              
-              {/* Inner Circle */}
-              <motion.div
-                className="absolute inset-16 rounded-full bg-gradient-to-br from-primary/20 via-primary/10 to-primary/30 backdrop-blur-sm border border-primary/40 shadow-2xl flex items-center justify-center"
-                animate={{
-                  scale: [1, 1.05, 1],
-                  boxShadow: [
-                    "0 25px 50px -12px rgba(0, 0, 0, 0.1)",
-                    "0 35px 60px -12px rgba(0, 0, 0, 0.2)",
-                    "0 25px 50px -12px rgba(0, 0, 0, 0.1)"
-                  ]
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <motion.div
-                  className="text-center space-y-3"
-                  animate={{
-                    rotate: [0, -360]
-                  }}
-                  transition={{
-                    duration: 50,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                >
-                  <motion.div
-                    className="w-12 h-12 mx-auto bg-primary/20 rounded-2xl flex items-center justify-center"
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      rotate: [0, 180, 360]
-                    }}
-                    transition={{
-                      scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                      rotate: { duration: 6, repeat: Infinity, ease: "linear" }
-                    }}
-                  >
-                    <Target className="w-6 h-6 text-primary" />
-                  </motion.div>
-                  <div className="text-sm font-semibold text-primary">B2B LEADS</div>
-                  <div className="text-xs text-muted-foreground">QUALIFIED</div>
-                </motion.div>
-              </motion.div>
-            </motion.div>
-
-            {/* Floating Action Icons */}
-            {!isMobile && (
-              <>
-                {[
-                  { icon: Users, delay: 0, position: "top-8 left-8" },
-                  { icon: Rocket, delay: 0.5, position: "top-8 right-8" },
-                  { icon: TrendingUp, delay: 1, position: "bottom-8 left-8" },
-                  { icon: Star, delay: 1.5, position: "bottom-8 right-8" }
-                ].map((item, i) => (
-                  <motion.div
-                    key={i}
-                    className={`absolute ${item.position} w-14 h-14 bg-gradient-to-br from-primary/20 to-primary/10 rounded-2xl flex items-center justify-center shadow-lg`}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ 
-                      opacity: 1, 
-                      scale: 1,
-                      y: [0, -8, 0],
-                      rotate: [0, 5, -5, 0]
-                    }}
-                    transition={{
-                      opacity: { delay: item.delay, duration: 0.6 },
-                      scale: { delay: item.delay, duration: 0.6 },
-                      y: { delay: item.delay + 1, duration: 3, repeat: Infinity, ease: "easeInOut" },
-                      rotate: { delay: item.delay + 1, duration: 4, repeat: Infinity, ease: "easeInOut" }
-                    }}
-                    whileHover={{ scale: 1.1, rotate: 15 }}
-                  >
-                    <item.icon className="w-6 h-6 text-primary" />
-                  </motion.div>
-                ))}
-              </>
-            )}
-
-            {/* Decorative Elements */}
-            <motion.div
-              className="absolute inset-0 pointer-events-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2, duration: 1 }}
+              transition={{ delay: 1.6, duration: 0.8 }}
+              className="pt-8 sm:pt-12 flex flex-wrap justify-center items-center gap-6 sm:gap-8 text-blue-200"
             >
-              {[...Array(8)].map((_, i) => (
+              {[
+                { value: "500+", label: "Qualified Leads Delivered" },
+                { value: "95%", label: "Client Satisfaction Rate" },
+                { value: "3x", label: "Average ROI Increase" }
+              ].map((stat, i) => (
                 <motion.div
                   key={i}
-                  className="absolute w-1 h-1 bg-primary/40 rounded-full"
-                  style={{
-                    top: `${20 + (i * 10)}%`,
-                    left: `${10 + (i * 10)}%`,
-                  }}
-                  animate={{
-                    scale: [0, 1, 0],
-                    opacity: [0, 1, 0]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.3
-                  }}
-                />
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.8 + (i * 0.1), duration: 0.5 }}
+                  className="text-center px-6 py-3 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10"
+                  data-testid={`stat-${i}`}
+                >
+                  <div className="text-3xl sm:text-4xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-sm text-blue-300">{stat.label}</div>
+                </motion.div>
               ))}
             </motion.div>
           </motion.div>
         </div>
+      </div>
+
+      {/* Bottom Wave Divider */}
+      <div className="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
+          <path d="M0 0L60 10C120 20 240 40 360 46.7C480 53 600 47 720 43.3C840 40 960 40 1080 46.7C1200 53 1320 67 1380 73.3L1440 80V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V0Z" fill="white"/>
+        </svg>
       </div>
     </div>
   );
