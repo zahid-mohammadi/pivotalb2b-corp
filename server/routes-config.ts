@@ -24,9 +24,10 @@ export const getRouteConfigs = async (): Promise<RouteConfig[]> => {
       dynamicPaths: await storage.getCaseStudies().then(cases => cases.map(c => c.slug))
     },
     { path: '/contact', changefreq: 'monthly', priority: 0.7 },
-    { path: '/privacy-policy', changefreq: 'monthly', priority: 0.6 },
-    { path: '/terms-conditions', changefreq: 'monthly', priority: 0.6 },
-    { path: '/cookie-policy', changefreq: 'monthly', priority: 0.6 }
+    { path: '/ebook-abm-guide', changefreq: 'monthly', priority: 0.9 },
+    { path: '/ebook/abm-guide', changefreq: 'monthly', priority: 0.9 },
+    { path: '/media-kit', changefreq: 'monthly', priority: 0.7 },
+    { path: '/request-proposal', changefreq: 'monthly', priority: 0.8 }
   ];
 };
 
