@@ -30,10 +30,25 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (location === '/' && window.location.hash === '#marketing-channels') {
+      setTimeout(() => {
+        const element = document.getElementById('marketing-channels');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
   const scrollToMarketingChannels = () => {
-    const element = document.getElementById('marketing-channels');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (location === '/') {
+      const element = document.getElementById('marketing-channels');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.location.href = '/#marketing-channels';
     }
   };
 
@@ -69,6 +84,12 @@ export function Navbar() {
               </Link>
             </div>
           </div>
+          <span 
+            className="text-sm hover:text-primary cursor-pointer" 
+            onClick={scrollToMarketingChannels}
+          >
+            Marketing Channels
+          </span>
         </div>
       ) : (
         <NavigationMenu>
@@ -180,17 +201,14 @@ export function Navbar() {
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
-            {/* Marketing Channels - only show on home page */}
-            {location === "/" && (
-              <NavigationMenuItem>
-                <NavigationMenuLink
-                  className={cn(navigationMenuTriggerStyle(), "cursor-pointer")}
-                  onClick={scrollToMarketingChannels}
-                >
-                  Marketing Channels
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            )}
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                className={cn(navigationMenuTriggerStyle(), "cursor-pointer")}
+                onClick={scrollToMarketingChannels}
+              >
+                Marketing Channels
+              </NavigationMenuLink>
+            </NavigationMenuItem>
             
             <NavigationMenuItem>
               <NavigationMenuLink
