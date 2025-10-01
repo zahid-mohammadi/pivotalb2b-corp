@@ -390,26 +390,229 @@ export default function ServicePage() {
 
   const currentSEO = params?.slug ? seoMetadata[params.slug] : null;
 
+  const structuredDataSchemas: Record<string, any[]> = {
+    "account-based-marketing-abm-programs": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.pivotal-b2b.com/services/account-based-marketing-abm-programs/#service",
+        "serviceType": "Account-Based Marketing (ABM) Programs",
+        "name": "Account-Based Marketing (ABM) Programs",
+        "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" },
+        "url": "https://www.pivotal-b2b.com/services/account-based-marketing-abm-programs/",
+        "areaServed": "Worldwide",
+        "audience": { "@type": "Audience", "audienceType": "B2B Marketing and Revenue Leaders" },
+        "description": "Engage full buying committees inside your Target Accounts with ICP-aligned, content-led ABM programs that build influence before vendor comparison.",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.pivotal-b2b.com/services/account-based-marketing-abm-programs/",
+          "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" },
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ],
+    "b2b-lead-generation-qualification": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.pivotal-b2b.com/services/b2b-lead-generation-qualification/#service",
+        "serviceType": "B2B Lead Generation & Qualification",
+        "name": "B2B Lead Generation & Qualification",
+        "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" },
+        "url": "https://www.pivotal-b2b.com/services/b2b-lead-generation-qualification/",
+        "areaServed": "Worldwide",
+        "audience": { "@type": "Audience", "audienceType": "B2B Sales and Marketing Leaders" },
+        "description": "Fill your pipeline with ICP-matched prospects who show genuine interest—real conversations instead of random contacts.",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.pivotal-b2b.com/services/b2b-lead-generation-qualification/",
+          "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" },
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ],
+    "precision-demand-generation": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.pivotal-b2b.com/services/precision-demand-generation/#service",
+        "serviceType": "Precision Demand Generation",
+        "name": "Precision Demand Generation",
+        "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" },
+        "url": "https://www.pivotal-b2b.com/services/precision-demand-generation/",
+        "areaServed": "Worldwide",
+        "audience": { "@type": "Audience", "audienceType": "B2B Marketing Leaders" },
+        "description": "Convert research-stage interest into pipeline with content-led programs that educate in-market accounts early and build preference.",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.pivotal-b2b.com/services/precision-demand-generation/",
+          "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" },
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ],
+    "event-marketing-audience-acquisition": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.pivotal-b2b.com/services/event-marketing-audience-acquisition/#service",
+        "serviceType": "Event Marketing & Audience Acquisition",
+        "name": "Event Marketing & Audience Acquisition",
+        "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" },
+        "url": "https://www.pivotal-b2b.com/services/event-marketing-audience-acquisition/",
+        "areaServed": "Worldwide",
+        "audience": { "@type": "Audience", "audienceType": "B2B Event and Marketing Teams" },
+        "description": "Fill events with the right audience—engaged decision-makers from your Target Accounts—and convert interest into post-event pipeline.",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.pivotal-b2b.com/services/event-marketing-audience-acquisition/",
+          "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" },
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ],
+    "lead-validation-enrichment": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.pivotal-b2b.com/services/lead-validation-enrichment/#service",
+        "serviceType": "Lead Validation & Enrichment",
+        "name": "Lead Validation & Enrichment",
+        "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" },
+        "url": "https://www.pivotal-b2b.com/services/lead-validation-enrichment/",
+        "areaServed": "Worldwide",
+        "audience": { "@type": "Audience", "audienceType": "B2B Sales and Marketing Operations" },
+        "description": "Clean, verify, and enrich lead data to ensure accuracy, compliance, and conversion-readiness across your campaigns.",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.pivotal-b2b.com/services/lead-validation-enrichment/",
+          "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" },
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ],
+    "lead-nurturing-buyer-engagement": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.pivotal-b2b.com/services/lead-nurturing-buyer-engagement/#service",
+        "serviceType": "Lead Nurturing & Buyer Engagement",
+        "name": "Lead Nurturing & Buyer Engagement",
+        "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" },
+        "url": "https://www.pivotal-b2b.com/services/lead-nurturing-buyer-engagement/",
+        "areaServed": "Worldwide",
+        "audience": { "@type": "Audience", "audienceType": "B2B Demand Generation Teams" },
+        "description": "Keep early-stage prospects engaged with tailored journeys until timing aligns, then reintroduce as sales-ready opportunities.",
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.pivotal-b2b.com/services/lead-nurturing-buyer-engagement/",
+          "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" },
+          "availability": "https://schema.org/InStock"
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": content.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.answer
+          }
+        }))
+      }
+    ]
+  };
+
+  const currentStructuredData = params?.slug && structuredDataSchemas[params.slug] 
+    ? structuredDataSchemas[params.slug]
+    : [{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": service.title,
+        "description": service.description,
+        "provider": {
+          "@type": "Organization",
+          "name": "Pivotal B2B",
+          "url": "https://pivotal-b2b.com"
+        },
+        "serviceType": "B2B Marketing Service",
+        "areaServed": industries
+      }];
+
   return (
     <>
       <MetaTags
         title={currentSEO?.title || `${service.title} - B2B Marketing Solutions | Pivotal B2B`}
         description={currentSEO?.description || `Transform your B2B marketing with our ${service.title}. ${service.description} Expert solutions for enterprise software, telecommunication, financial services, and IT services sectors.`}
         keywords={`${service.title.toLowerCase()}, B2B ${service.title.toLowerCase()}, ${industryKeywords}, enterprise marketing solutions, B2B lead generation`}
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "Service",
-          "name": service.title,
-          "description": service.description,
-          "provider": {
-            "@type": "Organization",
-            "name": "Pivotal B2B",
-            "url": "https://pivotal-b2b.com"
-          },
-          "serviceType": "B2B Marketing Service",
-          "areaServed": industries
-        }}
       />
+      {currentStructuredData.map((schema, index) => (
+        <script key={index} type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      ))}
       
       <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
         {/* Hero Section */}

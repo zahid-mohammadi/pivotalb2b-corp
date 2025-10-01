@@ -1,0 +1,429 @@
+ 
+
+ Below are ready-to-paste JSON-LD blocks for all six Service pages plus their FAQPage schema, using your domain and the slugs we’ve been working with. Add each block to the <head> of its corresponding page. (Keep one primary Service block and one FAQPage block per URL.) 
+
+ 
+
+SERVICE — ACCOUNT-BASED MARKETING (ABM) PROGRAMS 
+
+ URL: https://www.pivotal-b2b.com/services/account-based-marketing/ 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "Service", 
+  "@id": "https://www.pivotal-b2b.com/services/account-based-marketing/#service", 
+  "serviceType": "Account-Based Marketing (ABM) Programs", 
+  "name": "Account-Based Marketing (ABM) Programs", 
+  "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" }, 
+  "url": "https://www.pivotal-b2b.com/services/account-based-marketing/", 
+  "areaServed": "Worldwide", 
+  "audience": { "@type": "Audience", "audienceType": "B2B Marketing and Revenue Leaders" }, 
+  "description": "Engage full buying committees inside your Target Accounts with ICP-aligned, content-led ABM programs that build influence before vendor comparison.", 
+  "offers": { 
+    "@type": "Offer", 
+    "url": "https://www.pivotal-b2b.com/services/account-based-marketing/", 
+    "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" }, 
+    "availability": "https://schema.org/InStock" 
+  } 
+} 
+  
+
+FAQPAGE — ABM PROGRAMS (same URL) 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "FAQPage", 
+  "mainEntity": [ 
+    { 
+      "@type": "Question", 
+      "name": "How is this different from traditional lead generation?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Lead generation often delivers individual contacts without context. ABM focuses on full account penetration—ensuring multiple stakeholders are aware, educated, and aligned before sales enters the conversation." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "Can this work if we already have a list of Target Accounts defined?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Yes. We can activate your existing Target Account list or help refine and expand it using ICP criteria, enrichment, and intent signals." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How do you handle messaging across different roles within one account?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "We develop tailored tracks for economic buyers, technical evaluators, and influencers so each stakeholder receives messaging aligned to their priorities." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How will results be reported?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "You’ll see account-level engagement, contact interactions, and activation patterns—so sales knows where traction is building and when to lean in." 
+      } 
+    } 
+  ] 
+} 
+  
+
+ 
+
+SERVICE — B2B LEAD GENERATION & QUALIFICATION 
+
+ URL: https://www.pivotal-b2b.com/services/b2b-lead-generation-qualification/ 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "Service", 
+  "@id": "https://www.pivotal-b2b.com/services/b2b-lead-generation-qualification/#service", 
+  "serviceType": "B2B Lead Generation & Qualification", 
+  "name": "B2B Lead Generation & Qualification", 
+  "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" }, 
+  "url": "https://www.pivotal-b2b.com/services/b2b-lead-generation-qualification/", 
+  "areaServed": "Worldwide", 
+  "audience": { "@type": "Audience", "audienceType": "B2B Sales and Marketing Leaders" }, 
+  "description": "Fill your pipeline with ICP-matched prospects who show genuine interest—real conversations instead of random contacts.", 
+  "offers": { 
+    "@type": "Offer", 
+    "url": "https://www.pivotal-b2b.com/services/b2b-lead-generation-qualification/", 
+    "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" }, 
+    "availability": "https://schema.org/InStock" 
+  } 
+} 
+  
+
+FAQPAGE — LEAD GENERATION & QUALIFICATION (same URL) 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "FAQPage", 
+  "mainEntity": [ 
+    { 
+      "@type": "Question", 
+      "name": "Can you integrate directly with our CRM?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Yes. Qualified leads can be delivered to your CRM or MAP with full tagging and notes to support tracking and follow-up." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "What level of qualification is included?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Baseline fit, interest, and need are included. If deeper layers like timeline or budget are required, we can incorporate those as part of the engagement process." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "Do you use automation or manual outreach?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "We combine scalable systems with human validation to ensure compliant, relevant outreach without risking reputation or deliverability." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How quickly can a program begin?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Most programs begin within weeks once ICP and messaging alignment is complete." 
+      } 
+    } 
+  ] 
+} 
+  
+
+ 
+
+SERVICE — PRECISION DEMAND GENERATION 
+
+ URL: https://www.pivotal-b2b.com/services/precision-demand-generation/ 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "Service", 
+  "@id": "https://www.pivotal-b2b.com/services/precision-demand-generation/#service", 
+  "serviceType": "Precision Demand Generation", 
+  "name": "Precision Demand Generation", 
+  "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" }, 
+  "url": "https://www.pivotal-b2b.com/services/precision-demand-generation/", 
+  "areaServed": "Worldwide", 
+  "audience": { "@type": "Audience", "audienceType": "B2B Marketing Leaders" }, 
+  "description": "Convert research-stage interest into pipeline with content-led programs that educate in-market accounts early and build preference.", 
+  "offers": { 
+    "@type": "Offer", 
+    "url": "https://www.pivotal-b2b.com/services/precision-demand-generation/", 
+    "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" }, 
+    "availability": "https://schema.org/InStock" 
+  } 
+} 
+  
+
+FAQPAGE — PRECISION DEMAND GENERATION (same URL) 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "FAQPage", 
+  "mainEntity": [ 
+    { 
+      "@type": "Question", 
+      "name": "What’s the difference between demand generation and lead generation?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Lead generation captures contact information; demand generation creates interest, education, and preference—turning passive researchers into active buyers." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "Do we need content to start a program?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "If you have materials, we’ll use them. If not, we can develop concise, insight-led assets and messaging aligned to buyer challenges and your ICP." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How do you identify in-market accounts?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "We monitor behavioral patterns and search topics, layer available intent data, and validate interest through direct outreach." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How long does it take to see momentum?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Early engagement can begin in the first month; pipeline-ready signals emerge as nurture tracks compound." 
+      } 
+    } 
+  ] 
+} 
+  
+
+ 
+
+SERVICE — EVENT MARKETING & AUDIENCE ACQUISITION 
+
+ URL: https://www.pivotal-b2b.com/services/event-marketing-audience-acquisition/ 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "Service", 
+  "@id": "https://www.pivotal-b2b.com/services/event-marketing-audience-acquisition/#service", 
+  "serviceType": "Event Marketing & Audience Acquisition", 
+  "name": "Event Marketing & Audience Acquisition", 
+  "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" }, 
+  "url": "https://www.pivotal-b2b.com/services/event-marketing-audience-acquisition/", 
+  "areaServed": "Worldwide", 
+  "audience": { "@type": "Audience", "audienceType": "B2B Event and Marketing Teams" }, 
+  "description": "Fill events with the right audience—engaged decision-makers from your Target Accounts—and convert interest into post-event pipeline.", 
+  "offers": { 
+    "@type": "Offer", 
+    "url": "https://www.pivotal-b2b.com/services/event-marketing-audience-acquisition/", 
+    "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" }, 
+    "availability": "https://schema.org/InStock" 
+  } 
+} 
+  
+
+FAQPAGE — EVENT MARKETING & AUDIENCE ACQUISITION (same URL) 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "FAQPage", 
+  "mainEntity": [ 
+    { 
+      "@type": "Question", 
+      "name": "Can this support both virtual and physical events?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Yes. Whether you're running webinars, roadshows, or conferences, outreach and engagement are tailored to the format." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "Do you provide follow-up messaging and nurture sequences?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Yes. We build post-event follow-ups to ensure attendees are re-engaged quickly and moved toward next steps." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How do you encourage attendance rather than just sign-ups?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "We deploy reminder touchpoints with clear value and context—building commitment and reducing no-show rates." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "Can you help with sponsor or partner recruitment as well?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "If required, we can identify and qualify potential collaborators or sponsors aligned with your event theme." 
+      } 
+    } 
+  ] 
+} 
+  
+
+ 
+
+SERVICE — LEAD VALIDATION & ENRICHMENT 
+
+ URL: https://www.pivotal-b2b.com/services/lead-validation-enrichment/ 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "Service", 
+  "@id": "https://www.pivotal-b2b.com/services/lead-validation-enrichment/#service", 
+  "serviceType": "Lead Validation & Enrichment", 
+  "name": "Lead Validation & Enrichment", 
+  "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" }, 
+  "url": "https://www.pivotal-b2b.com/services/lead-validation-enrichment/", 
+  "areaServed": "Worldwide", 
+  "audience": { "@type": "Audience", "audienceType": "B2B Sales and Marketing Operations" }, 
+  "description": "Clean, verify, and enrich lead data to ensure accuracy, compliance, and conversion-readiness across your campaigns.", 
+  "offers": { 
+    "@type": "Offer", 
+    "url": "https://www.pivotal-b2b.com/services/lead-validation-enrichment/", 
+    "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" }, 
+    "availability": "https://schema.org/InStock" 
+  } 
+} 
+  
+
+FAQPAGE — LEAD VALIDATION & ENRICHMENT (same URL) 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "FAQPage", 
+  "mainEntity": [ 
+    { 
+      "@type": "Question", 
+      "name": "Can you work with data from multiple sources?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Yes. Leads from events, inbound forms, purchased lists, and legacy databases can be centralized and cleaned." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How do you ensure compliance when validating contacts?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "We check applicable frameworks like GDPR and TCPA while verifying consent and communication legitimacy." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "Do you remove or flag non-ICP contacts?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Yes. Contacts are classified by ICP fit so your team invests time only where it matters." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How often should data be enriched?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Quarterly refresh cycles suit most active databases; ongoing maintenance can be scheduled if needed." 
+      } 
+    } 
+  ] 
+} 
+  
+
+ 
+
+SERVICE — LEAD NURTURING & BUYER ENGAGEMENT 
+
+ URL: https://www.pivotal-b2b.com/services/lead-nurturing-buyer-engagement/ 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "Service", 
+  "@id": "https://www.pivotal-b2b.com/services/lead-nurturing-buyer-engagement/#service", 
+  "serviceType": "Lead Nurturing & Buyer Engagement", 
+  "name": "Lead Nurturing & Buyer Engagement", 
+  "provider": { "@type": "Organization", "@id": "https://www.pivotal-b2b.com/#org" }, 
+  "url": "https://www.pivotal-b2b.com/services/lead-nurturing-buyer-engagement/", 
+  "areaServed": "Worldwide", 
+  "audience": { "@type": "Audience", "audienceType": "B2B Demand Generation Teams" }, 
+  "description": "Keep early-stage prospects engaged with tailored journeys until timing aligns, then reintroduce as sales-ready opportunities.", 
+  "offers": { 
+    "@type": "Offer", 
+    "url": "https://www.pivotal-b2b.com/services/lead-nurturing-buyer-engagement/", 
+    "priceSpecification": { "@type": "PriceSpecification", "priceCurrency": "USD" }, 
+    "availability": "https://schema.org/InStock" 
+  } 
+} 
+  
+
+FAQPAGE — LEAD NURTURING & BUYER ENGAGEMENT (same URL) 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "FAQPage", 
+  "mainEntity": [ 
+    { 
+      "@type": "Question", 
+      "name": "What type of leads are best suited for nurturing?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Leads with initial interest but lacking timing, urgency, or prioritization—often valuable future opportunities if engaged correctly." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "How do you personalize nurture communications?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "We segment by industry, role, and pain points to deliver value-based messaging rather than generic follow-ups." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "What signals determine when a nurtured lead is ready?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Engagement behavior, response patterns, and timing cues inform requalification and handoff to sales." 
+      } 
+    }, 
+    { 
+      "@type": "Question", 
+      "name": "Can this be integrated with our existing workflows?", 
+      "acceptedAnswer": { 
+        "@type": "Answer", 
+        "text": "Yes. Requalified leads can be routed into your CRM or notified to sales based on your process." 
+      } 
+    } 
+  ] 
+} 
+  
+
+ 
+
+BREADCRUMB TEMPLATE (add per service page as applicable) 
+
+{ 
+  "@context": "https://schema.org", 
+  "@type": "BreadcrumbList", 
+  "itemListElement": [ 
+    { "@type": "ListItem", "position": 1, "name": "Services", "item": "https://www.pivotal-b2b.com/services/" }, 
+    { "@type": "ListItem", "position": 2, "name": "SERVICE NAME HERE", "item": "https://www.pivotal-b2b.com/services/SERVICE-SLUG/" } 
+  ] 
+} 
+  
+
+ 
+
+ 
