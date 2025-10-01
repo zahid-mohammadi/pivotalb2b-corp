@@ -54,10 +54,7 @@ export function Footer() {
       links: [
         { label: "About Pivotal B2B", href: "/about" },
         { label: "Contact & Support", href: "/contact" },
-        { label: "Get Custom Proposal", href: "/request-proposal" },
-        { label: "Privacy Policy", href: "/privacy-policy" },
-        { label: "Terms & Conditions", href: "/terms-conditions" },
-        { label: "Cookie Policy", href: "/cookie-policy" }
+        { label: "Get Custom Proposal", href: "/request-proposal" }
       ]
     }
   ];
@@ -325,9 +322,20 @@ export function Footer() {
               </div>
             </div>
             
-            <div className="flex items-center gap-2 text-slate-400 text-xs">
-              <MapPin className="h-3 w-3 text-primary" />
-              <span>Delaware, USA</span>
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-slate-400 text-xs">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-3 w-3 text-primary" />
+                <span>Delaware, USA</span>
+              </div>
+              <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-conditions" className="hover:text-white transition-colors">
+                Terms & Conditions
+              </Link>
+              <Link href="/cookie-policy" className="hover:text-white transition-colors">
+                Cookie Policy
+              </Link>
             </div>
           </div>
         </div>
