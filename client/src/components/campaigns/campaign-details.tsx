@@ -1,11 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Mail, Eye, MousePointer, XCircle, Users, Calendar, Clock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Mail, Eye, MousePointer, XCircle, Users, Calendar, Clock, Send } from "lucide-react";
 import { format } from "date-fns";
 import type { EmailCampaign } from "@shared/schema";
+import { useToast } from "@/hooks/use-toast";
+import { queryClient, apiRequest } from "@/lib/queryClient";
 
 interface CampaignStats {
   totalSent: number;
@@ -24,6 +27,8 @@ interface CampaignDetailsProps {
 }
 
 export function CampaignDetails({ campaign, open, onClose }: CampaignDetailsProps) {
+  const { toast } = useToast();
+
   const { data: stats } = useQuery<CampaignStats>({
     queryKey: ["/api/campaigns", campaign.id, "stats"],
     queryFn: async () => {
@@ -32,6 +37,28 @@ export function CampaignDetails({ campaign, open, onClose }: CampaignDetailsProp
       return response.json();
     },
     enabled: open,
+  });
+
+  const sendCampaignMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest(`/api/pipeline/campaigns/${campaign.id}/execute`, "POST");
+    },
+    onSuccess: () => {
+      toast({
+        title: "Campaign Sent",
+        description: "Your campaign has been sent successfully with tracking enabled.",
+      });
+      queryClient.invalidateQueries({ queryKey: ["/api/pipeline/campaigns"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/campaigns", campaign.id, "stats"] });
+      onClose();
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to send campaign",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
   });
 
   const getStatusBadge = (status: string) => {
@@ -79,6 +106,18 @@ export function CampaignDetails({ campaign, open, onClose }: CampaignDetailsProp
             <p className="text-sm text-muted-foreground">Subject Line</p>
             <p className="text-base font-medium">{campaign.subject}</p>
           </div>
+
+          {(campaign.status === "draft" || campaign.status === "scheduled") && (
+            <Button
+              onClick={() => sendCampaignMutation.mutate()}
+              disabled={sendCampaignMutation.isPending}
+              className="w-full"
+              data-testid="button-send-campaign"
+            >
+              <Send className="h-4 w-4 mr-2" />
+              {sendCampaignMutation.isPending ? "Sending..." : "Send Campaign Now"}
+            </Button>
+          )}
 
           {campaign.scheduledAt && (
             <div className="space-y-2">

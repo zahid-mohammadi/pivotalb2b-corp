@@ -1137,6 +1137,34 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.post("/api/pipeline/campaigns/:id/execute", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const { campaignExecutor } = await import("./services/campaign-executor");
+      
+      await campaignExecutor.executeCampaign({
+        campaignId: id,
+        userId: user.id,
+        baseUrl,
+      });
+      
+      res.json({ message: "Campaign executed successfully" });
+    } catch (error) {
+      console.error("Error executing campaign:", error);
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to execute campaign" });
+    }
+  });
+
   // Campaign Sends/Tracking Routes
   app.get("/api/pipeline/campaigns/:campaignId/sends", async (req, res) => {
     const campaignId = parseInt(req.params.campaignId);
@@ -1190,6 +1218,36 @@ export async function registerRoutes(app: Express) {
       console.error("Error updating campaign send:", error);
       res.status(500).json({ error: "Failed to update campaign send" });
     }
+  });
+
+  // Email Tracking Pixel Endpoint
+  app.get("/api/track/open/:sendId", async (req, res) => {
+    const sendId = parseInt(req.params.sendId);
+    
+    if (!isNaN(sendId)) {
+      try {
+        // Update the campaign send to mark as opened
+        await storage.updateCampaignSend(sendId, {
+          openedAt: new Date().toISOString(),
+        });
+      } catch (error) {
+        console.error("Error tracking email open:", error);
+      }
+    }
+
+    // Return a 1x1 transparent GIF pixel
+    const pixel = Buffer.from(
+      'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+      'base64'
+    );
+    
+    res.writeHead(200, {
+      'Content-Type': 'image/gif',
+      'Content-Length': pixel.length,
+      'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+      'Pragma': 'no-cache',
+    });
+    res.end(pixel);
   });
 
   // Automation Rules Routes
