@@ -609,7 +609,7 @@ export class DatabaseStorage {
       const sessionDurations = db
         .select({
           sessionId: pageViews.sessionId,
-          duration: sql<number>`EXTRACT(EPOCH FROM (MAX(${pageViews.timestamp}) - MIN(${pageViews.timestamp}))) / 60`
+          duration: sql<number>`EXTRACT(EPOCH FROM (MAX(${pageViews.timestamp}) - MIN(${pageViews.timestamp}))) / 60`.as('duration')
         })
         .from(pageViews)
         .where(gte(pageViews.timestamp, startDate))
