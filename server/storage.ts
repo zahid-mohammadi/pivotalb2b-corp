@@ -606,15 +606,21 @@ export class DatabaseStorage {
         .where(gte(pageViews.timestamp, startDate));
 
       // Get average time on site (in minutes)
-      const [{ avg: avgTimeOnSite }] = await db
+      const sessionDurations = db
         .select({
-          avg: avg(
-            sql`EXTRACT(EPOCH FROM (MAX(${pageViews.timestamp}) - MIN(${pageViews.timestamp}))) / 60`
-          )
+          sessionId: pageViews.sessionId,
+          duration: sql<number>`EXTRACT(EPOCH FROM (MAX(${pageViews.timestamp}) - MIN(${pageViews.timestamp}))) / 60`
         })
         .from(pageViews)
+        .where(gte(pageViews.timestamp, startDate))
         .groupBy(pageViews.sessionId)
-        .where(gte(pageViews.timestamp, startDate));
+        .as('session_durations');
+
+      const [{ avg: avgTimeOnSite }] = await db
+        .select({
+          avg: avg(sessionDurations.duration)
+        })
+        .from(sessionDurations);
 
       // Calculate bounce rate (sessions with only one page view)
       const [{ total: bounceCount }] = await db

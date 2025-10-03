@@ -247,40 +247,64 @@ export default function Dashboard() {
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
       />
-      <div className="container mx-auto px-4 py-6 lg:py-12">
-        <h1 className="text-2xl lg:text-3xl font-bold mb-6 lg:mb-8">Admin Dashboard</h1>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+        <div className="container mx-auto px-4 py-6 lg:py-10">
+          {/* Header Section */}
+          <div className="mb-8 lg:mb-10">
+            <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent mb-2">
+              Pivotal B2B Dashboard
+            </h1>
+            <p className="text-slate-600 text-sm lg:text-base">Manage your marketing operations and track performance</p>
+          </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          {/* Mobile-friendly scrollable tabs */}
-          <div className="w-full overflow-x-auto scrollbar-hide mb-8">
-            <TabsList className="inline-flex h-10 w-max items-center justify-start rounded-md bg-muted p-1 text-muted-foreground min-w-full lg:w-fit">
-              <TabsTrigger value="analytics" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
-                <BarChart3 className="h-3 w-3 lg:h-4 lg:w-4" />
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          {/* Modern Tab Navigation */}
+          <div className="w-full overflow-x-auto scrollbar-hide">
+            <TabsList className="inline-flex h-12 w-max items-center justify-start rounded-2xl bg-white border border-slate-200 shadow-sm p-1.5 min-w-full lg:w-fit">
+              <TabsTrigger 
+                value="analytics" 
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md"
+              >
+                <BarChart3 className="h-4 w-4" />
                 <span className="hidden sm:inline">Analytics</span>
                 <span className="sm:hidden">Stats</span>
               </TabsTrigger>
-              <TabsTrigger value="users" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
-                <Users className="h-3 w-3 lg:h-4 lg:w-4" />
+              <TabsTrigger 
+                value="users" 
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md"
+              >
+                <Users className="h-4 w-4" />
                 <span className="hidden sm:inline">User Management</span>
                 <span className="sm:hidden">Users</span>
               </TabsTrigger>
-              <TabsTrigger value="blog" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
-                <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
+              <TabsTrigger 
+                value="blog" 
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md"
+              >
+                <FileText className="h-4 w-4" />
                 <span className="hidden sm:inline">Blog Posts</span>
                 <span className="sm:hidden">Blog</span>
               </TabsTrigger>
-              <TabsTrigger value="leads" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
-                <Users className="h-3 w-3 lg:h-4 lg:w-4" />
-                <span className="hidden sm:inline">Leads</span>
-                <span className="sm:hidden">Leads</span>
+              <TabsTrigger 
+                value="leads" 
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md"
+              >
+                <Users className="h-4 w-4" />
+                <span>Leads</span>
               </TabsTrigger>
-              <TabsTrigger value="pipeline" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap" data-testid="pipeline-tab">
-                <Workflow className="h-3 w-3 lg:h-4 lg:w-4" />
-                <span className="hidden sm:inline">Pipeline</span>
-                <span className="sm:hidden">Pipeline</span>
+              <TabsTrigger 
+                value="pipeline" 
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md" 
+                data-testid="pipeline-tab"
+              >
+                <Workflow className="h-4 w-4" />
+                <span>Pipeline</span>
               </TabsTrigger>
-              <TabsTrigger value="proposals" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
-                <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
+              <TabsTrigger 
+                value="proposals" 
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md"
+              >
+                <FileText className="h-4 w-4" />
                 <span className="hidden sm:inline">Proposals</span>
                 <span className="sm:hidden">Props</span>
               </TabsTrigger>
@@ -300,31 +324,45 @@ export default function Dashboard() {
 
           {/* User Management Tab */}
           <TabsContent value="users">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold">User Management</h2>
-                  <Button onClick={() => setAddUserDialogOpen(true)}>Add New User</Button>
+            <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">User Management</h2>
+                    <p className="text-sm text-slate-600 mt-1">Manage team members and their permissions</p>
+                  </div>
+                  <Button 
+                    onClick={() => setAddUserDialogOpen(true)}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md"
+                  >
+                    Add New User
+                  </Button>
                 </div>
-                <div className="border rounded-lg">
-                  <div className="p-4 border-b bg-muted">
-                    <div className="grid grid-cols-4 gap-4 font-medium">
+                <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+                  <div className="p-5 border-b border-slate-200 bg-slate-50/50">
+                    <div className="grid grid-cols-4 gap-4 font-semibold text-sm text-slate-700">
                       <div>Username</div>
                       <div>Email</div>
                       <div>Role</div>
                       <div>Actions</div>
                     </div>
                   </div>
-                  <div className="divide-y">
+                  <div className="divide-y divide-slate-100">
                     {users?.map((user) => (
-                      <div key={user.id} className="p-4">
-                        <div className="grid grid-cols-4 gap-4">
-                          <div className="flex items-center gap-2">
-                            <User className="h-6 w-6 text-muted-foreground" />
-                            <span>{user.username}</span>
+                      <div key={user.id} className="p-5 hover:bg-slate-50/50 transition-colors">
+                        <div className="grid grid-cols-4 gap-4 items-center">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-semibold">
+                              {user.username.charAt(0).toUpperCase()}
+                            </div>
+                            <span className="font-medium text-slate-900">{user.username}</span>
                           </div>
-                          <div>{user.email}</div>
-                          <div>{user.role}</div>
+                          <div className="text-slate-600">{user.email}</div>
+                          <div>
+                            <span className="inline-flex px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                              {user.role}
+                            </span>
+                          </div>
                           <div className="flex gap-2">
                             <Button
                               variant="outline"
@@ -333,6 +371,7 @@ export default function Dashboard() {
                                 setSelectedUser(user);
                                 setEditUserDialogOpen(true);
                               }}
+                              className="rounded-lg"
                             >
                               Edit
                             </Button>
@@ -340,6 +379,7 @@ export default function Dashboard() {
                               variant="destructive"
                               size="sm"
                               onClick={() => handleDeleteUser(user.id)}
+                              className="rounded-lg"
                             >
                               Delete
                             </Button>
@@ -440,11 +480,17 @@ export default function Dashboard() {
 
           {/* Blog Posts Tab */}
           <TabsContent value="blog">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold">Blog Posts</h2>
-                  <Button onClick={() => { setEditingItem(null); setShowEditor("blog"); }}>
+            <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">Blog Posts</h2>
+                    <p className="text-sm text-slate-600 mt-1">Create and manage your blog content</p>
+                  </div>
+                  <Button 
+                    onClick={() => { setEditingItem(null); setShowEditor("blog"); }}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md"
+                  >
                     Create New Post
                   </Button>
                 </div>
@@ -453,7 +499,7 @@ export default function Dashboard() {
                     <Button
                       variant="outline"
                       onClick={() => { setShowEditor(null); setEditingItem(null); }}
-                      className="mb-4"
+                      className="mb-6 rounded-lg"
                     >
                       Back to List
                     </Button>
@@ -462,20 +508,20 @@ export default function Dashboard() {
                 ) : (
                   <div className="space-y-4">
                     {postsLoading ? (
-                      <div className="flex justify-center py-8">
-                        <Loader2 className="h-8 w-8 animate-spin" />
+                      <div className="flex justify-center py-12">
+                        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                       </div>
                     ) : (
-                      <div className="divide-y">
+                      <div className="grid gap-4">
                         {posts?.map((post) => (
-                          <div key={post.id} className="py-4">
+                          <div key={post.id} className="p-5 border border-slate-200 rounded-2xl hover:shadow-md transition-all bg-white">
                             <div className="flex items-center justify-between">
-                              <div>
-                                <h3 className="text-lg font-semibold">{post.title}</h3>
-                                <p className="text-sm text-muted-foreground">
+                              <div className="flex-1">
+                                <h3 className="text-lg font-semibold text-slate-900 mb-1">{post.title}</h3>
+                                <p className="text-sm text-slate-500">
                                   {post.publishedAt
                                     ? new Date(post.publishedAt).toLocaleDateString()
-                                    : "Draft"}
+                                    : <span className="inline-flex px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-200">Draft</span>}
                                 </p>
                               </div>
                               <div className="flex gap-2">
@@ -483,6 +529,7 @@ export default function Dashboard() {
                                   variant="outline"
                                   size="icon"
                                   onClick={() => handleEdit(post, "blog")}
+                                  className="rounded-lg"
                                 >
                                   <Pencil className="h-4 w-4" />
                                 </Button>
@@ -490,6 +537,7 @@ export default function Dashboard() {
                                   variant="destructive"
                                   size="icon"
                                   onClick={() => handleDelete(post.id, "blog")}
+                                  className="rounded-lg"
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
@@ -507,11 +555,17 @@ export default function Dashboard() {
 
           {/* eBooks Tab */}
           <TabsContent value="ebooks">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold">eBooks</h2>
-                  <Button onClick={() => { setEditingItem(null); setShowEditor("ebook"); }}>
+            <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">eBooks Library</h2>
+                    <p className="text-sm text-slate-600 mt-1">Manage your downloadable resources</p>
+                  </div>
+                  <Button 
+                    onClick={() => { setEditingItem(null); setShowEditor("ebook"); }}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md"
+                  >
                     Create New eBook
                   </Button>
                 </div>
@@ -520,7 +574,7 @@ export default function Dashboard() {
                     <Button
                       variant="outline"
                       onClick={() => { setShowEditor(null); setEditingItem(null); }}
-                      className="mb-4"
+                      className="mb-6 rounded-lg"
                     >
                       Back to List
                     </Button>
@@ -529,20 +583,20 @@ export default function Dashboard() {
                 ) : (
                   <div className="space-y-4">
                     {ebooksLoading ? (
-                      <div className="flex justify-center py-8">
-                        <Loader2 className="h-8 w-8 animate-spin" />
+                      <div className="flex justify-center py-12">
+                        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                       </div>
                     ) : (
-                      <div className="divide-y">
+                      <div className="grid gap-4">
                         {ebooks?.map((ebook) => (
-                          <div key={ebook.id} className="py-4">
+                          <div key={ebook.id} className="p-5 border border-slate-200 rounded-2xl hover:shadow-md transition-all bg-white">
                             <div className="flex items-center justify-between">
-                              <div>
-                                <h3 className="text-lg font-semibold">{ebook.title}</h3>
-                                <p className="text-sm text-muted-foreground">
+                              <div className="flex-1">
+                                <h3 className="text-lg font-semibold text-slate-900 mb-1">{ebook.title}</h3>
+                                <p className="text-sm text-slate-500">
                                   {ebook.publishedAt
                                     ? new Date(ebook.publishedAt).toLocaleDateString()
-                                    : "Draft"}
+                                    : <span className="inline-flex px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-200">Draft</span>}
                                 </p>
                               </div>
                               <div className="flex gap-2">
@@ -550,6 +604,7 @@ export default function Dashboard() {
                                   variant="outline"
                                   size="icon"
                                   onClick={() => handleEdit(ebook, "ebook")}
+                                  className="rounded-lg"
                                 >
                                   <Pencil className="h-4 w-4" />
                                 </Button>
@@ -557,6 +612,7 @@ export default function Dashboard() {
                                   variant="destructive"
                                   size="icon"
                                   onClick={() => handleDelete(ebook.id, "ebook")}
+                                  className="rounded-lg"
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
@@ -574,11 +630,17 @@ export default function Dashboard() {
 
           {/* Case Studies Tab */}
           <TabsContent value="case-studies">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold">Case Studies</h2>
-                  <Button onClick={() => { setEditingItem(null); setShowEditor("case-study"); }}>
+            <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">Case Studies</h2>
+                    <p className="text-sm text-slate-600 mt-1">Showcase your success stories</p>
+                  </div>
+                  <Button 
+                    onClick={() => { setEditingItem(null); setShowEditor("case-study"); }}
+                    className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md"
+                  >
                     Create New Case Study
                   </Button>
                 </div>
@@ -587,7 +649,7 @@ export default function Dashboard() {
                     <Button
                       variant="outline"
                       onClick={() => { setShowEditor(null); setEditingItem(null); }}
-                      className="mb-4"
+                      className="mb-6 rounded-lg"
                     >
                       Back to List
                     </Button>
@@ -596,20 +658,20 @@ export default function Dashboard() {
                 ) : (
                   <div className="space-y-4">
                     {caseStudiesLoading ? (
-                      <div className="flex justify-center py-8">
-                        <Loader2 className="h-8 w-8 animate-spin" />
+                      <div className="flex justify-center py-12">
+                        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                       </div>
                     ) : (
-                      <div className="divide-y">
+                      <div className="grid gap-4">
                         {caseStudies?.map((study) => (
-                          <div key={study.id} className="py-4">
+                          <div key={study.id} className="p-5 border border-slate-200 rounded-2xl hover:shadow-md transition-all bg-white">
                             <div className="flex items-center justify-between">
-                              <div>
-                                <h3 className="text-lg font-semibold">{study.title}</h3>
-                                <p className="text-sm text-muted-foreground">
+                              <div className="flex-1">
+                                <h3 className="text-lg font-semibold text-slate-900 mb-1">{study.title}</h3>
+                                <p className="text-sm text-slate-500">
                                   {study.publishedAt
                                     ? new Date(study.publishedAt).toLocaleDateString()
-                                    : "Draft"}
+                                    : <span className="inline-flex px-2 py-0.5 rounded-full text-xs bg-amber-50 text-amber-700 border border-amber-200">Draft</span>}
                                 </p>
                               </div>
                               <div className="flex gap-2">
@@ -617,6 +679,7 @@ export default function Dashboard() {
                                   variant="outline"
                                   size="icon"
                                   onClick={() => handleEdit(study, "case-study")}
+                                  className="rounded-lg"
                                 >
                                   <Pencil className="h-4 w-4" />
                                 </Button>
@@ -624,6 +687,7 @@ export default function Dashboard() {
                                   variant="destructive"
                                   size="icon"
                                   onClick={() => handleDelete(study.id, "case-study")}
+                                  className="rounded-lg"
                                 >
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
@@ -641,21 +705,24 @@ export default function Dashboard() {
 
           {/* Leads Tab */}
           <TabsContent value="leads">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold">Download Leads</h2>
+            <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">Download Leads</h2>
+                    <p className="text-sm text-slate-600 mt-1">Track content downloads and lead generation</p>
+                  </div>
                 </div>
                 {leadsLoading ? (
-                  <div className="flex justify-center py-8">
-                    <Loader2 className="h-8 w-8 animate-spin" />
+                  <div className="flex justify-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {/* Desktop Table View */}
-                    <div className="hidden lg:block border rounded-lg">
-                      <div className="p-4 border-b bg-muted">
-                        <div className="grid grid-cols-7 gap-4 font-medium text-sm">
+                    <div className="hidden lg:block border border-slate-200 rounded-2xl overflow-hidden bg-white">
+                      <div className="p-4 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50/30">
+                        <div className="grid grid-cols-7 gap-4 font-semibold text-sm text-slate-700">
                           <div>Full Name</div>
                           <div>Email</div>
                           <div>Company</div>
@@ -665,7 +732,7 @@ export default function Dashboard() {
                           <div>Actions</div>
                         </div>
                       </div>
-                      <div className="divide-y">
+                      <div className="divide-y divide-slate-200">
                         {leads?.map((lead) => {
                           let contentTitle = 'Unknown';
                           if (lead.contentType === 'media-kit') {
@@ -680,17 +747,21 @@ export default function Dashboard() {
                           return (
                             <div 
                               key={lead.id} 
-                              className="p-4 hover:bg-muted/50 transition-colors cursor-pointer"
+                              className="p-4 hover:bg-slate-50/50 transition-colors cursor-pointer"
                               onClick={() => navigate(`/lead/${lead.id}`)}
                               data-testid={`lead-row-${lead.id}`}
                             >
                               <div className="grid grid-cols-7 gap-4 items-center text-sm">
-                                <div className="font-medium" data-testid={`lead-name-${lead.id}`}>{lead.fullName}</div>
-                                <div className="truncate" data-testid={`lead-email-${lead.id}`}>{lead.email}</div>
-                                <div data-testid={`lead-company-${lead.id}`}>{lead.company}</div>
-                                <div className="capitalize" data-testid={`lead-type-${lead.id}`}>{lead.contentType}</div>
-                                <div className="truncate" data-testid={`lead-content-${lead.id}`}>{contentTitle}</div>
-                                <div data-testid={`lead-date-${lead.id}`}>{new Date(lead.downloadedAt).toLocaleDateString()}</div>
+                                <div className="font-semibold text-slate-900" data-testid={`lead-name-${lead.id}`}>{lead.fullName}</div>
+                                <div className="truncate text-slate-600" data-testid={`lead-email-${lead.id}`}>{lead.email}</div>
+                                <div className="text-slate-600" data-testid={`lead-company-${lead.id}`}>{lead.company}</div>
+                                <div className="capitalize" data-testid={`lead-type-${lead.id}`}>
+                                  <span className="inline-flex px-2 py-0.5 rounded-full text-xs bg-blue-50 text-blue-700 border border-blue-200">
+                                    {lead.contentType}
+                                  </span>
+                                </div>
+                                <div className="truncate text-slate-600" data-testid={`lead-content-${lead.id}`}>{contentTitle}</div>
+                                <div className="text-slate-500 text-xs" data-testid={`lead-date-${lead.id}`}>{new Date(lead.downloadedAt).toLocaleDateString()}</div>
                                 <div>
                                   <Button
                                     variant="ghost"
@@ -699,6 +770,7 @@ export default function Dashboard() {
                                       e.stopPropagation();
                                       navigate(`/lead/${lead.id}`);
                                     }}
+                                    className="rounded-lg"
                                     data-testid={`button-view-lead-${lead.id}`}
                                   >
                                     <Eye className="w-4 h-4" />
@@ -732,11 +804,11 @@ export default function Dashboard() {
                         return (
                           <Card 
                             key={lead.id} 
-                            className="cursor-pointer hover:shadow-md transition-shadow"
+                            className="cursor-pointer hover:shadow-lg transition-all border-slate-200 bg-white rounded-2xl"
                             onClick={() => navigate(`/lead/${lead.id}`)}
                             data-testid={`lead-card-${lead.id}`}
                           >
-                            <CardContent className="p-4">
+                            <CardContent className="p-5">
                               <div className="space-y-3">
                                 {/* Header */}
                                 <div className="flex items-start justify-between">
@@ -818,20 +890,23 @@ export default function Dashboard() {
 
           {/* Proposal Requests Tab */}
           <TabsContent value="proposals">
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-semibold">Proposal Requests</h2>
+            <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
+              <CardContent className="pt-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-2xl font-bold text-slate-900">Proposal Requests</h2>
+                    <p className="text-sm text-slate-600 mt-1">Manage incoming business proposals and requests</p>
+                  </div>
                 </div>
                 <div className="space-y-4">
                   {proposalRequestsLoading ? (
-                    <div className="flex justify-center py-8">
-                      <Loader2 className="h-8 w-8 animate-spin" />
+                    <div className="flex justify-center py-12">
+                      <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                     </div>
                   ) : (
-                    <div className="border rounded-lg">
-                      <div className="p-4 border-b bg-muted">
-                        <div className="grid grid-cols-6 gap-4 font-medium">
+                    <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white">
+                      <div className="p-4 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50/30">
+                        <div className="grid grid-cols-6 gap-4 font-semibold text-sm text-slate-700">
                           <div>Company</div>
                           <div>Contact</div>
                           <div>Services</div>
@@ -840,23 +915,23 @@ export default function Dashboard() {
                           <div>Actions</div>
                         </div>
                       </div>
-                      <div className="divide-y">
+                      <div className="divide-y divide-slate-200">
                         {proposalRequests?.map((proposal) => (
-                          <div key={proposal.id} className="p-4">
-                            <div className="grid grid-cols-6 gap-4">
+                          <div key={proposal.id} className="p-4 hover:bg-slate-50/50 transition-colors">
+                            <div className="grid grid-cols-6 gap-4 items-start">
                               <div>
-                                <span className="font-medium">{proposal.companyName}</span>
-                                <p className="text-sm text-muted-foreground">{proposal.companyIndustries}</p>
+                                <span className="font-semibold text-slate-900">{proposal.companyName}</span>
+                                <p className="text-xs text-slate-500 mt-0.5">{proposal.companyIndustries}</p>
                               </div>
                               <div>
-                                <span>{proposal.fullName}</span>
-                                <p className="text-sm text-muted-foreground">{proposal.email}</p>
+                                <span className="text-slate-900">{proposal.fullName}</span>
+                                <p className="text-xs text-slate-500 mt-0.5">{proposal.email}</p>
                               </div>
                               <div>
-                                <p className="text-sm">{proposal.interestedServices?.join(", ")}</p>
+                                <p className="text-sm text-slate-600">{proposal.interestedServices?.join(", ")}</p>
                               </div>
                               <div>
-                                <p className="text-sm">
+                                <p className="text-xs text-slate-500">
                                   {proposal.createdAt ? new Date(proposal.createdAt).toLocaleDateString() : "-"}
                                 </p>
                               </div>
@@ -865,7 +940,7 @@ export default function Dashboard() {
                                   defaultValue={proposal.status || "new"}
                                   onValueChange={(value) => handleProposalStatusChange(proposal.id, value)}
                                 >
-                                  <SelectTrigger className="w-32">
+                                  <SelectTrigger className="w-32 rounded-lg">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -882,6 +957,7 @@ export default function Dashboard() {
                                   <Button 
                                     variant="outline"
                                     size="sm"
+                                    className="rounded-lg"
                                   >
                                     View Details
                                   </Button>
@@ -890,6 +966,7 @@ export default function Dashboard() {
                                   variant="destructive"
                                   size="sm"
                                   onClick={() => handleDeleteProposal(proposal.id)}
+                                  className="rounded-lg"
                                 >
                                   Delete
                                 </Button>
@@ -897,7 +974,7 @@ export default function Dashboard() {
                             </div>
 
                             {/* Additional proposal details */}
-                            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+                            <div className="mt-4 p-4 bg-slate-50/50 rounded-xl border border-slate-200">
                               <div className="grid grid-cols-2 gap-4">
                                 <div>
                                   <h4 className="text-sm font-medium">Primary Goals</h4>
@@ -964,6 +1041,7 @@ export default function Dashboard() {
             </Card>
           </TabsContent>
         </Tabs>
+      </div>
       </div>
     </>
   );
