@@ -66,7 +66,7 @@ export default function EbookABMLanding() {
       queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
       setIsSubmitted(true);
       setTimeout(() => {
-        navigate("/ebook/abm-guide");
+        navigate("/abm-guide");
       }, 1500);
     },
   });

@@ -53,7 +53,7 @@ function Router() {
           <Route path="/ebooks" component={Ebooks} />
           <Route path="/ebooks/:id" component={EbookDetail} />
           <Route path="/ebook-abm-guide" component={EbookABMLanding} />
-          <Route path="/ebook/abm-guide" component={EbookABMDetail} />
+          <Route path="/abm-guide" component={EbookABMDetail} />
           <Route path="/case-studies" component={CaseStudies} />
           <Route path="/case-studies/:id" component={CaseStudyDetail} />
           <Route path="/about" component={About} />

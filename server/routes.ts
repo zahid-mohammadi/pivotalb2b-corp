@@ -340,7 +340,7 @@ export async function registerRoutes(app: Express) {
               const domain = 'https://pivotal-b2b.com';
               
               ebookUrl = ebook.slug === 'abm-guide' 
-                ? `${domain}/ebook/abm-guide`
+                ? `${domain}/abm-guide`
                 : `${domain}/ebooks/${ebook.slug}`;
 
               // Send confirmation to user
