@@ -3,11 +3,15 @@ import nodemailer from 'nodemailer';
 // SMTP Configuration
 const smtpConfig = {
   host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-  port: parseInt(process.env.SMTP_PORT || '465'),
-  secure: true, // Use SSL
+  port: parseInt(process.env.SMTP_PORT || '587'),
+  secure: false, // Use STARTTLS instead of SSL
+  requireTLS: true,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 };
 
