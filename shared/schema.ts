@@ -303,3 +303,178 @@ export const insertProposalRequestSchema = createInsertSchema(proposalRequests)
     additionalNeeds: z.string().optional(),
     currentChallenges: z.string().optional(),
   });
+
+// Pipeline Stages
+export const pipelineStages = pgTable("pipeline_stages", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  order: serial("order").notNull(),
+  color: varchar("color", { length: 50 }),
+});
+
+export type PipelineStage = typeof pipelineStages.$inferSelect;
+export const insertPipelineStageSchema = createInsertSchema(pipelineStages)
+  .omit({ id: true })
+  .extend({
+    color: z.string().optional(),
+  });
+
+export type InsertPipelineStage = z.infer<typeof insertPipelineStageSchema>;
+
+// Pipeline Deals/Opportunities
+export const pipelineDeals = pgTable("pipeline_deals", {
+  id: serial("id").primaryKey(),
+  fullName: varchar("full_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  company: varchar("company", { length: 100 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
+  jobTitle: varchar("job_title", { length: 100 }),
+  stageId: serial("stage_id").notNull(),
+  dealValue: serial("deal_value"),
+  probability: serial("probability"),
+  source: text("source").notNull(),
+  sourceId: serial("source_id"),
+  assignedTo: serial("assigned_to"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  closedAt: timestamp("closed_at"),
+  notes: text("notes"),
+});
+
+export type PipelineDeal = typeof pipelineDeals.$inferSelect;
+export const insertPipelineDealSchema = createInsertSchema(pipelineDeals)
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    phone: z.string().optional(),
+    jobTitle: z.string().optional(),
+    dealValue: z.number().optional(),
+    probability: z.number().optional(),
+    sourceId: z.number().optional(),
+    assignedTo: z.number().optional(),
+    closedAt: z.string().datetime().optional(),
+    notes: z.string().optional(),
+  });
+
+export type InsertPipelineDeal = z.infer<typeof insertPipelineDealSchema>;
+
+// Lead Activities / Engagement History
+export const leadActivities = pgTable("lead_activities", {
+  id: serial("id").primaryKey(),
+  dealId: serial("deal_id").notNull(),
+  activityType: text("activity_type").notNull(),
+  subject: text("subject"),
+  description: text("description"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  createdBy: serial("created_by"),
+});
+
+export type LeadActivity = typeof leadActivities.$inferSelect;
+export const insertLeadActivitySchema = createInsertSchema(leadActivities)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    subject: z.string().optional(),
+    description: z.string().optional(),
+    metadata: z.any().optional(),
+    createdBy: z.number().optional(),
+  });
+
+export type InsertLeadActivity = z.infer<typeof insertLeadActivitySchema>;
+
+// Email Campaigns
+export const emailCampaigns = pgTable("email_campaigns", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  subject: varchar("subject", { length: 300 }).notNull(),
+  subjectB: varchar("subject_b", { length: 300 }),
+  content: text("content").notNull(),
+  contentB: text("content_b"),
+  segmentFilters: jsonb("segment_filters"),
+  status: varchar("status", { length: 50 }).default("draft").notNull(),
+  scheduledAt: timestamp("scheduled_at"),
+  sentAt: timestamp("sent_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  createdBy: serial("created_by").notNull(),
+});
+
+export type EmailCampaign = typeof emailCampaigns.$inferSelect;
+export const insertEmailCampaignSchema = createInsertSchema(emailCampaigns)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    subjectB: z.string().optional(),
+    contentB: z.string().optional(),
+    segmentFilters: z.any().optional(),
+    scheduledAt: z.string().datetime().optional(),
+    sentAt: z.string().datetime().optional(),
+  });
+
+export type InsertEmailCampaign = z.infer<typeof insertEmailCampaignSchema>;
+
+// Campaign Sends / Email Tracking
+export const campaignSends = pgTable("campaign_sends", {
+  id: serial("id").primaryKey(),
+  campaignId: serial("campaign_id").notNull(),
+  dealId: serial("deal_id").notNull(),
+  variantType: varchar("variant_type", { length: 10 }),
+  sentAt: timestamp("sent_at").defaultNow().notNull(),
+  openedAt: timestamp("opened_at"),
+  clickedAt: timestamp("clicked_at"),
+  bouncedAt: timestamp("bounced_at"),
+  unsubscribedAt: timestamp("unsubscribed_at"),
+});
+
+export type CampaignSend = typeof campaignSends.$inferSelect;
+export const insertCampaignSendSchema = createInsertSchema(campaignSends)
+  .omit({ id: true, sentAt: true })
+  .extend({
+    variantType: z.string().optional(),
+    openedAt: z.string().datetime().optional(),
+    clickedAt: z.string().datetime().optional(),
+    bouncedAt: z.string().datetime().optional(),
+    unsubscribedAt: z.string().datetime().optional(),
+  });
+
+export type InsertCampaignSend = z.infer<typeof insertCampaignSendSchema>;
+
+// Automation Rules
+export const automationRules = pgTable("automation_rules", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  trigger: varchar("trigger", { length: 100 }).notNull(),
+  conditions: jsonb("conditions"),
+  actions: jsonb("actions").notNull(),
+  isActive: serial("is_active").default(1).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  createdBy: serial("created_by").notNull(),
+});
+
+export type AutomationRule = typeof automationRules.$inferSelect;
+export const insertAutomationRuleSchema = createInsertSchema(automationRules)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    conditions: z.any().optional(),
+    actions: z.any(),
+  });
+
+export type InsertAutomationRule = z.infer<typeof insertAutomationRuleSchema>;
+
+// Microsoft 365 Email Connections
+export const m365Connections = pgTable("m365_connections", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id").notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  accessToken: text("access_token").notNull(),
+  refreshToken: text("refresh_token").notNull(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type M365Connection = typeof m365Connections.$inferSelect;
+export const insertM365ConnectionSchema = createInsertSchema(m365Connections)
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    expiresAt: z.string().datetime(),
+  });
+
+export type InsertM365Connection = z.infer<typeof insertM365ConnectionSchema>;

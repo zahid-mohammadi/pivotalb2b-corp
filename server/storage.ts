@@ -15,6 +15,21 @@ import {
   type InsertCaseStudy,
   type InsertLead,
   type InsertProposalRequest,
+  type PipelineStage,
+  type PipelineDeal,
+  type LeadActivity,
+  type EmailCampaign,
+  type CampaignSend,
+  type AutomationRule,
+  type M365Connection,
+  type InsertPipelineStage,
+  type InsertPipelineDeal,
+  type InsertLeadActivity,
+  type InsertEmailCampaign,
+  type InsertCampaignSend,
+  type InsertAutomationRule,
+  type InsertM365Connection,
+  type FAQ,
   blogPosts, 
   services, 
   testimonials,
@@ -25,6 +40,13 @@ import {
   proposalRequests,
   pageViews,
   userSessions,
+  pipelineStages,
+  pipelineDeals,
+  leadActivities,
+  emailCampaigns,
+  campaignSends,
+  automationRules,
+  m365Connections,
   type PageView,
   type UserSession
 } from "@shared/schema";
@@ -34,13 +56,12 @@ import session from "express-session";
 import createMemoryStore from "memorystore";
 import connectPg from "connect-pg-simple";
 import { pool } from "./db";
-import { FAQ } from "@shared/types";
 import { format } from 'date-fns';
 import { subHours } from "date-fns";
 
 const PostgresStore = connectPg(session);
 
-export class DatabaseStorage implements IStorage {
+export class DatabaseStorage {
   // Expose database and table definitions
   public readonly db = db;
   public readonly pageViews = pageViews;
@@ -730,6 +751,338 @@ export class DatabaseStorage implements IStorage {
       await db.delete(proposalRequests).where(eq(proposalRequests.id, id));
     } catch (error) {
       console.error("Error deleting proposal request:", error);
+      throw error;
+    }
+  }
+
+  // Pipeline Stages
+  async getPipelineStages(): Promise<PipelineStage[]> {
+    try {
+      return await db.select().from(pipelineStages).orderBy(pipelineStages.order);
+    } catch (error) {
+      console.error("Error getting pipeline stages:", error);
+      throw error;
+    }
+  }
+
+  async getPipelineStageById(id: number): Promise<PipelineStage | undefined> {
+    try {
+      const [stage] = await db.select().from(pipelineStages).where(eq(pipelineStages.id, id));
+      return stage;
+    } catch (error) {
+      console.error("Error getting pipeline stage by ID:", error);
+      throw error;
+    }
+  }
+
+  async createPipelineStage(stage: InsertPipelineStage): Promise<PipelineStage> {
+    try {
+      const [newStage] = await db.insert(pipelineStages).values(stage).returning();
+      return newStage;
+    } catch (error) {
+      console.error("Error creating pipeline stage:", error);
+      throw error;
+    }
+  }
+
+  async updatePipelineStage(id: number, stage: Partial<InsertPipelineStage>): Promise<PipelineStage> {
+    try {
+      const [updatedStage] = await db.update(pipelineStages).set(stage).where(eq(pipelineStages.id, id)).returning();
+      return updatedStage;
+    } catch (error) {
+      console.error("Error updating pipeline stage:", error);
+      throw error;
+    }
+  }
+
+  async deletePipelineStage(id: number): Promise<void> {
+    try {
+      await db.delete(pipelineStages).where(eq(pipelineStages.id, id));
+    } catch (error) {
+      console.error("Error deleting pipeline stage:", error);
+      throw error;
+    }
+  }
+
+  // Pipeline Deals
+  async getPipelineDeals(): Promise<PipelineDeal[]> {
+    try {
+      return await db.select().from(pipelineDeals).orderBy(desc(pipelineDeals.createdAt));
+    } catch (error) {
+      console.error("Error getting pipeline deals:", error);
+      throw error;
+    }
+  }
+
+  async getPipelineDealById(id: number): Promise<PipelineDeal | undefined> {
+    try {
+      const [deal] = await db.select().from(pipelineDeals).where(eq(pipelineDeals.id, id));
+      return deal;
+    } catch (error) {
+      console.error("Error getting pipeline deal by ID:", error);
+      throw error;
+    }
+  }
+
+  async getPipelineDealsByStage(stageId: number): Promise<PipelineDeal[]> {
+    try {
+      return await db.select().from(pipelineDeals).where(eq(pipelineDeals.stageId, stageId));
+    } catch (error) {
+      console.error("Error getting pipeline deals by stage:", error);
+      throw error;
+    }
+  }
+
+  async createPipelineDeal(deal: InsertPipelineDeal): Promise<PipelineDeal> {
+    try {
+      const [newDeal] = await db.insert(pipelineDeals).values([deal]).returning();
+      return newDeal;
+    } catch (error) {
+      console.error("Error creating pipeline deal:", error);
+      throw error;
+    }
+  }
+
+  async updatePipelineDeal(id: number, deal: Partial<InsertPipelineDeal>): Promise<PipelineDeal> {
+    try {
+      const updateData: any = {
+        ...deal,
+        updatedAt: new Date(),
+      };
+      if (deal.closedAt) {
+        updateData.closedAt = new Date(deal.closedAt);
+      }
+      const [updatedDeal] = await db.update(pipelineDeals).set(updateData).where(eq(pipelineDeals.id, id)).returning();
+      return updatedDeal;
+    } catch (error) {
+      console.error("Error updating pipeline deal:", error);
+      throw error;
+    }
+  }
+
+  async deletePipelineDeal(id: number): Promise<void> {
+    try {
+      await db.delete(pipelineDeals).where(eq(pipelineDeals.id, id));
+    } catch (error) {
+      console.error("Error deleting pipeline deal:", error);
+      throw error;
+    }
+  }
+
+  // Lead Activities
+  async getLeadActivitiesByDeal(dealId: number): Promise<LeadActivity[]> {
+    try {
+      return await db.select().from(leadActivities).where(eq(leadActivities.dealId, dealId)).orderBy(desc(leadActivities.createdAt));
+    } catch (error) {
+      console.error("Error getting lead activities:", error);
+      throw error;
+    }
+  }
+
+  async createLeadActivity(activity: InsertLeadActivity): Promise<LeadActivity> {
+    try {
+      const [newActivity] = await db.insert(leadActivities).values(activity).returning();
+      return newActivity;
+    } catch (error) {
+      console.error("Error creating lead activity:", error);
+      throw error;
+    }
+  }
+
+  async deleteLeadActivity(id: number): Promise<void> {
+    try {
+      await db.delete(leadActivities).where(eq(leadActivities.id, id));
+    } catch (error) {
+      console.error("Error deleting lead activity:", error);
+      throw error;
+    }
+  }
+
+  // Email Campaigns
+  async getEmailCampaigns(): Promise<EmailCampaign[]> {
+    try {
+      return await db.select().from(emailCampaigns).orderBy(desc(emailCampaigns.createdAt));
+    } catch (error) {
+      console.error("Error getting email campaigns:", error);
+      throw error;
+    }
+  }
+
+  async getEmailCampaignById(id: number): Promise<EmailCampaign | undefined> {
+    try {
+      const [campaign] = await db.select().from(emailCampaigns).where(eq(emailCampaigns.id, id));
+      return campaign;
+    } catch (error) {
+      console.error("Error getting email campaign by ID:", error);
+      throw error;
+    }
+  }
+
+  async createEmailCampaign(campaign: InsertEmailCampaign): Promise<EmailCampaign> {
+    try {
+      const [newCampaign] = await db.insert(emailCampaigns).values([campaign]).returning();
+      return newCampaign;
+    } catch (error) {
+      console.error("Error creating email campaign:", error);
+      throw error;
+    }
+  }
+
+  async updateEmailCampaign(id: number, campaign: Partial<InsertEmailCampaign>): Promise<EmailCampaign> {
+    try {
+      const updateData: any = {
+        ...campaign,
+        scheduledAt: campaign.scheduledAt ? new Date(campaign.scheduledAt) : undefined,
+        sentAt: campaign.sentAt ? new Date(campaign.sentAt) : undefined,
+      };
+      const [updatedCampaign] = await db.update(emailCampaigns).set(updateData).where(eq(emailCampaigns.id, id)).returning();
+      return updatedCampaign;
+    } catch (error) {
+      console.error("Error updating email campaign:", error);
+      throw error;
+    }
+  }
+
+  async deleteEmailCampaign(id: number): Promise<void> {
+    try {
+      await db.delete(emailCampaigns).where(eq(emailCampaigns.id, id));
+    } catch (error) {
+      console.error("Error deleting email campaign:", error);
+      throw error;
+    }
+  }
+
+  // Campaign Sends
+  async getCampaignSendsByCampaign(campaignId: number): Promise<CampaignSend[]> {
+    try {
+      return await db.select().from(campaignSends).where(eq(campaignSends.campaignId, campaignId));
+    } catch (error) {
+      console.error("Error getting campaign sends:", error);
+      throw error;
+    }
+  }
+
+  async createCampaignSend(send: InsertCampaignSend): Promise<CampaignSend> {
+    try {
+      const [newSend] = await db.insert(campaignSends).values([send]).returning();
+      return newSend;
+    } catch (error) {
+      console.error("Error creating campaign send:", error);
+      throw error;
+    }
+  }
+
+  async updateCampaignSend(id: number, send: Partial<InsertCampaignSend>): Promise<CampaignSend> {
+    try {
+      const updateData: any = {
+        ...send,
+        openedAt: send.openedAt ? new Date(send.openedAt) : undefined,
+        clickedAt: send.clickedAt ? new Date(send.clickedAt) : undefined,
+        bouncedAt: send.bouncedAt ? new Date(send.bouncedAt) : undefined,
+        unsubscribedAt: send.unsubscribedAt ? new Date(send.unsubscribedAt) : undefined,
+      };
+      const [updatedSend] = await db.update(campaignSends).set(updateData).where(eq(campaignSends.id, id)).returning();
+      return updatedSend;
+    } catch (error) {
+      console.error("Error updating campaign send:", error);
+      throw error;
+    }
+  }
+
+  // Automation Rules
+  async getAutomationRules(): Promise<AutomationRule[]> {
+    try {
+      return await db.select().from(automationRules).orderBy(desc(automationRules.createdAt));
+    } catch (error) {
+      console.error("Error getting automation rules:", error);
+      throw error;
+    }
+  }
+
+  async getAutomationRuleById(id: number): Promise<AutomationRule | undefined> {
+    try {
+      const [rule] = await db.select().from(automationRules).where(eq(automationRules.id, id));
+      return rule;
+    } catch (error) {
+      console.error("Error getting automation rule by ID:", error);
+      throw error;
+    }
+  }
+
+  async createAutomationRule(rule: InsertAutomationRule): Promise<AutomationRule> {
+    try {
+      const [newRule] = await db.insert(automationRules).values([rule]).returning();
+      return newRule;
+    } catch (error) {
+      console.error("Error creating automation rule:", error);
+      throw error;
+    }
+  }
+
+  async updateAutomationRule(id: number, rule: Partial<InsertAutomationRule>): Promise<AutomationRule> {
+    try {
+      const [updatedRule] = await db.update(automationRules).set(rule).where(eq(automationRules.id, id)).returning();
+      return updatedRule;
+    } catch (error) {
+      console.error("Error updating automation rule:", error);
+      throw error;
+    }
+  }
+
+  async deleteAutomationRule(id: number): Promise<void> {
+    try {
+      await db.delete(automationRules).where(eq(automationRules.id, id));
+    } catch (error) {
+      console.error("Error deleting automation rule:", error);
+      throw error;
+    }
+  }
+
+  // M365 Connections
+  async getM365ConnectionByUser(userId: number): Promise<M365Connection | undefined> {
+    try {
+      const [connection] = await db.select().from(m365Connections).where(eq(m365Connections.userId, userId));
+      return connection;
+    } catch (error) {
+      console.error("Error getting M365 connection:", error);
+      throw error;
+    }
+  }
+
+  async createM365Connection(connection: InsertM365Connection): Promise<M365Connection> {
+    try {
+      const connectionData = {
+        ...connection,
+        expiresAt: new Date(connection.expiresAt),
+      };
+      const [newConnection] = await db.insert(m365Connections).values(connectionData).returning();
+      return newConnection;
+    } catch (error) {
+      console.error("Error creating M365 connection:", error);
+      throw error;
+    }
+  }
+
+  async updateM365Connection(id: number, connection: Partial<InsertM365Connection>): Promise<M365Connection> {
+    try {
+      const updateData = {
+        ...connection,
+        expiresAt: connection.expiresAt ? new Date(connection.expiresAt) : undefined,
+        updatedAt: new Date(),
+      };
+      const [updatedConnection] = await db.update(m365Connections).set(updateData).where(eq(m365Connections.id, id)).returning();
+      return updatedConnection;
+    } catch (error) {
+      console.error("Error updating M365 connection:", error);
+      throw error;
+    }
+  }
+
+  async deleteM365Connection(id: number): Promise<void> {
+    try {
+      await db.delete(m365Connections).where(eq(m365Connections.id, id));
+    } catch (error) {
+      console.error("Error deleting M365 connection:", error);
       throw error;
     }
   }

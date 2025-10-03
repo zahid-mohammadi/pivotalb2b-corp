@@ -12,7 +12,14 @@ import {
   pageViews,
   userSessions,
   insertUserSchema,
-  insertServiceSchema
+  insertServiceSchema,
+  insertPipelineStageSchema,
+  insertPipelineDealSchema,
+  insertLeadActivitySchema,
+  insertEmailCampaignSchema,
+  insertCampaignSendSchema,
+  insertAutomationRuleSchema,
+  insertM365ConnectionSchema
 } from "@shared/schema";
 import multer from "multer";
 import path from "path";
@@ -876,6 +883,415 @@ export async function registerRoutes(app: Express) {
       res.json(info);
     });
   }
+
+  // Pipeline Stages Routes
+  app.get("/api/pipeline/stages", async (_req, res) => {
+    try {
+      const stages = await storage.getPipelineStages();
+      res.json(stages);
+    } catch (error) {
+      console.error("Error fetching pipeline stages:", error);
+      res.status(500).json({ error: "Failed to fetch pipeline stages" });
+    }
+  });
+
+  app.post("/api/pipeline/stages", async (req, res) => {
+    const result = insertPipelineStageSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+
+    try {
+      const stage = await storage.createPipelineStage(result.data);
+      res.status(201).json(stage);
+    } catch (error) {
+      console.error("Error creating pipeline stage:", error);
+      res.status(500).json({ error: "Failed to create pipeline stage" });
+    }
+  });
+
+  app.patch("/api/pipeline/stages/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertPipelineStageSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const stage = await storage.updatePipelineStage(id, result.data);
+      res.json(stage);
+    } catch (error) {
+      console.error("Error updating pipeline stage:", error);
+      res.status(500).json({ error: "Failed to update pipeline stage" });
+    }
+  });
+
+  app.delete("/api/pipeline/stages/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deletePipelineStage(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting pipeline stage:", error);
+      res.status(500).json({ error: "Failed to delete pipeline stage" });
+    }
+  });
+
+  // Pipeline Deals Routes
+  app.get("/api/pipeline/deals", async (_req, res) => {
+    try {
+      const deals = await storage.getPipelineDeals();
+      res.json(deals);
+    } catch (error) {
+      console.error("Error fetching pipeline deals:", error);
+      res.status(500).json({ error: "Failed to fetch pipeline deals" });
+    }
+  });
+
+  app.get("/api/pipeline/deals/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const deal = await storage.getPipelineDealById(id);
+      if (!deal) return res.status(404).json({ message: "Deal not found" });
+      res.json(deal);
+    } catch (error) {
+      console.error("Error fetching pipeline deal:", error);
+      res.status(500).json({ error: "Failed to fetch pipeline deal" });
+    }
+  });
+
+  app.post("/api/pipeline/deals", async (req, res) => {
+    const result = insertPipelineDealSchema.safeParse(req.body);
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+
+    try {
+      const deal = await storage.createPipelineDeal(result.data);
+      res.status(201).json(deal);
+    } catch (error) {
+      console.error("Error creating pipeline deal:", error);
+      res.status(500).json({ error: "Failed to create pipeline deal" });
+    }
+  });
+
+  app.patch("/api/pipeline/deals/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertPipelineDealSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const deal = await storage.updatePipelineDeal(id, result.data);
+      res.json(deal);
+    } catch (error) {
+      console.error("Error updating pipeline deal:", error);
+      res.status(500).json({ error: "Failed to update pipeline deal" });
+    }
+  });
+
+  app.delete("/api/pipeline/deals/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deletePipelineDeal(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting pipeline deal:", error);
+      res.status(500).json({ error: "Failed to delete pipeline deal" });
+    }
+  });
+
+  // Lead Activities Routes
+  app.get("/api/pipeline/deals/:dealId/activities", async (req, res) => {
+    const dealId = parseInt(req.params.dealId);
+    if (isNaN(dealId)) {
+      return res.status(400).json({ error: "Invalid deal ID" });
+    }
+
+    try {
+      const activities = await storage.getLeadActivitiesByDeal(dealId);
+      res.json(activities);
+    } catch (error) {
+      console.error("Error fetching lead activities:", error);
+      res.status(500).json({ error: "Failed to fetch lead activities" });
+    }
+  });
+
+  app.post("/api/pipeline/deals/:dealId/activities", async (req, res) => {
+    const dealId = parseInt(req.params.dealId);
+    if (isNaN(dealId)) {
+      return res.status(400).json({ error: "Invalid deal ID" });
+    }
+
+    const result = insertLeadActivitySchema.safeParse({ ...req.body, dealId });
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+
+    try {
+      const activity = await storage.createLeadActivity(result.data);
+      res.status(201).json(activity);
+    } catch (error) {
+      console.error("Error creating lead activity:", error);
+      res.status(500).json({ error: "Failed to create lead activity" });
+    }
+  });
+
+  // Email Campaigns Routes
+  app.get("/api/pipeline/campaigns", async (_req, res) => {
+    try {
+      const campaigns = await storage.getEmailCampaigns();
+      res.json(campaigns);
+    } catch (error) {
+      console.error("Error fetching email campaigns:", error);
+      res.status(500).json({ error: "Failed to fetch email campaigns" });
+    }
+  });
+
+  app.get("/api/pipeline/campaigns/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const campaign = await storage.getEmailCampaignById(id);
+      if (!campaign) return res.status(404).json({ message: "Campaign not found" });
+      res.json(campaign);
+    } catch (error) {
+      console.error("Error fetching email campaign:", error);
+      res.status(500).json({ error: "Failed to fetch email campaign" });
+    }
+  });
+
+  app.post("/api/pipeline/campaigns", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const result = insertEmailCampaignSchema.safeParse({ ...req.body, createdBy: user.id });
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+
+    try {
+      const campaign = await storage.createEmailCampaign(result.data);
+      res.status(201).json(campaign);
+    } catch (error) {
+      console.error("Error creating email campaign:", error);
+      res.status(500).json({ error: "Failed to create email campaign" });
+    }
+  });
+
+  app.patch("/api/pipeline/campaigns/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertEmailCampaignSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const campaign = await storage.updateEmailCampaign(id, result.data);
+      res.json(campaign);
+    } catch (error) {
+      console.error("Error updating email campaign:", error);
+      res.status(500).json({ error: "Failed to update email campaign" });
+    }
+  });
+
+  app.delete("/api/pipeline/campaigns/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deleteEmailCampaign(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting email campaign:", error);
+      res.status(500).json({ error: "Failed to delete email campaign" });
+    }
+  });
+
+  // Campaign Sends/Tracking Routes
+  app.get("/api/pipeline/campaigns/:campaignId/sends", async (req, res) => {
+    const campaignId = parseInt(req.params.campaignId);
+    if (isNaN(campaignId)) {
+      return res.status(400).json({ error: "Invalid campaign ID" });
+    }
+
+    try {
+      const sends = await storage.getCampaignSendsByCampaign(campaignId);
+      res.json(sends);
+    } catch (error) {
+      console.error("Error fetching campaign sends:", error);
+      res.status(500).json({ error: "Failed to fetch campaign sends" });
+    }
+  });
+
+  app.post("/api/pipeline/campaigns/:campaignId/sends", async (req, res) => {
+    const campaignId = parseInt(req.params.campaignId);
+    if (isNaN(campaignId)) {
+      return res.status(400).json({ error: "Invalid campaign ID" });
+    }
+
+    const result = insertCampaignSendSchema.safeParse({ ...req.body, campaignId });
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+
+    try {
+      const send = await storage.createCampaignSend(result.data);
+      res.status(201).json(send);
+    } catch (error) {
+      console.error("Error creating campaign send:", error);
+      res.status(500).json({ error: "Failed to create campaign send" });
+    }
+  });
+
+  app.patch("/api/pipeline/campaigns/sends/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertCampaignSendSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const send = await storage.updateCampaignSend(id, result.data);
+      res.json(send);
+    } catch (error) {
+      console.error("Error updating campaign send:", error);
+      res.status(500).json({ error: "Failed to update campaign send" });
+    }
+  });
+
+  // Automation Rules Routes
+  app.get("/api/pipeline/automation-rules", async (_req, res) => {
+    try {
+      const rules = await storage.getAutomationRules();
+      res.json(rules);
+    } catch (error) {
+      console.error("Error fetching automation rules:", error);
+      res.status(500).json({ error: "Failed to fetch automation rules" });
+    }
+  });
+
+  app.post("/api/pipeline/automation-rules", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const result = insertAutomationRuleSchema.safeParse({ ...req.body, createdBy: user.id });
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+
+    try {
+      const rule = await storage.createAutomationRule(result.data);
+      res.status(201).json(rule);
+    } catch (error) {
+      console.error("Error creating automation rule:", error);
+      res.status(500).json({ error: "Failed to create automation rule" });
+    }
+  });
+
+  app.patch("/api/pipeline/automation-rules/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      const result = insertAutomationRuleSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const rule = await storage.updateAutomationRule(id, result.data);
+      res.json(rule);
+    } catch (error) {
+      console.error("Error updating automation rule:", error);
+      res.status(500).json({ error: "Failed to update automation rule" });
+    }
+  });
+
+  app.delete("/api/pipeline/automation-rules/:id", async (req, res) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deleteAutomationRule(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting automation rule:", error);
+      res.status(500).json({ error: "Failed to delete automation rule" });
+    }
+  });
+
+  // M365 Connection Routes
+  app.get("/api/pipeline/m365-connection", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    try {
+      const connection = await storage.getM365ConnectionByUser(user.id);
+      res.json(connection || null);
+    } catch (error) {
+      console.error("Error fetching M365 connection:", error);
+      res.status(500).json({ error: "Failed to fetch M365 connection" });
+    }
+  });
+
+  app.post("/api/pipeline/m365-connection", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const result = insertM365ConnectionSchema.safeParse({ ...req.body, userId: user.id });
+    if (!result.success) {
+      return res.status(400).json({ errors: result.error.errors });
+    }
+
+    try {
+      const connection = await storage.createM365Connection(result.data);
+      res.status(201).json(connection);
+    } catch (error) {
+      console.error("Error creating M365 connection:", error);
+      res.status(500).json({ error: "Failed to create M365 connection" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

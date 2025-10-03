@@ -23,7 +23,8 @@ import {
   Mail,
   Building,
   Download,
-  MessageSquare
+  MessageSquare,
+  Workflow
 } from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
@@ -31,6 +32,7 @@ import { CaseStudyEditor } from "@/components/case-studies/case-study-editor";
 import { OverviewMetrics } from "@/components/analytics/overview-metrics";
 import { TrafficSources } from "@/components/analytics/traffic-sources";
 import { UserBehavior } from "@/components/analytics/user-behavior";
+import { PipelineView } from "@/components/pipeline/pipeline-view";
 import type { BlogPost, Ebook, CaseStudy, Lead, ProposalRequest } from "@shared/schema";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -271,6 +273,11 @@ export default function Dashboard() {
                 <Users className="h-3 w-3 lg:h-4 lg:w-4" />
                 <span className="hidden sm:inline">Leads</span>
                 <span className="sm:hidden">Leads</span>
+              </TabsTrigger>
+              <TabsTrigger value="pipeline" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap" data-testid="pipeline-tab">
+                <Workflow className="h-3 w-3 lg:h-4 lg:w-4" />
+                <span className="hidden sm:inline">Pipeline</span>
+                <span className="sm:hidden">Pipeline</span>
               </TabsTrigger>
               <TabsTrigger value="proposals" className="flex items-center gap-1 lg:gap-2 px-2 lg:px-3 text-xs lg:text-sm whitespace-nowrap">
                 <FileText className="h-3 w-3 lg:h-4 lg:w-4" />
@@ -802,6 +809,11 @@ export default function Dashboard() {
                 )}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* Pipeline Tab */}
+          <TabsContent value="pipeline">
+            <PipelineView />
           </TabsContent>
 
           {/* Proposal Requests Tab */}
