@@ -10,6 +10,24 @@ export function addTrackingPixel(htmlContent: string, sendId: number, baseUrl: s
   return htmlContent + trackingPixel;
 }
 
+export function wrapLinksWithTracking(htmlContent: string, sendId: number, baseUrl: string): string {
+  // Match all <a> tags with href attributes
+  const linkRegex = /<a\s+([^>]*?)href=["']([^"']+)["']([^>]*?)>/gi;
+  
+  return htmlContent.replace(linkRegex, (match, before, url, after) => {
+    // Don't track tracking pixels or internal anchors
+    if (url.startsWith('#') || url.includes('/api/track/')) {
+      return match;
+    }
+    
+    // Encode the original URL and create tracking URL
+    const encodedUrl = encodeURIComponent(url);
+    const trackingUrl = `${baseUrl}/api/track/click/${sendId}?url=${encodedUrl}`;
+    
+    return `<a ${before}href="${trackingUrl}"${after}>`;
+  });
+}
+
 export function getBaseUrl(req: any): string {
   const protocol = req.protocol || 'https';
   const host = req.get('host') || req.hostname || 'localhost:5000';

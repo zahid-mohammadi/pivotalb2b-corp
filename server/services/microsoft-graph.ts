@@ -1,4 +1,5 @@
 import { storage } from "../storage";
+import { addTrackingPixel, wrapLinksWithTracking } from "../utils/email-tracking";
 
 interface SendEmailOptions {
   from: string;
@@ -6,6 +7,13 @@ interface SendEmailOptions {
   subject: string;
   htmlContent: string;
   accessToken?: string;
+}
+
+interface SendTrackedEmailOptions {
+  dealId: number;
+  subject: string;
+  htmlContent: string;
+  baseUrl: string;
 }
 
 export class MicrosoftGraphService {
@@ -105,6 +113,58 @@ export class MicrosoftGraphService {
       return true;
     } catch (error) {
       console.error("Error sending email:", error);
+      return false;
+    }
+  }
+
+  async sendTrackedEmail(userId: number, options: SendTrackedEmailOptions): Promise<boolean> {
+    try {
+      // Get the deal
+      const deal = await storage.getPipelineDealById(options.dealId);
+      if (!deal) {
+        throw new Error("Deal not found");
+      }
+
+      // Get M365 connection
+      const connection = await storage.getM365ConnectionByUser(userId);
+      if (!connection) {
+        throw new Error("M365 connection not found");
+      }
+
+      // Create a campaign send record for tracking (even for 1-to-1 emails)
+      const campaignSend = await storage.createCampaignSend({
+        campaignId: 0, // 0 indicates this is a 1-to-1 email, not a campaign
+        dealId: deal.id,
+      });
+
+      // Wrap links with tracking
+      const contentWithTrackedLinks = wrapLinksWithTracking(options.htmlContent, campaignSend.id, options.baseUrl);
+
+      // Add tracking pixel
+      const fullyTrackedContent = addTrackingPixel(contentWithTrackedLinks, campaignSend.id, options.baseUrl);
+
+      // Send the email
+      const success = await this.sendEmail(userId, {
+        from: connection.email,
+        to: [deal.email],
+        subject: options.subject,
+        htmlContent: fullyTrackedContent,
+      });
+
+      if (success) {
+        // Log activity
+        await storage.createLeadActivity({
+          dealId: deal.id,
+          activityType: 'email_sent',
+          subject: options.subject,
+          description: '1-to-1 email sent via M365',
+          createdBy: userId,
+        });
+      }
+
+      return success;
+    } catch (error) {
+      console.error("Error sending tracked email:", error);
       return false;
     }
   }

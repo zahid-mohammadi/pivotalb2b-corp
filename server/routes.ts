@@ -27,6 +27,7 @@ import express from 'express';
 import { eq, count } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
 import { sendContactFormNotification, sendEbookDownloadConfirmation, sendLeadNotificationToAdmin, sendProposalRequestNotification } from "./services/email";
+import { microsoftGraphService } from "./services/microsoft-graph";
 import type { User } from "@shared/schema";
 import { botBlockStats } from "./middleware/email-bot-blocker";
 
@@ -1056,6 +1057,43 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Send tracked 1-to-1 email via M365
+  app.post("/api/pipeline/deals/:dealId/send-email", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const dealId = parseInt(req.params.dealId);
+    if (isNaN(dealId)) {
+      return res.status(400).json({ error: "Invalid deal ID" });
+    }
+
+    const { subject, htmlContent } = req.body;
+    if (!subject || !htmlContent) {
+      return res.status(400).json({ error: "Subject and content are required" });
+    }
+
+    try {
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const success = await microsoftGraphService.sendTrackedEmail(user.id, {
+        dealId,
+        subject,
+        htmlContent,
+        baseUrl,
+      });
+
+      if (success) {
+        res.json({ message: "Email sent successfully with tracking" });
+      } else {
+        res.status(500).json({ error: "Failed to send email" });
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to send email" });
+    }
+  });
+
   // Email Campaigns Routes
   app.get("/api/pipeline/campaigns", async (_req, res) => {
     try {
@@ -1227,9 +1265,19 @@ export async function registerRoutes(app: Express) {
     if (!isNaN(sendId)) {
       try {
         // Update the campaign send to mark as opened
-        await storage.updateCampaignSend(sendId, {
+        const send = await storage.updateCampaignSend(sendId, {
           openedAt: new Date().toISOString(),
         });
+
+        // Log activity for the deal
+        if (send && send.dealId) {
+          await storage.createLeadActivity({
+            dealId: send.dealId,
+            activityType: 'email_opened',
+            description: 'Email opened',
+            metadata: { campaignSendId: sendId },
+          });
+        }
       } catch (error) {
         console.error("Error tracking email open:", error);
       }
@@ -1248,6 +1296,44 @@ export async function registerRoutes(app: Express) {
       'Pragma': 'no-cache',
     });
     res.end(pixel);
+  });
+
+  // Email Click Tracking Endpoint
+  app.get("/api/track/click/:sendId", async (req, res) => {
+    const sendId = parseInt(req.params.sendId);
+    const targetUrl = req.query.url as string;
+    
+    if (!isNaN(sendId) && targetUrl) {
+      try {
+        // Update the campaign send to mark as clicked
+        const send = await storage.updateCampaignSend(sendId, {
+          clickedAt: new Date().toISOString(),
+        });
+
+        // Log activity for the deal
+        if (send && send.dealId) {
+          const decodedUrl = decodeURIComponent(targetUrl);
+          await storage.createLeadActivity({
+            dealId: send.dealId,
+            activityType: 'link_clicked',
+            description: `Clicked link: ${decodedUrl}`,
+            metadata: { 
+              campaignSendId: sendId,
+              url: decodedUrl 
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error tracking email click:", error);
+      }
+    }
+
+    // Redirect to the original URL
+    if (targetUrl) {
+      res.redirect(decodeURIComponent(targetUrl));
+    } else {
+      res.status(400).send('Invalid tracking URL');
+    }
   });
 
   // Automation Rules Routes

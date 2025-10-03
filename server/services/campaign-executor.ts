@@ -1,6 +1,6 @@
 import { storage } from "../storage";
 import { microsoftGraphService } from "./microsoft-graph";
-import { addTrackingPixel } from "../utils/email-tracking";
+import { addTrackingPixel, wrapLinksWithTracking } from "../utils/email-tracking";
 import Brevo from "@getbrevo/brevo";
 import type { PipelineDeal } from "@shared/schema";
 
@@ -46,12 +46,15 @@ export class CampaignExecutor {
       const content = useVariantB ? campaign.contentB || campaign.content : campaign.content;
       const variantType = useVariantB ? 'B' : 'A';
 
-      // Add tracking pixel to content
-      const trackedContent = addTrackingPixel(content, campaignSend.id, baseUrl);
-
-      // Replace variables in content
-      const personalizedContent = this.replaceVariables(trackedContent, deal);
+      // Replace variables first
+      const personalizedContent = this.replaceVariables(content, deal);
       const personalizedSubject = this.replaceVariables(subject, deal);
+
+      // Wrap all links with click tracking
+      const contentWithTrackedLinks = wrapLinksWithTracking(personalizedContent, campaignSend.id, baseUrl);
+
+      // Add tracking pixel to content
+      const fullyTrackedContent = addTrackingPixel(contentWithTrackedLinks, campaignSend.id, baseUrl);
 
       try {
         // Send via M365 if connected, otherwise use Brevo
@@ -60,7 +63,7 @@ export class CampaignExecutor {
             from: connection.email,
             to: [deal.email],
             subject: personalizedSubject,
-            htmlContent: personalizedContent,
+            htmlContent: fullyTrackedContent,
           });
         } else {
           // Send via Brevo SMTP
@@ -68,7 +71,7 @@ export class CampaignExecutor {
             to: deal.email,
             toName: deal.fullName,
             subject: personalizedSubject,
-            htmlContent: personalizedContent,
+            htmlContent: fullyTrackedContent,
           });
         }
 
