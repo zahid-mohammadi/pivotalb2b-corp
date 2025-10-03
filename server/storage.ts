@@ -33,6 +33,10 @@ import {
   type InsertM365Connection,
   type InsertAccount,
   type InsertContact,
+  type SavedFilter,
+  type InsertSavedFilter,
+  type FilterAuditLog,
+  type InsertFilterAuditLog,
   type FAQ,
   blogPosts, 
   services, 
@@ -53,6 +57,8 @@ import {
   m365Connections,
   accounts,
   contacts,
+  savedFilters,
+  filterAuditLogs,
   type PageView,
   type UserSession
 } from "@shared/schema";
@@ -1231,6 +1237,99 @@ export class DatabaseStorage {
       await db.delete(contacts).where(eq(contacts.id, id));
     } catch (error) {
       console.error("Error deleting contact:", error);
+      throw error;
+    }
+  }
+
+  // Saved Filters
+  async getSavedFilters(entity?: string, userId?: number): Promise<SavedFilter[]> {
+    try {
+      let query = db.select().from(savedFilters);
+      
+      const conditions = [];
+      if (entity) conditions.push(eq(savedFilters.entity, entity));
+      if (userId) {
+        conditions.push(
+          sql`(${savedFilters.createdBy} = ${userId} OR ${savedFilters.visibility} != 'private')`
+        );
+      }
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      return await query.orderBy(desc(savedFilters.createdAt));
+    } catch (error) {
+      console.error("Error getting saved filters:", error);
+      throw error;
+    }
+  }
+
+  async getSavedFilterById(id: number): Promise<SavedFilter | undefined> {
+    try {
+      const [filter] = await db.select().from(savedFilters).where(eq(savedFilters.id, id));
+      return filter;
+    } catch (error) {
+      console.error("Error getting saved filter by ID:", error);
+      throw error;
+    }
+  }
+
+  async createSavedFilter(filter: InsertSavedFilter): Promise<SavedFilter> {
+    try {
+      const [newFilter] = await db.insert(savedFilters).values(filter).returning();
+      return newFilter;
+    } catch (error) {
+      console.error("Error creating saved filter:", error);
+      throw error;
+    }
+  }
+
+  async updateSavedFilter(id: number, filter: Partial<InsertSavedFilter>): Promise<SavedFilter> {
+    try {
+      const updateData = {
+        ...filter,
+        updatedAt: new Date(),
+      };
+      const [updatedFilter] = await db.update(savedFilters).set(updateData).where(eq(savedFilters.id, id)).returning();
+      return updatedFilter;
+    } catch (error) {
+      console.error("Error updating saved filter:", error);
+      throw error;
+    }
+  }
+
+  async deleteSavedFilter(id: number): Promise<void> {
+    try {
+      await db.delete(savedFilters).where(eq(savedFilters.id, id));
+    } catch (error) {
+      console.error("Error deleting saved filter:", error);
+      throw error;
+    }
+  }
+
+  // Filter Audit Logs
+  async createFilterAuditLog(log: InsertFilterAuditLog): Promise<FilterAuditLog> {
+    try {
+      const [newLog] = await db.insert(filterAuditLogs).values(log).returning();
+      return newLog;
+    } catch (error) {
+      console.error("Error creating filter audit log:", error);
+      throw error;
+    }
+  }
+
+  async getFilterAuditLogs(userId?: number, limit = 100): Promise<FilterAuditLog[]> {
+    try {
+      let query = db.select().from(filterAuditLogs);
+      
+      if (userId) {
+        query = query.where(eq(filterAuditLogs.userId, userId));
+      }
+      
+      return await query.orderBy(desc(filterAuditLogs.executedAt)).limit(limit);
+    } catch (error) {
+      console.error("Error getting filter audit logs:", error);
       throw error;
     }
   }

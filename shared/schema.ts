@@ -572,3 +572,43 @@ export const insertContactSchema = createInsertSchema(contacts)
   });
 
 export type InsertContact = z.infer<typeof insertContactSchema>;
+
+// Saved Filters/Views
+export const savedFilters = pgTable("saved_filters", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 200 }).notNull(),
+  entity: varchar("entity", { length: 50 }).notNull(),
+  definition: jsonb("definition").notNull(),
+  visibility: varchar("visibility", { length: 20 }).default("private").notNull(),
+  createdBy: serial("created_by").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type SavedFilter = typeof savedFilters.$inferSelect;
+export const insertSavedFilterSchema = createInsertSchema(savedFilters)
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    definition: z.any(),
+  });
+
+export type InsertSavedFilter = z.infer<typeof insertSavedFilterSchema>;
+
+// Filter Execution Audit
+export const filterAuditLogs = pgTable("filter_audit_logs", {
+  id: serial("id").primaryKey(),
+  userId: serial("user_id").notNull(),
+  entity: varchar("entity", { length: 50 }).notNull(),
+  filterDefinition: jsonb("filter_definition").notNull(),
+  resultCount: serial("result_count").notNull(),
+  executedAt: timestamp("executed_at").defaultNow().notNull(),
+});
+
+export type FilterAuditLog = typeof filterAuditLogs.$inferSelect;
+export const insertFilterAuditLogSchema = createInsertSchema(filterAuditLogs)
+  .omit({ id: true, executedAt: true })
+  .extend({
+    filterDefinition: z.any(),
+  });
+
+export type InsertFilterAuditLog = z.infer<typeof insertFilterAuditLogSchema>;

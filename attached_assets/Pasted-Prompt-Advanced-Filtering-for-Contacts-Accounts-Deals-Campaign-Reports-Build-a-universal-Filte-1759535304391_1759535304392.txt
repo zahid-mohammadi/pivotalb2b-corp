@@ -1,0 +1,272 @@
+Prompt: Advanced Filtering for Contacts, Accounts, Deals & Campaign Reports
+
+Build a universal Filter Builder usable across:
+
+Contacts (people-level records)
+
+Accounts (company-level records)
+
+Deals/Opportunities (pipeline items)
+
+Campaign Reports (email events; opened/clicked/bounced/unsubscribed)
+
+The Filter Builder must support multi-condition, nested groups, and AND/OR logic, with saved views/segments and role-based visibility.
+
+1) Field Coverage & Operator Matrix
+1.1 Contacts
+
+Key fields
+
+Text: FirstName, LastName, FullName, Email, Phone, Title, Department, City, State, Country, Tags[]
+
+Lookup: AccountName (via Account link)
+
+Numeric: EngagementScore
+
+Boolean: Subscribed, Bounced, Unsubscribed, HasOwner
+
+Date/Time (UTC stored): CreatedAt, UpdatedAt, LastActivityAt, LastEmailSentAt, LastEmailOpenedAt, LastEmailClickedAt
+
+Operators
+
+Text: Equals, Not Equals, Contains, Does Not Contain, Starts With, Ends With, Is Blank, Is Not Blank
+
+Numeric: Equals, Not Equals, Greater Than, Greater or Equal, Less Than, Less or Equal, Between, Is Blank, Is Not Blank
+
+Boolean: Is True, Is False
+
+Date: Equals (date), Before, After, Between, Last X Days|Weeks|Months, Is Blank, Is Not Blank
+
+1.2 Accounts
+
+Key fields
+
+Text: AccountName, Domain, Industry, NAICS, City, State, Country, Tags[]
+
+Numeric: EmployeeCount, AnnualRevenueBand, AvgEngagementScore, OpenDealsCount, TotalOpenDealValue
+
+Boolean: TargetAccount, Active
+
+Date/Time: CreatedAt, UpdatedAt, LastActivityAt
+
+Operators
+
+Same category coverage as Contacts; apply numeric ops to numeric metrics, text ops to string fields, etc.
+
+1.3 Deals/Opportunities
+
+Key fields
+
+Text: DealName, Stage, OwnerName, Tags[]
+
+Numeric: Amount, Probability, EngagementScore (optional per deal), DaysInStage (derived)
+
+Lookup: PrimaryContactName, AccountName
+
+Date/Time: CreatedAt, ExpectedCloseDate, LastActivityAt, StageChangedAt
+
+Boolean: Open, Won, Lost (mutually exclusive states)
+
+Operators
+
+Text, Numeric, Date, Boolean as above. Special: Stage IN [list], Owner IN [list].
+
+1.4 Campaign Reports (Email Events)
+
+Scope: Used to search Opened/Clicked reports to identify contacts and segment audiences
+
+Event entity fields
+
+Text: CampaignName, Subject, RecipientEmail, RecipientName, LinkURL (for clicks)
+
+Lookup: ContactId, AccountId, DealId (if available)
+
+Enum: EventType ∈ {Sent, Delivered, Open, Click, Bounce, Unsubscribe, SpamComplaint, Reply (if tracked)}
+
+Numeric: OpenCount, ClickCount
+
+Date/Time: EventAt, FirstOpenedAt, LastOpenedAt, FirstClickedAt, LastClickedAt
+
+Operators
+
+Text: Equals, Contains, Starts With, Ends With, Not Contains, Is/Is Not Blank
+
+Enum: Equals, Not Equals, IN [ … ]
+
+Numeric: Equals, >, <, Between, Is Blank, Is Not Blank
+
+Date: Equals, Before, After, Between, Last X Days|Weeks|Months, Is Blank, Is Not Blank
+
+Special needs for identification
+
+Ability to filter: “All Contacts who Opened Campaign X between DATE1–DATE2”
+
+Ability to filter: “All Contacts who Clicked Link Y in Campaign X”
+
+Ability to filter: “Contacts with ≥ N opens or ≥ M clicks in the last K days”
+
+Ability to exclude: “Contacts who Unsubscribed or Bounced”
+
+2) Filter Builder UX Requirements
+
+Invocation: Appears as a side drawer or modal from Contacts, Accounts, Deals, and Campaign Reports pages, plus in Campaign Audience Builder.
+
+Condition row: Field (dropdown) → Operator (contextual) → Value (input with type-specific controls: text box, number, date picker, multi-select, URL).
+
+Groups: Support nested groups with AND/OR toggles at group level.
+
+Preview count: Live count of matching records.
+
+Save: Save as Smart View/Segment with name, visibility (Private / Team / Org).
+
+Chips: Show active filters as chips; allow quick remove.
+
+Case sensitivity: Text operations are case-insensitive by default, with a per-condition toggle for case-sensitive.
+
+Null/Blank: Treat Is Blank as NULL or empty string; Is Not Blank as NOT NULL and not empty.
+
+Time zones: UI date pickers show user’s timezone; server stores UTC; results normalized.
+
+3) Campaign Reports: Open/Click Identification
+
+User stories to support
+
+“Show me all Contacts who Opened ‘Q4 ABM Launch’ in the last 7 days.”
+
+“Show me Contacts who Clicked link containing demo in any campaign in the last 30 days.”
+
+“Identify Accounts with ≥ 3 contacts who opened our last newsletter.”
+
+“Build a campaign audience of contacts who opened at least twice but did not click.”
+
+“List Deals where the primary contact clicked the pricing page link.”
+
+Derived filters
+
+OpenCount (window=7d) >= 1
+
+ClickCount (window=30d) >= 1
+
+LinkURL contains "demo"
+
+EventType IN (Open, Click) with date range
+
+Exclusions: Unsubscribed = False, Bounced = False
+
+4) Performance & Indexing
+
+Create or update the following indexes (or equivalent) to ensure sub-second filtering:
+
+Contacts: (Email), (AccountId), (EngagementScore), (LastActivityAt DESC), GIN/FTS on FullName, Title, Tags.
+
+Accounts: (Domain), (Industry), (EmployeeCount), (AvgEngagementScore), (LastActivityAt DESC), GIN/FTS on AccountName, Tags.
+
+Deals: (Stage), (Amount), (Probability), (ExpectedCloseDate), (AccountId, Stage), (OwnerId).
+
+Campaign Events: (CampaignId, EventType, EventAt DESC), (RecipientEmail), (ContactId), partial index for EventType IN (Open, Click), and GIN on JSON payload (if storing link URLs as arrays).
+
+Materialized aggregates (refresh incremental):
+
+Contact rolling metrics: OpenCount_7d, ClickCount_30d
+
+Account roll-ups: ActiveContactsCount, Opened_7d, Clicked_30d
+
+Deal engagement flags: PrimaryContactOpened_7d, PrimaryContactClicked_30d
+
+5) API Contracts (Illustrative)
+5.1 Filter Preview
+
+POST /api/filter/preview
+
+{
+  "entity": "contacts",
+  "logic": "AND",
+  "conditions": [
+    {"field":"Title","operator":"contains","value":"Director"},
+    {"field":"EngagementScore","operator":">=","value":60},
+    {"field":"LastEmailOpenedAt","operator":"after","value":"2025-09-27T00:00:00Z"}
+  ],
+  "groups": [
+    {
+      "logic": "OR",
+      "conditions": [
+        {"field":"Country","operator":"equals","value":"United Kingdom"},
+        {"field":"Country","operator":"equals","value":"United States"}
+      ]
+    }
+  ],
+  "limit": 50,
+  "offset": 0
+}
+
+5.2 Save Smart View
+
+POST /api/filter/views
+
+{
+  "name": "Directors with High Engagement - Last 30d",
+  "entity": "contacts",
+  "definition": { "logic": "AND", "conditions": [...], "groups": [...] },
+  "visibility": "team"
+}
+
+5.3 Campaign Reports Query (Opened/Clicked)
+
+POST /api/reports/campaign-events/search
+
+{
+  "logic": "AND",
+  "conditions": [
+    {"field":"CampaignName","operator":"equals","value":"Q4 ABM Launch"},
+    {"field":"EventType","operator":"in","value":["Open","Click"]},
+    {"field":"EventAt","operator":"between","value":["2025-09-27T00:00:00Z","2025-10-04T23:59:59Z"]}
+  ],
+  "groupBy": "ContactId",
+  "metrics": ["OpenCount","ClickCount","FirstOpenedAt","LastClickedAt"],
+  "join": ["contacts","accounts"],
+  "return": ["ContactId","ContactEmail","ContactName","AccountName","OpenCount","ClickCount"]
+}
+
+6) Audience Building & Reuse
+
+The same Filter Builder must be embedded in the Campaign Audience Builder to create dynamic segments (auto-refresh before send).
+
+Segments can be snapshotted at send time for reproducibility.
+
+Provide export to CSV respecting permissions, consent flags, and PII policies.
+
+7) Consent, Compliance, and Safety
+
+Respect Subscribed, Bounced, Unsubscribed, DoNotContact flags in all campaign-send contexts (block or require explicit override with justification & audit).
+
+Store all date-time in UTC, render per user timezone.
+
+Log a filter execution audit (user, time, entity, result count).
+
+8) UI Details
+
+Filter trigger button with count badge of active rules.
+
+Pills/chips representing rules; clicking a chip opens the editor at that rule.
+
+Templates: quick presets (e.g., “Hot Contacts: Score ≥ 70 and Last Open ≤ 7d”).
+
+Empty states: show helpful examples and saved views.
+
+Error states: clear validation messages for mismatched operator/value.
+
+9) QA Acceptance (critical tests)
+
+Text operators behave as specified (Equals/Contains/Starts/Ends/Not Contains; Blank/Not Blank).
+
+Numeric/date comparisons correct (including edge cases and time zones).
+
+Large dataset performance (Contacts 250k+, Events 10M+) within target SLA (<1s preview for common filters; <3s for complex nested).
+
+Campaign Reports accurately identify who opened/clicked, with correct joins to Contacts/Accounts.
+
+Saved views persist, are shareable by role, and render identical results across sessions.
+
+Summary
+
+Deliver a unified, advanced Filter Builder that works identically across Contacts, Accounts, Deals, and Campaign Reports—with rich operators (Equals, Includes, Starts/Ends With, Not Contains, Not Equal, Is Blank/Not Blank), nested logic, saved segments, high performance, and strict compliance. Ensure Opened/Clicked identification is first-class to power segmentation and follow-ups.

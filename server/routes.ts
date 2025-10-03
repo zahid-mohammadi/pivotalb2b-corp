@@ -1826,6 +1826,145 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Filter Builder API
+  const { executeFilter, getFilterCount } = await import("./services/filter-builder");
+
+  // Filter preview (execute filter and return results)
+  app.post("/api/filter/preview", async (req, res) => {
+    try {
+      const { entity, definition, limit = 50, offset = 0 } = req.body;
+
+      if (!entity || !definition) {
+        return res.status(400).json({ error: "Entity and definition are required" });
+      }
+
+      const results = await executeFilter(entity, definition, limit, offset);
+      const totalCount = await getFilterCount(entity, definition);
+
+      // Log audit
+      if (req.user) {
+        await storage.createFilterAuditLog({
+          userId: (req.user as any).id,
+          entity,
+          filterDefinition: definition,
+          resultCount: totalCount,
+        });
+      }
+
+      res.json({
+        results,
+        totalCount,
+        limit,
+        offset,
+      });
+    } catch (error) {
+      console.error("Error executing filter:", error);
+      res.status(500).json({ error: "Failed to execute filter" });
+    }
+  });
+
+  // Get filter count only (for live preview)
+  app.post("/api/filter/count", async (req, res) => {
+    try {
+      const { entity, definition } = req.body;
+
+      if (!entity || !definition) {
+        return res.status(400).json({ error: "Entity and definition are required" });
+      }
+
+      const count = await getFilterCount(entity, definition);
+      res.json({ count });
+    } catch (error) {
+      console.error("Error getting filter count:", error);
+      res.status(500).json({ error: "Failed to get filter count" });
+    }
+  });
+
+  // Saved filters/views
+  app.get("/api/filter/views", async (req, res) => {
+    try {
+      const { entity } = req.query;
+      const userId = req.user ? (req.user as any).id : undefined;
+
+      const filters = await storage.getSavedFilters(
+        entity as string | undefined,
+        userId
+      );
+
+      res.json(filters);
+    } catch (error) {
+      console.error("Error fetching saved filters:", error);
+      res.status(500).json({ error: "Failed to fetch saved filters" });
+    }
+  });
+
+  app.get("/api/filter/views/:id", async (req, res) => {
+    try {
+      const filter = await storage.getSavedFilterById(parseInt(req.params.id));
+      if (!filter) {
+        return res.status(404).json({ error: "Filter not found" });
+      }
+      res.json(filter);
+    } catch (error) {
+      console.error("Error fetching saved filter:", error);
+      res.status(500).json({ error: "Failed to fetch saved filter" });
+    }
+  });
+
+  app.post("/api/filter/views", async (req, res) => {
+    try {
+      if (!req.user) {
+        return res.status(401).json({ error: "Authentication required" });
+      }
+
+      const filterData = {
+        ...req.body,
+        createdBy: (req.user as any).id,
+      };
+
+      const newFilter = await storage.createSavedFilter(filterData);
+      res.status(201).json(newFilter);
+    } catch (error) {
+      console.error("Error creating saved filter:", error);
+      res.status(500).json({ error: "Failed to create saved filter" });
+    }
+  });
+
+  app.put("/api/filter/views/:id", async (req, res) => {
+    try {
+      const updatedFilter = await storage.updateSavedFilter(
+        parseInt(req.params.id),
+        req.body
+      );
+      res.json(updatedFilter);
+    } catch (error) {
+      console.error("Error updating saved filter:", error);
+      res.status(500).json({ error: "Failed to update saved filter" });
+    }
+  });
+
+  app.delete("/api/filter/views/:id", async (req, res) => {
+    try {
+      await storage.deleteSavedFilter(parseInt(req.params.id));
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting saved filter:", error);
+      res.status(500).json({ error: "Failed to delete saved filter" });
+    }
+  });
+
+  // Filter audit logs
+  app.get("/api/filter/audit", async (req, res) => {
+    try {
+      const userId = req.user ? (req.user as any).id : undefined;
+      const logs = await storage.getFilterAuditLogs(userId);
+      res.json(logs);
+    } catch (error) {
+      console.error("Error fetching filter audit logs:", error);
+      res.status(500).json({ error: "Failed to fetch filter audit logs" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
