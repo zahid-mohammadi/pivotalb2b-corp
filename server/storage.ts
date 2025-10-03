@@ -635,21 +635,21 @@ export class DatabaseStorage {
         .from(sessionDurations);
 
       // Calculate bounce rate (sessions with only one page view)
+      const sessionCounts = db.select({
+        sessionId: pageViews.sessionId,
+        viewCount: count().as('view_count')
+      })
+      .from(pageViews)
+      .where(gte(pageViews.timestamp, startDate))
+      .groupBy(pageViews.sessionId)
+      .as('session_counts');
+
       const [{ total: bounceCount }] = await db
         .select({
           total: count()
         })
-        .from(
-          db.select({
-            sessionId: pageViews.sessionId,
-            viewCount: count()
-          })
-          .from(pageViews)
-          .where(gte(pageViews.timestamp, startDate))
-          .groupBy(pageViews.sessionId)
-          .as('session_counts')
-        )
-        .where(eq(sql`view_count`, 1));
+        .from(sessionCounts)
+        .where(eq(sessionCounts.viewCount, 1));
 
       const bounceRate = (Number(bounceCount) / Number(uniqueVisitors)) * 100;
 
