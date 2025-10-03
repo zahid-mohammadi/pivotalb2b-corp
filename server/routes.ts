@@ -1293,6 +1293,119 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.delete("/api/pipeline/m365-connection/:id", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
+
+    try {
+      await storage.deleteM365Connection(id);
+      res.sendStatus(204);
+    } catch (error) {
+      console.error("Error deleting M365 connection:", error);
+      res.status(500).json({ error: "Failed to delete M365 connection" });
+    }
+  });
+
+  // Microsoft 365 OAuth Routes
+  app.get("/api/auth/m365/authorize", (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const clientId = process.env.M365_CLIENT_ID;
+    const redirectUri = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:3000'}/api/auth/m365/callback`;
+    const scope = "openid profile email offline_access Mail.ReadWrite Mail.Send";
+    const state = Buffer.from(JSON.stringify({ userId: user.id })).toString('base64');
+
+    const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?` +
+      `client_id=${clientId}&` +
+      `response_type=code&` +
+      `redirect_uri=${encodeURIComponent(redirectUri)}&` +
+      `scope=${encodeURIComponent(scope)}&` +
+      `state=${state}&` +
+      `response_mode=query`;
+
+    res.json({ authUrl });
+  });
+
+  app.get("/api/auth/m365/callback", async (req, res) => {
+    const { code, state } = req.query;
+
+    if (!code || !state) {
+      return res.status(400).send("Missing authorization code or state");
+    }
+
+    try {
+      const stateData = JSON.parse(Buffer.from(state as string, 'base64').toString());
+      const userId = stateData.userId;
+
+      const clientId = process.env.M365_CLIENT_ID;
+      const clientSecret = process.env.M365_CLIENT_SECRET;
+      const redirectUri = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:3000'}/api/auth/m365/callback`;
+
+      const tokenResponse = await fetch('https://login.microsoftonline.com/common/oauth2/v2.0/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          client_id: clientId!,
+          client_secret: clientSecret!,
+          code: code as string,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code',
+        }),
+      });
+
+      const tokenData = await tokenResponse.json();
+
+      if (tokenData.error) {
+        console.error("OAuth error:", tokenData);
+        return res.status(400).send(`OAuth error: ${tokenData.error_description}`);
+      }
+
+      const profileResponse = await fetch('https://graph.microsoft.com/v1.0/me', {
+        headers: {
+          'Authorization': `Bearer ${tokenData.access_token}`,
+        },
+      });
+
+      const profile = await profileResponse.json();
+
+      await storage.createM365Connection({
+        userId,
+        email: profile.mail || profile.userPrincipalName,
+        accessToken: tokenData.access_token,
+        refreshToken: tokenData.refresh_token,
+        expiresAt: new Date(Date.now() + tokenData.expires_in * 1000),
+        status: 'active',
+      });
+
+      res.send(`
+        <html>
+          <body>
+            <script>
+              window.opener.postMessage({ type: 'M365_AUTH_SUCCESS' }, '*');
+              window.close();
+            </script>
+            <p>Authentication successful! You can close this window.</p>
+          </body>
+        </html>
+      `);
+    } catch (error) {
+      console.error("Error in M365 callback:", error);
+      res.status(500).send("Authentication failed");
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
