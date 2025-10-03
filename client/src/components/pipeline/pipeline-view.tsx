@@ -2,15 +2,21 @@ import { useState } from "react";
 import { PipelineKanban } from "./pipeline-kanban";
 import { DealProfile } from "./deal-profile";
 import { DealForm } from "./deal-form";
-import type { PipelineDeal } from "@shared/schema";
+import { CampaignList } from "../campaigns/campaign-list";
+import { CampaignForm } from "../campaigns/campaign-form";
+import { CampaignDetails } from "../campaigns/campaign-details";
+import type { PipelineDeal, EmailCampaign } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { Plus, BarChart3 } from "lucide-react";
+import { Plus, BarChart3, Mail } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function PipelineView() {
   const [selectedDeal, setSelectedDeal] = useState<PipelineDeal | null>(null);
   const [showDealForm, setShowDealForm] = useState(false);
   const [formStageId, setFormStageId] = useState<number | undefined>(undefined);
+  const [selectedCampaign, setSelectedCampaign] = useState<EmailCampaign | null>(null);
+  const [showCampaignForm, setShowCampaignForm] = useState(false);
+  const [showCampaignDetails, setShowCampaignDetails] = useState(false);
 
   const handleDealClick = (deal: PipelineDeal) => {
     setSelectedDeal(deal);
@@ -28,6 +34,26 @@ export function PipelineView() {
   const handleCloseDealForm = () => {
     setShowDealForm(false);
     setFormStageId(undefined);
+  };
+
+  const handleCreateCampaign = () => {
+    setSelectedCampaign(null);
+    setShowCampaignForm(true);
+  };
+
+  const handleViewCampaign = (campaign: EmailCampaign) => {
+    setSelectedCampaign(campaign);
+    setShowCampaignDetails(true);
+  };
+
+  const handleCloseCampaignForm = () => {
+    setShowCampaignForm(false);
+    setSelectedCampaign(null);
+  };
+
+  const handleCloseCampaignDetails = () => {
+    setShowCampaignDetails(false);
+    setSelectedCampaign(null);
   };
 
   return (
@@ -48,6 +74,10 @@ export function PipelineView() {
       <Tabs defaultValue="kanban" className="flex-1 flex flex-col">
         <TabsList>
           <TabsTrigger value="kanban">Kanban View</TabsTrigger>
+          <TabsTrigger value="campaigns" data-testid="tab-campaigns">
+            <Mail className="h-4 w-4 mr-2" />
+            Campaigns
+          </TabsTrigger>
           <TabsTrigger value="analytics">
             <BarChart3 className="h-4 w-4 mr-2" />
             Analytics
@@ -58,6 +88,13 @@ export function PipelineView() {
           <PipelineKanban
             onDealClick={handleDealClick}
             onCreateDeal={handleCreateDeal}
+          />
+        </TabsContent>
+
+        <TabsContent value="campaigns" className="mt-6">
+          <CampaignList
+            onCreateCampaign={handleCreateCampaign}
+            onViewCampaign={handleViewCampaign}
           />
         </TabsContent>
 
@@ -78,6 +115,20 @@ export function PipelineView() {
         <DealForm
           defaultStageId={formStageId}
           onClose={handleCloseDealForm}
+        />
+      )}
+
+      <CampaignForm
+        campaign={selectedCampaign || undefined}
+        open={showCampaignForm}
+        onClose={handleCloseCampaignForm}
+      />
+
+      {selectedCampaign && (
+        <CampaignDetails
+          campaign={selectedCampaign}
+          open={showCampaignDetails}
+          onClose={handleCloseCampaignDetails}
         />
       )}
     </div>
