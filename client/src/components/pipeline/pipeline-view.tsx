@@ -6,7 +6,9 @@ import { CampaignList } from "../campaigns/campaign-list";
 import { CampaignForm } from "../campaigns/campaign-form";
 import { CampaignDetails } from "../campaigns/campaign-details";
 import { M365ConnectionSettings } from "../settings/m365-connection";
-import type { PipelineDeal, EmailCampaign } from "@shared/schema";
+import { AutomationRuleList } from "../automation/automation-rule-list";
+import { AutomationRuleForm } from "../automation/automation-rule-form";
+import type { PipelineDeal, EmailCampaign, AutomationRule } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Plus, BarChart3, Mail, Settings } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,6 +20,8 @@ export function PipelineView() {
   const [selectedCampaign, setSelectedCampaign] = useState<EmailCampaign | null>(null);
   const [showCampaignForm, setShowCampaignForm] = useState(false);
   const [showCampaignDetails, setShowCampaignDetails] = useState(false);
+  const [selectedRule, setSelectedRule] = useState<AutomationRule | null>(null);
+  const [showRuleForm, setShowRuleForm] = useState(false);
 
   const handleDealClick = (deal: PipelineDeal) => {
     setSelectedDeal(deal);
@@ -55,6 +59,21 @@ export function PipelineView() {
   const handleCloseCampaignDetails = () => {
     setShowCampaignDetails(false);
     setSelectedCampaign(null);
+  };
+
+  const handleCreateRule = () => {
+    setSelectedRule(null);
+    setShowRuleForm(true);
+  };
+
+  const handleEditRule = (rule: AutomationRule) => {
+    setSelectedRule(rule);
+    setShowRuleForm(true);
+  };
+
+  const handleCloseRuleForm = () => {
+    setShowRuleForm(false);
+    setSelectedRule(null);
   };
 
   return (
@@ -112,10 +131,25 @@ export function PipelineView() {
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">
-          <div className="max-w-2xl">
-            <h3 className="text-lg font-semibold mb-4">Pipeline Settings</h3>
-            <M365ConnectionSettings />
-          </div>
+          <Tabs defaultValue="integrations" className="space-y-6">
+            <TabsList>
+              <TabsTrigger value="integrations">Integrations</TabsTrigger>
+              <TabsTrigger value="automation">Automation Rules</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="integrations" className="space-y-4">
+              <div className="max-w-2xl">
+                <M365ConnectionSettings />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="automation">
+              <AutomationRuleList
+                onCreateRule={handleCreateRule}
+                onEditRule={handleEditRule}
+              />
+            </TabsContent>
+          </Tabs>
         </TabsContent>
       </Tabs>
 
@@ -143,6 +177,12 @@ export function PipelineView() {
           onClose={handleCloseCampaignDetails}
         />
       )}
+
+      <AutomationRuleForm
+        rule={selectedRule || undefined}
+        open={showRuleForm}
+        onClose={handleCloseRuleForm}
+      />
     </div>
   );
 }
