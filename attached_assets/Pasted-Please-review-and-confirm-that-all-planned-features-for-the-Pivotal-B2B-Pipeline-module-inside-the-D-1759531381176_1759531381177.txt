@@ -1,0 +1,109 @@
+Please review and confirm that all planned features for the Pivotal B2B Pipeline module inside the Dashboard have been developed, tested, and are working correctly. The final build must include:
+
+✅ Core Pipeline & Lead Management
+
+ Kanban board with customizable pipeline stages (drag-and-drop).
+
+ Lead cards showing: name, company, stage, deal value, last activity, engagement score.
+
+ Right-side detail panel with full profile (contact info, notes, timeline, score history).
+
+ Manual lead creation option.
+
+ Automatic addition of leads from Asset Downloads and Proposal Form submissions.
+
+ AI evaluation of Contact Us leads (service-seekers → pipeline; sellers → excluded).
+
+✅ Communication Features
+
+ Newsletter Campaign Builder: segmentation, personalization tags, A/B testing, scheduling, reporting.
+
+ Bulk email campaigns sent via current SMTP setup.
+
+ Microsoft 365 Integration:
+
+ 1:1 emails sent through Outlook mailbox.
+
+ Replies synced back into lead profiles.
+
+ Inbox tracking of inbound lead emails.
+
+ Email activity tracking (opens, clicks, replies, bounces).
+
+✅ Lead Tracking & Analytics
+
+ Activity timeline for every lead (downloads, forms, emails, notes).
+
+ Dashboard with: total leads, pipeline value by stage, campaign metrics, revenue forecast.
+
+ Conversion funnel chart, engagement score trends, and email performance graphs.
+
+ Attribution by source (Asset Download, Proposal Form, Contact Us, Manual Add).
+
+✅ Engagement Scoring System
+
+ Automated scoring rules (+10 open, +20 click, +40 download, +70 reply, -10 bounce, etc.).
+
+ Score displayed on pipeline cards, list view, and profile view.
+
+ Color-coded levels (Cold, Warm, Hot).
+
+ Graph of score progression over time.
+
+ Automation triggers based on score thresholds (e.g., notify sales if >80).
+
+✅ Automations & Workflows
+
+ Workflow rules for moving leads between stages based on engagement/actions.
+
+ Notifications for sales reps (e.g., “Lead opened proposal”).
+
+ Reminders/tasks for follow-ups.
+
+✅ User Interface & Design
+
+ Clean, modern UI (white background, minimal colors, rounded cards).
+
+ Sidebar navigation: Pipeline, Leads, Campaigns, 1:1 Emails, Reports, Automation, Settings.
+
+ Global search bar (find leads by name, email, company).
+
+ Quick filters (by stage, score, geography, source).
+
+ Mobile-responsive design.
+
+ Optional dark mode.
+
+✅ Security & Permissions
+
+ Role-based permissions (Admin, Marketing, Sales).
+
+ Audit log for changes.
+
+ Secure integration with Microsoft 365 (OAuth/Graph API).
+
+✅ Integrations & Extensibility
+
+ Full M365 mailbox sync (sending + inbox tracking).
+
+ API endpoints for pipeline data (import/export).
+
+ Webhook/Zapier support (future-ready).
+
+Final Validation
+
+Run end-to-end test:
+
+Lead downloads an asset → auto-added.
+
+Lead receives a newsletter campaign → open/click tracked.
+
+Sales sends a 1:1 Outlook email → reply logged.
+
+Engagement score updates correctly.
+
+Pipeline stage updates automatically.
+
+Reports reflect data accurately.
+
+👉 Deliverable: Confirm each feature is functional, polished, and user-friendly before deployment. The Pivotal B2B Pipeline should feel like a lightweight CRM + email engagement suite integrated seamlessly into the existing dashboard.
