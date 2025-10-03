@@ -1647,6 +1647,185 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Accounts API
+  app.get("/api/accounts", async (_req, res) => {
+    try {
+      const accounts = await storage.getAccounts();
+      res.json(accounts);
+    } catch (error) {
+      console.error("Error fetching accounts:", error);
+      res.status(500).json({ error: "Failed to fetch accounts" });
+    }
+  });
+
+  app.get("/api/accounts/:id", async (req, res) => {
+    try {
+      const account = await storage.getAccountById(parseInt(req.params.id));
+      if (!account) {
+        return res.status(404).json({ error: "Account not found" });
+      }
+      res.json(account);
+    } catch (error) {
+      console.error("Error fetching account:", error);
+      res.status(500).json({ error: "Failed to fetch account" });
+    }
+  });
+
+  app.post("/api/accounts", async (req, res) => {
+    try {
+      const newAccount = await storage.createAccount(req.body);
+      res.status(201).json(newAccount);
+    } catch (error) {
+      console.error("Error creating account:", error);
+      res.status(500).json({ error: "Failed to create account" });
+    }
+  });
+
+  app.put("/api/accounts/:id", async (req, res) => {
+    try {
+      const updatedAccount = await storage.updateAccount(parseInt(req.params.id), req.body);
+      res.json(updatedAccount);
+    } catch (error) {
+      console.error("Error updating account:", error);
+      res.status(500).json({ error: "Failed to update account" });
+    }
+  });
+
+  app.delete("/api/accounts/:id", async (req, res) => {
+    try {
+      await storage.deleteAccount(parseInt(req.params.id));
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      res.status(500).json({ error: "Failed to delete account" });
+    }
+  });
+
+  // Get contacts for an account
+  app.get("/api/accounts/:id/contacts", async (req, res) => {
+    try {
+      const contacts = await storage.getContactsByAccount(parseInt(req.params.id));
+      res.json(contacts);
+    } catch (error) {
+      console.error("Error fetching account contacts:", error);
+      res.status(500).json({ error: "Failed to fetch account contacts" });
+    }
+  });
+
+  // Get deals for an account
+  app.get("/api/accounts/:id/deals", async (req, res) => {
+    try {
+      const accountId = parseInt(req.params.id);
+      const allDeals = await storage.getPipelineDeals();
+      const accountDeals = allDeals.filter(deal => deal.accountId === accountId);
+      res.json(accountDeals);
+    } catch (error) {
+      console.error("Error fetching account deals:", error);
+      res.status(500).json({ error: "Failed to fetch account deals" });
+    }
+  });
+
+  // Contacts API
+  app.get("/api/contacts", async (_req, res) => {
+    try {
+      const contacts = await storage.getContacts();
+      res.json(contacts);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      res.status(500).json({ error: "Failed to fetch contacts" });
+    }
+  });
+
+  app.get("/api/contacts/:id", async (req, res) => {
+    try {
+      const contact = await storage.getContactById(parseInt(req.params.id));
+      if (!contact) {
+        return res.status(404).json({ error: "Contact not found" });
+      }
+      res.json(contact);
+    } catch (error) {
+      console.error("Error fetching contact:", error);
+      res.status(500).json({ error: "Failed to fetch contact" });
+    }
+  });
+
+  app.post("/api/contacts", async (req, res) => {
+    try {
+      const contactData = req.body;
+      
+      // Auto-link to account if email domain matches
+      if (contactData.email && !contactData.accountId) {
+        const domain = contactData.email.split('@')[1];
+        if (domain) {
+          const existingAccount = await storage.getAccountByDomain(domain);
+          if (existingAccount) {
+            contactData.accountId = existingAccount.id;
+          }
+        }
+      }
+
+      const newContact = await storage.createContact(contactData);
+      res.status(201).json(newContact);
+    } catch (error) {
+      console.error("Error creating contact:", error);
+      res.status(500).json({ error: "Failed to create contact" });
+    }
+  });
+
+  app.put("/api/contacts/:id", async (req, res) => {
+    try {
+      const updatedContact = await storage.updateContact(parseInt(req.params.id), req.body);
+      res.json(updatedContact);
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      res.status(500).json({ error: "Failed to update contact" });
+    }
+  });
+
+  app.delete("/api/contacts/:id", async (req, res) => {
+    try {
+      await storage.deleteContact(parseInt(req.params.id));
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+      res.status(500).json({ error: "Failed to delete contact" });
+    }
+  });
+
+  // Get deals for a contact
+  app.get("/api/contacts/:id/deals", async (req, res) => {
+    try {
+      const contactId = parseInt(req.params.id);
+      const allDeals = await storage.getPipelineDeals();
+      const contactDeals = allDeals.filter(deal => deal.contactId === contactId);
+      res.json(contactDeals);
+    } catch (error) {
+      console.error("Error fetching contact deals:", error);
+      res.status(500).json({ error: "Failed to fetch contact deals" });
+    }
+  });
+
+  // Suggest account for contact based on email domain
+  app.post("/api/contacts/suggest-account", async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        return res.status(400).json({ error: "Email is required" });
+      }
+
+      const domain = email.split('@')[1];
+      if (!domain) {
+        return res.status(400).json({ error: "Invalid email format" });
+      }
+
+      const account = await storage.getAccountByDomain(domain);
+      res.json({ account: account || null });
+    } catch (error) {
+      console.error("Error suggesting account:", error);
+      res.status(500).json({ error: "Failed to suggest account" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

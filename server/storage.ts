@@ -22,6 +22,8 @@ import {
   type CampaignSend,
   type AutomationRule,
   type M365Connection,
+  type Account,
+  type Contact,
   type InsertPipelineStage,
   type InsertPipelineDeal,
   type InsertLeadActivity,
@@ -29,6 +31,8 @@ import {
   type InsertCampaignSend,
   type InsertAutomationRule,
   type InsertM365Connection,
+  type InsertAccount,
+  type InsertContact,
   type FAQ,
   blogPosts, 
   services, 
@@ -47,6 +51,8 @@ import {
   campaignSends,
   automationRules,
   m365Connections,
+  accounts,
+  contacts,
   type PageView,
   type UserSession
 } from "@shared/schema";
@@ -1089,6 +1095,142 @@ export class DatabaseStorage {
       await db.delete(m365Connections).where(eq(m365Connections.id, id));
     } catch (error) {
       console.error("Error deleting M365 connection:", error);
+      throw error;
+    }
+  }
+
+  // Accounts
+  async getAccounts(): Promise<Account[]> {
+    try {
+      return await db.select().from(accounts).orderBy(desc(accounts.createdAt));
+    } catch (error) {
+      console.error("Error getting accounts:", error);
+      throw error;
+    }
+  }
+
+  async getAccountById(id: number): Promise<Account | undefined> {
+    try {
+      const [account] = await db.select().from(accounts).where(eq(accounts.id, id));
+      return account;
+    } catch (error) {
+      console.error("Error getting account by ID:", error);
+      throw error;
+    }
+  }
+
+  async getAccountByDomain(domain: string): Promise<Account | undefined> {
+    try {
+      const [account] = await db.select().from(accounts).where(eq(accounts.domain, domain));
+      return account;
+    } catch (error) {
+      console.error("Error getting account by domain:", error);
+      throw error;
+    }
+  }
+
+  async createAccount(account: InsertAccount): Promise<Account> {
+    try {
+      const [newAccount] = await db.insert(accounts).values(account).returning();
+      return newAccount;
+    } catch (error) {
+      console.error("Error creating account:", error);
+      throw error;
+    }
+  }
+
+  async updateAccount(id: number, account: Partial<InsertAccount>): Promise<Account> {
+    try {
+      const updateData = {
+        ...account,
+        updatedAt: new Date(),
+      };
+      const [updatedAccount] = await db.update(accounts).set(updateData).where(eq(accounts.id, id)).returning();
+      return updatedAccount;
+    } catch (error) {
+      console.error("Error updating account:", error);
+      throw error;
+    }
+  }
+
+  async deleteAccount(id: number): Promise<void> {
+    try {
+      await db.delete(accounts).where(eq(accounts.id, id));
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      throw error;
+    }
+  }
+
+  // Contacts
+  async getContacts(): Promise<Contact[]> {
+    try {
+      return await db.select().from(contacts).orderBy(desc(contacts.createdAt));
+    } catch (error) {
+      console.error("Error getting contacts:", error);
+      throw error;
+    }
+  }
+
+  async getContactById(id: number): Promise<Contact | undefined> {
+    try {
+      const [contact] = await db.select().from(contacts).where(eq(contacts.id, id));
+      return contact;
+    } catch (error) {
+      console.error("Error getting contact by ID:", error);
+      throw error;
+    }
+  }
+
+  async getContactsByAccount(accountId: number): Promise<Contact[]> {
+    try {
+      return await db.select().from(contacts).where(eq(contacts.accountId, accountId)).orderBy(desc(contacts.createdAt));
+    } catch (error) {
+      console.error("Error getting contacts by account:", error);
+      throw error;
+    }
+  }
+
+  async getContactByEmail(email: string): Promise<Contact | undefined> {
+    try {
+      const [contact] = await db.select().from(contacts).where(eq(contacts.email, email));
+      return contact;
+    } catch (error) {
+      console.error("Error getting contact by email:", error);
+      throw error;
+    }
+  }
+
+  async createContact(contact: InsertContact): Promise<Contact> {
+    try {
+      const [newContact] = await db.insert(contacts).values(contact).returning();
+      return newContact;
+    } catch (error) {
+      console.error("Error creating contact:", error);
+      throw error;
+    }
+  }
+
+  async updateContact(id: number, contact: Partial<InsertContact>): Promise<Contact> {
+    try {
+      const updateData = {
+        ...contact,
+        lastEngagementAt: contact.lastEngagementAt ? new Date(contact.lastEngagementAt) : undefined,
+        updatedAt: new Date(),
+      };
+      const [updatedContact] = await db.update(contacts).set(updateData).where(eq(contacts.id, id)).returning();
+      return updatedContact;
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      throw error;
+    }
+  }
+
+  async deleteContact(id: number): Promise<void> {
+    try {
+      await db.delete(contacts).where(eq(contacts.id, id));
+    } catch (error) {
+      console.error("Error deleting contact:", error);
       throw error;
     }
   }
