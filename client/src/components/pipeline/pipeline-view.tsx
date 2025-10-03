@@ -5,9 +5,10 @@ import { DealForm } from "./deal-form";
 import { CampaignList } from "../campaigns/campaign-list";
 import { CampaignForm } from "../campaigns/campaign-form";
 import { CampaignDetails } from "../campaigns/campaign-details";
+import { M365ConnectionSettings } from "../settings/m365-connection";
 import type { PipelineDeal, EmailCampaign } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { Plus, BarChart3, Mail } from "lucide-react";
+import { Plus, BarChart3, Mail, Settings } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export function PipelineView() {
@@ -82,6 +83,10 @@ export function PipelineView() {
             <BarChart3 className="h-4 w-4 mr-2" />
             Analytics
           </TabsTrigger>
+          <TabsTrigger value="settings" data-testid="tab-settings">
+            <Settings className="h-4 w-4 mr-2" />
+            Settings
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="kanban" className="flex-1 mt-6">
@@ -103,6 +108,13 @@ export function PipelineView() {
             <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p>Pipeline analytics coming soon</p>
             <p className="text-sm mt-2">Track conversion rates, deal velocity, and revenue forecasts</p>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="settings" className="mt-6">
+          <div className="max-w-2xl">
+            <h3 className="text-lg font-semibold mb-4">Pipeline Settings</h3>
+            <M365ConnectionSettings />
           </div>
         </TabsContent>
       </Tabs>

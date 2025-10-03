@@ -1385,8 +1385,7 @@ export async function registerRoutes(app: Express) {
         email: profile.mail || profile.userPrincipalName,
         accessToken: tokenData.access_token,
         refreshToken: tokenData.refresh_token,
-        expiresAt: new Date(Date.now() + tokenData.expires_in * 1000),
-        status: 'active',
+        expiresAt: new Date(Date.now() + tokenData.expires_in * 1000).toISOString(),
       });
 
       res.send(`
