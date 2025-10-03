@@ -1,0 +1,270 @@
+Pivotal B2B Pipeline — QA Testing Script (Step-by-Step)
+1) Core Pipeline & Lead Management
+
+Kanban renders with default stages
+
+Steps: Open Pipeline tab → Verify columns (New Lead, Engaged, Proposal Sent, Negotiation, Closed Won, Closed Lost).
+
+Expected: All columns visible and correctly labeled.
+
+Add/Edit custom stage
+
+Steps: Admin → Settings → Pipeline → Add “Legal Review”.
+
+Expected: Stage appears in board and all stage pickers; persists after refresh.
+
+Drag & drop between stages
+
+Steps: Move a card from New Lead to Engaged.
+
+Expected: Stage updates instantly; activity feed logs the change; undo available (if designed).
+
+Lead card essentials
+
+Expected fields: Name, Company, Deal Value, Owner, Last Activity, Engagement Score badge.
+
+Lead right panel
+
+Steps: Click card.
+
+Expected: Profile, Timeline, Notes, Tasks, Emails, Score Trend chart.
+
+Manual lead creation
+
+Steps: Sales → “Add Lead” → Save minimum fields.
+
+Expected: Lead created in New Lead with Source = Manual; validation errors are clear.
+
+Edit & audit logging
+
+Steps: Change Deal Value and Owner.
+
+Expected: Changes persist; immutable audit entry (who/what/when).
+
+Global search & filters
+
+Steps: Search by name/email/company; filter by Stage/Score/Source.
+
+Expected: Instant results; filter chips reflect active state.
+
+Ownership & permissions
+
+Steps: Login as SalesA vs Marketing vs Admin.
+
+Expected: Access limited per role; sensitive actions gated.
+
+2) Lead Ingestion & AI Qualification
+
+Asset Download auto-add
+
+Steps: Submit public asset form.
+
+Expected: Lead auto-created; Source = Asset Download; Stage = New Lead.
+
+Proposal Form auto-add
+
+Steps: Submit proposal request.
+
+Expected: Lead created; Source = Proposal; Stage per rule (New Lead/Engaged).
+
+AI screening of Contact Us
+
+Seller intent → Not added to pipeline; tagged as Seller.
+
+Service intent → Added to pipeline; Source = Contact Us.
+
+Confidence threshold & overrides
+
+Steps: Submit borderline inquiry.
+
+Expected: Confidence score surfaced; admin override possible.
+
+3) Newsletter & Bulk Campaigns (SMTP)
+
+Campaign creation & segmentation
+
+Steps: Segment Stage=Engaged & Score>50.
+
+Expected: Audience count matches filter; preview resolves merge tags.
+
+Personalization merge tags
+
+Expected: {{FirstName}}, {{Company}}, etc. resolve; graceful fallbacks when null.
+
+A/B testing (subject/body)
+
+Expected: Split delivery; per-variant metrics.
+
+Scheduling & timezone (Asia/Karachi)
+
+Expected: Sends at scheduled local time; logs UTC and local consistently.
+
+Compliance/unsubscribe
+
+Expected: Footer contains company address + unsubscribe; clicking unsub updates status in real time.
+
+Bounce handling
+
+Expected: Bounces recorded; contact flagged; engagement score decremented.
+
+Open/click tracking
+
+Expected: Pixel/redirect events appear on lead timeline and campaign report.
+
+4) M365 1:1 Email (Graph API) — Full Sync
+
+OAuth connection
+
+Expected: Least-privilege scopes; tokens encrypted; revoke disconnects cleanly.
+
+Send 1:1 from lead panel
+
+Expected: Message in Outlook “Sent Items”; logged on lead with thread ID.
+
+Inbound reply sync
+
+Expected: Webhook/poll creates timeline entry; preserves threading.
+
+Open/click tracking for 1:1
+
+Expected: Events recorded; engagement score updates; last activity refreshed.
+
+Unknown inbound contact handling
+
+Expected: Suggest create/associate lead when email from unknown appears.
+
+5) Engagement Scoring (Dynamic)
+
+Score rules
+
+Open +10, Click +20, Multi-opens in 7 days +30, Extra asset +40, Proposal +50, Reply/Meeting +70, Bounce −10, Unsub −20.
+
+Expected: Accurate increments/decrements; never negative (if rule set).
+
+Threshold automations
+
+Steps: Push score above 80.
+
+Expected: Move to Engaged; notify owner; log automation.
+
+Score visibility & trend
+
+Expected: Badge on cards/list; historical chart per lead.
+
+6) Automations & Reminders
+
+Auto-advance on 2nd asset
+
+Expected: Stage moves; activity logged.
+
+No-reply 5-day rule
+
+Expected: Follow-up task created for owner; due date set.
+
+Proposal open notification
+
+Expected: Owner notified within SLA (<1 minute).
+
+7) Reports & Analytics
+
+Summary cards
+
+Expected: Total Leads, Value by Stage, Avg Score, Campaign Open/Click accurate.
+
+Conversion funnel
+
+Expected: Stage-to-stage ratios correct; drill-down lists contributing records.
+
+Email performance
+
+Expected: Opens/Clicks/Bounces/Unsubs match underlying message events.
+
+Forecasted revenue
+
+Expected: Sum(value × probability) equals widget; probabilities editable per stage.
+
+Timezone integrity
+
+Expected: Timestamps normalized to user locale; no off-by-one at day boundaries.
+
+8) Security, Roles, Audit
+
+Role-based access
+
+Sales: manage leads, 1:1 emails; Marketing: campaigns; Admin: all.
+
+Expected: Unauthorized actions blocked with informative messages.
+
+Audit trail
+
+Expected: Every critical change emits immutable audit entries.
+
+Token security/rotation
+
+Expected: Refresh works; rotation logged; revoked tokens deny access immediately.
+
+9) API & Webhooks
+
+Export pipeline data
+
+Expected: CSV/JSON with correct schema; respects filters & permissions.
+
+Import leads
+
+Expected: Valid rows created; invalid rows rejected with granular error messages.
+
+Webhook delivery & signing
+
+Expected: HMAC-signed payloads; retries with exponential backoff.
+
+10) Performance, Accessibility, Cross-Browser
+
+Board performance with 2,000 leads
+
+Expected: TTI < 3s; smooth scroll; virtualization enabled.
+
+Campaign throughput & throttling
+
+Expected: Respect provider limits; queue transparency; automatic retries.
+
+Inbox sync latency
+
+Expected: Events appear on timeline within agreed SLA.
+
+Keyboard & screen reader support
+
+Expected: Tab order logical; ARIA roles; skip links; focus visible.
+
+Contrast & zoom
+
+Expected: WCAG AA at 200% zoom; no layout break.
+
+Cross-browser
+
+Expected: Chrome/Edge/Firefox/Safari parity.
+
+11) Data Quality & Compliance
+
+PII masking/export controls
+
+Expected: Sensitive fields masked in UI as configured; exports permission-gated.
+
+GDPR/consent flags
+
+Expected: EU contact without consent blocked from campaigns or requires explicit lawful basis.
+
+12) End-to-End Happy Path (Single Scenario)
+
+Journey: Download asset → Receives campaign → Opens & clicks → Sales sends 1:1 via Outlook → Lead replies → Requests proposal
+
+Expected: Auto-add; tracking logged; score increases at each step; stage auto-advances; owner notified; reports reflect data accurately.
+
+Deliverables & Acceptance
+
+All tests above pass.
+
+Known issues documented with severity/owner/ETA.
+
+UAT sign-off from Sales and Marketing leads.
+
+Rollback plan and monitoring dashboards prepared for go-live.
