@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { pipelineDeals, leadActivities, emailActivities } from "@shared/schema";
+import { pipelineDeals, leadActivities, campaignSends } from "@shared/schema";
 import { eq, and, desc } from "drizzle-orm";
 
 // Engagement Scoring Rules
@@ -100,17 +100,17 @@ export async function calculateEngagementScore(dealId: number): Promise<number> 
       }
     }
 
-    // Also check email activities
-    const emailActs = await db
+    // Also check campaign sends (email tracking)
+    const campaignSendRecords = await db
       .select()
-      .from(emailActivities)
-      .where(eq(emailActivities.dealId, dealId));
+      .from(campaignSends)
+      .where(eq(campaignSends.dealId, dealId));
 
-    for (const emailAct of emailActs) {
-      if (emailAct.openedAt) totalScore += SCORING_RULES.EMAIL_OPENED;
-      if (emailAct.clickedAt) totalScore += SCORING_RULES.EMAIL_CLICKED;
-      if (emailAct.bouncedAt) totalScore += SCORING_RULES.EMAIL_BOUNCED;
-      if (emailAct.unsubscribedAt) totalScore += SCORING_RULES.EMAIL_UNSUBSCRIBED;
+    for (const sendRecord of campaignSendRecords) {
+      if (sendRecord.openedAt) totalScore += SCORING_RULES.EMAIL_OPENED;
+      if (sendRecord.clickedAt) totalScore += SCORING_RULES.EMAIL_CLICKED;
+      if (sendRecord.bouncedAt) totalScore += SCORING_RULES.EMAIL_BOUNCED;
+      if (sendRecord.unsubscribedAt) totalScore += SCORING_RULES.EMAIL_UNSUBSCRIBED;
     }
 
     return Math.max(0, totalScore); // Never go below 0
