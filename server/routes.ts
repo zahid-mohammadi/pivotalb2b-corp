@@ -19,7 +19,7 @@ import path from "path";
 import express from 'express';
 import { eq, count } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
-import { sendContactFormNotification } from "./services/email";
+import { sendContactFormNotification, sendEbookDownloadConfirmation } from "./services/email";
 import type { User } from "@shared/schema";
 import { botBlockStats } from "./middleware/email-bot-blocker";
 
@@ -325,6 +325,35 @@ export async function registerRoutes(app: Express) {
 
       const lead = await storage.createLead(result.data);
       console.log("Lead created successfully:", lead);
+
+      // Send confirmation email for eBook downloads
+      if (result.data.contentType === 'ebook' && result.data.email && result.data.fullName && result.data.company) {
+        try {
+          const ebook = await storage.getEbookById(result.data.contentId);
+          if (ebook) {
+            const domain = process.env.REPLIT_DEV_DOMAIN 
+              ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+              : 'https://pivotal-b2b.com';
+            
+            const ebookUrl = ebook.slug === 'abm-guide' 
+              ? `${domain}/ebook/abm-guide`
+              : `${domain}/ebooks/${ebook.slug}`;
+
+            await sendEbookDownloadConfirmation({
+              fullName: result.data.fullName,
+              email: result.data.email,
+              company: result.data.company,
+              ebookTitle: ebook.title,
+              ebookUrl: ebookUrl
+            });
+            console.log('Download confirmation email sent to:', result.data.email);
+          }
+        } catch (emailError) {
+          console.error('Error sending download confirmation email:', emailError);
+          // Don't fail the lead creation if email fails
+        }
+      }
+
       res.status(201).json(lead);
     } catch (error) {
       console.error("Error creating lead:", error);
