@@ -19,7 +19,7 @@ import path from "path";
 import express from 'express';
 import { eq, count } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
-import { sendContactFormNotification, sendEbookDownloadConfirmation } from "./services/email";
+import { sendContactFormNotification, sendEbookDownloadConfirmation, sendLeadNotificationToAdmin, sendProposalRequestNotification } from "./services/email";
 import type { User } from "@shared/schema";
 import { botBlockStats } from "./middleware/email-bot-blocker";
 
@@ -326,30 +326,55 @@ export async function registerRoutes(app: Express) {
       const lead = await storage.createLead(result.data);
       console.log("Lead created successfully:", lead);
 
-      // Send confirmation email for eBook downloads
-      if (result.data.contentType === 'ebook' && result.data.email && result.data.fullName && result.data.company) {
+      // Send emails for lead capture
+      if (result.data.email && result.data.fullName && result.data.company) {
         try {
-          const ebook = await storage.getEbookById(result.data.contentId);
-          if (ebook) {
-            const domain = process.env.REPLIT_DEV_DOMAIN 
-              ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
-              : 'https://pivotal-b2b.com';
-            
-            const ebookUrl = ebook.slug === 'abm-guide' 
-              ? `${domain}/ebook/abm-guide`
-              : `${domain}/ebooks/${ebook.slug}`;
+          // Get content details for email
+          let contentTitle = 'Unknown Content';
+          let ebookUrl = '';
+          
+          if (result.data.contentType === 'ebook') {
+            const ebook = await storage.getEbookById(result.data.contentId);
+            if (ebook) {
+              contentTitle = ebook.title;
+              const domain = process.env.REPLIT_DEV_DOMAIN 
+                ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+                : 'https://pivotal-b2b.com';
+              
+              ebookUrl = ebook.slug === 'abm-guide' 
+                ? `${domain}/ebook/abm-guide`
+                : `${domain}/ebooks/${ebook.slug}`;
 
-            await sendEbookDownloadConfirmation({
-              fullName: result.data.fullName,
-              email: result.data.email,
-              company: result.data.company,
-              ebookTitle: ebook.title,
-              ebookUrl: ebookUrl
-            });
-            console.log('Download confirmation email sent to:', result.data.email);
+              // Send confirmation to user
+              await sendEbookDownloadConfirmation({
+                fullName: result.data.fullName,
+                email: result.data.email,
+                company: result.data.company,
+                ebookTitle: ebook.title,
+                ebookUrl: ebookUrl
+              });
+              console.log('Download confirmation email sent to:', result.data.email);
+            }
+          } else if (result.data.contentType === 'case-study') {
+            const caseStudy = await storage.getCaseStudyById(result.data.contentId);
+            if (caseStudy) {
+              contentTitle = caseStudy.title;
+            }
           }
+
+          // Send admin notification for all lead captures
+          await sendLeadNotificationToAdmin({
+            fullName: result.data.fullName,
+            email: result.data.email,
+            company: result.data.company,
+            phone: result.data.phone,
+            contentType: result.data.contentType,
+            contentTitle: contentTitle,
+            source: result.data.source || 'website'
+          });
+          console.log('Admin notification sent for lead capture');
         } catch (emailError) {
-          console.error('Error sending download confirmation email:', emailError);
+          console.error('Error sending emails:', emailError);
           // Don't fail the lead creation if email fails
         }
       }
@@ -699,6 +724,24 @@ export async function registerRoutes(app: Express) {
       }
 
       const proposalRequest = await storage.createProposalRequest(result.data);
+      
+      // Send email notification to admin
+      try {
+        await sendProposalRequestNotification({
+          fullName: result.data.fullName,
+          email: result.data.email,
+          company: result.data.companyName,
+          phone: result.data.phoneNumber,
+          selectedServices: result.data.interestedServices,
+          targetAccounts: result.data.targetAccountsFileUrl,
+          message: result.data.additionalNeeds
+        });
+        console.log('Proposal request notification sent to admin');
+      } catch (emailError) {
+        console.error('Error sending proposal request notification:', emailError);
+        // Don't fail the request if email fails
+      }
+      
       res.status(201).json(proposalRequest);
     } catch (error) {
       console.error("Error creating proposal request:", error);

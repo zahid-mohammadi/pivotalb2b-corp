@@ -46,6 +46,26 @@ interface EbookDownloadData {
   ebookUrl: string;
 }
 
+interface ProposalRequestData {
+  fullName: string;
+  email: string;
+  company: string;
+  phone?: string;
+  selectedServices: string[];
+  targetAccounts?: string;
+  message?: string;
+}
+
+interface LeadNotificationData {
+  fullName: string;
+  email: string;
+  company: string;
+  phone?: string;
+  contentType: string;
+  contentTitle: string;
+  source: string;
+}
+
 export async function sendContactFormNotification(data: ContactFormData) {
   console.log('Preparing to send email notification with data:', {
     name: data.name,
@@ -191,6 +211,240 @@ Email: ${replyTo}
     return true;
   } catch (error) {
     console.error('Error sending eBook download confirmation email:', error);
+    throw error;
+  }
+}
+
+export async function sendLeadNotificationToAdmin(data: LeadNotificationData) {
+  console.log('Preparing to send lead notification to admin:', data);
+
+  const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER;
+  const fromName = process.env.SMTP_FROM_NAME || 'Pivotal B2B';
+  const adminEmail = 'zahid.m@pivotal-b2b.com';
+
+  const mailOptions = {
+    from: `"${fromName}" <${fromEmail}>`,
+    to: adminEmail,
+    replyTo: data.email,
+    subject: `New ${data.contentType.toUpperCase()} Download: ${data.contentTitle}`,
+    text: `
+New lead captured from ${data.source}:
+
+Name: ${data.fullName}
+Email: ${data.email}
+Company: ${data.company}
+${data.phone ? `Phone: ${data.phone}` : ''}
+
+Content Type: ${data.contentType}
+Content: ${data.contentTitle}
+Source: ${data.source}
+
+Time: ${new Date().toLocaleString()}
+    `,
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: white; padding: 25px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; }
+    .info-row { display: flex; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
+    .info-label { font-weight: bold; min-width: 120px; color: #6b7280; }
+    .info-value { color: #111827; }
+    .footer { background: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280; border-radius: 0 0 8px 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 24px;">🎯 New Lead Captured!</h1>
+    </div>
+    
+    <div class="content">
+      <h2 style="color: #059669; margin-top: 0;">Lead Information</h2>
+      
+      <div class="info-row">
+        <div class="info-label">Name:</div>
+        <div class="info-value">${data.fullName}</div>
+      </div>
+      
+      <div class="info-row">
+        <div class="info-label">Email:</div>
+        <div class="info-value"><a href="mailto:${data.email}">${data.email}</a></div>
+      </div>
+      
+      <div class="info-row">
+        <div class="info-label">Company:</div>
+        <div class="info-value">${data.company}</div>
+      </div>
+      
+      ${data.phone ? `
+      <div class="info-row">
+        <div class="info-label">Phone:</div>
+        <div class="info-value">${data.phone}</div>
+      </div>
+      ` : ''}
+      
+      <div class="info-row">
+        <div class="info-label">Content Type:</div>
+        <div class="info-value">${data.contentType}</div>
+      </div>
+      
+      <div class="info-row">
+        <div class="info-label">Content:</div>
+        <div class="info-value">${data.contentTitle}</div>
+      </div>
+      
+      <div class="info-row">
+        <div class="info-label">Source:</div>
+        <div class="info-value">${data.source}</div>
+      </div>
+      
+      <div class="info-row" style="border-bottom: none;">
+        <div class="info-label">Time:</div>
+        <div class="info-value">${new Date().toLocaleString()}</div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p style="margin: 0;">Pivotal B2B Lead Notification System</p>
+    </div>
+  </div>
+</body>
+</html>
+    `
+  };
+
+  try {
+    console.log('Attempting to send lead notification to admin via SMTP...');
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Lead notification email sent successfully to admin:', info.messageId);
+    return true;
+  } catch (error) {
+    console.error('Error sending lead notification to admin:', error);
+    throw error;
+  }
+}
+
+export async function sendProposalRequestNotification(data: ProposalRequestData) {
+  console.log('Preparing to send proposal request notification:', data);
+
+  const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER;
+  const fromName = process.env.SMTP_FROM_NAME || 'Pivotal B2B';
+  const adminEmail = 'zahid.m@pivotal-b2b.com';
+
+  const mailOptions = {
+    from: `"${fromName}" <${fromEmail}>`,
+    to: adminEmail,
+    replyTo: data.email,
+    subject: `New Proposal Request from ${data.company}`,
+    text: `
+New proposal request received:
+
+Name: ${data.fullName}
+Email: ${data.email}
+Company: ${data.company}
+${data.phone ? `Phone: ${data.phone}` : ''}
+
+Selected Services: ${data.selectedServices.join(', ')}
+
+${data.targetAccounts ? `Target Accounts File: ${data.targetAccounts}` : ''}
+
+${data.message ? `Message:\n${data.message}` : ''}
+
+Time: ${new Date().toLocaleString()}
+    `,
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #dc2626 0%, #f59e0b 100%); color: white; padding: 25px; text-align: center; border-radius: 8px 8px 0 0; }
+    .content { background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; }
+    .info-row { display: flex; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
+    .info-label { font-weight: bold; min-width: 120px; color: #6b7280; }
+    .info-value { color: #111827; }
+    .services { background: #fef3c7; padding: 15px; border-left: 4px solid #f59e0b; margin: 20px 0; }
+    .message { background: #f3f4f6; padding: 15px; border-radius: 6px; margin: 20px 0; white-space: pre-wrap; }
+    .footer { background: #f9fafb; padding: 15px; text-align: center; font-size: 12px; color: #6b7280; border-radius: 0 0 8px 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 24px;">📋 New Proposal Request!</h1>
+    </div>
+    
+    <div class="content">
+      <h2 style="color: #dc2626; margin-top: 0;">Contact Information</h2>
+      
+      <div class="info-row">
+        <div class="info-label">Name:</div>
+        <div class="info-value">${data.fullName}</div>
+      </div>
+      
+      <div class="info-row">
+        <div class="info-label">Email:</div>
+        <div class="info-value"><a href="mailto:${data.email}">${data.email}</a></div>
+      </div>
+      
+      <div class="info-row">
+        <div class="info-label">Company:</div>
+        <div class="info-value">${data.company}</div>
+      </div>
+      
+      ${data.phone ? `
+      <div class="info-row" style="border-bottom: none;">
+        <div class="info-label">Phone:</div>
+        <div class="info-value">${data.phone}</div>
+      </div>
+      ` : ''}
+      
+      <div class="services">
+        <h3 style="margin-top: 0; color: #92400e;">Requested Services:</h3>
+        <ul style="margin: 10px 0;">
+          ${data.selectedServices.map(service => `<li>${service}</li>`).join('')}
+        </ul>
+      </div>
+      
+      ${data.targetAccounts ? `
+      <div style="margin: 20px 0;">
+        <strong>Target Accounts File:</strong> ${data.targetAccounts}
+      </div>
+      ` : ''}
+      
+      ${data.message ? `
+      <div>
+        <strong>Additional Message:</strong>
+        <div class="message">${data.message}</div>
+      </div>
+      ` : ''}
+      
+      <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px;">
+        <strong>Received:</strong> ${new Date().toLocaleString()}
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p style="margin: 0;">Pivotal B2B Proposal Request Notification</p>
+    </div>
+  </div>
+</body>
+</html>
+    `
+  };
+
+  try {
+    console.log('Attempting to send proposal request notification via SMTP...');
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Proposal request notification email sent successfully:', info.messageId);
+    return true;
+  } catch (error) {
+    console.error('Error sending proposal request notification:', error);
     throw error;
   }
 }
