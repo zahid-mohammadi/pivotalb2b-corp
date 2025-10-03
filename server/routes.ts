@@ -337,12 +337,10 @@ export async function registerRoutes(app: Express) {
             const ebook = await storage.getEbookById(result.data.contentId);
             if (ebook) {
               contentTitle = ebook.title;
-              const domain = process.env.REPLIT_DEV_DOMAIN 
-                ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
-                : 'https://pivotal-b2b.com';
+              const domain = 'https://pivotal-b2b.com';
               
               ebookUrl = ebook.slug === 'abm-guide' 
-                ? `${domain}/ebook/abm-guide`
+                ? `${domain}/ebook-abm-guide`
                 : `${domain}/ebooks/${ebook.slug}`;
 
               // Send confirmation to user
