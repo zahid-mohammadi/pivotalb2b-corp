@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -22,17 +22,43 @@ import {
   Users,
   DollarSign,
   TrendingUp,
+  Filter,
+  X,
 } from "lucide-react";
 import type { Account } from "@shared/schema";
+import { FilterBuilder } from "@/components/FilterBuilder";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function AccountsPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showFilter, setShowFilter] = useState(false);
+  const [filteredResults, setFilteredResults] = useState<Account[] | null>(null);
 
   const { data: accounts, isLoading } = useQuery<Account[]>({
     queryKey: ["/api/accounts"],
   });
 
-  const filteredAccounts = accounts?.filter((account) => {
+  // Filter preview mutation
+  const filterMutation = useMutation({
+    mutationFn: async (definition: any) => {
+      const response = await apiRequest("POST", "/api/filter/preview", {
+        entity: "accounts",
+        definition,
+        limit: 1000,
+      });
+      return response as unknown as { results: Account[]; totalCount: number };
+    },
+    onSuccess: (data) => {
+      setFilteredResults(data.results);
+    },
+  });
+
+  // Use filtered results from filter builder if available, otherwise use all accounts
+  const baseAccounts = filteredResults || accounts || [];
+
+  // Then apply search query on top of filtered results
+  const filteredAccounts = baseAccounts.filter((account) => {
+    if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
       account.companyName.toLowerCase().includes(query) ||
@@ -40,6 +66,15 @@ export default function AccountsPage() {
       account.domain?.toLowerCase().includes(query)
     );
   });
+
+  const handleApplyFilter = (definition: any) => {
+    filterMutation.mutate(definition);
+  };
+
+  const handleClearFilter = () => {
+    setFilteredResults(null);
+    setShowFilter(false);
+  };
 
   const getEngagementLevel = (score: number): { label: string; color: "default" | "destructive" | "outline" | "secondary" } => {
     if (score >= 150) return { label: "Very Hot", color: "destructive" };
@@ -98,9 +133,32 @@ export default function AccountsPage() {
                   data-testid="input-search-accounts"
                 />
               </div>
+              <Button
+                variant={showFilter ? "default" : "outline"}
+                onClick={() => setShowFilter(!showFilter)}
+                data-testid="button-toggle-filter"
+              >
+                <Filter className="w-4 h-4 mr-2" />
+                Advanced Filter
+              </Button>
+              {filteredResults && (
+                <Button variant="ghost" onClick={handleClearFilter} data-testid="button-clear-filter">
+                  <X className="w-4 h-4 mr-2" />
+                  Clear Filter
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>
+
+        {/* Advanced Filter Builder */}
+        {showFilter && (
+          <Card>
+            <CardContent className="p-4">
+              <FilterBuilder entity="accounts" onApply={handleApplyFilter} />
+            </CardContent>
+          </Card>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

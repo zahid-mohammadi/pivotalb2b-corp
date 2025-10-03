@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -23,11 +23,17 @@ import {
   Building2,
   Briefcase,
   TrendingUp,
+  Filter,
+  X,
 } from "lucide-react";
 import type { Contact, Account } from "@shared/schema";
+import { FilterBuilder } from "@/components/FilterBuilder";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function ContactsPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showFilter, setShowFilter] = useState(false);
+  const [filteredResults, setFilteredResults] = useState<Contact[] | null>(null);
 
   const { data: contacts, isLoading } = useQuery<Contact[]>({
     queryKey: ["/api/contacts"],
@@ -37,13 +43,33 @@ export default function ContactsPage() {
     queryKey: ["/api/accounts"],
   });
 
+  // Filter preview mutation
+  const filterMutation = useMutation({
+    mutationFn: async (definition: any) => {
+      const response = await apiRequest("POST", "/api/filter/preview", {
+        entity: "contacts",
+        definition,
+        limit: 1000,
+      });
+      return response as unknown as { results: Contact[]; totalCount: number };
+    },
+    onSuccess: (data) => {
+      setFilteredResults(data.results);
+    },
+  });
+
   const getAccountName = (accountId: number | null) => {
     if (!accountId || !accounts) return null;
     const account = accounts.find(a => a.id === accountId);
     return account?.companyName;
   };
 
-  const filteredContacts = contacts?.filter((contact) => {
+  // Use filtered results from filter builder if available, otherwise use all contacts
+  const baseContacts = filteredResults || contacts || [];
+
+  // Then apply search query on top of filtered results
+  const filteredContacts = baseContacts.filter((contact) => {
+    if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     const fullName = `${contact.firstName} ${contact.lastName}`.toLowerCase();
     const accountName = getAccountName(contact.accountId)?.toLowerCase() || "";
@@ -54,6 +80,15 @@ export default function ContactsPage() {
       accountName.includes(query)
     );
   });
+
+  const handleApplyFilter = (definition: any) => {
+    filterMutation.mutate(definition);
+  };
+
+  const handleClearFilter = () => {
+    setFilteredResults(null);
+    setShowFilter(false);
+  };
 
   const getEngagementLevel = (score: number): { label: string; color: "default" | "destructive" | "outline" | "secondary" } => {
     if (score >= 150) return { label: "Very Hot", color: "destructive" };
@@ -111,9 +146,32 @@ export default function ContactsPage() {
                   data-testid="input-search-contacts"
                 />
               </div>
+              <Button
+                variant={showFilter ? "default" : "outline"}
+                onClick={() => setShowFilter(!showFilter)}
+                data-testid="button-toggle-filter"
+              >
+                <Filter className="w-4 h-4 mr-2" />
+                Advanced Filter
+              </Button>
+              {filteredResults && (
+                <Button variant="ghost" onClick={handleClearFilter} data-testid="button-clear-filter">
+                  <X className="w-4 h-4 mr-2" />
+                  Clear Filter
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>
+
+        {/* Advanced Filter Builder */}
+        {showFilter && (
+          <Card>
+            <CardContent className="p-4">
+              <FilterBuilder entity="contacts" onApply={handleApplyFilter} />
+            </CardContent>
+          </Card>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
