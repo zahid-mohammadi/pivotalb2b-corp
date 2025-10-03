@@ -1,0 +1,146 @@
+Prompt for Building Pivotal B2B Pipeline Module
+
+Please extend the Pivotal B2B Dashboard with a new section titled “Pivotal B2B Pipeline”, designed as a pipeline and engagement management system. This should function as a lightweight CRM + email engagement platform with full Microsoft 365 integration and newsletter campaign management.
+
+🔹 Core Requirements
+1. Pipeline Management
+
+Visual Kanban or stage-based pipeline view (customizable stages such as: New Lead → Engaged → Proposal Sent → Negotiation → Closed Won/Lost).
+
+Ability to move leads between stages manually or via automation triggers.
+
+Lead Profile Page should display:
+
+Contact & company information
+
+Lead source
+
+Current deal stage
+
+Deal value & probability
+
+Engagement history (emails, activities, downloads, calls, notes)
+
+2. Lead Ingestion & Qualification
+
+Automatic addition of leads from:
+
+Asset Downloads (eBooks, Guides, etc.)
+
+Proposal Form submissions
+
+AI-driven qualification for Contact Us form:
+
+If they want to sell to us → Do not add to pipeline.
+
+If they want our services → Add to pipeline.
+
+Manual creation of new opportunities by sales team.
+
+3. Engagement & Communication
+a) Newsletter & Bulk Campaigns
+
+Campaign creation tool inside dashboard with:
+
+Audience segmentation (e.g., by stage, source, engagement level).
+
+Personalization options (merge tags for name, company, stage, asset downloaded, etc.).
+
+A/B testing for subject lines and content.
+
+Scheduling campaigns for future delivery.
+
+Send via existing SMTP setup (optimized for bulk campaigns & notifications).
+
+Reporting on open rate, click rate, bounce, and unsubscribes.
+
+b) One-to-One Emails (M365 Integration)
+
+Full connection to Microsoft 365 Email (via OAuth/Graph API):
+
+Send 1:1 emails directly from pipeline.
+
+Emails are sent through the user’s primary Outlook mailbox (not SMTP relay).
+
+All sent messages logged under lead’s profile.
+
+Inbox Sync & Tracking:
+
+System should monitor connected M365 inbox for replies or inbound emails from leads already in pipeline.
+
+Automatically log those interactions in the lead’s engagement history.
+
+Track opens, clicks, and replies for both outbound and inbound 1:1 communication.
+
+4. Lead Tracking & Analytics
+
+Track:
+
+Lead activity timeline (downloads, emails, replies, form submissions).
+
+Email metrics (opens, clicks, replies, bounces).
+
+Pipeline performance (conversion rate, value by stage, win/loss ratio).
+
+Attribution by lead source (Asset, Proposal Form, Contact Us, Manual Add).
+
+Dashboard reports with visual charts for:
+
+Lead engagement levels
+
+Pipeline value by stage
+
+Campaign performance
+
+Forecasting expected revenue
+
+5. Automation & Workflows
+
+Rules for auto-advancing leads (e.g., if lead clicks link in proposal email → move to “Engaged”).
+
+Notifications (e.g., “Lead replied to your email,” “Lead moved to Negotiation”).
+
+Task/reminder creation for follow-ups.
+
+6. User Interface & Experience
+
+Modern, clean UI that matches existing dashboard design.
+
+Quick filters (by stage, lead source, geography, engagement score).
+
+Global search for contacts.
+
+Activity timeline per lead with easy navigation.
+
+7. Security & Permissions
+
+Role-based access:
+
+Admin (full control)
+
+Marketing (campaign creation, email analytics)
+
+Sales (pipeline management, 1:1 emails, deal updates)
+
+Audit log for changes in pipeline and lead data.
+
+8. Integrations & Extensibility
+
+Microsoft 365 integration (full mailbox sync, not just sending).
+
+API endpoints for import/export of pipeline data.
+
+Optional Zapier/Webhook support for external tools.
+
+✅ In short:
+Build a CRM-style pipeline system inside Pivotal B2B Dashboard that:
+
+Tracks leads by stage with a beautiful interface.
+
+Auto-adds leads from Asset Downloads/Proposals, AI-screens Contact Us inquiries.
+
+Enables newsletter campaign creation with personalization (via SMTP).
+
+Integrates fully with M365 for 1:1 emails (send & receive) and auto-logging of inbox activity.
+
+Provides engagement tracking, pipeline analytics, automation, and reporting.
