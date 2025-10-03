@@ -329,6 +329,8 @@ export const pipelineDeals = pgTable("pipeline_deals", {
   company: varchar("company", { length: 100 }).notNull(),
   phone: varchar("phone", { length: 20 }),
   jobTitle: varchar("job_title", { length: 100 }),
+  contactId: serial("contact_id"),
+  accountId: serial("account_id"),
   stageId: serial("stage_id").notNull(),
   dealValue: serial("deal_value"),
   probability: serial("probability"),
@@ -349,6 +351,8 @@ export const insertPipelineDealSchema = createInsertSchema(pipelineDeals)
   .extend({
     phone: z.string().optional(),
     jobTitle: z.string().optional(),
+    contactId: z.number().optional(),
+    accountId: z.number().optional(),
     dealValue: z.number().optional(),
     probability: z.number().optional(),
     sourceId: z.number().optional(),
@@ -482,3 +486,89 @@ export const insertM365ConnectionSchema = createInsertSchema(m365Connections)
   });
 
 export type InsertM365Connection = z.infer<typeof insertM365ConnectionSchema>;
+
+// Accounts (Companies)
+export const accounts = pgTable("accounts", {
+  id: serial("id").primaryKey(),
+  companyName: varchar("company_name", { length: 200 }).notNull(),
+  domain: varchar("domain", { length: 255 }),
+  industry: varchar("industry", { length: 100 }),
+  companySize: varchar("company_size", { length: 50 }),
+  location: varchar("location", { length: 200 }),
+  country: varchar("country", { length: 100 }),
+  revenueBand: varchar("revenue_band", { length: 50 }),
+  naicsCode: varchar("naics_code", { length: 20 }),
+  website: text("website"),
+  description: text("description"),
+  engagementScore: serial("engagement_score").default(0),
+  accountTier: varchar("account_tier", { length: 20 }),
+  assignedTo: serial("assigned_to"),
+  tags: text("tags").array(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type Account = typeof accounts.$inferSelect;
+export const insertAccountSchema = createInsertSchema(accounts)
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    domain: z.string().optional(),
+    industry: z.string().optional(),
+    companySize: z.string().optional(),
+    location: z.string().optional(),
+    country: z.string().optional(),
+    revenueBand: z.string().optional(),
+    naicsCode: z.string().optional(),
+    website: z.string().optional(),
+    description: z.string().optional(),
+    engagementScore: z.number().optional(),
+    accountTier: z.string().optional(),
+    assignedTo: z.number().optional(),
+    tags: z.array(z.string()).optional(),
+    notes: z.string().optional(),
+  });
+
+export type InsertAccount = z.infer<typeof insertAccountSchema>;
+
+// Contacts (Individuals)
+export const contacts = pgTable("contacts", {
+  id: serial("id").primaryKey(),
+  firstName: varchar("first_name", { length: 100 }).notNull(),
+  lastName: varchar("last_name", { length: 100 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
+  jobTitle: varchar("job_title", { length: 100 }),
+  department: varchar("department", { length: 100 }),
+  jobLevel: varchar("job_level", { length: 50 }),
+  accountId: serial("account_id"),
+  leadSource: text("lead_source"),
+  engagementScore: serial("engagement_score").default(0),
+  lastEngagementAt: timestamp("last_engagement_at"),
+  assignedTo: serial("assigned_to"),
+  status: varchar("status", { length: 50 }).default("active").notNull(),
+  tags: text("tags").array(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type Contact = typeof contacts.$inferSelect;
+export const insertContactSchema = createInsertSchema(contacts)
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    phone: z.string().optional(),
+    jobTitle: z.string().optional(),
+    department: z.string().optional(),
+    jobLevel: z.string().optional(),
+    accountId: z.number().optional(),
+    leadSource: z.string().optional(),
+    engagementScore: z.number().optional(),
+    lastEngagementAt: z.string().datetime().optional(),
+    assignedTo: z.number().optional(),
+    status: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    notes: z.string().optional(),
+  });
+
+export type InsertContact = z.infer<typeof insertContactSchema>;

@@ -1,0 +1,154 @@
+Prompt for Adding Contacts & Accounts to Pivotal B2B Pipeline
+
+Please extend the Pivotal B2B Pipeline module to include separate but linked sections for Contacts and Accounts (Companies). The goal is to allow sales and marketing teams to manage individuals (Contacts) and their organizations (Accounts) in parallel, with clear relationships and shared data.
+
+🔹 Core Structure
+1. Accounts (Companies)
+
+Each Account record should include:
+
+Company name, domain, industry, size, location
+
+NAICS/industry code, revenue band (optional)
+
+Associated contacts (linked records)
+
+Open opportunities, total pipeline value
+
+Engagement summary (emails sent, opens, clicks, meetings across all contacts in this account)
+
+Notes, tags, and ownership (assigned sales rep or team)
+
+Features:
+
+View all pipeline opportunities tied to this account.
+
+Roll-up metrics: e.g., “3 active opportunities, total deal value $120k, engagement score avg 65”.
+
+Ability to segment accounts (by size, geography, industry, engagement).
+
+2. Contacts (Individuals)
+
+Each Contact record should include:
+
+Full name, title, email, phone
+
+Department, job level (Manager, Director, VP, etc.)
+
+Associated account (link)
+
+Lead source, deal stage (if they initiated opportunity)
+
+Engagement history (emails, clicks, calls, meetings, downloads)
+
+Engagement score (per contact, also rolls up to account-level)
+
+Owner (assigned rep)
+
+Features:
+
+Contact timeline: full chronological activity (opens, clicks, replies, downloads, campaign interactions).
+
+Ability to market to contacts directly (newsletter campaigns, 1:1 emails).
+
+Add tasks/reminders specific to this individual.
+
+🔹 Pipeline Integration
+
+Opportunities should always tie to both a Contact and an Account.
+
+If a new Contact is added and their domain matches an existing Account → auto-suggest linking them.
+
+Pipeline stages should be visible at Contact-level (who initiated) and Account-level (roll-up of all related deals).
+
+🔹 Engagement & Communication
+Bulk Campaigns
+
+Campaign targeting can be by Contact or by Account.
+
+Example: “Send to all Directors in IT from accounts in North America with score >50”.
+
+Personalization tags should pull from Contact fields (name, title) or Account fields (company, industry).
+
+1:1 Emails (M365 Integration)
+
+When sending a 1:1 email to a Contact:
+
+Message logged under Contact timeline.
+
+Also reflected at Account-level activity.
+
+Inbox sync:
+
+If an inbound email comes from any contact of an Account, log it at both levels.
+
+🔹 Engagement Scoring Enhancements
+
+Contact-level scoring: Tracks opens, clicks, replies for that person.
+
+Account-level scoring: Aggregate & weighted score of all related contacts.
+
+Example: “Account Engagement Score = avg of top 3 active contacts”.
+
+Triggers:
+
+If Account score > 80 → notify Account owner.
+
+If a new Contact at a high-value Account engages → create opportunity suggestion.
+
+🔹 Reporting & Analytics
+
+Contacts Reports:
+
+Top engaged individuals, reply rates, conversion to opportunities.
+
+Accounts Reports:
+
+Top engaged accounts, total pipeline value per industry, average deal velocity per company size.
+
+Funnel reports available per contact and per account.
+
+Weighted revenue forecasting at account-level.
+
+🔹 User Interface Suggestions
+
+Sidebar Navigation:
+
+Pipeline | Contacts | Accounts | Campaigns | Emails | Reports | Automations | Settings
+
+Accounts List View:
+
+Columns: Account Name | Industry | Size | Location | Opportunities (#, $) | Avg Engagement Score | Owner
+
+Drill into Account → See Contacts, Opportunities, Engagement summary
+
+Contacts List View:
+
+Columns: Name | Title | Email | Phone | Account | Stage | Score | Last Activity | Owner
+
+Contact & Account Profile Pages:
+
+Tabs: Overview | Timeline | Opportunities | Emails | Tasks | Notes
+
+Linking Contacts & Accounts:
+
+When adding a new contact, system suggests Accounts based on email domain.
+
+If no Account exists, user can create one directly.
+
+🔹 Automation & AI Features
+
+Auto-qualification of Accounts:
+
+If multiple high-engagement contacts exist → mark Account as “Hot”.
+
+AI recommendations:
+
+Suggest “next best contact” at an Account based on role/title.
+
+Account scoring & tiering:
+
+Gold / Silver / Bronze classification based on engagement, deal value, and revenue potential.
+
+✅ In short:
+The system should treat Contacts as the people you engage with and Accounts as the companies you sell into, with both layers tightly integrated. Opportunities must always link to both, with communication, scoring, reporting, and automation working at both levels.
