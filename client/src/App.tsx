@@ -30,6 +30,8 @@ import B2BAudience from "@/pages/b2b-audience";
 import RequestProposal from "@/pages/request-proposal";
 import ProposalDetail from "@/pages/proposal-detail";
 import LeadDetail from "@/pages/lead-detail";
+import AccountsPage from "@/pages/accounts";
+import ContactsPage from "@/pages/contacts";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProtectedRoute } from "@/components/auth/protected-route";
@@ -66,6 +68,8 @@ function Router() {
           <ProtectedRoute path="/dashboard" component={Dashboard} />
           <ProtectedRoute path="/proposal/:id" component={ProposalDetail} />
           <ProtectedRoute path="/lead/:id" component={LeadDetail} />
+          <ProtectedRoute path="/accounts" component={AccountsPage} />
+          <ProtectedRoute path="/contacts" component={ContactsPage} />
           <Route component={NotFound} />
         </Switch>
       </main>

@@ -308,6 +308,26 @@ export default function Dashboard() {
               <span>Pipeline</span>
             </button>
 
+            <Link href="/accounts">
+              <button
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-all"
+                data-testid="accounts-nav"
+              >
+                <Building className="h-5 w-5" />
+                <span>Accounts</span>
+              </button>
+            </Link>
+
+            <Link href="/contacts">
+              <button
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-all"
+                data-testid="contacts-nav"
+              >
+                <Users className="h-5 w-5" />
+                <span>Contacts</span>
+              </button>
+            </Link>
+
             <button
               onClick={() => setActiveTab("proposals")}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
