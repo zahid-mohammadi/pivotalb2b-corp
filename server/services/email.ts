@@ -140,7 +140,7 @@ Email: ${replyTo}
     .container { max-width: 600px; margin: 0 auto; padding: 20px; }
     .header { background: linear-gradient(135deg, #1e3a8a 0%, #4f46e5 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
     .content { background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; }
-    .button { display: inline-block; padding: 14px 28px; background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%); color: white; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
+    .button { display: inline-block; padding: 14px 28px; background: #2563eb; background-image: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%); color: #ffffff !important; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 20px 0; }
     .footer { background: #f9fafb; padding: 20px; text-align: center; font-size: 12px; color: #6b7280; border-radius: 0 0 8px 8px; }
     .highlight { background: #eff6ff; padding: 15px; border-left: 4px solid #2563eb; margin: 20px 0; }
   </style>
@@ -162,7 +162,7 @@ Email: ${replyTo}
       </div>
       
       <div style="text-align: center;">
-        <a href="${data.ebookUrl}" class="button" style="color: white;">Access Your eBook Now →</a>
+        <a href="${data.ebookUrl}" class="button" style="color: #ffffff !important; text-decoration: none;">Access Your eBook Now →</a>
       </div>
       
       <p>We hope you find valuable insights in this resource. If you have any questions or would like to discuss how we can help <strong>${data.company}</strong> achieve its marketing goals, don't hesitate to reach out.</p>
