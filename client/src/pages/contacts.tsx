@@ -55,15 +55,15 @@ export default function ContactsPage() {
     );
   });
 
-  const getEngagementLevel = (score: number) => {
+  const getEngagementLevel = (score: number): { label: string; color: "default" | "destructive" | "outline" | "secondary" } => {
     if (score >= 150) return { label: "Very Hot", color: "destructive" };
-    if (score >= 80) return { label: "Hot", color: "orange" };
-    if (score >= 30) return { label: "Warm", color: "yellow" };
+    if (score >= 80) return { label: "Hot", color: "destructive" };
+    if (score >= 30) return { label: "Warm", color: "outline" };
     return { label: "Cold", color: "secondary" };
   };
 
   const getStatusBadge = (status: string) => {
-    const statusColors: Record<string, string> = {
+    const statusColors: Record<string, "default" | "destructive" | "outline" | "secondary"> = {
       active: "default",
       inactive: "secondary",
       unsubscribed: "destructive",

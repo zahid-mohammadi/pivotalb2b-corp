@@ -41,22 +41,22 @@ export default function AccountsPage() {
     );
   });
 
-  const getEngagementLevel = (score: number) => {
+  const getEngagementLevel = (score: number): { label: string; color: "default" | "destructive" | "outline" | "secondary" } => {
     if (score >= 150) return { label: "Very Hot", color: "destructive" };
-    if (score >= 80) return { label: "Hot", color: "orange" };
-    if (score >= 30) return { label: "Warm", color: "yellow" };
+    if (score >= 80) return { label: "Hot", color: "destructive" };
+    if (score >= 30) return { label: "Warm", color: "outline" };
     return { label: "Cold", color: "secondary" };
   };
 
   const getTierBadge = (tier: string | null) => {
     if (!tier) return null;
-    const tierColors: Record<string, string> = {
-      gold: "yellow",
-      silver: "default",
-      bronze: "orange",
+    const tierColors: Record<string, "default" | "destructive" | "outline" | "secondary"> = {
+      gold: "default",
+      silver: "outline",
+      bronze: "secondary",
     };
     return (
-      <Badge variant={tierColors[tier.toLowerCase()] as any || "secondary"}>
+      <Badge variant={tierColors[tier.toLowerCase()] || "secondary"} className={tier.toLowerCase() === 'gold' ? 'bg-yellow-500 text-white' : ''}>
         {tier}
       </Badge>
     );
@@ -131,7 +131,7 @@ export default function AccountsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Gold Tier</CardTitle>
-              <Badge variant="yellow">Gold</Badge>
+              <Badge variant="default" className="bg-yellow-500 text-white">Gold</Badge>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold" data-testid="text-gold-accounts">

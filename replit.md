@@ -27,12 +27,20 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - Optimize for mobile views
 
 ## Recent Changes
+- **NEW: Contacts & Accounts CRM Module** (October 3, 2025)
+  - Added comprehensive Accounts (Companies) management system
+  - Added Contacts (Individuals) management with account linking
+  - Auto-linking contacts to accounts based on email domain
+  - Pipeline deals now link to both Contact and Account entities
+  - Engagement scoring at both contact and account levels
+  - Dedicated list views with search, filtering, and stats
+  - Sidebar navigation updated with Accounts and Contacts sections
+
 - Configured automated email notification system using Brevo SMTP for eBook downloads
 - Users receive beautiful HTML confirmation emails with direct links to eBook content
 - eBooks Library now correctly links ABM eBook to custom landing page
 - Redesigned ABM eBook table of contents with professional card-based layout
 - Added hover animations, progress bars, and summary statistics to eBook page
-- Date: 2025-10-03
 
 ## Email Notification System
 - Brevo (formerly SendinBlue) integration for transactional emails
