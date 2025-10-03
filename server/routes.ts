@@ -30,6 +30,7 @@ import { sendContactFormNotification, sendEbookDownloadConfirmation, sendLeadNot
 import { microsoftGraphService } from "./services/microsoft-graph";
 import type { User } from "@shared/schema";
 import { botBlockStats } from "./middleware/email-bot-blocker";
+import { requireRole, checkPermission, isAdmin, isSalesOrMarketing } from "./middleware/rbac";
 
 // Configure multer for handling file uploads
 const upload = multer({
@@ -652,7 +653,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.post("/api/users", async (req, res) => {
+  app.post("/api/users", isAdmin, async (req, res) => {
     try {
       const result = insertUserSchema.safeParse(req.body);
       if (!result.success) {
@@ -666,7 +667,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.patch("/api/users/:id", async (req, res) => {
+  app.patch("/api/users/:id", isAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const result = insertUserSchema.partial().safeParse(req.body);
@@ -681,7 +682,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/users/:id", async (req, res) => {
+  app.delete("/api/users/:id", isAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteUser(id);
@@ -730,6 +731,36 @@ export async function registerRoutes(app: Express) {
       }
 
       const proposalRequest = await storage.createProposalRequest(result.data);
+      
+      // Auto-add to pipeline as a deal
+      try {
+        const stages = await storage.getPipelineStages();
+        const firstStage = stages.find(s => s.order === 0) || stages[0];
+        
+        if (firstStage) {
+          const dealData = {
+            fullName: result.data.fullName,
+            email: result.data.email,
+            company: result.data.companyName,
+            phone: result.data.phoneNumber,
+            stageId: firstStage.id,
+            source: 'proposal_request',
+            sourceId: proposalRequest.id,
+            notes: `Interested Services: ${result.data.interestedServices.join(', ')}\n\nAdditional Needs: ${result.data.additionalNeeds || 'None'}`
+          };
+          
+          const deal = await storage.createPipelineDeal(dealData);
+          
+          // Initialize engagement score
+          const { updateEngagementScore } = await import("./services/engagement-scoring");
+          await updateEngagementScore(deal.id);
+          
+          console.log(`Auto-added proposal request ${proposalRequest.id} to pipeline as deal ${deal.id}`);
+        }
+      } catch (pipelineError) {
+        console.error('Error adding proposal to pipeline:', pipelineError);
+        // Don't fail the request if pipeline creation fails
+      }
       
       // Send email notification to admin
       try {
@@ -980,6 +1011,11 @@ export async function registerRoutes(app: Express) {
 
     try {
       const deal = await storage.createPipelineDeal(result.data);
+      
+      // Initialize engagement score
+      const { updateEngagementScore } = await import("./services/engagement-scoring");
+      await updateEngagementScore(deal.id);
+      
       res.status(201).json(deal);
     } catch (error) {
       console.error("Error creating pipeline deal:", error);
@@ -999,6 +1035,11 @@ export async function registerRoutes(app: Express) {
         return res.status(400).json({ errors: result.error.errors });
       }
       const deal = await storage.updatePipelineDeal(id, result.data);
+      
+      // Update engagement score after changes
+      const { updateEngagementScore } = await import("./services/engagement-scoring");
+      await updateEngagementScore(id);
+      
       res.json(deal);
     } catch (error) {
       console.error("Error updating pipeline deal:", error);
@@ -1054,6 +1095,63 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error creating lead activity:", error);
       res.status(500).json({ error: "Failed to create lead activity" });
+    }
+  });
+
+  // Engagement Scoring Routes
+  app.get("/api/pipeline/deals/:dealId/engagement-score", async (req, res) => {
+    const dealId = parseInt(req.params.dealId);
+    if (isNaN(dealId)) {
+      return res.status(400).json({ error: "Invalid deal ID" });
+    }
+
+    try {
+      const { calculateEngagementScore, getEngagementLevel } = await import("./services/engagement-scoring");
+      const score = await calculateEngagementScore(dealId);
+      const scoreInfo = getEngagementLevel(score);
+      res.json(scoreInfo);
+    } catch (error) {
+      console.error("Error getting engagement score:", error);
+      res.status(500).json({ error: "Failed to get engagement score" });
+    }
+  });
+
+  app.get("/api/pipeline/deals/:dealId/score-history", async (req, res) => {
+    const dealId = parseInt(req.params.dealId);
+    if (isNaN(dealId)) {
+      return res.status(400).json({ error: "Invalid deal ID" });
+    }
+
+    const days = parseInt(req.query.days as string) || 30;
+
+    try {
+      const { getScoreHistory } = await import("./services/engagement-scoring");
+      const history = await getScoreHistory(dealId, days);
+      res.json(history);
+    } catch (error) {
+      console.error("Error getting score history:", error);
+      res.status(500).json({ error: "Failed to get score history" });
+    }
+  });
+
+  app.post("/api/pipeline/deals/:dealId/engagement-activity", async (req, res) => {
+    const dealId = parseInt(req.params.dealId);
+    if (isNaN(dealId)) {
+      return res.status(400).json({ error: "Invalid deal ID" });
+    }
+
+    const { activityType, metadata } = req.body;
+    if (!activityType) {
+      return res.status(400).json({ error: "Activity type is required" });
+    }
+
+    try {
+      const { addEngagementActivity } = await import("./services/engagement-scoring");
+      await addEngagementActivity(dealId, activityType, metadata);
+      res.json({ message: "Engagement activity added and score updated" });
+    } catch (error) {
+      console.error("Error adding engagement activity:", error);
+      res.status(500).json({ error: "Failed to add engagement activity" });
     }
   });
 
@@ -1347,7 +1445,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.post("/api/pipeline/automation-rules", async (req, res) => {
+  app.post("/api/pipeline/automation-rules", requireRole("admin", "marketing"), async (req, res) => {
     const user = req.user as User;
     if (!user) {
       return res.status(401).json({ error: "Unauthorized" });
@@ -1367,7 +1465,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.patch("/api/pipeline/automation-rules/:id", async (req, res) => {
+  app.patch("/api/pipeline/automation-rules/:id", requireRole("admin", "marketing"), async (req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ error: "Invalid ID" });
@@ -1386,7 +1484,7 @@ export async function registerRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/pipeline/automation-rules/:id", async (req, res) => {
+  app.delete("/api/pipeline/automation-rules/:id", requireRole("admin", "marketing"), async (req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ error: "Invalid ID" });

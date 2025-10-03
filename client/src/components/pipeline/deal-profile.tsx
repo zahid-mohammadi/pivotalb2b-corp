@@ -8,10 +8,22 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Mail, Phone, Building, DollarSign, Calendar, MessageSquare, X, Save } from "lucide-react";
+import { Mail, Phone, Building, DollarSign, Calendar, MessageSquare, X, Save, Flame } from "lucide-react";
 import type { PipelineDeal, LeadActivity, PipelineStage } from "@shared/schema";
 import { format } from "date-fns";
 import { useState } from "react";
+
+function getEngagementLevel(score: number) {
+  if (score >= 150) {
+    return { level: 'Very Hot', color: 'bg-red-100 text-red-700 border-red-300', icon: '🔥🔥' };
+  } else if (score >= 80) {
+    return { level: 'Hot', color: 'bg-orange-100 text-orange-700 border-orange-300', icon: '🔥' };
+  } else if (score >= 30) {
+    return { level: 'Warm', color: 'bg-blue-100 text-blue-700 border-blue-300', icon: '💫' };
+  } else {
+    return { level: 'Cold', color: 'bg-gray-100 text-gray-600 border-gray-300', icon: '❄️' };
+  }
+}
 
 interface DealProfileProps {
   deal: PipelineDeal;
@@ -50,6 +62,8 @@ export function DealProfile({ deal, onClose }: DealProfileProps) {
   });
 
   const currentStage = stages.find(s => s.id === deal.stageId);
+  const score = deal.engagementScore || 0;
+  const engagement = getEngagementLevel(score);
 
   const handleSaveNotes = () => {
     updateDealMutation.mutate({ notes });
@@ -121,6 +135,16 @@ export function DealProfile({ deal, onClose }: DealProfileProps) {
                     <span className="text-muted-foreground">Stage: </span>
                     <Badge style={{ backgroundColor: currentStage?.color || undefined }}>
                       {currentStage?.name}
+                    </Badge>
+                  </div>
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Engagement: </span>
+                    <Badge 
+                      variant="outline" 
+                      className={engagement.color}
+                      data-testid="engagement-score-profile"
+                    >
+                      {engagement.icon} {engagement.level} ({score} pts)
                     </Badge>
                   </div>
                   {deal.dealValue && (

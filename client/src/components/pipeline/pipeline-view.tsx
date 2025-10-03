@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { PipelineKanban } from "./pipeline-kanban";
+import { PipelineAnalytics } from "./pipeline-analytics";
 import { DealProfile } from "./deal-profile";
 import { DealForm } from "./deal-form";
 import { CampaignList } from "../campaigns/campaign-list";
@@ -123,11 +124,7 @@ export function PipelineView() {
         </TabsContent>
 
         <TabsContent value="analytics" className="mt-6">
-          <div className="text-center text-muted-foreground py-12">
-            <BarChart3 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-            <p>Pipeline analytics coming soon</p>
-            <p className="text-sm mt-2">Track conversion rates, deal velocity, and revenue forecasts</p>
-          </div>
+          <PipelineAnalytics />
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">

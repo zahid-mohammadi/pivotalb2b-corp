@@ -335,6 +335,8 @@ export const pipelineDeals = pgTable("pipeline_deals", {
   source: text("source").notNull(),
   sourceId: serial("source_id"),
   assignedTo: serial("assigned_to"),
+  engagementScore: serial("engagement_score").default(0),
+  lastEngagementAt: timestamp("last_engagement_at"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   closedAt: timestamp("closed_at"),
@@ -351,6 +353,8 @@ export const insertPipelineDealSchema = createInsertSchema(pipelineDeals)
     probability: z.number().optional(),
     sourceId: z.number().optional(),
     assignedTo: z.number().optional(),
+    engagementScore: z.number().optional(),
+    lastEngagementAt: z.string().datetime().optional(),
     closedAt: z.string().datetime().optional(),
     notes: z.string().optional(),
   });
