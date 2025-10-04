@@ -38,6 +38,30 @@ import {
   type FilterAuditLog,
   type InsertFilterAuditLog,
   type FAQ,
+  type TaxCode,
+  type InsertTaxCode,
+  type Sku,
+  type InsertSku,
+  type Invoice,
+  type InsertInvoice,
+  type InvoiceLine,
+  type InsertInvoiceLine,
+  type Payment,
+  type InsertPayment,
+  type CreditNote,
+  type InsertCreditNote,
+  type CreditNoteApplication,
+  type InsertCreditNoteApplication,
+  type Expense,
+  type InsertExpense,
+  type InvoiceView,
+  type InsertInvoiceView,
+  type InvoiceReminder,
+  type InsertInvoiceReminder,
+  type BillingSetting,
+  type InsertBillingSetting,
+  type BillingAuditLog,
+  type InsertBillingAuditLog,
   blogPosts, 
   services, 
   testimonials,
@@ -59,6 +83,18 @@ import {
   contacts,
   savedFilters,
   filterAuditLogs,
+  taxCodes,
+  skus,
+  invoices,
+  invoiceLines,
+  payments,
+  creditNotes,
+  creditNoteApplications,
+  expenses,
+  invoiceViews,
+  invoiceReminders,
+  billingSettings,
+  billingAuditLogs,
   type PageView,
   type UserSession
 } from "@shared/schema";
@@ -1330,6 +1366,618 @@ export class DatabaseStorage {
       return await query.orderBy(desc(filterAuditLogs.executedAt)).limit(limit);
     } catch (error) {
       console.error("Error getting filter audit logs:", error);
+      throw error;
+    }
+  }
+
+  // Tax Codes
+  async getTaxCodes(): Promise<TaxCode[]> {
+    try {
+      return await db.select().from(taxCodes).orderBy(taxCodes.name);
+    } catch (error) {
+      console.error("Error getting tax codes:", error);
+      throw error;
+    }
+  }
+
+  async getTaxCodeById(id: number): Promise<TaxCode | undefined> {
+    try {
+      const [taxCode] = await db.select().from(taxCodes).where(eq(taxCodes.id, id));
+      return taxCode;
+    } catch (error) {
+      console.error("Error getting tax code by ID:", error);
+      throw error;
+    }
+  }
+
+  async createTaxCode(taxCode: InsertTaxCode): Promise<TaxCode> {
+    try {
+      const [newTaxCode] = await db.insert(taxCodes).values(taxCode).returning();
+      return newTaxCode;
+    } catch (error) {
+      console.error("Error creating tax code:", error);
+      throw error;
+    }
+  }
+
+  async updateTaxCode(id: number, taxCode: Partial<InsertTaxCode>): Promise<TaxCode> {
+    try {
+      const [updatedTaxCode] = await db.update(taxCodes).set(taxCode).where(eq(taxCodes.id, id)).returning();
+      return updatedTaxCode;
+    } catch (error) {
+      console.error("Error updating tax code:", error);
+      throw error;
+    }
+  }
+
+  async deleteTaxCode(id: number): Promise<void> {
+    try {
+      await db.delete(taxCodes).where(eq(taxCodes.id, id));
+    } catch (error) {
+      console.error("Error deleting tax code:", error);
+      throw error;
+    }
+  }
+
+  // SKUs (Products/Services)
+  async getSKUs(): Promise<Sku[]> {
+    try {
+      return await db.select().from(skus).orderBy(desc(skus.createdAt));
+    } catch (error) {
+      console.error("Error getting SKUs:", error);
+      throw error;
+    }
+  }
+
+  async getSKUById(id: number): Promise<Sku | undefined> {
+    try {
+      const [sku] = await db.select().from(skus).where(eq(skus.id, id));
+      return sku;
+    } catch (error) {
+      console.error("Error getting SKU by ID:", error);
+      throw error;
+    }
+  }
+
+  async getSKUBySKUCode(skuCode: string): Promise<Sku | undefined> {
+    try {
+      const [sku] = await db.select().from(skus).where(eq(skus.code, skuCode));
+      return sku;
+    } catch (error) {
+      console.error("Error getting SKU by code:", error);
+      throw error;
+    }
+  }
+
+  async createSKU(sku: InsertSku): Promise<Sku> {
+    try {
+      const [newSKU] = await db.insert(skus).values(sku).returning();
+      return newSKU;
+    } catch (error) {
+      console.error("Error creating SKU:", error);
+      throw error;
+    }
+  }
+
+  async updateSKU(id: number, sku: Partial<InsertSku>): Promise<Sku> {
+    try {
+      const [updatedSKU] = await db.update(skus).set(sku).where(eq(skus.id, id)).returning();
+      return updatedSKU;
+    } catch (error) {
+      console.error("Error updating SKU:", error);
+      throw error;
+    }
+  }
+
+  async deleteSKU(id: number): Promise<void> {
+    try {
+      await db.delete(skus).where(eq(skus.id, id));
+    } catch (error) {
+      console.error("Error deleting SKU:", error);
+      throw error;
+    }
+  }
+
+  // Invoices
+  async getInvoices(): Promise<Invoice[]> {
+    try {
+      return await db.select().from(invoices).orderBy(desc(invoices.createdAt));
+    } catch (error) {
+      console.error("Error getting invoices:", error);
+      throw error;
+    }
+  }
+
+  async getInvoiceById(id: number): Promise<Invoice | undefined> {
+    try {
+      const [invoice] = await db.select().from(invoices).where(eq(invoices.id, id));
+      return invoice;
+    } catch (error) {
+      console.error("Error getting invoice by ID:", error);
+      throw error;
+    }
+  }
+
+  async getInvoiceByNumber(invoiceNumber: string): Promise<Invoice | undefined> {
+    try {
+      const [invoice] = await db.select().from(invoices).where(eq(invoices.number, invoiceNumber));
+      return invoice;
+    } catch (error) {
+      console.error("Error getting invoice by number:", error);
+      throw error;
+    }
+  }
+
+  async getInvoicesByAccount(accountId: number): Promise<Invoice[]> {
+    try {
+      return await db.select().from(invoices).where(eq(invoices.accountId, accountId)).orderBy(desc(invoices.createdAt));
+    } catch (error) {
+      console.error("Error getting invoices by account:", error);
+      throw error;
+    }
+  }
+
+  async createInvoice(invoice: InsertInvoice): Promise<Invoice> {
+    try {
+      const invoiceData = {
+        ...invoice,
+        issueDate: new Date(invoice.issueDate),
+        dueDate: new Date(invoice.dueDate),
+        voidedAt: invoice.voidedAt ? new Date(invoice.voidedAt) : undefined,
+      };
+      const [newInvoice] = await db.insert(invoices).values(invoiceData).returning();
+      return newInvoice;
+    } catch (error) {
+      console.error("Error creating invoice:", error);
+      throw error;
+    }
+  }
+
+  async updateInvoice(id: number, invoice: Partial<InsertInvoice>): Promise<Invoice> {
+    try {
+      const updateData = {
+        ...invoice,
+        issueDate: invoice.issueDate ? new Date(invoice.issueDate) : undefined,
+        dueDate: invoice.dueDate ? new Date(invoice.dueDate) : undefined,
+        voidedAt: invoice.voidedAt ? new Date(invoice.voidedAt) : undefined,
+      };
+      const [updatedInvoice] = await db.update(invoices).set(updateData).where(eq(invoices.id, id)).returning();
+      return updatedInvoice;
+    } catch (error) {
+      console.error("Error updating invoice:", error);
+      throw error;
+    }
+  }
+
+  async deleteInvoice(id: number): Promise<void> {
+    try {
+      await db.delete(invoices).where(eq(invoices.id, id));
+    } catch (error) {
+      console.error("Error deleting invoice:", error);
+      throw error;
+    }
+  }
+
+  // Invoice Lines
+  async getInvoiceLinesByInvoice(invoiceId: number): Promise<InvoiceLine[]> {
+    try {
+      return await db.select().from(invoiceLines).where(eq(invoiceLines.invoiceId, invoiceId));
+    } catch (error) {
+      console.error("Error getting invoice lines:", error);
+      throw error;
+    }
+  }
+
+  async createInvoiceLine(line: InsertInvoiceLine): Promise<InvoiceLine> {
+    try {
+      const [newLine] = await db.insert(invoiceLines).values(line).returning();
+      return newLine;
+    } catch (error) {
+      console.error("Error creating invoice line:", error);
+      throw error;
+    }
+  }
+
+  async updateInvoiceLine(id: number, line: Partial<InsertInvoiceLine>): Promise<InvoiceLine> {
+    try {
+      const [updatedLine] = await db.update(invoiceLines).set(line).where(eq(invoiceLines.id, id)).returning();
+      return updatedLine;
+    } catch (error) {
+      console.error("Error updating invoice line:", error);
+      throw error;
+    }
+  }
+
+  async deleteInvoiceLine(id: number): Promise<void> {
+    try {
+      await db.delete(invoiceLines).where(eq(invoiceLines.id, id));
+    } catch (error) {
+      console.error("Error deleting invoice line:", error);
+      throw error;
+    }
+  }
+
+  async deleteInvoiceLinesByInvoice(invoiceId: number): Promise<void> {
+    try {
+      await db.delete(invoiceLines).where(eq(invoiceLines.invoiceId, invoiceId));
+    } catch (error) {
+      console.error("Error deleting invoice lines by invoice:", error);
+      throw error;
+    }
+  }
+
+  // Payments
+  async getPayments(): Promise<Payment[]> {
+    try {
+      return await db.select().from(payments).orderBy(desc(payments.paymentDate));
+    } catch (error) {
+      console.error("Error getting payments:", error);
+      throw error;
+    }
+  }
+
+  async getPaymentById(id: number): Promise<Payment | undefined> {
+    try {
+      const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+      return payment;
+    } catch (error) {
+      console.error("Error getting payment by ID:", error);
+      throw error;
+    }
+  }
+
+  async getPaymentsByInvoice(invoiceId: number): Promise<Payment[]> {
+    try {
+      return await db.select().from(payments).where(eq(payments.invoiceId, invoiceId)).orderBy(desc(payments.paymentDate));
+    } catch (error) {
+      console.error("Error getting payments by invoice:", error);
+      throw error;
+    }
+  }
+
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    try {
+      const paymentData = {
+        ...payment,
+        paymentDate: new Date(payment.paymentDate),
+      };
+      const [newPayment] = await db.insert(payments).values(paymentData).returning();
+      return newPayment;
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      throw error;
+    }
+  }
+
+  async updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment> {
+    try {
+      const updateData = {
+        ...payment,
+        paymentDate: payment.paymentDate ? new Date(payment.paymentDate) : undefined,
+      };
+      const [updatedPayment] = await db.update(payments).set(updateData).where(eq(payments.id, id)).returning();
+      return updatedPayment;
+    } catch (error) {
+      console.error("Error updating payment:", error);
+      throw error;
+    }
+  }
+
+  async deletePayment(id: number): Promise<void> {
+    try {
+      await db.delete(payments).where(eq(payments.id, id));
+    } catch (error) {
+      console.error("Error deleting payment:", error);
+      throw error;
+    }
+  }
+
+  // Credit Notes
+  async getCreditNotes(): Promise<CreditNote[]> {
+    try {
+      return await db.select().from(creditNotes).orderBy(desc(creditNotes.createdAt));
+    } catch (error) {
+      console.error("Error getting credit notes:", error);
+      throw error;
+    }
+  }
+
+  async getCreditNoteById(id: number): Promise<CreditNote | undefined> {
+    try {
+      const [creditNote] = await db.select().from(creditNotes).where(eq(creditNotes.id, id));
+      return creditNote;
+    } catch (error) {
+      console.error("Error getting credit note by ID:", error);
+      throw error;
+    }
+  }
+
+  async getCreditNotesByAccount(accountId: number): Promise<CreditNote[]> {
+    try {
+      return await db.select().from(creditNotes).where(eq(creditNotes.accountId, accountId)).orderBy(desc(creditNotes.createdAt));
+    } catch (error) {
+      console.error("Error getting credit notes by account:", error);
+      throw error;
+    }
+  }
+
+  async createCreditNote(creditNote: InsertCreditNote): Promise<CreditNote> {
+    try {
+      const creditNoteData = {
+        ...creditNote,
+        issueDate: new Date(creditNote.issueDate),
+      };
+      const [newCreditNote] = await db.insert(creditNotes).values(creditNoteData).returning();
+      return newCreditNote;
+    } catch (error) {
+      console.error("Error creating credit note:", error);
+      throw error;
+    }
+  }
+
+  async updateCreditNote(id: number, creditNote: Partial<InsertCreditNote>): Promise<CreditNote> {
+    try {
+      const updateData = {
+        ...creditNote,
+        issueDate: creditNote.issueDate ? new Date(creditNote.issueDate) : undefined,
+      };
+      const [updatedCreditNote] = await db.update(creditNotes).set(updateData).where(eq(creditNotes.id, id)).returning();
+      return updatedCreditNote;
+    } catch (error) {
+      console.error("Error updating credit note:", error);
+      throw error;
+    }
+  }
+
+  async deleteCreditNote(id: number): Promise<void> {
+    try {
+      await db.delete(creditNotes).where(eq(creditNotes.id, id));
+    } catch (error) {
+      console.error("Error deleting credit note:", error);
+      throw error;
+    }
+  }
+
+  // Credit Note Applications
+  async getCreditNoteApplicationsByCreditNote(creditNoteId: number): Promise<CreditNoteApplication[]> {
+    try {
+      return await db.select().from(creditNoteApplications).where(eq(creditNoteApplications.creditNoteId, creditNoteId));
+    } catch (error) {
+      console.error("Error getting credit note applications:", error);
+      throw error;
+    }
+  }
+
+  async getCreditNoteApplicationsByInvoice(invoiceId: number): Promise<CreditNoteApplication[]> {
+    try {
+      return await db.select().from(creditNoteApplications).where(eq(creditNoteApplications.invoiceId, invoiceId));
+    } catch (error) {
+      console.error("Error getting credit note applications by invoice:", error);
+      throw error;
+    }
+  }
+
+  async createCreditNoteApplication(application: InsertCreditNoteApplication): Promise<CreditNoteApplication> {
+    try {
+      const [newApplication] = await db.insert(creditNoteApplications).values(application).returning();
+      return newApplication;
+    } catch (error) {
+      console.error("Error creating credit note application:", error);
+      throw error;
+    }
+  }
+
+  async deleteCreditNoteApplication(id: number): Promise<void> {
+    try {
+      await db.delete(creditNoteApplications).where(eq(creditNoteApplications.id, id));
+    } catch (error) {
+      console.error("Error deleting credit note application:", error);
+      throw error;
+    }
+  }
+
+  // Expenses
+  async getExpenses(): Promise<Expense[]> {
+    try {
+      return await db.select().from(expenses).orderBy(desc(expenses.date));
+    } catch (error) {
+      console.error("Error getting expenses:", error);
+      throw error;
+    }
+  }
+
+  async getExpenseById(id: number): Promise<Expense | undefined> {
+    try {
+      const [expense] = await db.select().from(expenses).where(eq(expenses.id, id));
+      return expense;
+    } catch (error) {
+      console.error("Error getting expense by ID:", error);
+      throw error;
+    }
+  }
+
+  async getExpensesByVendor(vendorAccountId: number): Promise<Expense[]> {
+    try {
+      return await db.select().from(expenses).where(eq(expenses.vendorAccountId, vendorAccountId)).orderBy(desc(expenses.date));
+    } catch (error) {
+      console.error("Error getting expenses by vendor:", error);
+      throw error;
+    }
+  }
+
+  async createExpense(expense: InsertExpense): Promise<Expense> {
+    try {
+      const expenseData = {
+        ...expense,
+        date: new Date(expense.date),
+        paidAt: expense.paidAt ? new Date(expense.paidAt) : undefined,
+        approvedAt: expense.approvedAt ? new Date(expense.approvedAt) : undefined,
+      };
+      const [newExpense] = await db.insert(expenses).values(expenseData).returning();
+      return newExpense;
+    } catch (error) {
+      console.error("Error creating expense:", error);
+      throw error;
+    }
+  }
+
+  async updateExpense(id: number, expense: Partial<InsertExpense>): Promise<Expense> {
+    try {
+      const updateData = {
+        ...expense,
+        date: expense.date ? new Date(expense.date) : undefined,
+        paidAt: expense.paidAt ? new Date(expense.paidAt) : undefined,
+        approvedAt: expense.approvedAt ? new Date(expense.approvedAt) : undefined,
+      };
+      const [updatedExpense] = await db.update(expenses).set(updateData).where(eq(expenses.id, id)).returning();
+      return updatedExpense;
+    } catch (error) {
+      console.error("Error updating expense:", error);
+      throw error;
+    }
+  }
+
+  async deleteExpense(id: number): Promise<void> {
+    try {
+      await db.delete(expenses).where(eq(expenses.id, id));
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+      throw error;
+    }
+  }
+
+  // Invoice Views
+  async createInvoiceView(view: InsertInvoiceView): Promise<InvoiceView> {
+    try {
+      const [newView] = await db.insert(invoiceViews).values(view).returning();
+      return newView;
+    } catch (error) {
+      console.error("Error creating invoice view:", error);
+      throw error;
+    }
+  }
+
+  async getInvoiceViewsByInvoice(invoiceId: number): Promise<InvoiceView[]> {
+    try {
+      return await db.select().from(invoiceViews).where(eq(invoiceViews.invoiceId, invoiceId)).orderBy(desc(invoiceViews.viewedAt));
+    } catch (error) {
+      console.error("Error getting invoice views:", error);
+      throw error;
+    }
+  }
+
+  // Invoice Reminders
+  async getInvoiceRemindersByInvoice(invoiceId: number): Promise<InvoiceReminder[]> {
+    try {
+      return await db.select().from(invoiceReminders).where(eq(invoiceReminders.invoiceId, invoiceId)).orderBy(desc(invoiceReminders.sentAt));
+    } catch (error) {
+      console.error("Error getting invoice reminders:", error);
+      throw error;
+    }
+  }
+
+  async createInvoiceReminder(reminder: InsertInvoiceReminder): Promise<InvoiceReminder> {
+    try {
+      const reminderData = {
+        ...reminder,
+        openedAt: reminder.openedAt ? new Date(reminder.openedAt) : undefined,
+        clickedAt: reminder.clickedAt ? new Date(reminder.clickedAt) : undefined,
+      };
+      const [newReminder] = await db.insert(invoiceReminders).values(reminderData).returning();
+      return newReminder;
+    } catch (error) {
+      console.error("Error creating invoice reminder:", error);
+      throw error;
+    }
+  }
+
+  async updateInvoiceReminder(id: number, reminder: Partial<InsertInvoiceReminder>): Promise<InvoiceReminder> {
+    try {
+      const updateData = {
+        ...reminder,
+        openedAt: reminder.openedAt ? new Date(reminder.openedAt) : undefined,
+        clickedAt: reminder.clickedAt ? new Date(reminder.clickedAt) : undefined,
+      };
+      const [updatedReminder] = await db.update(invoiceReminders).set(updateData).where(eq(invoiceReminders.id, id)).returning();
+      return updatedReminder;
+    } catch (error) {
+      console.error("Error updating invoice reminder:", error);
+      throw error;
+    }
+  }
+
+  // Billing Settings
+  async getBillingSettings(): Promise<BillingSetting[]> {
+    try {
+      return await db.select().from(billingSettings);
+    } catch (error) {
+      console.error("Error getting billing settings:", error);
+      throw error;
+    }
+  }
+
+  async getBillingSettingByKey(key: string): Promise<BillingSetting | undefined> {
+    try {
+      const [setting] = await db.select().from(billingSettings).where(eq(billingSettings.key, key));
+      return setting;
+    } catch (error) {
+      console.error("Error getting billing setting by key:", error);
+      throw error;
+    }
+  }
+
+  async upsertBillingSetting(setting: InsertBillingSetting): Promise<BillingSetting> {
+    try {
+      const [upsertedSetting] = await db
+        .insert(billingSettings)
+        .values(setting)
+        .onConflictDoUpdate({
+          target: billingSettings.key,
+          set: { value: setting.value },
+        })
+        .returning();
+      return upsertedSetting;
+    } catch (error) {
+      console.error("Error upserting billing setting:", error);
+      throw error;
+    }
+  }
+
+  async deleteBillingSetting(key: string): Promise<void> {
+    try {
+      await db.delete(billingSettings).where(eq(billingSettings.key, key));
+    } catch (error) {
+      console.error("Error deleting billing setting:", error);
+      throw error;
+    }
+  }
+
+  // Billing Audit Logs
+  async createBillingAuditLog(log: InsertBillingAuditLog): Promise<BillingAuditLog> {
+    try {
+      const [newLog] = await db.insert(billingAuditLogs).values(log).returning();
+      return newLog;
+    } catch (error) {
+      console.error("Error creating billing audit log:", error);
+      throw error;
+    }
+  }
+
+  async getBillingAuditLogs(entityType?: string, entityId?: number, limit = 100): Promise<BillingAuditLog[]> {
+    try {
+      let query = db.select().from(billingAuditLogs);
+      
+      const conditions = [];
+      if (entityType) conditions.push(eq(billingAuditLogs.entityType, entityType));
+      if (entityId) conditions.push(eq(billingAuditLogs.entityId, entityId));
+      
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions));
+      }
+      
+      return await query.orderBy(desc(billingAuditLogs.performedAt)).limit(limit);
+    } catch (error) {
+      console.error("Error getting billing audit logs:", error);
       throw error;
     }
   }
