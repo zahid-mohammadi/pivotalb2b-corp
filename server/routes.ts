@@ -19,7 +19,19 @@ import {
   insertEmailCampaignSchema,
   insertCampaignSendSchema,
   insertAutomationRuleSchema,
-  insertM365ConnectionSchema
+  insertM365ConnectionSchema,
+  insertTaxCodeSchema,
+  insertSkuSchema,
+  insertInvoiceSchema,
+  insertInvoiceLineSchema,
+  insertPaymentSchema,
+  insertCreditNoteSchema,
+  insertCreditNoteApplicationSchema,
+  insertExpenseSchema,
+  insertInvoiceViewSchema,
+  insertInvoiceReminderSchema,
+  insertBillingSettingSchema,
+  insertBillingAuditLogSchema
 } from "@shared/schema";
 import multer from "multer";
 import path from "path";
@@ -1962,6 +1974,410 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error fetching filter audit logs:", error);
       res.status(500).json({ error: "Failed to fetch filter audit logs" });
+    }
+  });
+
+  // ============= BILLING & ACCOUNTING ROUTES =============
+
+  // Tax Codes
+  app.get("/api/tax-codes", async (_req, res) => {
+    try {
+      const taxCodes = await storage.getTaxCodes();
+      res.json(taxCodes);
+    } catch (error) {
+      console.error("Error fetching tax codes:", error);
+      res.status(500).json({ error: "Failed to fetch tax codes" });
+    }
+  });
+
+  app.get("/api/tax-codes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid tax code ID" });
+      }
+      const taxCode = await storage.getTaxCodeById(id);
+      if (!taxCode) {
+        return res.status(404).json({ error: "Tax code not found" });
+      }
+      res.json(taxCode);
+    } catch (error) {
+      console.error("Error fetching tax code:", error);
+      res.status(500).json({ error: "Failed to fetch tax code" });
+    }
+  });
+
+  app.post("/api/tax-codes", async (req, res) => {
+    try {
+      const result = insertTaxCodeSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const taxCode = await storage.createTaxCode(result.data);
+      res.status(201).json(taxCode);
+    } catch (error) {
+      console.error("Error creating tax code:", error);
+      res.status(500).json({ error: "Failed to create tax code" });
+    }
+  });
+
+  app.patch("/api/tax-codes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid tax code ID" });
+      }
+      const result = insertTaxCodeSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const taxCode = await storage.updateTaxCode(id, result.data);
+      res.json(taxCode);
+    } catch (error) {
+      console.error("Error updating tax code:", error);
+      res.status(500).json({ error: "Failed to update tax code" });
+    }
+  });
+
+  app.delete("/api/tax-codes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid tax code ID" });
+      }
+      await storage.deleteTaxCode(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting tax code:", error);
+      res.status(500).json({ error: "Failed to delete tax code" });
+    }
+  });
+
+  // SKUs (Products/Services)
+  app.get("/api/skus", async (_req, res) => {
+    try {
+      const skus = await storage.getSKUs();
+      res.json(skus);
+    } catch (error) {
+      console.error("Error fetching SKUs:", error);
+      res.status(500).json({ error: "Failed to fetch SKUs" });
+    }
+  });
+
+  app.get("/api/skus/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid SKU ID" });
+      }
+      const sku = await storage.getSKUById(id);
+      if (!sku) {
+        return res.status(404).json({ error: "SKU not found" });
+      }
+      res.json(sku);
+    } catch (error) {
+      console.error("Error fetching SKU:", error);
+      res.status(500).json({ error: "Failed to fetch SKU" });
+    }
+  });
+
+  app.post("/api/skus", async (req, res) => {
+    try {
+      const result = insertSkuSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const sku = await storage.createSKU(result.data);
+      res.status(201).json(sku);
+    } catch (error) {
+      console.error("Error creating SKU:", error);
+      res.status(500).json({ error: "Failed to create SKU" });
+    }
+  });
+
+  app.patch("/api/skus/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid SKU ID" });
+      }
+      const result = insertSkuSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const sku = await storage.updateSKU(id, result.data);
+      res.json(sku);
+    } catch (error) {
+      console.error("Error updating SKU:", error);
+      res.status(500).json({ error: "Failed to update SKU" });
+    }
+  });
+
+  app.delete("/api/skus/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid SKU ID" });
+      }
+      await storage.deleteSKU(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting SKU:", error);
+      res.status(500).json({ error: "Failed to delete SKU" });
+    }
+  });
+
+  // Invoices & Estimates
+  app.get("/api/invoices", async (req, res) => {
+    try {
+      const accountId = req.query.accountId ? parseInt(req.query.accountId as string) : undefined;
+      
+      let invoices;
+      if (accountId) {
+        invoices = await storage.getInvoicesByAccount(accountId);
+      } else {
+        invoices = await storage.getInvoices();
+      }
+      res.json(invoices);
+    } catch (error) {
+      console.error("Error fetching invoices:", error);
+      res.status(500).json({ error: "Failed to fetch invoices" });
+    }
+  });
+
+  app.get("/api/invoices/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const invoice = await storage.getInvoiceById(id);
+      if (!invoice) {
+        return res.status(404).json({ error: "Invoice not found" });
+      }
+      
+      const lines = await storage.getInvoiceLinesByInvoice(id);
+      const payments = await storage.getPaymentsByInvoice(id);
+      
+      res.json({
+        ...invoice,
+        lines,
+        payments
+      });
+    } catch (error) {
+      console.error("Error fetching invoice:", error);
+      res.status(500).json({ error: "Failed to fetch invoice" });
+    }
+  });
+
+  app.post("/api/invoices", async (req, res) => {
+    try {
+      const result = insertInvoiceSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const invoice = await storage.createInvoice({
+        ...result.data,
+        createdBy: userId,
+      });
+      
+      if (req.body.lines && Array.isArray(req.body.lines)) {
+        for (const line of req.body.lines) {
+          await storage.createInvoiceLine({
+            ...line,
+            invoiceId: invoice.id,
+          });
+        }
+      }
+      
+      await storage.createBillingAuditLog({
+        entityType: 'invoice',
+        entityId: invoice.id,
+        action: 'created',
+        performedBy: userId,
+        changes: { status: 'created' },
+      });
+      
+      res.status(201).json(invoice);
+    } catch (error) {
+      console.error("Error creating invoice:", error);
+      res.status(500).json({ error: "Failed to create invoice" });
+    }
+  });
+
+  app.patch("/api/invoices/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const result = insertInvoiceSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const oldInvoice = await storage.getInvoiceById(id);
+      const invoice = await storage.updateInvoice(id, result.data);
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'invoice',
+        entityId: id,
+        action: 'updated',
+        performedBy: userId,
+        changes: { old: oldInvoice, new: invoice },
+      });
+      
+      res.json(invoice);
+    } catch (error) {
+      console.error("Error updating invoice:", error);
+      res.status(500).json({ error: "Failed to update invoice" });
+    }
+  });
+
+  app.delete("/api/invoices/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      await storage.deleteInvoiceLinesByInvoice(id);
+      await storage.deleteInvoice(id);
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'invoice',
+        entityId: id,
+        action: 'deleted',
+        performedBy: userId,
+      });
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting invoice:", error);
+      res.status(500).json({ error: "Failed to delete invoice" });
+    }
+  });
+
+  app.post("/api/invoices/:id/convert", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const invoice = await storage.getInvoiceById(id);
+      if (!invoice) {
+        return res.status(404).json({ error: "Invoice not found" });
+      }
+      
+      if (invoice.type !== 'estimate') {
+        return res.status(400).json({ error: "Only estimates can be converted to invoices" });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const updatedInvoice = await storage.updateInvoice(id, {
+        type: 'invoice',
+        status: 'draft',
+      });
+      
+      await storage.createBillingAuditLog({
+        entityType: 'invoice',
+        entityId: id,
+        action: 'converted',
+        performedBy: userId,
+        changes: { from: 'estimate', to: 'invoice' },
+      });
+      
+      res.json(updatedInvoice);
+    } catch (error) {
+      console.error("Error converting estimate:", error);
+      res.status(500).json({ error: "Failed to convert estimate" });
+    }
+  });
+
+  app.post("/api/invoices/:id/send", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const invoice = await storage.getInvoiceById(id);
+      if (!invoice) {
+        return res.status(404).json({ error: "Invoice not found" });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const updatedInvoice = await storage.updateInvoice(id, {
+        status: 'sent',
+      });
+      
+      await storage.createInvoiceReminder({
+        invoiceId: id,
+        reminderType: 'sent',
+        sentBy: userId,
+      });
+      
+      await storage.createBillingAuditLog({
+        entityType: 'invoice',
+        entityId: id,
+        action: 'sent',
+        performedBy: userId,
+      });
+      
+      res.json(updatedInvoice);
+    } catch (error) {
+      console.error("Error sending invoice:", error);
+      res.status(500).json({ error: "Failed to send invoice" });
+    }
+  });
+
+  app.post("/api/invoices/:id/view", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const result = insertInvoiceViewSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const view = await storage.createInvoiceView({
+        ...result.data,
+        invoiceId: id,
+      });
+      
+      await storage.updateInvoice(id, {
+        viewCount: (await storage.getInvoiceViewsByInvoice(id)).length,
+      });
+      
+      res.status(201).json(view);
+    } catch (error) {
+      console.error("Error tracking invoice view:", error);
+      res.status(500).json({ error: "Failed to track invoice view" });
+    }
+  });
+
+  app.get("/api/invoices/:id/views", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const views = await storage.getInvoiceViewsByInvoice(id);
+      res.json(views);
+    } catch (error) {
+      console.error("Error fetching invoice views:", error);
+      res.status(500).json({ error: "Failed to fetch invoice views" });
     }
   });
 
