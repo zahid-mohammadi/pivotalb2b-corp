@@ -23,7 +23,8 @@ import {
   Building,
   Download,
   MessageSquare,
-  Workflow
+  Workflow,
+  Receipt
 } from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
@@ -338,6 +339,19 @@ export default function Dashboard() {
             >
               <MessageSquare className="h-5 w-5" />
               <span>Proposals</span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("billing")}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                activeTab === "billing"
+                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
+                  : "text-slate-700 hover:bg-slate-100"
+              }`}
+              data-testid="billing-tab"
+            >
+              <Receipt className="h-5 w-5" />
+              <span>Billing & Accounting</span>
             </button>
           </nav>
         </div>
@@ -1048,6 +1062,53 @@ export default function Dashboard() {
                         </div>
                       </div>
                     )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Billing & Accounting Tab */}
+            {activeTab === "billing" && (
+              <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
+                <CardContent className="pt-8">
+                  <div className="flex items-center justify-between mb-8">
+                    <div>
+                      <h2 className="text-2xl font-bold text-slate-900">Billing & Accounting</h2>
+                      <p className="text-sm text-slate-600 mt-1">Manage invoices, payments, expenses, and financial reports</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-2xl font-bold">$0</div>
+                        <p className="text-xs text-muted-foreground">Total Revenue</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-2xl font-bold">$0</div>
+                        <p className="text-xs text-muted-foreground">Outstanding</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-2xl font-bold">0</div>
+                        <p className="text-xs text-muted-foreground">Active Invoices</p>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="pt-6">
+                        <div className="text-2xl font-bold">$0</div>
+                        <p className="text-xs text-muted-foreground">Total Expenses</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="text-center py-12 text-muted-foreground">
+                    <Receipt className="h-16 w-16 mx-auto mb-4 opacity-20" />
+                    <p className="text-lg font-semibold mb-2">Billing Module Coming Soon</p>
+                    <p className="text-sm">Full invoicing, payments, and expense tracking features will be available soon.</p>
                   </div>
                 </CardContent>
               </Card>
