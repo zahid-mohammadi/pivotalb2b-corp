@@ -2381,6 +2381,542 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Payments
+  app.get("/api/payments", async (req, res) => {
+    try {
+      const invoiceId = req.query.invoiceId ? parseInt(req.query.invoiceId as string) : undefined;
+      
+      let payments;
+      if (invoiceId) {
+        payments = await storage.getPaymentsByInvoice(invoiceId);
+      } else {
+        payments = await storage.getPayments();
+      }
+      res.json(payments);
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+      res.status(500).json({ error: "Failed to fetch payments" });
+    }
+  });
+
+  app.get("/api/payments/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid payment ID" });
+      }
+      const payment = await storage.getPaymentById(id);
+      if (!payment) {
+        return res.status(404).json({ error: "Payment not found" });
+      }
+      res.json(payment);
+    } catch (error) {
+      console.error("Error fetching payment:", error);
+      res.status(500).json({ error: "Failed to fetch payment" });
+    }
+  });
+
+  app.post("/api/payments", async (req, res) => {
+    try {
+      const result = insertPaymentSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const payment = await storage.createPayment(result.data);
+      
+      const invoice = await storage.getInvoiceById(payment.invoiceId);
+      if (invoice) {
+        const totalPaid = (await storage.getPaymentsByInvoice(invoice.id))
+          .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        
+        const newStatus = totalPaid >= parseFloat(invoice.totalAmount) ? 'paid' : 'partial';
+        await storage.updateInvoice(invoice.id, { status: newStatus });
+      }
+      
+      await storage.createBillingAuditLog({
+        entityType: 'payment',
+        entityId: payment.id,
+        action: 'created',
+        performedBy: userId,
+        changes: { amount: payment.amount, invoiceId: payment.invoiceId },
+      });
+      
+      res.status(201).json(payment);
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      res.status(500).json({ error: "Failed to create payment" });
+    }
+  });
+
+  app.patch("/api/payments/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid payment ID" });
+      }
+      
+      const existingPayment = await storage.getPaymentById(id);
+      if (!existingPayment) {
+        return res.status(404).json({ error: "Payment not found" });
+      }
+      
+      const result = insertPaymentSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const oldInvoiceId = existingPayment.invoiceId;
+      const payment = await storage.updatePayment(id, result.data);
+      const newInvoiceId = payment.invoiceId;
+      
+      if (oldInvoiceId !== newInvoiceId) {
+        const oldInvoice = await storage.getInvoiceById(oldInvoiceId);
+        if (oldInvoice) {
+          const oldTotalPaid = (await storage.getPaymentsByInvoice(oldInvoiceId))
+            .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+          const oldStatus = oldTotalPaid >= parseFloat(oldInvoice.totalAmount) ? 'paid' : 
+                           oldTotalPaid > 0 ? 'partial' : 'sent';
+          await storage.updateInvoice(oldInvoiceId, { status: oldStatus });
+        }
+      }
+      
+      const newInvoice = await storage.getInvoiceById(newInvoiceId);
+      if (newInvoice) {
+        const newTotalPaid = (await storage.getPaymentsByInvoice(newInvoiceId))
+          .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+        const newStatus = newTotalPaid >= parseFloat(newInvoice.totalAmount) ? 'paid' : 
+                         newTotalPaid > 0 ? 'partial' : 'sent';
+        await storage.updateInvoice(newInvoiceId, { status: newStatus });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'payment',
+        entityId: id,
+        action: 'updated',
+        performedBy: userId,
+        changes: oldInvoiceId !== newInvoiceId ? { oldInvoiceId, newInvoiceId } : undefined,
+      });
+      
+      res.json(payment);
+    } catch (error) {
+      console.error("Error updating payment:", error);
+      res.status(500).json({ error: "Failed to update payment" });
+    }
+  });
+
+  app.delete("/api/payments/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid payment ID" });
+      }
+      
+      const payment = await storage.getPaymentById(id);
+      await storage.deletePayment(id);
+      
+      if (payment) {
+        const invoice = await storage.getInvoiceById(payment.invoiceId);
+        if (invoice) {
+          const totalPaid = (await storage.getPaymentsByInvoice(invoice.id))
+            .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+          
+          const newStatus = totalPaid >= parseFloat(invoice.totalAmount) ? 'paid' : 
+                           totalPaid > 0 ? 'partial' : 'sent';
+          await storage.updateInvoice(invoice.id, { status: newStatus });
+        }
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'payment',
+        entityId: id,
+        action: 'deleted',
+        performedBy: userId,
+      });
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting payment:", error);
+      res.status(500).json({ error: "Failed to delete payment" });
+    }
+  });
+
+  // Credit Notes (Refunds)
+  app.get("/api/credit-notes", async (req, res) => {
+    try {
+      const accountId = req.query.accountId ? parseInt(req.query.accountId as string) : undefined;
+      
+      let creditNotes;
+      if (accountId) {
+        creditNotes = await storage.getCreditNotesByAccount(accountId);
+      } else {
+        creditNotes = await storage.getCreditNotes();
+      }
+      res.json(creditNotes);
+    } catch (error) {
+      console.error("Error fetching credit notes:", error);
+      res.status(500).json({ error: "Failed to fetch credit notes" });
+    }
+  });
+
+  app.get("/api/credit-notes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid credit note ID" });
+      }
+      
+      const creditNote = await storage.getCreditNoteById(id);
+      if (!creditNote) {
+        return res.status(404).json({ error: "Credit note not found" });
+      }
+      
+      const applications = await storage.getCreditNoteApplicationsByCreditNote(id);
+      res.json({
+        ...creditNote,
+        applications
+      });
+    } catch (error) {
+      console.error("Error fetching credit note:", error);
+      res.status(500).json({ error: "Failed to fetch credit note" });
+    }
+  });
+
+  app.post("/api/credit-notes", async (req, res) => {
+    try {
+      const result = insertCreditNoteSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const creditNote = await storage.createCreditNote({
+        ...result.data,
+        createdBy: userId,
+      });
+      
+      await storage.createBillingAuditLog({
+        entityType: 'credit_note',
+        entityId: creditNote.id,
+        action: 'created',
+        performedBy: userId,
+        changes: { amount: creditNote.amount, accountId: creditNote.accountId },
+      });
+      
+      res.status(201).json(creditNote);
+    } catch (error) {
+      console.error("Error creating credit note:", error);
+      res.status(500).json({ error: "Failed to create credit note" });
+    }
+  });
+
+  app.patch("/api/credit-notes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid credit note ID" });
+      }
+      
+      const result = insertCreditNoteSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const creditNote = await storage.updateCreditNote(id, result.data);
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'credit_note',
+        entityId: id,
+        action: 'updated',
+        performedBy: userId,
+      });
+      
+      res.json(creditNote);
+    } catch (error) {
+      console.error("Error updating credit note:", error);
+      res.status(500).json({ error: "Failed to update credit note" });
+    }
+  });
+
+  app.delete("/api/credit-notes/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid credit note ID" });
+      }
+      
+      await storage.deleteCreditNoteApplication(id);
+      await storage.deleteCreditNote(id);
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'credit_note',
+        entityId: id,
+        action: 'deleted',
+        performedBy: userId,
+      });
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting credit note:", error);
+      res.status(500).json({ error: "Failed to delete credit note" });
+    }
+  });
+
+  app.post("/api/credit-notes/:id/apply", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid credit note ID" });
+      }
+      
+      const result = insertCreditNoteApplicationSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const creditNote = await storage.getCreditNoteById(id);
+      if (!creditNote) {
+        return res.status(404).json({ error: "Credit note not found" });
+      }
+      
+      const application = await storage.createCreditNoteApplication({
+        ...result.data,
+        creditNoteId: id,
+      });
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'credit_note',
+        entityId: id,
+        action: 'applied',
+        performedBy: userId,
+        changes: { invoiceId: application.invoiceId, amount: application.appliedAmount },
+      });
+      
+      res.status(201).json(application);
+    } catch (error) {
+      console.error("Error applying credit note:", error);
+      res.status(500).json({ error: "Failed to apply credit note" });
+    }
+  });
+
+  // Expenses & Bills
+  app.get("/api/expenses", async (_req, res) => {
+    try {
+      const expenses = await storage.getExpenses();
+      res.json(expenses);
+    } catch (error) {
+      console.error("Error fetching expenses:", error);
+      res.status(500).json({ error: "Failed to fetch expenses" });
+    }
+  });
+
+  app.get("/api/expenses/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid expense ID" });
+      }
+      const expense = await storage.getExpenseById(id);
+      if (!expense) {
+        return res.status(404).json({ error: "Expense not found" });
+      }
+      res.json(expense);
+    } catch (error) {
+      console.error("Error fetching expense:", error);
+      res.status(500).json({ error: "Failed to fetch expense" });
+    }
+  });
+
+  app.post("/api/expenses", async (req, res) => {
+    try {
+      const result = insertExpenseSchema.safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const expense = await storage.createExpense({
+        ...result.data,
+        submittedBy: userId,
+      });
+      
+      await storage.createBillingAuditLog({
+        entityType: 'expense',
+        entityId: expense.id,
+        action: 'created',
+        performedBy: userId,
+        changes: { amount: expense.amount, category: expense.category },
+      });
+      
+      res.status(201).json(expense);
+    } catch (error) {
+      console.error("Error creating expense:", error);
+      res.status(500).json({ error: "Failed to create expense" });
+    }
+  });
+
+  app.patch("/api/expenses/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid expense ID" });
+      }
+      
+      const result = insertExpenseSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      
+      const expense = await storage.updateExpense(id, result.data);
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'expense',
+        entityId: id,
+        action: 'updated',
+        performedBy: userId,
+      });
+      
+      res.json(expense);
+    } catch (error) {
+      console.error("Error updating expense:", error);
+      res.status(500).json({ error: "Failed to update expense" });
+    }
+  });
+
+  app.delete("/api/expenses/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid expense ID" });
+      }
+      
+      await storage.deleteExpense(id);
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'expense',
+        entityId: id,
+        action: 'deleted',
+        performedBy: userId,
+      });
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+      res.status(500).json({ error: "Failed to delete expense" });
+    }
+  });
+
+  app.post("/api/expenses/:id/approve", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid expense ID" });
+      }
+      
+      const expense = await storage.getExpenseById(id);
+      if (!expense) {
+        return res.status(404).json({ error: "Expense not found" });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const updatedExpense = await storage.updateExpense(id, {
+        status: 'approved',
+        approvedBy: userId,
+        approvedAt: new Date().toISOString(),
+      });
+      
+      await storage.createBillingAuditLog({
+        entityType: 'expense',
+        entityId: id,
+        action: 'approved',
+        performedBy: userId,
+      });
+      
+      res.json(updatedExpense);
+    } catch (error) {
+      console.error("Error approving expense:", error);
+      res.status(500).json({ error: "Failed to approve expense" });
+    }
+  });
+
+  app.post("/api/expenses/:id/reject", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid expense ID" });
+      }
+      
+      const expense = await storage.getExpenseById(id);
+      if (!expense) {
+        return res.status(404).json({ error: "Expense not found" });
+      }
+      
+      const userId = (req.user as any)?.id || 1;
+      const updatedExpense = await storage.updateExpense(id, {
+        status: 'rejected',
+        approvedBy: userId,
+        approvedAt: new Date().toISOString(),
+      });
+      
+      await storage.createBillingAuditLog({
+        entityType: 'expense',
+        entityId: id,
+        action: 'rejected',
+        performedBy: userId,
+        changes: { reason: req.body.reason },
+      });
+      
+      res.json(updatedExpense);
+    } catch (error) {
+      console.error("Error rejecting expense:", error);
+      res.status(500).json({ error: "Failed to reject expense" });
+    }
+  });
+
+  app.post("/api/expenses/:id/pay", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid expense ID" });
+      }
+      
+      const expense = await storage.getExpenseById(id);
+      if (!expense) {
+        return res.status(404).json({ error: "Expense not found" });
+      }
+      
+      if (expense.status !== 'approved') {
+        return res.status(400).json({ error: "Only approved expenses can be paid" });
+      }
+      
+      const updatedExpense = await storage.updateExpense(id, {
+        paidAt: new Date().toISOString(),
+      });
+      
+      const userId = (req.user as any)?.id || 1;
+      await storage.createBillingAuditLog({
+        entityType: 'expense',
+        entityId: id,
+        action: 'paid',
+        performedBy: userId,
+        changes: { paidAt: updatedExpense.paidAt },
+      });
+      
+      res.json(updatedExpense);
+    } catch (error) {
+      console.error("Error marking expense as paid:", error);
+      res.status(500).json({ error: "Failed to mark expense as paid" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
