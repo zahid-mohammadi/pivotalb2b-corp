@@ -45,6 +45,7 @@ interface UserData {
 }
 
 export default function Dashboard() {
+  console.log("🎯 DASHBOARD COMPONENT IS RENDERING");
   const { toast } = useToast();
   const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState("analytics");
