@@ -102,7 +102,7 @@ export function OverviewMetrics() {
       <MarketingTooltip
         metric={{
           title: "Monthly Active Users",
-          value: metrics?.totalUsers.toLocaleString() || 0,
+          value: (metrics?.totalUsers ?? 0).toLocaleString(),
           trend: {
             value: 12.5,
             direction: "up",
@@ -122,7 +122,7 @@ export function OverviewMetrics() {
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{metrics?.totalUsers.toLocaleString()}</div>
+            <div className="text-2xl font-bold">{(metrics?.totalUsers ?? 0).toLocaleString()}</div>
             <div className="text-xs text-muted-foreground">
               Active users in last 30 days
             </div>
@@ -190,7 +190,7 @@ export function OverviewMetrics() {
       <MarketingTooltip
         metric={{
           title: "Lead Conversion Rate",
-          value: `${metrics?.conversionRate.toFixed(1)}%`,
+          value: `${(metrics?.conversionRate ?? 0).toFixed(1)}%`,
           trend: {
             value: 15.7,
             direction: "up",
@@ -210,7 +210,7 @@ export function OverviewMetrics() {
             <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{metrics?.conversionRate.toFixed(1)}%</div>
+            <div className="text-2xl font-bold">{(metrics?.conversionRate ?? 0).toFixed(1)}%</div>
             <div className="text-xs text-muted-foreground">
               Of total visitors
             </div>
