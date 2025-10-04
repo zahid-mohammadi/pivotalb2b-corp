@@ -2917,6 +2917,231 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Financial Reports
+  app.get("/api/reports/ar-aging", async (_req, res) => {
+    try {
+      const invoices = await storage.getInvoices();
+      const now = new Date();
+      
+      const aging = {
+        current: { count: 0, amount: 0 },
+        days30: { count: 0, amount: 0 },
+        days60: { count: 0, amount: 0 },
+        days90Plus: { count: 0, amount: 0 },
+        total: { count: 0, amount: 0 }
+      };
+      
+      invoices
+        .filter(inv => inv.type === 'invoice' && inv.status !== 'paid' && inv.status !== 'void')
+        .forEach(invoice => {
+          const dueDate = new Date(invoice.dueDate);
+          const daysOverdue = Math.floor((now.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
+          const amount = parseFloat(invoice.totalAmount);
+          
+          if (daysOverdue <= 0) {
+            aging.current.count++;
+            aging.current.amount += amount;
+          } else if (daysOverdue <= 30) {
+            aging.days30.count++;
+            aging.days30.amount += amount;
+          } else if (daysOverdue <= 60) {
+            aging.days60.count++;
+            aging.days60.amount += amount;
+          } else {
+            aging.days90Plus.count++;
+            aging.days90Plus.amount += amount;
+          }
+          
+          aging.total.count++;
+          aging.total.amount += amount;
+        });
+      
+      res.json(aging);
+    } catch (error) {
+      console.error("Error generating AR aging report:", error);
+      res.status(500).json({ error: "Failed to generate AR aging report" });
+    }
+  });
+
+  app.get("/api/reports/ap-aging", async (_req, res) => {
+    try {
+      const expenses = await storage.getExpenses();
+      const now = new Date();
+      
+      const aging = {
+        current: { count: 0, amount: 0 },
+        days30: { count: 0, amount: 0 },
+        days60: { count: 0, amount: 0 },
+        days90Plus: { count: 0, amount: 0 },
+        total: { count: 0, amount: 0 }
+      };
+      
+      expenses
+        .filter(exp => exp.status === 'approved' && !exp.paidAt)
+        .forEach(expense => {
+          const expenseDate = new Date(expense.date);
+          const daysOld = Math.floor((now.getTime() - expenseDate.getTime()) / (1000 * 60 * 60 * 24));
+          const amount = parseFloat(expense.amount);
+          
+          if (daysOld <= 30) {
+            aging.current.count++;
+            aging.current.amount += amount;
+          } else if (daysOld <= 60) {
+            aging.days30.count++;
+            aging.days30.amount += amount;
+          } else if (daysOld <= 90) {
+            aging.days60.count++;
+            aging.days60.amount += amount;
+          } else {
+            aging.days90Plus.count++;
+            aging.days90Plus.amount += amount;
+          }
+          
+          aging.total.count++;
+          aging.total.amount += amount;
+        });
+      
+      res.json(aging);
+    } catch (error) {
+      console.error("Error generating AP aging report:", error);
+      res.status(500).json({ error: "Failed to generate AP aging report" });
+    }
+  });
+
+  app.get("/api/reports/profit-loss", async (req, res) => {
+    try {
+      const startDate = req.query.startDate as string;
+      const endDate = req.query.endDate as string;
+      
+      if (!startDate || !endDate) {
+        return res.status(400).json({ error: "startDate and endDate are required" });
+      }
+      
+      const invoices = await storage.getInvoices();
+      const expenses = await storage.getExpenses();
+      
+      const revenue = invoices
+        .filter(inv => inv.type === 'invoice' && 
+                inv.status === 'paid' && 
+                inv.issueDate >= startDate && 
+                inv.issueDate <= endDate)
+        .reduce((sum, inv) => sum + parseFloat(inv.totalAmount), 0);
+      
+      const costs = expenses
+        .filter(exp => exp.paidAt && 
+                exp.date >= startDate && 
+                exp.date <= endDate)
+        .reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+      
+      const profitLoss = {
+        startDate,
+        endDate,
+        revenue,
+        expenses: costs,
+        netIncome: revenue - costs,
+        margin: revenue > 0 ? ((revenue - costs) / revenue * 100).toFixed(2) : 0
+      };
+      
+      res.json(profitLoss);
+    } catch (error) {
+      console.error("Error generating P&L report:", error);
+      res.status(500).json({ error: "Failed to generate P&L report" });
+    }
+  });
+
+  app.get("/api/reports/cashflow", async (req, res) => {
+    try {
+      const startDate = req.query.startDate as string;
+      const endDate = req.query.endDate as string;
+      
+      if (!startDate || !endDate) {
+        return res.status(400).json({ error: "startDate and endDate are required" });
+      }
+      
+      const payments = await storage.getPayments();
+      const expenses = await storage.getExpenses();
+      
+      const cashIn = payments
+        .filter(p => p.paymentDate && 
+                p.paymentDate >= startDate && 
+                p.paymentDate <= endDate)
+        .reduce((sum, p) => sum + parseFloat(p.amount), 0);
+      
+      const cashOut = expenses
+        .filter(exp => exp.paidAt && 
+                exp.date >= startDate && 
+                exp.date <= endDate)
+        .reduce((sum, exp) => sum + parseFloat(exp.amount), 0);
+      
+      const cashflow = {
+        startDate,
+        endDate,
+        cashIn,
+        cashOut,
+        netCashFlow: cashIn - cashOut
+      };
+      
+      res.json(cashflow);
+    } catch (error) {
+      console.error("Error generating cashflow report:", error);
+      res.status(500).json({ error: "Failed to generate cashflow report" });
+    }
+  });
+
+  app.get("/api/reports/sales", async (req, res) => {
+    try {
+      const startDate = req.query.startDate as string;
+      const endDate = req.query.endDate as string;
+      
+      if (!startDate || !endDate) {
+        return res.status(400).json({ error: "startDate and endDate are required" });
+      }
+      
+      const invoices = await storage.getInvoices();
+      const payments = await storage.getPayments();
+      
+      const filteredInvoices = invoices.filter(inv => 
+        inv.type === 'invoice' && 
+        inv.issueDate >= startDate && 
+        inv.issueDate <= endDate
+      );
+      
+      const totalInvoiced = filteredInvoices.reduce((sum, inv) => sum + parseFloat(inv.totalAmount), 0);
+      const totalPaid = filteredInvoices
+        .filter(inv => inv.status === 'paid')
+        .reduce((sum, inv) => sum + parseFloat(inv.totalAmount), 0);
+      
+      const accountRevenue: { [key: number]: number } = {};
+      filteredInvoices.forEach(inv => {
+        if (!accountRevenue[inv.accountId]) {
+          accountRevenue[inv.accountId] = 0;
+        }
+        accountRevenue[inv.accountId] += parseFloat(inv.totalAmount);
+      });
+      
+      const topAccounts = Object.entries(accountRevenue)
+        .map(([accountId, revenue]) => ({ accountId: parseInt(accountId), revenue }))
+        .sort((a, b) => b.revenue - a.revenue)
+        .slice(0, 10);
+      
+      const salesReport = {
+        startDate,
+        endDate,
+        totalInvoiced,
+        totalPaid,
+        outstanding: totalInvoiced - totalPaid,
+        invoiceCount: filteredInvoices.length,
+        averageInvoice: filteredInvoices.length > 0 ? totalInvoiced / filteredInvoices.length : 0,
+        topAccounts
+      };
+      
+      res.json(salesReport);
+    } catch (error) {
+      console.error("Error generating sales report:", error);
+      res.status(500).json({ error: "Failed to generate sales report" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
