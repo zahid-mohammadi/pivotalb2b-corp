@@ -211,7 +211,7 @@ export default function Dashboard() {
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
       />
-      <div className="fixed inset-0 flex bg-gradient-to-br from-slate-50 via-white to-blue-50/30 z-50">
+      <div className="fixed inset-0 flex bg-gradient-to-br from-slate-50 via-white to-blue-50/30 z-[100]">
         {/* Left Sidebar Navigation */}
         <div className="w-64 bg-white border-r border-slate-200 shadow-sm flex flex-col">
           {/* Header */}
