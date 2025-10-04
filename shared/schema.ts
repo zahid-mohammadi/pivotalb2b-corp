@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, varchar, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, varchar, jsonb, bigint, integer, decimal, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -612,3 +612,368 @@ export const insertFilterAuditLogSchema = createInsertSchema(filterAuditLogs)
   });
 
 export type InsertFilterAuditLog = z.infer<typeof insertFilterAuditLogSchema>;
+
+// ==================== BILLING & ACCOUNTING ====================
+
+// Tax Codes
+export const taxCodes = pgTable("tax_codes", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  rate: decimal("rate", { precision: 5, scale: 2 }).notNull(),
+  jurisdiction: varchar("jurisdiction", { length: 100 }),
+  isInclusive: boolean("is_inclusive").default(false).notNull(),
+  isCompounding: boolean("is_compounding").default(false).notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type TaxCode = typeof taxCodes.$inferSelect;
+export const insertTaxCodeSchema = createInsertSchema(taxCodes)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    jurisdiction: z.string().optional(),
+    isInclusive: z.boolean().optional(),
+    isCompounding: z.boolean().optional(),
+    isActive: z.boolean().optional(),
+  });
+export type InsertTaxCode = z.infer<typeof insertTaxCodeSchema>;
+
+// Products/Services Catalog (SKUs)
+export const skus = pgTable("skus", {
+  id: serial("id").primaryKey(),
+  code: varchar("code", { length: 50 }).notNull().unique(),
+  name: varchar("name", { length: 200 }).notNull(),
+  description: text("description"),
+  unitPrice: bigint("unit_price", { mode: "number" }).notNull(),
+  cost: bigint("cost", { mode: "number" }),
+  taxCodeId: integer("tax_code_id").references(() => taxCodes.id),
+  glCategory: varchar("gl_category", { length: 100 }),
+  currency: varchar("currency", { length: 3 }).default("USD").notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Sku = typeof skus.$inferSelect;
+export const insertSkuSchema = createInsertSchema(skus)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    description: z.string().optional(),
+    cost: z.number().optional(),
+    taxCodeId: z.number().optional(),
+    glCategory: z.string().optional(),
+    currency: z.string().optional(),
+    isActive: z.boolean().optional(),
+  });
+export type InsertSku = z.infer<typeof insertSkuSchema>;
+
+// Invoices
+export const invoices = pgTable("invoices", {
+  id: serial("id").primaryKey(),
+  number: varchar("number", { length: 50 }).notNull().unique(),
+  type: varchar("type", { length: 20 }).default("invoice").notNull(),
+  accountId: integer("account_id").notNull().references(() => accounts.id),
+  contactId: integer("contact_id").notNull().references(() => contacts.id),
+  dealId: integer("deal_id").references(() => pipelineDeals.id),
+  status: varchar("status", { length: 20 }).default("draft").notNull(),
+  currency: varchar("currency", { length: 3 }).default("USD").notNull(),
+  fxRate: decimal("fx_rate", { precision: 10, scale: 6 }).default("1.000000").notNull(),
+  terms: varchar("terms", { length: 50 }),
+  issueDate: timestamp("issue_date").notNull(),
+  dueDate: timestamp("due_date").notNull(),
+  subtotal: bigint("subtotal", { mode: "number" }).notNull(),
+  taxTotal: bigint("tax_total", { mode: "number" }).notNull(),
+  shipping: bigint("shipping", { mode: "number" }).default(0).notNull(),
+  adjustments: bigint("adjustments", { mode: "number" }).default(0).notNull(),
+  total: bigint("total", { mode: "number" }).notNull(),
+  amountPaid: bigint("amount_paid", { mode: "number" }).default(0).notNull(),
+  amountDue: bigint("amount_due", { mode: "number" }).notNull(),
+  taxMode: varchar("tax_mode", { length: 20 }).default("exclusive").notNull(),
+  pdfUrl: text("pdf_url"),
+  notes: text("notes"),
+  viewedAt: timestamp("viewed_at"),
+  lastViewedAt: timestamp("last_viewed_at"),
+  viewCount: integer("view_count").default(0).notNull(),
+  lastReminderAt: timestamp("last_reminder_at"),
+  reminderCount: integer("reminder_count").default(0).notNull(),
+  createdBy: integer("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  voidedAt: timestamp("voided_at"),
+  voidedBy: integer("voided_by").references(() => users.id),
+  voidReason: text("void_reason"),
+});
+
+export type Invoice = typeof invoices.$inferSelect;
+export const insertInvoiceSchema = createInsertSchema(invoices)
+  .omit({ id: true, createdAt: true, updatedAt: true })
+  .extend({
+    dealId: z.number().optional(),
+    terms: z.string().optional(),
+    shipping: z.number().optional(),
+    adjustments: z.number().optional(),
+    pdfUrl: z.string().optional(),
+    notes: z.string().optional(),
+    viewedAt: z.string().datetime().optional(),
+    lastViewedAt: z.string().datetime().optional(),
+    viewCount: z.number().optional(),
+    lastReminderAt: z.string().datetime().optional(),
+    reminderCount: z.number().optional(),
+    voidedAt: z.string().datetime().optional(),
+    voidedBy: z.number().optional(),
+    voidReason: z.string().optional(),
+  });
+export type InsertInvoice = z.infer<typeof insertInvoiceSchema>;
+
+// Invoice Lines
+export const invoiceLines = pgTable("invoice_lines", {
+  id: serial("id").primaryKey(),
+  invoiceId: integer("invoice_id").notNull().references(() => invoices.id),
+  skuId: integer("sku_id").references(() => skus.id),
+  description: text("description").notNull(),
+  quantity: decimal("quantity", { precision: 10, scale: 2 }).notNull(),
+  unitPrice: bigint("unit_price", { mode: "number" }).notNull(),
+  discountPercent: decimal("discount_percent", { precision: 5, scale: 2 }).default("0").notNull(),
+  taxCodeId: integer("tax_code_id").references(() => taxCodes.id),
+  lineSubtotal: bigint("line_subtotal", { mode: "number" }).notNull(),
+  lineTax: bigint("line_tax", { mode: "number" }).notNull(),
+  lineTotal: bigint("line_total", { mode: "number" }).notNull(),
+  sortOrder: integer("sort_order").default(0).notNull(),
+});
+
+export type InvoiceLine = typeof invoiceLines.$inferSelect;
+export const insertInvoiceLineSchema = createInsertSchema(invoiceLines)
+  .omit({ id: true })
+  .extend({
+    skuId: z.number().optional(),
+    discountPercent: z.string().optional(),
+    taxCodeId: z.number().optional(),
+    sortOrder: z.number().optional(),
+  });
+export type InsertInvoiceLine = z.infer<typeof insertInvoiceLineSchema>;
+
+// Payments
+export const payments = pgTable("payments", {
+  id: serial("id").primaryKey(),
+  invoiceId: integer("invoice_id").notNull().references(() => invoices.id),
+  method: varchar("method", { length: 50 }).notNull(),
+  currency: varchar("currency", { length: 3 }).default("USD").notNull(),
+  fxRate: decimal("fx_rate", { precision: 10, scale: 6 }).default("1.000000").notNull(),
+  amount: bigint("amount", { mode: "number" }).notNull(),
+  fee: bigint("fee", { mode: "number" }).default(0).notNull(),
+  netAmount: bigint("net_amount", { mode: "number" }).notNull(),
+  receivedAt: timestamp("received_at").notNull(),
+  reference: varchar("reference", { length: 100 }),
+  gatewayTxnId: varchar("gateway_txn_id", { length: 200 }),
+  refundedAmount: bigint("refunded_amount", { mode: "number" }).default(0).notNull(),
+  notes: text("notes"),
+  receiptUrl: text("receipt_url"),
+  createdBy: integer("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Payment = typeof payments.$inferSelect;
+export const insertPaymentSchema = createInsertSchema(payments)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    fee: z.number().optional(),
+    reference: z.string().optional(),
+    gatewayTxnId: z.string().optional(),
+    refundedAmount: z.number().optional(),
+    notes: z.string().optional(),
+    receiptUrl: z.string().optional(),
+  });
+export type InsertPayment = z.infer<typeof insertPaymentSchema>;
+
+// Credit Notes
+export const creditNotes = pgTable("credit_notes", {
+  id: serial("id").primaryKey(),
+  number: varchar("number", { length: 50 }).notNull().unique(),
+  accountId: integer("account_id").notNull().references(() => accounts.id),
+  contactId: integer("contact_id").notNull().references(() => contacts.id),
+  currency: varchar("currency", { length: 3 }).default("USD").notNull(),
+  total: bigint("total", { mode: "number" }).notNull(),
+  balance: bigint("balance", { mode: "number" }).notNull(),
+  reason: text("reason"),
+  issueDate: timestamp("issue_date").notNull(),
+  pdfUrl: text("pdf_url"),
+  createdBy: integer("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type CreditNote = typeof creditNotes.$inferSelect;
+export const insertCreditNoteSchema = createInsertSchema(creditNotes)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    reason: z.string().optional(),
+    pdfUrl: z.string().optional(),
+  });
+export type InsertCreditNote = z.infer<typeof insertCreditNoteSchema>;
+
+// Credit Note Applications
+export const creditNoteApplications = pgTable("credit_note_applications", {
+  id: serial("id").primaryKey(),
+  creditNoteId: integer("credit_note_id").notNull().references(() => creditNotes.id),
+  invoiceId: integer("invoice_id").notNull().references(() => invoices.id),
+  amount: bigint("amount", { mode: "number" }).notNull(),
+  appliedAt: timestamp("applied_at").defaultNow().notNull(),
+  createdBy: integer("created_by").notNull().references(() => users.id),
+});
+
+export type CreditNoteApplication = typeof creditNoteApplications.$inferSelect;
+export const insertCreditNoteApplicationSchema = createInsertSchema(creditNoteApplications)
+  .omit({ id: true, appliedAt: true });
+export type InsertCreditNoteApplication = z.infer<typeof insertCreditNoteApplicationSchema>;
+
+// Expenses
+export const expenses = pgTable("expenses", {
+  id: serial("id").primaryKey(),
+  vendorAccountId: integer("vendor_account_id").notNull().references(() => accounts.id),
+  category: varchar("category", { length: 100 }).notNull(),
+  amount: bigint("amount", { mode: "number" }).notNull(),
+  currency: varchar("currency", { length: 3 }).default("USD").notNull(),
+  taxCodeId: integer("tax_code_id").references(() => taxCodes.id),
+  date: timestamp("date").notNull(),
+  status: varchar("status", { length: 20 }).default("draft").notNull(),
+  dealId: integer("deal_id").references(() => pipelineDeals.id),
+  attachmentUrl: text("attachment_url"),
+  notes: text("notes"),
+  paidAt: timestamp("paid_at"),
+  paidBy: integer("paid_by").references(() => users.id),
+  approvedAt: timestamp("approved_at"),
+  approvedBy: integer("approved_by").references(() => users.id),
+  createdBy: integer("created_by").notNull().references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type Expense = typeof expenses.$inferSelect;
+export const insertExpenseSchema = createInsertSchema(expenses)
+  .omit({ id: true, createdAt: true })
+  .extend({
+    taxCodeId: z.number().optional(),
+    dealId: z.number().optional(),
+    attachmentUrl: z.string().optional(),
+    notes: z.string().optional(),
+    paidAt: z.string().datetime().optional(),
+    paidBy: z.number().optional(),
+    approvedAt: z.string().datetime().optional(),
+    approvedBy: z.number().optional(),
+  });
+export type InsertExpense = z.infer<typeof insertExpenseSchema>;
+
+// Invoice View Tracking
+export const invoiceViews = pgTable("invoice_views", {
+  id: serial("id").primaryKey(),
+  invoiceId: integer("invoice_id").notNull().references(() => invoices.id),
+  viewedAt: timestamp("viewed_at").defaultNow().notNull(),
+  ipAddress: varchar("ip_address", { length: 45 }),
+  userAgent: text("user_agent"),
+  deviceType: varchar("device_type", { length: 50 }),
+});
+
+export type InvoiceView = typeof invoiceViews.$inferSelect;
+export const insertInvoiceViewSchema = createInsertSchema(invoiceViews)
+  .omit({ id: true, viewedAt: true })
+  .extend({
+    ipAddress: z.string().optional(),
+    userAgent: z.string().optional(),
+    deviceType: z.string().optional(),
+  });
+export type InsertInvoiceView = z.infer<typeof insertInvoiceViewSchema>;
+
+// Invoice Reminders
+export const invoiceReminders = pgTable("invoice_reminders", {
+  id: serial("id").primaryKey(),
+  invoiceId: integer("invoice_id").notNull().references(() => invoices.id),
+  reminderType: varchar("reminder_type", { length: 50 }).notNull(),
+  sentAt: timestamp("sent_at").defaultNow().notNull(),
+  sentBy: integer("sent_by").notNull().references(() => users.id),
+  emailOpened: boolean("email_opened").default(false).notNull(),
+  emailClicked: boolean("email_clicked").default(false).notNull(),
+  openedAt: timestamp("opened_at"),
+  clickedAt: timestamp("clicked_at"),
+});
+
+export type InvoiceReminder = typeof invoiceReminders.$inferSelect;
+export const insertInvoiceReminderSchema = createInsertSchema(invoiceReminders)
+  .omit({ id: true, sentAt: true })
+  .extend({
+    emailOpened: z.boolean().optional(),
+    emailClicked: z.boolean().optional(),
+    openedAt: z.string().datetime().optional(),
+    clickedAt: z.string().datetime().optional(),
+  });
+export type InsertInvoiceReminder = z.infer<typeof insertInvoiceReminderSchema>;
+
+// Billing Settings
+export const billingSettings = pgTable("billing_settings", {
+  id: serial("id").primaryKey(),
+  companyName: varchar("company_name", { length: 200 }),
+  legalName: varchar("legal_name", { length: 200 }),
+  logoUrl: text("logo_url"),
+  primaryColor: varchar("primary_color", { length: 7 }),
+  address: text("address"),
+  taxRegistration: varchar("tax_registration", { length: 100 }),
+  bankDetails: text("bank_details"),
+  invoiceFooter: text("invoice_footer"),
+  invoicePrefix: varchar("invoice_prefix", { length: 20 }).default("INV").notNull(),
+  estimatePrefix: varchar("estimate_prefix", { length: 20 }).default("EST").notNull(),
+  creditNotePrefix: varchar("credit_note_prefix", { length: 20 }).default("CN").notNull(),
+  nextInvoiceNumber: integer("next_invoice_number").default(1).notNull(),
+  nextEstimateNumber: integer("next_estimate_number").default(1).notNull(),
+  nextCreditNoteNumber: integer("next_credit_note_number").default(1).notNull(),
+  defaultCurrency: varchar("default_currency", { length: 3 }).default("USD").notNull(),
+  defaultTerms: varchar("default_terms", { length: 50 }).default("Net 30").notNull(),
+  lateFeeEnabled: boolean("late_fee_enabled").default(false).notNull(),
+  lateFeeType: varchar("late_fee_type", { length: 20 }),
+  lateFeeAmount: bigint("late_fee_amount", { mode: "number" }),
+  lateFeePercent: decimal("late_fee_percent", { precision: 5, scale: 2 }),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type BillingSetting = typeof billingSettings.$inferSelect;
+export const insertBillingSettingSchema = createInsertSchema(billingSettings)
+  .omit({ id: true, updatedAt: true })
+  .extend({
+    companyName: z.string().optional(),
+    legalName: z.string().optional(),
+    logoUrl: z.string().optional(),
+    primaryColor: z.string().optional(),
+    address: z.string().optional(),
+    taxRegistration: z.string().optional(),
+    bankDetails: z.string().optional(),
+    invoiceFooter: z.string().optional(),
+    invoicePrefix: z.string().optional(),
+    estimatePrefix: z.string().optional(),
+    creditNotePrefix: z.string().optional(),
+    nextInvoiceNumber: z.number().optional(),
+    nextEstimateNumber: z.number().optional(),
+    nextCreditNoteNumber: z.number().optional(),
+    defaultCurrency: z.string().optional(),
+    defaultTerms: z.string().optional(),
+    lateFeeEnabled: z.boolean().optional(),
+    lateFeeType: z.string().optional(),
+    lateFeeAmount: z.number().optional(),
+    lateFeePercent: z.string().optional(),
+  });
+export type InsertBillingSetting = z.infer<typeof insertBillingSettingSchema>;
+
+// Billing Audit Log
+export const billingAuditLogs = pgTable("billing_audit_logs", {
+  id: serial("id").primaryKey(),
+  entityType: varchar("entity_type", { length: 50 }).notNull(),
+  entityId: integer("entity_id").notNull(),
+  action: varchar("action", { length: 50 }).notNull(),
+  changes: jsonb("changes"),
+  performedBy: integer("performed_by").notNull().references(() => users.id),
+  performedAt: timestamp("performed_at").defaultNow().notNull(),
+  ipAddress: varchar("ip_address", { length: 45 }),
+});
+
+export type BillingAuditLog = typeof billingAuditLogs.$inferSelect;
+export const insertBillingAuditLogSchema = createInsertSchema(billingAuditLogs)
+  .omit({ id: true, performedAt: true })
+  .extend({
+    changes: z.any().optional(),
+    ipAddress: z.string().optional(),
+  });
+export type InsertBillingAuditLog = z.infer<typeof insertBillingAuditLogSchema>;
