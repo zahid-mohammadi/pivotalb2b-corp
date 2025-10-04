@@ -1,0 +1,183 @@
+Prompt: Build Billing, Accounting & Invoices for Pivotal B2B Dashboard
+
+Create a new top-level section: “Billing & Accounting” with the following sub-modules:
+	•	Invoices & Estimates
+	•	Payments & Payouts
+	•	Expenses & Bills
+	•	Products/Services (Catalog)
+	•	Taxes & Currencies
+	•	Reports (AR/AP, P&L, Cashflow)
+	•	Settings (Branding, Numbering, Gateways, Templates, Roles)
+
+All objects must link to existing Contacts and Accounts and optionally to Deals (Opps) for end-to-end pipeline→invoice traceability.
+
+⸻
+
+1) Invoices & Estimates (Quotes)
+
+Core
+	•	Create Estimates/Quotes → convert to Invoices (one-click).
+	•	Invoice fields: Number (auto/override), Issue Date, Due Date/Terms (Net 7/15/30/45/custom), Currency, Tax mode (inclusive/exclusive/exempt), Line items (SKU/Desc/Qty/Unit price/Discount%/Tax code), Subtotal, Taxes, Shipping, Adjustments, Total, Amount Due.
+	•	Partial payments, Deposits/Retainers, Credit notes (apply to invoice).
+	•	Recurring invoices (monthly/quarterly/custom cron) with proration options.
+	•	Draft → Sent → Viewed → Partially Paid → Paid → Overdue → Void lifecycle with audit log.
+	•	View tracking: log first/last ViewedAt, device/IP, and per-view events.
+	•	Reminders: automated dunning schedule (before due, on due, 3/7/14 days after), customizable templates.
+	•	Late fees: fixed or % per period; stop on payment; itemized on invoice.
+	•	Attachments: add PO, SOW, timesheets; visible to client (toggle).
+	•	Branding: logo, brand colors, legal name, address, bank details, tax registration (VAT/NTN/GST), custom footer.
+	•	PDF: pixel-perfect PDF (A4/Letter), downloadable + shareable link (secure token).
+	•	Send via:
+	•	M365 mailbox (Graph API) for 1:1 emails (from your address)
+	•	or SMTP (existing setup).
+Track delivery, opens, clicks.
+	•	Client Portal Link: secure page to view/download invoice, choose payment method, leave notes, and see activity.
+
+Integrations
+	•	Link invoice to Account, primary Contact, and optional Deal.
+	•	When a Deal moves to Closed Won, prompt to Create Invoice from Deal value; auto-pull line items from Catalog.
+
+Numbers & Templates
+	•	Numbering formats (INV-{YYYY}-{SEQ}, customizable prefixes per company/business unit).
+	•	Estimate template (EST-{SEQ}), Credit Note template (CN-{SEQ}).
+
+⸻
+
+2) Payments & Payouts
+	•	Payment methods: Bank transfer/wire (with on-invoice instructions), Payment Links (Stripe, PayPal, Razorpay, or local PSP), manual payments (cash/cheque) with reconciliation.
+	•	Partial payments support with running balance.
+	•	Refunds (full/partial) and chargebacks (record + dispute note).
+	•	Payment allocations: apply a single receipt across multiple invoices.
+	•	Multi-currency: store functional currency and transaction currency; keep FX rate snapshot at time of invoice/payment.
+	•	Receipts: auto-issue PDF/email on payment.
+
+⸻
+
+3) Expenses & Vendor Bills (AP)
+	•	Record Expenses (one-off) and Vendor Bills (payable).
+	•	Fields: Vendor (Account), Date, Category (Chart of Accounts light), Amount, Tax code, Currency, Project/Deal tag (optional), Notes, Attachments (receipt).
+	•	OCR assist (optional): extract amount, date, vendor from uploaded receipt.
+	•	Status: Draft → Approved → Paid; add Approval workflow (optional, role-based).
+	•	Payment: mark as paid; link to bank payout; attach payment proof.
+
+⸻
+
+4) Products/Services (Catalog)
+	•	Manage SKUs: Name, Description, Unit price, Tax code, GL category, default currency, optional cost.
+	•	Use SKUs on Estimates/Invoices for speed and consistency.
+	•	Discounts per line and at document level.
+
+⸻
+
+5) Taxes & Currencies
+	•	Tax codes: define VAT/GST/Sales tax rates per country/region; compounding vs non-compounding; inclusive/exclusive.
+	•	Per-line item or per-invoice tax application; multiple taxes allowed.
+	•	Multi-currency: supported across invoices, payments, expenses; record FX rate; show base currency equivalent.
+
+⸻
+
+6) Reporting & Analytics
+	•	A/R (Accounts Receivable): Aging buckets (Current, 1–30, 31–60, 61–90, 90+), by Account, by owner, by currency.
+	•	A/P (Accounts Payable): Vendor aging.
+	•	P&L (lightweight): Income (from invoices/other income) – COGS/Expenses → Net.
+	•	Cashflow summary: Inflows (payments) vs Outflows (vendor bills/expenses) by month.
+	•	Sales by Product/Service, Revenue by Account, Collections performance, Average DSO, Overdue rate.
+	•	Tax summary: Taxes collected vs paid, by jurisdiction, date range.
+	•	Write-offs: track bad debt expense and notes.
+
+⸻
+
+7) Reminders, Dunning & View Tracking (Detail)
+	•	Templates for: “Invoice sent”, “Viewed”, “Due in 3 days”, “Due today”, “Overdue 7/14/30 days”, “Final notice”.
+	•	Personalize with merge tags: {{Contact.FirstName}}, {{Account.Name}}, {{Invoice.Number}}, {{AmountDue}}, {{DueDate}}, {{PayLink}}.
+	•	View tracking per event: update invoice activity + Contact activity timeline + Account roll-up.
+	•	Campaign Reports link: opens/clicks on invoice emails must appear in campaign analytics and in contact timeline.
+
+⸻
+
+8) UI/UX
+	•	Sidebar: Pipeline | Contacts | Accounts | Billing & Accounting | Campaigns | Emails | Reports | Automations | Settings.
+	•	Billing Home: KPIs (Total Outstanding, Overdue, This Month Collected, A/R Aging chart, Top overdue Accounts).
+	•	Invoices List: filters (Status, Owner, Account, Due date ranges, Amount ranges, Currency), quick actions (Send, Remind, Record Payment, Void).
+	•	Invoice Detail: left—header & client details; center—line items; right—activity (views/emails/payments), notes, attachments.
+	•	Expenses/Bills List: vendor, category, status, date, amount; bulk approve/pay.
+	•	Reports: clean cards + export (CSV/PDF).
+	•	Client Portal: simple, branded, mobile-friendly; show invoice, payment options, past invoices.
+
+⸻
+
+9) Advanced Filters (reuse the universal Filter Builder)
+
+Apply the existing advanced filter builder to Invoices, Payments, Expenses:
+	•	Text: Equals, Not Equals, Contains, Not Contains, Starts With, Ends With, Is Blank, Is Not Blank.
+	•	Numeric: =, ≠, >, ≥, <, ≤, Between, Blank/Not Blank.
+	•	Date/Time: Equals, Before, After, Between, Last X days/weeks/months, Blank/Not Blank.
+	•	Boolean/Enum: Is True/False; Status IN […], Currency IN […], TaxCode IN […].
+	•	Examples:
+	•	Invoices: Status = Overdue AND AmountDue > 1000 AND DueDate < today.
+	•	Expenses: Category = “Marketing” AND Date between 2025-07-01 and 2025-09-30.
+	•	AR follow-up: Viewed = True AND Paid = False AND LastReminderSentAt > 7 days ago.
+
+⸻
+
+10) Security, Roles, Audit
+	•	Roles: Billing Admin (all), A/R Staff (invoices, collections), A/P Staff (expenses/bills), Sales (create estimate, view their invoices), Read-only.
+	•	Field-level visibility for amounts and PII.
+	•	Full audit trail on money-impacting actions (create/modify/void invoice, record/refund payment, change tax/amounts).
+	•	Data retention: prevent hard delete if linked payments exist; use void/cancel + reason.
+
+⸻
+
+11) Integrations & Export
+	•	M365 for sending invoices and reminders from the user’s mailbox.
+	•	Payment gateways (pluggable interface): Stripe/PayPal/Razorpay/local PSP; store only tokens, never raw card data.
+	•	Bank export/import (CSV) for reconciliation (optional v2).
+	•	Accounting export: QuickBooks/Xero CSV templates (Invoices, Payments, Contacts/Accounts, Items, Taxes).
+	•	Webhooks: invoice.created|sent|viewed|reminded|paid|overdue|voided, payment.received|refunded, expense.created|approved|paid. Signed with HMAC; retries with backoff.
+	•	Public Pay Link endpoint with secure token; token rotation.
+
+⸻
+
+12) Data Model (high level)
+	•	Invoice { id, number, accountId, contactId, dealId?, status, currency, terms, issueDate, dueDate, subtotal, taxTotal, total, amountDue, viewedAt?, lastReminderAt?, pdfUrl, notes, createdBy, … }
+	•	InvoiceLine { id, invoiceId, skuId?, description, qty, unitPrice, discountPct?, taxCodeId?, lineSubtotal, lineTax, lineTotal }
+	•	Payment { id, invoiceId, method, currency, amount, receivedAt, reference, fee?, netAmount?, gatewayTxnId?, refundedAmt?, notes }
+	•	CreditNote { id, accountId, contactId, number, currency, total, balance, appliedTo[] }
+	•	Expense { id, vendorAccountId, categoryId, amount, currency, taxCodeId?, date, status, paidAt?, attachmentUrl?, notes }
+	•	TaxCode { id, name, rate, jurisdiction, inclusive }
+	•	Sku { id, code, name, description, unitPrice, taxCodeId?, glCategory }
+
+All money stored in minor units (cents/paisa) to avoid float errors.
+
+⸻
+
+13) Performance & Compliance
+	•	Indexes for Invoice(status, dueDate), Payment(invoiceId), Expense(vendorAccountId, date).
+	•	PII minimization; no card storage; comply with gateway and local tax requirements.
+	•	Time stored in UTC; display per user timezone (Asia/Karachi default).
+	•	Rate-limit public pay/view links; captcha on excessive requests.
+
+⸻
+
+14) QA Acceptance (critical)
+	•	Create → Send → View-tracked → Reminder → Partial pay → Final pay flow works; events reflected on Contact, Account, Deal timelines.
+	•	Overdue logic & late fees applied correctly.
+	•	Reminders schedule fires on time; emails sent via M365 (with open/click tracking) or SMTP.
+	•	Client portal renders on mobile; payment succeeds; receipt emailed.
+	•	AR Aging totals reconcile to invoice ledger; P&L and Tax reports match source transactions.
+	•	Exports open in QuickBooks/Xero without mapping errors.
+	•	Permissions enforce least privilege; audit log is complete and immutable.
+
+⸻
+
+Summary
+
+Deliver a professional, clean, and fully integrated Billing & Accounting module that lets you:
+	•	Manage invoices/estimates, expenses/bills, payments, taxes, and products/services.
+	•	Send professional invoices via M365 or SMTP, track views, and automate reminders.
+	•	Tie everything back to Contacts, Accounts, and Deals, with strong reporting (AR/AP, P&L, Cashflow) and exports.
+
+Would you like me to also produce:
+	•	A PDF invoice template (ready to brand in your colors),
+	•	A CSV mapping for QuickBooks/Xero,
+	•	Or a set of API endpoints + Postman collection for this module?
