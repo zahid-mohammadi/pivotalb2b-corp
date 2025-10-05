@@ -1,26 +1,38 @@
 import nodemailer from 'nodemailer';
+import crypto from 'crypto';
 
 // SMTP Configuration
+// Supports multiple email providers:
+// - Microsoft 365: Set SMTP_HOST=smtp.office365.com, SMTP_PORT=587, SMTP_USER=your@domain.com, SMTP_PASSWORD=your_password
+// - Gmail: Set SMTP_HOST=smtp.gmail.com, SMTP_PORT=587
+// - Custom SMTP: Set your own SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD
 const smtpConfig = {
   host: process.env.SMTP_HOST || 'smtp.hostinger.com',
   port: parseInt(process.env.SMTP_PORT || '587'),
-  secure: false, // Use STARTTLS instead of SSL
-  requireTLS: true,
+  secure: process.env.SMTP_PORT === '465', // Use SSL for port 465, otherwise STARTTLS
+  requireTLS: process.env.SMTP_PORT !== '465', // Require TLS for non-SSL connections
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASSWORD
   },
   tls: {
-    rejectUnauthorized: false
+    ciphers: 'SSLv3',
+    rejectUnauthorized: process.env.NODE_ENV === 'production'
   }
 };
 
 // Verify SMTP configuration
 if (!process.env.SMTP_USER || !process.env.SMTP_PASSWORD) {
   console.error('SMTP credentials are missing. Email functionality will not work.');
+  console.error('For Microsoft 365: Set SMTP_HOST=smtp.office365.com, SMTP_USER=your@domain.com');
 }
 
 const transporter = nodemailer.createTransport(smtpConfig);
+
+// Generate unique tracking token
+export function generateTrackingToken(): string {
+  return crypto.randomBytes(32).toString('hex');
+}
 
 // Verify SMTP connection on startup
 transporter.verify(function(error, success) {
@@ -457,22 +469,34 @@ interface InvoiceEmailData {
   dueDate: string;
   companyName: string;
   invoiceUrl: string;
+  customMessage?: string;
+  trackingToken?: string;
+  isReminder?: boolean;
 }
 
-export async function sendInvoiceEmail(data: InvoiceEmailData) {
+export async function sendInvoiceEmail(data: InvoiceEmailData): Promise<{ success: boolean; trackingToken: string }> {
   console.log('Preparing to send invoice email:', {
     customerEmail: data.customerEmail,
     customerName: data.customerName,
-    invoiceNumber: data.invoiceNumber
+    invoiceNumber: data.invoiceNumber,
+    isReminder: data.isReminder
   });
+
+  // Generate or use existing tracking token
+  const trackingToken = data.trackingToken || generateTrackingToken();
+  const trackingPixelUrl = `${process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:3000'}/api/invoices/email-tracking/${trackingToken}`;
 
   const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER;
   const fromName = process.env.SMTP_FROM_NAME || 'Pivotal B2B';
 
+  const subject = data.isReminder 
+    ? `Reminder: Invoice ${data.invoiceNumber} from ${data.companyName}` 
+    : `Invoice ${data.invoiceNumber} from ${data.companyName}`;
+
   const mailOptions = {
     from: `"${fromName}" <${fromEmail}>`,
     to: data.customerEmail,
-    subject: `Invoice ${data.invoiceNumber} from ${data.companyName}`,
+    subject: subject,
     html: `
 <!DOCTYPE html>
 <html>
@@ -484,14 +508,20 @@ export async function sendInvoiceEmail(data: InvoiceEmailData) {
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
   <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
     <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
-      <h1 style="color: #ffffff; margin: 0; font-size: 28px;">New Invoice</h1>
+      <h1 style="color: #ffffff; margin: 0; font-size: 28px;">${data.isReminder ? 'Payment Reminder' : 'New Invoice'}</h1>
     </div>
     
     <div style="padding: 40px 30px;">
       <p style="font-size: 16px; color: #374151; margin-bottom: 20px;">Dear ${data.customerName},</p>
       
+      ${data.customMessage ? `
+      <p style="font-size: 16px; color: #374151; line-height: 1.6; margin-bottom: 20px; padding: 15px; background-color: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 4px;">
+        ${data.customMessage.replace(/\n/g, '<br>')}
+      </p>
+      ` : ''}
+      
       <p style="font-size: 16px; color: #374151; line-height: 1.6;">
-        ${data.companyName} has sent you an invoice. Please review the details below:
+        ${data.isReminder ? 'This is a friendly reminder about your invoice.' : `${data.companyName} has sent you an invoice.`} Please review the details below:
       </p>
       
       <div style="background-color: #f9fafb; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0;">
@@ -529,6 +559,8 @@ export async function sendInvoiceEmail(data: InvoiceEmailData) {
       <p style="margin: 0; color: #6b7280; font-size: 12px;">
         This is an automated message from ${data.companyName}
       </p>
+      <!-- Email tracking pixel -->
+      <img src="${trackingPixelUrl}" width="1" height="1" alt="" style="display:block; width:1px; height:1px;" />
     </div>
   </div>
 </body>
@@ -540,7 +572,7 @@ export async function sendInvoiceEmail(data: InvoiceEmailData) {
     console.log('Attempting to send invoice email via SMTP...');
     const info = await transporter.sendMail(mailOptions);
     console.log('Invoice email sent successfully:', info.messageId);
-    return true;
+    return { success: true, trackingToken };
   } catch (error) {
     console.error('Error sending invoice email:', error);
     throw error;
