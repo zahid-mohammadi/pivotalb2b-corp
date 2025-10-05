@@ -2518,10 +2518,10 @@ export async function registerRoutes(app: Express) {
       });
       
       // Get the primary domain for invoice URLs
-      // In production: uses REPLIT_DOMAINS (includes custom domain or .replit.app)
-      // In development: uses REPLIT_DEV_DOMAIN (.replit.dev)
+      // Priority: CUSTOM_DOMAIN > REPLIT_DOMAINS > REPLIT_DEV_DOMAIN > localhost
+      const customDomain = process.env.CUSTOM_DOMAIN; // e.g., pivotal-b2b.com
       const domains = process.env.REPLIT_DOMAINS?.split(',') || [];
-      const primaryDomain = domains[0] || process.env.REPLIT_DEV_DOMAIN;
+      const primaryDomain = customDomain || domains[0] || process.env.REPLIT_DEV_DOMAIN;
       const baseUrl = primaryDomain ? `https://${primaryDomain}` : 'http://localhost:3000';
       const invoiceUrl = `${baseUrl}/public/invoices/${trackingToken}`;
       const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${emailTrackingToken}`;
@@ -2741,10 +2741,10 @@ export async function registerRoutes(app: Express) {
       const userId = (req.user as any)?.id || 1;
       
       // Get the primary domain for invoice URLs
-      // In production: uses REPLIT_DOMAINS (includes custom domain or .replit.app)
-      // In development: uses REPLIT_DEV_DOMAIN (.replit.dev)
+      // Priority: CUSTOM_DOMAIN > REPLIT_DOMAINS > REPLIT_DEV_DOMAIN > localhost
+      const customDomain = process.env.CUSTOM_DOMAIN; // e.g., pivotal-b2b.com
       const domains = process.env.REPLIT_DOMAINS?.split(',') || [];
-      const primaryDomain = domains[0] || process.env.REPLIT_DEV_DOMAIN;
+      const primaryDomain = customDomain || domains[0] || process.env.REPLIT_DEV_DOMAIN;
       const baseUrl = primaryDomain ? `https://${primaryDomain}` : 'http://localhost:3000';
       const invoiceUrl = `${baseUrl}/public/invoices/${invoice.viewTrackingToken}`;
       const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${invoice.emailTrackingToken}`;
