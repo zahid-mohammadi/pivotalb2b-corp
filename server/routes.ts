@@ -3254,15 +3254,23 @@ export async function registerRoutes(app: Express) {
         return res.status(404).send("<h1>Invoice not found</h1>");
       }
       
-      await storage.updateInvoice(invoice.id, {
-        viewCount: (invoice.viewCount || 0) + 1,
-        lastViewedAt: new Date(),
-      });
-      
-      await storage.createInvoiceView({
-        invoiceId: invoice.id,
-        ipAddress: req.ip || req.socket.remoteAddress,
-      });
+      // Only track views for sent invoices (not drafts)
+      // This ensures accurate tracking and prevents unsent invoice views from being counted
+      if (invoice.status !== 'draft' && invoice.viewTrackingToken === token) {
+        const now = new Date();
+        
+        // Update invoice view statistics
+        await storage.updateInvoice(invoice.id, {
+          viewCount: (invoice.viewCount || 0) + 1,
+          lastViewedAt: now,
+        });
+        
+        // Create detailed view record with accurate timestamp (uses database defaultNow())
+        await storage.createInvoiceView({
+          invoiceId: invoice.id,
+          ipAddress: req.ip || req.socket.remoteAddress,
+        });
+      }
       
       const account = await storage.getAccountById(invoice.accountId);
       const lines = await storage.getInvoiceLinesByInvoice(invoice.id);
