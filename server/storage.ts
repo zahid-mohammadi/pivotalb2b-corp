@@ -1498,6 +1498,16 @@ export class DatabaseStorage {
     }
   }
 
+  async getInvoiceByToken(token: string): Promise<Invoice | undefined> {
+    try {
+      const [invoice] = await db.select().from(invoices).where(eq(invoices.viewTrackingToken, token));
+      return invoice;
+    } catch (error) {
+      console.error("Error getting invoice by token:", error);
+      throw error;
+    }
+  }
+
   async getInvoiceByNumber(invoiceNumber: string): Promise<Invoice | undefined> {
     try {
       const [invoice] = await db.select().from(invoices).where(eq(invoices.number, invoiceNumber));

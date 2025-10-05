@@ -38,7 +38,7 @@ import path from "path";
 import express from 'express';
 import { eq, count } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
-import { sendContactFormNotification, sendEbookDownloadConfirmation, sendLeadNotificationToAdmin, sendProposalRequestNotification } from "./services/email";
+import { sendContactFormNotification, sendEbookDownloadConfirmation, sendLeadNotificationToAdmin, sendProposalRequestNotification, sendInvoiceEmail } from "./services/email";
 import { microsoftGraphService } from "./services/microsoft-graph";
 import type { User } from "@shared/schema";
 import { botBlockStats } from "./middleware/email-bot-blocker";
@@ -2316,9 +2316,34 @@ export async function registerRoutes(app: Express) {
         return res.status(404).json({ error: "Invoice not found" });
       }
       
+      const account = await storage.getAccountById(invoice.accountId);
+      if (!account || !account.email) {
+        return res.status(400).json({ error: "Customer email not found" });
+      }
+      
+      const billingSettings = await storage.getBillingSettings();
+      const settings = billingSettings[0];
+      const companyName = settings?.companyName || 'Pivotal B2B';
+      
+      const trackingToken = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      
       const userId = (req.user as any)?.id || 1;
       const updatedInvoice = await storage.updateInvoice(id, {
         status: 'sent',
+        sentAt: new Date().toISOString(),
+        viewTrackingToken: trackingToken,
+      });
+      
+      const invoiceUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/public/invoices/${trackingToken}`;
+      
+      await sendInvoiceEmail({
+        customerEmail: account.email,
+        customerName: account.companyName,
+        invoiceNumber: invoice.number,
+        invoiceAmount: `$${(invoice.total / 100).toFixed(2)}`,
+        dueDate: new Date(invoice.dueDate).toLocaleDateString(),
+        companyName,
+        invoiceUrl,
       });
       
       await storage.createInvoiceReminder({
@@ -2338,6 +2363,286 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error sending invoice:", error);
       res.status(500).json({ error: "Failed to send invoice" });
+    }
+  });
+
+  app.get("/api/invoices/:id/pdf", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const invoice = await storage.getInvoiceById(id);
+      if (!invoice) {
+        return res.status(404).json({ error: "Invoice not found" });
+      }
+      
+      const account = await storage.getAccountById(invoice.accountId);
+      const lines = await storage.getInvoiceLinesByInvoice(id);
+      const billingSettings = await storage.getBillingSettings();
+      const settings = billingSettings[0];
+      
+      const companyName = settings?.companyName || 'Pivotal B2B';
+      const companyAddress = settings?.address || '';
+      
+      const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice ${invoice.number}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
+    .header { display: flex; justify-content: space-between; margin-bottom: 40px; border-bottom: 2px solid #667eea; padding-bottom: 20px; }
+    .company { font-weight: bold; font-size: 24px; color: #667eea; }
+    .invoice-title { font-size: 32px; font-weight: bold; text-align: right; color: #333; }
+    .info-section { margin-bottom: 30px; }
+    .info-section h3 { font-size: 14px; color: #666; margin-bottom: 5px; }
+    .info-section p { margin: 3px 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+    th { background-color: #667eea; color: white; padding: 12px; text-align: left; }
+    td { padding: 10px; border-bottom: 1px solid #ddd; }
+    .total-section { margin-top: 30px; text-align: right; }
+    .total-row { display: flex; justify-content: flex-end; padding: 8px 0; }
+    .total-label { width: 150px; font-weight: bold; }
+    .total-value { width: 150px; text-align: right; }
+    .grand-total { font-size: 20px; color: #667eea; border-top: 2px solid #667eea; padding-top: 10px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="company">${companyName}</div>
+      <p>${companyAddress}</p>
+    </div>
+    <div class="invoice-title">INVOICE</div>
+  </div>
+  
+  <div style="display: flex; justify-content: space-between;">
+    <div class="info-section">
+      <h3>BILL TO:</h3>
+      <p><strong>${account?.companyName || 'N/A'}</strong></p>
+      <p>${account?.billingAddress || ''}</p>
+      <p>${account?.billingCity || ''}, ${account?.billingState || ''} ${account?.billingZip || ''}</p>
+    </div>
+    
+    <div class="info-section">
+      <table style="width: 300px; border: none;">
+        <tr><td style="border: none;"><strong>Invoice #:</strong></td><td style="border: none;">${invoice.number}</td></tr>
+        <tr><td style="border: none;"><strong>Date:</strong></td><td style="border: none;">${new Date(invoice.issueDate).toLocaleDateString()}</td></tr>
+        <tr><td style="border: none;"><strong>Due Date:</strong></td><td style="border: none;">${new Date(invoice.dueDate).toLocaleDateString()}</td></tr>
+        ${invoice.poNumber ? `<tr><td style="border: none;"><strong>PO Number:</strong></td><td style="border: none;">${invoice.poNumber}</td></tr>` : ''}
+      </table>
+    </div>
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Description</th>
+        <th style="text-align: center;">Quantity</th>
+        <th style="text-align: right;">Unit Price</th>
+        <th style="text-align: right;">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${lines.map(line => `
+        <tr>
+          <td>${line.description}</td>
+          <td style="text-align: center;">${line.quantity}</td>
+          <td style="text-align: right;">$${(line.unitPrice / 100).toFixed(2)}</td>
+          <td style="text-align: right;">$${(line.lineTotal / 100).toFixed(2)}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  </table>
+  
+  <div class="total-section">
+    <div class="total-row">
+      <div class="total-label">Subtotal:</div>
+      <div class="total-value">$${(invoice.subtotal / 100).toFixed(2)}</div>
+    </div>
+    <div class="total-row">
+      <div class="total-label">Tax:</div>
+      <div class="total-value">$${(invoice.taxTotal / 100).toFixed(2)}</div>
+    </div>
+    <div class="total-row grand-total">
+      <div class="total-label">Total:</div>
+      <div class="total-value">$${(invoice.total / 100).toFixed(2)}</div>
+    </div>
+    <div class="total-row">
+      <div class="total-label">Amount Paid:</div>
+      <div class="total-value">$${(invoice.amountPaid / 100).toFixed(2)}</div>
+    </div>
+    <div class="total-row grand-total">
+      <div class="total-label">Amount Due:</div>
+      <div class="total-value">$${(invoice.amountDue / 100).toFixed(2)}</div>
+    </div>
+  </div>
+  
+  ${settings?.invoiceFooter ? `<div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">${settings.invoiceFooter}</div>` : ''}
+  ${settings?.bankDetails ? `<div style="margin-top: 20px; padding: 15px; background-color: #f9fafb; border-radius: 4px;"><strong>Bank Details:</strong><br>${settings.bankDetails}</div>` : ''}
+</body>
+</html>
+      `;
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      res.status(500).json({ error: "Failed to generate PDF" });
+    }
+  });
+
+  app.get("/public/invoices/:token", async (req, res) => {
+    try {
+      const token = req.params.token;
+      const invoice = await storage.getInvoiceByToken(token);
+      
+      if (!invoice) {
+        return res.status(404).send("<h1>Invoice not found</h1>");
+      }
+      
+      await storage.updateInvoice(invoice.id, {
+        viewCount: (invoice.viewCount || 0) + 1,
+        lastViewedAt: new Date().toISOString(),
+      });
+      
+      await storage.createInvoiceView({
+        invoiceId: invoice.id,
+        ipAddress: req.ip || req.socket.remoteAddress,
+      });
+      
+      const account = await storage.getAccountById(invoice.accountId);
+      const lines = await storage.getInvoiceLinesByInvoice(invoice.id);
+      const billingSettings = await storage.getBillingSettings();
+      const settings = billingSettings[0];
+      
+      const companyName = settings?.companyName || 'Pivotal B2B';
+      const companyAddress = settings?.address || '';
+      
+      const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice ${invoice.number}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f3f4f6; color: #333; }
+    .container { max-width: 800px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    .header { display: flex; justify-content: space-between; margin-bottom: 40px; border-bottom: 3px solid #667eea; padding-bottom: 20px; }
+    .company { font-weight: bold; font-size: 24px; color: #667eea; }
+    .invoice-title { font-size: 32px; font-weight: bold; text-align: right; color: #333; }
+    .info-section { margin-bottom: 30px; }
+    .info-section h3 { font-size: 14px; color: #666; margin-bottom: 5px; }
+    .info-section p { margin: 3px 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+    th { background-color: #667eea; color: white; padding: 12px; text-align: left; }
+    td { padding: 10px; border-bottom: 1px solid #ddd; }
+    .total-section { margin-top: 30px; text-align: right; }
+    .total-row { display: flex; justify-content: flex-end; padding: 8px 0; }
+    .total-label { width: 150px; font-weight: bold; }
+    .total-value { width: 150px; text-align: right; }
+    .grand-total { font-size: 20px; color: #667eea; border-top: 2px solid #667eea; padding-top: 10px; margin-top: 10px; }
+    .actions { margin-top: 30px; text-align: center; }
+    .btn { display: inline-block; padding: 12px 24px; margin: 0 10px; background-color: #667eea; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
+    .btn:hover { background-color: #5568d3; }
+    @media print {
+      body { background-color: white; }
+      .container { box-shadow: none; }
+      .actions { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div class="company">${companyName}</div>
+        <p>${companyAddress}</p>
+      </div>
+      <div class="invoice-title">INVOICE</div>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between;">
+      <div class="info-section">
+        <h3>BILL TO:</h3>
+        <p><strong>${account?.companyName || 'N/A'}</strong></p>
+        <p>${account?.billingAddress || ''}</p>
+        <p>${account?.billingCity || ''}, ${account?.billingState || ''} ${account?.billingZip || ''}</p>
+      </div>
+      
+      <div class="info-section">
+        <p><strong>Invoice #:</strong> ${invoice.number}</p>
+        <p><strong>Date:</strong> ${new Date(invoice.issueDate).toLocaleDateString()}</p>
+        <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString()}</p>
+        ${invoice.poNumber ? `<p><strong>PO Number:</strong> ${invoice.poNumber}</p>` : ''}
+      </div>
+    </div>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th style="text-align: center;">Quantity</th>
+          <th style="text-align: right;">Unit Price</th>
+          <th style="text-align: right;">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${lines.map(line => `
+          <tr>
+            <td>${line.description}</td>
+            <td style="text-align: center;">${line.quantity}</td>
+            <td style="text-align: right;">$${(line.unitPrice / 100).toFixed(2)}</td>
+            <td style="text-align: right;">$${(line.lineTotal / 100).toFixed(2)}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    
+    <div class="total-section">
+      <div class="total-row">
+        <div class="total-label">Subtotal:</div>
+        <div class="total-value">$${(invoice.subtotal / 100).toFixed(2)}</div>
+      </div>
+      <div class="total-row">
+        <div class="total-label">Tax:</div>
+        <div class="total-value">$${(invoice.taxTotal / 100).toFixed(2)}</div>
+      </div>
+      <div class="total-row grand-total">
+        <div class="total-label">Total:</div>
+        <div class="total-value">$${(invoice.total / 100).toFixed(2)}</div>
+      </div>
+      <div class="total-row">
+        <div class="total-label">Amount Paid:</div>
+        <div class="total-value">$${(invoice.amountPaid / 100).toFixed(2)}</div>
+      </div>
+      <div class="total-row grand-total">
+        <div class="total-label">Amount Due:</div>
+        <div class="total-value">$${(invoice.amountDue / 100).toFixed(2)}</div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <a href="javascript:window.print()" class="btn">Print Invoice</a>
+      <a href="/api/invoices/${invoice.id}/pdf" class="btn" target="_blank">Download PDF</a>
+    </div>
+    
+    ${settings?.invoiceFooter ? `<div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">${settings.invoiceFooter}</div>` : ''}
+    ${settings?.bankDetails ? `<div style="margin-top: 20px; padding: 15px; background-color: #f9fafb; border-radius: 4px;"><strong>Bank Details:</strong><br>${settings.bankDetails.replace(/\n/g, '<br>')}</div>` : ''}
+  </div>
+</body>
+</html>
+      `;
+      
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      console.error("Error viewing invoice:", error);
+      res.status(500).send("<h1>Error loading invoice</h1>");
     }
   });
 

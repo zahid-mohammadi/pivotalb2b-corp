@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil } from "lucide-react";
+import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Download } from "lucide-react";
 import { format } from "date-fns";
 import type { Invoice, Account, Sku, TaxCode } from "@shared/schema";
 
@@ -76,6 +76,32 @@ export function InvoiceManagement() {
       toast({ title: error.message, variant: "destructive" });
     },
   });
+
+  const handleSendInvoice = async (invoice: Invoice) => {
+    try {
+      const res = await apiRequest("POST", `/api/invoices/${invoice.id}/send`, {});
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to send invoice");
+      }
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      toast({ title: "Invoice sent successfully via email!" });
+    } catch (error: any) {
+      toast({ title: error.message, variant: "destructive" });
+    }
+  };
+
+  const handlePrintInvoice = (invoice: Invoice) => {
+    window.open(`/invoices/${invoice.id}/print`, '_blank');
+  };
+
+  const handleDownloadPDF = async (invoice: Invoice) => {
+    try {
+      window.open(`/api/invoices/${invoice.id}/pdf`, '_blank');
+    } catch (error: any) {
+      toast({ title: "Failed to download PDF", variant: "destructive" });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -228,17 +254,48 @@ export function InvoiceManagement() {
                           {invoice.currency || "USD"}
                         </div>
                       </div>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => {
-                          setSelectedInvoice(invoice);
-                          setViewDialogOpen(true);
-                        }}
-                        data-testid={`view-invoice-${invoice.id}`}
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          size="sm"
+                          variant="default"
+                          onClick={() => handleSendInvoice(invoice)}
+                          data-testid={`send-invoice-${invoice.id}`}
+                          title="Send via Email"
+                        >
+                          <Send className="h-4 w-4 mr-1" />
+                          Send
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handlePrintInvoice(invoice)}
+                          data-testid={`print-invoice-${invoice.id}`}
+                          title="Print Invoice"
+                        >
+                          <Printer className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleDownloadPDF(invoice)}
+                          data-testid={`download-invoice-${invoice.id}`}
+                          title="Download PDF"
+                        >
+                          <Download className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setSelectedInvoice(invoice);
+                            setViewDialogOpen(true);
+                          }}
+                          data-testid={`view-invoice-${invoice.id}`}
+                          title="View Details"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </CardContent>

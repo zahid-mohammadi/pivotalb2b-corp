@@ -448,3 +448,101 @@ Time: ${new Date().toLocaleString()}
     throw error;
   }
 }
+
+interface InvoiceEmailData {
+  customerEmail: string;
+  customerName: string;
+  invoiceNumber: string;
+  invoiceAmount: string;
+  dueDate: string;
+  companyName: string;
+  invoiceUrl: string;
+}
+
+export async function sendInvoiceEmail(data: InvoiceEmailData) {
+  console.log('Preparing to send invoice email:', {
+    customerEmail: data.customerEmail,
+    customerName: data.customerName,
+    invoiceNumber: data.invoiceNumber
+  });
+
+  const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER;
+  const fromName = process.env.SMTP_FROM_NAME || 'Pivotal B2B';
+
+  const mailOptions = {
+    from: `"${fromName}" <${fromEmail}>`,
+    to: data.customerEmail,
+    subject: `Invoice ${data.invoiceNumber} from ${data.companyName}`,
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice ${data.invoiceNumber}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+      <h1 style="color: #ffffff; margin: 0; font-size: 28px;">New Invoice</h1>
+    </div>
+    
+    <div style="padding: 40px 30px;">
+      <p style="font-size: 16px; color: #374151; margin-bottom: 20px;">Dear ${data.customerName},</p>
+      
+      <p style="font-size: 16px; color: #374151; line-height: 1.6;">
+        ${data.companyName} has sent you an invoice. Please review the details below:
+      </p>
+      
+      <div style="background-color: #f9fafb; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Number:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${data.invoiceNumber}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">${data.invoiceAmount}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Due Date:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${data.dueDate}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${data.invoiceUrl}" style="display: inline-block; background-color: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: bold; font-size: 16px;">View Invoice</a>
+      </div>
+      
+      <p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin-top: 30px;">
+        If you have any questions about this invoice, please contact us.
+      </p>
+      
+      <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
+        Best regards,<br>
+        <strong>${data.companyName}</strong>
+      </p>
+    </div>
+    
+    <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+      <p style="margin: 0; color: #6b7280; font-size: 12px;">
+        This is an automated message from ${data.companyName}
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+    `
+  };
+
+  try {
+    console.log('Attempting to send invoice email via SMTP...');
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Invoice email sent successfully:', info.messageId);
+    return true;
+  } catch (error) {
+    console.error('Error sending invoice email:', error);
+    throw error;
+  }
+}
