@@ -484,7 +484,11 @@ export async function sendInvoiceEmail(data: InvoiceEmailData): Promise<{ succes
 
   // Generate or use existing tracking token
   const trackingToken = data.trackingToken || generateTrackingToken();
-  const trackingPixelUrl = `${process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:3000'}/api/invoices/email-tracking/${trackingToken}`;
+  // Get the primary domain for tracking pixel
+  const domains = process.env.REPLIT_DOMAINS?.split(',') || [];
+  const primaryDomain = domains[0] || process.env.REPLIT_DEV_DOMAIN;
+  const baseUrl = primaryDomain ? `https://${primaryDomain}` : 'http://localhost:3000';
+  const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${trackingToken}`;
 
   const fromEmail = process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER;
   const fromName = process.env.SMTP_FROM_NAME || 'Pivotal B2B';

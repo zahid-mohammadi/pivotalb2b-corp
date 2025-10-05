@@ -2517,7 +2517,12 @@ export async function registerRoutes(app: Express) {
         emailTrackingToken: emailTrackingToken,
       });
       
-      const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:3000';
+      // Get the primary domain for invoice URLs
+      // In production: uses REPLIT_DOMAINS (includes custom domain or .replit.app)
+      // In development: uses REPLIT_DEV_DOMAIN (.replit.dev)
+      const domains = process.env.REPLIT_DOMAINS?.split(',') || [];
+      const primaryDomain = domains[0] || process.env.REPLIT_DEV_DOMAIN;
+      const baseUrl = primaryDomain ? `https://${primaryDomain}` : 'http://localhost:3000';
       const invoiceUrl = `${baseUrl}/public/invoices/${trackingToken}`;
       const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${emailTrackingToken}`;
       
@@ -2735,8 +2740,12 @@ export async function registerRoutes(app: Express) {
       
       const userId = (req.user as any)?.id || 1;
       
-      // Use existing tokens
-      const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:3000';
+      // Get the primary domain for invoice URLs
+      // In production: uses REPLIT_DOMAINS (includes custom domain or .replit.app)
+      // In development: uses REPLIT_DEV_DOMAIN (.replit.dev)
+      const domains = process.env.REPLIT_DOMAINS?.split(',') || [];
+      const primaryDomain = domains[0] || process.env.REPLIT_DEV_DOMAIN;
+      const baseUrl = primaryDomain ? `https://${primaryDomain}` : 'http://localhost:3000';
       const invoiceUrl = `${baseUrl}/public/invoices/${invoice.viewTrackingToken}`;
       const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${invoice.emailTrackingToken}`;
       
