@@ -1639,22 +1639,48 @@ export async function registerRoutes(app: Express) {
         return res.status(400).send(`OAuth error: ${tokenData.error_description}`);
       }
 
-      const profileResponse = await fetch('https://graph.microsoft.com/v1.0/me', {
-        headers: {
-          'Authorization': `Bearer ${tokenData.access_token}`,
-        },
-      });
+      // Decode the ID token to get user email (avoid calling /me endpoint)
+      let email: string | undefined;
+      
+      if (tokenData.id_token) {
+        try {
+          // ID token is a JWT with 3 parts: header.payload.signature
+          const idTokenPayload = JSON.parse(Buffer.from(tokenData.id_token.split('.')[1], 'base64').toString());
+          console.log("ID token claims:", { 
+            email: idTokenPayload.email, 
+            preferred_username: idTokenPayload.preferred_username,
+            upn: idTokenPayload.upn 
+          });
+          
+          // Try multiple email fields from ID token
+          email = idTokenPayload.email || idTokenPayload.preferred_username || idTokenPayload.upn;
+        } catch (err) {
+          console.error("Error decoding ID token:", err);
+        }
+      }
 
-      const profile = await profileResponse.json();
-      console.log("M365 profile received:", { mail: profile.mail, userPrincipalName: profile.userPrincipalName, id: profile.id });
+      // Fallback to Graph API /me endpoint if no email in ID token
+      if (!email) {
+        console.log("No email in ID token, calling /me endpoint...");
+        const profileResponse = await fetch('https://graph.microsoft.com/v1.0/me', {
+          headers: {
+            'Authorization': `Bearer ${tokenData.access_token}`,
+          },
+        });
 
-      // Get email from profile - try multiple fields
-      const email = profile.mail || profile.userPrincipalName || profile.emailAddresses?.[0]?.address;
+        const profile = await profileResponse.json();
+        console.log("M365 profile received:", { mail: profile.mail, userPrincipalName: profile.userPrincipalName, id: profile.id });
+
+        // Get email from profile - try multiple fields
+        email = profile.mail || profile.userPrincipalName || profile.emailAddresses?.[0]?.address;
+      }
       
       if (!email) {
-        console.error("No email found in M365 profile:", profile);
+        console.error("No email found in M365 tokens or profile");
         return res.status(400).send("Unable to retrieve email address from Microsoft account. Please ensure your Microsoft account has an email address configured.");
       }
+
+      console.log("Successfully extracted email:", email);
 
       await storage.createM365Connection({
         userId,
