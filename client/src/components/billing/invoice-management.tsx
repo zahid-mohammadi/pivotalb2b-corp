@@ -562,7 +562,12 @@ export function InvoiceManagement() {
                   <SelectContent>
                     {customers?.map(customer => (
                       <SelectItem key={customer.id} value={customer.id.toString()}>
-                        {customer.companyName}
+                        <div className="flex flex-col">
+                          <span>{customer.companyName}</span>
+                          {customer.contactName && (
+                            <span className="text-xs text-muted-foreground">Contact: {customer.contactName}</span>
+                          )}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -570,6 +575,9 @@ export function InvoiceManagement() {
                 {selectedAccount && (
                   <div className="text-xs text-muted-foreground mt-1 space-y-1">
                     <div className="font-medium">{selectedAccount.companyName}</div>
+                    {selectedAccount.contactName && (
+                      <div className="text-foreground">Contact: {selectedAccount.contactName}</div>
+                    )}
                     {selectedAccount.billingAddress && <div>{selectedAccount.billingAddress}</div>}
                   </div>
                 )}
