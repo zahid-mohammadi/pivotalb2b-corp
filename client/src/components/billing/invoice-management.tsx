@@ -13,6 +13,7 @@ import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Do
 import { format } from "date-fns";
 import type { Invoice, Account, Sku, TaxCode, Contact } from "@shared/schema";
 import { EmailComposeDialog } from "./email-compose-dialog";
+import { InvoiceActivityTracker } from "./invoice-activity-tracker";
 
 interface InvoiceLineItem {
   skuId?: number;
@@ -659,52 +660,57 @@ export function InvoiceManagement() {
       </Dialog>
 
       <Dialog open={viewDialogOpen} onOpenChange={setViewDialogOpen}>
-        <DialogContent className="max-w-3xl">
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Invoice Details</DialogTitle>
+            <DialogTitle>Invoice Details & Activity</DialogTitle>
             <DialogDescription>
-              View complete invoice information and line items
+              View invoice information, tracking data, and customer engagement
             </DialogDescription>
           </DialogHeader>
           {selectedInvoice && (
-            <div className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-6">
+              {/* Invoice Summary */}
+              <div className="grid gap-4 md:grid-cols-4">
                 <div>
                   <Label className="text-xs text-muted-foreground">Invoice Number</Label>
                   <p className="font-medium">{selectedInvoice.number}</p>
                 </div>
                 <div>
-                  <Label className="text-xs text-muted-foreground">Status</Label>
-                  <Badge className={getStatusColor(selectedInvoice.status)}>
-                    {selectedInvoice.status}
-                  </Badge>
+                  <Label className="text-xs text-muted-foreground">Customer</Label>
+                  <p className="font-medium">{customers?.find(c => c.id === selectedInvoice.accountId)?.companyName}</p>
                 </div>
                 <div>
                   <Label className="text-xs text-muted-foreground">Invoice Date</Label>
-                  <p>{format(new Date(selectedInvoice.issueDate), "MMMM d, yyyy")}</p>
+                  <p>{format(new Date(selectedInvoice.issueDate), "MMM d, yyyy")}</p>
                 </div>
                 <div>
                   <Label className="text-xs text-muted-foreground">Due Date</Label>
-                  <p>{format(new Date(selectedInvoice.dueDate), "MMMM d, yyyy")}</p>
+                  <p>{format(new Date(selectedInvoice.dueDate), "MMM d, yyyy")}</p>
                 </div>
               </div>
+              
               <div className="border-t pt-4">
                 <div className="flex justify-end">
                   <div className="w-64 space-y-2">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between text-sm">
                       <span>Subtotal:</span>
                       <span>${(selectedInvoice.subtotal / 100).toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between text-sm">
                       <span>Tax:</span>
                       <span>${(selectedInvoice.taxTotal / 100).toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between text-lg font-bold border-t pt-2">
                       <span>Total:</span>
-                      <span>${(selectedInvoice.total / 100).toFixed(2)}</span>
+                      <span className="text-2xl">${(selectedInvoice.total / 100).toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Activity Tracker */}
+              <div className="border-t pt-4">
+                <InvoiceActivityTracker invoice={selectedInvoice} />
               </div>
             </div>
           )}
