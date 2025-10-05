@@ -57,8 +57,12 @@ export function CustomerManagement() {
     const formData = new FormData(e.currentTarget);
     const data = {
       companyName: formData.get("companyName") as string,
+      contactName: formData.get("contactName") as string || undefined,
       billingEmail: formData.get("billingEmail") as string || undefined,
       billingAddress: formData.get("billingAddress") as string || undefined,
+      billingCity: formData.get("billingCity") as string || undefined,
+      billingState: formData.get("billingState") as string || undefined,
+      billingZip: formData.get("billingZip") as string || undefined,
       taxId: formData.get("taxId") as string || undefined,
       paymentTerms: formData.get("paymentTerms") as string || undefined,
       currency: formData.get("currency") as string || undefined,
