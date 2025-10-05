@@ -2334,6 +2334,21 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.get("/api/invoices/:id/lines", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const lines = await storage.getInvoiceLinesByInvoice(id);
+      res.json(lines);
+    } catch (error) {
+      console.error("Error fetching invoice lines:", error);
+      res.status(500).json({ error: "Failed to fetch invoice lines" });
+    }
+  });
+
   app.post("/api/invoices", async (req, res) => {
     try {
       const { lines, ...invoiceData } = req.body;
