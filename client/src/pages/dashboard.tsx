@@ -950,6 +950,16 @@ export default function Dashboard() {
 
             {/* Billing & Accounting Tab */}
             {activeTab === "billing" && <BillingModule />}
+            
+            {/* Billing Sub-Tabs (from navigation) */}
+            {activeTab === "billing-overview" && <BillingModule initialTab="overview" />}
+            {activeTab === "billing-customers" && <BillingModule initialTab="customers" />}
+            {activeTab === "billing-invoices" && <BillingModule initialTab="invoices" />}
+            {activeTab === "billing-payments" && <BillingModule initialTab="payments" />}
+            {activeTab === "billing-expenses" && <BillingModule initialTab="expenses" />}
+            {activeTab === "billing-products" && <BillingModule initialTab="products" />}
+            {activeTab === "billing-reports" && <BillingModule initialTab="reports" />}
+            {activeTab === "billing-settings" && <BillingModule initialTab="settings" />}
           </div>
         </div>
       </div>

@@ -251,34 +251,59 @@ export const navigationConfig: NavItem[] = [
     roles: ["admin", "finance"],
     children: [
       {
-        title: "Invoices & Estimates",
+        title: "Overview Dashboard",
         href: "/dashboard",
-        tab: "billing",
+        tab: "billing-overview",
+        icon: BarChart3,
+        roles: ["admin", "finance"]
+      },
+      {
+        title: "Customers",
+        href: "/dashboard",
+        tab: "billing-customers",
+        icon: Building,
+        roles: ["admin", "finance"]
+      },
+      {
+        title: "Invoices",
+        href: "/dashboard",
+        tab: "billing-invoices",
         icon: Receipt,
         roles: ["admin", "finance"]
       },
       {
-        title: "Expenses & Bills",
-        href: "/billing/expenses",
+        title: "Payments",
+        href: "/dashboard",
+        tab: "billing-payments",
         icon: CreditCard,
         roles: ["admin", "finance"]
       },
       {
-        title: "Payments & Receipts",
-        href: "/billing/payments",
+        title: "Expenses",
+        href: "/dashboard",
+        tab: "billing-expenses",
         icon: Wallet,
         roles: ["admin", "finance"]
       },
       {
         title: "Products & Services",
-        href: "/billing/catalog",
+        href: "/dashboard",
+        tab: "billing-products",
         icon: Package,
         roles: ["admin", "finance"]
       },
       {
-        title: "Reports",
-        href: "/billing/reports",
+        title: "Financial Reports",
+        href: "/dashboard",
+        tab: "billing-reports",
         icon: PieChart,
+        roles: ["admin", "finance"]
+      },
+      {
+        title: "Tax Codes",
+        href: "/dashboard",
+        tab: "billing-settings",
+        icon: Settings,
         roles: ["admin", "finance"]
       }
     ]

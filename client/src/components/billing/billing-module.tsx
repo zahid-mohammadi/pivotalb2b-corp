@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,8 +21,16 @@ import { ExpenseManagement } from "./expense-management";
 import { FinancialReports } from "./financial-reports";
 import type { Account, Invoice } from "@shared/schema";
 
-export function BillingModule() {
-  const [activeSubTab, setActiveSubTab] = useState("overview");
+interface BillingModuleProps {
+  initialTab?: "overview" | "customers" | "invoices" | "payments" | "expenses" | "products" | "reports" | "settings";
+}
+
+export function BillingModule({ initialTab = "overview" }: BillingModuleProps = {}) {
+  const [activeSubTab, setActiveSubTab] = useState<string>(initialTab);
+
+  useEffect(() => {
+    setActiveSubTab(initialTab);
+  }, [initialTab]);
 
   // Fetch accounts (customers) for billing
   const { data: customers } = useQuery<Account[]>({
