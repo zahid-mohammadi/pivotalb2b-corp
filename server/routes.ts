@@ -3343,8 +3343,7 @@ export async function registerRoutes(app: Express) {
     }
     table { 
       width: 100%; 
-      border-collapse: collapse; 
-      min-width: 500px;
+      border-collapse: collapse;
     }
     th { 
       background-color: #667eea; 
@@ -3353,12 +3352,23 @@ export async function registerRoutes(app: Express) {
       text-align: left; 
       font-size: 13px;
       font-weight: 600;
-      white-space: nowrap;
+    }
+    th.text-center {
+      text-align: center;
+    }
+    th.text-right {
+      text-align: right;
     }
     td { 
       padding: 12px; 
       border-bottom: 1px solid #e5e7eb; 
       font-size: 14px;
+    }
+    td.text-center {
+      text-align: center;
+    }
+    td.text-right {
+      text-align: right;
     }
     tbody tr:last-child td {
       border-bottom: none;
@@ -3493,19 +3503,58 @@ export async function registerRoutes(app: Express) {
         border-radius: 0;
         border-left: none;
         border-right: none;
+        overflow-x: visible;
       }
-      th, td {
-        padding: 10px 8px;
+      
+      /* Mobile-friendly table: convert to cards */
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      
+      tbody tr {
+        margin-bottom: 16px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 12px;
+        background-color: white;
+      }
+      
+      tbody tr:hover {
+        background-color: white;
+      }
+      
+      td {
+        border: none;
+        border-bottom: 1px solid #f3f4f6;
+        position: relative;
+        padding: 12px 12px 12px 45%;
+        text-align: right !important;
+        font-size: 14px;
+      }
+      
+      td:last-child {
+        border-bottom: none;
+      }
+      
+      td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 12px;
+        width: 40%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 600;
+        color: #667eea;
         font-size: 13px;
       }
-      th:first-child,
-      td:first-child {
-        padding-left: 16px;
-      }
-      th:last-child,
-      td:last-child {
-        padding-right: 16px;
-      }
+      
       .total-section {
         margin-top: 20px;
       }
@@ -3553,20 +3602,12 @@ export async function registerRoutes(app: Express) {
       .invoice-title {
         font-size: 20px;
       }
-      table {
-        min-width: 400px;
+      td {
+        font-size: 13px;
+        padding: 10px 10px 10px 45%;
       }
-      th, td {
+      td:before {
         font-size: 12px;
-        padding: 8px 6px;
-      }
-      th:first-child,
-      td:first-child {
-        padding-left: 12px;
-      }
-      th:last-child,
-      td:last-child {
-        padding-right: 12px;
       }
     }
     
@@ -3622,18 +3663,18 @@ export async function registerRoutes(app: Express) {
       <thead>
         <tr>
           <th>Description</th>
-          <th style="text-align: center;">Quantity</th>
-          <th style="text-align: right;">Unit Price</th>
-          <th style="text-align: right;">Amount</th>
+          <th class="text-center">Quantity</th>
+          <th class="text-right">Unit Price</th>
+          <th class="text-right">Amount</th>
         </tr>
       </thead>
       <tbody>
         ${lines.map(line => `
           <tr>
-            <td>${line.description}</td>
-            <td style="text-align: center;">${line.quantity}</td>
-            <td style="text-align: right;">$${(line.unitPrice / 100).toFixed(2)}</td>
-            <td style="text-align: right;">$${(line.lineTotal / 100).toFixed(2)}</td>
+            <td data-label="Description">${line.description}</td>
+            <td data-label="Quantity" class="text-center">${line.quantity}</td>
+            <td data-label="Unit Price" class="text-right">$${(line.unitPrice / 100).toFixed(2)}</td>
+            <td data-label="Amount" class="text-right">$${(line.lineTotal / 100).toFixed(2)}</td>
           </tr>
         `).join('')}
       </tbody>
