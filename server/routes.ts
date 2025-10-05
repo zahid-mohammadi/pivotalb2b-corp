@@ -2688,7 +2688,7 @@ export async function registerRoutes(app: Express) {
       
       const printer = new PdfPrinter(fonts);
       
-      const companyName = 'Pivotal B2B';
+      const companyName = 'Pivotal B2B LLC';
       const companyAddress = '16192 Coastal Highway\nLewes, Delaware 19958\nUSA';
       const bankDetails = settings?.bankDetails || '';
       
@@ -2710,20 +2710,15 @@ export async function registerRoutes(app: Express) {
           {
             columns: [
               {
-                width: 120,
-                ...(logoBase64 ? {
-                  image: logoBase64,
-                  width: 100,
-                  margin: [0, 0, 0, 10]
-                } : {
-                  text: ''
-                })
-              },
-              {
                 width: '*',
                 stack: [
-                  { text: companyName, style: 'companyName', margin: [0, 10, 0, 0] },
-                  { text: companyAddress, style: 'address', margin: [0, 5, 0, 0] }
+                  ...(logoBase64 ? [{
+                    image: logoBase64,
+                    width: 100,
+                    margin: [0, 0, 0, 8]
+                  }] : []),
+                  { text: companyName, style: 'companyNameSmall' },
+                  { text: companyAddress, style: 'address', margin: [0, 3, 0, 0] }
                 ]
               },
               {
@@ -2963,8 +2958,13 @@ export async function registerRoutes(app: Express) {
             bold: true,
             color: '#667eea'
           },
+          companyNameSmall: {
+            fontSize: 11,
+            bold: true,
+            color: '#1f2937'
+          },
           address: {
-            fontSize: 10,
+            fontSize: 9,
             color: '#6b7280'
           },
           invoiceTitle: {
