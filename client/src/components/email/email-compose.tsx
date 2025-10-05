@@ -157,12 +157,12 @@ export function EmailCompose({ open, onClose, defaultTo = "", defaultSubject = "
 
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl w-[95vw] h-[90vh] flex flex-col p-6">
         <DialogHeader>
           <DialogTitle>Compose Email</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-4 flex-1 overflow-y-auto">
           <div className="space-y-2">
             <Label htmlFor="to">To</Label>
             <Input
@@ -186,7 +186,7 @@ export function EmailCompose({ open, onClose, defaultTo = "", defaultSubject = "
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 flex-1">
             <div className="flex items-center justify-between">
               <Label>Message</Label>
               <Button
@@ -200,17 +200,17 @@ export function EmailCompose({ open, onClose, defaultTo = "", defaultSubject = "
                 Insert Signature
               </Button>
             </div>
-            <div className="border rounded-md">
+            <div className="border rounded-md min-h-[500px]">
               <Editor
                 tinymceScriptSrc="/tinymce/tinymce.min.js"
                 onInit={(evt, editor) => (editorRef.current = editor)}
                 init={{
-                  height: 400,
+                  height: 500,
                   menubar: false,
                   plugins: [
-                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
-                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                    'advlist', 'autolink', 'lists', 'link', 'charmap',
+                    'searchreplace', 'visualblocks', 'code',
+                    'insertdatetime', 'table', 'help', 'wordcount'
                   ],
                   toolbar: 'undo redo | blocks | ' +
                     'bold italic underline strikethrough | forecolor backcolor | ' +
@@ -219,6 +219,7 @@ export function EmailCompose({ open, onClose, defaultTo = "", defaultSubject = "
                   content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 14px; }',
                   branding: false,
                   promotion: false,
+                  statusbar: true,
                 }}
               />
             </div>
