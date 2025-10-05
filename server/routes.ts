@@ -2649,7 +2649,7 @@ export async function registerRoutes(app: Express) {
       const billingSettings = await storage.getBillingSettings();
       const settings = billingSettings[0];
       
-      const PdfPrinter = require('pdfmake');
+      const PdfPrinter = (await import('pdfmake')).default;
       
       const fonts = {
         Helvetica: {
