@@ -1,0 +1,35 @@
+# Robots.txt for Pivotal B2B
+
+# Allow all search engines to index public pages
+User-agent: *
+Allow: /
+Allow: /services/
+Allow: /blog/
+Allow: /ebooks/
+Allow: /case-studies/
+Allow: /about
+Allow: /contact
+Allow: /b2b-audience
+Allow: /request-proposal
+
+# Block all dashboard and private routes
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /proposal/
+Disallow: /lead/
+Disallow: /accounts
+Disallow: /accounts/
+Disallow: /contacts
+Disallow: /contacts/
+Disallow: /invoices/
+Disallow: /public/invoices/
+Disallow: /login
+Disallow: /logout
+Disallow: /signup
+Disallow: /reset-password
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.pivotal-b2b.com/sitemap.xml

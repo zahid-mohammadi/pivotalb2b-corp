@@ -6,6 +6,7 @@ import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
 import { storage } from "./storage";
 import { User } from "@shared/schema";
+import { authRateLimiter } from "./middleware/auth-rate-limiter";
 
 declare global {
   namespace Express {
@@ -91,7 +92,7 @@ export function setupAuth(app: Express) {
     }
   });
 
-  app.post("/api/login", (req, res, next) => {
+  app.post("/api/login", authRateLimiter, (req, res, next) => {
     passport.authenticate("local", (err: Error, user: User, info: any) => {
       if (err) {
         return next(err);

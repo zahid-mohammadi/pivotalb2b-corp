@@ -11,8 +11,12 @@ import { setupAnalyticsWebSocket } from "./services/analytics-ws";
 import cookieParser from 'cookie-parser';
 // Removed email bot blocker import
 import { seoMetaTagsMiddleware } from "./middleware/seo-meta-tags";
+import { securityHeadersMiddleware } from "./middleware/security-headers";
 
 const app = express();
+
+// Security headers - must be first
+app.use(securityHeadersMiddleware);
 
 // Optimize for high traffic campaigns
 app.use(express.json({ limit: '10mb' }));
@@ -82,6 +86,12 @@ app.use((req, res, next) => {
 
   // Register sitemap routes
   app.use(sitemapRouter);
+
+  // Serve robots.txt
+  app.get('/robots.txt', (_req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.join(process.cwd(), 'robots.txt'));
+  });
 
   // Enhanced error handling for database timeouts
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {

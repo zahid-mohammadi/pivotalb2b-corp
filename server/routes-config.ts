@@ -34,13 +34,19 @@ export const getRouteConfigs = async (): Promise<RouteConfig[]> => {
 // Exclude these routes from sitemap
 export const excludedRoutes = [
   '/dashboard',  // Private route
-  '/login',     // Auth route
-  '/not-found', // Error page
-  '/logout',    // Auth route
+  '/proposal',   // Private route
+  '/lead',       // Private route
+  '/accounts',   // Private route
+  '/contacts',   // Private route
+  '/invoices',   // Private route (if exists)
+  '/public',     // Public invoice view (token-based, no SEO)
+  '/login',      // Auth route
+  '/logout',     // Auth route
+  '/signup',     // Auth route
   '/reset-password', // Auth route
-  '/signup',    // Auth route
-  '/admin',     // Admin routes
-  '/api',       // API routes
+  '/not-found',  // Error page
+  '/admin',      // Admin routes
+  '/api',        // API routes
   '/agency-partnerships', // Removed from menu and sitemap
-  '/media-kit'  // Removed media kit page
+  '/media-kit'   // Removed media kit page
 ];
