@@ -2317,8 +2317,8 @@ export async function registerRoutes(app: Express) {
       }
       
       const account = await storage.getAccountById(invoice.accountId);
-      if (!account || !account.email) {
-        return res.status(400).json({ error: "Customer email not found" });
+      if (!account || !account.billingEmail) {
+        return res.status(400).json({ error: "Customer billing email not found" });
       }
       
       const billingSettings = await storage.getBillingSettings();
@@ -2337,7 +2337,7 @@ export async function registerRoutes(app: Express) {
       const invoiceUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/public/invoices/${trackingToken}`;
       
       await sendInvoiceEmail({
-        customerEmail: account.email,
+        customerEmail: account.billingEmail,
         customerName: account.companyName,
         invoiceNumber: invoice.number,
         invoiceAmount: `$${(invoice.total / 100).toFixed(2)}`,
