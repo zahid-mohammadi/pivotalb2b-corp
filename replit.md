@@ -27,6 +27,13 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - Optimize for mobile views
 
 ## Recent Changes
+- **NEW: Professional Invoice PDF Generation** (October 5, 2025)
+  - Upgraded to pdfmake for server-side PDF generation
+  - A4-sized invoices with company branding (logo, address, banking info)
+  - Proper PDF download with filename invoice-{number}.pdf
+  - Professional layout with color-coded sections and tables
+  - Includes all invoice details: line items, taxes, totals, payment info
+
 - **NEW: Billing & Accounting Module** (October 5, 2025)
   - Complete invoicing system with line items, SKUs, and tax management
   - Invoice actions: Send via email, Download PDF, Print, Public view tracking
@@ -96,7 +103,11 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
   - Email open tracking with tracking pixels
   - View email open counts and timestamps
   - Payment reminder system for sent invoices
-- **PDF Generation**: Professional invoice PDFs with company branding
+- **PDF Generation**: 
+  - Professional A4-sized invoice PDFs using pdfmake
+  - Includes company logo, address, and banking information
+  - Downloadable PDF format with proper branding
+  - Consistent formatting across all invoices
 - **View Tracking**: Monitor who views public invoices and when
 - **Reminder System**:
   - Send payment reminders for overdue invoices

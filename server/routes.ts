@@ -2678,7 +2678,6 @@ export async function registerRoutes(app: Express) {
               {
                 width: '*',
                 stack: [
-                  ...(logoUrl ? [{ image: logoUrl, width: 120, margin: [0, 0, 0, 10] }] : []),
                   { text: companyName, style: 'companyName' },
                   { text: companyAddress, style: 'address', margin: [0, 5, 0, 0] }
                 ]
