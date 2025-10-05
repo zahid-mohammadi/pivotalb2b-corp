@@ -41,12 +41,12 @@ export function BillingModule({ initialTab = "overview" }: BillingModuleProps = 
 
   // Fetch invoices
   const { data: invoices } = useQuery<Invoice[]>({
-    queryKey: ["/api/billing/invoices"],
+    queryKey: ["/api/invoices"],
   });
 
   // Calculate metrics
   const totalRevenue = invoices?.reduce((sum, inv) => sum + (inv.amountPaid || 0), 0) || 0;
-  const totalOutstanding = invoices?.reduce((sum, inv) => sum + (inv.amountDue || 0), 0) || 0;
+  const totalOutstanding = invoices?.filter(inv => inv.status !== 'paid' && inv.status !== 'void').reduce((sum, inv) => sum + (inv.amountDue || 0), 0) || 0;
   const activeInvoices = invoices?.filter(inv => inv.status !== 'paid' && inv.status !== 'void').length || 0;
 
   return (
