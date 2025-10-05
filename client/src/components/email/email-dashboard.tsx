@@ -18,7 +18,7 @@ export function EmailDashboard() {
     queryKey: ["/api/pipeline/m365-connection"],
   });
 
-  const isExpired = connection && new Date(connection.expiresAt) < new Date();
+  const isExpired = connection ? new Date(connection.expiresAt) < new Date() : false;
 
   if (!connection) {
     return (
