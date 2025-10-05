@@ -715,7 +715,7 @@ export const invoices = pgTable("invoices", {
 
 export type Invoice = typeof invoices.$inferSelect;
 export const insertInvoiceSchema = createInsertSchema(invoices)
-  .omit({ id: true, createdAt: true, updatedAt: true })
+  .omit({ id: true, createdAt: true, updatedAt: true, createdBy: true })
   .extend({
     issueDate: z.string(),
     dueDate: z.string(),
