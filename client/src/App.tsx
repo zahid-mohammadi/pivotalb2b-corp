@@ -40,10 +40,18 @@ import { PageTransition } from "@/components/ui/page-transition";
 function Router() {
   // Add analytics tracking
   useAnalytics();
+  const [location] = useLocation();
+
+  // Check if current route is a dashboard page
+  const isDashboardPage = location.startsWith('/dashboard') || 
+                          location.startsWith('/proposal/') || 
+                          location.startsWith('/lead/') || 
+                          location === '/accounts' || 
+                          location === '/contacts';
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar />
+      {!isDashboardPage && <Navbar />}
       <main className="flex-grow">
         <Switch>
           <Route path="/" component={Home} />
@@ -73,8 +81,8 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </main>
-      <Footer />
-      <CookieConsent />
+      {!isDashboardPage && <Footer />}
+      {!isDashboardPage && <CookieConsent />}
     </div>
   );
 }
