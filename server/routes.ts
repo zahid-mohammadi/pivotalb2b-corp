@@ -3267,29 +3267,325 @@ export async function registerRoutes(app: Express) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invoice ${invoice.number}</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f3f4f6; color: #333; }
-    .container { max-width: 800px; margin: 0 auto; background-color: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .header { display: flex; justify-content: space-between; margin-bottom: 40px; border-bottom: 3px solid #667eea; padding-bottom: 20px; }
-    .company { font-weight: bold; font-size: 24px; color: #667eea; }
-    .invoice-title { font-size: 32px; font-weight: bold; text-align: right; color: #333; }
-    .info-section { margin-bottom: 30px; }
-    .info-section h3 { font-size: 14px; color: #666; margin-bottom: 5px; }
-    .info-section p { margin: 3px 0; }
-    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-    th { background-color: #667eea; color: white; padding: 12px; text-align: left; }
-    td { padding: 10px; border-bottom: 1px solid #ddd; }
-    .total-section { margin-top: 30px; text-align: right; }
-    .total-row { display: flex; justify-content: flex-end; padding: 8px 0; }
-    .total-label { width: 150px; font-weight: bold; }
-    .total-value { width: 150px; text-align: right; }
-    .grand-total { font-size: 20px; color: #667eea; border-top: 2px solid #667eea; padding-top: 10px; margin-top: 10px; }
-    .actions { margin-top: 30px; text-align: center; }
-    .btn { display: inline-block; padding: 12px 24px; margin: 0 10px; background-color: #667eea; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; }
-    .btn:hover { background-color: #5568d3; }
+    * { box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; 
+      margin: 0; 
+      padding: 12px; 
+      background-color: #f3f4f6; 
+      color: #333; 
+      line-height: 1.6;
+    }
+    .container { 
+      max-width: 800px; 
+      margin: 0 auto; 
+      background-color: white; 
+      padding: 24px; 
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+      border-radius: 8px;
+    }
+    .header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-start;
+      margin-bottom: 32px; 
+      border-bottom: 3px solid #667eea; 
+      padding-bottom: 20px; 
+      gap: 16px;
+    }
+    .company { 
+      font-weight: bold; 
+      font-size: 22px; 
+      color: #667eea; 
+      line-height: 1.2;
+    }
+    .company-address {
+      font-size: 13px;
+      color: #666;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .invoice-title { 
+      font-size: 28px; 
+      font-weight: bold; 
+      text-align: right; 
+      color: #333; 
+      white-space: nowrap;
+    }
+    .info-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .info-section { 
+      background-color: #f9fafb;
+      padding: 16px;
+      border-radius: 6px;
+    }
+    .info-section h3 { 
+      font-size: 12px; 
+      color: #667eea; 
+      margin: 0 0 10px 0; 
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .info-section p { 
+      margin: 4px 0; 
+      font-size: 14px;
+    }
+    .table-wrapper {
+      overflow-x: auto;
+      margin-top: 24px;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+    }
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      min-width: 500px;
+    }
+    th { 
+      background-color: #667eea; 
+      color: white; 
+      padding: 12px; 
+      text-align: left; 
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    td { 
+      padding: 12px; 
+      border-bottom: 1px solid #e5e7eb; 
+      font-size: 14px;
+    }
+    tbody tr:last-child td {
+      border-bottom: none;
+    }
+    tbody tr:hover {
+      background-color: #f9fafb;
+    }
+    .total-section { 
+      margin-top: 24px; 
+      padding-top: 16px;
+      border-top: 2px solid #e5e7eb;
+    }
+    .total-row { 
+      display: flex; 
+      justify-content: flex-end; 
+      padding: 6px 0; 
+      gap: 40px;
+    }
+    .total-label { 
+      min-width: 120px; 
+      font-weight: 600; 
+      text-align: right;
+      color: #4b5563;
+    }
+    .total-value { 
+      min-width: 100px; 
+      text-align: right; 
+      font-weight: 500;
+    }
+    .grand-total { 
+      font-size: 18px; 
+      color: #667eea; 
+      border-top: 2px solid #667eea; 
+      padding-top: 12px; 
+      margin-top: 8px; 
+    }
+    .grand-total .total-label,
+    .grand-total .total-value {
+      font-weight: 700;
+    }
+    .actions { 
+      margin-top: 32px; 
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn { 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px; 
+      background-color: #667eea; 
+      color: white; 
+      text-decoration: none; 
+      border-radius: 6px; 
+      font-weight: 600; 
+      font-size: 14px;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      min-width: 140px;
+    }
+    .btn:hover { 
+      background-color: #5568d3; 
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+    .btn:active {
+      transform: translateY(0);
+    }
+    .footer-info {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+      color: #6b7280;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .bank-details {
+      margin-top: 16px;
+      padding: 16px;
+      background-color: #f9fafb;
+      border-radius: 6px;
+      border-left: 3px solid #667eea;
+    }
+    .bank-details strong {
+      color: #374151;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 8px;
+      }
+      .container {
+        padding: 20px 16px;
+        border-radius: 0;
+      }
+      .header {
+        flex-direction: column;
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .company {
+        font-size: 20px;
+      }
+      .company-address {
+        font-size: 12px;
+      }
+      .invoice-title {
+        font-size: 24px;
+        text-align: left;
+      }
+      .info-wrapper {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .info-section {
+        padding: 14px;
+      }
+      .info-section h3 {
+        font-size: 11px;
+      }
+      .info-section p {
+        font-size: 13px;
+      }
+      .table-wrapper {
+        margin-left: -16px;
+        margin-right: -16px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+      th, td {
+        padding: 10px 8px;
+        font-size: 13px;
+      }
+      th:first-child,
+      td:first-child {
+        padding-left: 16px;
+      }
+      th:last-child,
+      td:last-child {
+        padding-right: 16px;
+      }
+      .total-section {
+        margin-top: 20px;
+      }
+      .total-row {
+        gap: 16px;
+        font-size: 14px;
+      }
+      .total-label {
+        min-width: auto;
+        flex: 1;
+      }
+      .total-value {
+        min-width: auto;
+        flex-shrink: 0;
+      }
+      .grand-total {
+        font-size: 16px;
+      }
+      .actions {
+        flex-direction: column;
+        margin-top: 24px;
+      }
+      .btn {
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 15px;
+      }
+      .footer-info {
+        font-size: 12px;
+        margin-top: 24px;
+      }
+      .bank-details {
+        padding: 14px;
+        font-size: 12px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 16px 12px;
+      }
+      .company {
+        font-size: 18px;
+      }
+      .invoice-title {
+        font-size: 20px;
+      }
+      table {
+        min-width: 400px;
+      }
+      th, td {
+        font-size: 12px;
+        padding: 8px 6px;
+      }
+      th:first-child,
+      td:first-child {
+        padding-left: 12px;
+      }
+      th:last-child,
+      td:last-child {
+        padding-right: 12px;
+      }
+    }
+    
     @media print {
-      body { background-color: white; }
-      .container { box-shadow: none; }
-      .actions { display: none; }
+      body { 
+        background-color: white; 
+        padding: 0;
+      }
+      .container { 
+        box-shadow: none; 
+        padding: 20px;
+        border-radius: 0;
+      }
+      .actions { 
+        display: none; 
+      }
+      .table-wrapper {
+        border: 1px solid #e5e7eb;
+      }
     }
   </style>
 </head>
@@ -3298,20 +3594,22 @@ export async function registerRoutes(app: Express) {
     <div class="header">
       <div>
         <div class="company">${companyName}</div>
-        <p>${companyAddress}</p>
+        <div class="company-address">${companyAddress}</div>
       </div>
       <div class="invoice-title">INVOICE</div>
     </div>
     
-    <div style="display: flex; justify-content: space-between;">
+    <div class="info-wrapper">
       <div class="info-section">
-        <h3>BILL TO:</h3>
+        <h3>Bill To:</h3>
         <p><strong>${account?.companyName || 'N/A'}</strong></p>
-        <p>${account?.billingAddress || ''}</p>
-        <p>${account?.billingCity || ''}, ${account?.billingState || ''} ${account?.billingZip || ''}</p>
+        ${account?.contactName ? `<p>${account.contactName}</p>` : ''}
+        ${account?.billingAddress ? `<p>${account.billingAddress}</p>` : ''}
+        ${account?.billingCity || account?.billingState || account?.billingZip ? `<p>${account?.billingCity || ''}${account?.billingCity && (account?.billingState || account?.billingZip) ? ', ' : ''}${account?.billingState || ''} ${account?.billingZip || ''}</p>` : ''}
       </div>
       
       <div class="info-section">
+        <h3>Invoice Details:</h3>
         <p><strong>Invoice #:</strong> ${invoice.number}</p>
         <p><strong>Date:</strong> ${new Date(invoice.issueDate).toLocaleDateString()}</p>
         <p><strong>Due Date:</strong> ${new Date(invoice.dueDate).toLocaleDateString()}</p>
@@ -3319,6 +3617,7 @@ export async function registerRoutes(app: Express) {
       </div>
     </div>
     
+    <div class="table-wrapper">
     <table>
       <thead>
         <tr>
@@ -3339,6 +3638,7 @@ export async function registerRoutes(app: Express) {
         `).join('')}
       </tbody>
     </table>
+    </div>
     
     <div class="total-section">
       <div class="total-row">
@@ -3364,12 +3664,12 @@ export async function registerRoutes(app: Express) {
     </div>
     
     <div class="actions">
-      <a href="javascript:window.print()" class="btn">Print Invoice</a>
-      <a href="/api/invoices/${invoice.id}/pdf" class="btn" target="_blank">Download PDF</a>
+      <a href="javascript:window.print()" class="btn">🖨️ Print Invoice</a>
+      <a href="/api/invoices/${invoice.id}/pdf" class="btn" target="_blank">📄 Download PDF</a>
     </div>
     
-    ${settings?.invoiceFooter ? `<div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">${settings.invoiceFooter}</div>` : ''}
-    ${settings?.bankDetails ? `<div style="margin-top: 20px; padding: 15px; background-color: #f9fafb; border-radius: 4px;"><strong>Bank Details:</strong><br>${settings.bankDetails.replace(/\n/g, '<br>')}</div>` : ''}
+    ${settings?.invoiceFooter ? `<div class="footer-info">${settings.invoiceFooter}</div>` : ''}
+    ${settings?.bankDetails ? `<div class="bank-details"><strong>Bank Details:</strong><br>${settings.bankDetails.replace(/\n/g, '<br>')}</div>` : ''}
   </div>
 </body>
 </html>
