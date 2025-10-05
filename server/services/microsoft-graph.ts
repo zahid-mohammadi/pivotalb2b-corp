@@ -209,7 +209,7 @@ export class MicrosoftGraphService {
       }
 
       const response = await fetch(
-        `https://graph.microsoft.com/v1.0/me/sentItems?$top=${limit}&$select=id,subject,toRecipients,sentDateTime,bodyPreview,hasAttachments`,
+        `https://graph.microsoft.com/v1.0/me/mailFolders/SentItems/messages?$top=${limit}&$select=id,subject,toRecipients,sentDateTime,bodyPreview,hasAttachments`,
         {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
