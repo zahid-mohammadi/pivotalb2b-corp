@@ -29,6 +29,7 @@ export function InvoiceManagement() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [selectedAccountId, setSelectedAccountId] = useState<number | null>(null);
   const [lineItems, setLineItems] = useState<InvoiceLineItem[]>([
     { description: "", quantity: 1, unitPrice: 0, lineSubtotal: 0, lineTax: 0, lineTotal: 0 }
   ]);
@@ -41,6 +42,10 @@ export function InvoiceManagement() {
     queryKey: ["/api/accounts"],
   });
 
+  const { data: contacts } = useQuery({
+    queryKey: ["/api/contacts"],
+  });
+
   const { data: skus } = useQuery<Sku[]>({
     queryKey: ["/api/skus"],
   });
@@ -48,6 +53,9 @@ export function InvoiceManagement() {
   const { data: taxCodes } = useQuery<TaxCode[]>({
     queryKey: ["/api/tax-codes"],
   });
+
+  const selectedAccount = customers?.find(c => c.id === selectedAccountId);
+  const accountContacts = contacts?.filter((c: any) => c.accountId === selectedAccountId) || [];
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -83,9 +91,12 @@ export function InvoiceManagement() {
     const taxTotal = validLineItems.reduce((sum, item) => sum + item.lineTax, 0);
     const total = validLineItems.reduce((sum, item) => sum + item.lineTotal, 0);
 
+    const contactIdValue = formData.get("contactId") as string;
     const data = {
       accountId: parseInt(formData.get("accountId") as string),
+      contactId: contactIdValue ? parseInt(contactIdValue) : undefined,
       number: formData.get("invoiceNumber") as string,
+      poNumber: formData.get("poNumber") as string || undefined,
       issueDate: formData.get("invoiceDate") as string,
       dueDate: formData.get("dueDate") as string,
       subtotal: Math.round(subtotal * 100),
@@ -258,8 +269,12 @@ export function InvoiceManagement() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="accountId">Customer *</Label>
-                <Select name="accountId" required>
+                <Label htmlFor="accountId">Customer * </Label>
+                <Select 
+                  name="accountId" 
+                  required
+                  onValueChange={(value) => setSelectedAccountId(parseInt(value))}
+                >
                   <SelectTrigger data-testid="invoice-customer">
                     <SelectValue placeholder="Select customer" />
                   </SelectTrigger>
@@ -271,6 +286,34 @@ export function InvoiceManagement() {
                     ))}
                   </SelectContent>
                 </Select>
+                {selectedAccount && (
+                  <div className="text-xs text-muted-foreground mt-1 space-y-1">
+                    <div className="font-medium">{selectedAccount.companyName}</div>
+                    {selectedAccount.billingAddress && <div>{selectedAccount.billingAddress}</div>}
+                    {selectedAccount.billingCity && selectedAccount.billingState && (
+                      <div>{selectedAccount.billingCity}, {selectedAccount.billingState} {selectedAccount.billingZip}</div>
+                    )}
+                  </div>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="contactId">Contact (Optional)</Label>
+                <Select name="contactId">
+                  <SelectTrigger data-testid="invoice-contact">
+                    <SelectValue placeholder="Select contact" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {accountContacts.length > 0 ? (
+                      accountContacts.map((contact: any) => (
+                        <SelectItem key={contact.id} value={contact.id.toString()}>
+                          {contact.firstName} {contact.lastName}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="none" disabled>No contacts available</SelectItem>
+                    )}
+                  </SelectContent>
+                </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="invoiceNumber">Invoice Number *</Label>
@@ -280,6 +323,15 @@ export function InvoiceManagement() {
                   defaultValue={`INV-${Date.now()}`}
                   required
                   data-testid="invoice-number"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="poNumber">PO Number / Reference</Label>
+                <Input
+                  id="poNumber"
+                  name="poNumber"
+                  placeholder="Purchase order number"
+                  data-testid="invoice-po-number"
                 />
               </div>
               <div className="space-y-2">
