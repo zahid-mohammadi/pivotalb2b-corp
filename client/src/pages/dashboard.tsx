@@ -212,6 +212,10 @@ export default function Dashboard() {
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
       />
+      <div className="flex min-h-screen bg-red-500">
+        <div className="fixed top-0 left-0 right-0 bg-yellow-400 p-4 z-50 text-black font-bold text-2xl">
+          ✅ DASHBOARD IS RENDERING! If you see this, the component works.
+        </div>
       <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
         {/* Left Sidebar Navigation */}
         <div className="w-64 bg-white border-r border-slate-200 shadow-sm flex flex-col">
