@@ -1,0 +1,270 @@
+Prompt: Enable Updates, Edits & Deletes Across All Modules
+
+Implement consistent, secure, and auditable CRUD capabilities (create, read, update, delete) across every module. Edits and deletes must follow role-based permissions, data-integrity rules, soft-delete policies, and full audit trails. Support inline edits, bulk edits, undo, and API parity.
+
+Scope (Modules)
+
+Admin Dashboard: Users, Roles/Permissions, Settings (General, Integrations, Security), API Keys, Webhooks.
+
+Analytics: Saved reports/dashboards (edit/delete only user-generated assets; system reports are read-only).
+
+Marketing Content: Blog Posts, eBooks/Guides, Case Studies, Landing Pages/Assets.
+
+Lead & Pipeline: Leads, Deals/Opportunities/Proposals, Pipeline Stages, Accounts, Contacts, Notes, Tasks.
+
+Campaigns & Automation: Email Campaigns, Newsletters, Audience Segments, Templates, Workflows/Triggers, Sequences.
+
+Billing & Accounting: Invoices, Estimates/Quotes, Credit Notes, Payments/Receipts, Expenses/Bills, Products/Services (Catalog), Taxes, Currencies.
+
+Shared: Files/Attachments, Tags, Saved Filters/Smart Views.
+
+Global UX Principles
+
+Edit Entry Points
+
+Inline edit for common fields in tables and Kanban cards (e.g., stage, owner, amount, due date).
+
+Detail side panel / modal for full record edits.
+
+Bulk edit after selecting multiple records (fields that allow mass update only).
+
+Save Behavior
+
+Optimistic UI with spinner → success toast; on failure → rollback state with clear error.
+
+Unsaved changes guard on close/navigation.
+
+Delete Behavior
+
+Default soft-delete to a Recycle Bin/Archive; show snackbar Undo (10–30s).
+
+Hard delete only for roles with explicit permission and only when integrity rules allow.
+
+Provide dependency preview (what will break) before delete.
+
+Validation
+
+Client & server validation; show field-level messages.
+
+Prevent invalid states (e.g., invoice “Paid” cannot be edited without refund/reversal).
+
+History & Recovery
+
+Versioning for critical objects (Contacts, Accounts, Deals, Invoices, Campaigns).
+
+View change history: who, what, when; restore prior version (where feasible).
+
+Security & Permissions
+
+Role-based Access Control (RBAC) at module + field level:
+
+Admin: full CRUD everywhere (except protected analytics templates).
+
+Sales: CRUD on Leads/Deals/Contacts/Accounts they own; read others by policy; limited delete (soft).
+
+Marketing: CRUD on Campaigns/Content/Segments/Templates; read Leads minimal PII as configured.
+
+Finance: CRUD on Billing & Accounting; read Accounts/Deals; cannot delete Contacts unless policy allows.
+
+Read-only: view only; cannot edit/delete.
+
+Ownership rules: allow transfer; log previous/new owner.
+
+Sensitive fields (PII, pricing, tax IDs): optional field-level edit locks; require elevated permission.
+
+Session audit: IP, UA; admin-grade changes require recent re-auth.
+
+Concurrency & Integrity
+
+ETag/Version field per record; require If-Match on update to prevent lost updates.
+
+Merge strategy for non-conflicting concurrent edits; surface conflict UI for resolution.
+
+Referential integrity:
+
+Cannot hard-delete Account if Contacts/Deals/Invoices exist (offer cascade rules or prevent).
+
+Invoice with payments cannot be deleted; must void then handle reversals per accounting rules.
+
+Campaign in “Sending/Sent” state: content immutable; allow metadata notes only.
+
+Workflow referenced by a campaign/segment: prevent delete; require detach first.
+
+Soft-Delete, Archive, and Hard-Delete
+
+Soft-delete marks deletedAt, deletedBy, retains relations; excluded from default queries.
+
+Recycle Bin per module with restore and hard-delete actions (permission-gated).
+
+Retention policies:
+
+Default retention: 90 days before auto-purge (configurable).
+
+GDPR/Right-to-be-forgotten: implement erase PII for Contacts on request while retaining anonymized analytics.
+
+Bulk Operations
+
+Bulk edit: owner, stage, status, tags, assignment, campaign subscription, consent flags, etc.
+
+Bulk delete: soft-delete only; require typed confirmation (e.g., “DELETE 24 RECORDS”).
+
+Bulk restore from Recycle Bin.
+
+Show success/partial/failure summary with downloadable error CSV.
+
+Module-Specific Rules (Highlights)
+Leads / Contacts / Accounts / Deals
+
+Edit: core fields, owner, stage, score (if allowed), custom fields, tags.
+
+Delete: soft-delete with dependency warning (notes, tasks, emails remain linkable; if contact deleted, keep email event logs but anonymize PII if compliance requires).
+
+Merge: support dedupe & merge (Contacts and Accounts) with field-by-field selection; log merges.
+
+Pipeline Stages
+
+Edit stage name/order/probability; validate no duplicate names.
+
+Delete stage: require reassign target stage for existing deals.
+
+Campaigns & Automation
+
+Draft campaigns fully editable.
+
+Scheduled: allow unschedule/edit; re-validate.
+
+Sent: content locked; allow annotations and folder/label changes.
+
+Segments (saved filters): editable definition; version change prompts re-evaluation preview.
+
+Workflows: edit requires drafting a new version; publish swaps active version with migration rules.
+
+Marketing Content
+
+Versioned publishing: edit drafts; publish creates version; delete removes draft or unpublishes latest; retain history.
+
+Billing & Accounting
+
+Invoices/Estimates:
+
+Edit Draft freely.
+
+Sent: edit limited to non-financial metadata; financial changes require credit note or revise & resend workflow (new version).
+
+Paid: read-only; use credit note/refund.
+
+Delete: draft only; sent/paid cannot hard-delete; use void with reason.
+
+Payments: cannot edit amount post-creation; to correct, record refund/adjustment; delete only if created in error and no downstream links.
+
+Expenses/Bills: edit until Approved; after approval, restrict fields; delete only if not paid.
+
+Catalog/Taxes: allow edit; prevent delete if referenced—support deactivate flag.
+
+API Contracts (Patterns)
+
+Update: PATCH /api/{entity}/{id} with ETag/If-Match; returns 200 + updated resource.
+
+Bulk Update: POST /api/{entity}/bulk-update with filter or ids + patch object.
+
+Soft Delete: DELETE /api/{entity}/{id}?mode=soft
+
+Restore: POST /api/{entity}/{id}/restore
+
+Hard Delete: DELETE /api/{entity}/{id}?mode=hard (admin only; checks dependencies)
+
+History: GET /api/{entity}/{id}/history
+
+Recycle Bin: GET /api/{entity}/deleted?…
+
+Merge (Contacts/Accounts): POST /api/{entity}/merge with {primaryId, secondaryIds[], fieldMap}
+
+All write endpoints must:
+
+Validate permissions,
+
+Enforce integrity rules,
+
+Emit domain events (e.g., contact.updated, invoice.voided).
+
+Audit & Observability
+
+Audit log entries contain: actor, timestamp (UTC), IP/UA, entity, id, action (create/update/delete/restore/merge/void), diff (before/after), success/error.
+
+Event bus: publish business events for downstream indexing/reporting.
+
+Metrics: CRUD throughput, error rates, latency, conflict frequency.
+
+UI Elements & States
+
+Edit icon (pencil), Delete (bin), Restore (clock/arrow), History (timeline), Merge (link).
+
+Confirmation modals for destructive actions; include dependency summary and irreversible warnings.
+
+Lock badges for immutable records (e.g., “Paid”, “Sent”, “Archived”).
+
+Dirty-state indicators on forms; Reset option.
+
+Field-level help tooltips for restricted edits (accounting/legal reasons).
+
+Indexing & Caching
+
+Update search indexes (FTS) and analytics caches on update/delete/restore.
+
+Invalidate relevant materialized views (e.g., AR Aging, funnel stats) via event handlers.
+
+QA Acceptance (Critical Tests)
+
+Optimistic update works with rollback on failure.
+
+ETag conflict prompts merge/refresh UI; no silent overwrites.
+
+Soft delete & restore preserve relations; default views exclude soft-deleted items.
+
+Hard delete blocked when dependencies exist; allowed only per policy.
+
+Invoices respect state machine (Draft → Sent → Paid/Void); edits restricted by state.
+
+Campaigns: Sent campaigns immutable; scheduled edits respected; logs complete.
+
+Workflows: Versioning & publication swap without losing references; historical runs preserved.
+
+Bulk edit/delete produce correct summary; error CSV available.
+
+Audit history shows correct diffs for field changes, merges, restores, voids.
+
+Permissions: Each role only sees allowed actions; sensitive fields guarded.
+
+GDPR delete anonymizes PII while retaining essential ledger/aggregate data.
+
+Recycle Bin time-bound purge runs; restore works after pagination, filters.
+
+Search index reflects updates/deletes within SLA.
+
+Emails/notifications (where applicable) fire on state changes (e.g., invoice voided).
+
+Developer Notes
+
+Use transactional outbox for audit + events to avoid lost updates.
+
+Store money in minor units; timestamps in UTC.
+
+Make forms schema-driven; centralize validation messages.
+
+Provide feature flags to roll out edit/delete per module safely.
+
+Summary
+
+Deliver consistent, safe, and auditable update/edit/delete capabilities across all modules with:
+
+RBAC & integrity rules,
+
+Soft-delete + recovery,
+
+Versioning & audit logs,
+
+Concurrency control,
+
+Bulk operations,
+
+Clear UX and robust QA.
