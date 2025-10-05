@@ -1,0 +1,225 @@
+Please organize the Pivotal B2B Dashboard into a hierarchical, dropdown-based menu that is clean, professional, and role-based — grouping related modules under meaningful categories. The structure must support scaling as the platform expands into CRM, Marketing Automation, and Billing.
+
+🔹 Top-Level Menu Categories
+1. Admin Dashboard
+
+Central configuration and governance area.
+Sub-items
+
+System Overview – platform metrics (users, leads, revenue, uptime).
+
+User Management – user list, roles, permissions, audit log.
+
+Settings
+
+General Settings (branding, timezone, currency).
+
+Integrations (M365, SMTP, Stripe/PayPal, APIs).
+
+Security & Compliance (login policies, logs).
+
+API Keys & Webhooks.
+
+2. Analytics
+
+Performance and intelligence hub.
+Sub-items
+
+Dashboard Analytics – consolidated KPIs (lead volume, campaign ROI, conversions).
+
+Campaign Performance – opens, clicks, CTR, conversions, unsubscribes.
+
+Sales & Pipeline Reports – deal stage stats, revenue forecasts, funnel velocity.
+
+Financial Reports – AR/AP, P&L, cashflow, tax summaries.
+
+Engagement Insights – contact/account scoring trends, activity timelines.
+
+Custom Reports – saved user-built reports.
+
+3. Marketing Content
+
+Content assets that power campaigns.
+Sub-items
+
+Blog Posts
+
+eBooks / Guides
+
+Case Studies
+
+Landing Pages / Assets
+
+Content Performance (views, downloads, conversion stats).
+
+4. Lead & Pipeline Management
+
+Sales and CRM core.
+Sub-items
+
+Leads – captured leads with qualification status.
+
+Pipeline – Kanban view with customizable stages.
+
+Accounts – company-level CRM with aggregated engagement.
+
+Contacts – individual-level engagement and activity.
+
+Proposals / Opportunities – quotes, negotiations, close tracking.
+
+5. Campaigns & Automation
+
+Dedicated marketing-execution module (new section).
+
+Sub-items
+
+Campaign Management
+
+Email Campaigns – create, schedule, and send bulk emails via SMTP or M365.
+
+Newsletter Builder – drag-and-drop personalized newsletter editor.
+
+Campaign Reports – opens, clicks, bounces, unsubscribes, revenue attribution.
+
+Audience Segments – dynamic segments built from Advanced Filters (score, geography, behavior).
+
+Automation Center
+
+Workflows & Triggers
+
+Lead Nurturing Flows (drip, re-engagement, post-download).
+
+Sales Follow-up Automations (e.g., lead score > 80 → notify sales).
+
+Lifecycle Rules (lead inactive > 30 days → move to cold).
+
+Templates & Sequences
+
+Pre-built outreach sequences for cold email, onboarding, or renewal.
+
+Task Automation
+
+Auto-create tasks/reminders based on events (no reply after 5 days, invoice overdue).
+
+Event Triggers (integrated with pipeline and campaigns)
+
+When contact opens email → update score.
+
+When invoice paid → send thank-you email.
+
+AI Assistance (Planned)
+
+Predictive Suggestions – best send-times, next-step recommendations.
+
+Automated segment generation based on engagement.
+
+6. Billing & Accounting
+
+End-to-end financial management.
+Sub-items
+
+Invoices & Estimates – create, send, track views, and reminders.
+
+Expenses & Vendor Bills – manage outgoing costs.
+
+Payments & Receipts – record payments, issue receipts.
+
+Products & Services Catalog
+
+Taxes & Currencies
+
+Financial Reports – P&L, AR/AP aging, Cashflow.
+
+🔹 UI and UX Guidelines
+
+Navigation Type: Collapsible sidebar with grouped dropdowns (ideal for enterprise SaaS).
+
+Visual Hierarchy:
+
+Top-level: bold label + icon (Lucide/Feather).
+
+Sub-items: indented, smaller font; show on click or hover.
+
+Responsive Behavior: On mobile, transform into an off-canvas drawer with expandable sections.
+
+Role-Based Visibility:
+
+Admin → sees all modules.
+
+Marketing → Campaigns & Content only.
+
+Sales → Leads, Pipeline, Accounts, Contacts, Proposals.
+
+Finance → Billing & Accounting.
+
+Search Bar: Global search across Contacts, Accounts, Invoices, Campaigns.
+
+Breadcrumbs: Display sub-path (e.g., Campaigns › Email Campaigns › Q4 Launch).
+
+Theme: Clean white background, subtle shadows, color accents (#1F5EFF blue or teal), rounded corners, micro-animations.
+
+🔹 Example Menu Hierarchy (JSON Structure)
+{
+  "Admin Dashboard": {
+    "System Overview": "/admin/overview",
+    "User Management": "/admin/users",
+    "Settings": {
+      "General": "/admin/settings/general",
+      "Integrations": "/admin/settings/integrations",
+      "Security": "/admin/settings/security"
+    }
+  },
+  "Analytics": {
+    "Dashboard Analytics": "/analytics/overview",
+    "Campaign Performance": "/analytics/campaigns",
+    "Sales & Pipeline Reports": "/analytics/pipeline",
+    "Financial Reports": "/analytics/finance"
+  },
+  "Marketing Content": {
+    "Blog Posts": "/content/blogs",
+    "eBooks": "/content/ebooks",
+    "Case Studies": "/content/case-studies",
+    "Landing Pages": "/content/landing-pages"
+  },
+  "Lead & Pipeline Management": {
+    "Leads": "/leads",
+    "Pipeline": "/pipeline",
+    "Accounts": "/accounts",
+    "Contacts": "/contacts",
+    "Proposals": "/proposals"
+  },
+  "Campaigns & Automation": {
+    "Email Campaigns": "/campaigns/email",
+    "Newsletter Builder": "/campaigns/newsletters",
+    "Campaign Reports": "/campaigns/reports",
+    "Automation Center": {
+      "Workflows & Triggers": "/automation/workflows",
+      "Templates & Sequences": "/automation/templates",
+      "Task Automation": "/automation/tasks"
+    }
+  },
+  "Billing & Accounting": {
+    "Invoices & Estimates": "/billing/invoices",
+    "Expenses & Bills": "/billing/expenses",
+    "Payments & Receipts": "/billing/payments",
+    "Products & Services": "/billing/catalog",
+    "Reports": "/billing/reports"
+  }
+}
+
+
+✅ Summary
+
+Create a professionally organized, dropdown-based dashboard with these major categories:
+
+Admin Dashboard – configuration & user control.
+
+Analytics – metrics, performance, insights.
+
+Marketing Content – assets powering demand generation.
+
+Lead & Pipeline Management – CRM & opportunities.
+
+Campaigns & Automation – email marketing, workflows, triggers, and sequencing.
+
+Billing & Accounting – invoicing, expenses, payments, and reports.
