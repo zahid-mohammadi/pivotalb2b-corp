@@ -505,6 +505,11 @@ export const accounts = pgTable("accounts", {
   assignedTo: serial("assigned_to"),
   tags: text("tags").array(),
   notes: text("notes"),
+  billingAddress: text("billing_address"),
+  billingEmail: varchar("billing_email", { length: 255 }),
+  taxId: varchar("tax_id", { length: 100 }),
+  paymentTerms: varchar("payment_terms", { length: 50 }).default("Net 30"),
+  currency: varchar("currency", { length: 3 }).default("USD"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -527,6 +532,11 @@ export const insertAccountSchema = createInsertSchema(accounts)
     assignedTo: z.number().optional(),
     tags: z.array(z.string()).optional(),
     notes: z.string().optional(),
+    billingAddress: z.string().optional(),
+    billingEmail: z.string().email().optional(),
+    taxId: z.string().optional(),
+    paymentTerms: z.string().optional(),
+    currency: z.string().optional(),
   });
 
 export type InsertAccount = z.infer<typeof insertAccountSchema>;
