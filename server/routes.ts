@@ -2173,7 +2173,8 @@ export async function registerRoutes(app: Express) {
 
   app.post("/api/invoices", async (req, res) => {
     try {
-      const result = insertInvoiceSchema.safeParse(req.body);
+      const { lines, ...invoiceData } = req.body;
+      const result = insertInvoiceSchema.safeParse(invoiceData);
       if (!result.success) {
         return res.status(400).json({ errors: result.error.errors });
       }
@@ -2184,8 +2185,8 @@ export async function registerRoutes(app: Express) {
         createdBy: userId,
       });
       
-      if (req.body.lines && Array.isArray(req.body.lines)) {
-        for (const line of req.body.lines) {
+      if (lines && Array.isArray(lines)) {
+        for (const line of lines) {
           await storage.createInvoiceLine({
             ...line,
             invoiceId: invoice.id,
