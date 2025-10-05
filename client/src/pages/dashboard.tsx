@@ -34,6 +34,7 @@ import { TrafficSources } from "@/components/analytics/traffic-sources";
 import { UserBehavior } from "@/components/analytics/user-behavior";
 import { PipelineView } from "@/components/pipeline/pipeline-view";
 import { BillingModule } from "@/components/billing/billing-module";
+import { EmailDashboard } from "@/components/email/email-dashboard";
 import type { BlogPost, Ebook, CaseStudy, Lead, ProposalRequest } from "@shared/schema";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -948,6 +949,9 @@ export default function Dashboard() {
               </Card>
             )}
 
+            {/* Email Tab */}
+            {activeTab === "email" && <EmailDashboard />}
+            
             {/* Billing & Accounting Tab */}
             {activeTab === "billing" && <BillingModule />}
             

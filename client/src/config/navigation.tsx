@@ -218,15 +218,22 @@ export const navigationConfig: NavItem[] = [
     ]
   },
   {
-    title: "Campaigns & Automation",
+    title: "Email & Communication",
     icon: Mail,
     roles: ["admin", "marketing", "sales"],
     children: [
       {
+        title: "Inbox & Compose",
+        href: "/dashboard",
+        tab: "email",
+        icon: Mail,
+        roles: ["admin", "marketing", "sales"]
+      },
+      {
         title: "Email Campaigns",
         href: "/dashboard",
         tab: "pipeline-campaigns",
-        icon: Mail,
+        icon: Newspaper,
         roles: ["admin", "marketing", "sales"]
       },
       {

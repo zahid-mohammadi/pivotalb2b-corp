@@ -1659,6 +1659,74 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Microsoft 365 Email Routes
+  app.get("/api/m365/inbox", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    try {
+      const limit = parseInt(req.query.limit as string) || 50;
+      const messages = await microsoftGraphService.getInboxMessages(user.id, limit);
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching inbox:", error);
+      res.status(500).json({ error: "Failed to fetch inbox messages" });
+    }
+  });
+
+  app.get("/api/m365/sentitems", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    try {
+      const limit = parseInt(req.query.limit as string) || 50;
+      const messages = await microsoftGraphService.getSentMessages(user.id, limit);
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching sent items:", error);
+      res.status(500).json({ error: "Failed to fetch sent messages" });
+    }
+  });
+
+  app.post("/api/m365/send-email", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    const { to, subject, htmlContent } = req.body;
+    if (!to || !subject || !htmlContent) {
+      return res.status(400).json({ error: "To, subject, and content are required" });
+    }
+
+    try {
+      const connection = await storage.getM365ConnectionByUser(user.id);
+      if (!connection) {
+        return res.status(400).json({ error: "Microsoft 365 not connected" });
+      }
+
+      const success = await microsoftGraphService.sendEmail(user.id, {
+        from: connection.email,
+        to: Array.isArray(to) ? to : [to],
+        subject,
+        htmlContent,
+      });
+
+      if (success) {
+        res.json({ message: "Email sent successfully" });
+      } else {
+        res.status(500).json({ error: "Failed to send email" });
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to send email" });
+    }
+  });
+
   // Accounts API
   app.get("/api/accounts", async (_req, res) => {
     try {
