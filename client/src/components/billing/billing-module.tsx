@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { CustomerManagement } from "./customer-management";
 import { InvoiceManagement } from "./invoice-management";
+import { PaymentTracking } from "./payment-tracking";
 import type { Account, Invoice } from "@shared/schema";
 
 export function BillingModule() {
@@ -158,14 +159,7 @@ export function BillingModule() {
         </TabsContent>
 
         <TabsContent value="payments" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Payment Tracking</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Payment tracking coming soon...</p>
-            </CardContent>
-          </Card>
+          <PaymentTracking />
         </TabsContent>
 
         <TabsContent value="expenses" className="mt-6">
