@@ -45,7 +45,6 @@ interface UserData {
 }
 
 export default function Dashboard() {
-  console.log("🎯 DASHBOARD COMPONENT IS RENDERING");
   const { toast } = useToast();
   const [, navigate] = useLocation();
   const [activeTab, setActiveTab] = useState("analytics");
@@ -207,11 +206,12 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="fixed inset-0 flex bg-gradient-to-br from-slate-50 via-white to-blue-50/30 z-[9999]">
+    <>
       <MetaTags
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
       />
+      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
         {/* Left Sidebar Navigation */}
         <div className="w-64 bg-white border-r border-slate-200 shadow-sm flex flex-col">
           {/* Header */}
@@ -1116,5 +1116,6 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+    </>
   );
 }
