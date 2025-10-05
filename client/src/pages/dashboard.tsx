@@ -24,9 +24,7 @@ import {
   Download,
   MessageSquare,
   Workflow,
-  Receipt,
-  Menu,
-  X
+  Receipt
 } from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
@@ -39,6 +37,9 @@ import { BillingModule } from "@/components/billing/billing-module";
 import type { BlogPost, Ebook, CaseStudy, Lead, ProposalRequest } from "@shared/schema";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { HierarchicalSidebar } from "@/components/layout/hierarchical-sidebar";
+import { getFilteredNavigation } from "@/config/navigation";
+import { useAuth } from "@/hooks/use-auth";
 
 interface UserData {
   id: number;
@@ -50,13 +51,16 @@ interface UserData {
 export default function Dashboard() {
   const { toast } = useToast();
   const [, navigate] = useLocation();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("analytics");
   const [showEditor, setShowEditor] = useState<"blog" | "ebook" | "case-study" | null>(null);
   const [editingItem, setEditingItem] = useState<BlogPost | Ebook | CaseStudy | null>(null);
   const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
+  // Get filtered navigation based on user role
+  const navigation = getFilteredNavigation(user?.role);
 
   // User management queries
   const { data: users } = useQuery<UserData[]>({
@@ -217,198 +221,12 @@ export default function Dashboard() {
         robots="noindex, nofollow"
       />
       <div className="flex h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-slate-200"
-          data-testid="mobile-menu-button"
-        >
-          {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-
-        {/* Sidebar Overlay for Mobile */}
-        {sidebarOpen && (
-          <div
-            className="lg:hidden fixed inset-0 bg-black/50 z-40"
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-
-        {/* Left Sidebar Navigation */}
-        <div className={`
-          w-64 bg-white border-r border-slate-200 shadow-sm flex flex-col
-          fixed lg:static inset-y-0 left-0 z-40
-          transform transition-transform duration-300 ease-in-out
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-        `}>
-          {/* Header */}
-          <div className="p-6 border-b border-slate-200">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-              Pivotal B2B
-            </h1>
-            <p className="text-xs text-slate-600 mt-1">Admin Dashboard</p>
-          </div>
-
-          {/* Navigation Menu */}
-          <nav className="flex-1 p-4 space-y-1">
-            <button
-              onClick={() => {
-                setActiveTab("analytics");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "analytics"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <BarChart3 className="h-5 w-5" />
-              <span>Analytics</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("users");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "users"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <Users className="h-5 w-5" />
-              <span>User Management</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("blog");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "blog"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <FileText className="h-5 w-5" />
-              <span>Blog Posts</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("leads");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "leads"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <User className="h-5 w-5" />
-              <span>Leads</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("ebooks");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "ebooks"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <BookText className="h-5 w-5" />
-              <span>eBooks</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("case-studies");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "case-studies"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <FileText className="h-5 w-5" />
-              <span>Case Studies</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("pipeline");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "pipeline"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-              data-testid="pipeline-tab"
-            >
-              <Workflow className="h-5 w-5" />
-              <span>Pipeline</span>
-            </button>
-
-            <Link href="/accounts">
-              <button
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-all"
-                data-testid="accounts-nav"
-              >
-                <Building className="h-5 w-5" />
-                <span>Accounts</span>
-              </button>
-            </Link>
-
-            <Link href="/contacts">
-              <button
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 transition-all"
-                data-testid="contacts-nav"
-              >
-                <Users className="h-5 w-5" />
-                <span>Contacts</span>
-              </button>
-            </Link>
-
-            <button
-              onClick={() => {
-                setActiveTab("proposals");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "proposals"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-            >
-              <MessageSquare className="h-5 w-5" />
-              <span>Proposals</span>
-            </button>
-
-            <button
-              onClick={() => {
-                setActiveTab("billing");
-                setSidebarOpen(false);
-              }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                activeTab === "billing"
-                  ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-                  : "text-slate-700 hover:bg-slate-100"
-              }`}
-              data-testid="billing-tab"
-            >
-              <Receipt className="h-5 w-5" />
-              <span>Billing & Accounting</span>
-            </button>
-          </nav>
-        </div>
+        {/* Hierarchical Sidebar Navigation */}
+        <HierarchicalSidebar 
+          navigation={navigation}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto">
