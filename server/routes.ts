@@ -2649,112 +2649,222 @@ export async function registerRoutes(app: Express) {
       const billingSettings = await storage.getBillingSettings();
       const settings = billingSettings[0];
       
+      const PdfPrinter = require('pdfmake');
+      const fs = require('fs');
+      const path = require('path');
+      
+      const fonts = {
+        Roboto: {
+          normal: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-Regular.ttf'], 'base64'),
+          bold: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-Medium.ttf'], 'base64'),
+          italics: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-Italic.ttf'], 'base64'),
+          bolditalics: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-MediumItalic.ttf'], 'base64')
+        }
+      };
+      
+      const printer = new PdfPrinter(fonts);
+      
       const companyName = settings?.companyName || 'Pivotal B2B';
       const companyAddress = settings?.address || '';
+      const logoUrl = settings?.logoUrl;
+      const bankDetails = settings?.bankDetails || '';
       
-      const html = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Invoice ${invoice.number}</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 40px; color: #333; }
-    .header { display: flex; justify-content: space-between; margin-bottom: 40px; border-bottom: 2px solid #667eea; padding-bottom: 20px; }
-    .company { font-weight: bold; font-size: 24px; color: #667eea; }
-    .invoice-title { font-size: 32px; font-weight: bold; text-align: right; color: #333; }
-    .info-section { margin-bottom: 30px; }
-    .info-section h3 { font-size: 14px; color: #666; margin-bottom: 5px; }
-    .info-section p { margin: 3px 0; }
-    table { width: 100%; border-collapse: collapse; margin-top: 30px; }
-    th { background-color: #667eea; color: white; padding: 12px; text-align: left; }
-    td { padding: 10px; border-bottom: 1px solid #ddd; }
-    .total-section { margin-top: 30px; text-align: right; }
-    .total-row { display: flex; justify-content: flex-end; padding: 8px 0; }
-    .total-label { width: 150px; font-weight: bold; }
-    .total-value { width: 150px; text-align: right; }
-    .grand-total { font-size: 20px; color: #667eea; border-top: 2px solid #667eea; padding-top: 10px; margin-top: 10px; }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <div>
-      <div class="company">${companyName}</div>
-      <p>${companyAddress}</p>
-    </div>
-    <div class="invoice-title">INVOICE</div>
-  </div>
-  
-  <div style="display: flex; justify-content: space-between;">
-    <div class="info-section">
-      <h3>BILL TO:</h3>
-      <p><strong>${account?.companyName || 'N/A'}</strong></p>
-      <p>${account?.billingAddress || ''}</p>
-      <p>${account?.billingCity || ''}, ${account?.billingState || ''} ${account?.billingZip || ''}</p>
-    </div>
-    
-    <div class="info-section">
-      <table style="width: 300px; border: none;">
-        <tr><td style="border: none;"><strong>Invoice #:</strong></td><td style="border: none;">${invoice.number}</td></tr>
-        <tr><td style="border: none;"><strong>Date:</strong></td><td style="border: none;">${new Date(invoice.issueDate).toLocaleDateString()}</td></tr>
-        <tr><td style="border: none;"><strong>Due Date:</strong></td><td style="border: none;">${new Date(invoice.dueDate).toLocaleDateString()}</td></tr>
-        ${invoice.poNumber ? `<tr><td style="border: none;"><strong>PO Number:</strong></td><td style="border: none;">${invoice.poNumber}</td></tr>` : ''}
-      </table>
-    </div>
-  </div>
-  
-  <table>
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th style="text-align: center;">Quantity</th>
-        <th style="text-align: right;">Unit Price</th>
-        <th style="text-align: right;">Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${lines.map(line => `
-        <tr>
-          <td>${line.description}</td>
-          <td style="text-align: center;">${line.quantity}</td>
-          <td style="text-align: right;">$${(line.unitPrice / 100).toFixed(2)}</td>
-          <td style="text-align: right;">$${(line.lineTotal / 100).toFixed(2)}</td>
-        </tr>
-      `).join('')}
-    </tbody>
-  </table>
-  
-  <div class="total-section">
-    <div class="total-row">
-      <div class="total-label">Subtotal:</div>
-      <div class="total-value">$${(invoice.subtotal / 100).toFixed(2)}</div>
-    </div>
-    <div class="total-row">
-      <div class="total-label">Tax:</div>
-      <div class="total-value">$${(invoice.taxTotal / 100).toFixed(2)}</div>
-    </div>
-    <div class="total-row grand-total">
-      <div class="total-label">Total:</div>
-      <div class="total-value">$${(invoice.total / 100).toFixed(2)}</div>
-    </div>
-    <div class="total-row">
-      <div class="total-label">Amount Paid:</div>
-      <div class="total-value">$${(invoice.amountPaid / 100).toFixed(2)}</div>
-    </div>
-    <div class="total-row grand-total">
-      <div class="total-label">Amount Due:</div>
-      <div class="total-value">$${(invoice.amountDue / 100).toFixed(2)}</div>
-    </div>
-  </div>
-  
-  ${settings?.invoiceFooter ? `<div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 12px;">${settings.invoiceFooter}</div>` : ''}
-  ${settings?.bankDetails ? `<div style="margin-top: 20px; padding: 15px; background-color: #f9fafb; border-radius: 4px;"><strong>Bank Details:</strong><br>${settings.bankDetails}</div>` : ''}
-</body>
-</html>
-      `;
+      const docDefinition: any = {
+        pageSize: 'A4',
+        pageMargins: [40, 60, 40, 60],
+        content: [
+          {
+            columns: [
+              {
+                width: '*',
+                stack: [
+                  ...(logoUrl ? [{ image: logoUrl, width: 120, margin: [0, 0, 0, 10] }] : []),
+                  { text: companyName, style: 'companyName' },
+                  { text: companyAddress, style: 'address', margin: [0, 5, 0, 0] }
+                ]
+              },
+              {
+                width: 'auto',
+                text: 'INVOICE',
+                style: 'invoiceTitle',
+                alignment: 'right'
+              }
+            ],
+            margin: [0, 0, 0, 30]
+          },
+          {
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 2, lineColor: '#667eea' }],
+            margin: [0, 0, 0, 20]
+          },
+          {
+            columns: [
+              {
+                width: '50%',
+                stack: [
+                  { text: 'BILL TO:', style: 'sectionHeader' },
+                  { text: account?.companyName || 'N/A', bold: true, margin: [0, 5, 0, 3] },
+                  { text: account?.billingAddress || '', margin: [0, 0, 0, 2] },
+                  { text: `${account?.billingCity || ''}, ${account?.billingState || ''} ${account?.billingZip || ''}`, margin: [0, 0, 0, 0] }
+                ]
+              },
+              {
+                width: '50%',
+                stack: [
+                  { text: `Invoice #: ${invoice.number}`, margin: [0, 0, 0, 5] },
+                  { text: `Date: ${new Date(invoice.issueDate).toLocaleDateString()}`, margin: [0, 0, 0, 5] },
+                  { text: `Due Date: ${new Date(invoice.dueDate).toLocaleDateString()}`, margin: [0, 0, 0, 5] },
+                  ...(invoice.poNumber ? [{ text: `PO Number: ${invoice.poNumber}`, margin: [0, 0, 0, 5] }] : [])
+                ],
+                alignment: 'right'
+              }
+            ],
+            margin: [0, 0, 0, 30]
+          },
+          {
+            table: {
+              headerRows: 1,
+              widths: ['*', 60, 80, 80],
+              body: [
+                [
+                  { text: 'Description', style: 'tableHeader' },
+                  { text: 'Quantity', style: 'tableHeader', alignment: 'center' },
+                  { text: 'Unit Price', style: 'tableHeader', alignment: 'right' },
+                  { text: 'Amount', style: 'tableHeader', alignment: 'right' }
+                ],
+                ...lines.map(line => [
+                  line.description,
+                  { text: line.quantity.toString(), alignment: 'center' },
+                  { text: `$${(line.unitPrice / 100).toFixed(2)}`, alignment: 'right' },
+                  { text: `$${(line.lineTotal / 100).toFixed(2)}`, alignment: 'right' }
+                ])
+              ]
+            },
+            layout: {
+              fillColor: (rowIndex: number) => (rowIndex === 0 ? '#667eea' : null),
+              hLineWidth: () => 1,
+              vLineWidth: () => 0,
+              hLineColor: () => '#e5e7eb',
+              paddingLeft: () => 10,
+              paddingRight: () => 10,
+              paddingTop: () => 8,
+              paddingBottom: () => 8
+            }
+          },
+          {
+            columns: [
+              { width: '*', text: '' },
+              {
+                width: 200,
+                stack: [
+                  {
+                    columns: [
+                      { text: 'Subtotal:', bold: true },
+                      { text: `$${(invoice.subtotal / 100).toFixed(2)}`, alignment: 'right' }
+                    ],
+                    margin: [0, 10, 0, 5]
+                  },
+                  {
+                    columns: [
+                      { text: 'Tax:', bold: true },
+                      { text: `$${(invoice.taxTotal / 100).toFixed(2)}`, alignment: 'right' }
+                    ],
+                    margin: [0, 0, 0, 5]
+                  },
+                  {
+                    canvas: [{ type: 'line', x1: 0, y1: 0, x2: 200, y2: 0, lineWidth: 2, lineColor: '#667eea' }],
+                    margin: [0, 5, 0, 5]
+                  },
+                  {
+                    columns: [
+                      { text: 'Total:', bold: true, fontSize: 14, color: '#667eea' },
+                      { text: `$${(invoice.total / 100).toFixed(2)}`, alignment: 'right', fontSize: 14, color: '#667eea', bold: true }
+                    ],
+                    margin: [0, 0, 0, 10]
+                  },
+                  {
+                    columns: [
+                      { text: 'Amount Paid:', bold: true },
+                      { text: `$${(invoice.amountPaid / 100).toFixed(2)}`, alignment: 'right' }
+                    ],
+                    margin: [0, 0, 0, 5]
+                  },
+                  {
+                    canvas: [{ type: 'line', x1: 0, y1: 0, x2: 200, y2: 0, lineWidth: 2, lineColor: '#667eea' }],
+                    margin: [0, 5, 0, 5]
+                  },
+                  {
+                    columns: [
+                      { text: 'Amount Due:', bold: true, fontSize: 14, color: '#667eea' },
+                      { text: `$${(invoice.amountDue / 100).toFixed(2)}`, alignment: 'right', fontSize: 14, color: '#667eea', bold: true }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          ...(settings?.invoiceFooter ? [{
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: '#e5e7eb' }],
+            margin: [0, 30, 0, 10]
+          },
+          {
+            text: settings.invoiceFooter,
+            style: 'footer',
+            margin: [0, 0, 0, 10]
+          }] : []),
+          ...(bankDetails ? [{
+            table: {
+              widths: ['*'],
+              body: [[{
+                text: [
+                  { text: 'Bank Details:\n', bold: true },
+                  { text: bankDetails }
+                ],
+                fillColor: '#f9fafb',
+                margin: 10
+              }]]
+            },
+            layout: 'noBorders',
+            margin: [0, 10, 0, 0]
+          }] : [])
+        ],
+        styles: {
+          companyName: {
+            fontSize: 20,
+            bold: true,
+            color: '#667eea'
+          },
+          address: {
+            fontSize: 10,
+            color: '#6b7280'
+          },
+          invoiceTitle: {
+            fontSize: 28,
+            bold: true,
+            color: '#1f2937'
+          },
+          sectionHeader: {
+            fontSize: 11,
+            color: '#6b7280',
+            bold: true
+          },
+          tableHeader: {
+            bold: true,
+            color: 'white'
+          },
+          footer: {
+            fontSize: 9,
+            color: '#6b7280'
+          }
+        }
+      };
       
-      res.setHeader('Content-Type', 'text/html');
-      res.send(html);
+      const pdfDoc = printer.createPdfKitDocument(docDefinition);
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename=invoice-${invoice.number}.pdf`);
+      
+      pdfDoc.pipe(res);
+      pdfDoc.end();
     } catch (error) {
       console.error("Error generating PDF:", error);
       res.status(500).json({ error: "Failed to generate PDF" });
