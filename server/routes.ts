@@ -3705,7 +3705,6 @@ export async function registerRoutes(app: Express) {
     </div>
     
     <div class="actions">
-      <a href="javascript:window.print()" class="btn">🖨️ Print Invoice</a>
       <a href="/api/invoices/${invoice.id}/pdf" class="btn" target="_blank">📄 Download PDF</a>
     </div>
     

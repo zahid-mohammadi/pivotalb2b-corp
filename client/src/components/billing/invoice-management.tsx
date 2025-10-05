@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Download, Bell, Mail, MailOpen, Trash2 } from "lucide-react";
+import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Download, Bell, Mail, MailOpen, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import type { Invoice, Account, Sku, TaxCode, Contact } from "@shared/schema";
 import { EmailComposeDialog } from "./email-compose-dialog";
@@ -211,15 +211,6 @@ export function InvoiceManagement() {
       invoiceId: selectedInvoice.id,
       customMessage: customMessage || undefined,
     });
-  };
-
-  const handlePrintInvoice = (invoice: Invoice) => {
-    const printWindow = window.open(`/api/invoices/${invoice.id}/pdf`, '_blank');
-    if (printWindow) {
-      printWindow.addEventListener('load', () => {
-        printWindow.print();
-      });
-    }
   };
 
   const handleDownloadPDF = async (invoice: Invoice) => {
@@ -458,15 +449,6 @@ export function InvoiceManagement() {
                             Remind {invoice.reminderCount ? `(${invoice.reminderCount})` : ''}
                           </Button>
                         )}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handlePrintInvoice(invoice)}
-                          data-testid={`print-invoice-${invoice.id}`}
-                          title="Print Invoice"
-                        >
-                          <Printer className="h-4 w-4" />
-                        </Button>
                         <Button
                           size="sm"
                           variant="outline"
