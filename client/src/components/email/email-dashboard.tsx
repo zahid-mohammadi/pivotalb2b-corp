@@ -7,12 +7,15 @@ import { Badge } from "@/components/ui/badge";
 import { Mail, Send, Inbox, AlertCircle, Plus } from "lucide-react";
 import { EmailInbox } from "./email-inbox";
 import { EmailCompose } from "./email-compose";
+import { EmailReader } from "./email-reader";
 import { M365ConnectionSettings } from "../settings/m365-connection";
 import type { M365Connection } from "@shared/schema";
 
 export function EmailDashboard() {
   const [composeOpen, setComposeOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("inbox");
+  const [selectedMessageId, setSelectedMessageId] = useState<string | null>(null);
+  const [replyMode, setReplyMode] = useState<"reply" | "replyAll" | "forward" | null>(null);
 
   const { data: connection } = useQuery<M365Connection | null>({
     queryKey: ["/api/pipeline/m365-connection"],
@@ -94,7 +97,10 @@ export function EmailDashboard() {
         </Card>
       )}
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <Tabs value={activeTab} onValueChange={(val) => {
+        setActiveTab(val);
+        setSelectedMessageId(null);
+      }} className="w-full">
         <TabsList className="grid w-full grid-cols-2 max-w-md">
           <TabsTrigger value="inbox" data-testid="tab-inbox">
             <Inbox className="h-4 w-4 mr-2" />
@@ -107,19 +113,61 @@ export function EmailDashboard() {
         </TabsList>
 
         <TabsContent value="inbox" className="mt-6">
-          <EmailInbox folder="inbox" />
+          {selectedMessageId ? (
+            <EmailReader
+              messageId={selectedMessageId}
+              folder="inbox"
+              onBack={() => setSelectedMessageId(null)}
+              onReply={() => {
+                setReplyMode("reply");
+                setComposeOpen(true);
+              }}
+              onReplyAll={() => {
+                setReplyMode("replyAll");
+                setComposeOpen(true);
+              }}
+              onForward={() => {
+                setReplyMode("forward");
+                setComposeOpen(true);
+              }}
+            />
+          ) : (
+            <EmailInbox 
+              folder="inbox" 
+              onMessageClick={(msg) => setSelectedMessageId(msg.id)}
+            />
+          )}
         </TabsContent>
 
         <TabsContent value="sent" className="mt-6">
-          <EmailInbox folder="sent" />
+          {selectedMessageId ? (
+            <EmailReader
+              messageId={selectedMessageId}
+              folder="sent"
+              onBack={() => setSelectedMessageId(null)}
+              onForward={() => {
+                setReplyMode("forward");
+                setComposeOpen(true);
+              }}
+            />
+          ) : (
+            <EmailInbox 
+              folder="sent" 
+              onMessageClick={(msg) => setSelectedMessageId(msg.id)}
+            />
+          )}
         </TabsContent>
       </Tabs>
 
       <EmailCompose
         open={composeOpen}
-        onClose={() => setComposeOpen(false)}
+        onClose={() => {
+          setComposeOpen(false);
+          setReplyMode(null);
+        }}
         onSuccess={() => {
-          // Optionally refresh inbox/sent items
+          setComposeOpen(false);
+          setReplyMode(null);
         }}
       />
     </div>

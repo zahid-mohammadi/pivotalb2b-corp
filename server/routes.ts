@@ -1740,6 +1740,27 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  app.get("/api/m365/messages/:messageId", async (req, res) => {
+    const user = req.user as User;
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    try {
+      const { messageId } = req.params;
+      const message = await microsoftGraphService.getMessage(user.id, messageId);
+      
+      if (!message) {
+        return res.status(404).json({ error: "Message not found" });
+      }
+
+      res.json(message);
+    } catch (error) {
+      console.error("Error fetching message:", error);
+      res.status(500).json({ error: "Failed to fetch message" });
+    }
+  });
+
   app.post("/api/m365/send-email", async (req, res) => {
     const user = req.user as User;
     if (!user) {

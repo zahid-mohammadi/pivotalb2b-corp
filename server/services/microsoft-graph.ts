@@ -230,6 +230,36 @@ export class MicrosoftGraphService {
       return [];
     }
   }
+
+  async getMessage(userId: number, messageId: string): Promise<any | null> {
+    try {
+      const accessToken = await this.getValidAccessToken(userId);
+      
+      if (!accessToken) {
+        throw new Error("No valid access token available");
+      }
+
+      const response = await fetch(
+        `https://graph.microsoft.com/v1.0/me/messages/${messageId}?$expand=attachments`,
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Error fetching message:", error);
+        return null;
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching message:", error);
+      return null;
+    }
+  }
 }
 
 export const microsoftGraphService = new MicrosoftGraphService();
