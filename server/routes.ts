@@ -1575,7 +1575,8 @@ export async function registerRoutes(app: Express) {
     }
 
     const clientId = process.env.M365_CLIENT_ID;
-    const redirectUri = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:3000'}/api/auth/m365/callback`;
+    const domain = process.env.REPLIT_DEV_DOMAIN || 'localhost:3000';
+    const redirectUri = domain.includes('localhost') ? `http://${domain}/api/auth/m365/callback` : `https://${domain}/api/auth/m365/callback`;
     const scope = "openid profile email offline_access Mail.ReadWrite Mail.Send";
     const state = Buffer.from(JSON.stringify({ userId: user.id })).toString('base64');
 
@@ -1603,7 +1604,8 @@ export async function registerRoutes(app: Express) {
 
       const clientId = process.env.M365_CLIENT_ID;
       const clientSecret = process.env.M365_CLIENT_SECRET;
-      const redirectUri = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:3000'}/api/auth/m365/callback`;
+      const domain = process.env.REPLIT_DEV_DOMAIN || 'localhost:3000';
+      const redirectUri = domain.includes('localhost') ? `http://${domain}/api/auth/m365/callback` : `https://${domain}/api/auth/m365/callback`;
 
       const tokenResponse = await fetch('https://login.microsoftonline.com/common/oauth2/v2.0/token', {
         method: 'POST',
