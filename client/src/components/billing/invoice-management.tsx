@@ -85,7 +85,6 @@ export function InvoiceManagement() {
 
     const data = {
       accountId: parseInt(formData.get("accountId") as string),
-      contactId: 1,
       number: formData.get("invoiceNumber") as string,
       issueDate: formData.get("invoiceDate") as string,
       dueDate: formData.get("dueDate") as string,

@@ -682,7 +682,7 @@ export const invoices = pgTable("invoices", {
   number: varchar("number", { length: 50 }).notNull().unique(),
   type: varchar("type", { length: 20 }).default("invoice").notNull(),
   accountId: integer("account_id").notNull().references(() => accounts.id),
-  contactId: integer("contact_id").notNull().references(() => contacts.id),
+  contactId: integer("contact_id").references(() => contacts.id),
   dealId: integer("deal_id").references(() => pipelineDeals.id),
   status: varchar("status", { length: 20 }).default("draft").notNull(),
   currency: varchar("currency", { length: 3 }).default("USD").notNull(),
@@ -719,6 +719,7 @@ export const insertInvoiceSchema = createInsertSchema(invoices)
   .extend({
     issueDate: z.string(),
     dueDate: z.string(),
+    contactId: z.number().optional(),
     dealId: z.number().optional(),
     terms: z.string().optional(),
     shipping: z.number().optional(),
