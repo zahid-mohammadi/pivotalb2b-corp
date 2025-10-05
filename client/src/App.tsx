@@ -40,16 +40,9 @@ import { PageTransition } from "@/components/ui/page-transition";
 function Router() {
   // Add analytics tracking
   useAnalytics();
-  const [location] = useLocation();
-  console.log("🚀 CURRENT ROUTE:", location);
 
   return (
     <div className="min-h-screen flex flex-col">
-      {location === "/dashboard" && (
-        <div className="fixed inset-0 bg-red-600 z-[99999] flex items-center justify-center">
-          <div className="text-white text-4xl font-bold">DASHBOARD ROUTE DETECTED!</div>
-        </div>
-      )}
       <Navbar />
       <main className="flex-grow">
         <Switch>
