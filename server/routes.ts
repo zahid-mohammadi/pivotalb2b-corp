@@ -2326,6 +2326,7 @@ export async function registerRoutes(app: Express) {
       const companyName = settings?.companyName || 'Pivotal B2B';
       
       const trackingToken = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      const { customMessage } = req.body;
       
       const userId = (req.user as any)?.id || 1;
       const updatedInvoice = await storage.updateInvoice(id, {
@@ -2336,7 +2337,7 @@ export async function registerRoutes(app: Express) {
       
       const invoiceUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/public/invoices/${trackingToken}`;
       
-      await sendInvoiceEmail({
+      const { trackingToken: emailToken } = await sendInvoiceEmail({
         customerEmail: account.billingEmail,
         customerName: account.companyName,
         invoiceNumber: invoice.number,
@@ -2344,6 +2345,12 @@ export async function registerRoutes(app: Express) {
         dueDate: new Date(invoice.dueDate).toLocaleDateString(),
         companyName,
         invoiceUrl,
+        customMessage,
+      });
+      
+      // Update invoice with email tracking token
+      await storage.updateInvoice(id, {
+        emailTrackingToken: emailToken,
       });
       
       await storage.createInvoiceReminder({
@@ -2363,6 +2370,128 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error sending invoice:", error);
       res.status(500).json({ error: "Failed to send invoice" });
+    }
+  });
+
+  // Email tracking pixel endpoint
+  app.get("/api/invoices/email-tracking/:token", async (req, res) => {
+    try {
+      const { token } = req.params;
+      
+      // Find invoice by email tracking token
+      const invoices = await storage.getAllInvoices();
+      const invoice = invoices.find((inv: any) => inv.emailTrackingToken === token);
+      
+      if (invoice) {
+        const now = new Date().toISOString();
+        const updates: any = {
+          emailOpenCount: (invoice.emailOpenCount || 0) + 1,
+          lastEmailOpenAt: now,
+        };
+        
+        // Set emailOpenedAt only if first open
+        if (!invoice.emailOpenedAt) {
+          updates.emailOpenedAt = now;
+        }
+        
+        await storage.updateInvoice(invoice.id, updates);
+        console.log(`Email opened for invoice ${invoice.number}, count: ${updates.emailOpenCount}`);
+      }
+      
+      // Return a 1x1 transparent pixel
+      const pixel = Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
+      res.writeHead(200, {
+        'Content-Type': 'image/gif',
+        'Content-Length': pixel.length,
+        'Cache-Control': 'no-store, no-cache, must-revalidate, private',
+        'Expires': '0',
+      });
+      res.end(pixel);
+    } catch (error) {
+      console.error("Error tracking email open:", error);
+      // Still return pixel even if tracking fails
+      const pixel = Buffer.from('R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', 'base64');
+      res.writeHead(200, { 'Content-Type': 'image/gif' });
+      res.end(pixel);
+    }
+  });
+
+  // Send invoice reminder
+  app.post("/api/invoices/:id/reminder", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid invoice ID" });
+      }
+      
+      const { customMessage } = req.body;
+      
+      const invoice = await storage.getInvoiceById(id);
+      if (!invoice) {
+        return res.status(404).json({ error: "Invoice not found" });
+      }
+      
+      const account = await storage.getAccountById(invoice.accountId);
+      if (!account || !account.billingEmail) {
+        return res.status(400).json({ error: "Customer billing email not found" });
+      }
+      
+      const billingSettings = await storage.getBillingSettings();
+      const settings = billingSettings[0];
+      const companyName = settings?.companyName || 'Pivotal B2B';
+      
+      // Use existing view tracking token for invoice URL
+      const invoiceUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/public/invoices/${invoice.viewTrackingToken}`;
+      
+      // Send reminder email using existing email tracking token
+      await sendInvoiceEmail({
+        customerEmail: account.billingEmail,
+        customerName: account.companyName,
+        invoiceNumber: invoice.number,
+        invoiceAmount: `$${(invoice.total / 100).toFixed(2)}`,
+        dueDate: new Date(invoice.dueDate).toLocaleDateString(),
+        companyName,
+        invoiceUrl,
+        customMessage,
+        trackingToken: invoice.emailTrackingToken || undefined,
+        isReminder: true,
+      });
+      
+      const userId = (req.user as any)?.id || 1;
+      
+      // Update reminder metadata
+      const reminderHistory = invoice.reminderHistory || [];
+      reminderHistory.push({
+        sentAt: new Date().toISOString(),
+        sentBy: userId,
+        message: customMessage || null,
+      });
+      
+      await storage.updateInvoice(id, {
+        lastReminderAt: new Date().toISOString(),
+        reminderCount: (invoice.reminderCount || 0) + 1,
+        reminderHistory,
+      });
+      
+      await storage.createInvoiceReminder({
+        invoiceId: id,
+        reminderType: 'payment_reminder',
+        sentBy: userId,
+        customMessage: customMessage || null,
+      });
+      
+      await storage.createBillingAuditLog({
+        entityType: 'invoice',
+        entityId: id,
+        action: 'reminder_sent',
+        performedBy: userId,
+        changes: { reminderCount: (invoice.reminderCount || 0) + 1 },
+      });
+      
+      res.json({ success: true, message: "Reminder sent successfully" });
+    } catch (error) {
+      console.error("Error sending reminder:", error);
+      res.status(500).json({ error: "Failed to send reminder" });
     }
   });
 
