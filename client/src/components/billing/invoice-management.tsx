@@ -9,9 +9,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Download } from "lucide-react";
+import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Download, Bell, Mail, MailOpen } from "lucide-react";
 import { format } from "date-fns";
 import type { Invoice, Account, Sku, TaxCode } from "@shared/schema";
+import { EmailComposeDialog } from "./email-compose-dialog";
 
 interface InvoiceLineItem {
   skuId?: number;
@@ -28,8 +29,11 @@ export function InvoiceManagement() {
   const { toast } = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  const [emailDialogOpen, setEmailDialogOpen] = useState(false);
+  const [reminderDialogOpen, setReminderDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(null);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [lineItems, setLineItems] = useState<InvoiceLineItem[]>([
     { description: "", quantity: 1, unitPrice: 0, lineSubtotal: 0, lineTax: 0, lineTotal: 0 }
   ]);
@@ -77,17 +81,63 @@ export function InvoiceManagement() {
     },
   });
 
-  const handleSendInvoice = async (invoice: Invoice) => {
+  const handleSendInvoice = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setEmailDialogOpen(true);
+  };
+
+  const handleSendInvoiceEmail = async (customMessage: string) => {
+    if (!selectedInvoice) return;
+    
     try {
-      const res = await apiRequest("POST", `/api/invoices/${invoice.id}/send`, {});
+      setIsSendingEmail(true);
+      const res = await apiRequest("POST", `/api/invoices/${selectedInvoice.id}/send`, {
+        customMessage: customMessage || undefined,
+      });
       if (!res.ok) {
         const error = await res.json();
         throw new Error(error.message || "Failed to send invoice");
       }
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
-      toast({ title: "Invoice sent successfully via email!" });
+      toast({ 
+        title: "Invoice sent successfully!", 
+        description: "Email tracking is active. You'll see when the customer opens it."
+      });
+      setEmailDialogOpen(false);
     } catch (error: any) {
       toast({ title: error.message, variant: "destructive" });
+    } finally {
+      setIsSendingEmail(false);
+    }
+  };
+
+  const handleSendReminder = (invoice: Invoice) => {
+    setSelectedInvoice(invoice);
+    setReminderDialogOpen(true);
+  };
+
+  const handleSendReminderEmail = async (customMessage: string) => {
+    if (!selectedInvoice) return;
+    
+    try {
+      setIsSendingEmail(true);
+      const res = await apiRequest("POST", `/api/invoices/${selectedInvoice.id}/reminder`, {
+        customMessage: customMessage || undefined,
+      });
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to send reminder");
+      }
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      toast({ 
+        title: "Reminder sent successfully!", 
+        description: "The payment reminder has been sent to the customer."
+      });
+      setReminderDialogOpen(false);
+    } catch (error: any) {
+      toast({ title: error.message, variant: "destructive" });
+    } finally {
+      setIsSendingEmail(false);
     }
   };
 
@@ -249,6 +299,18 @@ export function InvoiceManagement() {
                             {format(new Date(invoice.issueDate), "MMM d, yyyy")}
                           </span>
                           <span>Due: {format(new Date(invoice.dueDate), "MMM d, yyyy")}</span>
+                          {invoice.emailOpenedAt && (
+                            <span className="flex items-center gap-1 text-green-600">
+                              <MailOpen className="h-3 w-3" />
+                              Opened {invoice.emailOpenCount}x
+                            </span>
+                          )}
+                          {invoice.sentAt && !invoice.emailOpenedAt && (
+                            <span className="flex items-center gap-1 text-blue-600">
+                              <Mail className="h-3 w-3" />
+                              Sent {format(new Date(invoice.sentAt), "MMM d")}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -260,16 +322,30 @@ export function InvoiceManagement() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button
-                          size="sm"
-                          variant="default"
-                          onClick={() => handleSendInvoice(invoice)}
-                          data-testid={`send-invoice-${invoice.id}`}
-                          title="Send via Email"
-                        >
-                          <Send className="h-4 w-4 mr-1" />
-                          Send
-                        </Button>
+                        {invoice.status === 'draft' && (
+                          <Button
+                            size="sm"
+                            variant="default"
+                            onClick={() => handleSendInvoice(invoice)}
+                            data-testid={`send-invoice-${invoice.id}`}
+                            title="Send via Email"
+                          >
+                            <Send className="h-4 w-4 mr-1" />
+                            Send
+                          </Button>
+                        )}
+                        {invoice.status === 'sent' && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleSendReminder(invoice)}
+                            data-testid={`reminder-invoice-${invoice.id}`}
+                            title="Send Payment Reminder"
+                          >
+                            <Bell className="h-4 w-4 mr-1" />
+                            Remind {invoice.reminderCount ? `(${invoice.reminderCount})` : ''}
+                          </Button>
+                        )}
                         <Button
                           size="sm"
                           variant="outline"
@@ -601,6 +677,32 @@ export function InvoiceManagement() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Email Compose Dialog for sending invoices */}
+      {selectedInvoice && (
+        <EmailComposeDialog
+          open={emailDialogOpen}
+          onOpenChange={setEmailDialogOpen}
+          onSend={handleSendInvoiceEmail}
+          invoiceNumber={selectedInvoice.number}
+          customerName={customers?.find(c => c.id === selectedInvoice.accountId)?.companyName || 'Customer'}
+          isReminder={false}
+          isPending={isSendingEmail}
+        />
+      )}
+
+      {/* Email Compose Dialog for sending reminders */}
+      {selectedInvoice && (
+        <EmailComposeDialog
+          open={reminderDialogOpen}
+          onOpenChange={setReminderDialogOpen}
+          onSend={handleSendReminderEmail}
+          invoiceNumber={selectedInvoice.number}
+          customerName={customers?.find(c => c.id === selectedInvoice.accountId)?.companyName || 'Customer'}
+          isReminder={true}
+          isPending={isSendingEmail}
+        />
+      )}
     </div>
   );
 }
