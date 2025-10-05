@@ -2499,6 +2499,8 @@ export async function registerRoutes(app: Express) {
         return res.status(400).json({ error: "Customer billing email not found" });
       }
       
+      const lines = await storage.getInvoiceLinesByInvoice(id);
+      
       const billingSettings = await storage.getBillingSettings();
       const settings = billingSettings[0];
       const companyName = settings?.companyName || 'Pivotal B2B LLC';
@@ -2554,16 +2556,54 @@ export async function registerRoutes(app: Express) {
             <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Number:</td>
             <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.number}</td>
           </tr>
+          ${invoice.poNumber ? `
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">PO Number:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.poNumber}</td>
+          </tr>
+          ` : ''}
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Date:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.issueDate).toLocaleDateString()}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Due Date:</td>
             <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.dueDate).toLocaleDateString()}</td>
           </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+          </tr>
         </table>
       </div>
+      
+      ${lines && lines.length > 0 ? `
+      <div style="margin: 30px 0;">
+        <h3 style="color: #374151; font-size: 16px; margin-bottom: 15px;">Invoice Items:</h3>
+        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border: 1px solid #e5e7eb;">
+          <thead>
+            <tr style="background-color: #f9fafb;">
+              <th style="padding: 12px; text-align: left; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Description</th>
+              <th style="padding: 12px; text-align: center; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Qty</th>
+              <th style="padding: 12px; text-align: right; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${lines.map(line => `
+            <tr style="border-bottom: 1px solid #e5e7eb;">
+              <td style="padding: 12px; color: #111827; font-size: 14px;">${line.description}</td>
+              <td style="padding: 12px; text-align: center; color: #6b7280; font-size: 14px;">${line.quantity}</td>
+              <td style="padding: 12px; text-align: right; color: #111827; font-size: 14px; font-weight: 500;">$${(line.lineTotal / 100).toFixed(2)}</td>
+            </tr>
+            `).join('')}
+            <tr style="background-color: #f9fafb;">
+              <td colspan="2" style="padding: 12px; text-align: right; color: #111827; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">Total:</td>
+              <td style="padding: 12px; text-align: right; color: #667eea; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">$${(invoice.total / 100).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      ` : ''}
       
       <div style="text-align: center; margin: 30px 0;">
         <a href="${invoiceUrl}" style="display: inline-block; background-color: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: bold; font-size: 16px;">View Invoice</a>
@@ -2628,7 +2668,7 @@ export async function registerRoutes(app: Express) {
       const { token } = req.params;
       
       // Find invoice by email tracking token
-      const invoices = await storage.getAllInvoices();
+      const invoices = await storage.getInvoices();
       const invoice = invoices.find((inv: any) => inv.emailTrackingToken === token);
       
       if (invoice) {
@@ -2685,6 +2725,8 @@ export async function registerRoutes(app: Express) {
         return res.status(400).json({ error: "Customer billing email not found" });
       }
       
+      const lines = await storage.getInvoiceLinesByInvoice(id);
+      
       const billingSettings = await storage.getBillingSettings();
       const settings = billingSettings[0];
       const companyName = settings?.companyName || 'Pivotal B2B LLC';
@@ -2731,16 +2773,54 @@ export async function registerRoutes(app: Express) {
             <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Number:</td>
             <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.number}</td>
           </tr>
+          ${invoice.poNumber ? `
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">PO Number:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.poNumber}</td>
+          </tr>
+          ` : ''}
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Date:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.issueDate).toLocaleDateString()}</td>
           </tr>
           <tr>
             <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Due Date:</td>
             <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.dueDate).toLocaleDateString()}</td>
           </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+          </tr>
         </table>
       </div>
+      
+      ${lines && lines.length > 0 ? `
+      <div style="margin: 30px 0;">
+        <h3 style="color: #374151; font-size: 16px; margin-bottom: 15px;">Invoice Items:</h3>
+        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border: 1px solid #e5e7eb;">
+          <thead>
+            <tr style="background-color: #f9fafb;">
+              <th style="padding: 12px; text-align: left; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Description</th>
+              <th style="padding: 12px; text-align: center; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Qty</th>
+              <th style="padding: 12px; text-align: right; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${lines.map(line => `
+            <tr style="border-bottom: 1px solid #e5e7eb;">
+              <td style="padding: 12px; color: #111827; font-size: 14px;">${line.description}</td>
+              <td style="padding: 12px; text-align: center; color: #6b7280; font-size: 14px;">${line.quantity}</td>
+              <td style="padding: 12px; text-align: right; color: #111827; font-size: 14px; font-weight: 500;">$${(line.lineTotal / 100).toFixed(2)}</td>
+            </tr>
+            `).join('')}
+            <tr style="background-color: #f9fafb;">
+              <td colspan="2" style="padding: 12px; text-align: right; color: #111827; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">Total:</td>
+              <td style="padding: 12px; text-align: right; color: #667eea; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">$${(invoice.total / 100).toFixed(2)}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      ` : ''}
       
       <div style="text-align: center; margin: 30px 0;">
         <a href="${invoiceUrl}" style="display: inline-block; background-color: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: bold; font-size: 16px;">View Invoice</a>
