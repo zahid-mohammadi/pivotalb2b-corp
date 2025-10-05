@@ -158,7 +158,7 @@ export function InvoiceManagement() {
         const error = await res.json();
         throw new Error(error.message || "Failed to delete invoice");
       }
-      return res.json();
+      return;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
