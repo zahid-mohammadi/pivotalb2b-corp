@@ -90,6 +90,16 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - **Line Items**: Product/service line items with quantities, rates, and tax codes
 - **SKU Management**: Reusable products/services catalog
 - **Tax Management**: Flexible tax codes for compliance
-- **Email Delivery**: Automated invoice emails with tracking
+- **Email Delivery**: 
+  - Send invoices via Microsoft 365 SMTP (smtp.office365.com, port 587)
+  - Customizable email messages before sending
+  - Email open tracking with tracking pixels
+  - View email open counts and timestamps
+  - Payment reminder system for sent invoices
 - **PDF Generation**: Professional invoice PDFs with company branding
 - **View Tracking**: Monitor who views public invoices and when
+- **Reminder System**:
+  - Send payment reminders for overdue invoices
+  - Customizable reminder messages
+  - Track reminder count and history
+  - Reminder emails reuse email tracking for opens

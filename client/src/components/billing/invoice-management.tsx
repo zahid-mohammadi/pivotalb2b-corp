@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Download, Bell, Mail, MailOpen } from "lucide-react";
 import { format } from "date-fns";
-import type { Invoice, Account, Sku, TaxCode } from "@shared/schema";
+import type { Invoice, Account, Sku, TaxCode, Contact } from "@shared/schema";
 import { EmailComposeDialog } from "./email-compose-dialog";
 
 interface InvoiceLineItem {
@@ -33,7 +33,6 @@ export function InvoiceManagement() {
   const [reminderDialogOpen, setReminderDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(null);
-  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [lineItems, setLineItems] = useState<InvoiceLineItem[]>([
     { description: "", quantity: 1, unitPrice: 0, lineSubtotal: 0, lineTax: 0, lineTotal: 0 }
   ]);
@@ -46,7 +45,7 @@ export function InvoiceManagement() {
     queryKey: ["/api/accounts"],
   });
 
-  const { data: contacts } = useQuery({
+  const { data: contacts } = useQuery<Contact[]>({
     queryKey: ["/api/contacts"],
   });
 
@@ -59,7 +58,7 @@ export function InvoiceManagement() {
   });
 
   const selectedAccount = customers?.find(c => c.id === selectedAccountId);
-  const accountContacts = contacts?.filter((c: any) => c.accountId === selectedAccountId) || [];
+  const accountContacts = contacts?.filter((c) => c.accountId === selectedAccountId) || [];
 
   const createMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -81,64 +80,96 @@ export function InvoiceManagement() {
     },
   });
 
-  const handleSendInvoice = (invoice: Invoice) => {
-    setSelectedInvoice(invoice);
-    setEmailDialogOpen(true);
-  };
-
-  const handleSendInvoiceEmail = async (customMessage: string) => {
-    if (!selectedInvoice) return;
-    
-    try {
-      setIsSendingEmail(true);
-      const res = await apiRequest("POST", `/api/invoices/${selectedInvoice.id}/send`, {
+  const sendMutation = useMutation({
+    mutationFn: async ({ invoiceId, customMessage }: { invoiceId: number; customMessage?: string }) => {
+      const res = await apiRequest("POST", `/api/invoices/${invoiceId}/send`, {
         customMessage: customMessage || undefined,
       });
       if (!res.ok) {
         const error = await res.json();
         throw new Error(error.message || "Failed to send invoice");
       }
+      return res.json();
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      setEmailDialogOpen(false);
       toast({ 
         title: "Invoice sent successfully!", 
         description: "Email tracking is active. You'll see when the customer opens it."
       });
-      setEmailDialogOpen(false);
-    } catch (error: any) {
+    },
+    onError: (error: Error) => {
       toast({ title: error.message, variant: "destructive" });
-    } finally {
-      setIsSendingEmail(false);
-    }
-  };
+    },
+  });
 
-  const handleSendReminder = (invoice: Invoice) => {
-    setSelectedInvoice(invoice);
-    setReminderDialogOpen(true);
-  };
-
-  const handleSendReminderEmail = async (customMessage: string) => {
-    if (!selectedInvoice) return;
-    
-    try {
-      setIsSendingEmail(true);
-      const res = await apiRequest("POST", `/api/invoices/${selectedInvoice.id}/reminder`, {
+  const reminderMutation = useMutation({
+    mutationFn: async ({ invoiceId, customMessage }: { invoiceId: number; customMessage?: string }) => {
+      const res = await apiRequest("POST", `/api/invoices/${invoiceId}/reminder`, {
         customMessage: customMessage || undefined,
       });
       if (!res.ok) {
         const error = await res.json();
         throw new Error(error.message || "Failed to send reminder");
       }
+      return res.json();
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      setReminderDialogOpen(false);
       toast({ 
         title: "Reminder sent successfully!", 
         description: "The payment reminder has been sent to the customer."
       });
-      setReminderDialogOpen(false);
-    } catch (error: any) {
+    },
+    onError: (error: Error) => {
       toast({ title: error.message, variant: "destructive" });
-    } finally {
-      setIsSendingEmail(false);
+    },
+  });
+
+  const handleSendInvoice = (invoice: Invoice) => {
+    const account = customers?.find(c => c.id === invoice.accountId);
+    if (!account?.billingEmail) {
+      toast({ 
+        title: "Cannot send invoice", 
+        description: "Customer account has no billing email address",
+        variant: "destructive" 
+      });
+      return;
     }
+    setSelectedInvoice(invoice);
+    setEmailDialogOpen(true);
+  };
+
+  const handleSendInvoiceEmail = (customMessage: string) => {
+    if (!selectedInvoice) return;
+    sendMutation.mutate({
+      invoiceId: selectedInvoice.id,
+      customMessage: customMessage || undefined,
+    });
+  };
+
+  const handleSendReminder = (invoice: Invoice) => {
+    const account = customers?.find(c => c.id === invoice.accountId);
+    if (!account?.billingEmail) {
+      toast({ 
+        title: "Cannot send reminder", 
+        description: "Customer account has no billing email address",
+        variant: "destructive" 
+      });
+      return;
+    }
+    setSelectedInvoice(invoice);
+    setReminderDialogOpen(true);
+  };
+
+  const handleSendReminderEmail = (customMessage: string) => {
+    if (!selectedInvoice) return;
+    reminderMutation.mutate({
+      invoiceId: selectedInvoice.id,
+      customMessage: customMessage || undefined,
+    });
   };
 
   const handlePrintInvoice = (invoice: Invoice) => {
@@ -327,8 +358,9 @@ export function InvoiceManagement() {
                             size="sm"
                             variant="default"
                             onClick={() => handleSendInvoice(invoice)}
+                            disabled={!customer?.billingEmail}
                             data-testid={`send-invoice-${invoice.id}`}
-                            title="Send via Email"
+                            title={customer?.billingEmail ? "Send via Email" : "No billing email configured"}
                           >
                             <Send className="h-4 w-4 mr-1" />
                             Send
@@ -339,8 +371,9 @@ export function InvoiceManagement() {
                             size="sm"
                             variant="outline"
                             onClick={() => handleSendReminder(invoice)}
+                            disabled={!customer?.billingEmail}
                             data-testid={`reminder-invoice-${invoice.id}`}
-                            title="Send Payment Reminder"
+                            title={customer?.billingEmail ? "Send Payment Reminder" : "No billing email configured"}
                           >
                             <Bell className="h-4 w-4 mr-1" />
                             Remind {invoice.reminderCount ? `(${invoice.reminderCount})` : ''}
@@ -681,26 +714,28 @@ export function InvoiceManagement() {
       {/* Email Compose Dialog for sending invoices */}
       {selectedInvoice && (
         <EmailComposeDialog
+          key={`send-${selectedInvoice.id}`}
           open={emailDialogOpen}
           onOpenChange={setEmailDialogOpen}
           onSend={handleSendInvoiceEmail}
           invoiceNumber={selectedInvoice.number}
           customerName={customers?.find(c => c.id === selectedInvoice.accountId)?.companyName || 'Customer'}
           isReminder={false}
-          isPending={isSendingEmail}
+          isPending={sendMutation.isPending}
         />
       )}
 
       {/* Email Compose Dialog for sending reminders */}
       {selectedInvoice && (
         <EmailComposeDialog
+          key={`reminder-${selectedInvoice.id}`}
           open={reminderDialogOpen}
           onOpenChange={setReminderDialogOpen}
           onSend={handleSendReminderEmail}
           invoiceNumber={selectedInvoice.number}
           customerName={customers?.find(c => c.id === selectedInvoice.accountId)?.companyName || 'Customer'}
           isReminder={true}
-          isPending={isSendingEmail}
+          isPending={reminderMutation.isPending}
         />
       )}
     </div>

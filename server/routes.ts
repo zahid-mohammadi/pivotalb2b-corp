@@ -2331,7 +2331,7 @@ export async function registerRoutes(app: Express) {
       const userId = (req.user as any)?.id || 1;
       const updatedInvoice = await storage.updateInvoice(id, {
         status: 'sent',
-        sentAt: new Date().toISOString(),
+        sentAt: new Date(),
         viewTrackingToken: trackingToken,
       });
       
@@ -2468,7 +2468,7 @@ export async function registerRoutes(app: Express) {
       });
       
       await storage.updateInvoice(id, {
-        lastReminderAt: new Date().toISOString(),
+        lastReminderAt: new Date(),
         reminderCount: (invoice.reminderCount || 0) + 1,
         reminderHistory,
       });
