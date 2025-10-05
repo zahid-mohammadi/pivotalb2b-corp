@@ -19,6 +19,7 @@ import { SkuManagement } from "./sku-management";
 import { TaxCodeManagement } from "./tax-code-management";
 import { ExpenseManagement } from "./expense-management";
 import { FinancialReports } from "./financial-reports";
+import { InvoiceActivityDashboard } from "./invoice-activity-dashboard";
 import type { Account, Invoice } from "@shared/schema";
 
 interface BillingModuleProps {
@@ -138,28 +139,7 @@ export function BillingModule({ initialTab = "overview" }: BillingModuleProps = 
         </TabsList>
 
         <TabsContent value="overview" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Financial Overview</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="text-sm text-muted-foreground">
-                  <p>Welcome to the Billing & Accounting module.</p>
-                  <p className="mt-2">Use the tabs above to:</p>
-                  <ul className="list-disc list-inside mt-2 space-y-1">
-                    <li>Manage customers and their billing information</li>
-                    <li>Create and track invoices and estimates</li>
-                    <li>Record payments and monitor outstanding balances</li>
-                    <li>Track business expenses</li>
-                    <li>Manage your product and service catalog</li>
-                    <li>View financial reports and insights</li>
-                    <li>Configure billing settings and tax codes</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <InvoiceActivityDashboard />
         </TabsContent>
 
         <TabsContent value="customers" className="mt-6">
