@@ -352,9 +352,6 @@ export function InvoiceManagement() {
                   <div className="text-xs text-muted-foreground mt-1 space-y-1">
                     <div className="font-medium">{selectedAccount.companyName}</div>
                     {selectedAccount.billingAddress && <div>{selectedAccount.billingAddress}</div>}
-                    {selectedAccount.billingCity && selectedAccount.billingState && (
-                      <div>{selectedAccount.billingCity}, {selectedAccount.billingState} {selectedAccount.billingZip}</div>
-                    )}
                   </div>
                 )}
               </div>
