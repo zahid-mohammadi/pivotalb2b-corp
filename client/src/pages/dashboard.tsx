@@ -215,7 +215,7 @@ export default function Dashboard() {
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
       />
-      <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+      <div className="flex h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
         {/* Mobile Menu Button */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -411,7 +411,7 @@ export default function Dashboard() {
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto">
-          <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl mt-16 lg:mt-0">
+          <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl">
             {/* Analytics Tab */}
             {activeTab === "analytics" && (
               <div className="space-y-8">
