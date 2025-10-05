@@ -24,7 +24,9 @@ import {
   Download,
   MessageSquare,
   Workflow,
-  Receipt
+  Receipt,
+  Menu,
+  X
 } from "lucide-react";
 import { BlogEditor } from "@/components/blog/blog-editor";
 import { EbookEditor } from "@/components/ebooks/ebook-editor";
@@ -53,6 +55,7 @@ export default function Dashboard() {
   const [addUserDialogOpen, setAddUserDialogOpen] = useState(false);
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // User management queries
   const { data: users } = useQuery<UserData[]>({
@@ -212,8 +215,30 @@ export default function Dashboard() {
         description="Administrative dashboard for managing content, leads, and marketing materials"
       />
       <div className="flex min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-slate-200"
+          data-testid="mobile-menu-button"
+        >
+          {sidebarOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+
+        {/* Sidebar Overlay for Mobile */}
+        {sidebarOpen && (
+          <div
+            className="lg:hidden fixed inset-0 bg-black/50 z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* Left Sidebar Navigation */}
-        <div className="w-64 bg-white border-r border-slate-200 shadow-sm flex flex-col">
+        <div className={`
+          w-64 bg-white border-r border-slate-200 shadow-sm flex flex-col
+          fixed lg:static inset-y-0 left-0 z-40
+          transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}>
           {/* Header */}
           <div className="p-6 border-b border-slate-200">
             <h1 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
@@ -225,7 +250,10 @@ export default function Dashboard() {
           {/* Navigation Menu */}
           <nav className="flex-1 p-4 space-y-1">
             <button
-              onClick={() => setActiveTab("analytics")}
+              onClick={() => {
+                setActiveTab("analytics");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "analytics"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -237,7 +265,10 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setActiveTab("users")}
+              onClick={() => {
+                setActiveTab("users");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "users"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -249,7 +280,10 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setActiveTab("blog")}
+              onClick={() => {
+                setActiveTab("blog");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "blog"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -261,7 +295,10 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setActiveTab("leads")}
+              onClick={() => {
+                setActiveTab("leads");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "leads"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -273,7 +310,10 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setActiveTab("ebooks")}
+              onClick={() => {
+                setActiveTab("ebooks");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "ebooks"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -285,7 +325,10 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setActiveTab("case-studies")}
+              onClick={() => {
+                setActiveTab("case-studies");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "case-studies"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -297,7 +340,10 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setActiveTab("pipeline")}
+              onClick={() => {
+                setActiveTab("pipeline");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "pipeline"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -330,7 +376,10 @@ export default function Dashboard() {
             </Link>
 
             <button
-              onClick={() => setActiveTab("proposals")}
+              onClick={() => {
+                setActiveTab("proposals");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "proposals"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -342,7 +391,10 @@ export default function Dashboard() {
             </button>
 
             <button
-              onClick={() => setActiveTab("billing")}
+              onClick={() => {
+                setActiveTab("billing");
+                setSidebarOpen(false);
+              }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                 activeTab === "billing"
                   ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
@@ -358,7 +410,7 @@ export default function Dashboard() {
 
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto">
-          <div className="container mx-auto px-6 py-8 max-w-7xl">
+          <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8 max-w-7xl mt-16 lg:mt-0">
             {/* Analytics Tab */}
             {activeTab === "analytics" && (
               <div className="space-y-8">
