@@ -786,6 +786,15 @@ export default function Dashboard() {
 
             {/* Pipeline Tab */}
             {activeTab === "pipeline" && <PipelineView />}
+            
+            {/* Pipeline - Campaigns (from navigation) */}
+            {activeTab === "pipeline-campaigns" && <PipelineView initialTab="campaigns" />}
+            
+            {/* Pipeline - Automation (from navigation) */}
+            {activeTab === "pipeline-automation" && <PipelineView initialTab="automation" />}
+            
+            {/* Pipeline - Integrations (from navigation) */}
+            {activeTab === "pipeline-integrations" && <PipelineView initialTab="integrations" />}
 
             {/* Proposal Requests Tab */}
             {activeTab === "proposals" && (

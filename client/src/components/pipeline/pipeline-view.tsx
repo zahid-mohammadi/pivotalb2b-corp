@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PipelineKanban } from "./pipeline-kanban";
 import { PipelineAnalytics } from "./pipeline-analytics";
 import { DealProfile } from "./deal-profile";
@@ -14,7 +14,11 @@ import { Button } from "@/components/ui/button";
 import { Plus, BarChart3, Mail, Settings } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export function PipelineView() {
+interface PipelineViewProps {
+  initialTab?: "kanban" | "campaigns" | "analytics" | "settings" | "integrations" | "automation";
+}
+
+export function PipelineView({ initialTab = "kanban" }: PipelineViewProps = {}) {
   const [selectedDeal, setSelectedDeal] = useState<PipelineDeal | null>(null);
   const [showDealForm, setShowDealForm] = useState(false);
   const [formStageId, setFormStageId] = useState<number | undefined>(undefined);
@@ -23,6 +27,17 @@ export function PipelineView() {
   const [showCampaignDetails, setShowCampaignDetails] = useState(false);
   const [selectedRule, setSelectedRule] = useState<AutomationRule | null>(null);
   const [showRuleForm, setShowRuleForm] = useState(false);
+  const [activeMainTab, setActiveMainTab] = useState<string>(initialTab === "integrations" || initialTab === "automation" ? "settings" : initialTab);
+  const [activeSettingsTab, setActiveSettingsTab] = useState<string>(initialTab === "automation" ? "automation" : "integrations");
+
+  useEffect(() => {
+    if (initialTab === "integrations" || initialTab === "automation") {
+      setActiveMainTab("settings");
+      setActiveSettingsTab(initialTab);
+    } else {
+      setActiveMainTab(initialTab);
+    }
+  }, [initialTab]);
 
   const handleDealClick = (deal: PipelineDeal) => {
     setSelectedDeal(deal);
@@ -92,7 +107,7 @@ export function PipelineView() {
         </Button>
       </div>
 
-      <Tabs defaultValue="kanban" className="flex-1 flex flex-col">
+      <Tabs value={activeMainTab} onValueChange={setActiveMainTab} className="flex-1 flex flex-col">
         <TabsList>
           <TabsTrigger value="kanban">Kanban View</TabsTrigger>
           <TabsTrigger value="campaigns" data-testid="tab-campaigns">
@@ -128,7 +143,7 @@ export function PipelineView() {
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">
-          <Tabs defaultValue="integrations" className="space-y-6">
+          <Tabs value={activeSettingsTab} onValueChange={setActiveSettingsTab} className="space-y-6">
             <TabsList>
               <TabsTrigger value="integrations">Integrations</TabsTrigger>
               <TabsTrigger value="automation">Automation Rules</TabsTrigger>

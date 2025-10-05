@@ -220,56 +220,28 @@ export const navigationConfig: NavItem[] = [
   {
     title: "Campaigns & Automation",
     icon: Mail,
-    roles: ["admin", "marketing"],
+    roles: ["admin", "marketing", "sales"],
     children: [
       {
         title: "Email Campaigns",
-        href: "/campaigns/email",
+        href: "/dashboard",
+        tab: "pipeline-campaigns",
         icon: Mail,
-        roles: ["admin", "marketing"]
+        roles: ["admin", "marketing", "sales"]
       },
       {
-        title: "Newsletter Builder",
-        href: "/campaigns/newsletters",
-        icon: Newspaper,
-        roles: ["admin", "marketing"]
-      },
-      {
-        title: "Campaign Reports",
-        href: "/campaigns/reports",
-        icon: BarChart3,
-        roles: ["admin", "marketing"]
-      },
-      {
-        title: "Audience Segments",
-        href: "/campaigns/segments",
-        icon: Users,
-        roles: ["admin", "marketing"]
-      },
-      {
-        title: "Automation Center",
+        title: "Automation Rules",
+        href: "/dashboard",
+        tab: "pipeline-automation",
         icon: Zap,
-        roles: ["admin", "marketing"],
-        children: [
-          {
-            title: "Workflows & Triggers",
-            href: "/automation/workflows",
-            icon: Workflow,
-            roles: ["admin", "marketing"]
-          },
-          {
-            title: "Templates & Sequences",
-            href: "/automation/templates",
-            icon: FileText,
-            roles: ["admin", "marketing"]
-          },
-          {
-            title: "Task Automation",
-            href: "/automation/tasks",
-            icon: ListChecks,
-            roles: ["admin", "marketing"]
-          }
-        ]
+        roles: ["admin", "marketing", "sales"]
+      },
+      {
+        title: "Microsoft 365 Integration",
+        href: "/dashboard",
+        tab: "pipeline-integrations",
+        icon: GitBranch,
+        roles: ["admin", "marketing", "sales"]
       }
     ]
   },
