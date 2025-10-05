@@ -36,6 +36,7 @@ import {
 import multer from "multer";
 import path from "path";
 import express from 'express';
+import fs from 'fs';
 import { eq, count } from "drizzle-orm";
 import { recommendationService } from "./services/recommendation";
 import { sendContactFormNotification, sendEbookDownloadConfirmation, sendLeadNotificationToAdmin, sendProposalRequestNotification, sendInvoiceEmail } from "./services/email";
@@ -2662,10 +2663,17 @@ export async function registerRoutes(app: Express) {
       
       const printer = new PdfPrinter(fonts);
       
-      const companyName = settings?.companyName || 'Pivotal B2B';
-      const companyAddress = settings?.address || '';
-      const logoUrl = settings?.logoUrl;
+      const companyName = 'Pivotal B2B';
+      const companyAddress = '16192 Coastal Highway\nLewes, Delaware 19958\nUSA';
       const bankDetails = settings?.bankDetails || '';
+      
+      // Load logo as base64
+      const logoPath = path.join(process.cwd(), 'client/public/logo.png');
+      let logoBase64 = '';
+      if (fs.existsSync(logoPath)) {
+        const logoBuffer = fs.readFileSync(logoPath);
+        logoBase64 = `data:image/png;base64,${logoBuffer.toString('base64')}`;
+      }
       
       const docDefinition: any = {
         pageSize: 'A4',
@@ -2677,9 +2685,19 @@ export async function registerRoutes(app: Express) {
           {
             columns: [
               {
+                width: 120,
+                ...(logoBase64 ? {
+                  image: logoBase64,
+                  width: 100,
+                  margin: [0, 0, 0, 10]
+                } : {
+                  text: ''
+                })
+              },
+              {
                 width: '*',
                 stack: [
-                  { text: companyName, style: 'companyName' },
+                  { text: companyName, style: 'companyName', margin: [0, 10, 0, 0] },
                   { text: companyAddress, style: 'address', margin: [0, 5, 0, 0] }
                 ]
               },
