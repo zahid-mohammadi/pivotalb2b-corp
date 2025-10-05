@@ -209,7 +209,7 @@ export class MicrosoftGraphService {
       }
 
       const response = await fetch(
-        `https://graph.microsoft.com/v1.0/me/sentItems?$top=${limit}&$select=id,subject,toRecipients,sentDateTime,bodyPreview`,
+        `https://graph.microsoft.com/v1.0/me/sentItems?$top=${limit}&$select=id,subject,toRecipients,sentDateTime,bodyPreview,hasAttachments`,
         {
           headers: {
             'Authorization': `Bearer ${accessToken}`,
@@ -224,7 +224,20 @@ export class MicrosoftGraphService {
       }
 
       const data = await response.json();
-      return data.value || [];
+      
+      // Transform sent items to match inbox structure
+      const transformedData = data.value?.map((item: any) => ({
+        ...item,
+        receivedDateTime: item.sentDateTime,
+        from: {
+          emailAddress: {
+            name: "Me",
+            address: "" // Will be populated from connection
+          }
+        }
+      })) || [];
+
+      return transformedData;
     } catch (error) {
       console.error("Error fetching sent messages:", error);
       return [];
