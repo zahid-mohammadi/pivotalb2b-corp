@@ -1926,38 +1926,26 @@ export class DatabaseStorage {
     }
   }
 
-  async getBillingSettingByKey(key: string): Promise<BillingSetting | undefined> {
+  async upsertBillingSettings(settings: Partial<InsertBillingSetting>): Promise<BillingSetting> {
     try {
-      const [setting] = await db.select().from(billingSettings).where(eq(billingSettings.key, key));
-      return setting;
+      const existing = await this.getBillingSettings();
+      
+      if (existing.length > 0) {
+        const [updated] = await db
+          .update(billingSettings)
+          .set({ ...settings, updatedAt: new Date() })
+          .where(eq(billingSettings.id, existing[0].id))
+          .returning();
+        return updated;
+      } else {
+        const [created] = await db
+          .insert(billingSettings)
+          .values(settings as InsertBillingSetting)
+          .returning();
+        return created;
+      }
     } catch (error) {
-      console.error("Error getting billing setting by key:", error);
-      throw error;
-    }
-  }
-
-  async upsertBillingSetting(setting: InsertBillingSetting): Promise<BillingSetting> {
-    try {
-      const [upsertedSetting] = await db
-        .insert(billingSettings)
-        .values(setting)
-        .onConflictDoUpdate({
-          target: billingSettings.key,
-          set: { value: setting.value },
-        })
-        .returning();
-      return upsertedSetting;
-    } catch (error) {
-      console.error("Error upserting billing setting:", error);
-      throw error;
-    }
-  }
-
-  async deleteBillingSetting(key: string): Promise<void> {
-    try {
-      await db.delete(billingSettings).where(eq(billingSettings.key, key));
-    } catch (error) {
-      console.error("Error deleting billing setting:", error);
+      console.error("Error upserting billing settings:", error);
       throw error;
     }
   }

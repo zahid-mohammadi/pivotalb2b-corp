@@ -2191,6 +2191,31 @@ export async function registerRoutes(app: Express) {
     }
   });
 
+  // Billing Settings
+  app.get("/api/billing-settings", async (_req, res) => {
+    try {
+      const settings = await storage.getBillingSettings();
+      res.json(settings);
+    } catch (error) {
+      console.error("Error fetching billing settings:", error);
+      res.status(500).json({ error: "Failed to fetch billing settings" });
+    }
+  });
+
+  app.post("/api/billing-settings", async (req, res) => {
+    try {
+      const result = insertBillingSettingSchema.partial().safeParse(req.body);
+      if (!result.success) {
+        return res.status(400).json({ errors: result.error.errors });
+      }
+      const settings = await storage.upsertBillingSettings(result.data);
+      res.json(settings);
+    } catch (error) {
+      console.error("Error updating billing settings:", error);
+      res.status(500).json({ error: "Failed to update billing settings" });
+    }
+  });
+
   // SKUs (Products/Services)
   app.get("/api/skus", async (_req, res) => {
     try {
@@ -2820,30 +2845,117 @@ export async function registerRoutes(app: Express) {
               }
             ]
           },
-          ...(settings?.invoiceFooter ? [{
+          {
             canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: '#e5e7eb' }],
-            margin: [0, 30, 0, 10]
+            margin: [0, 40, 0, 20]
           },
           {
-            text: settings.invoiceFooter,
-            style: 'footer',
-            margin: [0, 0, 0, 10]
-          }] : []),
-          ...(bankDetails ? [{
-            table: {
-              widths: ['*'],
-              body: [[{
-                text: [
-                  { text: 'Bank Details:\n', bold: true },
-                  { text: bankDetails }
-                ],
-                fillColor: '#f9fafb',
-                margin: 10
-              }]]
-            },
-            layout: 'noBorders',
-            margin: [0, 10, 0, 0]
-          }] : [])
+            columns: [
+              {
+                width: '50%',
+                stack: [
+                  ...(invoice.notes ? [
+                    { text: 'NOTES', style: 'sectionHeader', margin: [0, 0, 0, 8] },
+                    { 
+                      text: invoice.notes, 
+                      fontSize: 9, 
+                      color: '#4b5563',
+                      margin: [0, 0, 10, 0]
+                    }
+                  ] : []),
+                  ...(settings?.defaultTerms ? [
+                    { text: 'PAYMENT TERMS', style: 'sectionHeader', margin: [0, invoice.notes ? 15 : 0, 0, 8] },
+                    { 
+                      text: settings.defaultTerms, 
+                      fontSize: 9, 
+                      color: '#4b5563',
+                      margin: [0, 0, 10, 0]
+                    }
+                  ] : [])
+                ]
+              },
+              {
+                width: '50%',
+                stack: [
+                  ...(bankDetails ? [
+                    { text: 'PAYMENT INFORMATION', style: 'sectionHeader', margin: [0, 0, 0, 8] },
+                    {
+                      table: {
+                        widths: ['*'],
+                        body: [[{
+                          stack: bankDetails.split('\n').map(line => ({
+                            text: line,
+                            fontSize: 9,
+                            color: '#4b5563',
+                            margin: [0, 2, 0, 2]
+                          })),
+                          fillColor: '#f3f4f6',
+                          margin: [12, 10, 12, 10]
+                        }]]
+                      },
+                      layout: {
+                        hLineWidth: () => 1,
+                        vLineWidth: () => 1,
+                        hLineColor: () => '#e5e7eb',
+                        vLineColor: () => '#e5e7eb',
+                        paddingLeft: () => 0,
+                        paddingRight: () => 0,
+                        paddingTop: () => 0,
+                        paddingBottom: () => 0
+                      }
+                    }
+                  ] : [])
+                ]
+              }
+            ]
+          },
+          {
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: '#e5e7eb' }],
+            margin: [0, 30, 0, 15]
+          },
+          {
+            columns: [
+              {
+                width: '*',
+                stack: [
+                  { 
+                    text: companyName, 
+                    fontSize: 10, 
+                    bold: true, 
+                    color: '#667eea',
+                    margin: [0, 0, 0, 3]
+                  },
+                  { 
+                    text: companyAddress, 
+                    fontSize: 8, 
+                    color: '#9ca3af',
+                    margin: [0, 0, 0, 2]
+                  }
+                ]
+              },
+              {
+                width: 'auto',
+                stack: [
+                  ...(settings?.invoiceFooter ? [
+                    {
+                      text: settings.invoiceFooter,
+                      fontSize: 8,
+                      color: '#6b7280',
+                      alignment: 'right'
+                    }
+                  ] : [
+                    {
+                      text: 'Thank you for your business!',
+                      fontSize: 8,
+                      color: '#6b7280',
+                      alignment: 'right',
+                      italics: true
+                    }
+                  ])
+                ]
+              }
+            ]
+          }
         ],
         styles: {
           companyName: {

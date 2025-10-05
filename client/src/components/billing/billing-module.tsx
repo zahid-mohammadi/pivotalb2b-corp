@@ -20,6 +20,7 @@ import { TaxCodeManagement } from "./tax-code-management";
 import { ExpenseManagement } from "./expense-management";
 import { FinancialReports } from "./financial-reports";
 import { InvoiceActivityDashboard } from "./invoice-activity-dashboard";
+import { BillingSettings } from "./billing-settings";
 import type { Account, Invoice } from "@shared/schema";
 
 interface BillingModuleProps {
@@ -167,7 +168,7 @@ export function BillingModule({ initialTab = "overview" }: BillingModuleProps = 
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">
-          <TaxCodeManagement />
+          <BillingSettings />
         </TabsContent>
       </Tabs>
     </div>

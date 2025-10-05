@@ -29,7 +29,11 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 ## Recent Changes
 - **NEW: Professional Invoice PDF Generation** (October 5, 2025)
   - Upgraded to pdfmake for server-side PDF generation
-  - A4-sized invoices with company branding (logo, address, banking info)
+  - A4-sized invoices with company logo and branding
+  - Company information header: Pivotal B2B, 16192 Coastal Highway, Lewes, Delaware 19958, USA
+  - Professional two-column footer layout with notes/payment terms and bank details
+  - Payment information section with bordered display for bank account details
+  - Beautiful invoice footer with company branding and custom messages
   - Proper PDF download with filename invoice-{number}.pdf
   - Professional layout with color-coded sections and tables
   - Includes all invoice details: line items, taxes, totals, payment info
@@ -93,6 +97,11 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - **Public Invoice Security**: Token-based access with view tracking
 
 ## Billing & Accounting System
+- **Billing Settings**: Comprehensive settings interface for managing company information, bank account details, and invoice customization
+  - Company Info: Company name, legal name, business address, tax registration
+  - Banking: Bank account details displayed on invoices for payment
+  - Invoice Settings: Invoice prefix, default currency, payment terms, invoice footer text
+  - Tab-based interface for easy navigation between settings sections
 - **Invoices**: Create, edit, send, download, print, and track invoices
 - **Line Items**: Product/service line items with quantities, rates, and tax codes
 - **SKU Management**: Reusable products/services catalog
