@@ -35,6 +35,7 @@ import { OverviewMetrics } from "@/components/analytics/overview-metrics";
 import { TrafficSources } from "@/components/analytics/traffic-sources";
 import { UserBehavior } from "@/components/analytics/user-behavior";
 import { PipelineView } from "@/components/pipeline/pipeline-view";
+import { BillingModule } from "@/components/billing/billing-module";
 import type { BlogPost, Ebook, CaseStudy, Lead, ProposalRequest } from "@shared/schema";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -1120,51 +1121,7 @@ export default function Dashboard() {
             )}
 
             {/* Billing & Accounting Tab */}
-            {activeTab === "billing" && (
-              <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
-                <CardContent className="pt-8">
-                  <div className="flex items-center justify-between mb-8">
-                    <div>
-                      <h2 className="text-2xl font-bold text-slate-900">Billing & Accounting</h2>
-                      <p className="text-sm text-slate-600 mt-1">Manage invoices, payments, expenses, and financial reports</p>
-                    </div>
-                  </div>
-                  
-                  <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="text-2xl font-bold">$0</div>
-                        <p className="text-xs text-muted-foreground">Total Revenue</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="text-2xl font-bold">$0</div>
-                        <p className="text-xs text-muted-foreground">Outstanding</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="text-2xl font-bold">0</div>
-                        <p className="text-xs text-muted-foreground">Active Invoices</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="pt-6">
-                        <div className="text-2xl font-bold">$0</div>
-                        <p className="text-xs text-muted-foreground">Total Expenses</p>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  <div className="text-center py-12 text-muted-foreground">
-                    <Receipt className="h-16 w-16 mx-auto mb-4 opacity-20" />
-                    <p className="text-lg font-semibold mb-2">Billing Module Coming Soon</p>
-                    <p className="text-sm">Full invoicing, payments, and expense tracking features will be available soon.</p>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+            {activeTab === "billing" && <BillingModule />}
           </div>
         </div>
       </div>
