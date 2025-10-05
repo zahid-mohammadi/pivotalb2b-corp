@@ -1,0 +1,165 @@
+Please redesign the main navigation menu of the Pivotal B2B Dashboard into a modern hierarchical dropdown system, ensuring clarity, scalability, and a premium professional feel.
+
+🔹 Main Goals
+
+Keep the interface organized and intuitive with grouped dropdowns.
+
+Allow quick access to core operational modules (Leads, Pipeline, Accounts, Billing, etc.).
+
+Keep admin, analytics, and content clearly separated.
+
+Use clean icons, consistent typography, and collapsible sections on sidebar or top-nav layout.
+
+Design should look visually balanced on desktop and mobile.
+
+🔹 Recommended Menu Structure
+1. Admin Dashboard
+
+Dropdown or expandable section labeled “Admin”.
+Sub-items:
+
+System Overview (summary cards for active users, total leads, invoices, etc.)
+
+User Management (admins, roles, permissions, activity log)
+
+Settings
+
+General Settings
+
+Integrations (M365, SMTP, Payment Gateway, API Keys)
+
+Security & Audit Logs
+
+2. Analytics
+
+Dedicated dropdown for analytics and reporting.
+Sub-items:
+
+Performance Analytics – global dashboard metrics (traffic, conversions, MQL→SQL rates).
+
+Campaign Analytics – opens, clicks, conversions, unsubscribes.
+
+Sales & Pipeline Reports – revenue forecasts, stage analysis, conversion funnels.
+
+Financial Reports – AR/AP aging, cashflow, tax summary.
+
+Engagement Reports – contact/account scoring trends, activity heatmaps.
+
+3. Marketing Content
+
+Dropdown grouping all marketing and content assets.
+Sub-items:
+
+Blog Posts
+
+eBooks
+
+Case Studies
+
+Landing Pages / Assets (optional future item)
+
+Content Performance (views/downloads report)
+
+4. Lead & Pipeline Management
+
+Core section for operational sales workflow.
+Sub-items:
+
+Leads – captured, enriched, qualified leads.
+
+Pipeline – Kanban board view with stages.
+
+Accounts – company-level CRM.
+
+Contacts – individual records linked to accounts.
+
+Proposals & Opportunities – proposals, quotes, deal tracking.
+
+5. Billing & Accounting
+
+Financial and transactional management area.
+Sub-items:
+
+Invoices – create, send, track views & payments.
+
+Expenses & Bills – vendor and cost tracking.
+
+Payments & Receipts – incoming/outgoing transactions.
+
+Products & Services Catalog
+
+Taxes & Currencies
+
+Reports – P&L, AR/AP aging, Cashflow.
+
+6. Communication & Automation (optional future dropdown)
+
+Email Campaigns / Newsletters
+
+Workflows & Automations
+
+Templates & Sequences
+
+🔹 UX Guidelines
+
+Use a collapsible sidebar (left aligned) or a top-navbar with hover dropdowns.
+
+Icons: Lucide or Feather icons for a minimal, clean aesthetic.
+
+Active module should be visually highlighted with accent color.
+
+Each dropdown expands smoothly with micro-animations (Framer Motion or CSS transitions).
+
+Support role-based visibility (e.g., Billing visible to Admins only).
+
+Use breadcrumbs in sub-pages for orientation.
+
+Search bar at top: universal search for Leads, Accounts, Invoices, Blog Posts, etc.
+
+🔹 Example Top-Level Layout
+Admin
+  ├── System Overview
+  ├── User Management
+  └── Settings
+Analytics
+  ├── Performance Analytics
+  ├── Campaign Analytics
+  ├── Sales & Pipeline Reports
+  └── Financial Reports
+Marketing Content
+  ├── Blog Posts
+  ├── eBooks
+  ├── Case Studies
+Lead & Pipeline
+  ├── Leads
+  ├── Pipeline
+  ├── Accounts
+  ├── Contacts
+  └── Proposals
+Billing & Accounting
+  ├── Invoices
+  ├── Expenses & Bills
+  ├── Payments & Receipts
+  ├── Products & Services
+  └── Reports
+
+🔹 Implementation Notes
+
+Keep menu config JSON-driven to allow dynamic permissions and easy future extensions.
+
+Example JSON:
+
+{
+  "Admin": ["System Overview", "User Management", "Settings"],
+  "Analytics": ["Performance Analytics", "Campaign Analytics", "Financial Reports"],
+  "Marketing Content": ["Blog Posts", "eBooks", "Case Studies"],
+  "Lead & Pipeline": ["Leads", "Pipeline", "Accounts", "Contacts", "Proposals"],
+  "Billing & Accounting": ["Invoices", "Expenses & Bills", "Payments & Receipts", "Reports"]
+}
+
+
+✅ Summary
+Design a structured, dropdown-based navigation that groups modules by category for clear hierarchy:
+
+Admin Dashboard / Analytics / Marketing Content / Lead & Pipeline / Billing & Accounting
+Use consistent styling, responsive design, icons, and permissions.
