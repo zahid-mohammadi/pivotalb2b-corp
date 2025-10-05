@@ -2531,100 +2531,102 @@ export async function registerRoutes(app: Express) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Invoice ${invoice.number}</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
-      <h1 style="color: #ffffff; margin: 0; font-size: 28px;">New Invoice</h1>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f8fafc;">
+  <div style="max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+    
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); padding: 32px; text-align: center;">
+      <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.5px;">Invoice ${invoice.number}</h1>
+      <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 14px;">${companyName}</p>
     </div>
     
-    <div style="padding: 40px 30px;">
-      <p style="font-size: 16px; color: #374151; margin-bottom: 20px;">Dear ${account.companyName},</p>
+    <!-- Content -->
+    <div style="padding: 32px;">
+      <p style="font-size: 15px; color: #1f2937; margin: 0 0 24px 0;">Hello ${account.companyName},</p>
       
       ${customMessage ? `
-      <p style="font-size: 16px; color: #374151; line-height: 1.6; margin-bottom: 20px; padding: 15px; background-color: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 4px;">
-        ${customMessage.replace(/\n/g, '<br>')}
-      </p>
+      <div style="background-color: #eff6ff; border-left: 3px solid #2563eb; padding: 16px; margin-bottom: 24px; border-radius: 4px;">
+        <p style="font-size: 14px; color: #1e40af; margin: 0; line-height: 1.6;">
+          ${customMessage.replace(/\n/g, '<br>')}
+        </p>
+      </div>
       ` : ''}
       
-      <p style="font-size: 16px; color: #374151; line-height: 1.6;">
-        ${companyName} has sent you an invoice. Please review the details below:
+      <p style="font-size: 14px; color: #64748b; margin: 0 0 24px 0; line-height: 1.6;">
+        Please find your invoice details below. Payment is due by ${new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}.
       </p>
       
-      <div style="background-color: #f9fafb; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0;">
+      <!-- Invoice Summary Card -->
+      <div style="background: linear-gradient(to bottom, #f8fafc 0%, #ffffff 100%); border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin-bottom: 28px;">
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Number:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.number}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">Invoice Number</td>
+            <td style="padding: 10px 0; color: #0f172a; font-weight: 600; text-align: right; font-size: 14px;">${invoice.number}</td>
           </tr>
           ${invoice.poNumber ? `
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">PO Number:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.poNumber}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">PO Number</td>
+            <td style="padding: 10px 0; color: #0f172a; font-weight: 600; text-align: right; font-size: 14px;">${invoice.poNumber}</td>
           </tr>
           ` : ''}
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Date:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.issueDate).toLocaleDateString()}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">Issue Date</td>
+            <td style="padding: 10px 0; color: #0f172a; font-weight: 600; text-align: right; font-size: 14px;">${new Date(invoice.issueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Due Date:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.dueDate).toLocaleDateString()}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">Due Date</td>
+            <td style="padding: 10px 0; color: #0f172a; font-weight: 600; text-align: right; font-size: 14px;">${new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
           </tr>
-          <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+          <tr style="border-top: 2px solid #e2e8f0;">
+            <td style="padding: 16px 0 0 0; color: #0f172a; font-size: 15px; font-weight: 600;">Amount Due</td>
+            <td style="padding: 16px 0 0 0; color: #2563eb; font-weight: 700; text-align: right; font-size: 24px;">$${(invoice.total / 100).toFixed(2)}</td>
           </tr>
         </table>
       </div>
       
       ${lines && lines.length > 0 ? `
-      <div style="margin: 30px 0;">
-        <h3 style="color: #374151; font-size: 16px; margin-bottom: 15px;">Invoice Items:</h3>
-        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border: 1px solid #e5e7eb;">
+      <!-- Line Items -->
+      <div style="margin-bottom: 28px;">
+        <h3 style="color: #0f172a; font-size: 15px; font-weight: 600; margin: 0 0 16px 0;">Items</h3>
+        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden;">
           <thead>
-            <tr style="background-color: #f9fafb;">
-              <th style="padding: 12px; text-align: left; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Description</th>
-              <th style="padding: 12px; text-align: center; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Qty</th>
-              <th style="padding: 12px; text-align: right; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Amount</th>
+            <tr style="background-color: #f8fafc;">
+              <th style="padding: 12px 16px; text-align: left; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Description</th>
+              <th style="padding: 12px 16px; text-align: center; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Qty</th>
+              <th style="padding: 12px 16px; text-align: right; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Amount</th>
             </tr>
           </thead>
           <tbody>
-            ${lines.map(line => `
-            <tr style="border-bottom: 1px solid #e5e7eb;">
-              <td style="padding: 12px; color: #111827; font-size: 14px;">${line.description}</td>
-              <td style="padding: 12px; text-align: center; color: #6b7280; font-size: 14px;">${line.quantity}</td>
-              <td style="padding: 12px; text-align: right; color: #111827; font-size: 14px; font-weight: 500;">$${(line.lineTotal / 100).toFixed(2)}</td>
+            ${lines.map((line, index) => `
+            <tr style="${index < lines.length - 1 ? 'border-bottom: 1px solid #f1f5f9;' : ''}">
+              <td style="padding: 14px 16px; color: #334155; font-size: 14px;">${line.description}</td>
+              <td style="padding: 14px 16px; text-align: center; color: #64748b; font-size: 14px;">${line.quantity}</td>
+              <td style="padding: 14px 16px; text-align: right; color: #0f172a; font-size: 14px; font-weight: 500;">$${(line.lineTotal / 100).toFixed(2)}</td>
             </tr>
             `).join('')}
-            <tr style="background-color: #f9fafb;">
-              <td colspan="2" style="padding: 12px; text-align: right; color: #111827; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">Total:</td>
-              <td style="padding: 12px; text-align: right; color: #667eea; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">$${(invoice.total / 100).toFixed(2)}</td>
-            </tr>
           </tbody>
         </table>
       </div>
       ` : ''}
       
-      <div style="text-align: center; margin: 30px 0;">
-        <a href="${invoiceUrl}" style="display: inline-block; background-color: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: bold; font-size: 16px;">View Invoice</a>
+      <!-- CTA Button -->
+      <div style="text-align: center; margin: 32px 0;">
+        <a href="${invoiceUrl}" style="display: inline-block; background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%); color: #ffffff; text-decoration: none; padding: 14px 40px; border-radius: 6px; font-weight: 600; font-size: 15px; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);">View Full Invoice</a>
       </div>
       
-      <p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin-top: 30px;">
-        If you have any questions about this invoice, please contact us.
-      </p>
-      
-      <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
-        Best regards,<br>
-        <strong>${companyName}</strong>
+      <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin: 24px 0 0 0; text-align: center;">
+        Questions? Please don't hesitate to reach out.
       </p>
     </div>
     
-    <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
-      <p style="margin: 0; color: #6b7280; font-size: 12px;">
-        This is an automated message from ${companyName}
+    <!-- Footer -->
+    <div style="background-color: #f8fafc; padding: 24px 32px; border-top: 1px solid #e2e8f0;">
+      <p style="margin: 0; color: #64748b; font-size: 12px; text-align: center;">
+        <strong style="color: #475569;">${companyName}</strong><br>
+        This is an automated invoice notification
       </p>
       <!-- Email tracking pixel -->
-      <img src="${trackingPixelUrl}" width="1" height="1" alt="" style="display:block; width:1px; height:1px;" />
+      <img src="${trackingPixelUrl}" width="1" height="1" alt="" style="display:block; width:1px; height:1px; margin: 0 auto;" />
     </div>
   </div>
 </body>
@@ -2748,100 +2750,102 @@ export async function registerRoutes(app: Express) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Reminder - Invoice ${invoice.number}</title>
 </head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
-      <h1 style="color: #ffffff; margin: 0; font-size: 28px;">Payment Reminder</h1>
+<body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f8fafc;">
+  <div style="max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
+    
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); padding: 32px; text-align: center;">
+      <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.5px;">Payment Reminder</h1>
+      <p style="color: rgba(255, 255, 255, 0.9); margin: 8px 0 0 0; font-size: 14px;">Invoice ${invoice.number}</p>
     </div>
     
-    <div style="padding: 40px 30px;">
-      <p style="font-size: 16px; color: #374151; margin-bottom: 20px;">Dear ${account.companyName},</p>
+    <!-- Content -->
+    <div style="padding: 32px;">
+      <p style="font-size: 15px; color: #1f2937; margin: 0 0 24px 0;">Hello ${account.companyName},</p>
       
       ${customMessage ? `
-      <p style="font-size: 16px; color: #374151; line-height: 1.6; margin-bottom: 20px; padding: 15px; background-color: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 4px;">
-        ${customMessage.replace(/\n/g, '<br>')}
-      </p>
+      <div style="background-color: #fef3c7; border-left: 3px solid #f59e0b; padding: 16px; margin-bottom: 24px; border-radius: 4px;">
+        <p style="font-size: 14px; color: #92400e; margin: 0; line-height: 1.6;">
+          ${customMessage.replace(/\n/g, '<br>')}
+        </p>
+      </div>
       ` : ''}
       
-      <p style="font-size: 16px; color: #374151; line-height: 1.6;">
-        This is a friendly reminder about your invoice. Please review the details below:
+      <p style="font-size: 14px; color: #64748b; margin: 0 0 24px 0; line-height: 1.6;">
+        We wanted to remind you that payment for the invoice below is ${new Date(invoice.dueDate) < new Date() ? 'overdue' : 'due soon'}. We kindly request your prompt attention to this matter.
       </p>
       
-      <div style="background-color: #f9fafb; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0;">
+      <!-- Invoice Summary Card -->
+      <div style="background: linear-gradient(to bottom, #fef2f2 0%, #ffffff 100%); border: 1px solid #fecaca; border-radius: 8px; padding: 24px; margin-bottom: 28px;">
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Number:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.number}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">Invoice Number</td>
+            <td style="padding: 10px 0; color: #0f172a; font-weight: 600; text-align: right; font-size: 14px;">${invoice.number}</td>
           </tr>
           ${invoice.poNumber ? `
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">PO Number:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.poNumber}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">PO Number</td>
+            <td style="padding: 10px 0; color: #0f172a; font-weight: 600; text-align: right; font-size: 14px;">${invoice.poNumber}</td>
           </tr>
           ` : ''}
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Date:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.issueDate).toLocaleDateString()}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">Issue Date</td>
+            <td style="padding: 10px 0; color: #0f172a; font-weight: 600; text-align: right; font-size: 14px;">${new Date(invoice.issueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
           </tr>
           <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Due Date:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.dueDate).toLocaleDateString()}</td>
+            <td style="padding: 10px 0; color: #64748b; font-size: 13px; font-weight: 500;">Due Date</td>
+            <td style="padding: 10px 0; color: ${new Date(invoice.dueDate) < new Date() ? '#dc2626' : '#0f172a'}; font-weight: 600; text-align: right; font-size: 14px;">${new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} ${new Date(invoice.dueDate) < new Date() ? '(Overdue)' : ''}</td>
           </tr>
-          <tr>
-            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
-            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+          <tr style="border-top: 2px solid #fecaca;">
+            <td style="padding: 16px 0 0 0; color: #0f172a; font-size: 15px; font-weight: 600;">Amount Due</td>
+            <td style="padding: 16px 0 0 0; color: #dc2626; font-weight: 700; text-align: right; font-size: 24px;">$${(invoice.total / 100).toFixed(2)}</td>
           </tr>
         </table>
       </div>
       
       ${lines && lines.length > 0 ? `
-      <div style="margin: 30px 0;">
-        <h3 style="color: #374151; font-size: 16px; margin-bottom: 15px;">Invoice Items:</h3>
-        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border: 1px solid #e5e7eb;">
+      <!-- Line Items -->
+      <div style="margin-bottom: 28px;">
+        <h3 style="color: #0f172a; font-size: 15px; font-weight: 600; margin: 0 0 16px 0;">Items</h3>
+        <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden;">
           <thead>
-            <tr style="background-color: #f9fafb;">
-              <th style="padding: 12px; text-align: left; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Description</th>
-              <th style="padding: 12px; text-align: center; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Qty</th>
-              <th style="padding: 12px; text-align: right; color: #6b7280; font-size: 13px; border-bottom: 2px solid #e5e7eb;">Amount</th>
+            <tr style="background-color: #f8fafc;">
+              <th style="padding: 12px 16px; text-align: left; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Description</th>
+              <th style="padding: 12px 16px; text-align: center; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Qty</th>
+              <th style="padding: 12px 16px; text-align: right; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Amount</th>
             </tr>
           </thead>
           <tbody>
-            ${lines.map(line => `
-            <tr style="border-bottom: 1px solid #e5e7eb;">
-              <td style="padding: 12px; color: #111827; font-size: 14px;">${line.description}</td>
-              <td style="padding: 12px; text-align: center; color: #6b7280; font-size: 14px;">${line.quantity}</td>
-              <td style="padding: 12px; text-align: right; color: #111827; font-size: 14px; font-weight: 500;">$${(line.lineTotal / 100).toFixed(2)}</td>
+            ${lines.map((line, index) => `
+            <tr style="${index < lines.length - 1 ? 'border-bottom: 1px solid #f1f5f9;' : ''}">
+              <td style="padding: 14px 16px; color: #334155; font-size: 14px;">${line.description}</td>
+              <td style="padding: 14px 16px; text-align: center; color: #64748b; font-size: 14px;">${line.quantity}</td>
+              <td style="padding: 14px 16px; text-align: right; color: #0f172a; font-size: 14px; font-weight: 500;">$${(line.lineTotal / 100).toFixed(2)}</td>
             </tr>
             `).join('')}
-            <tr style="background-color: #f9fafb;">
-              <td colspan="2" style="padding: 12px; text-align: right; color: #111827; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">Total:</td>
-              <td style="padding: 12px; text-align: right; color: #667eea; font-weight: bold; font-size: 16px; border-top: 2px solid #667eea;">$${(invoice.total / 100).toFixed(2)}</td>
-            </tr>
           </tbody>
         </table>
       </div>
       ` : ''}
       
-      <div style="text-align: center; margin: 30px 0;">
-        <a href="${invoiceUrl}" style="display: inline-block; background-color: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: bold; font-size: 16px;">View Invoice</a>
+      <!-- CTA Button -->
+      <div style="text-align: center; margin: 32px 0;">
+        <a href="${invoiceUrl}" style="display: inline-block; background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); color: #ffffff; text-decoration: none; padding: 14px 40px; border-radius: 6px; font-weight: 600; font-size: 15px; box-shadow: 0 2px 4px rgba(234, 88, 12, 0.2);">View & Pay Invoice</a>
       </div>
       
-      <p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin-top: 30px;">
-        If you have any questions about this invoice, please contact us.
-      </p>
-      
-      <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
-        Best regards,<br>
-        <strong>${companyName}</strong>
+      <p style="font-size: 13px; color: #64748b; line-height: 1.6; margin: 24px 0 0 0; text-align: center;">
+        Thank you for your prompt attention. For questions, please reach out.
       </p>
     </div>
     
-    <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
-      <p style="margin: 0; color: #6b7280; font-size: 12px;">
-        This is an automated message from ${companyName}
+    <!-- Footer -->
+    <div style="background-color: #f8fafc; padding: 24px 32px; border-top: 1px solid #e2e8f0;">
+      <p style="margin: 0; color: #64748b; font-size: 12px; text-align: center;">
+        <strong style="color: #475569;">${companyName}</strong><br>
+        This is an automated payment reminder
       </p>
       <!-- Email tracking pixel -->
-      <img src="${trackingPixelUrl}" width="1" height="1" alt="" style="display:block; width:1px; height:1px;" />
+      <img src="${trackingPixelUrl}" width="1" height="1" alt="" style="display:block; width:1px; height:1px; margin: 0 auto;" />
     </div>
   </div>
 </body>
