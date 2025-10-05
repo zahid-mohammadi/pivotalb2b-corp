@@ -2650,15 +2650,13 @@ export async function registerRoutes(app: Express) {
       const settings = billingSettings[0];
       
       const PdfPrinter = require('pdfmake');
-      const fs = require('fs');
-      const path = require('path');
       
       const fonts = {
-        Roboto: {
-          normal: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-Regular.ttf'], 'base64'),
-          bold: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-Medium.ttf'], 'base64'),
-          italics: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-Italic.ttf'], 'base64'),
-          bolditalics: Buffer.from(require('pdfmake/build/vfs_fonts').pdfMake.vfs['Roboto-MediumItalic.ttf'], 'base64')
+        Helvetica: {
+          normal: 'Helvetica',
+          bold: 'Helvetica-Bold',
+          italics: 'Helvetica-Oblique',
+          bolditalics: 'Helvetica-BoldOblique'
         }
       };
       
@@ -2672,6 +2670,9 @@ export async function registerRoutes(app: Express) {
       const docDefinition: any = {
         pageSize: 'A4',
         pageMargins: [40, 60, 40, 60],
+        defaultStyle: {
+          font: 'Helvetica'
+        },
         content: [
           {
             columns: [
