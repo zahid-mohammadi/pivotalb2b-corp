@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
-import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Download, Bell, Mail, MailOpen } from "lucide-react";
+import { Plus, FileText, Eye, Calendar, DollarSign, X, Pencil, Send, Printer, Download, Bell, Mail, MailOpen, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import type { Invoice, Account, Sku, TaxCode, Contact } from "@shared/schema";
 import { EmailComposeDialog } from "./email-compose-dialog";
@@ -33,6 +33,7 @@ export function InvoiceManagement() {
   const [emailDialogOpen, setEmailDialogOpen] = useState(false);
   const [reminderDialogOpen, setReminderDialogOpen] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [editingInvoice, setEditingInvoice] = useState<Invoice | null>(null);
   const [selectedAccountId, setSelectedAccountId] = useState<number | null>(null);
   const [lineItems, setLineItems] = useState<InvoiceLineItem[]>([
     { description: "", quantity: 1, unitPrice: 0, lineSubtotal: 0, lineTax: 0, lineTotal: 0 }
@@ -129,6 +130,45 @@ export function InvoiceManagement() {
     },
   });
 
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: any }) => {
+      const res = await apiRequest("PATCH", `/api/invoices/${id}`, data);
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to update invoice");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      setDialogOpen(false);
+      setEditingInvoice(null);
+      setLineItems([{ description: "", quantity: 1, unitPrice: 0, lineSubtotal: 0, lineTax: 0, lineTotal: 0 }]);
+      toast({ title: "Invoice updated successfully" });
+    },
+    onError: (error: Error) => {
+      toast({ title: error.message, variant: "destructive" });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await apiRequest("DELETE", `/api/invoices/${id}`);
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || "Failed to delete invoice");
+      }
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/invoices"] });
+      toast({ title: "Invoice deleted successfully" });
+    },
+    onError: (error: Error) => {
+      toast({ title: error.message, variant: "destructive" });
+    },
+  });
+
   const handleSendInvoice = (invoice: Invoice) => {
     const account = customers?.find(c => c.id === invoice.accountId);
     if (!account?.billingEmail) {
@@ -190,6 +230,35 @@ export function InvoiceManagement() {
     }
   };
 
+  const handleEditInvoice = async (invoice: Invoice) => {
+    setEditingInvoice(invoice);
+    setSelectedAccountId(invoice.accountId);
+    
+    const res = await fetch(`/api/invoices/${invoice.id}/lines`);
+    if (res.ok) {
+      const lines = await res.json();
+      const formattedLines = lines.map((line: any) => ({
+        skuId: line.skuId,
+        description: line.description,
+        quantity: parseFloat(line.quantity),
+        unitPrice: line.unitPrice / 100,
+        taxCodeId: line.taxCodeId,
+        lineSubtotal: line.lineSubtotal / 100,
+        lineTax: line.lineTax / 100,
+        lineTotal: line.lineTotal / 100,
+      }));
+      setLineItems(formattedLines);
+    }
+    
+    setDialogOpen(true);
+  };
+
+  const handleDeleteInvoice = (invoice: Invoice) => {
+    if (confirm(`Are you sure you want to delete invoice ${invoice.number}?`)) {
+      deleteMutation.mutate(invoice.id);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -216,7 +285,7 @@ export function InvoiceManagement() {
       taxTotal: Math.round(taxTotal * 100),
       total: Math.round(total * 100),
       amountDue: Math.round(total * 100),
-      status: "draft" as const,
+      status: editingInvoice ? editingInvoice.status : "draft" as const,
       lines: validLineItems.map((item, index) => ({
         skuId: item.skuId,
         description: item.description,
@@ -231,7 +300,11 @@ export function InvoiceManagement() {
       notes: formData.get("notes") as string || undefined,
     };
 
-    createMutation.mutate(data);
+    if (editingInvoice) {
+      updateMutation.mutate({ id: editingInvoice.id, data });
+    } else {
+      createMutation.mutate(data);
+    }
   };
 
   const addLineItem = () => {
@@ -295,7 +368,12 @@ export function InvoiceManagement() {
           <h3 className="text-lg font-semibold">Invoices</h3>
           <p className="text-sm text-muted-foreground">Manage your invoices and estimates</p>
         </div>
-        <Button onClick={() => setDialogOpen(true)} data-testid="create-invoice">
+        <Button onClick={() => {
+          setEditingInvoice(null);
+          setSelectedAccountId(null);
+          setLineItems([{ description: "", quantity: 1, unitPrice: 0, lineSubtotal: 0, lineTax: 0, lineTotal: 0 }]);
+          setDialogOpen(true);
+        }} data-testid="create-invoice">
           <Plus className="h-4 w-4 mr-2" />
           Create Invoice
         </Button>
@@ -398,6 +476,29 @@ export function InvoiceManagement() {
                         >
                           <Download className="h-4 w-4" />
                         </Button>
+                        {invoice.status === 'draft' && (
+                          <>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleEditInvoice(invoice)}
+                              data-testid={`edit-invoice-${invoice.id}`}
+                              title="Edit Invoice"
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleDeleteInvoice(invoice)}
+                              data-testid={`delete-invoice-${invoice.id}`}
+                              title="Delete Invoice"
+                              className="hover:bg-destructive hover:text-destructive-foreground"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </>
+                        )}
                         <Button
                           size="sm"
                           variant="outline"
@@ -430,12 +531,19 @@ export function InvoiceManagement() {
         </Card>
       )}
 
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <Dialog open={dialogOpen} onOpenChange={(open) => {
+        setDialogOpen(open);
+        if (!open) {
+          setEditingInvoice(null);
+          setSelectedAccountId(null);
+          setLineItems([{ description: "", quantity: 1, unitPrice: 0, lineSubtotal: 0, lineTax: 0, lineTotal: 0 }]);
+        }
+      }}>
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Create New Invoice</DialogTitle>
+            <DialogTitle>{editingInvoice ? 'Edit Invoice' : 'Create New Invoice'}</DialogTitle>
             <DialogDescription>
-              Create an invoice with line items and send it to your customer
+              {editingInvoice ? 'Update invoice details and line items' : 'Create an invoice with line items and send it to your customer'}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -445,6 +553,7 @@ export function InvoiceManagement() {
                 <Select 
                   name="accountId" 
                   required
+                  value={selectedAccountId?.toString() || ""}
                   onValueChange={(value) => setSelectedAccountId(parseInt(value))}
                 >
                   <SelectTrigger data-testid="invoice-customer">
@@ -489,7 +598,7 @@ export function InvoiceManagement() {
                 <Input
                   id="invoiceNumber"
                   name="invoiceNumber"
-                  defaultValue={`INV-${Date.now()}`}
+                  defaultValue={editingInvoice?.number || `INV-${Date.now()}`}
                   required
                   data-testid="invoice-number"
                 />
@@ -500,6 +609,7 @@ export function InvoiceManagement() {
                   id="poNumber"
                   name="poNumber"
                   placeholder="Purchase order number"
+                  defaultValue={editingInvoice?.poNumber || ""}
                   data-testid="invoice-po-number"
                 />
               </div>
@@ -509,7 +619,7 @@ export function InvoiceManagement() {
                   id="invoiceDate"
                   name="invoiceDate"
                   type="date"
-                  defaultValue={format(new Date(), "yyyy-MM-dd")}
+                  defaultValue={editingInvoice ? format(new Date(editingInvoice.issueDate), "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")}
                   required
                   data-testid="invoice-date"
                 />
@@ -520,7 +630,7 @@ export function InvoiceManagement() {
                   id="dueDate"
                   name="dueDate"
                   type="date"
-                  defaultValue={format(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), "yyyy-MM-dd")}
+                  defaultValue={editingInvoice ? format(new Date(editingInvoice.dueDate), "yyyy-MM-dd") : format(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), "yyyy-MM-dd")}
                   required
                   data-testid="invoice-due-date"
                 />
@@ -651,8 +761,11 @@ export function InvoiceManagement() {
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={createMutation.isPending} data-testid="save-invoice">
-                {createMutation.isPending ? "Creating..." : "Create Invoice"}
+              <Button type="submit" disabled={createMutation.isPending || updateMutation.isPending} data-testid="save-invoice">
+                {editingInvoice 
+                  ? (updateMutation.isPending ? "Updating..." : "Update Invoice")
+                  : (createMutation.isPending ? "Creating..." : "Create Invoice")
+                }
               </Button>
             </DialogFooter>
           </form>
