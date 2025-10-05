@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -69,13 +69,14 @@ export function SkuManagement() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
+    const taxCodeValue = formData.get("taxCodeId") as string;
     const data = {
       code: formData.get("code") as string,
       name: formData.get("name") as string,
       description: formData.get("description") as string || undefined,
       unitPrice: Math.round(parseFloat(formData.get("unitPrice") as string) * 100),
       cost: formData.get("cost") ? Math.round(parseFloat(formData.get("cost") as string) * 100) : undefined,
-      taxCodeId: formData.get("taxCodeId") ? parseInt(formData.get("taxCodeId") as string) : undefined,
+      taxCodeId: taxCodeValue && taxCodeValue !== "none" ? parseInt(taxCodeValue) : undefined,
       glCategory: formData.get("glCategory") as string || undefined,
       currency: formData.get("currency") as string || "USD",
       isActive: formData.get("isActive") === "true",
@@ -186,6 +187,9 @@ export function SkuManagement() {
             <DialogTitle>
               {editingSku ? "Edit Product/Service" : "Add New Product/Service"}
             </DialogTitle>
+            <DialogDescription>
+              {editingSku ? "Update the details of this product or service" : "Add a new product or service to your catalog"}
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
@@ -250,7 +254,7 @@ export function SkuManagement() {
                     <SelectValue placeholder="Select tax code" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">No Tax</SelectItem>
+                    <SelectItem value="none">No Tax</SelectItem>
                     {taxCodes?.map(tc => (
                       <SelectItem key={tc.id} value={tc.id.toString()}>
                         {tc.name} ({parseFloat(tc.rate).toFixed(1)}%)

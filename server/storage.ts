@@ -1609,7 +1609,7 @@ export class DatabaseStorage {
   // Payments
   async getPayments(): Promise<Payment[]> {
     try {
-      return await db.select().from(payments).orderBy(desc(payments.paymentDate));
+      return await db.select().from(payments).orderBy(desc(payments.receivedAt));
     } catch (error) {
       console.error("Error getting payments:", error);
       throw error;
@@ -1628,7 +1628,7 @@ export class DatabaseStorage {
 
   async getPaymentsByInvoice(invoiceId: number): Promise<Payment[]> {
     try {
-      return await db.select().from(payments).where(eq(payments.invoiceId, invoiceId)).orderBy(desc(payments.paymentDate));
+      return await db.select().from(payments).where(eq(payments.invoiceId, invoiceId)).orderBy(desc(payments.receivedAt));
     } catch (error) {
       console.error("Error getting payments by invoice:", error);
       throw error;
@@ -1639,7 +1639,7 @@ export class DatabaseStorage {
     try {
       const paymentData = {
         ...payment,
-        paymentDate: new Date(payment.paymentDate),
+        receivedAt: new Date(payment.receivedAt),
       };
       const [newPayment] = await db.insert(payments).values(paymentData).returning();
       return newPayment;
@@ -1653,7 +1653,7 @@ export class DatabaseStorage {
     try {
       const updateData = {
         ...payment,
-        paymentDate: payment.paymentDate ? new Date(payment.paymentDate) : undefined,
+        receivedAt: payment.receivedAt ? new Date(payment.receivedAt) : undefined,
       };
       const [updatedPayment] = await db.update(payments).set(updateData).where(eq(payments.id, id)).returning();
       return updatedPayment;
