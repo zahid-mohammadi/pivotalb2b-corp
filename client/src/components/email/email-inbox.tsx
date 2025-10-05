@@ -95,7 +95,7 @@ export function EmailInbox({ folder, onMessageClick, onRefresh }: EmailInboxProp
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <p className="font-semibold text-sm truncate">
-                      {message.from.emailAddress.name || message.from.emailAddress.address}
+                      {message.from?.emailAddress?.name || message.from?.emailAddress?.address || "Unknown Sender"}
                     </p>
                     <div className="flex items-center gap-2 flex-shrink-0">
                       {message.hasAttachments && (
