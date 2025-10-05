@@ -2850,20 +2850,11 @@ export async function registerRoutes(app: Express) {
                 width: '50%',
                 stack: [
                   ...(invoice.notes ? [
-                    { text: 'NOTES', style: 'sectionHeader', margin: [0, 0, 0, 8] },
+                    { text: 'PAYMENT INSTRUCTION:', fontSize: 11, color: '#1f2937', bold: true, margin: [0, 0, 0, 8] },
                     { 
                       text: invoice.notes, 
-                      fontSize: 9, 
-                      color: '#4b5563',
-                      margin: [0, 0, 10, 0]
-                    }
-                  ] : []),
-                  ...(settings?.defaultTerms ? [
-                    { text: 'PAYMENT TERMS', style: 'sectionHeader', margin: [0, invoice.notes ? 15 : 0, 0, 8] },
-                    { 
-                      text: settings.defaultTerms, 
-                      fontSize: 9, 
-                      color: '#4b5563',
+                      fontSize: 10, 
+                      color: '#374151',
                       margin: [0, 0, 10, 0]
                     }
                   ] : [])
