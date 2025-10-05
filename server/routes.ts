@@ -1577,7 +1577,7 @@ export async function registerRoutes(app: Express) {
     const clientId = process.env.M365_CLIENT_ID;
     const domain = process.env.REPLIT_DEV_DOMAIN || 'localhost:3000';
     const redirectUri = domain.includes('localhost') ? `http://${domain}/api/auth/m365/callback` : `https://${domain}/api/auth/m365/callback`;
-    const scope = "openid profile email offline_access Mail.ReadWrite Mail.Send";
+    const scope = "openid profile email offline_access User.Read Mail.ReadWrite Mail.Send";
     const state = Buffer.from(JSON.stringify({ userId: user.id })).toString('base64');
 
     const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?` +
