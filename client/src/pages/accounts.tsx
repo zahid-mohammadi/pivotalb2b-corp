@@ -24,6 +24,7 @@ import {
   TrendingUp,
   Filter,
   X,
+  ArrowLeft,
 } from "lucide-react";
 import type { Account } from "@shared/schema";
 import { FilterBuilder } from "@/components/FilterBuilder";
@@ -100,6 +101,14 @@ export default function AccountsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
+        {/* Back Button */}
+        <Link href="/dashboard">
+          <Button variant="ghost" className="gap-2" data-testid="button-back-dashboard">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Dashboard
+          </Button>
+        </Link>
+
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
