@@ -17,6 +17,8 @@ import { InvoiceManagement } from "./invoice-management";
 import { PaymentTracking } from "./payment-tracking";
 import { SkuManagement } from "./sku-management";
 import { TaxCodeManagement } from "./tax-code-management";
+import { ExpenseManagement } from "./expense-management";
+import { FinancialReports } from "./financial-reports";
 import type { Account, Invoice } from "@shared/schema";
 
 export function BillingModule() {
@@ -165,14 +167,7 @@ export function BillingModule() {
         </TabsContent>
 
         <TabsContent value="expenses" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Expense Management</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Expense management coming soon...</p>
-            </CardContent>
-          </Card>
+          <ExpenseManagement />
         </TabsContent>
 
         <TabsContent value="products" className="mt-6">
@@ -180,14 +175,7 @@ export function BillingModule() {
         </TabsContent>
 
         <TabsContent value="reports" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Financial Reports</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Financial reports coming soon...</p>
-            </CardContent>
-          </Card>
+          <FinancialReports />
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">
