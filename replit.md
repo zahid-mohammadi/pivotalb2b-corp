@@ -113,11 +113,12 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - **SKU Management**: Reusable products/services catalog
 - **Tax Management**: Flexible tax codes for compliance
 - **Email Delivery**: 
-  - Send invoices via Microsoft 365 SMTP (smtp.office365.com, port 587)
+  - Send invoices via Microsoft 365 Graph API (zahid.m@pivotal-b2b.com)
+  - Real-time email open tracking with tracking pixels
   - Customizable email messages before sending
-  - Email open tracking with tracking pixels
   - View email open counts and timestamps
   - Payment reminder system for sent invoices
+  - All emails sent from connected M365 account with OAuth authentication
 - **PDF Generation**: 
   - Professional A4-sized invoice PDFs using pdfmake
   - Includes company logo, address, and banking information

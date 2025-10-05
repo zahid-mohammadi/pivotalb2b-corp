@@ -2486,9 +2486,10 @@ export async function registerRoutes(app: Express) {
       
       const billingSettings = await storage.getBillingSettings();
       const settings = billingSettings[0];
-      const companyName = settings?.companyName || 'Pivotal B2B';
+      const companyName = settings?.companyName || 'Pivotal B2B LLC';
       
       const trackingToken = Math.random().toString(36).substring(2) + Date.now().toString(36);
+      const emailTrackingToken = Math.random().toString(36).substring(2) + Date.now().toString(36);
       const { customMessage } = req.body;
       
       const userId = (req.user as any)?.id || 1;
@@ -2496,25 +2497,95 @@ export async function registerRoutes(app: Express) {
         status: 'sent',
         sentAt: new Date(),
         viewTrackingToken: trackingToken,
+        emailTrackingToken: emailTrackingToken,
       });
       
-      const invoiceUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/public/invoices/${trackingToken}`;
+      const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:3000';
+      const invoiceUrl = `${baseUrl}/public/invoices/${trackingToken}`;
+      const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${emailTrackingToken}`;
       
-      const { trackingToken: emailToken } = await sendInvoiceEmail({
-        customerEmail: account.billingEmail,
-        customerName: account.companyName,
-        invoiceNumber: invoice.number,
-        invoiceAmount: `$${(invoice.total / 100).toFixed(2)}`,
-        dueDate: new Date(invoice.dueDate).toLocaleDateString(),
-        companyName,
-        invoiceUrl,
-        customMessage,
+      // Build HTML email with tracking pixel
+      const subject = `Invoice ${invoice.number} from ${companyName}`;
+      const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice ${invoice.number}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+      <h1 style="color: #ffffff; margin: 0; font-size: 28px;">New Invoice</h1>
+    </div>
+    
+    <div style="padding: 40px 30px;">
+      <p style="font-size: 16px; color: #374151; margin-bottom: 20px;">Dear ${account.companyName},</p>
+      
+      ${customMessage ? `
+      <p style="font-size: 16px; color: #374151; line-height: 1.6; margin-bottom: 20px; padding: 15px; background-color: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 4px;">
+        ${customMessage.replace(/\n/g, '<br>')}
+      </p>
+      ` : ''}
+      
+      <p style="font-size: 16px; color: #374151; line-height: 1.6;">
+        ${companyName} has sent you an invoice. Please review the details below:
+      </p>
+      
+      <div style="background-color: #f9fafb; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Number:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.number}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Due Date:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.dueDate).toLocaleDateString()}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${invoiceUrl}" style="display: inline-block; background-color: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: bold; font-size: 16px;">View Invoice</a>
+      </div>
+      
+      <p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin-top: 30px;">
+        If you have any questions about this invoice, please contact us.
+      </p>
+      
+      <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
+        Best regards,<br>
+        <strong>${companyName}</strong>
+      </p>
+    </div>
+    
+    <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+      <p style="margin: 0; color: #6b7280; font-size: 12px;">
+        This is an automated message from ${companyName}
+      </p>
+      <!-- Email tracking pixel -->
+      <img src="${trackingPixelUrl}" width="1" height="1" alt="" style="display:block; width:1px; height:1px;" />
+    </div>
+  </div>
+</body>
+</html>
+      `;
+      
+      // Send via Microsoft 365
+      const emailSent = await microsoftGraphService.sendEmail(userId, {
+        to: [account.billingEmail],
+        subject: subject,
+        htmlContent: htmlContent,
       });
       
-      // Update invoice with email tracking token
-      await storage.updateInvoice(id, {
-        emailTrackingToken: emailToken,
-      });
+      if (!emailSent) {
+        throw new Error("Failed to send email via Microsoft 365");
+      }
       
       await storage.createInvoiceReminder({
         invoiceId: id,
@@ -2601,26 +2672,97 @@ export async function registerRoutes(app: Express) {
       
       const billingSettings = await storage.getBillingSettings();
       const settings = billingSettings[0];
-      const companyName = settings?.companyName || 'Pivotal B2B';
-      
-      // Use existing view tracking token for invoice URL
-      const invoiceUrl = `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}/public/invoices/${invoice.viewTrackingToken}`;
-      
-      // Send reminder email using existing email tracking token
-      await sendInvoiceEmail({
-        customerEmail: account.billingEmail,
-        customerName: account.companyName,
-        invoiceNumber: invoice.number,
-        invoiceAmount: `$${(invoice.total / 100).toFixed(2)}`,
-        dueDate: new Date(invoice.dueDate).toLocaleDateString(),
-        companyName,
-        invoiceUrl,
-        customMessage,
-        trackingToken: invoice.emailTrackingToken || undefined,
-        isReminder: true,
-      });
+      const companyName = settings?.companyName || 'Pivotal B2B LLC';
       
       const userId = (req.user as any)?.id || 1;
+      
+      // Use existing tokens
+      const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:3000';
+      const invoiceUrl = `${baseUrl}/public/invoices/${invoice.viewTrackingToken}`;
+      const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${invoice.emailTrackingToken}`;
+      
+      // Build reminder email HTML
+      const subject = `Reminder: Invoice ${invoice.number} from ${companyName}`;
+      const htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Reminder - Invoice ${invoice.number}</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
+  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+      <h1 style="color: #ffffff; margin: 0; font-size: 28px;">Payment Reminder</h1>
+    </div>
+    
+    <div style="padding: 40px 30px;">
+      <p style="font-size: 16px; color: #374151; margin-bottom: 20px;">Dear ${account.companyName},</p>
+      
+      ${customMessage ? `
+      <p style="font-size: 16px; color: #374151; line-height: 1.6; margin-bottom: 20px; padding: 15px; background-color: #f0f9ff; border-left: 4px solid #3b82f6; border-radius: 4px;">
+        ${customMessage.replace(/\n/g, '<br>')}
+      </p>
+      ` : ''}
+      
+      <p style="font-size: 16px; color: #374151; line-height: 1.6;">
+        This is a friendly reminder about your invoice. Please review the details below:
+      </p>
+      
+      <div style="background-color: #f9fafb; border-left: 4px solid #667eea; padding: 20px; margin: 30px 0;">
+        <table style="width: 100%; border-collapse: collapse;">
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Invoice Number:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${invoice.number}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Amount Due:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; font-size: 18px; text-align: right;">$${(invoice.total / 100).toFixed(2)}</td>
+          </tr>
+          <tr>
+            <td style="padding: 8px 0; color: #6b7280; font-size: 14px;">Due Date:</td>
+            <td style="padding: 8px 0; color: #111827; font-weight: bold; text-align: right;">${new Date(invoice.dueDate).toLocaleDateString()}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${invoiceUrl}" style="display: inline-block; background-color: #667eea; color: #ffffff; text-decoration: none; padding: 14px 32px; border-radius: 6px; font-weight: bold; font-size: 16px;">View Invoice</a>
+      </div>
+      
+      <p style="font-size: 14px; color: #6b7280; line-height: 1.6; margin-top: 30px;">
+        If you have any questions about this invoice, please contact us.
+      </p>
+      
+      <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
+        Best regards,<br>
+        <strong>${companyName}</strong>
+      </p>
+    </div>
+    
+    <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+      <p style="margin: 0; color: #6b7280; font-size: 12px;">
+        This is an automated message from ${companyName}
+      </p>
+      <!-- Email tracking pixel -->
+      <img src="${trackingPixelUrl}" width="1" height="1" alt="" style="display:block; width:1px; height:1px;" />
+    </div>
+  </div>
+</body>
+</html>
+      `;
+      
+      // Send reminder via Microsoft 365
+      const emailSent = await microsoftGraphService.sendEmail(userId, {
+        to: [account.billingEmail],
+        subject: subject,
+        htmlContent: htmlContent,
+      });
+      
+      if (!emailSent) {
+        throw new Error("Failed to send reminder via Microsoft 365");
+      }
       
       // Update reminder metadata
       const reminderHistory = invoice.reminderHistory || [];
