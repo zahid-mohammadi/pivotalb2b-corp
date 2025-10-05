@@ -1588,13 +1588,24 @@ export async function registerRoutes(app: Express) {
       `state=${state}&` +
       `response_mode=query`;
 
+    console.log("M365 OAuth authorize URL generated. Redirect URI:", redirectUri);
     res.json({ authUrl });
   });
 
   app.get("/api/auth/m365/callback", async (req, res) => {
-    const { code, state } = req.query;
+    const { code, state, error, error_description } = req.query;
+
+    // Log all query parameters for debugging
+    console.log("M365 OAuth callback received:", { code: !!code, state: !!state, error, error_description, allParams: req.query });
+
+    // Handle Azure error responses
+    if (error) {
+      console.error("M365 OAuth error:", error, error_description);
+      return res.status(400).send(`Authentication failed: ${error_description || error}`);
+    }
 
     if (!code || !state) {
+      console.error("Missing code or state in callback. Query params:", req.query);
       return res.status(400).send("Missing authorization code or state");
     }
 
