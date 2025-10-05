@@ -92,7 +92,12 @@ export function InvoiceManagement() {
   };
 
   const handlePrintInvoice = (invoice: Invoice) => {
-    window.open(`/invoices/${invoice.id}/print`, '_blank');
+    const printWindow = window.open(`/api/invoices/${invoice.id}/pdf`, '_blank');
+    if (printWindow) {
+      printWindow.addEventListener('load', () => {
+        printWindow.print();
+      });
+    }
   };
 
   const handleDownloadPDF = async (invoice: Invoice) => {
