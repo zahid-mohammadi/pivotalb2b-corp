@@ -15,6 +15,8 @@ import {
 import { CustomerManagement } from "./customer-management";
 import { InvoiceManagement } from "./invoice-management";
 import { PaymentTracking } from "./payment-tracking";
+import { SkuManagement } from "./sku-management";
+import { TaxCodeManagement } from "./tax-code-management";
 import type { Account, Invoice } from "@shared/schema";
 
 export function BillingModule() {
@@ -174,14 +176,7 @@ export function BillingModule() {
         </TabsContent>
 
         <TabsContent value="products" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Product & Service Catalog</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Product catalog coming soon...</p>
-            </CardContent>
-          </Card>
+          <SkuManagement />
         </TabsContent>
 
         <TabsContent value="reports" className="mt-6">
@@ -196,14 +191,7 @@ export function BillingModule() {
         </TabsContent>
 
         <TabsContent value="settings" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Billing Settings</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">Billing settings coming soon...</p>
-            </CardContent>
-          </Card>
+          <TaxCodeManagement />
         </TabsContent>
       </Tabs>
     </div>
