@@ -1646,10 +1646,19 @@ export async function registerRoutes(app: Express) {
       });
 
       const profile = await profileResponse.json();
+      console.log("M365 profile received:", { mail: profile.mail, userPrincipalName: profile.userPrincipalName, id: profile.id });
+
+      // Get email from profile - try multiple fields
+      const email = profile.mail || profile.userPrincipalName || profile.emailAddresses?.[0]?.address;
+      
+      if (!email) {
+        console.error("No email found in M365 profile:", profile);
+        return res.status(400).send("Unable to retrieve email address from Microsoft account. Please ensure your Microsoft account has an email address configured.");
+      }
 
       await storage.createM365Connection({
         userId,
-        email: profile.mail || profile.userPrincipalName,
+        email,
         accessToken: tokenData.access_token,
         refreshToken: tokenData.refresh_token,
         expiresAt: new Date(Date.now() + tokenData.expires_in * 1000).toISOString(),
