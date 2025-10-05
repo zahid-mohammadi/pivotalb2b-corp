@@ -3613,19 +3613,7 @@ export async function registerRoutes(app: Express) {
     
     @media print {
       body { 
-        background-color: white; 
-        padding: 0;
-      }
-      .container { 
-        box-shadow: none; 
-        padding: 20px;
-        border-radius: 0;
-      }
-      .actions { 
-        display: none; 
-      }
-      .table-wrapper {
-        border: 1px solid #e5e7eb;
+        display: none !important;
       }
     }
   </style>
