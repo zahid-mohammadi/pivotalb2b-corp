@@ -2741,8 +2741,11 @@ export async function registerRoutes(app: Express) {
                 stack: [
                   { text: 'BILL TO:', style: 'sectionHeader' },
                   { text: account?.companyName || 'N/A', bold: true, margin: [0, 5, 0, 3] },
-                  { text: account?.billingAddress || '', margin: [0, 0, 0, 2] },
-                  { text: `${account?.billingCity || ''}, ${account?.billingState || ''} ${account?.billingZip || ''}`, margin: [0, 0, 0, 0] }
+                  ...(account?.contactName ? [{ text: account.contactName, fontSize: 10, margin: [0, 0, 0, 3] }] : []),
+                  ...(account?.billingAddress ? [{ text: account.billingAddress, fontSize: 10, margin: [0, 0, 0, 2] }] : []),
+                  ...((account?.billingCity || account?.billingState || account?.billingZip) ? [
+                    { text: `${account?.billingCity || ''}${account?.billingCity && (account?.billingState || account?.billingZip) ? ', ' : ''}${account?.billingState || ''} ${account?.billingZip || ''}`.trim(), fontSize: 10, margin: [0, 0, 0, 0] }
+                  ] : [])
                 ]
               },
               {

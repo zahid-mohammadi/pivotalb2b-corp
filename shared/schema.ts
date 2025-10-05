@@ -491,6 +491,7 @@ export type InsertM365Connection = z.infer<typeof insertM365ConnectionSchema>;
 export const accounts = pgTable("accounts", {
   id: serial("id").primaryKey(),
   companyName: varchar("company_name", { length: 200 }).notNull(),
+  contactName: varchar("contact_name", { length: 200 }),
   domain: varchar("domain", { length: 255 }),
   industry: varchar("industry", { length: 100 }),
   companySize: varchar("company_size", { length: 50 }),
@@ -506,6 +507,9 @@ export const accounts = pgTable("accounts", {
   tags: text("tags").array(),
   notes: text("notes"),
   billingAddress: text("billing_address"),
+  billingCity: varchar("billing_city", { length: 100 }),
+  billingState: varchar("billing_state", { length: 100 }),
+  billingZip: varchar("billing_zip", { length: 20 }),
   billingEmail: varchar("billing_email", { length: 255 }),
   taxId: varchar("tax_id", { length: 100 }),
   paymentTerms: varchar("payment_terms", { length: 50 }).default("Net 30"),
@@ -518,6 +522,7 @@ export type Account = typeof accounts.$inferSelect;
 export const insertAccountSchema = createInsertSchema(accounts)
   .omit({ id: true, createdAt: true, updatedAt: true })
   .extend({
+    contactName: z.string().optional(),
     domain: z.string().optional(),
     industry: z.string().optional(),
     companySize: z.string().optional(),
@@ -533,6 +538,9 @@ export const insertAccountSchema = createInsertSchema(accounts)
     tags: z.array(z.string()).optional(),
     notes: z.string().optional(),
     billingAddress: z.string().optional(),
+    billingCity: z.string().optional(),
+    billingState: z.string().optional(),
+    billingZip: z.string().optional(),
     billingEmail: z.string().email().optional(),
     taxId: z.string().optional(),
     paymentTerms: z.string().optional(),

@@ -176,6 +176,16 @@ export function CustomerManagement() {
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="contactName">Contact Name</Label>
+                <Input
+                  id="contactName"
+                  name="contactName"
+                  defaultValue={editingCustomer?.contactName || ""}
+                  placeholder="Primary contact person"
+                  data-testid="customer-contact-name"
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="billingEmail">Billing Email</Label>
                 <Input
                   id="billingEmail"
@@ -239,8 +249,38 @@ export function CustomerManagement() {
                 name="billingAddress"
                 className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                 defaultValue={editingCustomer?.billingAddress || ""}
+                placeholder="Street address"
                 data-testid="customer-billing-address"
               />
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="space-y-2">
+                <Label htmlFor="billingCity">City</Label>
+                <Input
+                  id="billingCity"
+                  name="billingCity"
+                  defaultValue={editingCustomer?.billingCity || ""}
+                  data-testid="customer-billing-city"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="billingState">State / Province</Label>
+                <Input
+                  id="billingState"
+                  name="billingState"
+                  defaultValue={editingCustomer?.billingState || ""}
+                  data-testid="customer-billing-state"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="billingZip">ZIP / Postal Code</Label>
+                <Input
+                  id="billingZip"
+                  name="billingZip"
+                  defaultValue={editingCustomer?.billingZip || ""}
+                  data-testid="customer-billing-zip"
+                />
+              </div>
             </div>
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
