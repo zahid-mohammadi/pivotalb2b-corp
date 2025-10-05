@@ -29,7 +29,7 @@ function NavItemComponent({
   onNavigate?: () => void;
 }) {
   const [location, navigate] = useLocation();
-  const [isOpen, setIsOpen] = useState(level < 1); // Top level items open by default
+  const [isOpen, setIsOpen] = useState(false);
   
   const hasChildren = item.children && item.children.length > 0;
   const Icon = item.icon;
