@@ -29,6 +29,7 @@ import {
 import type { Account } from "@shared/schema";
 import { FilterBuilder } from "@/components/FilterBuilder";
 import { apiRequest } from "@/lib/queryClient";
+import { MetaTags } from "@/components/ui/meta-tags";
 
 export default function AccountsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -99,7 +100,13 @@ export default function AccountsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
+    <>
+      <MetaTags
+        title="Accounts - Pivotal B2B Dashboard"
+        description="Manage your B2B accounts and company relationships"
+        robots="noindex, nofollow"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Back Button */}
         <Link href="/dashboard">
@@ -313,5 +320,6 @@ export default function AccountsPage() {
         </Card>
       </div>
     </div>
+    </>
   );
 }

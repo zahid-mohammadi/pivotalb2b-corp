@@ -30,6 +30,7 @@ import {
 import type { Contact, Account } from "@shared/schema";
 import { FilterBuilder } from "@/components/FilterBuilder";
 import { apiRequest } from "@/lib/queryClient";
+import { MetaTags } from "@/components/ui/meta-tags";
 
 export default function ContactsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -112,7 +113,13 @@ export default function ContactsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
+    <>
+      <MetaTags
+        title="Contacts - Pivotal B2B Dashboard"
+        description="Manage your B2B contacts and relationships"
+        robots="noindex, nofollow"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Back Button */}
         <Link href="/dashboard">
@@ -356,5 +363,6 @@ export default function ContactsPage() {
         </Card>
       </div>
     </div>
+    </>
   );
 }

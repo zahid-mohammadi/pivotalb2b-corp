@@ -214,6 +214,7 @@ export default function Dashboard() {
       <MetaTags
         title="Admin Dashboard - Pivotal B2B"
         description="Administrative dashboard for managing content, leads, and marketing materials"
+        robots="noindex, nofollow"
       />
       <div className="flex h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
         {/* Mobile Menu Button */}

@@ -7,6 +7,7 @@ interface MetaTagsProps {
   image?: string;
   keywords?: string;
   structuredData?: Record<string, any>;
+  robots?: string;
 }
 
 export function MetaTags({
@@ -15,13 +16,15 @@ export function MetaTags({
   canonical,
   image,
   keywords,
-  structuredData
+  structuredData,
+  robots
 }: MetaTagsProps) {
   return (
     <Helmet>
       {title && <title>{title}</title>}
       {description && <meta name="description" content={description} />}
       {keywords && <meta name="keywords" content={keywords} />}
+      {robots && <meta name="robots" content={robots} />}
       {canonical && <link rel="canonical" href={canonical} />}
 
       {/* Open Graph / Facebook */}

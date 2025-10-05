@@ -8,6 +8,7 @@ import { ArrowLeft, Mail, Building, Calendar, Download, MessageSquare, ExternalL
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Lead, Ebook, CaseStudy } from "@shared/schema";
+import { MetaTags } from "@/components/ui/meta-tags";
 
 export default function LeadDetail() {
   const [, params] = useRoute("/lead/:id");
@@ -120,7 +121,13 @@ export default function LeadDetail() {
   const contentDetails = getContentDetails();
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-6">
+    <>
+      <MetaTags
+        title="Lead Details - Pivotal B2B Dashboard"
+        description="View detailed information about this lead"
+        robots="noindex, nofollow"
+      />
+      <div className="container mx-auto px-4 py-6 space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="flex items-center gap-3">
@@ -323,5 +330,6 @@ export default function LeadDetail() {
         </div>
       </div>
     </div>
+    </>
   );
 }

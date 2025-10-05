@@ -27,6 +27,25 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - Optimize for mobile views
 
 ## Recent Changes
+- **NEW: Billing & Accounting Module** (October 5, 2025)
+  - Complete invoicing system with line items, SKUs, and tax management
+  - Invoice actions: Send via email, Download PDF, Print, Public view tracking
+  - Products/Services catalog with SKU management
+  - Tax code management for compliant billing
+  - Email delivery via Brevo SMTP with tracking tokens
+  - PDF generation for invoices with professional formatting
+  - Public invoice view tracking (who viewed, when)
+  - Invoice emails use account.billingEmail field
+
+- **NEW: Security & SEO Protection** (October 5, 2025)
+  - Comprehensive security headers (HSTS, CSP, X-Frame-Options, etc.)
+  - Authentication rate limiting (5 attempts per 15 minutes)
+  - robots.txt for search engine control
+  - Meta robots tags on all dashboard pages (noindex, nofollow)
+  - Sitemap excludes all private routes: /dashboard, /accounts, /contacts, /proposal, /lead, /login, /admin, /api, /invoices
+  - Public invoice routes secured with time-limited tokens
+  - All dashboard routes protected from search engine indexing
+
 - **NEW: Contacts & Accounts CRM Module** (October 3, 2025)
   - Added comprehensive Accounts (Companies) management system
   - Added Contacts (Individuals) management with account linking
@@ -53,5 +72,24 @@ A cutting-edge B2B marketing platform delivering targeted, data-driven Account-B
 - Lead collection from content downloads
 - Lead data includes: fullName, email, company, contentType, contentId, downloadedAt, message, source
 - Automated email confirmations sent for eBook downloads
-- Currently displayed in table format on dashboard
-- Need to add individual lead detail view with mobile optimization
+- Dashboard displays leads in table and card format
+- Individual lead detail view with mobile optimization
+
+## Security Features
+- **HTTP Security Headers**: HSTS (1 year), CSP, X-Frame-Options, X-Content-Type-Options, X-XSS-Protection
+- **Rate Limiting**: Authentication endpoints limited to prevent brute force attacks
+- **Search Engine Protection**: 
+  - robots.txt blocks crawling of all dashboard/admin routes
+  - Meta robots tags (noindex, nofollow) on all dashboard pages
+  - Sitemap excludes all private routes
+- **Session Security**: HTTP-only cookies, SameSite protection, 24-hour expiry
+- **Public Invoice Security**: Token-based access with view tracking
+
+## Billing & Accounting System
+- **Invoices**: Create, edit, send, download, print, and track invoices
+- **Line Items**: Product/service line items with quantities, rates, and tax codes
+- **SKU Management**: Reusable products/services catalog
+- **Tax Management**: Flexible tax codes for compliance
+- **Email Delivery**: Automated invoice emails with tracking
+- **PDF Generation**: Professional invoice PDFs with company branding
+- **View Tracking**: Monitor who views public invoices and when
