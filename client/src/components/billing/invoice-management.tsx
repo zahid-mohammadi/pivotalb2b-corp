@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -252,6 +252,9 @@ export function InvoiceManagement() {
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Create New Invoice</DialogTitle>
+            <DialogDescription>
+              Create an invoice with line items and send it to your customer
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
@@ -440,6 +443,9 @@ export function InvoiceManagement() {
         <DialogContent className="max-w-3xl">
           <DialogHeader>
             <DialogTitle>Invoice Details</DialogTitle>
+            <DialogDescription>
+              View complete invoice information and line items
+            </DialogDescription>
           </DialogHeader>
           {selectedInvoice && (
             <div className="space-y-4">

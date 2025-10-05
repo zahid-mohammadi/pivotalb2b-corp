@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { Plus, Pencil, Building, Mail, MapPin, DollarSign } from "lucide-react";
@@ -159,6 +159,9 @@ export function CustomerManagement() {
             <DialogTitle>
               {editingCustomer ? "Edit Customer" : "Add New Customer"}
             </DialogTitle>
+            <DialogDescription>
+              {editingCustomer ? "Update billing information for this customer" : "Add a new customer for billing"}
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
