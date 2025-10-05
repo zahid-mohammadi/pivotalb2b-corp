@@ -2672,7 +2672,7 @@ export async function registerRoutes(app: Express) {
       const invoice = invoices.find((inv: any) => inv.emailTrackingToken === token);
       
       if (invoice) {
-        const now = new Date().toISOString();
+        const now = new Date();
         const updates: any = {
           emailOpenCount: (invoice.emailOpenCount || 0) + 1,
           lastEmailOpenAt: now,
@@ -3243,7 +3243,7 @@ export async function registerRoutes(app: Express) {
       
       await storage.updateInvoice(invoice.id, {
         viewCount: (invoice.viewCount || 0) + 1,
-        lastViewedAt: new Date().toISOString(),
+        lastViewedAt: new Date(),
       });
       
       await storage.createInvoiceView({
