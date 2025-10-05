@@ -2427,6 +2427,7 @@ export async function registerRoutes(app: Express) {
         return res.status(400).json({ error: "Invalid invoice ID" });
       }
       
+      // Delete all related records first to avoid foreign key constraint violations
       await storage.deleteInvoiceLinesByInvoice(id);
       await storage.deleteInvoice(id);
       

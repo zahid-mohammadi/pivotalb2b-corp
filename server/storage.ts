@@ -1561,6 +1561,12 @@ export class DatabaseStorage {
 
   async deleteInvoice(id: number): Promise<void> {
     try {
+      // Delete related records first to avoid foreign key constraints
+      // Delete invoice views
+      await db.delete(invoiceViews).where(eq(invoiceViews.invoiceId, id));
+      // Delete invoice reminders
+      await db.delete(invoiceReminders).where(eq(invoiceReminders.invoiceId, id));
+      // Finally delete the invoice
       await db.delete(invoices).where(eq(invoices.id, id));
     } catch (error) {
       console.error("Error deleting invoice:", error);
