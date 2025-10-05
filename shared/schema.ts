@@ -717,6 +717,8 @@ export type Invoice = typeof invoices.$inferSelect;
 export const insertInvoiceSchema = createInsertSchema(invoices)
   .omit({ id: true, createdAt: true, updatedAt: true })
   .extend({
+    issueDate: z.string(),
+    dueDate: z.string(),
     dealId: z.number().optional(),
     terms: z.string().optional(),
     shipping: z.number().optional(),

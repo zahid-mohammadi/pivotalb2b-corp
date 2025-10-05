@@ -2176,6 +2176,8 @@ export async function registerRoutes(app: Express) {
       const { lines, ...invoiceData } = req.body;
       const result = insertInvoiceSchema.safeParse(invoiceData);
       if (!result.success) {
+        console.error("Invoice validation failed:", JSON.stringify(result.error.errors, null, 2));
+        console.error("Invoice data received:", JSON.stringify(invoiceData, null, 2));
         return res.status(400).json({ errors: result.error.errors });
       }
       
