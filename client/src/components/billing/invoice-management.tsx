@@ -94,7 +94,7 @@ export function InvoiceManagement() {
       total: Math.round(total * 100),
       amountDue: Math.round(total * 100),
       status: "draft" as const,
-      lineItems: validLineItems.map((item, index) => ({
+      lines: validLineItems.map((item, index) => ({
         skuId: item.skuId,
         description: item.description,
         quantity: item.quantity.toString(),
