@@ -341,91 +341,129 @@ export default function MediaKit() {
       <div ref={contentRef} className="bg-white">
         
         {/* SECTION 1: COVER PAGE */}
-        <section className="pdf-page min-h-screen bg-gradient-to-br from-slate-900 via-violet-950 to-fuchsia-950 flex flex-col items-center justify-center p-8 sm:p-12 relative overflow-hidden">
-          {/* Animated orbital background */}
+        <section className="pdf-page min-h-screen bg-gradient-to-br from-slate-950 via-violet-950 to-fuchsia-950 flex flex-col items-center justify-center p-8 sm:p-12 relative overflow-hidden">
+          {/* Sophisticated geometric background */}
           <div className="absolute inset-0">
+            {/* Animated radial gradients */}
             <motion.div 
-              className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl"
+              className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-violet-500/20 rounded-full blur-3xl"
               animate={{ 
-                scale: [1, 1.2, 1],
-                x: [0, 50, 0],
-                y: [0, -30, 0]
+                scale: [1, 1.3, 1],
+                x: [0, 60, 0],
+                y: [0, -40, 0]
               }}
               transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div 
-              className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-fuchsia-500/20 rounded-full blur-3xl"
+              className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-fuchsia-500/25 rounded-full blur-3xl"
               animate={{ 
-                scale: [1, 0.8, 1],
-                x: [0, -40, 0],
-                y: [0, 40, 0]
+                scale: [1, 0.7, 1],
+                x: [0, -50, 0],
+                y: [0, 50, 0]
               }}
               transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div 
-              className="absolute top-1/2 right-1/3 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl"
+              className="absolute top-1/2 right-1/3 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl"
               animate={{ 
                 rotate: [0, 360],
-                scale: [1, 1.1, 1]
+                scale: [1, 1.2, 1]
               }}
               transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
             />
+            
+            {/* Geometric grid pattern */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiPjxwYXRoIGQ9Ik0wIDBoODB2ODBIMHoiLz48L2c+PC9nPjwvc3ZnPg==')] bg-repeat" />
+            </div>
+            
+            {/* Floating geometric shapes */}
+            <motion.div
+              className="absolute top-20 right-20 w-32 h-32 border-2 border-violet-400/30 rotate-45"
+              animate={{ rotate: [45, 405], y: [0, -20, 0] }}
+              transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+              className="absolute bottom-32 left-32 w-24 h-24 border-2 border-fuchsia-400/30 rounded-full"
+              animate={{ scale: [1, 1.2, 1], x: [0, 20, 0] }}
+              transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            />
           </div>
           
-          <div className="text-center max-w-5xl mx-auto relative z-10">
-            {/* Logo */}
+          <div className="text-center max-w-6xl mx-auto relative z-10">
+            {/* Premium Logo Container with Radial Design */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
-              className="mb-12"
+              transition={{ duration: 1.2, ease: "easeOut" }}
+              className="mb-16 relative"
             >
-              <div className="inline-block p-6 bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20">
-                <img 
-                  src="/logo.png" 
-                  alt="Pivotal B2B Logo" 
-                  className="h-32 sm:h-40 w-auto mx-auto"
-                />
+              {/* Outer radial rings */}
+              <motion.div
+                className="absolute inset-0 -m-20"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 1 }}
+              >
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 border border-violet-400/20 rounded-full" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] border border-fuchsia-400/20 rounded-full" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 border border-purple-400/20 rounded-full" />
+              </motion.div>
+              
+              {/* Logo container with glow effect */}
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-600/40 to-fuchsia-600/40 rounded-full blur-3xl scale-110" />
+                <div className="relative p-10 bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl rounded-full shadow-2xl border-2 border-white/30">
+                  <img 
+                    src="/logo.png" 
+                    alt="Pivotal B2B Logo" 
+                    className="h-44 sm:h-48 w-auto mx-auto relative z-10"
+                  />
+                </div>
               </div>
             </motion.div>
             
-            {/* Main Heading */}
-            <motion.h1 
-              className="text-7xl font-black text-white mb-6 leading-tight"
-              initial={{ opacity: 0, y: 30 }}
+            {/* Main Heading with enhanced styling */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mb-8"
             >
-              Pivotal B2B
-            </motion.h1>
-            
-            {/* Tagline */}
-            <motion.div 
-              className="space-y-3 mb-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">
-                Strategic ABM & Demand Generation Partner
-              </p>
-              <p className="text-xl font-semibold text-violet-200">
-                For Growth-Focused B2B Revenue Teams
-              </p>
+              <h1 className="text-8xl font-black text-white mb-3 leading-none tracking-tight">
+                Pivotal B2B
+              </h1>
               <motion.div 
-                className="w-32 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full"
+                className="h-2 w-48 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-500 mx-auto rounded-full"
                 initial={{ width: 0 }}
-                animate={{ width: 128 }}
-                transition={{ duration: 1, delay: 1 }}
+                animate={{ width: 192 }}
+                transition={{ duration: 1.5, delay: 0.8 }}
               />
             </motion.div>
             
-            {/* Contact Cards */}
+            {/* Tagline with enhanced design */}
             <motion.div 
-              className="grid grid-cols-2 gap-4 max-w-4xl mx-auto mt-10"
-              initial={{ opacity: 0, y: 20 }}
+              className="space-y-4 mb-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              <div className="inline-block px-8 py-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-fuchsia-200 to-purple-200">
+                  Strategic ABM & Demand Generation Partner
+                </p>
+              </div>
+              <p className="text-xl font-semibold text-violet-300/90">
+                For Growth-Focused B2B Revenue Teams
+              </p>
+            </motion.div>
+            
+            {/* Premium Contact Cards */}
+            <motion.div 
+              className="grid grid-cols-2 gap-5 max-w-4xl mx-auto"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.9 }}
+              transition={{ duration: 0.8, delay: 1 }}
             >
               {[
                 { icon: Globe, text: "pivotal-b2b.com", href: "https://pivotal-b2b.com", testId: "link-website" },
@@ -433,18 +471,37 @@ export default function MediaKit() {
                 { icon: Phone, text: "+1 417-900-3844", href: "tel:+14179003844", testId: "link-phone" },
                 { icon: Linkedin, text: "LinkedIn", href: "https://www.linkedin.com/company/pivotal-b2b-marketing", testId: "link-linkedin" }
               ].map((item, index) => (
-                <div 
+                <motion.div 
                   key={index}
-                  className="flex items-center gap-4 p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 hover:bg-white/15 transition-all"
+                  className="relative group"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1 + index * 0.1 }}
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center">
-                    <item.icon className="w-6 h-6 text-white" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+                  <div className="relative flex items-center gap-4 p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/30 hover:bg-white/20 hover:border-white/40 transition-all">
+                    <div className="w-14 h-14 bg-gradient-to-br from-violet-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <item.icon className="w-7 h-7 text-white" />
+                    </div>
+                    <a href={item.href} data-testid={item.testId} className="text-white hover:text-violet-200 transition-colors font-semibold text-base sm:text-lg">
+                      {item.text}
+                    </a>
                   </div>
-                  <a href={item.href} data-testid={item.testId} className="text-white hover:text-violet-200 transition-colors font-medium text-sm sm:text-base">
-                    {item.text}
-                  </a>
-                </div>
+                </motion.div>
               ))}
+            </motion.div>
+            
+            {/* Media Kit Badge */}
+            <motion.div
+              className="mt-16"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5 }}
+            >
+              <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-full border border-white/20">
+                <Sparkles className="w-5 h-5 text-violet-300" />
+                <span className="text-sm font-semibold text-violet-200">Media Kit 2025</span>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -1013,157 +1070,182 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 10: CONTACT US */}
-        <section className="pdf-page bg-gradient-to-br from-white via-violet-50 to-fuchsia-50 py-12 sm:py-16 px-6 sm:px-16">
-          <div className="max-w-full mx-auto h-full flex flex-col">
+        <section className="pdf-page min-h-screen bg-gradient-to-br from-slate-50 via-violet-50/50 to-fuchsia-50/50 py-12 sm:py-16 px-6 sm:px-16 relative overflow-hidden">
+          {/* Elegant background elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-20 right-20 w-96 h-96 bg-violet-200/30 rounded-full blur-3xl" />
+            <div className="absolute bottom-20 left-20 w-80 h-80 bg-fuchsia-200/30 rounded-full blur-3xl" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-3xl" />
+            
+            {/* Geometric decorations */}
+            <div className="absolute top-10 left-10 w-32 h-32 border border-violet-200/40 rounded-full" />
+            <div className="absolute bottom-10 right-10 w-24 h-24 border border-fuchsia-200/40 rotate-45" />
+          </div>
+          
+          <div className="max-w-full mx-auto h-full flex flex-col relative z-10">
+            {/* Premium Header with Logo */}
             <motion.div 
-              className="text-center mb-10"
+              className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              {/* Logo */}
-              <div className="mb-6">
-                <img 
-                  src="/logo.png" 
-                  alt="Pivotal B2B Logo" 
-                  className="h-20 w-auto mx-auto"
-                />
+              {/* Logo with radial design */}
+              <div className="mb-8 relative inline-block">
+                {/* Radial rings around logo */}
+                <div className="absolute inset-0 -m-8">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border border-violet-300/30 rounded-full" />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 border border-fuchsia-300/30 rounded-full" />
+                </div>
+                
+                {/* Logo container */}
+                <div className="relative p-6 bg-white rounded-2xl shadow-2xl border-2 border-violet-100">
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 rounded-2xl" />
+                  <img 
+                    src="/logo.png" 
+                    alt="Pivotal B2B Logo" 
+                    className="h-24 w-auto mx-auto relative z-10"
+                  />
+                </div>
               </div>
               
-              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
-                Contact Us
+              <h2 className="text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+                Let's Connect
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-4" />
-              <p className="text-lg text-slate-700">Let's build predictable revenue together</p>
+              <div className="w-32 h-1.5 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-500 mx-auto rounded-full mb-5" />
+              <p className="text-xl text-slate-700 font-medium">Building predictable revenue together</p>
             </motion.div>
 
-            {/* Mirrored gradient panels for offices */}
-            <div className="grid grid-cols-2 gap-8 mb-8">
+            {/* Office Cards with Enhanced Design */}
+            <div className="grid grid-cols-2 gap-6 mb-10">
               {/* USA Office */}
               <motion.div 
-                className="relative p-10 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl shadow-2xl text-white overflow-hidden group"
+                className="relative group"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
               >
-                <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-                      <MapPin className="w-8 h-8 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all" />
+                <div className="relative p-8 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-3xl shadow-2xl text-white overflow-hidden">
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -mr-24 -mt-24" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full -ml-16 -mb-16" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+                        <MapPin className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-black">USA Office</h3>
                     </div>
-                    <h3 className="text-3xl font-black">USA Office</h3>
-                  </div>
-                  <div className="space-y-2 text-base">
-                    <p className="font-semibold">Pivotal B2B LLC</p>
-                    <p>6192 Coastal Highway</p>
-                    <p>Lewes, DE 19958</p>
-                    <p>United States</p>
+                    <div className="space-y-2 text-base leading-relaxed">
+                      <p className="font-bold text-lg">Pivotal B2B LLC</p>
+                      <p className="text-white/90">6192 Coastal Highway</p>
+                      <p className="text-white/90">Lewes, DE 19958</p>
+                      <p className="text-white/90">United States</p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
 
               {/* Oman Office */}
               <motion.div 
-                className="relative p-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl shadow-2xl text-white overflow-hidden group"
+                className="relative group"
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
               >
-                <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform" />
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-                      <MapPin className="w-8 h-8 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-indigo-500/20 rounded-3xl blur-xl group-hover:blur-2xl transition-all" />
+                <div className="relative p-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-3xl shadow-2xl text-white overflow-hidden">
+                  {/* Decorative elements */}
+                  <div className="absolute top-0 right-0 w-48 h-48 bg-white/10 rounded-full -mr-24 -mt-24" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full -ml-16 -mb-16" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+                        <MapPin className="w-8 h-8 text-white" />
+                      </div>
+                      <h3 className="text-3xl font-black">Oman Office</h3>
                     </div>
-                    <h3 className="text-3xl font-black">Oman Office</h3>
-                  </div>
-                  <div className="space-y-2 text-base">
-                    <p className="font-semibold">Pivotal Business International SPC</p>
-                    <p>Way 2403, 191 Muscat</p>
-                    <p>Oman 114</p>
-                    <p className="pt-2 font-semibold">+968 77523663</p>
+                    <div className="space-y-2 text-base leading-relaxed">
+                      <p className="font-bold text-lg">Pivotal Business International SPC</p>
+                      <p className="text-white/90">Way 2403, 191 Muscat</p>
+                      <p className="text-white/90">Oman 114</p>
+                      <p className="pt-2 font-bold text-lg">+968 77523663</p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
             </div>
 
-            {/* Contact Links */}
+            {/* Premium Contact Method Cards */}
             <motion.div 
-              className="grid grid-cols-4 gap-4"
+              className="grid grid-cols-4 gap-5 mb-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <a 
-                href="https://pivotal-b2b.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all group border border-violet-100"
-                data-testid="link-contact-website"
-              >
-                <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Globe className="w-6 h-6 text-white" />
-                </div>
-                <span className="font-semibold text-slate-700 group-hover:text-violet-700">Website</span>
-              </a>
-
-              <a 
-                href="mailto:contact@pivotal-b2b.com"
-                className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all group border border-violet-100"
-                data-testid="link-contact-email"
-              >
-                <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
-                <span className="font-semibold text-slate-700 group-hover:text-violet-700">Email</span>
-              </a>
-
-              <a 
-                href="https://www.linkedin.com/company/pivotal-b2b-marketing" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-4 bg-white rounded-xl shadow-lg hover:shadow-xl transition-all group border border-violet-100"
-                data-testid="link-contact-linkedin"
-              >
-                <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Linkedin className="w-6 h-6 text-white" />
-                </div>
-                <span className="font-semibold text-slate-700 group-hover:text-violet-700">LinkedIn</span>
-              </a>
-
-              <a 
-                href="/request-proposal"
-                className="flex items-center gap-3 p-4 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-xl shadow-lg hover:shadow-xl transition-all group text-white"
-                data-testid="link-request-proposal"
-              >
-                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <ArrowRight className="w-6 h-6 text-white" />
-                </div>
-                <span className="font-semibold">Get Proposal</span>
-              </a>
+              {[
+                { icon: Globe, text: "Website", href: "https://pivotal-b2b.com", testId: "link-contact-website", external: true },
+                { icon: Mail, text: "Email", href: "mailto:contact@pivotal-b2b.com", testId: "link-contact-email", external: false },
+                { icon: Linkedin, text: "LinkedIn", href: "https://www.linkedin.com/company/pivotal-b2b-marketing", testId: "link-contact-linkedin", external: true },
+                { icon: ArrowRight, text: "Get Proposal", href: "/request-proposal", testId: "link-request-proposal", external: false, special: true }
+              ].map((item, index) => (
+                <motion.a
+                  key={index}
+                  href={item.href}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noopener noreferrer" : undefined}
+                  className={`relative group ${item.special ? 'bg-gradient-to-br from-violet-600 to-fuchsia-600 text-white' : 'bg-white border-2 border-violet-100'} rounded-2xl shadow-lg hover:shadow-2xl transition-all p-5 flex flex-col items-center gap-3`}
+                  data-testid={item.testId}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  {!item.special && <div className="absolute inset-0 bg-gradient-to-br from-violet-500/0 to-fuchsia-500/0 group-hover:from-violet-500/5 group-hover:to-fuchsia-500/5 rounded-2xl transition-all" />}
+                  <div className={`w-14 h-14 ${item.special ? 'bg-white/20' : 'bg-gradient-to-br from-violet-500 to-fuchsia-600'} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
+                    <item.icon className={`w-7 h-7 ${item.special ? 'text-white' : 'text-white'}`} />
+                  </div>
+                  <span className={`font-bold text-base ${item.special ? 'text-white' : 'text-slate-700 group-hover:text-violet-700'}`}>
+                    {item.text}
+                  </span>
+                </motion.a>
+              ))}
             </motion.div>
 
-            {/* Final CTA with Branding */}
+            {/* Premium CTA Footer */}
             <motion.div 
-              className="mt-10 text-center"
+              className="mt-auto pt-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="inline-block p-8 bg-gradient-to-br from-slate-900 to-violet-900 rounded-2xl shadow-2xl">
-                <p className="text-2xl font-black text-white mb-2">
-                  Ready to Scale Your Pipeline?
-                </p>
-                <p className="text-base text-violet-200 mb-4">
-                  Schedule a Strategy Call or Request a Custom Proposal
-                </p>
-                <div className="pt-4 border-t border-white/20">
-                  <p className="text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">
-                    Pivotal B2B | Strategic ABM & Demand Generation Partner
+              <div className="relative overflow-hidden rounded-3xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-violet-950 to-fuchsia-950" />
+                
+                {/* Decorative elements */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-violet-500/20 rounded-full blur-3xl -mr-32 -mt-32" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-fuchsia-500/20 rounded-full blur-3xl -ml-24 -mb-24" />
+                
+                <div className="relative z-10 p-10 text-center">
+                  <div className="inline-flex items-center gap-3 mb-4">
+                    <Sparkles className="w-8 h-8 text-violet-300" />
+                    <h3 className="text-4xl font-black text-white">
+                      Ready to Scale Your Pipeline?
+                    </h3>
+                    <Sparkles className="w-8 h-8 text-fuchsia-300" />
+                  </div>
+                  <p className="text-lg text-violet-200 mb-6 max-w-2xl mx-auto">
+                    Schedule a Strategy Call or Request a Custom Proposal Today
                   </p>
+                  <div className="pt-6 border-t border-white/20 max-w-xl mx-auto">
+                    <p className="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-fuchsia-300 to-purple-300">
+                      Pivotal B2B | Strategic ABM & Demand Generation Partner
+                    </p>
+                    <p className="text-sm text-violet-300/70 mt-2">© 2025 All Rights Reserved</p>
+                  </div>
                 </div>
               </div>
             </motion.div>
