@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
+import logoUrl from "@assets/logo.png";
 import { 
   Download, 
   Target, 
@@ -380,9 +381,12 @@ export default function MediaKit() {
               transition={{ duration: 1 }}
               className="mb-12"
             >
-              <div className="w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-violet-600 via-fuchsia-600 to-purple-700 rounded-3xl flex items-center justify-center mx-auto shadow-2xl relative group">
-                <span className="text-white font-black text-4xl sm:text-5xl">PB2B</span>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent rounded-3xl" />
+              <div className="inline-block p-6 bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20">
+                <img 
+                  src={logoUrl} 
+                  alt="Pivotal B2B Logo" 
+                  className="h-32 sm:h-40 w-auto mx-auto"
+                />
               </div>
             </motion.div>
             
@@ -1018,6 +1022,15 @@ export default function MediaKit() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
+              {/* Logo */}
+              <div className="mb-6">
+                <img 
+                  src={logoUrl} 
+                  alt="Pivotal B2B Logo" 
+                  className="h-20 w-auto mx-auto"
+                />
+              </div>
+              
               <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
                 Contact Us
               </h2>
@@ -1134,7 +1147,7 @@ export default function MediaKit() {
               </a>
             </motion.div>
 
-            {/* Final CTA */}
+            {/* Final CTA with Branding */}
             <motion.div 
               className="mt-10 text-center"
               initial={{ opacity: 0, y: 30 }}
@@ -1145,9 +1158,14 @@ export default function MediaKit() {
                 <p className="text-2xl font-black text-white mb-2">
                   Ready to Scale Your Pipeline?
                 </p>
-                <p className="text-base text-violet-200">
+                <p className="text-base text-violet-200 mb-4">
                   Schedule a Strategy Call or Request a Custom Proposal
                 </p>
+                <div className="pt-4 border-t border-white/20">
+                  <p className="text-sm font-semibold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">
+                    Pivotal B2B | Strategic ABM & Demand Generation Partner
+                  </p>
+                </div>
               </div>
             </motion.div>
           </div>
