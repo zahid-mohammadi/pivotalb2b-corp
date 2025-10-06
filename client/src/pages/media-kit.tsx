@@ -106,6 +106,32 @@ export default function MediaKit() {
         }
         
         const section = sections[i] as HTMLElement;
+        
+        // Scroll section into view and wait for animations
+        section.scrollIntoView({ behavior: 'instant', block: 'start' });
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        // Store original styles
+        const originalWidth = section.style.width;
+        const originalHeight = section.style.height;
+        const originalMaxWidth = section.style.maxWidth;
+        
+        // Apply PDF dimensions temporarily
+        section.style.width = '1920px';
+        section.style.height = '1080px';
+        section.style.maxWidth = '1920px';
+        
+        // Force all animations to visible state
+        const animatedElements = section.querySelectorAll('[style*="opacity: 0"]');
+        const originalOpacities: Array<{ element: HTMLElement; opacity: string }> = [];
+        animatedElements.forEach(el => {
+          const htmlEl = el as HTMLElement;
+          originalOpacities.push({ element: htmlEl, opacity: htmlEl.style.opacity });
+          htmlEl.style.opacity = '1';
+        });
+        
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         const canvas = await html2canvas(section, {
           scale: 2,
           useCORS: true,
@@ -113,6 +139,14 @@ export default function MediaKit() {
           backgroundColor: '#ffffff',
           width: 1920,
           height: 1080
+        });
+        
+        // Restore original styles
+        section.style.width = originalWidth;
+        section.style.height = originalHeight;
+        section.style.maxWidth = originalMaxWidth;
+        originalOpacities.forEach(({ element, opacity }) => {
+          element.style.opacity = opacity;
         });
         
         const imgData = canvas.toDataURL('image/png');
@@ -271,7 +305,7 @@ export default function MediaKit() {
       <div ref={contentRef} className="bg-white">
         
         {/* SECTION 1: COVER PAGE */}
-        <section className="pdf-page bg-gradient-to-br from-slate-900 via-violet-950 to-fuchsia-950 flex flex-col items-center justify-center p-12 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page min-h-screen bg-gradient-to-br from-slate-900 via-violet-950 to-fuchsia-950 flex flex-col items-center justify-center p-8 sm:p-12 relative overflow-hidden">
           {/* Animated orbital background */}
           <div className="absolute inset-0">
             <motion.div 
@@ -377,7 +411,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 2: COMPANY OVERVIEW */}
-        <section className="pdf-page bg-gradient-to-br from-white via-violet-50/30 to-fuchsia-50/30 py-16 px-16 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-gradient-to-br from-white via-violet-50/30 to-fuchsia-50/30 py-12 sm:py-16 px-6 sm:px-16 relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-20 right-20 w-64 h-64 bg-violet-200/20 rounded-full blur-3xl" />
             <div className="absolute bottom-20 left-20 w-80 h-80 bg-fuchsia-200/20 rounded-full blur-3xl" />
@@ -439,7 +473,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 3: WHO WE SERVE */}
-        <section className="pdf-page bg-slate-900 py-16 px-16 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-slate-900 py-12 sm:py-16 px-6 sm:px-16 relative overflow-hidden">
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiPjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] bg-repeat" />
           </div>
@@ -507,7 +541,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 4: B2B AUDIENCE & TARGETING */}
-        <section className="pdf-page bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 py-12 sm:py-16 px-6 sm:px-16">
           <div className="max-w-full mx-auto h-full flex flex-col">
             <motion.div 
               className="text-center mb-8"
@@ -618,7 +652,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 5: CORE SERVICES */}
-        <section className="pdf-page bg-white py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-white py-12 sm:py-16 px-6 sm:px-16">
           <div className="max-w-full mx-auto h-full flex flex-col">
             <motion.div 
               className="text-center mb-10"
@@ -661,7 +695,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 6: REVENUE PROCESS (Timeline Style) */}
-        <section className="pdf-page bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900 py-16 px-16 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900 py-12 sm:py-16 px-6 sm:px-16 relative overflow-hidden">
           <div className="absolute inset-0">
             <motion.div 
               className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"
@@ -762,7 +796,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 7: MARKETING CHANNELS */}
-        <section className="pdf-page bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 py-12 sm:py-16 px-6 sm:px-16">
           <div className="max-w-full mx-auto h-full flex flex-col justify-center">
             <motion.div 
               className="text-center mb-12"
@@ -806,7 +840,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 8: COMPLIANCE & DATA ETHICS */}
-        <section className="pdf-page bg-white py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-white py-12 sm:py-16 px-6 sm:px-16">
           <div className="max-w-full mx-auto h-full flex flex-col justify-center">
             <motion.div 
               className="text-center mb-10"
@@ -874,7 +908,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 9: CUSTOMER SUCCESS & SUPPORT */}
-        <section className="pdf-page bg-gradient-to-br from-violet-900 via-fuchsia-900 to-purple-900 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-gradient-to-br from-violet-900 via-fuchsia-900 to-purple-900 py-12 sm:py-16 px-6 sm:px-16">
           <div className="max-w-full mx-auto h-full flex flex-col justify-center">
             <motion.div 
               className="text-center mb-12"
@@ -924,7 +958,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 10: CONTACT US */}
-        <section className="pdf-page bg-gradient-to-br from-white via-violet-50 to-fuchsia-50 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+        <section className="pdf-page bg-gradient-to-br from-white via-violet-50 to-fuchsia-50 py-12 sm:py-16 px-6 sm:px-16">
           <div className="max-w-full mx-auto h-full flex flex-col">
             <motion.div 
               className="text-center mb-10"
