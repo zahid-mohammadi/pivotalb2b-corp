@@ -95,53 +95,28 @@ export default function MediaKit() {
     
     setIsGeneratingPDF(true);
     try {
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const sections = contentRef.current.querySelectorAll('.pdf-page');
+      const pdfWidth = 508;
+      const pdfHeight = 285.75;
+      const pdf = new jsPDF('l', 'mm', [pdfWidth, pdfHeight]);
       
-      const canvas = await html2canvas(contentRef.current, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        height: contentRef.current.scrollHeight,
-        width: contentRef.current.scrollWidth
-      });
-      
-      const mmPerPixel = pdfWidth / canvas.width;
-      const pageHeightPx = pdfHeight / mmPerPixel;
-      const pageWidthPx = pdfWidth / mmPerPixel;
-      
-      const totalPages = Math.ceil(canvas.height / pageHeightPx);
-      
-      for (let pageIndex = 0; pageIndex < totalPages; pageIndex++) {
-        if (pageIndex > 0) {
+      for (let i = 0; i < sections.length; i++) {
+        if (i > 0) {
           pdf.addPage();
         }
         
-        const sliceCanvas = document.createElement('canvas');
-        sliceCanvas.width = pageWidthPx;
-        sliceCanvas.height = pageHeightPx;
-        const sliceCtx = sliceCanvas.getContext('2d');
+        const section = sections[i] as HTMLElement;
+        const canvas = await html2canvas(section, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          width: 1920,
+          height: 1080
+        });
         
-        if (sliceCtx) {
-          sliceCtx.fillStyle = '#ffffff';
-          sliceCtx.fillRect(0, 0, pageWidthPx, pageHeightPx);
-          
-          const sourceY = pageIndex * pageHeightPx;
-          const remainingHeight = Math.min(pageHeightPx, canvas.height - sourceY);
-          
-          sliceCtx.drawImage(
-            canvas,
-            0, sourceY,
-            canvas.width, remainingHeight,
-            0, 0,
-            pageWidthPx, remainingHeight
-          );
-          
-          const sliceImgData = sliceCanvas.toDataURL('image/png');
-          pdf.addImage(sliceImgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        }
+        const imgData = canvas.toDataURL('image/png');
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       }
       
       pdf.save('Pivotal-B2B-Media-Kit.pdf');
@@ -293,10 +268,10 @@ export default function MediaKit() {
       </div>
 
       {/* PDF Content */}
-      <div ref={contentRef} className="bg-white" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div ref={contentRef} className="bg-white">
         
         {/* SECTION 1: COVER PAGE */}
-        <section className="min-h-screen bg-gradient-to-br from-slate-900 via-violet-950 to-fuchsia-950 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+        <section className="pdf-page bg-gradient-to-br from-slate-900 via-violet-950 to-fuchsia-950 flex flex-col items-center justify-center p-12 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
           {/* Animated orbital background */}
           <div className="absolute inset-0">
             <motion.div 
@@ -343,7 +318,7 @@ export default function MediaKit() {
             
             {/* Main Heading */}
             <motion.h1 
-              className="text-5xl sm:text-7xl md:text-8xl font-black text-white mb-8 leading-tight"
+              className="text-7xl font-black text-white mb-6 leading-tight"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -353,15 +328,15 @@ export default function MediaKit() {
             
             {/* Tagline */}
             <motion.div 
-              className="space-y-4 mb-12"
+              className="space-y-3 mb-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <p className="text-2xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">
+              <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">
                 Strategic ABM & Demand Generation Partner
               </p>
-              <p className="text-xl sm:text-2xl font-semibold text-violet-200">
+              <p className="text-xl font-semibold text-violet-200">
                 For Growth-Focused B2B Revenue Teams
               </p>
               <motion.div 
@@ -374,7 +349,7 @@ export default function MediaKit() {
             
             {/* Contact Cards */}
             <motion.div 
-              className="grid sm:grid-cols-2 gap-4 sm:gap-6 max-w-3xl mx-auto mt-16"
+              className="grid grid-cols-2 gap-4 max-w-4xl mx-auto mt-10"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
@@ -402,60 +377,60 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 2: COMPANY OVERVIEW */}
-        <section className="bg-gradient-to-br from-white via-violet-50/30 to-fuchsia-50/30 py-20 px-6 sm:px-8 relative overflow-hidden">
+        <section className="pdf-page bg-gradient-to-br from-white via-violet-50/30 to-fuchsia-50/30 py-16 px-16 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
           <div className="absolute inset-0">
             <div className="absolute top-20 right-20 w-64 h-64 bg-violet-200/20 rounded-full blur-3xl" />
             <div className="absolute bottom-20 left-20 w-80 h-80 bg-fuchsia-200/20 rounded-full blur-3xl" />
           </div>
 
-          <div className="max-w-6xl mx-auto relative z-10">
+          <div className="max-w-full mx-auto relative z-10 h-full flex flex-col">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
                 Company Overview
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full" />
             </motion.div>
 
             <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 sm:p-12 shadow-2xl border border-violet-100/50 mb-12"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-violet-100/50 mb-6"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-lg sm:text-xl text-slate-700 leading-relaxed mb-6">
+              <p className="text-lg text-slate-700 leading-relaxed mb-4">
                 <span className="font-bold text-violet-700">Pivotal B2B</span> is a demand generation and account-based marketing partner built for B2B organizations that value precision over volume.
               </p>
-              <p className="text-lg sm:text-xl text-slate-700 leading-relaxed mb-6">
+              <p className="text-lg text-slate-700 leading-relaxed mb-4">
                 Founded in <span className="font-bold">2017</span> by <span className="font-bold text-violet-700">Zahid Mohammadi</span>, Pivotal B2B enables marketing and sales teams to generate qualified pipeline through compliant, content-led outreach across high-priority target accounts.
               </p>
-              <p className="text-lg sm:text-xl text-slate-700 leading-relaxed">
+              <p className="text-lg text-slate-700 leading-relaxed">
                 Rather than delivering random leads, we build <span className="font-bold text-violet-700">predictable revenue systems</span> that align directly with Ideal Customer Profiles and sales goals.
               </p>
             </motion.div>
 
             {/* Mission */}
             <motion.div 
-              className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-3xl p-8 sm:p-12 shadow-2xl text-white"
+              className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl p-8 shadow-2xl text-white flex-1"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-                  <Target className="w-8 h-8 text-white" />
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
+                  <Target className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-3xl sm:text-4xl font-black">Our Mission</h3>
+                <h3 className="text-3xl font-black">Our Mission</h3>
               </div>
-              <p className="text-xl sm:text-2xl font-medium leading-relaxed">
+              <p className="text-xl font-medium leading-relaxed mb-5">
                 To help B2B companies engage only the buyers who matter — through targeted, compliant, and insight-driven programs that convert interest into revenue.
               </p>
-              <div className="mt-8 p-6 bg-white/10 rounded-2xl border border-white/20">
-                <p className="text-lg">
+              <div className="p-5 bg-white/10 rounded-xl border border-white/20">
+                <p className="text-base">
                   Pivotal B2B stands apart by operating as a <span className="font-bold">strategic partner</span> rather than a volume-based data provider. Our focus is on <span className="font-bold">pipeline confidence, not contact delivery</span>.
                 </p>
               </div>
@@ -464,28 +439,28 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 3: WHO WE SERVE */}
-        <section className="bg-slate-900 py-20 px-6 sm:px-8 relative overflow-hidden">
+        <section className="pdf-page bg-slate-900 py-16 px-16 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiPjxjaXJjbGUgY3g9IjciIGN5PSI3IiByPSIxIi8+PC9nPjwvZz48L3N2Zz4=')] bg-repeat" />
           </div>
 
-          <div className="max-w-6xl mx-auto relative z-10">
+          <div className="max-w-full mx-auto relative z-10 h-full flex flex-col">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6">
+              <h2 className="text-5xl font-black text-white mb-4">
                 Who We Serve
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-8" />
-              <p className="text-xl text-violet-200 max-w-3xl mx-auto">
+              <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-5" />
+              <p className="text-lg text-violet-200 max-w-3xl mx-auto">
                 We partner with B2B organizations that:
               </p>
             </motion.div>
 
-            <div className="grid sm:grid-cols-2 gap-6 mb-16">
+            <div className="grid grid-cols-2 gap-5 mb-8">
               {[
                 { icon: Sparkles, text: "Sell complex or considered solutions" },
                 { icon: Building2, text: "Target small, mid-market to enterprise customers" },
@@ -510,13 +485,13 @@ export default function MediaKit() {
 
             {/* Industries */}
             <motion.div 
-              className="bg-gradient-to-br from-violet-900/50 to-fuchsia-900/50 backdrop-blur-sm rounded-3xl p-8 sm:p-12 border border-white/10"
+              className="bg-gradient-to-br from-violet-900/50 to-fuchsia-900/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-8 text-center">Typical Industries</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <h3 className="text-2xl font-bold text-white mb-6 text-center">Typical Industries</h3>
+              <div className="grid grid-cols-3 gap-4">
                 {industries.map((industry, index) => (
                   <div 
                     key={index}
@@ -532,35 +507,35 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 4: B2B AUDIENCE & TARGETING */}
-        <section className="bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 py-20 px-6 sm:px-8">
-          <div className="max-w-6xl mx-auto">
+        <section className="pdf-page bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+          <div className="max-w-full mx-auto h-full flex flex-col">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
                 B2B Audience & Targeting Capabilities
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-8" />
-              <p className="text-xl text-slate-700 max-w-3xl mx-auto">
+              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-4" />
+              <p className="text-base text-slate-700 max-w-3xl mx-auto">
                 We provide access to broad yet highly segmentable B2B audiences across:
               </p>
             </motion.div>
 
             {/* By Job Function */}
             <motion.div 
-              className="mb-12"
+              className="mb-6"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl sm:text-3xl font-bold text-violet-900 mb-6 flex items-center gap-3">
-                <Users className="w-8 h-8" />
+              <h3 className="text-xl font-bold text-violet-900 mb-4 flex items-center gap-3">
+                <Users className="w-6 h-6" />
                 By Job Function
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-4 gap-3">
                 {audienceSegments.map((segment, index) => (
                   <div 
                     key={index}
@@ -577,18 +552,18 @@ export default function MediaKit() {
             </motion.div>
 
             {/* By Company Profile & Buying Behavior */}
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-2 gap-6">
               <motion.div 
-                className="p-8 bg-white rounded-2xl shadow-xl border border-violet-100"
+                className="p-6 bg-white rounded-xl shadow-xl border border-violet-100"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-bold text-violet-900 mb-6 flex items-center gap-3">
-                  <Building2 className="w-7 h-7" />
+                <h3 className="text-xl font-bold text-violet-900 mb-4 flex items-center gap-3">
+                  <Building2 className="w-6 h-6" />
                   By Company Profile
                 </h3>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {[
                     "Industry classification",
                     "Company size and revenue range",
@@ -604,16 +579,16 @@ export default function MediaKit() {
               </motion.div>
 
               <motion.div 
-                className="p-8 bg-white rounded-2xl shadow-xl border border-fuchsia-100"
+                className="p-6 bg-white rounded-xl shadow-xl border border-fuchsia-100"
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
               >
-                <h3 className="text-2xl font-bold text-fuchsia-900 mb-6 flex items-center gap-3">
-                  <TrendingUp className="w-7 h-7" />
+                <h3 className="text-xl font-bold text-fuchsia-900 mb-4 flex items-center gap-3">
+                  <TrendingUp className="w-6 h-6" />
                   By Buying Behavior
                 </h3>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {[
                     "Content interaction",
                     "Research signals",
@@ -630,12 +605,12 @@ export default function MediaKit() {
             </div>
 
             <motion.div 
-              className="mt-12 p-6 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-2xl text-white text-center"
+              className="mt-6 p-5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl text-white text-center"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-lg sm:text-xl font-medium">
+              <p className="text-base font-medium">
                 Whether your goal is enterprise expansion or vertical positioning, <span className="font-bold">Pivotal B2B activates buyer groups aligned to your commercial strategy</span>.
               </p>
             </motion.div>
@@ -643,25 +618,25 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 5: CORE SERVICES */}
-        <section className="bg-white py-20 px-6 sm:px-8">
-          <div className="max-w-6xl mx-auto">
+        <section className="pdf-page bg-white py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+          <div className="max-w-full mx-auto h-full flex flex-col">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
                 Core Services
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full" />
             </motion.div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 gap-5">
               {services.map((service, index) => (
                 <motion.div 
                   key={index}
-                  className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all border border-gray-100 overflow-hidden"
+                  className="group relative bg-white rounded-xl p-5 shadow-lg hover:shadow-2xl transition-all border border-gray-100 overflow-hidden"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -670,13 +645,13 @@ export default function MediaKit() {
                   data-testid={`card-service-${index}`}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity`} />
-                  <div className={`w-16 h-16 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                    <service.icon className="w-8 h-8 text-white" />
+                  <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                    <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-violet-700 transition-colors">
+                  <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-violet-700 transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">
+                  <p className="text-sm text-slate-600 leading-relaxed">
                     {service.description}
                   </p>
                 </motion.div>
@@ -686,7 +661,7 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 6: REVENUE PROCESS (Timeline Style) */}
-        <section className="bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900 py-20 px-6 sm:px-8 relative overflow-hidden">
+        <section className="pdf-page bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900 py-16 px-16 relative overflow-hidden" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
           <div className="absolute inset-0">
             <motion.div 
               className="absolute top-0 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-3xl"
@@ -695,20 +670,20 @@ export default function MediaKit() {
             />
           </div>
 
-          <div className="max-w-6xl mx-auto relative z-10">
+          <div className="max-w-full mx-auto relative z-10 h-full flex flex-col">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6">
+              <h2 className="text-5xl font-black text-white mb-4">
                 Our Revenue Process
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full" />
             </motion.div>
 
-            <div className="space-y-8">
+            <div className="space-y-6">
               {[
                 {
                   phase: "FIND",
@@ -754,26 +729,26 @@ export default function MediaKit() {
                 >
                   {/* Connector line */}
                   {index < 2 && (
-                    <div className="absolute left-8 top-24 w-0.5 h-16 bg-gradient-to-b from-violet-500 to-fuchsia-500" />
+                    <div className="absolute left-8 top-20 w-0.5 h-12 bg-gradient-to-b from-violet-500 to-fuchsia-500" />
                   )}
                   
-                  <div className="flex gap-6 items-start">
-                    <div className={`w-16 h-16 bg-gradient-to-br from-${step.color}-500 to-${step.color}-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                      <step.icon className="w-8 h-8 text-white" />
+                  <div className="flex gap-5 items-start">
+                    <div className={`w-14 h-14 bg-gradient-to-br from-${step.color}-500 to-${step.color}-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
+                      <step.icon className="w-7 h-7 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-4">
-                        <Badge className={`bg-${step.color}-500 text-white px-4 py-1 text-sm font-bold`}>
+                      <div className="flex items-center gap-3 mb-3">
+                        <Badge className={`bg-${step.color}-500 text-white px-3 py-1 text-xs font-bold`}>
                           {step.phase}
                         </Badge>
-                        <h3 className="text-2xl sm:text-3xl font-bold text-white">{step.title}</h3>
+                        <h3 className="text-2xl font-bold text-white">{step.title}</h3>
                       </div>
-                      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                        <ul className="space-y-3">
+                      <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
+                        <ul className="space-y-2">
                           {step.items.map((item, i) => (
-                            <li key={i} className="flex items-center gap-3">
-                              <ChevronRight className="w-5 h-5 text-violet-400 flex-shrink-0" />
-                              <span className="text-white text-lg">{item}</span>
+                            <li key={i} className="flex items-center gap-2">
+                              <ChevronRight className="w-4 h-4 text-violet-400 flex-shrink-0" />
+                              <span className="text-white text-base">{item}</span>
                             </li>
                           ))}
                         </ul>
@@ -787,28 +762,28 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 7: MARKETING CHANNELS */}
-        <section className="bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 py-20 px-6 sm:px-8">
-          <div className="max-w-6xl mx-auto">
+        <section className="pdf-page bg-gradient-to-br from-violet-50 via-white to-fuchsia-50 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+          <div className="max-w-full mx-auto h-full flex flex-col justify-center">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
                 Marketing Channels
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-6" />
-              <p className="text-xl text-slate-700">
+              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-4" />
+              <p className="text-lg text-slate-700">
                 We operate across multiple channels to ensure consistent reach and engagement
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-3 gap-10">
               {channels.map((channel, index) => (
                 <motion.div 
                   key={index}
-                  className={`relative p-8 bg-gradient-to-br from-${channel.color}-600 to-${channel.color}-700 rounded-3xl shadow-xl text-white overflow-hidden group`}
+                  className={`relative p-10 bg-gradient-to-br from-${channel.color}-600 to-${channel.color}-700 rounded-2xl shadow-xl text-white overflow-hidden group`}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
@@ -818,11 +793,11 @@ export default function MediaKit() {
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform" />
                   <div className="relative z-10">
-                    <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                      <channel.icon className="w-8 h-8 text-white" />
+                    <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 transition-transform mx-auto">
+                      <channel.icon className="w-10 h-10 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold mb-3" data-testid={`text-channel-title-${index}`}>{channel.title}</h3>
-                    <p className="text-white/90 text-lg">{channel.description}</p>
+                    <h3 className="text-2xl font-bold mb-4 text-center" data-testid={`text-channel-title-${index}`}>{channel.title}</h3>
+                    <p className="text-white/90 text-base text-center">{channel.description}</p>
                   </div>
                 </motion.div>
               ))}
@@ -831,31 +806,31 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 8: COMPLIANCE & DATA ETHICS */}
-        <section className="bg-white py-20 px-6 sm:px-8">
-          <div className="max-w-6xl mx-auto">
+        <section className="pdf-page bg-white py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+          <div className="max-w-full mx-auto h-full flex flex-col justify-center">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
                 Compliance & Data Ethics
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full" />
             </motion.div>
 
             <motion.div 
-              className="bg-gradient-to-br from-violet-50 to-fuchsia-50 rounded-3xl p-8 sm:p-12 border border-violet-100 mb-12"
+              className="bg-gradient-to-br from-violet-50 to-fuchsia-50 rounded-2xl p-10 border border-violet-100 mb-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-xl text-slate-700 text-center mb-12">
+              <p className="text-lg text-slate-700 text-center mb-8">
                 All outreach adheres to:
               </p>
               
-              <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-4 gap-6">
                 {complianceItems.map((item, index) => (
                   <motion.div 
                     key={index}
@@ -878,18 +853,18 @@ export default function MediaKit() {
             </motion.div>
 
             <motion.div 
-              className="bg-slate-900 rounded-3xl p-8 sm:p-12 text-white"
+              className="bg-slate-900 rounded-2xl p-8 text-white"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-start gap-4 mb-6">
+              <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-violet-500 rounded-xl flex items-center justify-center flex-shrink-0">
                   <UserCheck className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold mb-4">Our Commitment</h3>
-                  <p className="text-lg text-violet-100 leading-relaxed">
+                  <h3 className="text-xl font-bold mb-3">Our Commitment</h3>
+                  <p className="text-base text-violet-100 leading-relaxed">
                     Data is managed responsibly, with opt-out governance and transparent communication protocols. <span className="font-bold text-white">Client reputation remains a priority at every stage</span>.
                   </p>
                 </div>
@@ -899,47 +874,47 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 9: CUSTOMER SUCCESS & SUPPORT */}
-        <section className="bg-gradient-to-br from-violet-900 via-fuchsia-900 to-purple-900 py-20 px-6 sm:px-8">
-          <div className="max-w-6xl mx-auto">
+        <section className="pdf-page bg-gradient-to-br from-violet-900 via-fuchsia-900 to-purple-900 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+          <div className="max-w-full mx-auto h-full flex flex-col justify-center">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6">
+              <h2 className="text-5xl font-black text-white mb-4">
                 Customer Success & Support
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-violet-300 to-fuchsia-300 mx-auto rounded-full" />
             </motion.div>
 
             <motion.div 
-              className="bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-12 border border-white/20"
+              className="bg-white/10 backdrop-blur-md rounded-2xl p-12 border border-white/20"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-xl text-white text-center mb-12">
+              <p className="text-lg text-white text-center mb-10">
                 Our engagement model is built on <span className="font-bold text-violet-300">partnership, not transaction</span>:
               </p>
 
-              <div className="grid md:grid-cols-3 gap-8 mb-8">
+              <div className="grid grid-cols-3 gap-12 mb-10">
                 {[
                   { icon: Award, title: "Dedicated Support", description: "Strategy and operations support throughout your journey" },
                   { icon: BarChart, title: "Ongoing Insights", description: "Continuous reporting and refinement" },
                   { icon: Heart, title: "Flexibility", description: "No long-term lock-in requirements" }
                 ].map((feature, index) => (
                   <div key={index} className="text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-violet-400 to-fuchsia-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <feature.icon className="w-10 h-10 text-white" />
+                    <div className="w-24 h-24 bg-gradient-to-br from-violet-400 to-fuchsia-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                      <feature.icon className="w-12 h-12 text-white" />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-                    <p className="text-violet-100">{feature.description}</p>
+                    <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                    <p className="text-violet-100 text-base">{feature.description}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-12 pt-8 border-t border-white/20 text-center">
+              <div className="pt-8 border-t border-white/20 text-center">
                 <p className="text-2xl font-bold text-white">
                   Success is measured by <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">pipeline contribution</span>, not lead volume.
                 </p>
@@ -949,26 +924,26 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 10: CONTACT US */}
-        <section className="bg-gradient-to-br from-white via-violet-50 to-fuchsia-50 py-20 px-6 sm:px-8">
-          <div className="max-w-6xl mx-auto">
+        <section className="pdf-page bg-gradient-to-br from-white via-violet-50 to-fuchsia-50 py-16 px-16" style={{ width: '1920px', height: '1080px', margin: '0 auto' }}>
+          <div className="max-w-full mx-auto h-full flex flex-col">
             <motion.div 
-              className="text-center mb-16"
+              className="text-center mb-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
                 Contact Us
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-6" />
-              <p className="text-xl text-slate-700">Let's build predictable revenue together</p>
+              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-4" />
+              <p className="text-lg text-slate-700">Let's build predictable revenue together</p>
             </motion.div>
 
             {/* Mirrored gradient panels for offices */}
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-2 gap-8 mb-8">
               {/* USA Office */}
               <motion.div 
-                className="relative p-8 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-3xl shadow-2xl text-white overflow-hidden group"
+                className="relative p-10 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl shadow-2xl text-white overflow-hidden group"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -977,12 +952,12 @@ export default function MediaKit() {
                 <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
-                      <MapPin className="w-7 h-7 text-white" />
+                    <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+                      <MapPin className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-3xl font-black">USA Office</h3>
                   </div>
-                  <div className="space-y-3 text-lg">
+                  <div className="space-y-2 text-base">
                     <p className="font-semibold">Pivotal B2B LLC</p>
                     <p>6192 Coastal Highway</p>
                     <p>Lewes, DE 19958</p>
@@ -993,7 +968,7 @@ export default function MediaKit() {
 
               {/* Oman Office */}
               <motion.div 
-                className="relative p-8 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-3xl shadow-2xl text-white overflow-hidden group"
+                className="relative p-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-2xl shadow-2xl text-white overflow-hidden group"
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
@@ -1002,12 +977,12 @@ export default function MediaKit() {
                 <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
-                      <MapPin className="w-7 h-7 text-white" />
+                    <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+                      <MapPin className="w-8 h-8 text-white" />
                     </div>
                     <h3 className="text-3xl font-black">Oman Office</h3>
                   </div>
-                  <div className="space-y-3 text-lg">
+                  <div className="space-y-2 text-base">
                     <p className="font-semibold">Pivotal Business International SPC</p>
                     <p>Way 2403, 191 Muscat</p>
                     <p>Oman 114</p>
@@ -1019,7 +994,7 @@ export default function MediaKit() {
 
             {/* Contact Links */}
             <motion.div 
-              className="grid sm:grid-cols-2 md:grid-cols-4 gap-4"
+              className="grid grid-cols-4 gap-4"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -1075,16 +1050,16 @@ export default function MediaKit() {
 
             {/* Final CTA */}
             <motion.div 
-              className="mt-16 text-center"
+              className="mt-10 text-center"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="inline-block p-8 bg-gradient-to-br from-slate-900 to-violet-900 rounded-3xl shadow-2xl">
-                <p className="text-2xl sm:text-3xl font-black text-white mb-2">
+              <div className="inline-block p-8 bg-gradient-to-br from-slate-900 to-violet-900 rounded-2xl shadow-2xl">
+                <p className="text-2xl font-black text-white mb-2">
                   Ready to Scale Your Pipeline?
                 </p>
-                <p className="text-lg text-violet-200">
+                <p className="text-base text-violet-200">
                   Schedule a Strategy Call or Request a Custom Proposal
                 </p>
               </div>
