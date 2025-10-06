@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import logoUrl from "@assets/logo.png";
 import { 
   Download, 
   Target, 
@@ -383,7 +382,7 @@ export default function MediaKit() {
             >
               <div className="inline-block p-6 bg-white/10 backdrop-blur-md rounded-3xl shadow-2xl border border-white/20">
                 <img 
-                  src={logoUrl} 
+                  src="/logo.png" 
                   alt="Pivotal B2B Logo" 
                   className="h-32 sm:h-40 w-auto mx-auto"
                 />
@@ -1025,7 +1024,7 @@ export default function MediaKit() {
               {/* Logo */}
               <div className="mb-6">
                 <img 
-                  src={logoUrl} 
+                  src="/logo.png" 
                   alt="Pivotal B2B Logo" 
                   className="h-20 w-auto mx-auto"
                 />
