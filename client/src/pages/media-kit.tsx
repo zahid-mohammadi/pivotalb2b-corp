@@ -443,17 +443,17 @@ export default function MediaKit() {
             
             {/* Tagline with enhanced design */}
             <motion.div 
-              className="space-y-4 mb-12"
+              className="space-y-5 mb-12"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
-              <div className="inline-block px-8 py-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
-                <p className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-200 via-fuchsia-200 to-purple-200">
+              <div className="inline-block px-10 py-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20">
+                <p className="text-4xl font-bold text-white">
                   Strategic ABM & Demand Generation Partner
                 </p>
               </div>
-              <p className="text-xl font-semibold text-violet-300/90">
+              <p className="text-2xl font-semibold text-violet-200">
                 For Growth-Focused B2B Revenue Teams
               </p>
             </motion.div>
@@ -479,11 +479,11 @@ export default function MediaKit() {
                   transition={{ delay: 1.1 + index * 0.1 }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-                  <div className="relative flex items-center gap-4 p-5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/30 hover:bg-white/20 hover:border-white/40 transition-all">
-                    <div className="w-14 h-14 bg-gradient-to-br from-violet-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg">
-                      <item.icon className="w-7 h-7 text-white" />
+                  <div className="relative flex items-center gap-5 p-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/30 hover:bg-white/20 hover:border-white/40 transition-all">
+                    <div className="w-16 h-16 bg-gradient-to-br from-violet-500 to-fuchsia-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <item.icon className="w-8 h-8 text-white" />
                     </div>
-                    <a href={item.href} data-testid={item.testId} className="text-white hover:text-violet-200 transition-colors font-semibold text-base sm:text-lg">
+                    <a href={item.href} data-testid={item.testId} className="text-white hover:text-violet-200 transition-colors font-bold text-lg sm:text-xl">
                       {item.text}
                     </a>
                   </div>
@@ -515,52 +515,52 @@ export default function MediaKit() {
 
           <div className="max-w-full mx-auto relative z-10 h-full flex flex-col">
             <motion.div 
-              className="text-center mb-8"
+              className="text-center mb-10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
+              <h2 className="text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
                 Company Overview
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full" />
+              <div className="w-28 h-1.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full" />
             </motion.div>
 
             <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-violet-100/50 mb-6"
+              className="bg-white/90 backdrop-blur-sm rounded-2xl p-10 shadow-2xl border border-violet-100/50 mb-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-lg text-slate-700 leading-relaxed mb-4">
+              <p className="text-xl text-slate-800 leading-relaxed mb-5">
                 <span className="font-bold text-violet-700">Pivotal B2B</span> is a demand generation and account-based marketing partner built for B2B organizations that value precision over volume.
               </p>
-              <p className="text-lg text-slate-700 leading-relaxed mb-4">
+              <p className="text-xl text-slate-800 leading-relaxed mb-5">
                 Founded in <span className="font-bold">2017</span> by <span className="font-bold text-violet-700">Zahid Mohammadi</span>, Pivotal B2B enables marketing and sales teams to generate qualified pipeline through compliant, content-led outreach across high-priority target accounts.
               </p>
-              <p className="text-lg text-slate-700 leading-relaxed">
+              <p className="text-xl text-slate-800 leading-relaxed">
                 Rather than delivering random leads, we build <span className="font-bold text-violet-700">predictable revenue systems</span> that align directly with Ideal Customer Profiles and sales goals.
               </p>
             </motion.div>
 
             {/* Mission */}
             <motion.div 
-              className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl p-8 shadow-2xl text-white flex-1"
+              className="bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-2xl p-10 shadow-2xl text-white flex-1"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center">
-                  <Target className="w-7 h-7 text-white" />
+              <div className="flex items-center gap-5 mb-6">
+                <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+                  <Target className="w-9 h-9 text-white" />
                 </div>
-                <h3 className="text-3xl font-black">Our Mission</h3>
+                <h3 className="text-4xl font-black">Our Mission</h3>
               </div>
-              <p className="text-xl font-medium leading-relaxed mb-5">
+              <p className="text-2xl font-semibold leading-relaxed mb-6">
                 To help B2B companies engage only the buyers who matter — through targeted, compliant, and insight-driven programs that convert interest into revenue.
               </p>
-              <div className="p-5 bg-white/10 rounded-xl border border-white/20">
-                <p className="text-base">
+              <div className="p-6 bg-white/10 rounded-xl border border-white/20">
+                <p className="text-lg font-medium">
                   Pivotal B2B stands apart by operating as a <span className="font-bold">strategic partner</span> rather than a volume-based data provider. Our focus is on <span className="font-bold">pipeline confidence, not contact delivery</span>.
                 </p>
               </div>
@@ -576,16 +576,16 @@ export default function MediaKit() {
 
           <div className="max-w-full mx-auto relative z-10 h-full flex flex-col">
             <motion.div 
-              className="text-center mb-10"
+              className="text-center mb-12"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-5xl font-black text-white mb-4">
+              <h2 className="text-6xl font-black text-white mb-5">
                 Who We Serve
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-5" />
-              <p className="text-lg text-violet-200 max-w-3xl mx-auto">
+              <div className="w-28 h-1.5 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-6" />
+              <p className="text-2xl text-violet-100 max-w-3xl mx-auto font-medium">
                 We partner with B2B organizations that:
               </p>
             </motion.div>
@@ -599,36 +599,36 @@ export default function MediaKit() {
               ].map((item, index) => (
                 <motion.div 
                   key={index}
-                  className="flex items-start gap-4 p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 transition-all"
+                  className="flex items-start gap-5 p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:bg-white/10 transition-all"
                   initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <item.icon className="w-6 h-6 text-white" />
+                  <div className="w-14 h-14 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <item.icon className="w-7 h-7 text-white" />
                   </div>
-                  <p className="text-white text-lg font-medium pt-2">{item.text}</p>
+                  <p className="text-white text-xl font-semibold pt-2.5">{item.text}</p>
                 </motion.div>
               ))}
             </div>
 
             {/* Industries */}
             <motion.div 
-              className="bg-gradient-to-br from-violet-900/50 to-fuchsia-900/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
+              className="bg-gradient-to-br from-violet-900/50 to-fuchsia-900/50 backdrop-blur-sm rounded-2xl p-10 border border-white/10"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">Typical Industries</h3>
-              <div className="grid grid-cols-3 gap-4">
+              <h3 className="text-3xl font-bold text-white mb-8 text-center">Typical Industries</h3>
+              <div className="grid grid-cols-3 gap-5">
                 {industries.map((industry, index) => (
                   <div 
                     key={index}
-                    className="flex items-center gap-3 p-4 bg-white/10 rounded-xl border border-white/10"
+                    className="flex items-center gap-3 p-5 bg-white/10 rounded-xl border border-white/10"
                   >
-                    <CheckCircle className="w-5 h-5 text-violet-300 flex-shrink-0" />
-                    <span className="text-white font-medium">{industry}</span>
+                    <CheckCircle className="w-6 h-6 text-violet-300 flex-shrink-0" />
+                    <span className="text-white font-semibold text-lg">{industry}</span>
                   </div>
                 ))}
               </div>
@@ -645,15 +645,15 @@ export default function MediaKit() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/20">
-                <Globe className="w-5 h-5 text-violet-300" />
-                <span className="text-white font-medium">Verified Professional Database</span>
+              <div className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm mb-8 border border-white/20">
+                <Globe className="w-6 h-6 text-violet-300" />
+                <span className="text-white font-bold text-lg">Verified Professional Database</span>
               </div>
-              <h2 className="text-5xl font-black text-white mb-4">
+              <h2 className="text-6xl font-black text-white mb-5">
                 135+ Million Verified B2B Professionals
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-4" />
-              <p className="text-lg text-white/80 max-w-4xl mx-auto">
+              <div className="w-28 h-1.5 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-6" />
+              <p className="text-2xl text-white font-medium max-w-4xl mx-auto">
                 Connect with decision-makers across all key business functions, industries, and geographies with 92% targeting accuracy
               </p>
             </motion.div>
@@ -689,8 +689,8 @@ export default function MediaKit() {
                     <div className={`w-12 h-12 bg-gradient-to-br ${segment.color} rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-lg`}>
                       <segment.icon className="w-6 h-6 text-white" />
                     </div>
-                    <p className="text-2xl font-black text-white mb-1">{segment.value}</p>
-                    <p className="text-xs text-white/70 leading-tight">{segment.name}</p>
+                    <p className="text-3xl font-black text-white mb-2">{segment.value}</p>
+                    <p className="text-sm text-white font-medium leading-tight">{segment.name}</p>
                   </div>
                 ))}
               </div>
@@ -736,11 +736,11 @@ export default function MediaKit() {
                   <div className={`w-14 h-14 bg-gradient-to-br ${capability.color} rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
                     <capability.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-base font-bold text-white mb-3">{capability.title}</h3>
-                  <ul className="space-y-2">
+                  <h3 className="text-xl font-bold text-white mb-4">{capability.title}</h3>
+                  <ul className="space-y-2.5">
                     {capability.items.map((item, itemIndex) => (
-                      <li key={itemIndex} className="flex items-center gap-2 text-xs text-white/80">
-                        <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                      <li key={itemIndex} className="flex items-center gap-2 text-base text-white font-medium">
+                        <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -756,8 +756,8 @@ export default function MediaKit() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-white font-semibold">
-                <span className="text-violet-300 font-bold">92% Targeting Accuracy</span> • <span className="text-fuchsia-300 font-bold">98.7% Data Quality</span> • <span className="text-green-300 font-bold">Real-Time Updates</span>
+              <p className="text-white text-xl font-bold">
+                <span className="text-violet-300">92% Targeting Accuracy</span> • <span className="text-fuchsia-300">98.7% Data Quality</span> • <span className="text-green-300">Real-Time Updates</span>
               </p>
             </motion.div>
           </div>
@@ -772,10 +772,10 @@ export default function MediaKit() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
+              <h2 className="text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
                 Core Services
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full" />
+              <div className="w-28 h-1.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full" />
             </motion.div>
 
             <div className="grid grid-cols-3 gap-5">
@@ -794,10 +794,10 @@ export default function MediaKit() {
                   <div className={`w-14 h-14 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 mb-2 group-hover:text-violet-700 transition-colors">
+                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-violet-700 transition-colors">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-base text-slate-700 leading-relaxed font-medium">
                     {service.description}
                   </p>
                 </motion.div>
@@ -1109,11 +1109,11 @@ export default function MediaKit() {
                 </div>
               </div>
               
-              <h2 className="text-6xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-7xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-5">
                 Let's Connect
               </h2>
-              <div className="w-32 h-1.5 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-500 mx-auto rounded-full mb-5" />
-              <p className="text-xl text-slate-700 font-medium">Building predictable revenue together</p>
+              <div className="w-36 h-2 bg-gradient-to-r from-violet-500 via-fuchsia-500 to-purple-500 mx-auto rounded-full mb-6" />
+              <p className="text-2xl text-slate-800 font-bold">Building predictable revenue together</p>
             </motion.div>
 
             {/* Office Cards with Enhanced Design */}
@@ -1138,11 +1138,11 @@ export default function MediaKit() {
                       </div>
                       <h3 className="text-3xl font-black">USA Office</h3>
                     </div>
-                    <div className="space-y-2 text-base leading-relaxed">
-                      <p className="font-bold text-lg">Pivotal B2B LLC</p>
-                      <p className="text-white/90">6192 Coastal Highway</p>
-                      <p className="text-white/90">Lewes, DE 19958</p>
-                      <p className="text-white/90">United States</p>
+                    <div className="space-y-2.5 text-lg leading-relaxed">
+                      <p className="font-bold text-xl">Pivotal B2B LLC</p>
+                      <p className="text-white font-medium">6192 Coastal Highway</p>
+                      <p className="text-white font-medium">Lewes, DE 19958</p>
+                      <p className="text-white font-medium">United States</p>
                     </div>
                   </div>
                 </div>
@@ -1168,11 +1168,11 @@ export default function MediaKit() {
                       </div>
                       <h3 className="text-3xl font-black">Oman Office</h3>
                     </div>
-                    <div className="space-y-2 text-base leading-relaxed">
-                      <p className="font-bold text-lg">Pivotal Business International SPC</p>
-                      <p className="text-white/90">Way 2403, 191 Muscat</p>
-                      <p className="text-white/90">Oman 114</p>
-                      <p className="pt-2 font-bold text-lg">+968 77523663</p>
+                    <div className="space-y-2.5 text-lg leading-relaxed">
+                      <p className="font-bold text-xl">Pivotal Business International SPC</p>
+                      <p className="text-white font-medium">Way 2403, 191 Muscat</p>
+                      <p className="text-white font-medium">Oman 114</p>
+                      <p className="pt-2 font-bold text-xl">+968 77523663</p>
                     </div>
                   </div>
                 </div>
@@ -1208,7 +1208,7 @@ export default function MediaKit() {
                   <div className={`w-14 h-14 ${item.special ? 'bg-white/20' : 'bg-gradient-to-br from-violet-500 to-fuchsia-600'} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
                     <item.icon className={`w-7 h-7 ${item.special ? 'text-white' : 'text-white'}`} />
                   </div>
-                  <span className={`font-bold text-base ${item.special ? 'text-white' : 'text-slate-700 group-hover:text-violet-700'}`}>
+                  <span className={`font-bold text-lg ${item.special ? 'text-white' : 'text-slate-700 group-hover:text-violet-700'}`}>
                     {item.text}
                   </span>
                 </motion.a>
@@ -1230,21 +1230,21 @@ export default function MediaKit() {
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-fuchsia-500/20 rounded-full blur-3xl -ml-24 -mb-24" />
                 
                 <div className="relative z-10 p-10 text-center">
-                  <div className="inline-flex items-center gap-3 mb-4">
-                    <Sparkles className="w-8 h-8 text-violet-300" />
-                    <h3 className="text-4xl font-black text-white">
+                  <div className="inline-flex items-center gap-4 mb-5">
+                    <Sparkles className="w-10 h-10 text-violet-300" />
+                    <h3 className="text-5xl font-black text-white">
                       Ready to Scale Your Pipeline?
                     </h3>
-                    <Sparkles className="w-8 h-8 text-fuchsia-300" />
+                    <Sparkles className="w-10 h-10 text-fuchsia-300" />
                   </div>
-                  <p className="text-lg text-violet-200 mb-6 max-w-2xl mx-auto">
+                  <p className="text-2xl text-violet-100 font-semibold mb-8 max-w-2xl mx-auto">
                     Schedule a Strategy Call or Request a Custom Proposal Today
                   </p>
-                  <div className="pt-6 border-t border-white/20 max-w-xl mx-auto">
-                    <p className="text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-fuchsia-300 to-purple-300">
+                  <div className="pt-8 border-t border-white/20 max-w-xl mx-auto">
+                    <p className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-fuchsia-300 to-purple-300">
                       Pivotal B2B | Strategic ABM & Demand Generation Partner
                     </p>
-                    <p className="text-sm text-violet-300/70 mt-2">© 2025 All Rights Reserved</p>
+                    <p className="text-base text-violet-300 font-medium mt-3">© 2025 All Rights Reserved</p>
                   </div>
                 </div>
               </div>
