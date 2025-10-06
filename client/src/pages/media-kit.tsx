@@ -32,7 +32,9 @@ import {
   UserCheck,
   ArrowRight,
   Linkedin,
-  BarChart
+  BarChart,
+  BarChart3,
+  Laptop
 } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { MediaKitForm } from "@/components/forms/media-kit-form";
@@ -541,111 +543,127 @@ export default function MediaKit() {
         </section>
 
         {/* SECTION 4: B2B AUDIENCE & TARGETING */}
-        <section className="pdf-page bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 py-12 sm:py-16 px-6 sm:px-16">
-          <div className="max-w-full mx-auto h-full flex flex-col">
+        <section className="pdf-page bg-gradient-to-br from-slate-900 via-violet-950 to-fuchsia-950 py-12 sm:py-16 px-6 sm:px-16">
+          <div className="max-w-full mx-auto h-full flex flex-col justify-center">
             <motion.div 
               className="text-center mb-8"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-5xl font-black bg-gradient-to-r from-slate-900 via-violet-800 to-fuchsia-800 bg-clip-text text-transparent mb-3">
-                B2B Audience & Targeting Capabilities
+              <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/10 backdrop-blur-sm mb-6 border border-white/20">
+                <Globe className="w-5 h-5 text-violet-300" />
+                <span className="text-white font-medium">Verified Professional Database</span>
+              </div>
+              <h2 className="text-5xl font-black text-white mb-4">
+                135+ Million Verified B2B Professionals
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 mx-auto rounded-full mb-4" />
-              <p className="text-base text-slate-700 max-w-3xl mx-auto">
-                We provide access to broad yet highly segmentable B2B audiences across:
+              <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-4" />
+              <p className="text-lg text-white/80 max-w-4xl mx-auto">
+                Connect with decision-makers across all key business functions, industries, and geographies with 92% targeting accuracy
               </p>
             </motion.div>
 
-            {/* By Job Function */}
+            {/* Audience Reach by Job Function - 2 rows of 5 */}
             <motion.div 
               className="mb-6"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-xl font-bold text-violet-900 mb-4 flex items-center gap-3">
-                <Users className="w-6 h-6" />
-                By Job Function
+              <h3 className="text-xl font-bold text-white mb-5 flex items-center justify-center gap-3">
+                <Users className="w-6 h-6 text-violet-300" />
+                Audience Reach by Job Function
               </h3>
-              <div className="grid grid-cols-4 gap-3">
-                {audienceSegments.map((segment, index) => (
+              <div className="grid grid-cols-5 gap-4">
+                {[
+                  { name: "Information Technology", value: "42M", color: "from-blue-500 to-cyan-500", icon: Laptop },
+                  { name: "Sales & Business Dev", value: "26M", color: "from-green-500 to-emerald-500", icon: TrendingUp },
+                  { name: "Marketing & Comms", value: "24M", color: "from-purple-500 to-indigo-500", icon: Target },
+                  { name: "Human Resources", value: "14M", color: "from-pink-500 to-rose-500", icon: Users },
+                  { name: "Operations & Mgmt", value: "12.8M", color: "from-orange-500 to-red-500", icon: Building2 },
+                  { name: "Finance & Accounting", value: "10M", color: "from-teal-500 to-cyan-500", icon: BarChart3 },
+                  { name: "Executive Leadership", value: "8.2M", color: "from-violet-500 to-purple-500", icon: Award },
+                  { name: "Engineering & R&D", value: "6.5M", color: "from-amber-500 to-yellow-500", icon: Zap },
+                  { name: "Customer Success", value: "4.3M", color: "from-sky-500 to-blue-500", icon: Heart },
+                  { name: "Product Management", value: "3.7M", color: "from-fuchsia-500 to-pink-500", icon: Target }
+                ].map((segment, index) => (
                   <div 
                     key={index}
-                    className="p-4 bg-white rounded-xl shadow-md hover:shadow-xl transition-all group border border-violet-100"
-                    data-testid={`card-audience-segment-${index}`}
+                    className="relative group bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/15 transition-all border border-white/20"
                   >
-                    <div className="w-12 h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${segment.color} rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform shadow-lg`}>
                       <segment.icon className="w-6 h-6 text-white" />
                     </div>
-                    <p className="text-sm font-semibold text-slate-700" data-testid={`text-segment-${index}`}>{segment.title}</p>
+                    <p className="text-2xl font-black text-white mb-1">{segment.value}</p>
+                    <p className="text-xs text-white/70 leading-tight">{segment.name}</p>
                   </div>
                 ))}
               </div>
             </motion.div>
 
-            {/* By Company Profile & Buying Behavior */}
-            <div className="grid grid-cols-2 gap-6">
-              <motion.div 
-                className="p-6 bg-white rounded-xl shadow-xl border border-violet-100"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <h3 className="text-xl font-bold text-violet-900 mb-4 flex items-center gap-3">
-                  <Building2 className="w-6 h-6" />
-                  By Company Profile
-                </h3>
-                <ul className="space-y-2">
-                  {[
-                    "Industry classification",
-                    "Company size and revenue range",
-                    "Tech stack and digital maturity",
-                    "Growth stage or funding status"
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-violet-500 rounded-full" />
-                      <span className="text-slate-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-
-              <motion.div 
-                className="p-6 bg-white rounded-xl shadow-xl border border-fuchsia-100"
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-              >
-                <h3 className="text-xl font-bold text-fuchsia-900 mb-4 flex items-center gap-3">
-                  <TrendingUp className="w-6 h-6" />
-                  By Buying Behavior
-                </h3>
-                <ul className="space-y-2">
-                  {[
-                    "Content interaction",
-                    "Research signals",
-                    "Event participation",
-                    "Platform usage"
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <div className="w-2 h-2 bg-fuchsia-500 rounded-full" />
-                      <span className="text-slate-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            </div>
-
+            {/* Precision Targeting Capabilities - 4 columns */}
             <motion.div 
-              className="mt-6 p-5 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-xl text-white text-center"
+              className="grid grid-cols-4 gap-4"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <p className="text-base font-medium">
-                Whether your goal is enterprise expansion or vertical positioning, <span className="font-bold">Pivotal B2B activates buyer groups aligned to your commercial strategy</span>.
+              {[
+                {
+                  icon: Building2,
+                  title: "Company Intelligence",
+                  items: ["Revenue: $1M-$50B+", "Employees: 10-500K+", "Tech Stack", "Funding Stage"],
+                  color: "from-blue-500 to-cyan-500"
+                },
+                {
+                  icon: MapPin,
+                  title: "Geographic Precision",
+                  items: ["195 Countries", "State/Province", "Metro Areas", "Timezone Optimized"],
+                  color: "from-green-500 to-emerald-500"
+                },
+                {
+                  icon: Target,
+                  title: "Role & Seniority",
+                  items: ["C-Suite & VP Level", "Decision Makers", "Budget Authority", "Department Heads"],
+                  color: "from-purple-500 to-indigo-500"
+                },
+                {
+                  icon: Database,
+                  title: "Behavioral Signals",
+                  items: ["Content Engagement", "Tech Adoption", "Buying Intent", "Event Participation"],
+                  color: "from-orange-500 to-red-500"
+                }
+              ].map((capability, index) => (
+                <div 
+                  key={index}
+                  className="bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/20 hover:bg-white/15 transition-all"
+                >
+                  <div className={`w-14 h-14 bg-gradient-to-br ${capability.color} rounded-xl flex items-center justify-center mb-4 shadow-lg`}>
+                    <capability.icon className="w-7 h-7 text-white" />
+                  </div>
+                  <h3 className="text-base font-bold text-white mb-3">{capability.title}</h3>
+                  <ul className="space-y-2">
+                    {capability.items.map((item, itemIndex) => (
+                      <li key={itemIndex} className="flex items-center gap-2 text-xs text-white/80">
+                        <CheckCircle className="w-3 h-3 text-green-400 flex-shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </motion.div>
+
+            {/* Bottom Banner */}
+            <motion.div 
+              className="mt-6 p-4 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 backdrop-blur-sm rounded-xl border border-white/20 text-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <p className="text-white font-semibold">
+                <span className="text-violet-300 font-bold">92% Targeting Accuracy</span> • <span className="text-fuchsia-300 font-bold">98.7% Data Quality</span> • <span className="text-green-300 font-bold">Real-Time Updates</span>
               </p>
             </motion.div>
           </div>
