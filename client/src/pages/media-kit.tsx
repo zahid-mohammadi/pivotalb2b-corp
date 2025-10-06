@@ -806,7 +806,7 @@ export default function MediaKit() {
           </div>
         </section>
 
-        {/* SECTION 6: REVENUE PROCESS (Timeline Style) */}
+        {/* SECTION 6: REVENUE PROCESS */}
         <section className="pdf-page bg-gradient-to-br from-slate-900 via-violet-950 to-slate-900 py-12 sm:py-16 px-6 sm:px-16 relative overflow-hidden">
           <div className="absolute inset-0">
             <motion.div 
@@ -823,81 +823,106 @@ export default function MediaKit() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-5xl font-black text-white mb-4">
+              <h2 className="text-6xl font-black text-white mb-4">
                 Our Revenue Process
               </h2>
-              <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full" />
+              <div className="w-28 h-1.5 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-5" />
+              <p className="text-2xl text-violet-100 font-semibold">From Prospects to Pipeline to Profit</p>
             </motion.div>
 
             <div className="space-y-6">
               {[
                 {
-                  phase: "FIND",
-                  title: "Identify ICP-Aligned Buyers",
+                  phase: "IDENTIFY",
+                  title: "Precision Starts Here",
+                  description: "Pinpoint your highest-value opportunities before competitors even know they're active.",
                   items: [
-                    "ICP Targeting & Account Mapping",
-                    "Intent Signal Monitoring",
-                    "Decision-Maker Identification"
+                    { label: "ICP & Target Account Mapping", detail: "Define and prioritize accounts that match your Ideal Customer Profile." },
+                    { label: "Intent & Behavior Tracking", detail: "Detect real-time buying signals that reveal who's in the market." },
+                    { label: "Decision-Maker Identification", detail: "Reach verified stakeholders across the full buying committee." }
                   ],
+                  outcome: "Every dollar spent targets accounts that can actually convert.",
                   icon: Search,
-                  color: "violet"
+                  gradient: "from-blue-500 to-cyan-500"
                 },
                 {
                   phase: "ENGAGE",
-                  title: "Establish Authority",
+                  title: "Influence with Value, Not Volume",
+                  description: "Educate and inspire buyers with meaningful touchpoints that drive trust and preference.",
                   items: [
-                    "Insight-Driven Messaging",
-                    "Multi-Channel Communication",
-                    "Thought Leadership Positioning"
+                    { label: "Content Syndication Programs", detail: "Distribute high-value assets across trusted B2B networks." },
+                    { label: "Event-Based Lead Generation", detail: "Attract and qualify prospects through webinars, conferences, and virtual experiences." },
+                    { label: "Multi-Channel Outreach", detail: "Combine email, phone, and form-fill strategies for seamless engagement." },
+                    { label: "Thought Leadership Positioning", detail: "Deliver insights that establish your brand as the trusted advisor in every conversation." }
                   ],
+                  outcome: "Buyers engage because they see relevance, authority, and value in your message.",
                   icon: MessageSquare,
-                  color: "fuchsia"
+                  gradient: "from-violet-500 to-purple-500"
                 },
                 {
-                  phase: "CLOSE",
-                  title: "Accelerate Revenue Outcomes",
+                  phase: "CONVERT",
+                  title: "Turning Engagement into Revenue",
+                  description: "Transform buyer interest into measurable growth through verified opportunities.",
                   items: [
-                    "Pipeline Quality Review",
-                    "Sales-Ready Delivery",
-                    "Conversion Enablement"
+                    { label: "Qualification Frameworks", detail: "Ensure every lead meets your ICP and intent criteria before handoff." },
+                    { label: "Sales Enablement", detail: "Equip your team with context, insights, and next steps to accelerate deals." },
+                    { label: "Pipeline Intelligence", detail: "Track every opportunity from engagement to closed revenue for full transparency." }
                   ],
-                  icon: ThumbsUp,
-                  color: "purple"
+                  outcome: "Predictable, high-quality pipeline — built on precision, compliance, and measurable ROI.",
+                  icon: TrendingUp,
+                  gradient: "from-fuchsia-500 to-pink-500"
                 }
               ].map((step, index) => (
                 <motion.div 
                   key={index}
                   className="relative"
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.2 }}
+                  transition={{ delay: index * 0.15 }}
                 >
                   {/* Connector line */}
                   {index < 2 && (
-                    <div className="absolute left-8 top-20 w-0.5 h-12 bg-gradient-to-b from-violet-500 to-fuchsia-500" />
+                    <div className="absolute left-9 top-24 w-0.5 h-16 bg-gradient-to-b from-violet-400/50 to-fuchsia-400/50" />
                   )}
                   
-                  <div className="flex gap-5 items-start">
-                    <div className={`w-14 h-14 bg-gradient-to-br from-${step.color}-500 to-${step.color}-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                      <step.icon className="w-7 h-7 text-white" />
+                  <div className="flex gap-6 items-start">
+                    <div className={`w-16 h-16 bg-gradient-to-br ${step.gradient} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xl`}>
+                      <step.icon className="w-8 h-8 text-white" />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-3">
-                        <Badge className={`bg-${step.color}-500 text-white px-3 py-1 text-xs font-bold`}>
-                          {step.phase}
-                        </Badge>
-                        <h3 className="text-2xl font-bold text-white">{step.title}</h3>
+                      <div className="mb-4">
+                        <div className="flex items-center gap-3 mb-2">
+                          <Badge className="bg-white/20 text-white px-4 py-1.5 text-sm font-bold backdrop-blur-sm">
+                            {step.phase}
+                          </Badge>
+                          <h3 className="text-3xl font-black text-white">{step.title}</h3>
+                        </div>
+                        <p className="text-lg text-violet-200 font-medium">{step.description}</p>
                       </div>
-                      <div className="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
-                        <ul className="space-y-2">
+                      
+                      <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 mb-4">
+                        <ul className="space-y-4">
                           {step.items.map((item, i) => (
-                            <li key={i} className="flex items-center gap-2">
-                              <ChevronRight className="w-4 h-4 text-violet-400 flex-shrink-0" />
-                              <span className="text-white text-base">{item}</span>
+                            <li key={i} className="flex items-start gap-3">
+                              <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+                              <div>
+                                <span className="text-white font-bold text-lg block mb-1">{item.label}</span>
+                                <span className="text-violet-200 text-base">{item.detail}</span>
+                              </div>
                             </li>
                           ))}
                         </ul>
+                      </div>
+
+                      <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-sm rounded-xl p-4 border border-green-400/30">
+                        <div className="flex items-start gap-3">
+                          <Award className="w-5 h-5 text-green-300 flex-shrink-0 mt-0.5" />
+                          <div>
+                            <p className="text-sm text-green-200 font-semibold mb-1">Outcome:</p>
+                            <p className="text-white font-medium text-base">{step.outcome}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
