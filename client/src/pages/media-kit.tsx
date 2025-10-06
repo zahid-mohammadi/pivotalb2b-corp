@@ -110,45 +110,79 @@ export default function MediaKit() {
         const section = sections[i] as HTMLElement;
         
         // Scroll section into view and wait for animations
-        section.scrollIntoView({ behavior: 'instant', block: 'start' });
-        await new Promise(resolve => setTimeout(resolve, 300));
+        section.scrollIntoView({ behavior: 'instant', block: 'center' });
+        await new Promise(resolve => setTimeout(resolve, 500));
         
         // Store original styles
-        const originalWidth = section.style.width;
-        const originalHeight = section.style.height;
-        const originalMaxWidth = section.style.maxWidth;
+        const originalStyles = new Map<HTMLElement, { width: string; height: string; maxWidth: string; minHeight: string }>();
+        originalStyles.set(section, {
+          width: section.style.width,
+          height: section.style.height,
+          maxWidth: section.style.maxWidth,
+          minHeight: section.style.minHeight
+        });
         
         // Apply PDF dimensions temporarily
         section.style.width = '1920px';
         section.style.height = '1080px';
         section.style.maxWidth = '1920px';
+        section.style.minHeight = '1080px';
         
-        // Force all animations to visible state
-        const animatedElements = section.querySelectorAll('[style*="opacity: 0"]');
-        const originalOpacities: Array<{ element: HTMLElement; opacity: string }> = [];
-        animatedElements.forEach(el => {
+        // Force ALL elements to be visible - comprehensive approach
+        const allElements = section.querySelectorAll('*');
+        const originalElementStyles = new Map<HTMLElement, { opacity: string; visibility: string; transform: string }>();
+        
+        allElements.forEach(el => {
           const htmlEl = el as HTMLElement;
-          originalOpacities.push({ element: htmlEl, opacity: htmlEl.style.opacity });
-          htmlEl.style.opacity = '1';
+          const computedStyle = window.getComputedStyle(htmlEl);
+          
+          // Store original values
+          originalElementStyles.set(htmlEl, {
+            opacity: htmlEl.style.opacity,
+            visibility: htmlEl.style.visibility,
+            transform: htmlEl.style.transform
+          });
+          
+          // Force visible if hidden by opacity or visibility
+          if (computedStyle.opacity === '0' || htmlEl.style.opacity === '0') {
+            htmlEl.style.opacity = '1';
+          }
+          if (computedStyle.visibility === 'hidden' || htmlEl.style.visibility === 'hidden') {
+            htmlEl.style.visibility = 'visible';
+          }
+          
+          // Remove transforms that might hide elements
+          if (htmlEl.style.transform && htmlEl.style.transform.includes('translateY')) {
+            htmlEl.style.transform = 'none';
+          }
         });
         
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // Extra wait for all styles to apply
+        await new Promise(resolve => setTimeout(resolve, 300));
         
         const canvas = await html2canvas(section, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
-          backgroundColor: '#ffffff',
+          logging: false,
           width: 1920,
-          height: 1080
+          height: 1080,
+          windowWidth: 1920,
+          windowHeight: 1080
         });
         
-        // Restore original styles
-        section.style.width = originalWidth;
-        section.style.height = originalHeight;
-        section.style.maxWidth = originalMaxWidth;
-        originalOpacities.forEach(({ element, opacity }) => {
-          element.style.opacity = opacity;
+        // Restore ALL original styles
+        originalStyles.forEach((styles, element) => {
+          element.style.width = styles.width;
+          element.style.height = styles.height;
+          element.style.maxWidth = styles.maxWidth;
+          element.style.minHeight = styles.minHeight;
+        });
+        
+        originalElementStyles.forEach((styles, element) => {
+          element.style.opacity = styles.opacity;
+          element.style.visibility = styles.visibility;
+          element.style.transform = styles.transform;
         });
         
         const imgData = canvas.toDataURL('image/png');
