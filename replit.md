@@ -1,7 +1,7 @@
 # B2B Marketing Platform
 
 ## Overview
-A cutting-edge B2B marketing platform delivering targeted, data-driven Account-Based Marketing (ABM) solutions with advanced content creation and optimization capabilities.
+A cutting-edge B2B marketing platform delivering targeted, data-driven Account-Based Marketing (ABM) solutions with advanced content creation and optimization capabilities. Features access to 88 million verified B2B professionals across all key business functions.
 
 ## Stack
 - React frontend with advanced segmentation

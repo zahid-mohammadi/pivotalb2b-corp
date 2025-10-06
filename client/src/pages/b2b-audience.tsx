@@ -43,16 +43,16 @@ const pulseVariants = {
 export default function B2BAudiencePage() {
 // Real B2B audience data based on industry standards
 const audienceData = [
-  { name: 'Information Technology', value: 42, displayValue: '42', color: '#3B82F6', growth: '+15%' },
-  { name: 'Sales & Business Development', value: 26, displayValue: '26', color: '#60A5FA', growth: '+12%' },
-  { name: 'Marketing & Communications', value: 24, displayValue: '24', color: '#818CF8', growth: '+18%' },
-  { name: 'Human Resources', value: 14, displayValue: '14', color: '#A78BFA', growth: '+8%' },
-  { name: 'Operations & Management', value: 12.8, displayValue: '12.8', color: '#C084FC', growth: '+6%' },
-  { name: 'Finance & Accounting', value: 10, displayValue: '10', color: '#E879F9', growth: '+10%' },
-  { name: 'Executive Leadership', value: 8.2, displayValue: '8.2', color: '#F472B6', growth: '+5%' },
-  { name: 'Engineering & R&D', value: 6.5, displayValue: '6.5', color: '#FB7185', growth: '+20%' },
-  { name: 'Customer Success', value: 4.3, displayValue: '4.3', color: '#FCA5A5', growth: '+25%' },
-  { name: 'Product Management', value: 3.7, displayValue: '3.7', color: '#FBBF24', growth: '+22%' }
+  { name: 'Information Technology', value: 27.3, displayValue: '27.3', color: '#3B82F6', growth: '+15%' },
+  { name: 'Sales & Business Development', value: 16.9, displayValue: '16.9', color: '#60A5FA', growth: '+12%' },
+  { name: 'Marketing & Communications', value: 15.6, displayValue: '15.6', color: '#818CF8', growth: '+18%' },
+  { name: 'Human Resources', value: 9.1, displayValue: '9.1', color: '#A78BFA', growth: '+8%' },
+  { name: 'Operations & Management', value: 8.3, displayValue: '8.3', color: '#C084FC', growth: '+6%' },
+  { name: 'Finance & Accounting', value: 6.5, displayValue: '6.5', color: '#E879F9', growth: '+10%' },
+  { name: 'Executive Leadership', value: 5.3, displayValue: '5.3', color: '#F472B6', growth: '+5%' },
+  { name: 'Engineering & R&D', value: 4.2, displayValue: '4.2', color: '#FB7185', growth: '+20%' },
+  { name: 'Customer Success', value: 2.8, displayValue: '2.8', color: '#FCA5A5', growth: '+25%' },
+  { name: 'Product Management', value: 2.4, displayValue: '2.4', color: '#FBBF24', growth: '+22%' }
 ].sort((a, b) => b.value - a.value);
 
 // Industry distribution data
@@ -92,8 +92,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 return (
   <>
     <MetaTags
-      title="B2B Audience Reach & Targeting | Pivotal B2B - 135M+ Verified Professionals"
-      description="Connect with 135M+ verified enterprise professionals across key job functions. Precision targeting capabilities for B2B marketing campaigns with 92% accuracy rate."
+      title="B2B Audience Reach & Targeting | Pivotal B2B - 88M Verified Professionals"
+      description="Connect with 88M verified enterprise professionals across key job functions. Precision targeting capabilities for B2B marketing campaigns with 92% accuracy rate."
       keywords="B2B audience targeting, professional database, enterprise leads, verified contacts, precision marketing, job function targeting"
     />
 
@@ -186,7 +186,7 @@ return (
             transition={{ delay: 0.2 }}
           >
             <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
-              135+ Million
+              88 Million
             </span>
             <br />
             <span className="text-white/90">Verified B2B Professionals</span>
@@ -209,7 +209,7 @@ return (
             className="grid md:grid-cols-3 gap-6 mb-12"
           >
             {[
-              { value: '135M+', label: 'Verified Professionals', icon: Users },
+              { value: '88M', label: 'Verified Professionals', icon: Users },
               { value: '25K+', label: 'Technologies Tracked', icon: Database },
               { value: '92%', label: 'Targeting Accuracy', icon: Target }
             ].map((stat, index) => (

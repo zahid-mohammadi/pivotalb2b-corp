@@ -650,7 +650,7 @@ export default function MediaKit() {
                 <span className="text-white font-bold text-lg">Verified Professional Database</span>
               </div>
               <h2 className="text-6xl font-black text-white mb-5">
-                135+ Million Verified B2B Professionals
+                88 Million Verified B2B Professionals
               </h2>
               <div className="w-28 h-1.5 bg-gradient-to-r from-violet-400 to-fuchsia-400 mx-auto rounded-full mb-6" />
               <p className="text-2xl text-white font-medium max-w-4xl mx-auto">
@@ -671,16 +671,16 @@ export default function MediaKit() {
               </h3>
               <div className="grid grid-cols-5 gap-4">
                 {[
-                  { name: "Information Technology", value: "42M", color: "from-blue-500 to-cyan-500", icon: Laptop },
-                  { name: "Sales & Business Dev", value: "26M", color: "from-green-500 to-emerald-500", icon: TrendingUp },
-                  { name: "Marketing & Comms", value: "24M", color: "from-purple-500 to-indigo-500", icon: Target },
-                  { name: "Human Resources", value: "14M", color: "from-pink-500 to-rose-500", icon: Users },
-                  { name: "Operations & Mgmt", value: "12.8M", color: "from-orange-500 to-red-500", icon: Building2 },
-                  { name: "Finance & Accounting", value: "10M", color: "from-teal-500 to-cyan-500", icon: BarChart3 },
-                  { name: "Executive Leadership", value: "8.2M", color: "from-violet-500 to-purple-500", icon: Award },
-                  { name: "Engineering & R&D", value: "6.5M", color: "from-amber-500 to-yellow-500", icon: Zap },
-                  { name: "Customer Success", value: "4.3M", color: "from-sky-500 to-blue-500", icon: Heart },
-                  { name: "Product Management", value: "3.7M", color: "from-fuchsia-500 to-pink-500", icon: Target }
+                  { name: "Information Technology", value: "27.3M", color: "from-blue-500 to-cyan-500", icon: Laptop },
+                  { name: "Sales & Business Dev", value: "16.9M", color: "from-green-500 to-emerald-500", icon: TrendingUp },
+                  { name: "Marketing & Comms", value: "15.6M", color: "from-purple-500 to-indigo-500", icon: Target },
+                  { name: "Human Resources", value: "9.1M", color: "from-pink-500 to-rose-500", icon: Users },
+                  { name: "Operations & Mgmt", value: "8.3M", color: "from-orange-500 to-red-500", icon: Building2 },
+                  { name: "Finance & Accounting", value: "6.5M", color: "from-teal-500 to-cyan-500", icon: BarChart3 },
+                  { name: "Executive Leadership", value: "5.3M", color: "from-violet-500 to-purple-500", icon: Award },
+                  { name: "Engineering & R&D", value: "4.2M", color: "from-amber-500 to-yellow-500", icon: Zap },
+                  { name: "Customer Success", value: "2.8M", color: "from-sky-500 to-blue-500", icon: Heart },
+                  { name: "Product Management", value: "2.4M", color: "from-fuchsia-500 to-pink-500", icon: Target }
                 ].map((segment, index) => (
                   <div 
                     key={index}
