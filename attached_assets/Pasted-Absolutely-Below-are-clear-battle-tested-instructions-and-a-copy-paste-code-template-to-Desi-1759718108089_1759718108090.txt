@@ -1,0 +1,445 @@
+Absolutely. Below are clear, battle-tested instructions and a copy-paste code template to:
+
+* Design your Media Kit as a **single beautiful web page**
+* Guarantee **one section per PDF page**
+* Export a **landscape, clean, printable PDF** with no layout shifts
+
+---
+
+# 1) Design & Print Principles (do this first)
+
+1. **One section = one page**
+   Wrap each page in a `<section class="page">…</section>` container. Avoid nested page breaks inside.
+
+2. **Lock page size & orientation**
+   Use `@page { size: A4 landscape; margin: 0 }` and a fixed inner canvas with safe margins, e.g. an **A4 landscape inner area 1123×794px** (96 DPI reference). This prevents “reflow” during print/PDF.
+
+3. **Enable background graphics when exporting**
+   In Chrome/Edge: `Print → More settings → Background graphics (ON) → Scale 100% → Margins: None`.
+
+4. **Prevent content spill**
+
+   * Use `break-inside: avoid` on grids/cards.
+   * Let long text wrap: `overflow-wrap: anywhere;`
+   * Keep consistent paddings; don’t rely on auto-scaling.
+
+5. **Fonts & icons**
+
+   * Use 1–2 web fonts (e.g., Inter + DM Serif Display).
+   * Load via `<link>` (Google Fonts) or self-host with `@font-face` to ensure embedding in PDF.
+   * Prefer **SVG** for logos/icons; PNG/JPG at 150–200 DPI if needed.
+
+6. **Color & contrast**
+
+   * Use a limited palette and consistent accents.
+   * Avoid pure black for large text blocks; use #111 / #222 for better print.
+
+7. **Images**
+
+   * Keep banner images under ~250 KB.
+   * Maintain aspect ratios; set `object-fit: cover;`.
+
+8. **Footers & page numbers**
+   Add a footer inside each `.page` (simplest) rather than relying on CSS paged-media running headers (inconsistent browser support).
+
+---
+
+# 2) Copy-Paste Template (HTML + CSS)
+
+> Paste into a single `.html` file. Replace placeholder content with your Media Kit text and assets. Every `<section class="page">` becomes one PDF page.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pivotal B2B — Media Kit</title>
+
+<!-- Fonts (swap to self-host if preferred) -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------- Print setup ---------- */
+  @page { size: A4 landscape; margin: 0; }
+  @media print {
+    html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  /* ---------- Page canvas ---------- */
+  :root {
+    --page-w: 1123px;  /* A4 landscape @ ~96dpi inner canvas */
+    --page-h: 794px;
+    --safe-pad: 40px;
+    --bg: #0b1220;
+    --card: #0f172a;  /* slate-900 */
+    --ink: #e6eaf2;
+    --muted: #adb6c9;
+    --accent: #5aa8ff; /* brand accent */
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: #11131a;
+    color: var(--ink);
+    margin: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  }
+  .sheet {
+    width: var(--page-w);
+    margin: 24px auto;
+  }
+  .page {
+    width: var(--page-w);
+    height: var(--page-h);
+    background: var(--bg);
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: var(--safe-pad);
+    gap: 18px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    page-break-after: always;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #00122b; font-weight: 800;
+  }
+  .brand { font-weight: 700; letter-spacing: .5px; }
+  .tag { color: var(--muted); font-size: 14px; }
+
+  .title {
+    font-family: "DM Serif Display", Georgia, "Times New Roman", serif;
+    font-size: 44px; line-height: 1.05; margin: 4px 0 0;
+  }
+  .subtitle {
+    color: var(--muted); font-size: 18px; line-height: 1.5; margin-top: 6px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 18px;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 16px;
+    padding: 18px;
+  }
+  .card h3 { margin: 0 0 6px; font-size: 18px; }
+  .card p { margin: 0; color: var(--muted); line-height: 1.55; }
+  .pill {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.12);
+    color: var(--ink); font-size: 12px;
+  }
+  .bullets { display: grid; gap: 10px; }
+  .bullets li { list-style: none; color: var(--muted); }
+  .bullets li::before {
+    content: "•"; color: var(--accent); margin-right: 8px; font-weight: 700;
+  }
+
+  .footer {
+    position: absolute; inset: auto var(--safe-pad) var(--safe-pad) var(--safe-pad);
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 12px;
+    border-top: 1px dashed rgba(255,255,255,.08);
+    padding-top: 10px;
+  }
+  .kpi { font-weight: 600; color: var(--ink); }
+  .avoid-break { break-inside: avoid; }
+  .nowrap { white-space: nowrap; }
+  .accent { color: var(--accent); }
+  .big-num { font-size: 40px; font-weight: 800; }
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- Page 1: Cover -->
+  <section class="page">
+    <div class="header">
+      <div class="logo">P</div>
+      <div>
+        <div class="brand">Pivotal B2B</div>
+        <div class="tag">ABM • Demand Generation • B2B Data</div>
+      </div>
+    </div>
+    <div style="margin-top:10px">
+      <div class="title">Media Kit</div>
+      <div class="subtitle">Precision ABM, compliant multi-channel outreach, and high-fidelity B2B data for pipelines that convert — not just pipelines that fill.</div>
+      <div style="margin-top:16px; display:flex; gap:10px;">
+        <span class="pill">Landscape PDF • One section per page</span>
+        <span class="pill">GDPR/CCPA/TCPA compliant</span>
+      </div>
+    </div>
+    <div class="footer">
+      <div>pivotal-b2b.com • info@pivotal-b2b.com</div>
+      <div>Page 1</div>
+    </div>
+  </section>
+
+  <!-- Page 2: Company Overview -->
+  <section class="page">
+    <div class="title">Company Overview</div>
+    <div class="subtitle">Founded in 2017 by Zahid Mohammadi. We help revenue teams engage decision-makers inside Target Accounts with compliant, content-led programs.</div>
+    <div class="grid-3" style="margin-top:8px;">
+      <div class="card avoid-break">
+        <h3>Positioning</h3>
+        <p>Strategic partner for ABM, demand generation, and B2B audience data — focused on pipeline quality over volume.</p>
+      </div>
+      <div class="card avoid-break">
+        <h3>Differentiators</h3>
+        <p>Triple-verified, fresh data • Compliance by design • Precision ICP targeting • Predictable execution, zero lock-in.</p>
+      </div>
+      <div class="card avoid-break">
+        <h3>Who We Serve</h3>
+        <p>SaaS, Cybersecurity, IT Infrastructure, HR Tech, Industrial, Professional Services, and marketing providers.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>About • Pivotal B2B</div>
+      <div>Page 2</div>
+    </div>
+  </section>
+
+  <!-- Page 3: Services -->
+  <section class="page">
+    <div class="title">Core Services</div>
+    <div class="grid-3" style="margin-top:8px;">
+      <div class="card avoid-break">
+        <h3>Account-Based Marketing (ABM)</h3>
+        <p>Engage buying committees across priority accounts with role-specific messaging and sequencing.</p>
+      </div>
+      <div class="card avoid-break">
+        <h3>Precision Demand Generation</h3>
+        <p>Activate in-market accounts; educate buyers early with content to drive preference and conversion.</p>
+      </div>
+      <div class="card avoid-break">
+        <h3>B2B Lead Gen & Validation</h3>
+        <p>Generate ICP-aligned opportunities and validate for accuracy, intent, and reachability.</p>
+      </div>
+      <div class="card avoid-break">
+        <h3>Lead Nurturing & Engagement</h3>
+        <p>Keep future buyers engaged until timing aligns, then re-introduce as sales-ready opportunities.</p>
+      </div>
+      <div class="card avoid-break">
+        <h3>Event Marketing & Audience</h3>
+        <p>Fill events with relevant decision-makers; connect attendance to pipeline outcomes.</p>
+      </div>
+      <div class="card avoid-break">
+        <h3>Lead Validation & Enrichment</h3>
+        <p>Clean, verify, and enrich data to protect brand reputation and improve conversion rates.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>Services • Pivotal B2B</div>
+      <div>Page 3</div>
+    </div>
+  </section>
+
+  <!-- Page 4: The Revenue Process -->
+  <section class="page">
+    <div class="title">Our Revenue Process</div>
+    <div class="grid-3" style="margin-top:8px;">
+      <div class="card avoid-break">
+        <h3>Find</h3>
+        <ul class="bullets">
+          <li>ICP definition & Target Account mapping</li>
+          <li>Intent monitoring & signal scoring</li>
+          <li>Decision-maker identification</li>
+        </ul>
+      </div>
+      <div class="card avoid-break">
+        <h3>Engage</h3>
+        <ul class="bullets">
+          <li>Content strategy & role-based messaging</li>
+          <li>Multi-channel outreach (email, phone, form fills)</li>
+          <li>Advisor-level thought leadership</li>
+        </ul>
+      </div>
+      <div class="card avoid-break">
+        <h3>Convert</h3>
+        <ul class="bullets">
+          <li>Qualification & handoff criteria</li>
+          <li>Pipeline review & enablement</li>
+          <li>Measurement & iteration</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer">
+      <div>Process • Find • Engage • Convert</div>
+      <div>Page 4</div>
+    </div>
+  </section>
+
+  <!-- Page 5: Audience & Targeting -->
+  <section class="page">
+    <div class="title">B2B Audience & Targeting</div>
+    <div class="grid-2" style="margin-top:8px;">
+      <div class="card">
+        <h3>Account Targeting</h3>
+        <p>Industry, geo, size, revenue band, growth stage, tech stack, market maturity.</p>
+        <h3 style="margin-top:12px;">Professional Targeting</h3>
+        <p>Role, seniority, department, skills, engagement behavior, research signals.</p>
+      </div>
+      <div class="card">
+        <h3>Precision at Scale</h3>
+        <p>Massive global reach with pinpoint precision on ICP — designed to eliminate waste and raise conversion likelihood.</p>
+        <div style="margin-top:10px;">
+          <span class="pill">Decision-maker access</span>
+          <span class="pill">Signal-driven timing</span>
+          <span class="pill">Low noise</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div>Audience • Targeting Framework</div>
+      <div>Page 5</div>
+    </div>
+  </section>
+
+  <!-- Page 6: Compliance & Data Quality -->
+  <section class="page">
+    <div class="title">Compliance & Data Quality</div>
+    <div class="grid-3" style="margin-top:8px;">
+      <div class="card">
+        <h3>Regulatory</h3>
+        <p>GDPR • CCPA • TCPA • CAN-SPAM — compliant by design with opt-out governance and reputation protection.</p>
+      </div>
+      <div class="card">
+        <h3>Data Integrity</h3>
+        <p>Triple-verification, freshness checks, enrichment, and deliverability optimization for right-party reach.</p>
+      </div>
+      <div class="card">
+        <h3>Transparency</h3>
+        <p>No inflated numbers. Predictable delivery. Clear definitions of “qualified” aligned to revenue outcomes.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>Compliance • Data Integrity</div>
+      <div>Page 6</div>
+    </div>
+  </section>
+
+  <!-- Page 7: Customer Success & Support -->
+  <section class="page">
+    <div class="title">Customer Success & Support</div>
+    <div class="grid-2" style="margin-top:8px;">
+      <div class="card">
+        <h3>Engagement Model</h3>
+        <p>Dedicated strategy & operations support • Flexible scopes • No long-term lock-ins.</p>
+      </div>
+      <div class="card">
+        <h3>Measurement</h3>
+        <p>From account engagement to pipeline contribution — we report on the metrics that matter to revenue.</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>Success • Partnership</div>
+      <div>Page 7</div>
+    </div>
+  </section>
+
+  <!-- Page 8: Contact -->
+  <section class="page">
+    <div class="title">Let’s Build a Pipeline That Converts</div>
+    <div class="subtitle">Schedule a strategy call or request a proposal tailored to your ICP and Target Accounts.</div>
+    <div class="grid-3" style="margin-top:14px;">
+      <div class="card">
+        <h3>Contact</h3>
+        <p><span class="nowrap">Pivotal B2B LLC</span><br/>16192 Coastal Highway, Lewes, DE 19958<br/>info@pivotal-b2b.com</p>
+      </div>
+      <div class="card">
+        <h3>Website</h3>
+        <p>www.pivotal-b2b.com</p>
+      </div>
+      <div class="card">
+        <h3>Primary Contact</h3>
+        <p>Zahid Mohammadi, Founder & CEO<br/>zahid.m@pivotal-b2b.com</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div>Thank you</div>
+      <div>Page 8</div>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
+```
+
+---
+
+# 3) Export to PDF (no design mess)
+
+## Option A — Browser (fastest)
+
+1. Open the HTML in **Chrome / Edge**.
+2. `Ctrl/Cmd + P` → **Destination: Save as PDF**
+3. **Pages:** All
+4. **Layout:** Landscape (should be auto via CSS)
+5. **Pages per sheet:** 1
+6. **Margins:** None
+7. **Scale:** 100%
+8. **Background graphics:** ON
+9. Save — you’ll get a clean multi-page landscape PDF (one section per page).
+
+## Option B — Node + Puppeteer (automated)
+
+```bash
+npm i puppeteer
+```
+
+```js
+// export.js
+const puppeteer = require('puppeteer');
+(async () => {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto('file://' + __dirname + '/media-kit.html', {waitUntil: 'networkidle0'});
+  await page.pdf({
+    path: 'PivotalB2B_Media_Kit.pdf',
+    printBackground: true,
+    landscape: true,
+    preferCSSPageSize: true
+  });
+  await browser.close();
+})();
+```
+
+```bash
+node export.js
+```
+
+---
+
+# 4) Common Pitfalls to Avoid
+
+* **Unexpected page breaks**: ensure each section has fixed height padding and uses `.page { page-break-after: always; }`.
+* **Shrunken content**: set **Margins: None** and **Scale 100%** in print dialog.
+* **Missing brand colors**: enable **Background graphics**.
+* **Fonts swapping**: if your brand font is critical, **self-host** via `@font-face` to ensure embedding.
+
+---
+
+If you want, I can **drop your actual copy** into this template (with your logo/brand colors) so you’re ready to export immediately.
