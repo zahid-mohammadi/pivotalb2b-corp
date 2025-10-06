@@ -38,8 +38,6 @@ import {
 } from "lucide-react";
 import { MetaTags } from "@/components/ui/meta-tags";
 import { MediaKitForm } from "@/components/forms/media-kit-form";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 interface CounterAnimationProps {
   target: number;
@@ -89,112 +87,15 @@ const CounterAnimation = ({ target, suffix = "", duration = 2, delay = 0, classN
 
 export default function MediaKit() {
   const [hasAccess, setHasAccess] = useState(false);
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const generatePDF = async () => {
-    if (!contentRef.current) return;
-    
-    setIsGeneratingPDF(true);
-    try {
-      const sections = contentRef.current.querySelectorAll('.pdf-page');
-      const pdfWidth = 508;
-      const pdfHeight = 285.75;
-      const pdf = new jsPDF('l', 'mm', [pdfWidth, pdfHeight]);
-      
-      for (let i = 0; i < sections.length; i++) {
-        if (i > 0) {
-          pdf.addPage();
-        }
-        
-        const section = sections[i] as HTMLElement;
-        
-        // Scroll section into view and wait for animations
-        section.scrollIntoView({ behavior: 'instant', block: 'center' });
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // Store original styles
-        const originalStyles = new Map<HTMLElement, { width: string; height: string; maxWidth: string; minHeight: string }>();
-        originalStyles.set(section, {
-          width: section.style.width,
-          height: section.style.height,
-          maxWidth: section.style.maxWidth,
-          minHeight: section.style.minHeight
-        });
-        
-        // Apply PDF dimensions temporarily
-        section.style.width = '1920px';
-        section.style.height = '1080px';
-        section.style.maxWidth = '1920px';
-        section.style.minHeight = '1080px';
-        
-        // Force ALL elements to be visible - comprehensive approach
-        const allElements = section.querySelectorAll('*');
-        const originalElementStyles = new Map<HTMLElement, { opacity: string; visibility: string; transform: string }>();
-        
-        allElements.forEach(el => {
-          const htmlEl = el as HTMLElement;
-          const computedStyle = window.getComputedStyle(htmlEl);
-          
-          // Store original values
-          originalElementStyles.set(htmlEl, {
-            opacity: htmlEl.style.opacity,
-            visibility: htmlEl.style.visibility,
-            transform: htmlEl.style.transform
-          });
-          
-          // Force visible if hidden by opacity or visibility
-          if (computedStyle.opacity === '0' || htmlEl.style.opacity === '0') {
-            htmlEl.style.opacity = '1';
-          }
-          if (computedStyle.visibility === 'hidden' || htmlEl.style.visibility === 'hidden') {
-            htmlEl.style.visibility = 'visible';
-          }
-          
-          // Remove transforms that might hide elements
-          if (htmlEl.style.transform && htmlEl.style.transform.includes('translateY')) {
-            htmlEl.style.transform = 'none';
-          }
-        });
-        
-        // Extra wait for all styles to apply
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        const canvas = await html2canvas(section, {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          logging: false,
-          width: 1920,
-          height: 1080,
-          windowWidth: 1920,
-          windowHeight: 1080
-        });
-        
-        // Restore ALL original styles
-        originalStyles.forEach((styles, element) => {
-          element.style.width = styles.width;
-          element.style.height = styles.height;
-          element.style.maxWidth = styles.maxWidth;
-          element.style.minHeight = styles.minHeight;
-        });
-        
-        originalElementStyles.forEach((styles, element) => {
-          element.style.opacity = styles.opacity;
-          element.style.visibility = styles.visibility;
-          element.style.transform = styles.transform;
-        });
-        
-        const imgData = canvas.toDataURL('image/png');
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      }
-      
-      pdf.save('Pivotal-B2B-Media-Kit.pdf');
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    } finally {
-      setIsGeneratingPDF(false);
-    }
+  const downloadPDF = () => {
+    const link = document.createElement('a');
+    link.href = '/pivotal-b2b-media-kit.pdf';
+    link.download = 'Pivotal-B2B-Media-Kit.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const services = [
@@ -316,22 +217,14 @@ export default function MediaKit() {
               <p className="text-violet-100 text-xs sm:text-sm">Strategic ABM & Demand Generation Partner</p>
             </div>
             <Button 
-              onClick={generatePDF} 
-              disabled={isGeneratingPDF}
+              onClick={downloadPDF}
               className="bg-white text-violet-900 hover:bg-violet-50 font-bold px-4 sm:px-6 py-2 sm:py-3 shadow-lg hover:shadow-xl transition-all"
               data-testid="button-download-pdf"
             >
-              {isGeneratingPDF ? (
-                <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-violet-900/30 border-t-violet-900 rounded-full animate-spin" />
-                  <span className="hidden sm:inline">Generating...</span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <Download className="w-4 h-4" />
-                  <span>Download PDF</span>
-                </div>
-              )}
+              <div className="flex items-center gap-2">
+                <Download className="w-4 h-4" />
+                <span>Download PDF</span>
+              </div>
             </Button>
           </div>
         </div>
