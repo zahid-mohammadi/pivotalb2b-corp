@@ -64,16 +64,6 @@ export function Navbar() {
         </motion.span>
       </Link>
 
-      <Link href="/about">
-        <motion.span 
-          className="text-sm font-medium hover:text-primary cursor-pointer transition-colors duration-200 relative group"
-          whileHover={{ y: -2 }}
-        >
-          About
-          <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-purple-600 group-hover:w-full transition-all duration-300" />
-        </motion.span>
-      </Link>
-
       {/* Solutions Dropdown/List */}
       {isMobile ? (
         <div className="space-y-3">
