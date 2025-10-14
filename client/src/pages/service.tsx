@@ -15,6 +15,7 @@ import {
   Calendar,
   FileText,
   Sparkles,
+  Clock,
 } from "lucide-react";
 import type { Service } from "@shared/schema";
 import { MetaTags } from "@/components/ui/meta-tags";
@@ -64,7 +65,7 @@ export default function ServicePage() {
     headline: string;
     subheadline: string;
     keyOutcomes: string[];
-    methodology: Array<{ title: string; description: string }>;
+    methodology: Array<{ title: string; description: string; timeline?: string }>;
     whyChoose: string;
     whenToUse?: {
       idealFor: string[];
@@ -84,19 +85,23 @@ export default function ServicePage() {
       methodology: [
         {
           title: "Target Account Intelligence",
-          description: "We work with your sales and marketing team to identify priority accounts and map decision-makers, influencers, and stakeholders involved in buying decisions."
+          description: "We work with your sales and marketing team to identify priority accounts and map decision-makers, influencers, and stakeholders involved in buying decisions.",
+          timeline: "Week 1-2: Account research, stakeholder mapping, and ICP alignment"
         },
         {
           title: "Insight-Led Messaging Development",
-          description: "We build narratives aligned with industry pain points, business challenges, and strategic priorities relevant to those accounts — positioning your solution as the best-fit partner."
+          description: "We build narratives aligned with industry pain points, business challenges, and strategic priorities relevant to those accounts — positioning your solution as the best-fit partner.",
+          timeline: "Week 2-3: Message development, content creation, and sales enablement"
         },
         {
           title: "Multi-Channel Activation",
-          description: "We orchestrate outreach across email, phone, content distribution, and strategic touchpoints designed to reach buyers wherever they are already active and consuming information."
+          description: "We orchestrate outreach across email, phone, content distribution, and strategic touchpoints designed to reach buyers wherever they are already active and consuming information.",
+          timeline: "Week 4+: Ongoing multi-touch campaigns with 8-12 touchpoints per quarter"
         },
         {
           title: "Engagement and Qualification Hand-Off",
-          description: "When key contacts show interest or interaction, we qualify readiness, gather context, and transition them to your sales team with insight notes and interaction history."
+          description: "When key contacts show interest or interaction, we qualify readiness, gather context, and transition them to your sales team with insight notes and interaction history.",
+          timeline: "Continuous: Real-time qualification and hand-off within 24 hours"
         }
       ],
       whyChoose: "Most ABM efforts focus on ads and branding instead of actual engagement. We focus on real conversations inside target accounts — not impressions. Instead of waiting for buyers to come to you, we strategically position your brand as a trusted partner before formal evaluation begins.",
@@ -150,19 +155,23 @@ export default function ServicePage() {
       methodology: [
         {
           title: "Ideal Customer Profile Alignment",
-          description: "We work with your team to clearly define qualifying criteria across industry, company size, tech stack, pain points, and buying triggers."
+          description: "We work with your team to clearly define qualifying criteria across industry, company size, tech stack, pain points, and buying triggers.",
+          timeline: "Week 1: ICP workshop and criteria definition"
         },
         {
           title: "Strategic Outreach with Relevant Messaging",
-          description: "We use insight-driven messaging to connect with prospects through email, phone, and landing pages — focused on their challenges, not just your features."
+          description: "We use insight-driven messaging to connect with prospects through email, phone, and landing pages — focused on their challenges, not just your features.",
+          timeline: "Week 2-3: Campaign launch with multi-channel activation"
         },
         {
           title: "Human Validation and Interest Confirmation",
-          description: "Every lead is engaged and verified by real people — ensuring genuine engagement rather than automated form fills."
+          description: "Every lead is engaged and verified by real people — ensuring genuine engagement rather than automated form fills.",
+          timeline: "Ongoing: Real-time validation and qualification"
         },
         {
           title: "Qualified Handoff",
-          description: "Only the prospects demonstrating relevance and readiness are passed to your sales team — along with context and engagement history."
+          description: "Only the prospects demonstrating relevance and readiness are passed to your sales team — along with context and engagement history.",
+          timeline: "Continuous: Daily lead delivery with full context and notes"
         }
       ],
       whyChoose: "Most lead providers deliver lists — we deliver real conversations. Instead of chasing random contacts, your team speaks only with buyers who meet your standards and show interest.",
@@ -216,19 +225,23 @@ export default function ServicePage() {
       methodology: [
         {
           title: "Intent and Behavior Tracking",
-          description: "We monitor signals across search, engagement, and industry activity to identify accounts likely to be exploring solutions like yours."
+          description: "We monitor signals across search, engagement, and industry activity to identify accounts likely to be exploring solutions like yours.",
+          timeline: "Week 1-2: Intent data setup and account identification"
         },
         {
           title: "Thought Leadership and Educational Messaging",
-          description: "We craft content that speaks directly to their challenges, helping them frame the problem and see your approach as a clear solution."
+          description: "We craft content that speaks directly to their challenges, helping them frame the problem and see your approach as a clear solution.",
+          timeline: "Week 2-3: Content development and messaging framework"
         },
         {
           title: "Account-Level Activation",
-          description: "We reach stakeholders across multiple channels, ensuring your message is seen consistently across email, ads, and curated touchpoints."
+          description: "We reach stakeholders across multiple channels, ensuring your message is seen consistently across email, ads, and curated touchpoints.",
+          timeline: "Week 4+: Multi-channel nurture campaigns with 6-8 week cycles"
         },
         {
           title: "Engagement Scoring and Sales Handoff",
-          description: "Only accounts demonstrating meaningful interaction are prioritized for sales outreach — with timing, context, and messaging history provided."
+          description: "Only accounts demonstrating meaningful interaction are prioritized for sales outreach — with timing, context, and messaging history provided.",
+          timeline: "Month 2+: Progressive scoring and qualified account handoff"
         }
       ],
       whyChoose: "Most demand gen happens too late — when buyers are already comparing vendors. We shift engagement earlier in the process so you're seen as the advisor instead of the option.",
@@ -282,19 +295,23 @@ export default function ServicePage() {
       methodology: [
         {
           title: "Event Positioning and Audience Definition",
-          description: "We clarify who should be in attendance and why — aligning goals with ICP, messaging, and call-to-action structure."
+          description: "We clarify who should be in attendance and why — aligning goals with ICP, messaging, and call-to-action structure.",
+          timeline: "2-3 weeks before event: Audience definition and campaign planning"
         },
         {
           title: "Targeted Outreach and Invitations",
-          description: "We promote events directly to relevant contacts through email, phone, and aligned channels — focusing on value-based communication rather than generic invites."
+          description: "We promote events directly to relevant contacts through email, phone, and aligned channels — focusing on value-based communication rather than generic invites.",
+          timeline: "2-6 weeks before event: Multi-wave invitation campaigns"
         },
         {
           title: "Pre-Event Engagement and Confirmation",
-          description: "To ensure attendance, we deliver reminders, preview materials, and context that builds anticipation and locks in participation."
+          description: "To ensure attendance, we deliver reminders, preview materials, and context that builds anticipation and locks in participation.",
+          timeline: "1 week before event: Reminder series and attendance confirmation"
         },
         {
           title: "Post-Event Follow-Up and Qualification",
-          description: "We re-engage contacts immediately after the event to identify interest, confirm priorities, and pass qualified opportunities to sales."
+          description: "We re-engage contacts immediately after the event to identify interest, confirm priorities, and pass qualified opportunities to sales.",
+          timeline: "Within 48 hours: Immediate follow-up and qualification"
         }
       ],
       whyChoose: "Most event campaigns chase registration numbers — we focus on audience quality. Whether it's digital or in-person, your event should feed pipeline, not just attendance reports.",
@@ -348,19 +365,23 @@ export default function ServicePage() {
       methodology: [
         {
           title: "Segmentation of Early or Unqualified Leads",
-          description: "We categorize leads based on industry, behavior, and interest level to determine nurture direction."
+          description: "We categorize leads based on industry, behavior, and interest level to determine nurture direction.",
+          timeline: "Week 1: Database audit and lead segmentation"
         },
         {
           title: "Journey Design with Relevant Messaging",
-          description: "We craft communication tracks based on pain points, objections, or potential trigger events."
+          description: "We craft communication tracks based on pain points, objections, or potential trigger events.",
+          timeline: "Week 2: Nurture journey mapping and content development"
         },
         {
           title: "Multi-Channel Touchpoints",
-          description: "Outreach happens across email, phone, and content assets to keep engagement active."
+          description: "Outreach happens across email, phone, and content assets to keep engagement active.",
+          timeline: "Week 3+: 8-12 week nurture cycles with monthly touchpoints"
         },
         {
           title: "Re-Qualification and Sales Hand-Off",
-          description: "Once intent resurfaces, leads are validated and passed back to sales for timely action."
+          description: "Once intent resurfaces, leads are validated and passed back to sales for timely action.",
+          timeline: "Ongoing: Re-qualification triggers and immediate handoff"
         }
       ],
       whyChoose: "Sales teams rarely have time to nurture long-term leads. We ensure high-value prospects never go cold — and reappear when timing is right.",
@@ -414,19 +435,23 @@ export default function ServicePage() {
       methodology: [
         {
           title: "Data Assessment and Categorization",
-          description: "We analyze your current databases, segmenting usable, salvageable, and disqualified records."
+          description: "We analyze your current databases, segmenting usable, salvageable, and disqualified records.",
+          timeline: "Week 1: Database audit and quality assessment"
         },
         {
           title: "Cleansing and Standardization",
-          description: "We normalize formats, remove invalid contacts, and consolidate duplicates for consistency."
+          description: "We normalize formats, remove invalid contacts, and consolidate duplicates for consistency.",
+          timeline: "Week 1-2: Data cleaning and deduplication"
         },
         {
           title: "Enrichment and Research Layer",
-          description: "We source missing job titles, company info, hierarchy, and digital footprints to add context."
+          description: "We source missing job titles, company info, hierarchy, and digital footprints to add context.",
+          timeline: "Week 2-3: Data enrichment and appending"
         },
         {
           title: "Validation and Scoring",
-          description: "Contacts and accounts are reviewed to ensure accuracy, compliance, and relevance to your campaigns."
+          description: "Contacts and accounts are reviewed to ensure accuracy, compliance, and relevance to your campaigns.",
+          timeline: "Week 3: Final validation and compliance verification"
         }
       ],
       whyChoose: "Bad data kills campaigns and wastes sales time. We turn messy records into a reliable asset — protecting your deliverability, reputation, and ROI.",
@@ -934,6 +959,15 @@ export default function ServicePage() {
                               <p className="text-lg text-gray-600 leading-relaxed">
                                 {step.description}
                               </p>
+                              {step.timeline && (
+                                <div className="mt-6 flex items-center gap-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
+                                  <Clock className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                                  <div>
+                                    <p className="text-sm font-semibold text-blue-900">Expected Timeline</p>
+                                    <p className="text-sm text-blue-700">{step.timeline}</p>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </CardContent>
