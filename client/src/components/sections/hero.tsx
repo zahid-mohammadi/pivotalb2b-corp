@@ -143,6 +143,27 @@ export function Hero() {
               Our ABM and demand generation programs engage decision-makers inside your Target Accounts through compliant, content-led outreach — delivering <span className="font-semibold text-white">real buyers</span>, not random leads.
             </motion.p>
 
+            {/* 3 Cs Framework Badges */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+              className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 max-w-3xl mx-auto"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 backdrop-blur-sm rounded-full border border-green-400/30">
+                <Shield className="w-4 h-4 text-green-300" />
+                <span className="text-sm font-semibold text-green-100">100% Compliant</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/20 backdrop-blur-sm rounded-full border border-blue-400/30">
+                <TrendingDown className="w-4 h-4 text-blue-300" />
+                <span className="text-sm font-semibold text-blue-100">Conversion-Focused</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 backdrop-blur-sm rounded-full border border-purple-400/30">
+                <Unlock className="w-4 h-4 text-purple-300" />
+                <span className="text-sm font-semibold text-purple-100">No Contracts</span>
+              </div>
+            </motion.div>
+
             {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}

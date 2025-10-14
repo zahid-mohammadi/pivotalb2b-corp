@@ -33,12 +33,43 @@ export default function ServicePage() {
     "B2B Marketing Agencies"
   ];
 
+  const relatedServices: Record<string, Array<{ slug: string; title: string; description: string }>> = {
+    "account-based-marketing-abm-programs": [
+      { slug: "lead-nurturing-buyer-engagement", title: "Lead Nurturing & Buyer Engagement", description: "Keep prospects engaged during long ABM sales cycles" },
+      { slug: "precision-demand-generation", title: "Precision Demand Generation", description: "Build early awareness before ABM activation" }
+    ],
+    "b2b-lead-generation-qualification": [
+      { slug: "event-marketing-audience-acquisition", title: "Event Marketing & Audience Acquisition", description: "Add event-sourced leads to your pipeline" },
+      { slug: "lead-validation-enrichment", title: "Lead Validation & Enrichment", description: "Ensure lead data quality and accuracy" }
+    ],
+    "precision-demand-generation": [
+      { slug: "account-based-marketing-abm-programs", title: "Account-Based Marketing (ABM) Programs", description: "Target high-value accounts identified through demand gen" },
+      { slug: "lead-nurturing-buyer-engagement", title: "Lead Nurturing & Buyer Engagement", description: "Nurture early-stage demand gen leads" }
+    ],
+    "event-marketing-audience-acquisition": [
+      { slug: "lead-nurturing-buyer-engagement", title: "Lead Nurturing & Buyer Engagement", description: "Nurture post-event attendees into opportunities" },
+      { slug: "b2b-lead-generation-qualification", title: "B2B Lead Generation & Qualification", description: "Continue pipeline growth beyond events" }
+    ],
+    "lead-nurturing-buyer-engagement": [
+      { slug: "b2b-lead-generation-qualification", title: "B2B Lead Generation & Qualification", description: "Add fresh leads to your nurture database" },
+      { slug: "precision-demand-generation", title: "Precision Demand Generation", description: "Create content-led nurture programs" }
+    ],
+    "lead-validation-enrichment": [
+      { slug: "b2b-lead-generation-qualification", title: "B2B Lead Generation & Qualification", description: "Fill pipeline with fresh, validated leads" },
+      { slug: "account-based-marketing-abm-programs", title: "Account-Based Marketing (ABM) Programs", description: "Prepare account data for ABM programs" }
+    ]
+  };
+
   const serviceContent: Record<string, {
     headline: string;
     subheadline: string;
     keyOutcomes: string[];
     methodology: Array<{ title: string; description: string }>;
     whyChoose: string;
+    whenToUse?: {
+      idealFor: string[];
+      notIdealFor: string[];
+    };
     faqs: Array<{ question: string; answer: string }>;
   }> = {
     "account-based-marketing-abm-programs": {
@@ -69,6 +100,21 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most ABM efforts focus on ads and branding instead of actual engagement. We focus on real conversations inside target accounts — not impressions. Instead of waiting for buyers to come to you, we strategically position your brand as a trusted partner before formal evaluation begins.",
+      whenToUse: {
+        idealFor: [
+          "You have a defined list of high-value target accounts",
+          "Your average deal size justifies focused account investment",
+          "Sales cycles involve multiple decision-makers",
+          "You're selling complex or enterprise solutions",
+          "Your ICP is well-defined and narrow"
+        ],
+        notIdealFor: [
+          "You need immediate lead volume (ABM builds momentum over time)",
+          "Your target market is too broad or undefined",
+          "Deal sizes are too small to support account-level investment",
+          "You lack sales alignment or account intelligence"
+        ]
+      },
       faqs: [
         {
           question: "How is this different from traditional lead generation?",
@@ -85,6 +131,10 @@ export default function ServicePage() {
         {
           question: "How will results be reported?",
           answer: "You receive regular visibility into account engagement, contact-level interactions, and activation patterns so you know exactly where traction is building inside each account."
+        },
+        {
+          question: "How do you price ABM programs?",
+          answer: "Pricing is customized based on the number of target accounts, program complexity, and engagement channels. We offer flexible month-to-month arrangements with no long-term contracts required. During our strategy call, we'll provide transparent pricing aligned with your specific goals and budget."
         }
       ]
     },
@@ -116,6 +166,21 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most lead providers deliver lists — we deliver real conversations. Instead of chasing random contacts, your team speaks only with buyers who meet your standards and show interest.",
+      whenToUse: {
+        idealFor: [
+          "You need a consistent flow of qualified opportunities",
+          "Your sales team is ready to engage new prospects immediately",
+          "You have a clear Ideal Customer Profile defined",
+          "Pipeline velocity is a key growth metric for you",
+          "You want predictable lead volume without long-term contracts"
+        ],
+        notIdealFor: [
+          "You're targeting only a handful of named accounts (use ABM instead)",
+          "Your ICP is still being defined or tested",
+          "You lack sales capacity to follow up on qualified leads",
+          "Budget is extremely limited (lead gen requires ongoing investment)"
+        ]
+      },
       faqs: [
         {
           question: "Can you integrate directly with our CRM?",
@@ -132,6 +197,10 @@ export default function ServicePage() {
         {
           question: "How quickly can a program begin?",
           answer: "Most lead generation programs begin within weeks once ICP and messaging alignment is complete."
+        },
+        {
+          question: "What does lead generation typically cost?",
+          answer: "Pricing is based on lead volume, qualification depth, and target market complexity. We structure programs to deliver measurable ROI with transparent per-lead costs. No long-term commitments required — we'll discuss budget options during your strategy consultation."
         }
       ]
     },
@@ -163,6 +232,21 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most demand gen happens too late — when buyers are already comparing vendors. We shift engagement earlier in the process so you're seen as the advisor instead of the option.",
+      whenToUse: {
+        idealFor: [
+          "You want to influence buyers before they're actively shopping",
+          "Your sales cycle is typically 3+ months",
+          "You have (or can create) educational content and thought leadership",
+          "You're competing in a crowded market and need early differentiation",
+          "Building brand authority is part of your growth strategy"
+        ],
+        notIdealFor: [
+          "You need immediate sales conversations (use lead gen instead)",
+          "Your product/service requires minimal education or consideration",
+          "You lack content assets and can't invest in creating them",
+          "Your target audience is extremely narrow (use ABM instead)"
+        ]
+      },
       faqs: [
         {
           question: "What's the difference between demand generation and lead generation?",
@@ -179,6 +263,10 @@ export default function ServicePage() {
         {
           question: "How long does it take to see momentum?",
           answer: "Early engagement often begins within the first month of activity, with pipeline-ready signals emerging once nurture tracks begin to compound."
+        },
+        {
+          question: "What's the investment for demand generation programs?",
+          answer: "Programs are priced based on audience size, content requirements, and channel mix. We design scalable programs that grow with your results — no locked contracts. We'll provide clear pricing options based on your pipeline goals during our initial consultation."
         }
       ]
     },
@@ -210,6 +298,21 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most event campaigns chase registration numbers — we focus on audience quality. Whether it's digital or in-person, your event should feed pipeline, not just attendance reports.",
+      whenToUse: {
+        idealFor: [
+          "You're hosting webinars, conferences, or field events",
+          "Event ROI and pipeline contribution are critical metrics",
+          "You want attendees who convert, not just register",
+          "You need to fill seats with your Ideal Customer Profile",
+          "Post-event follow-up and nurturing is part of your strategy"
+        ],
+        notIdealFor: [
+          "Your event is purely brand awareness with no sales goal",
+          "You have no post-event engagement or follow-up plan",
+          "Target audience size is too small to justify promotion efforts",
+          "Event timing is too tight for proper audience development"
+        ]
+      },
       faqs: [
         {
           question: "Can this support both virtual and physical events?",
@@ -226,6 +329,10 @@ export default function ServicePage() {
         {
           question: "Can you help with sponsor or partner recruitment as well?",
           answer: "If required, we can identify and qualify potential event collaborators or sponsors aligned with your theme."
+        },
+        {
+          question: "What's the cost for event marketing services?",
+          answer: "Pricing depends on event type, target audience size, and timeline. We offer both per-event and ongoing event series packages with flexible terms. No contracts required — we'll create a custom proposal based on your event goals and expected attendance."
         }
       ]
     },
@@ -257,6 +364,21 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Sales teams rarely have time to nurture long-term leads. We ensure high-value prospects never go cold — and reappear when timing is right.",
+      whenToUse: {
+        idealFor: [
+          "You have leads that showed interest but weren't ready to buy",
+          "Your database contains aging or cold prospects",
+          "Sales cycles are long and timing varies by prospect",
+          "You want to maximize ROI from past marketing investments",
+          "Building long-term relationships is part of your sales model"
+        ],
+        notIdealFor: [
+          "You only have net-new prospect needs (use lead gen instead)",
+          "Your database is small or poorly segmented",
+          "You lack content or messaging for ongoing engagement",
+          "Sales prefers working only active, immediate opportunities"
+        ]
+      },
       faqs: [
         {
           question: "What type of leads are best suited for nurturing?",
@@ -273,6 +395,10 @@ export default function ServicePage() {
         {
           question: "Can this be integrated with our existing workflows?",
           answer: "Yes. Nurtured leads can be reintroduced to sales via CRM or direct notification depending on your setup."
+        },
+        {
+          question: "How much does lead nurturing cost?",
+          answer: "Pricing is based on database size, nurture track complexity, and touchpoint frequency. We create custom programs that fit your budget with flexible monthly terms. During our consultation, we'll align pricing with your specific lead volume and conversion goals."
         }
       ]
     },
@@ -304,6 +430,21 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Bad data kills campaigns and wastes sales time. We turn messy records into a reliable asset — protecting your deliverability, reputation, and ROI.",
+      whenToUse: {
+        idealFor: [
+          "Your database has high bounce rates or low deliverability",
+          "You've acquired leads from multiple sources (events, forms, purchases)",
+          "Contact records are incomplete or outdated",
+          "Compliance requirements demand accurate, verified data",
+          "You're preparing for a major campaign and need clean data first"
+        ],
+        notIdealFor: [
+          "Your database is already clean and regularly maintained",
+          "Data volume is too small to justify enrichment costs",
+          "You need net-new contacts, not data cleanup (use lead gen)",
+          "Your CRM hygiene processes are already robust and automated"
+        ]
+      },
       faqs: [
         {
           question: "Can you work with data from multiple sources?",
@@ -320,6 +461,10 @@ export default function ServicePage() {
         {
           question: "How often should data be enriched?",
           answer: "For most active databases, quarterly refresh cycles are recommended — we can support ongoing maintenance if needed."
+        },
+        {
+          question: "What does data validation and enrichment cost?",
+          answer: "Pricing is determined by database size, enrichment depth, and data source complexity. We offer per-record pricing or project-based packages with no ongoing contracts. We'll provide a detailed quote after reviewing your current data quality and enrichment needs."
         }
       ]
     }
@@ -847,6 +992,87 @@ export default function ServicePage() {
           </div>
         </section>
 
+        {/* When to Use This Service Section */}
+        {content.whenToUse && (
+          <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
+            <div className="container mx-auto px-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="max-w-6xl mx-auto"
+              >
+                <div className="text-center mb-16">
+                  <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="heading-when-to-use">
+                    Is This Service Right for You?
+                  </h2>
+                  <p className="text-xl text-gray-600">Understand if this service aligns with your needs</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Ideal For */}
+                  <Card className="border-2 border-green-200 bg-white shadow-lg hover:shadow-xl transition-all duration-300">
+                    <CardContent className="p-8">
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                          <CheckCircle2 className="w-6 h-6 text-green-600" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900">Ideal For</h3>
+                      </div>
+                      <ul className="space-y-4">
+                        {content.whenToUse.idealFor.map((item, index) => (
+                          <li key={index} className="flex items-start gap-3" data-testid={`ideal-for-${index}`}>
+                            <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                            <span className="text-gray-700 leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+
+                  {/* Not Ideal For */}
+                  <Card className="border-2 border-orange-200 bg-white shadow-lg hover:shadow-xl transition-all duration-300">
+                    <CardContent className="p-8">
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+                          <Target className="w-6 h-6 text-orange-600" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900">Consider Alternatives If</h3>
+                      </div>
+                      <ul className="space-y-4">
+                        {content.whenToUse.notIdealFor.map((item, index) => (
+                          <li key={index} className="flex items-start gap-3" data-testid={`not-ideal-for-${index}`}>
+                            <div className="w-5 h-5 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <span className="text-orange-600 font-bold text-xs">!</span>
+                            </div>
+                            <span className="text-gray-700 leading-relaxed">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <div className="mt-12 text-center">
+                  <p className="text-lg text-gray-600 mb-6">
+                    Not sure if this is the right fit? Let's discuss your specific needs.
+                  </p>
+                  <Button
+                    size="lg"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    onClick={() => window.open(calendlyUrl, '_blank')}
+                    data-testid="button-schedule-consultation"
+                  >
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Schedule a Free Consultation
+                  </Button>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        )}
+
         {/* FAQ Section */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
@@ -893,6 +1119,66 @@ export default function ServicePage() {
             </motion.div>
           </div>
         </section>
+
+        {/* Related Services Section */}
+        {params?.slug && relatedServices[params.slug] && (
+          <section className="py-20 bg-gray-50">
+            <div className="container mx-auto px-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="max-w-6xl mx-auto"
+              >
+                <div className="text-center mb-12">
+                  <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="heading-related-services">
+                    You Might Also Need
+                  </h2>
+                  <p className="text-xl text-gray-600">Complementary services that work well together</p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  {relatedServices[params.slug].map((related, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                      whileHover={{ y: -5, scale: 1.02 }}
+                      data-testid={`related-service-${index}`}
+                    >
+                      <Card className="h-full border-2 border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                        onClick={() => window.location.href = `/services/${related.slug}`}
+                      >
+                        <CardContent className="p-8">
+                          <div className="flex items-start gap-4">
+                            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 transition-colors duration-300">
+                              <Rocket className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors duration-300" />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors" data-testid={`related-title-${index}`}>
+                                {related.title}
+                              </h3>
+                              <p className="text-gray-600 leading-relaxed mb-4" data-testid={`related-description-${index}`}>
+                                {related.description}
+                              </p>
+                              <div className="flex items-center text-blue-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                                <span>Learn More</span>
+                                <ArrowRight className="ml-2 w-5 h-5" />
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        )}
 
         {/* Final CTA Section */}
         <section className="py-20 bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 text-white relative overflow-hidden">

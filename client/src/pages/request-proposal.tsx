@@ -54,28 +54,28 @@ type ProposalFormValues = z.infer<typeof proposalFormSchema>;
 // Define services and their options - Updated to match actual services
 const serviceOptions = [
   { 
-    id: "account-based-marketing", 
+    id: "account-based-marketing-abm-programs", 
     label: "Account-Based Marketing (ABM) Programs", 
     description: "Target high-value accounts with personalized campaigns",
     icon: "🎯",
     color: "from-blue-500 to-purple-600"
   },
   { 
-    id: "b2b-lead-generation", 
+    id: "b2b-lead-generation-qualification", 
     label: "B2B Lead Generation & Qualification", 
     description: "Generate and qualify high-intent B2B prospects",
     icon: "🚀",
     color: "from-green-500 to-teal-600"
   },
   { 
-    id: "intent-based-demand-generation", 
-    label: "Intent-Based Demand Generation", 
-    description: "Target prospects showing buying intent signals",
+    id: "precision-demand-generation", 
+    label: "Precision Demand Generation", 
+    description: "Educate in-market buyers early — building trust before they compare vendors",
     icon: "🧠",
     color: "from-purple-500 to-pink-600"
   },
   { 
-    id: "event-marketing", 
+    id: "event-marketing-audience-acquisition", 
     label: "Event Marketing & Audience Acquisition", 
     description: "Drive registrations and audience engagement for events",
     icon: "🎪",
@@ -196,7 +196,7 @@ export default function RequestProposalPage() {
   const showOtherGeographyField = form.watch("targetGeography").includes("Other");
   const showOtherJobFunctionField = form.watch("jobFunction").includes("other");
   const showOtherJobLevelField = form.watch("jobLevel").includes("other");
-  const showABMFields = form.watch("interestedServices").includes("account-based-marketing");
+  const showABMFields = form.watch("interestedServices").includes("account-based-marketing-abm-programs");
   const hasTargetAccounts = form.watch("hasTargetAccounts") === "yes";
   
   // Add useEffect to calculate form progress
