@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useRoute } from "wouter";
+import { useRoute, Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -67,6 +67,7 @@ export default function ServicePage() {
     keyOutcomes: string[];
     methodology: Array<{ title: string; description: string; timeline?: string }>;
     whyChoose: string;
+    howDifferent?: Array<{ aspect: string; others: string; us: string }>;
     whenToUse?: {
       idealFor: string[];
       notIdealFor: string[];
@@ -105,6 +106,33 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most ABM efforts focus on ads and branding instead of actual engagement. We focus on real conversations inside target accounts — not impressions. Instead of waiting for buyers to come to you, we strategically position your brand as a trusted partner before formal evaluation begins.",
+      howDifferent: [
+        {
+          aspect: "Approach",
+          others: "Display ads and generic outreach to account lists",
+          us: "Multi-stakeholder engagement with personalized messaging per role"
+        },
+        {
+          aspect: "Measurement",
+          others: "Impressions, clicks, and website visits",
+          us: "Real conversations, stakeholder engagement, and pipeline influence"
+        },
+        {
+          aspect: "Execution",
+          others: "Marketing-led campaigns with limited sales alignment",
+          us: "Integrated sales + marketing orchestration with full visibility"
+        },
+        {
+          aspect: "Timeline",
+          others: "Set-it-and-forget-it quarterly programs",
+          us: "Ongoing activation with weekly optimization and account intelligence"
+        },
+        {
+          aspect: "Contracts",
+          others: "12-month+ commitments with auto-renewal",
+          us: "Flexible month-to-month terms with no long-term lock-in"
+        }
+      ],
       whenToUse: {
         idealFor: [
           "You have a defined list of high-value target accounts",
@@ -175,6 +203,33 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most lead providers deliver lists — we deliver real conversations. Instead of chasing random contacts, your team speaks only with buyers who meet your standards and show interest.",
+      howDifferent: [
+        {
+          aspect: "Lead Quality",
+          others: "Purchased lists or MQL forms with minimal validation",
+          us: "Human-verified prospects with confirmed interest and authority"
+        },
+        {
+          aspect: "Qualification Depth",
+          others: "Basic contact info capture via downloads or forms",
+          us: "Multi-touch engagement to confirm fit, need, and timing"
+        },
+        {
+          aspect: "Delivery Method",
+          others: "Bulk list dumps with no context",
+          us: "Qualified handoffs with engagement history and conversation notes"
+        },
+        {
+          aspect: "Success Metric",
+          others: "Volume of names delivered",
+          us: "Quality of sales conversations and conversion rates"
+        },
+        {
+          aspect: "Pricing Model",
+          others: "Pay-per-lead with hidden quality issues",
+          us: "Transparent pricing with quality guarantees and no contracts"
+        }
+      ],
       whenToUse: {
         idealFor: [
           "You need a consistent flow of qualified opportunities",
@@ -245,6 +300,33 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most demand gen happens too late — when buyers are already comparing vendors. We shift engagement earlier in the process so you're seen as the advisor instead of the option.",
+      howDifferent: [
+        {
+          aspect: "Timing",
+          others: "Target buyers already in vendor evaluation mode",
+          us: "Engage prospects during early research and education phases"
+        },
+        {
+          aspect: "Content Strategy",
+          others: "Product-focused collateral and case studies",
+          us: "Thought leadership addressing business challenges first"
+        },
+        {
+          aspect: "Lead Capture",
+          others: "Gated assets with form fills for volume",
+          us: "Educational engagement with progressive profiling and intent signals"
+        },
+        {
+          aspect: "Nurture Approach",
+          others: "Automated email sequences with limited personalization",
+          us: "Multi-channel journeys with account-level insights and scoring"
+        },
+        {
+          aspect: "Flexibility",
+          others: "Annual contracts with fixed deliverables",
+          us: "Month-to-month programs that adapt to results and market changes"
+        }
+      ],
       whenToUse: {
         idealFor: [
           "You want to influence buyers before they're actively shopping",
@@ -315,6 +397,33 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Most event campaigns chase registration numbers — we focus on audience quality. Whether it's digital or in-person, your event should feed pipeline, not just attendance reports.",
+      howDifferent: [
+        {
+          aspect: "Audience Focus",
+          others: "Fill seats with anyone who registers",
+          us: "Attract decision-makers aligned with your ICP and event goals"
+        },
+        {
+          aspect: "Invitation Strategy",
+          others: "Mass email blasts with generic event invites",
+          us: "Value-based outreach explaining why attendees belong in the room"
+        },
+        {
+          aspect: "Attendance Assurance",
+          others: "Registration confirmations with no follow-through",
+          us: "Multi-touch engagement to ensure show-up rates and reduce no-shows"
+        },
+        {
+          aspect: "Post-Event Plan",
+          others: "Generic thank-you emails or no follow-up",
+          us: "Immediate qualification and re-engagement to capture hot leads"
+        },
+        {
+          aspect: "ROI Tracking",
+          others: "Measure registrations and attendance numbers",
+          us: "Track pipeline contribution, qualified meetings, and conversion rates"
+        }
+      ],
       whenToUse: {
         idealFor: [
           "You're hosting webinars, conferences, or field events",
@@ -385,6 +494,33 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Sales teams rarely have time to nurture long-term leads. We ensure high-value prospects never go cold — and reappear when timing is right.",
+      howDifferent: [
+        {
+          aspect: "Database Activation",
+          others: "Neglect aging leads or send occasional newsletters",
+          us: "Strategic re-engagement based on behavior, triggers, and lifecycle stage"
+        },
+        {
+          aspect: "Messaging Relevance",
+          others: "Generic email blasts with the same content for everyone",
+          us: "Segmented journeys with industry-specific pain points and solutions"
+        },
+        {
+          aspect: "Re-Qualification",
+          others: "Assume past leads are still unqualified",
+          us: "Active monitoring for buying signals and timing changes to reactivate"
+        },
+        {
+          aspect: "Sales Handoff",
+          others: "Push all re-engaged leads back to sales without context",
+          us: "Validate readiness first, then pass with updated engagement intel"
+        },
+        {
+          aspect: "Program Duration",
+          others: "One-time reactivation blasts",
+          us: "Ongoing nurture cycles with continuous optimization and testing"
+        }
+      ],
       whenToUse: {
         idealFor: [
           "You have leads that showed interest but weren't ready to buy",
@@ -455,6 +591,33 @@ export default function ServicePage() {
         }
       ],
       whyChoose: "Bad data kills campaigns and wastes sales time. We turn messy records into a reliable asset — protecting your deliverability, reputation, and ROI.",
+      howDifferent: [
+        {
+          aspect: "Data Sources",
+          others: "Only work with clean CRM exports",
+          us: "Handle messy data from events, forms, purchases, and legacy systems"
+        },
+        {
+          aspect: "Enrichment Depth",
+          others: "Basic append services (title, company only)",
+          us: "Multi-layer enrichment with firmographics, technographics, and hierarchy"
+        },
+        {
+          aspect: "Compliance Verification",
+          others: "Assume data is compliant without validation",
+          us: "GDPR, TCPA, and consent framework verification built-in"
+        },
+        {
+          aspect: "ICP Alignment",
+          others: "Clean all records equally without filtering",
+          us: "Flag and prioritize records matching your Ideal Customer Profile"
+        },
+        {
+          aspect: "Ongoing Maintenance",
+          others: "One-time cleanup with no refresh plan",
+          us: "Quarterly refresh cycles and ongoing data hygiene programs available"
+        }
+      ],
       whenToUse: {
         idealFor: [
           "Your database has high bounce rates or low deliverability",
@@ -1025,6 +1188,91 @@ export default function ServicePage() {
             </motion.div>
           </div>
         </section>
+
+        {/* How We're Different Section */}
+        {content.howDifferent && content.howDifferent.length > 0 && (
+          <section className="py-20 bg-white">
+            <div className="container mx-auto px-4">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="max-w-6xl mx-auto"
+              >
+                <div className="text-center mb-16">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full mb-4">
+                    <TrendingUp className="w-4 h-4 text-primary" />
+                    <span className="text-sm font-semibold text-primary">Competitive Advantage</span>
+                  </div>
+                  <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" data-testid="heading-how-different">
+                    How We're Different
+                  </h2>
+                  <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                    See what sets us apart from typical providers in the market
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl border-2 border-gray-100 overflow-hidden shadow-xl">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gradient-to-r from-gray-900 to-gray-800 text-white">
+                          <th className="px-8 py-6 text-left text-lg font-bold w-1/3">Aspect</th>
+                          <th className="px-8 py-6 text-left text-lg font-bold w-1/3">Typical Providers</th>
+                          <th className="px-8 py-6 text-left text-lg font-bold w-1/3 bg-primary/20">Pivotal B2B</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {content.howDifferent.map((item, index) => (
+                          <motion.tr
+                            key={index}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1, duration: 0.5 }}
+                            className={`border-b border-gray-200 ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'} hover:bg-blue-50/30 transition-colors`}
+                            data-testid={`comparison-row-${index}`}
+                          >
+                            <td className="px-8 py-6 font-bold text-gray-900 align-top">{item.aspect}</td>
+                            <td className="px-8 py-6 text-gray-600 align-top">
+                              <div className="flex items-start gap-3">
+                                <span className="text-red-500 mt-1 flex-shrink-0">✗</span>
+                                <span>{item.others}</span>
+                              </div>
+                            </td>
+                            <td className="px-8 py-6 text-gray-900 align-top bg-primary/5">
+                              <div className="flex items-start gap-3">
+                                <span className="text-green-600 mt-1 flex-shrink-0 font-bold">✓</span>
+                                <span className="font-medium">{item.us}</span>
+                              </div>
+                            </td>
+                          </motion.tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6, duration: 0.6 }}
+                  className="text-center mt-12"
+                >
+                  <p className="text-gray-600 mb-6">Ready to experience the difference?</p>
+                  <Link href="/request-proposal">
+                    <Button size="lg" className="group" data-testid="button-cta-how-different">
+                      Request a Proposal
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </div>
+          </section>
+        )}
 
         {/* When to Use This Service Section */}
         {content.whenToUse && (
