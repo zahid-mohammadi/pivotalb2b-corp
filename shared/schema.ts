@@ -327,7 +327,8 @@ export const pipelineDeals = pgTable("pipeline_deals", {
   fullName: varchar("full_name", { length: 100 }).notNull(),
   email: varchar("email", { length: 255 }).notNull(),
   company: varchar("company", { length: 100 }).notNull(),
-  phone: varchar("phone", { length: 20 }),
+  phone: varchar("phone", { length: 30 }),
+  country: varchar("country", { length: 100 }),
   jobTitle: varchar("job_title", { length: 100 }),
   contactId: serial("contact_id"),
   accountId: serial("account_id"),
@@ -350,6 +351,7 @@ export const insertPipelineDealSchema = createInsertSchema(pipelineDeals)
   .omit({ id: true, createdAt: true, updatedAt: true })
   .extend({
     phone: z.string().optional(),
+    country: z.string().optional(),
     jobTitle: z.string().optional(),
     contactId: z.number().optional(),
     accountId: z.number().optional(),
@@ -555,7 +557,8 @@ export const contacts = pgTable("contacts", {
   firstName: varchar("first_name", { length: 100 }).notNull(),
   lastName: varchar("last_name", { length: 100 }).notNull(),
   email: varchar("email", { length: 255 }).notNull(),
-  phone: varchar("phone", { length: 20 }),
+  phone: varchar("phone", { length: 30 }),
+  country: varchar("country", { length: 100 }),
   jobTitle: varchar("job_title", { length: 100 }),
   department: varchar("department", { length: 100 }),
   jobLevel: varchar("job_level", { length: 50 }),
@@ -576,6 +579,7 @@ export const insertContactSchema = createInsertSchema(contacts)
   .omit({ id: true, createdAt: true, updatedAt: true })
   .extend({
     phone: z.string().optional(),
+    country: z.string().optional(),
     jobTitle: z.string().optional(),
     department: z.string().optional(),
     jobLevel: z.string().optional(),
