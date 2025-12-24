@@ -44,6 +44,7 @@ import { microsoftGraphService } from "./services/microsoft-graph";
 import type { User } from "@shared/schema";
 import { botBlockStats } from "./middleware/email-bot-blocker";
 import { requireRole, checkPermission, isAdmin, isSalesOrMarketing } from "./middleware/rbac";
+import { normalizePhoneNumber, detectCountryFromPhoneNumber } from "./services/phone-normalizer";
 
 // Configure multer for handling file uploads
 const upload = multer({
@@ -1023,7 +1024,17 @@ export async function registerRoutes(app: Express) {
     }
 
     try {
-      const deal = await storage.createPipelineDeal(result.data);
+      const dealData = { ...result.data };
+      
+      // Normalize phone number based on country
+      if (dealData.phone) {
+        if (!dealData.country) {
+          dealData.country = detectCountryFromPhoneNumber(dealData.phone) || undefined;
+        }
+        dealData.phone = normalizePhoneNumber(dealData.phone, dealData.country);
+      }
+      
+      const deal = await storage.createPipelineDeal(dealData);
       
       // Initialize engagement score
       const { updateEngagementScore } = await import("./services/engagement-scoring");
@@ -1047,7 +1058,20 @@ export async function registerRoutes(app: Express) {
       if (!result.success) {
         return res.status(400).json({ errors: result.error.errors });
       }
-      const deal = await storage.updatePipelineDeal(id, result.data);
+      
+      const updateData = { ...result.data };
+      
+      // Normalize phone number if provided
+      if (updateData.phone !== undefined) {
+        const existingDeal = await storage.getPipelineDealById(id);
+        const country = updateData.country || existingDeal?.country || detectCountryFromPhoneNumber(updateData.phone);
+        updateData.phone = normalizePhoneNumber(updateData.phone, country);
+        if (!updateData.country && country) {
+          updateData.country = country;
+        }
+      }
+      
+      const deal = await storage.updatePipelineDeal(id, updateData);
       
       // Update engagement score after changes
       const { updateEngagementScore } = await import("./services/engagement-scoring");
@@ -1901,7 +1925,7 @@ export async function registerRoutes(app: Express) {
 
   app.post("/api/contacts", async (req, res) => {
     try {
-      const contactData = req.body;
+      const contactData = { ...req.body };
       
       // Auto-link to account if email domain matches
       if (contactData.email && !contactData.accountId) {
@@ -1914,6 +1938,14 @@ export async function registerRoutes(app: Express) {
         }
       }
 
+      // Normalize phone number based on country
+      if (contactData.phone) {
+        if (!contactData.country) {
+          contactData.country = detectCountryFromPhoneNumber(contactData.phone) || undefined;
+        }
+        contactData.phone = normalizePhoneNumber(contactData.phone, contactData.country);
+      }
+
       const newContact = await storage.createContact(contactData);
       res.status(201).json(newContact);
     } catch (error) {
@@ -1924,7 +1956,19 @@ export async function registerRoutes(app: Express) {
 
   app.put("/api/contacts/:id", async (req, res) => {
     try {
-      const updatedContact = await storage.updateContact(parseInt(req.params.id), req.body);
+      const updateData = { ...req.body };
+      
+      // Normalize phone number if provided
+      if (updateData.phone !== undefined) {
+        const existingContact = await storage.getContactById(parseInt(req.params.id));
+        const country = updateData.country || existingContact?.country || detectCountryFromPhoneNumber(updateData.phone);
+        updateData.phone = normalizePhoneNumber(updateData.phone, country);
+        if (!updateData.country && country) {
+          updateData.country = country;
+        }
+      }
+      
+      const updatedContact = await storage.updateContact(parseInt(req.params.id), updateData);
       res.json(updatedContact);
     } catch (error) {
       console.error("Error updating contact:", error);
@@ -1973,6 +2017,68 @@ export async function registerRoutes(app: Express) {
     } catch (error) {
       console.error("Error suggesting account:", error);
       res.status(500).json({ error: "Failed to suggest account" });
+    }
+  });
+
+  // Normalize all existing phone numbers in pipeline deals and contacts
+  app.post("/api/admin/normalize-phone-numbers", async (req, res) => {
+    try {
+      const results = {
+        dealsNormalized: 0,
+        contactsNormalized: 0,
+        errors: [] as string[]
+      };
+
+      // Normalize pipeline deal phone numbers
+      const deals = await storage.getPipelineDeals();
+      for (const deal of deals) {
+        if (deal.phone) {
+          try {
+            const detectedCountry = deal.country || detectCountryFromPhoneNumber(deal.phone);
+            const normalizedPhone = normalizePhoneNumber(deal.phone, detectedCountry);
+            
+            if (normalizedPhone !== deal.phone || (detectedCountry && !deal.country)) {
+              await storage.updatePipelineDeal(deal.id, {
+                phone: normalizedPhone,
+                country: detectedCountry || deal.country
+              });
+              results.dealsNormalized++;
+            }
+          } catch (err) {
+            results.errors.push(`Deal ${deal.id}: ${err}`);
+          }
+        }
+      }
+
+      // Normalize contact phone numbers
+      const contacts = await storage.getContacts();
+      for (const contact of contacts) {
+        if (contact.phone) {
+          try {
+            const detectedCountry = contact.country || detectCountryFromPhoneNumber(contact.phone);
+            const normalizedPhone = normalizePhoneNumber(contact.phone, detectedCountry);
+            
+            if (normalizedPhone !== contact.phone || (detectedCountry && !contact.country)) {
+              await storage.updateContact(contact.id, {
+                phone: normalizedPhone,
+                country: detectedCountry || contact.country
+              });
+              results.contactsNormalized++;
+            }
+          } catch (err) {
+            results.errors.push(`Contact ${contact.id}: ${err}`);
+          }
+        }
+      }
+
+      res.json({
+        success: true,
+        message: `Normalized ${results.dealsNormalized} deal phone numbers and ${results.contactsNormalized} contact phone numbers`,
+        ...results
+      });
+    } catch (error) {
+      console.error("Error normalizing phone numbers:", error);
+      res.status(500).json({ error: "Failed to normalize phone numbers" });
     }
   });
 
