@@ -770,6 +770,29 @@ function detectCountryFromPhone(phone: string): string | null {
     return detectCountryFromPhone(withPlus);
   }
   
+  // Try to detect country from local number patterns
+  const digits = extractDigits(normalized);
+  
+  // UK: Numbers starting with 07 (mobile) or 01/02 (landline) followed by 9-10 digits
+  if (/^0[127][0-9]{9,10}$/.test(digits)) {
+    return 'United Kingdom';
+  }
+  
+  // Germany: Numbers starting with 0 followed by city code
+  if (/^0[1-9][0-9]{7,11}$/.test(digits) && digits.startsWith('01') === false && digits.startsWith('02') === false && digits.startsWith('07') === false) {
+    // Could be Germany, France, Netherlands, etc - skip auto-detection for ambiguous cases
+  }
+  
+  // India: 10 digits starting with 6-9
+  if (/^[6-9][0-9]{9}$/.test(digits)) {
+    return 'India';
+  }
+  
+  // Singapore: 8 digits starting with 3, 6, 8, or 9
+  if (/^[3689][0-9]{7}$/.test(digits)) {
+    return 'Singapore';
+  }
+  
   return null;
 }
 
