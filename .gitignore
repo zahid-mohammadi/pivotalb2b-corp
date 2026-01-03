@@ -53,3 +53,5 @@ replit.md
 
 # Google Cloud
 .gcloudignore
+
+app.deploy.yaml
