@@ -1600,7 +1600,9 @@ export async function registerRoutes(app: Express) {
     }
 
     const clientId = process.env.M365_CLIENT_ID;
-    const domain = process.env.REPLIT_DEV_DOMAIN || 'localhost:3000';
+    // Detect domain from CUSTOM_DOMAIN env var, request host, or default to localhost
+    const requestHost = req.get('host');
+    const domain = process.env.CUSTOM_DOMAIN || requestHost || 'localhost:3000';
     const redirectUri = domain.includes('localhost') ? `http://${domain}/api/auth/m365/callback` : `https://${domain}/api/auth/m365/callback`;
     const scope = "openid profile email offline_access User.Read Mail.ReadWrite Mail.Send";
     const state = Buffer.from(JSON.stringify({ userId: user.id })).toString('base64');
@@ -1640,7 +1642,9 @@ export async function registerRoutes(app: Express) {
 
       const clientId = process.env.M365_CLIENT_ID;
       const clientSecret = process.env.M365_CLIENT_SECRET;
-      const domain = process.env.REPLIT_DEV_DOMAIN || 'localhost:3000';
+      // Detect domain from CUSTOM_DOMAIN env var, request host, or default to localhost
+      const requestHost = req.get('host');
+      const domain = process.env.CUSTOM_DOMAIN || requestHost || 'localhost:3000';
       const redirectUri = domain.includes('localhost') ? `http://${domain}/api/auth/m365/callback` : `https://${domain}/api/auth/m365/callback`;
 
       const tokenResponse = await fetch('https://login.microsoftonline.com/common/oauth2/v2.0/token', {
@@ -2625,11 +2629,11 @@ export async function registerRoutes(app: Express) {
       });
       
       // Get the primary domain for invoice URLs
-      // Priority: CUSTOM_DOMAIN > REPLIT_DOMAINS > REPLIT_DEV_DOMAIN > localhost
-      const customDomain = process.env.CUSTOM_DOMAIN; // e.g., pivotal-b2b.com
-      const domains = process.env.REPLIT_DOMAINS?.split(',') || [];
-      const primaryDomain = customDomain || domains[0] || process.env.REPLIT_DEV_DOMAIN;
-      const baseUrl = primaryDomain ? `https://${primaryDomain}` : 'http://localhost:3000';
+      // Priority: CUSTOM_DOMAIN > request host > localhost
+      const customDomain = process.env.CUSTOM_DOMAIN;
+      const requestHost = req.get('host');
+      const primaryDomain = customDomain || requestHost || 'localhost:3000';
+      const baseUrl = primaryDomain.includes('localhost') ? `http://${primaryDomain}` : `https://${primaryDomain}`;
       const invoiceUrl = `${baseUrl}/public/invoices/${trackingToken}`;
       const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${emailTrackingToken}`;
       
@@ -2848,11 +2852,11 @@ export async function registerRoutes(app: Express) {
       const userId = (req.user as any)?.id || 1;
       
       // Get the primary domain for invoice URLs
-      // Priority: CUSTOM_DOMAIN > REPLIT_DOMAINS > REPLIT_DEV_DOMAIN > localhost
-      const customDomain = process.env.CUSTOM_DOMAIN; // e.g., pivotal-b2b.com
-      const domains = process.env.REPLIT_DOMAINS?.split(',') || [];
-      const primaryDomain = customDomain || domains[0] || process.env.REPLIT_DEV_DOMAIN;
-      const baseUrl = primaryDomain ? `https://${primaryDomain}` : 'http://localhost:3000';
+      // Priority: CUSTOM_DOMAIN > request host > localhost
+      const customDomain = process.env.CUSTOM_DOMAIN;
+      const requestHost = req.get('host');
+      const primaryDomain = customDomain || requestHost || 'localhost:3000';
+      const baseUrl = primaryDomain.includes('localhost') ? `http://${primaryDomain}` : `https://${primaryDomain}`;
       const invoiceUrl = `${baseUrl}/public/invoices/${invoice.viewTrackingToken}`;
       const trackingPixelUrl = `${baseUrl}/api/invoices/email-tracking/${invoice.emailTrackingToken}`;
       

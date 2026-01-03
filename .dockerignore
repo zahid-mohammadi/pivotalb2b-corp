@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Development files
+.env.txt
+.env.local
+.env.development
+.env.test
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+.editorconfig
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation
+README.md
+QA_TEST_REPORT.md
+attached_assets/
+replit.md
+
+# Replit files
+.replit
+replit.nix
+
+# Build output (will be created during build)
+dist/
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+
+# Test files
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
