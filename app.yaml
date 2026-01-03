@@ -10,46 +10,23 @@ automatic_scaling:
 
 env_variables:
   NODE_ENV: "production"
-  SESSION_SECRET: "your-session-secret-here"
-  DATABASE_URL: "your-database-url-here"
-  PGDATABASE: "your-database-name"
-  PGHOST: "your-database-host"
+  SESSION_SECRET: "${SESSION_SECRET}"
+  DATABASE_URL: "${DATABASE_URL}"
+  PGDATABASE: "${PGDATABASE}"
+  PGHOST: "${PGHOST}"
   PGPORT: "5432"
-  PGUSER: "your-database-user"
-  PGPASSWORD: "your-database-password"
+  PGUSER: "${PGUSER}"
+  PGPASSWORD: "${PGPASSWORD}"
   SMTP_PORT: "587"
-  SMTP_USER: "your-smtp-user"
-  M365_CLIENT_ID: "your-m365-client-id"
-  M365_CLIENT_SECRET: "your-m365-client-secret"
-  CUSTOM_DOMAIN: "your-domain.com"
+  SMTP_USER: "${SMTP_USER}"
+  M365_CLIENT_ID: "${M365_CLIENT_ID}"
+  M365_CLIENT_SECRET: "${M365_CLIENT_SECRET}"
+  CUSTOM_DOMAIN: "pivotal-b2b.com"
 
-# IMPORTANT: Replace placeholder values above with actual secrets before deploying
-# For production, use Google Cloud Secret Manager for sensitive values
+# IMPORTANT: SMTP_HOST/SMTP_PASSWORD remain to be provided via Secret Manager or env overrides before prod email
 
 handlers:
   - url: /.*
     script: auto
     secure: always
     redirect_http_response_code: 301
-
-# Skip files that shouldn't be uploaded
-skip_files:
-  - ^(.*/)?#.*#$
-  - ^(.*/)?.*~$
-  - ^(.*/)?.*\.py[co]$
-  - ^(.*/)?.*/RCS/.*$
-  - ^(.*/)?\..*$
-  - ^(.*/)?.*\.ts$
-  - ^(.*/)?.*\.tsx$
-  - node_modules/
-  - client/src/
-  - server/
-  - scripts/
-  - .git/
-  - .gitignore
-  - README.md
-  - tsconfig.json
-  - vite.config.ts
-  - tailwind.config.ts
-  - postcss.config.js
-  - drizzle.config.ts
